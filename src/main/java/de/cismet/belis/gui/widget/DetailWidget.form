@@ -41,7 +41,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/mauerlasche.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Mauerlasche"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Mauerlasche"/>
+            </Property>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel3">
@@ -104,22 +106,30 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblMauerlascheStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblMauerlascheLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Laufende Nr.:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Laufende Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblMauerlascheErstellungsjahr">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Erstellungsjahr:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Erstellungsjahr:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblMauerlascheMaterial">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Material:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Material:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfMauerlascheLaufendenummer">
@@ -132,9 +142,6 @@
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapMauerlascheErstellungsjahr">
               <Properties>
-                <Property name="formats" type="[Ljava.text.DateFormat;" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="BelisBroker.jxDatePickerFormats" type="code"/>
-                </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <BindingProperties>
@@ -189,7 +196,7 @@
               <BindingProperties>
                 <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.strassenschluessel}" target="cbxMauerlascheStrassenschluessel" targetPath="selectedItem" updateStrategy="0" immediately="false">
                   <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                    <Connection code="new NotNullValidator()" type="code"/>
+                    <Connection code="new NotNullValidator(&quot;Stra&#xdf;enschl&#xfc;ssel&quot;)" type="code"/>
                   </Property>
                 </BindingProperty>
               </BindingProperties>
@@ -242,7 +249,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/schaltstelle.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Schaltstelle"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Schaltstelle"/>
+            </Property>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel4">
@@ -338,42 +347,58 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Laufende Nr.:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Laufende Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleHausnummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Haus Nr.:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Haus Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleNummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Schaltstellen Nr.:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Schaltstellen Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleErstellungsjahr">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Erstellungsjahr:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Erstellungsjahr:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleStandortbezeichnung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Standortbezeichnung:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Standortbezeichnung:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleBauart">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Bauart:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Bauart:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleBemerkung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Bemerkung:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Bemerkung:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfSchaltstelleLaufendenummer">
@@ -407,9 +432,6 @@
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapSchaltstelleErstellungsjahr">
               <Properties>
-                <Property name="formats" type="[Ljava.text.DateFormat;" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="BelisBroker.jxDatePickerFormats" type="code"/>
-                </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <BindingProperties>
@@ -498,7 +520,7 @@
               <BindingProperties>
                 <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.strassenschluessel}" target="cbxSchaltstelleStrassenschluessel" targetPath="selectedItem" updateStrategy="0" immediately="false">
                   <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                    <Connection code="new NotNullValidator()" type="code"/>
+                    <Connection code="new NotNullValidator(&quot;Stra&#xdf;enschl&#xfc;ssel&quot;)" type="code"/>
                   </Property>
                 </BindingProperty>
               </BindingProperties>
@@ -551,7 +573,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/leitung.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Leitung"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Leitung"/>
+            </Property>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel2">
@@ -602,17 +626,23 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblLeitungMaterial">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Material:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Material:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeitungLeitungstyp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Leitungstyp:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Leitungstyp:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeitungQuerschnitt">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Querschnitt:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Querschnitt:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeitungLeitungstyp">
@@ -702,7 +732,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/standort.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Standort"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Standort"/>
+            </Property>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel1">
@@ -867,12 +899,16 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblStandortStadtbezirk">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stadtbezik:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stadtbezik:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortPLZ">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Postleitzahl:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Postleitzahl:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtStandortPLZ">
@@ -904,7 +940,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortHausnummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Hausnummer:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Hausnummer:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfStandortHausnummer">
@@ -922,12 +960,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMastart">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mastart:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Mastart:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMasttyp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mast Typ:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Mast Typ:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortMastart">
@@ -960,7 +1002,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortKlassifizierung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Klassifizierung:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Klassifizierung:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortKlassifizierung">
@@ -979,14 +1023,13 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMastanstrich">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mastanstrich:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Mastanstrich:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortMastanstrich">
               <Properties>
-                <Property name="formats" type="[Ljava.text.DateFormat;" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="BelisBroker.jxDatePickerFormats" type="code"/>
-                </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <BindingProperties>
@@ -999,14 +1042,13 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMastschutz">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mastschutz:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Mastschutz:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortMastschutz">
               <Properties>
-                <Property name="formats" type="[Ljava.text.DateFormat;" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="BelisBroker.jxDatePickerFormats" type="code"/>
-                </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <BindingProperties>
@@ -1019,14 +1061,13 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortInbetriebnahme">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Inbetriebnahme:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Inbetriebnahme:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortInbetriebnahme">
               <Properties>
-                <Property name="formats" type="[Ljava.text.DateFormat;" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="BelisBroker.jxDatePickerFormats" type="code"/>
-                </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <BindingProperties>
@@ -1039,14 +1080,13 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortLetzteAenderung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Letze &#xc4;nderung:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Letze &#xc4;nderung:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortLetzteAenderung">
               <Properties>
-                <Property name="formats" type="[Ljava.text.DateFormat;" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="BelisBroker.jxDatePickerFormats" type="code"/>
-                </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <BindingProperties>
@@ -1059,7 +1099,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortUnterhalt">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Unterhalt:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Unterhalt:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortUnterhalt">
@@ -1078,7 +1120,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMontagefirma">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Montagefirma:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Montagefirma:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfStandortMontagefirma">
@@ -1096,7 +1140,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortBemerkung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Bemerkung:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Bemerkung:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cboStandortVerrechnungseinheit">
@@ -1160,12 +1206,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortKenziffer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kennziffer:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Kennziffer:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortKennziffer">
@@ -1196,18 +1246,26 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Laufende Nr.:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Laufende Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortVerrechnungseinheit">
               <Properties>
-                <Property name="text" type="java.lang.String" value="V-Einheit:"/>
-                <Property name="toolTipText" type="java.lang.String" value="Verrechnungseinheit"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="V-Einheit:"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Verrechnungseinheit"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortStandortangabe">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Standortangabe:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Standortangabe:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfStandortStandortAngabe">
@@ -1238,7 +1296,9 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.strassenschluessel}" target="cbxStandortStrassenschluesselNr" targetPath="selectedItem" updateStrategy="1" immediately="false">
-                  <Property name="name" type="java.lang.String" value="strassenschluesselnr"/>
+                  <Property name="name" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                    <PlainString value="strassenschluesselnr"/>
+                  </Property>
                 </BindingProperty>
               </BindingProperties>
               <Events>
@@ -1475,7 +1535,9 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblLeuchteLeuchtennummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Leuchtennummer:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Leuchtennummer:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLeuchteLeuchtennummer">
@@ -1493,7 +1555,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteEnergielieferant">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Energielieferant:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Energielieferant:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteEnergielieferant">
@@ -1512,7 +1576,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteSchaltstelle">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Schaltstelle:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Schaltstelle:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLeuchteSchaltstelle">
@@ -1530,7 +1596,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteRundsteuer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Rundsteuerempf&#xe4;nger:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Rundsteuerempf&#xe4;nger:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLeuchteRundsteuer">
@@ -1551,12 +1619,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteLeuchtentyp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Leuchtentyp:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Leuchtentyp:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteUnterhalt">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Unterhalt Leuchte:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Unterhalt Leuchte:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteUnterhalt">
@@ -1575,7 +1647,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteZaehler">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Z&#xe4;hler vorhanden:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Z&#xe4;hler vorhanden:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cboLeuchteZaehler">
@@ -1588,14 +1662,13 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteInbetriebnahme">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Inbetriebnahme:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Inbetriebnahme:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapLeuchteInbetriebnahme">
               <Properties>
-                <Property name="formats" type="[Ljava.text.DateFormat;" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="BelisBroker.jxDatePickerFormats" type="code"/>
-                </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <BindingProperties>
@@ -1608,12 +1681,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Laufende Nr.:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Laufende Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfLeuchteLaufendenummer">
@@ -1646,7 +1723,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteKenziffer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kennziffer:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Kennziffer:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteLeuchtentyp">
@@ -1665,12 +1744,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteDoppelkommando1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Doppelkomando 1:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Doppelkomando 1:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteDoppelkommando2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Doppelkomando 2:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Doppelkomando 2:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="sprLeuchteDoppelkommando1Anzahl">
@@ -1733,7 +1816,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteMontagefirma">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Montagefirma:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Montagefirma:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfLeuchteMontagefirma">
@@ -1751,7 +1836,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteBemerkung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Bemerkung:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Bemerkung:"/>
+                </Property>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="scpLeuchteBemerkung">
@@ -1818,7 +1905,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteStadtbezirk">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stadtbezik:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stadtbezik:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteStadtbezirk">
@@ -1837,7 +1926,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteStandortangabe">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Standortangabe:"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Standortangabe:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfLeuchteStandortAngabe">
@@ -1850,8 +1941,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteVerrechnungseinheit">
               <Properties>
-                <Property name="text" type="java.lang.String" value="V-Einheit:"/>
-                <Property name="toolTipText" type="java.lang.String" value="Verrechnungseinheit"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="V-Einheit:"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Verrechnungseinheit"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cboLeuchteVerrechnungseinheit">
@@ -1872,7 +1967,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/leuchte.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Leuchte"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Leuchte"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="sprLeuchte">
@@ -1933,7 +2030,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/abzweigdose.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Abzweigdose/Zugkasten"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Abzweigdose/Zugkasten"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="sprLeuchte1">

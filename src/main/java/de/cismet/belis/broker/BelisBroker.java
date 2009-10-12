@@ -29,7 +29,9 @@ import de.cismet.belisEE.entity.Leitung;
 import de.cismet.belisEE.entity.Leitungstyp;
 import de.cismet.belisEE.entity.Leuchte;
 import de.cismet.belisEE.entity.Lock;
+import de.cismet.belisEE.entity.Mauerlasche;
 import de.cismet.belisEE.entity.Standort;
+import de.cismet.belisEE.entity.Strassenschluessel;
 import de.cismet.belisEE.entity.UnterhaltLeuchte;
 import de.cismet.belisEE.entity.UnterhaltMast;
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
@@ -102,6 +104,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
     private static UnterhaltLeuchte defaultUnterhaltLeuchte = null;
     private static Doppelkommando defaultDoppelkommando1 = null;
     public final static String[] jxDatePickerFormats = new String[]{"dd.MM.yyyy","ddMMyy","ddMMyyyy"};
+    private Strassenschluessel lastMauerlascheStrassenschluessel;
 
 //    final JButton btnStandort = new JButton("ST");
     public Set getCurrentSearchResults() {
@@ -221,6 +224,10 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
                     if (currentResult instanceof Leitung) {
                         log.debug("SearchResult is instance of Leitung. Setting PropertyChangeListener");
                         ((Leitung) currentResult).addPropertyChangeListener(this);
+                    }
+                    if (currentResult instanceof Mauerlasche) {
+                        log.debug("SearchResult is instance of Leitung. Setting PropertyChangeListener");
+                        ((Mauerlasche) currentResult).addPropertyChangeListener(this);
                     }
                 }
             }
@@ -708,7 +715,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
             if (mapWidget != null) {
                 log.debug("MapWidget found");
                 this.mapWidget = mapWidget;
-                addBelisSpecificControlsToMapWidget();
+//                addBelisSpecificControlsToMapWidget();
             } else {
                 log.debug("Can't customize MapWidget not found");
                 return;
@@ -726,43 +733,43 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
         this.inCreateMode = isInCreateMode;
     }
 
-    private void addBelisSpecificControlsToMapWidget() {
-        if (mapWidget != null) {
-            log.debug("adding Belis specific controls");
-            final JToolBar mapWidgetToolbar = mapWidget.getMapWidgetToolbar();
-
-
-//            //addLeuchte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly.png"))); // NOI18N
-//            btnLeuchte.setToolTipText("Neue Leuchte");
-//            btnLeuchte.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-//            //addLeuchte.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly_selected.png"))); // NOI18N
-//            btnLeuchte.addActionListener(new java.awt.event.ActionListener() {
+//    private void addBelisSpecificControlsToMapWidget() {
+//        if (mapWidget != null) {
+//            log.debug("adding Belis specific controls");
+//            final JToolBar mapWidgetToolbar = mapWidget.getMapWidgetToolbar();
 //
-//                public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                    setDigitizeMode();
-//                    btnLeuchte.setSelected(true);
-//                    setCorrectFeatureClass();
-//                }
-//            });
-//            mapWidgetToolbar.add(btnLeuchte);
 //
-//            //addLeuchte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly.png"))); // NOI18N
-//            btnStandort.setToolTipText("Neuer Standort");
-//            btnStandort.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-//            //addLeuchte.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly_selected.png"))); // NOI18N
-//            btnStandort.addActionListener(new java.awt.event.ActionListener() {
-//
-//                public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                    setDigitizeMode();
-//                    btnStandort.setSelected(true);
-//                    setCorrectFeatureClass();
-//                }
-//            });
-//            mapWidgetToolbar.add(btnStandort);
-        } else {
-            log.warn("adding of Belis specific controls not possible beaucse mapwidget not found !");
-        }
-    }
+////            //addLeuchte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly.png"))); // NOI18N
+////            btnLeuchte.setToolTipText("Neue Leuchte");
+////            btnLeuchte.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
+////            //addLeuchte.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly_selected.png"))); // NOI18N
+////            btnLeuchte.addActionListener(new java.awt.event.ActionListener() {
+////
+////                public void actionPerformed(java.awt.event.ActionEvent evt) {
+////                    setDigitizeMode();
+////                    btnLeuchte.setSelected(true);
+////                    setCorrectFeatureClass();
+////                }
+////            });
+////            mapWidgetToolbar.add(btnLeuchte);
+////
+////            //addLeuchte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly.png"))); // NOI18N
+////            btnStandort.setToolTipText("Neuer Standort");
+////            btnStandort.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
+////            //addLeuchte.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly_selected.png"))); // NOI18N
+////            btnStandort.addActionListener(new java.awt.event.ActionListener() {
+////
+////                public void actionPerformed(java.awt.event.ActionEvent evt) {
+////                    setDigitizeMode();
+////                    btnStandort.setSelected(true);
+////                    setCorrectFeatureClass();
+////                }
+////            });
+////            mapWidgetToolbar.add(btnStandort);
+//        } else {
+//            log.warn("adding of Belis specific controls not possible beaucse mapwidget not found !");
+//        }
+//    }
 //        private void setDigitizeMode() {
 //        mapWidget.removeMainGroupSelection();
 //        getMappingComponent().setInteractionMode(getMappingComponent().NEW_POLYGON);
@@ -962,12 +969,26 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
                     }
                 }
 
+                } else if (evt.getPropertyName().equals(Mauerlasche.PROP_STRASSENSCHLUESSEL) && evt.getSource() != null && evt.getSource() instanceof Mauerlasche) {
+                log.debug("Mauerlasche Straßßenschlüssel Changed");
+                lastMauerlascheStrassenschluessel = (Strassenschluessel) evt.getNewValue();
+
             } else {
                 log.debug("PropertyChange not recognized from BelisBroker.");
             }
+
         } else {
             log.warn("PropertyChangeEvent or PropertyName == null");
         }
+    }
+
+
+    public Strassenschluessel getLastMauerlascheStrassenschluessel(){
+        return lastMauerlascheStrassenschluessel;
+    }
+
+    public void setLastMauerlascheStrassenschluessel(Strassenschluessel lastMauerlascheStrassenschluessel) {
+        this.lastMauerlascheStrassenschluessel = lastMauerlascheStrassenschluessel;
     }
 
     public Leitungstyp getLastLeitungstyp() {

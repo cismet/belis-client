@@ -101,6 +101,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     private boolean isAlreadyDisabled = false;
     private boolean tmpProcessStarted = false;
     private boolean isSwitchTriggerEnabled = false;
+    public final static String BELIS_CREATE_MODE = "BELIS_CREATE_MODE";
 
     //ToDo not necessary
     public CustomTreeTableModel getTreeTableModel() {
@@ -178,6 +179,8 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     public WorkbenchWidget(final AdvancedPluginBroker broker) {
         super(broker);
         initComponents();
+        broker.getMappingComponent().getInputEventListener().put(BELIS_CREATE_MODE, new CreateNewBelisObjectListener(broker.getMappingComponent()));
+        broker.getMappingComponent().putCursor(BELIS_CREATE_MODE, broker.getMappingComponent().getCursor(MappingComponent.ZOOM));
         final FeatureCollection collection = broker.getMappingComponent().getFeatureCollection();
         if (collection != null) {
             collection.addFeatureCollectionListener(this);
@@ -398,10 +401,10 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
         //Notification in piccolo works over callback methods simply declare a method and recieve the notification
         //no overwriding
         broker.getMappingComponent().addPropertyChangeListener(this);
-        PNotificationCenter.defaultCenter().addListener(this,
-                TEMP_FEATURE_CREATED_MODE,
-                CreateGeometryListener.GEOMETRY_CREATED_NOTIFICATION,
-                null);
+//        PNotificationCenter.defaultCenter().addListener(this,
+//                null,
+//                CreateGeometryListener.GEOMETRY_CREATED_NOTIFICATION,
+//                null);
         log.debug("Configure binding TreeTableModel <--> SearchResults");
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, broker, org.jdesktop.beansbinding.ELProperty.create("${currentSearchResults}"), this, org.jdesktop.beansbinding.ELProperty.create("${currentSearchResults}"));
         //binding.setConverter(new SearchResultConverter());
@@ -412,57 +415,56 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     }
     private Feature newlyAddedFeature = null;
 
-    public void temporayFeatureInMapCreated(PNotification notification) {
-        if (EventQueue.isDispatchThread()) {
-            log.debug("is in EDT");
-        }
-        log.debug("TMP FeatureInMapCreated created: " + notification.getObject());
-        if (notification.getObject() != null && notification.getObject() instanceof PureNewFeature && checkConstraintForMapModeSwitch()) {
-            log.debug("all prequisites fulfied for adding newly created geometry");
-            try {
-                tmpProcessStarted = true;
-                broker.addFeatureSelectionChangeIgnore(this);
-                ((BelisBroker) broker).setVetoCheckEnabled(false);
-                PureNewFeature newFeature = (PureNewFeature) notification.getObject();
-                newFeature.setPrimaryAnnotationVisible(false);
-                broker.getMappingComponent().reconsiderFeature(newFeature);
-                final Object tmpObject = ((CustomMutableTreeTableNode) getSelectedTreeNode().getLastPathComponent()).getUserObject();
-                StyledFeature currentSelectedFeature = null;
-                if (tmpObject instanceof StyledFeature) {
-                    currentSelectedFeature = (StyledFeature) tmpObject;
-                } else if (tmpObject instanceof Leuchte) {
-                    currentSelectedFeature = leuchteToVirtualStandortMap.get((Leuchte) tmpObject);
-                    if (currentSelectedFeature == null) {
-                        log.warn("Leuchte has no virtual standort.");
-                    }
-                }
-                currentSelectedFeature.setGeometry(newFeature.getGeometry());
-                broker.getMappingComponent().getFeatureCollection().removeFeature(newFeature);
-                newlyAddedFeature = currentSelectedFeature;
-                broker.getMappingComponent().getFeatureCollection().addFeature(currentSelectedFeature);
-                btnAttachMode.setEnabled(false);
-                //broker.getMappingComponent().setInteractionMode(MappingComponent.SELECT);
-                btnAttachMode.setEnabled(false);
-                broker.getMapWidget().setToLastInteractionMode();
-                broker.getMappingComponent().getFeatureCollection().select(currentSelectedFeature);
-            } finally {
-                ((BelisBroker) broker).setVetoCheckEnabled(true);
-                broker.removeFeatureSelectionChangeIgnore(this);
-//                isSwitchTriggerEnabled = true;
-//                if (!tmpProcessStarted) {
-//                    log.debug("tmpProcess finished switching back");
-//                    //ToDo why is the node multiple times selected I think
-//                    //maybe there is a error earlier and this code could be simplified
-//                    switchListener();
-//                } else {
-//                    log.debug("tmpProcess not finished --> switch will be done by listener");
+//    public void temporayFeatureInMapCreated(PNotification notification) {
+//        if (EventQueue.isDispatchThread()) {
+//            log.debug("is in EDT");
+//        }
+//        log.debug("TMP FeatureInMapCreated created: " + notification.getObject());
+//        if (notification.getObject() != null && notification.getObject() instanceof PureNewFeature && checkConstraintForMapModeSwitch()) {
+//            log.debug("all prequisites fulfied for adding newly created geometry");
+//            try {
+//                tmpProcessStarted = true;
+//                broker.addFeatureSelectionChangeIgnore(this);
+//                ((BelisBroker) broker).setVetoCheckEnabled(false);
+//                PureNewFeature newFeature = (PureNewFeature) notification.getObject();
+//                newFeature.setPrimaryAnnotationVisible(false);
+//                broker.getMappingComponent().reconsiderFeature(newFeature);
+//                final Object tmpObject = ((CustomMutableTreeTableNode) getSelectedTreeNode().getLastPathComponent()).getUserObject();
+//                StyledFeature currentSelectedFeature = null;
+//                if (tmpObject instanceof StyledFeature) {
+//                    currentSelectedFeature = (StyledFeature) tmpObject;
+//                } else if (tmpObject instanceof Leuchte) {
+//                    currentSelectedFeature = leuchteToVirtualStandortMap.get((Leuchte) tmpObject);
+//                    if (currentSelectedFeature == null) {
+//                        log.warn("Leuchte has no virtual standort.");
+//                    }
 //                }
-            }
-        } else {
-            log.debug("Not all prequisites fulfied for adding newly created geometry");
-        }
-    }
-
+//                currentSelectedFeature.setGeometry(newFeature.getGeometry());
+//                broker.getMappingComponent().getFeatureCollection().removeFeature(newFeature);
+//                newlyAddedFeature = currentSelectedFeature;
+//                broker.getMappingComponent().getFeatureCollection().addFeature(currentSelectedFeature);
+//                btnAttachMode.setEnabled(false);
+//                //broker.getMappingComponent().setInteractionMode(MappingComponent.SELECT);
+//                btnAttachMode.setEnabled(false);
+//                broker.getMapWidget().setToLastInteractionMode();
+//                broker.getMappingComponent().getFeatureCollection().select(currentSelectedFeature);
+//            } finally {
+//                ((BelisBroker) broker).setVetoCheckEnabled(true);
+//                broker.removeFeatureSelectionChangeIgnore(this);
+////                isSwitchTriggerEnabled = true;
+////                if (!tmpProcessStarted) {
+////                    log.debug("tmpProcess finished switching back");
+////                    //ToDo why is the node multiple times selected I think
+////                    //maybe there is a error earlier and this code could be simplified
+////                    switchListener();
+////                } else {
+////                    log.debug("tmpProcess not finished --> switch will be done by listener");
+////                }
+//            }
+//        } else {
+//            log.debug("Not all prequisites fulfied for adding newly created geometry");
+//        }
+//    }
     @Override
     public void updateUIPropertyChange() {
         super.updateUIPropertyChange();
@@ -587,57 +589,57 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
         if (checkConstraintForMapModeSwitch()) {
             try {
                 ((BelisBroker) broker).setVetoCheckEnabled(false);
-                log.debug("Constraints for ModeSwitch fullfied --> switching.");
+                broker.addFeatureSelectionChangeIgnore(this);
+                ignoreFeatureSelection = true;
+                log.debug("Constraints for ModeSwitch fullfied --> switching.", new CurrentStackTrace());
                 btnAttachMode.setEnabled(true);
-                btnAttachMode.setSelected(true);
                 broker.getMapWidget().setLastMapMode(broker.getMapWidget().getCurrentMapMode());
                 broker.getMapWidget().removeMainGroupSelection();
-                broker.addFeatureSelectionChangeIgnore(this);
-                broker.getMappingComponent().setInteractionMode(MappingComponent.NEW_POLYGON);
-                broker.removeFeatureSelectionChangeIgnore(this);
+                broker.getMappingComponent().setInteractionMode(BELIS_CREATE_MODE);
+                btnAttachMode.setSelected(true);
                 Object userObject = ((CustomMutableTreeTableNode) getSelectedTreeNode().getLastPathComponent()).getUserObject();
                 if (userObject instanceof Leuchte) {
                     log.debug("Instance is Leuchte --> geometry == point");
-                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(MappingComponent.NEW_POLYGON)).setMode(CreateGeometryListener.POINT);
+                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(CreateGeometryListener.POINT);
                 } else if (userObject instanceof Standort) {
                     log.debug("Instance is Standort --> geometry == point");
                     log.debug(userObject);
-                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(MappingComponent.NEW_POLYGON)).setMode(CreateGeometryListener.POINT);
+                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(CreateGeometryListener.POINT);
                 } else if (userObject instanceof Mauerlasche) {
                     log.debug("Instance is Mauerlasche --> geometry == point");
                     log.debug(userObject);
-                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(MappingComponent.NEW_POLYGON)).setMode(CreateGeometryListener.POINT);
+                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(CreateGeometryListener.POINT);
                 } else if (userObject instanceof Schaltstelle) {
                     log.debug("Instance is Schaltstelle --> geometry == point");
                     log.debug(userObject);
-                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(MappingComponent.NEW_POLYGON)).setMode(CreateGeometryListener.POINT);
+                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(CreateGeometryListener.POINT);
                 } else if (userObject instanceof Leitung) {
                     log.debug("Instance is Leitung --> geometry == line");
                     log.debug(userObject);
-                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(MappingComponent.NEW_POLYGON)).setMode(CreateGeometryListener.LINESTRING);
+                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(CreateGeometryListener.LINESTRING);
                 } else if (userObject instanceof Abzweigdose) {
                     log.debug("Instance is Abzweigdose --> geometry == point");
                     log.debug(userObject);
-                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(MappingComponent.NEW_POLYGON)).setMode(CreateGeometryListener.POINT);
+                    ((CreateGeometryListener) broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(CreateGeometryListener.POINT);
                 }
             } catch (Exception ex) {
                 log.error("Error while configuring map. Setting map back: ", ex);
                 ((BelisBroker) broker).setVetoCheckEnabled(true);
-                broker.removeFeatureSelectionChangeIgnore(this);
             } finally {
                 ((BelisBroker) broker).setVetoCheckEnabled(true);
                 broker.removeFeatureSelectionChangeIgnore(this);
+                ignoreFeatureSelection = false;
             }
         } else {
             try {
                 ((BelisBroker) broker).setVetoCheckEnabled(false);
                 log.debug("Constraints for ModeSwitch not fullfied");
-                if (broker.getMappingComponent().getInteractionMode().equals(MappingComponent.NEW_POLYGON)) {
-                    log.debug("Is already in: " + MappingComponent.NEW_POLYGON + " mode. Switching back");
+                if (broker.getMappingComponent().getInteractionMode().equals(BELIS_CREATE_MODE)) {
+                    log.debug("Is already in: " + BELIS_CREATE_MODE + " mode. Switching back");
                     //ToDo save last mode;
                     //check if the map is in this mode --> switch to select TODO maybe an intelligent mode switching policy
                     btnAttachMode.setEnabled(false);
-                    if (broker.getMappingComponent().getInteractionMode() != null && broker.getMappingComponent().getInteractionMode().equals(MappingComponent.NEW_POLYGON)) {
+                    if (broker.getMappingComponent().getInteractionMode() != null && broker.getMappingComponent().getInteractionMode().equals(BELIS_CREATE_MODE)) {
                         log.debug("False map mode setting is at the moment temp feature create. Mode will be set to lastmode: " + broker.getMapWidget().getLastMapMode());
                         broker.getMapWidget().setToLastInteractionMode();
                         //broker.getMappingComponent().setInteractionMode(MappingComponent.SELECT);
@@ -722,6 +724,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                     if (currentUserObject != null && currentUserObject instanceof StyledFeature && ((StyledFeature) currentUserObject).getGeometry() != null) {
                         log.debug("UserObject != null and instance of StyledFeature and geometry available --> select Feature");
                         ignoreFeatureSelection = true;
+                        broker.addFeatureSelectionChangeIgnore(this);
                         broker.getMappingComponent().getFeatureCollection().select((StyledFeature) currentUserObject);
                     } else if (isParentNodeMast(e.getPath().getLastPathComponent())) {
                         log.debug("Leuchte from mast is selected in table.");
@@ -733,6 +736,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         } else {
                             log.debug("Selecting Mast in map.");
                             ignoreFeatureSelection = true;
+                            broker.addFeatureSelectionChangeIgnore(this);
                             broker.getMappingComponent().getFeatureCollection().select((StyledFeature) parentMast);
 
                         }
@@ -741,6 +745,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         broker.getMappingComponent().getFeatureCollection().select(leuchteToVirtualStandortMap.get(currentUserObject));
                     } else {
                         log.debug("no geometry to select --> unselect");
+                        broker.addFeatureSelectionChangeIgnore(this);
                         broker.getMappingComponent().getFeatureCollection().unselectAll();
                     }
 
@@ -755,6 +760,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
             configureMapModeAccordingToSelection();
         } finally {
             ((BelisBroker) broker).setVetoCheckEnabled(true);
+            broker.removeFeatureSelectionChangeIgnore(this);
             ignoreFeatureSelection = false;
             isSelectedOverMap = false;
         }
@@ -1155,7 +1161,10 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         ((CustomMutableTreeTableNode) nodeToRemove.getParent()).getUserObject() instanceof Standort) {
                     log.debug("Leuchte is removed from Mast");
                     Standort mast = (Standort) ((CustomMutableTreeTableNode) nodeToRemove.getParent()).getUserObject();
+                    log.debug("Leuchte: " + (Leuchte) nodeToRemove.getUserObject() + " from Mast: " + mast);
                     mast.getLeuchten().remove((Leuchte) nodeToRemove.getUserObject());
+                    log.debug("Leuchten of Mast: " + mast.getLeuchten());
+                    log.debug("other mast leuchten ref: " + ((Standort) ((CustomMutableTreeTableNode) nodeToRemove.getParent()).getUserObject()).getLeuchten());
                     ArrayList<Leuchte> alreadyRemovedLeuchten = leuchtenRemovedFromMastMap.get(mast);
                     if (alreadyRemovedLeuchten == null) {
                         alreadyRemovedLeuchten = new ArrayList<Leuchte>();
@@ -1197,9 +1206,11 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 if (!(entity instanceof Leuchte)) {
                     removedObjects.add(entity);
                 }
+
             } else {
                 log.debug("Can't remove object from Tree, because there is no path to the node.");
             }
+            newObjects.remove(entity);
         } else {
             log.debug("Can't remove object. The userobject == null.");
         }
@@ -1212,7 +1223,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     public void setCurrentSearchResults(Set currentSearchResults) {
         log.debug("setSearchResults");
         this.currentSearchResults = currentSearchResults;
-        if (!((BelisBroker)broker).isInCreateMode()) {
+        if (!((BelisBroker) broker).isInCreateMode()) {
             if (currentSearchResults != null && currentSearchResults.size() == 0) {
                 log.debug("0 Search results selecting search node");
                 selectNode(searchResultsNode);
@@ -1445,6 +1456,8 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     //ToDo make generic
     public CustomMutableTreeTableNode addNewMauerlasche() {
         final Mauerlasche newMauerlasche = new Mauerlasche();
+        newMauerlasche.setStrassenschluessel(((BelisBroker) broker).getLastMauerlascheStrassenschluessel());
+        newMauerlasche.addPropertyChangeListener((BelisBroker) broker);
         newMauerlasche.addPropertyChangeListener(this);
         final CustomMutableTreeTableNode newMauerlascheNode = new CustomMutableTreeTableNode(newMauerlasche, true);
         newObjects.add(newMauerlascheNode.getUserObject());
@@ -1675,5 +1688,66 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
 //        treeTableModel.clearNewObjects();
 //    }
     //ToDo validate all entities before saving, at least if the strassenschluessel and the kennziffer are set.
+
+    class CreateNewBelisObjectListener extends CreateGeometryListener {
+
+        public CreateNewBelisObjectListener(MappingComponent mc) {
+            super(mc);
+        }
+
+        @Override
+        protected void finishGeometry(final PureNewFeature newFeature) {
+            if (EventQueue.isDispatchThread()) {
+                log.debug("is in EDT");
+            } else {
+                log.fatal("is not in edt");
+            }
+            log.debug("Pure new feature created for attachement: " + newFeature);
+
+            if (newFeature != null && newFeature instanceof PureNewFeature && checkConstraintForMapModeSwitch()) {
+                log.debug("all prequisites fulfied for adding newly created geometry");
+                try {
+                    tmpProcessStarted = true;
+                    broker.addFeatureSelectionChangeIgnore(WorkbenchWidget.this);
+                    ignoreFeatureSelection = true;
+                    ((BelisBroker) broker).setVetoCheckEnabled(false);
+                    //newFeature.setPrimaryAnnotationVisible(false);
+                    //broker.getMappingComponent().reconsiderFeature(newFeature);
+                    final Object tmpObject = ((CustomMutableTreeTableNode) getSelectedTreeNode().getLastPathComponent()).getUserObject();
+                    StyledFeature currentSelectedFeature = null;
+                    if (tmpObject instanceof StyledFeature) {
+                        currentSelectedFeature = (StyledFeature) tmpObject;
+                    } else if (tmpObject instanceof Leuchte) {
+                        currentSelectedFeature = leuchteToVirtualStandortMap.get((Leuchte) tmpObject);
+                        if (currentSelectedFeature == null) {
+                            log.warn("Leuchte has no virtual standort.");
+                        }
+                    }
+                    currentSelectedFeature.setGeometry(newFeature.getGeometry());
+                    //broker.getMappingComponent().getFeatureCollection().removeFeature(newFeature);
+                    newlyAddedFeature = currentSelectedFeature;
+                    broker.getMappingComponent().getFeatureCollection().addFeature(currentSelectedFeature);
+                    btnAttachMode.setEnabled(false);
+                    broker.getMapWidget().setToLastInteractionMode();
+                    broker.getMappingComponent().getFeatureCollection().select(currentSelectedFeature);
+                } finally {
+                    ((BelisBroker) broker).setVetoCheckEnabled(true);
+                    broker.removeFeatureSelectionChangeIgnore(WorkbenchWidget.this);
+                    ignoreFeatureSelection = false;
+//                isSwitchTriggerEnabled = true;
+//                if (!tmpProcessStarted) {
+//                    log.debug("tmpProcess finished switching back");
+//                    //ToDo why is the node multiple times selected I think
+//                    //maybe there is a error earlier and this code could be simplified
+//                    switchListener();
+//                } else {
+//                    log.debug("tmpProcess not finished --> switch will be done by listener");
+//                }
+                }
+            } else {
+                log.debug("Not all prequisites fulfied for adding newly created geometry");
+            }
+        }
+    }
 }
 

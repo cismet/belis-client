@@ -39,6 +39,7 @@ import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
 import de.cismet.commons.architecture.widget.DefaultWidget;
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
+import de.cismet.tools.CurrentStackTrace;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -353,7 +354,7 @@ public class DetailWidget extends DefaultWidget {
             }
 
             public void synced(Binding binding) {
-                //log.debug("synced",new CurrentStackTrace());
+                //log.debug("synced: source: "+binding.getSourceObject()+" target: "+binding.getTargetObject(),new CurrentStackTrace());
                 //log.debug("sync: " + cbxLeuchteStrassenschluessel.getSelectedItem());
                 //lblStrassenschluesselValidation.setIcon(BelisIcons.icoAccept22);
                 Object target = binding.getTargetObject();
@@ -492,7 +493,7 @@ public class DetailWidget extends DefaultWidget {
      * @param currentEntity new value of currentEntity
      */
     public void setCurrentEntity(Object currentEntity) {
-        log.debug("setCurrentEntity");
+        log.debug("setCurrentEntity",new CurrentStackTrace());
         Object oldCurrentEntity = this.currentEntity;
         this.currentEntity = currentEntity;
         //Attention there is another block for the visiblity of the document panel
@@ -889,13 +890,23 @@ public class DetailWidget extends DefaultWidget {
         if (currentEntity != null) {
             if (currentEntity instanceof Leuchte) {
                 try {
-                    dapLeuchteInbetriebnahme.getEditor().commitEdit();
+                    dapLeuchteInbetriebnahme.getEditor().commitEdit();                    
+                } catch (ParseException ex) {
+                    log.warn("Error while commiting edits: " + ex);
+                }
+                try {
+                    sprLeuchteDoppelkommando1Anzahl.commitEdit();
+                } catch (ParseException ex) {
+                    log.warn("Error while commiting edits: " + ex);
+                }
+                try {
+                    sprLeuchteDoppelkommando2Anzahl.commitEdit();
                 } catch (ParseException ex) {
                     log.warn("Error while commiting edits: " + ex);
                 }
             } else if (currentEntity instanceof Standort) {
                 try {
-                    dapStandortInbetriebnahme.getEditor().commitEdit();
+                    dapStandortInbetriebnahme.getEditor().commitEdit();                  
                 } catch (ParseException ex) {
                     log.warn("Error while commiting edits: " + ex);
                 }
@@ -1101,7 +1112,7 @@ public class DetailWidget extends DefaultWidget {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/mauerlasche.png"))); // NOI18N
         jLabel2.setText("Mauerlasche");
 
-        lblMauerlascheStrassenschluessel.setText("Straßenschlüssel:");
+        lblMauerlascheStrassenschluessel.setText("Stra\u00dfenschl\u00fcssel:");
 
         lblMauerlascheLaufendenummer.setText("Laufende Nr.:");
 
@@ -1114,7 +1125,6 @@ public class DetailWidget extends DefaultWidget {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"), txfMauerlascheLaufendenummer, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        dapMauerlascheErstellungsjahr.setFormats(BelisBroker.jxDatePickerFormats);
         dapMauerlascheErstellungsjahr.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erstellungsjahr}"), dapMauerlascheErstellungsjahr, org.jdesktop.beansbinding.BeanProperty.create("date"));
@@ -1184,7 +1194,7 @@ public class DetailWidget extends DefaultWidget {
         });
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"), cbxMauerlascheStrassenschluessel, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setValidator(new NotNullValidator());
+        binding.setValidator(new NotNullValidator("Straßenschlüssel"));
         bindingGroup.addBinding(binding);
 
         cbxMauerlascheStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
@@ -1268,7 +1278,7 @@ public class DetailWidget extends DefaultWidget {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/schaltstelle.png"))); // NOI18N
         jLabel3.setText("Schaltstelle");
 
-        lblSchaltstelleStrassenschluessel.setText("Straßenschlüssel:");
+        lblSchaltstelleStrassenschluessel.setText("Stra\u00dfenschl\u00fcssel:");
 
         lblSchaltstelleLaufendenummer.setText("Laufende Nr.:");
 
@@ -1300,7 +1310,6 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.schaltstellenNummer}"), txfSchaltstelleNummer, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        dapSchaltstelleErstellungsjahr.setFormats(BelisBroker.jxDatePickerFormats);
         dapSchaltstelleErstellungsjahr.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erstellungsjahr}"), dapSchaltstelleErstellungsjahr, org.jdesktop.beansbinding.BeanProperty.create("date"));
@@ -1380,7 +1389,7 @@ public class DetailWidget extends DefaultWidget {
         });
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"), cbxSchaltstelleStrassenschluessel, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setValidator(new NotNullValidator());
+        binding.setValidator(new NotNullValidator("Straßenschlüssel"));
         bindingGroup.addBinding(binding);
 
         cbxSchaltstelleStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
@@ -1726,7 +1735,6 @@ public class DetailWidget extends DefaultWidget {
 
         lblStandortMastanstrich.setText("Mastanstrich:");
 
-        dapStandortMastanstrich.setFormats(BelisBroker.jxDatePickerFormats);
         dapStandortMastanstrich.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastanstrich}"), dapStandortMastanstrich, org.jdesktop.beansbinding.BeanProperty.create("date"));
@@ -1735,7 +1743,6 @@ public class DetailWidget extends DefaultWidget {
 
         lblStandortMastschutz.setText("Mastschutz:");
 
-        dapStandortMastschutz.setFormats(BelisBroker.jxDatePickerFormats);
         dapStandortMastschutz.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastschutz}"), dapStandortMastschutz, org.jdesktop.beansbinding.BeanProperty.create("date"));
@@ -1744,16 +1751,14 @@ public class DetailWidget extends DefaultWidget {
 
         lblStandortInbetriebnahme.setText("Inbetriebnahme:");
 
-        dapStandortInbetriebnahme.setFormats(BelisBroker.jxDatePickerFormats);
         dapStandortInbetriebnahme.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahmeMast}"), dapStandortInbetriebnahme, org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
-        lblStandortLetzteAenderung.setText("Letze Änderung:");
+        lblStandortLetzteAenderung.setText("Letze \u00c4nderung:");
 
-        dapStandortLetzteAenderung.setFormats(BelisBroker.jxDatePickerFormats);
         dapStandortLetzteAenderung.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.letzteAenderung}"), dapStandortLetzteAenderung, org.jdesktop.beansbinding.BeanProperty.create("date"));
@@ -1839,7 +1844,7 @@ public class DetailWidget extends DefaultWidget {
             }
         });
 
-        lblStandortStrassenschluessel.setText("Straßenschlüssel:");
+        lblStandortStrassenschluessel.setText("Stra\u00dfenschl\u00fcssel:");
 
         lblStandortKenziffer.setText("Kennziffer:");
 
@@ -2111,7 +2116,7 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
-        lblLeuchteRundsteuer.setText("Rundsteuerempfänger:");
+        lblLeuchteRundsteuer.setText("Rundsteuerempf\u00e4nger:");
 
         txtLeuchteRundsteuer.setEnabled(false);
 
@@ -2148,7 +2153,7 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtLeuchte}"), cbxLeuchteUnterhalt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        lblLeuchteZaehler.setText("Zähler vorhanden:");
+        lblLeuchteZaehler.setText("Z\u00e4hler vorhanden:");
 
         cboLeuchteZaehler.setEnabled(false);
 
@@ -2157,14 +2162,13 @@ public class DetailWidget extends DefaultWidget {
 
         lblLeuchteInbetriebnahme.setText("Inbetriebnahme:");
 
-        dapLeuchteInbetriebnahme.setFormats(BelisBroker.jxDatePickerFormats);
         dapLeuchteInbetriebnahme.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahmeLeuchte}"), dapLeuchteInbetriebnahme, org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
-        lblLeuchteStrassenschluessel.setText("Straßenschlüssel:");
+        lblLeuchteStrassenschluessel.setText("Stra\u00dfenschl\u00fcssel:");
 
         lblLeuchteLaufendenummer.setText("Laufende Nr.:");
 
