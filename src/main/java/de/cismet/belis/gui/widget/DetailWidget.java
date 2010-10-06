@@ -1,5 +1,16 @@
 /*
- * EntityDetailWidget.java
+ * EntityDetai
+
+@Override
+public Object convertForward(Object value) {
+throw new UnsupportedOperationException("Not supported yet.");
+}
+
+@Override
+public Object convertReverse(Object value) {
+throw new UnsupportedOperationException("Not supported yet.");
+}
+}Widget.java
  *
  * Created on 23. März 2009, 11:27
  */
@@ -8,6 +19,7 @@ package de.cismet.belis.gui.widget;
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.EJBroker;
 import de.cismet.belis.gui.documentpanel.DocumentPanel;
+import de.cismet.belis.util.ValidatorChain;
 import de.cismet.belisEE.util.CriteriaStringComparator;
 import de.cismet.belisEE.entity.Abzweigdose;
 import de.cismet.belisEE.entity.Bauart;
@@ -36,6 +48,7 @@ import de.cismet.belisEE.util.BelisEEUtils;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
+import de.cismet.commons.architecture.validation.Validatable;
 import de.cismet.commons.architecture.widget.DefaultWidget;
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
@@ -43,6 +56,8 @@ import de.cismet.tools.CurrentStackTrace;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.text.ParseException;
 import java.util.Arrays;
@@ -54,12 +69,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
-import javax.swing.SpinnerDateModel;
+import javax.swing.SwingWorker;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.tree.TreePath;
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.log4j.Logger;
@@ -73,6 +91,8 @@ import org.jdesktop.beansbinding.Validator;
 import org.jdesktop.beansbinding.Validator.Result;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
+import org.jfree.ui.IntegerDocument;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -97,7 +117,7 @@ public class DetailWidget extends DefaultWidget {
 
     public DetailWidget(AdvancedPluginBroker broker) {
         super(broker);
-        initComponents();
+        initComponents();        
         initContent();
         //binding
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dokumente}"), panDokumente, org.jdesktop.beansbinding.BeanProperty.create("dokumente"));
@@ -117,10 +137,17 @@ public class DetailWidget extends DefaultWidget {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        super.propertyChange(evt);
         log.debug("PropertyChange: " + evt);
         log.debug("PropertyChange: " + evt.getPropertyName());
         log.debug("PropertyChange: " + evt.getOldValue());
         log.debug("PropertyChange: " + evt.getNewValue());
+        if (evt.getPropertyName() != null && evt.getPropertyName().equals(Standort.PROP_LAUFENDENUMMER)) {
+            log.debug("Property Laufendenummer changed updating map");
+            if (currentEntity != null && currentEntity instanceof Standort) {
+                broker.getMappingComponent().getFeatureCollection().reconsiderFeature((Standort) currentEntity);
+            }
+        }
     }
 
     private void initContent() {
@@ -242,7 +269,7 @@ public class DetailWidget extends DefaultWidget {
                         log.debug("Leuchte.DEFAULT_DOPPELKOMMANDO " + Leuchte.DEFAULT_DOPPELKOMMANDO);
                         if (Leuchte.DEFAULT_DOPPELKOMMANDO.equals(curDoppelkommando) && Leuchte.DEFAULT_DOPPELKOMMANDO.getBeschreibung().equals(curDoppelkommando.getBeschreibung())) {
                             log.debug("Setting defaultUnterhaltLeuchte to: " + curDoppelkommando);
-                            ((BelisBroker) broker).setDefaultDoppelkommando1(curDoppelkommando);
+                            BelisBroker.setDefaultDoppelkommando1(curDoppelkommando);
                         }
                     }
                 }
@@ -310,21 +337,25 @@ public class DetailWidget extends DefaultWidget {
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxStandortStrassenschluessel);
         bindingGroup.addBindingListener(new BindingListener() {
 
+            @Override
             public void bindingBecameBound(Binding binding) {
                 //log.debug("binding became bound");
             }
 
+            @Override
             public void bindingBecameUnbound(Binding binding) {
                 //log.debug("binding became unbound");
             }
 
+            @Override
             public void syncWarning(Binding binding, SyncFailure failure) {
             }
 
+            @Override
             public void syncFailed(Binding binding, SyncFailure failure) {
-                //log.debug("syncFailed");
+                log.debug("syncFailed");
                 Object target = binding.getTargetObject();
-                // log.debug("Target: " + target);
+                log.debug("Target: " + target);
                 if (target instanceof JComponent) {//&& !(target instanceof JComboBox)) {
                     JComponent c = (JComponent) target;
                     final JComponent associatedLabel = componentToLabelMap.get(c);
@@ -335,11 +366,39 @@ public class DetailWidget extends DefaultWidget {
                     }
                     try {
                         if (associatedLabel != null) {
-                            associatedLabel.setToolTipText(failure.getValidationResult().getDescription());
+                            log.debug("failure type: " + failure.getType());
+                            //if(failure.getType() == Binding.SyncFailureType.)
+                            switch (failure.getType()) {
+                                case CONVERSION_FAILED:
+                                    log.debug("Conversion failed: ", failure.getConversionException());
+                                    break;
+                                case VALIDATION_FAILED:
+                                    log.debug("Validation failed: " + failure.getValidationResult().getDescription());
+                                    log.debug("description for failure: " + failure.getValidationResult().getDescription());
+                                    associatedLabel.setToolTipText(failure.getValidationResult().getDescription());
+                                    c.setToolTipText(failure.getValidationResult().getDescription());
+                                    break;
+                                case VALIDATION_WARNING:
+                                    log.debug("Validation warning: ");
+                                    break;
+                                case SOURCE_UNREADABLE:
+                                    log.debug("Source unreadable: ");
+                                    break;
+                                case SOURCE_UNWRITEABLE:
+                                    log.debug("Source unwritable: ");
+                                    break;
+                                case TARGET_UNREADABLE:
+                                    log.debug("Target unreadable: ");
+                                    break;
+                                case TARGET_UNWRITEABLE:
+                                    log.debug("Target unwritable: ");
+                                    break;
+                                default:
+                                    log.debug("Unknown case");
+                            }
                         }
-                        c.setToolTipText(failure.getValidationResult().getDescription());
                     } catch (Exception ex) {
-                        //log.debug("Error while setting tooltip", ex);
+                        log.debug("Error while setting tooltip", ex);
                         c.setToolTipText(null);
                     }
                 } else {
@@ -353,6 +412,7 @@ public class DetailWidget extends DefaultWidget {
                 //lblStrassenschluesselValidation.setIcon(BelisIcons.icoCancel22);
             }
 
+            @Override
             public void synced(Binding binding) {
                 //log.debug("synced: source: "+binding.getSourceObject()+" target: "+binding.getTargetObject(),new CurrentStackTrace());
                 //log.debug("sync: " + cbxLeuchteStrassenschluessel.getSelectedItem());
@@ -392,9 +452,11 @@ public class DetailWidget extends DefaultWidget {
 //                }
             }
 
+            @Override
             public void sourceChanged(Binding binding, PropertyStateEvent event) {
             }
 
+            @Override
             public void targetChanged(Binding binding, PropertyStateEvent event) {
             }
         });
@@ -444,7 +506,7 @@ public class DetailWidget extends DefaultWidget {
                     for (UnterhaltMast curUnterhaltMast : unterhaltMast) {
                         if (Standort.DEFAULT_UNTERHALT.equals(curUnterhaltMast) && Standort.DEFAULT_UNTERHALT.getUnterhaltMast().equals(curUnterhaltMast.getUnterhaltMast())) {
                             log.debug("Setting defaultUnterhaltMast to: " + curUnterhaltMast);
-                            ((BelisBroker) broker).setDefaultUnterhaltMast(curUnterhaltMast);
+                            BelisBroker.setDefaultUnterhaltMast(curUnterhaltMast);
                         }
                     }
                 }
@@ -493,9 +555,15 @@ public class DetailWidget extends DefaultWidget {
      * @param currentEntity new value of currentEntity
      */
     public void setCurrentEntity(Object currentEntity) {
-        log.debug("setCurrentEntity",new CurrentStackTrace());
-        Object oldCurrentEntity = this.currentEntity;
+        log.debug("setCurrentEntity", new CurrentStackTrace());
+        final Object oldCurrentEntity = this.currentEntity;
+        if (oldCurrentEntity != null && oldCurrentEntity instanceof BaseEntity) {
+            ((BaseEntity) oldCurrentEntity).removePropertyChangeListener(this);
+        }
         this.currentEntity = currentEntity;
+        if (currentEntity != null && currentEntity instanceof BaseEntity) {
+            ((BaseEntity) currentEntity).addPropertyChangeListener(this);
+        }
         //Attention there is another block for the visiblity of the document panel
         // this must be here because the set must be created before it is set in the documentpanel
         if (currentEntity != null && currentEntity instanceof DocumentContainer &&
@@ -506,6 +574,11 @@ public class DetailWidget extends DefaultWidget {
         firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
         bindingGroup.unbind();
         bindingGroup.bind();
+        btnTakeNextFreeNumber.setEnabled(false);
+        txfStandortLaufendenummer.setEnabled(false);
+        //txfStandortLaufendenummer.setBackground(txfLeuchteMontagefirma.getBackground());
+        //txfStandortLaufendenummer.setToolTipText("");
+        cleanValidation();
         panMain.removeAll();
         //TODO: TESTING ONLY...to REMOVE!
         //panMain.add(docPanel, BorderLayout.SOUTH);
@@ -533,13 +606,49 @@ public class DetailWidget extends DefaultWidget {
             if (((Standort) currentEntity).getKennziffer() == null) {
                 cbxStandortKennziffer.setSelectedItem(null);
             }
+            if (((Standort) currentEntity).getLaufendeNummer() == null || ((Standort) currentEntity).getLaufendeNummer().equals("")) {
+                //ToDo ugly Winning, to properly
+//                txfStandortLaufendenummer.setText("-9211");
+//                txfStandortLaufendenummer.setToolTipText("Die Laufende Nummer muss gesetzt werden.");
+//                lblStandortLaufendenummer.setToolTipText("Die Laufende Nummer muss gesetzt werden.");
+                txfStandortLaufendenummer.setText("bb");
+                txfStandortLaufendenummer.setText("");
+                //txfStandortLaufendenummer.getDocument().
+                //txfStandortLaufendenummer.getDocument().insertString(VALID, widgetName, null);
+                //bindingGroup.getBinding("standortLaufendeNummerBinding").
+            }
+            txfStandortLaufendenummer.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                log.debug("Standort Laufendenummer action");
+                checkLaufenedNummer();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                insertUpdate(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                insertUpdate(e);
+            }
+        });
+            if (!btnTakeNextFreeNumber.isEnabled() && (((BelisBroker) broker).isInEditMode() || ((BelisBroker) broker).isInCreateMode()) && ((Standort) currentEntity).getStrassenschluessel() != null && ((Standort) currentEntity).getKennziffer() != null) {
+                btnTakeNextFreeNumber.setEnabled(true);
+                txfStandortLaufendenummer.setEnabled(true);
+            } else {
+                btnTakeNextFreeNumber.setEnabled(false);
+                txfStandortLaufendenummer.setEnabled(false);
+            }
             panStandort.setVisible(true);
         } else if (currentEntity instanceof Leuchte) {
             log.debug("CurrentEntity is Leuchte");
             //panStandort.setVisible(true);
             //panMain.add(panLeuchte,BorderLayout.CENTER);
             panMain.add(panLeuchte, BorderLayout.CENTER);
-            log.info("ParentNode: "+((Leuchte)currentEntity).getStandort());
+            log.info("ParentNode: " + ((Leuchte) currentEntity).getStandort());
             if (((BelisBroker) broker).getWorkbenchWidget().isParentNodeMast(((BelisBroker) broker).getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
                 log.debug("ParentNode ist Mast");
                 setInheritedMastPropertiesEnabled(false);
@@ -634,6 +743,15 @@ public class DetailWidget extends DefaultWidget {
     public void setWidgetEditable(boolean isEditable) {
         super.setWidgetEditable(isEditable);
         //Standort fields
+        if (!btnTakeNextFreeNumber.isEnabled() && (((BelisBroker) broker).isInEditMode() || ((BelisBroker) broker).isInCreateMode()) && currentEntity != null && currentEntity instanceof Standort && ((Standort) currentEntity).getStrassenschluessel() != null && ((Standort) currentEntity).getKennziffer() != null) {
+            btnTakeNextFreeNumber.setEnabled(true);
+            txfStandortLaufendenummer.setEnabled(true);
+        } else {
+            btnTakeNextFreeNumber.setEnabled(false);
+            txfStandortLaufendenummer.setEnabled(false);
+            txfStandortLaufendenummer.setBackground(txfLeuchteMontagefirma.getBackground());
+            txfStandortLaufendenummer.setToolTipText("");
+        }
         cbxStandortStrassenschluessel.setEnabled(isEditable);
         cbxStandortStrassenschluesselNr.setEnabled(isEditable);
         cbxStandortKennziffer.setEnabled(isEditable);
@@ -671,7 +789,7 @@ public class DetailWidget extends DefaultWidget {
         if (!(((BelisBroker) broker).getWorkbenchWidget().getSelectedTreeNode() != null && ((BelisBroker) broker).getWorkbenchWidget().isParentNodeMast(((BelisBroker) broker).getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))) {
             cbxLeuchteKennziffer.setEnabled(isEditable);
             cbxLeuchteStrassenschluessel.setEnabled(isEditable);
-            cbxLeuchteStrassenschluesselNr.setEnabled(isEditable);                        
+            cbxLeuchteStrassenschluesselNr.setEnabled(isEditable);
             cbxLeuchteStadtbezirk.setEnabled(isEditable);
             txfLeuchteStandortAngabe.setEnabled(isEditable);
             cboLeuchteVerrechnungseinheit.setEnabled(isEditable);
@@ -809,8 +927,11 @@ public class DetailWidget extends DefaultWidget {
 
         @Override
         public Result validate(Short value) {
+            log.debug("LeuchtenummerValidator", new CurrentStackTrace());
             if (value != null) {
+                log.debug("value != null");
                 if (value.shortValue() > -1) {
+                    log.debug("value >= 1");
                     final TreePath pathToEntity = ((BelisBroker) broker).getWorkbenchWidget().getTreeTableModel().getPathForUserObject(currentEntity);
                     if (pathToEntity != null && pathToEntity.getLastPathComponent() != null) {
                         final Standort parentStandort = ((BelisBroker) broker).getWorkbenchWidget().getParentMast(pathToEntity.getLastPathComponent());
@@ -831,6 +952,63 @@ public class DetailWidget extends DefaultWidget {
                 }
             } else {
                 return new Result("code", "Leuchtennummer muss gesetzt sein.");
+            }
+        }
+    }
+
+    private void cleanValidation() {
+        txfStandortLaufendenummer.setBackground(txfLeuchteMontagefirma.getBackground());
+        txfStandortLaufendenummer.setToolTipText(null);
+        lblStandortLaufendenummer.setToolTipText(null);
+    }
+
+    public class LaufendeNummerValidator extends Validator<Short> {
+
+        @Override
+        public Result validate(Short value) {
+            //ToDo bad style if txfLeuchteMontagefirma is changed
+            cleanValidation();
+            log.debug("LaufendeNummerValidator", new CurrentStackTrace());
+            if (value != null) {
+//                try {
+//                    final short value = Short.parseShort(value);
+
+                log.debug("value != null");
+
+                if (value > -1) {
+                    log.debug("value >= 1");
+                    final Set userObjects = ((BelisBroker) broker).getWorkbenchWidget().getTreeTableModel().getAllUserObjects();
+                    if (userObjects != null) {
+                        for (Object curObject : userObjects) {
+                            if (!currentEntity.equals(curObject) && curObject instanceof Standort) {
+                                final Standort curStandort = ((Standort) curObject);
+                                if (curStandort.getKennziffer() != null &&
+                                        ((Standort) currentEntity).getKennziffer() != null &&
+                                        curStandort.getKennziffer().getKennziffer() != null &&
+                                        ((Standort) currentEntity).getKennziffer().getKennziffer() != null &&
+                                        curStandort.getKennziffer().getKennziffer().equals(((Standort) currentEntity).getKennziffer().getKennziffer()) &&
+                                        curStandort.getStrassenschluessel() != null && curStandort.getStrassenschluessel().equals(((Standort) currentEntity).getStrassenschluessel())) {
+                                    final Short laufendeNummer = ((Standort) curObject).getLaufendeNummer();
+                                    if (laufendeNummer != null && laufendeNummer.equals(value)) {
+                                        log.debug("found another Standort with the same laufende Nummer");
+                                        return new Result("code", "Es darf nicht zwei Standorte mit der selben laufenden Nummer geben.");
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        log.warn("There are no User objects.");
+                    }                    
+                    return null;
+                } else {
+                    return new Result("code", "Laufende Nummer darf nicht negativ sein.");
+                }
+//                } catch (NumberFormatException ex) {
+//                    log.info("Laufendenummer must be a valid short");
+//                    return new Result("code", "Die Laufende nummer muss eine ganze Zahl sein.");
+//                }
+            } else {
+                return new Result("code", "Laufende Nummer muss gesetzt sein.");
             }
         }
     }
@@ -890,7 +1068,7 @@ public class DetailWidget extends DefaultWidget {
         if (currentEntity != null) {
             if (currentEntity instanceof Leuchte) {
                 try {
-                    dapLeuchteInbetriebnahme.getEditor().commitEdit();                    
+                    dapLeuchteInbetriebnahme.getEditor().commitEdit();
                 } catch (ParseException ex) {
                     log.warn("Error while commiting edits: " + ex);
                 }
@@ -906,7 +1084,7 @@ public class DetailWidget extends DefaultWidget {
                 }
             } else if (currentEntity instanceof Standort) {
                 try {
-                    dapStandortInbetriebnahme.getEditor().commitEdit();                  
+                    dapStandortInbetriebnahme.getEditor().commitEdit();
                 } catch (ParseException ex) {
                     log.warn("Error while commiting edits: " + ex);
                 }
@@ -1055,6 +1233,8 @@ public class DetailWidget extends DefaultWidget {
         lblStandortStandortangabe = new javax.swing.JLabel();
         txfStandortStandortAngabe = new javax.swing.JTextField();
         cbxStandortStrassenschluesselNr = new javax.swing.JComboBox();
+        btnTakeNextFreeNumber = new javax.swing.JButton();
+        blbCheck = new org.jdesktop.swingx.JXBusyLabel();
         sprStandort = new javax.swing.JSeparator();
         panLeuchte = new javax.swing.JPanel();
         panContent = new javax.swing.JPanel();
@@ -1110,15 +1290,15 @@ public class DetailWidget extends DefaultWidget {
 
         jLabel2.setFont(new java.awt.Font("DejaVu Sans", 1, 13));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/mauerlasche.png"))); // NOI18N
-        jLabel2.setText("Mauerlasche");
+        jLabel2.setText("Mauerlasche"); // NOI18N
 
-        lblMauerlascheStrassenschluessel.setText("Stra\u00dfenschl\u00fcssel:");
+        lblMauerlascheStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
 
-        lblMauerlascheLaufendenummer.setText("Laufende Nr.:");
+        lblMauerlascheLaufendenummer.setText("Laufende Nr.:"); // NOI18N
 
-        lblMauerlascheErstellungsjahr.setText("Erstellungsjahr:");
+        lblMauerlascheErstellungsjahr.setText("Erstellungsjahr:"); // NOI18N
 
-        lblMauerlascheMaterial.setText("Material:");
+        lblMauerlascheMaterial.setText("Material:"); // NOI18N
 
         txfMauerlascheLaufendenummer.setEnabled(false);
 
@@ -1276,23 +1456,23 @@ public class DetailWidget extends DefaultWidget {
 
         jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 13));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/schaltstelle.png"))); // NOI18N
-        jLabel3.setText("Schaltstelle");
+        jLabel3.setText("Schaltstelle"); // NOI18N
 
-        lblSchaltstelleStrassenschluessel.setText("Stra\u00dfenschl\u00fcssel:");
+        lblSchaltstelleStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
 
-        lblSchaltstelleLaufendenummer.setText("Laufende Nr.:");
+        lblSchaltstelleLaufendenummer.setText("Laufende Nr.:"); // NOI18N
 
-        lblSchaltstelleHausnummer.setText("Haus Nr.:");
+        lblSchaltstelleHausnummer.setText("Haus Nr.:"); // NOI18N
 
-        lblSchaltstelleNummer.setText("Schaltstellen Nr.:");
+        lblSchaltstelleNummer.setText("Schaltstellen Nr.:"); // NOI18N
 
-        lblSchaltstelleErstellungsjahr.setText("Erstellungsjahr:");
+        lblSchaltstelleErstellungsjahr.setText("Erstellungsjahr:"); // NOI18N
 
-        lblSchaltstelleStandortbezeichnung.setText("Standortbezeichnung:");
+        lblSchaltstelleStandortbezeichnung.setText("Standortbezeichnung:"); // NOI18N
 
-        lblSchaltstelleBauart.setText("Bauart:");
+        lblSchaltstelleBauart.setText("Bauart:"); // NOI18N
 
-        lblSchaltstelleBemerkung.setText("Bemerkung:");
+        lblSchaltstelleBemerkung.setText("Bemerkung:"); // NOI18N
 
         txfSchaltstelleLaufendenummer.setEnabled(false);
 
@@ -1496,13 +1676,13 @@ public class DetailWidget extends DefaultWidget {
 
         jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 13));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/leitung.png"))); // NOI18N
-        jLabel1.setText("Leitung");
+        jLabel1.setText("Leitung"); // NOI18N
 
-        lblLeitungMaterial.setText("Material:");
+        lblLeitungMaterial.setText("Material:"); // NOI18N
 
-        lblLeitungLeitungstyp.setText("Leitungstyp:");
+        lblLeitungLeitungstyp.setText("Leitungstyp:"); // NOI18N
 
-        lblLeitungQuerschnitt.setText("Querschnitt:");
+        lblLeitungQuerschnitt.setText("Querschnitt:"); // NOI18N
 
         cbxLeitungLeitungstyp.setEnabled(false);
         cbxLeitungLeitungstyp.setRenderer(new DefaultListCellRenderer() {
@@ -1631,11 +1811,11 @@ public class DetailWidget extends DefaultWidget {
 
         lblStandort.setFont(new java.awt.Font("DejaVu Sans", 1, 13));
         lblStandort.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/standort.png"))); // NOI18N
-        lblStandort.setText("Standort");
+        lblStandort.setText("Standort"); // NOI18N
 
-        lblStandortStadtbezirk.setText("Stadtbezik:");
+        lblStandortStadtbezirk.setText("Stadtbezik:"); // NOI18N
 
-        lblStandortPLZ.setText("Postleitzahl:");
+        lblStandortPLZ.setText("Postleitzahl:"); // NOI18N
 
         txtStandortPLZ.setEnabled(false);
 
@@ -1662,7 +1842,7 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.stadtbezirk}"), cbxStandortStadtbezirk, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        lblStandortHausnummer.setText("Hausnummer:");
+        lblStandortHausnummer.setText("Hausnummer:"); // NOI18N
 
         txfStandortHausnummer.setEnabled(false);
 
@@ -1670,9 +1850,9 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new StringMaxLengthValidator(5));
         bindingGroup.addBinding(binding);
 
-        lblStandortMastart.setText("Mastart:");
+        lblStandortMastart.setText("Mastart:"); // NOI18N
 
-        lblStandortMasttyp.setText("Mast Typ:");
+        lblStandortMasttyp.setText("Mast Typ:"); // NOI18N
 
         cbxStandortMastart.setEnabled(false);
         cbxStandortMastart.setRenderer(new DefaultListCellRenderer() {
@@ -1712,7 +1892,7 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.masttyp}"), cbxStandortMasttyp, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        lblStandortKlassifizierung.setText("Klassifizierung:");
+        lblStandortKlassifizierung.setText("Klassifizierung:"); // NOI18N
 
         cbxStandortKlassifizierung.setEnabled(false);
         cbxStandortKlassifizierung.setRenderer(new DefaultListCellRenderer() {
@@ -1733,7 +1913,7 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.klassifizierung}"), cbxStandortKlassifizierung, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        lblStandortMastanstrich.setText("Mastanstrich:");
+        lblStandortMastanstrich.setText("Mastanstrich:"); // NOI18N
 
         dapStandortMastanstrich.setEnabled(false);
 
@@ -1741,7 +1921,7 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
-        lblStandortMastschutz.setText("Mastschutz:");
+        lblStandortMastschutz.setText("Mastschutz:"); // NOI18N
 
         dapStandortMastschutz.setEnabled(false);
 
@@ -1749,7 +1929,7 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
-        lblStandortInbetriebnahme.setText("Inbetriebnahme:");
+        lblStandortInbetriebnahme.setText("Inbetriebnahme:"); // NOI18N
 
         dapStandortInbetriebnahme.setEnabled(false);
 
@@ -1757,7 +1937,7 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
-        lblStandortLetzteAenderung.setText("Letze \u00c4nderung:");
+        lblStandortLetzteAenderung.setText("Letze Änderung:"); // NOI18N
 
         dapStandortLetzteAenderung.setEnabled(false);
 
@@ -1765,7 +1945,7 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
-        lblStandortUnterhalt.setText("Unterhalt:");
+        lblStandortUnterhalt.setText("Unterhalt:"); // NOI18N
 
         cbxStandortUnterhalt.setEnabled(false);
         cbxStandortUnterhalt.setRenderer(new DefaultListCellRenderer() {
@@ -1786,7 +1966,7 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtMast}"), cbxStandortUnterhalt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        lblStandortMontagefirma.setText("Montagefirma:");
+        lblStandortMontagefirma.setText("Montagefirma:"); // NOI18N
 
         txfStandortMontagefirma.setEnabled(false);
 
@@ -1794,7 +1974,7 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
-        lblStandortBemerkung.setText("Bemerkung:");
+        lblStandortBemerkung.setText("Bemerkung:"); // NOI18N
 
         cboStandortVerrechnungseinheit.setEnabled(false);
 
@@ -1844,9 +2024,9 @@ public class DetailWidget extends DefaultWidget {
             }
         });
 
-        lblStandortStrassenschluessel.setText("Stra\u00dfenschl\u00fcssel:");
+        lblStandortStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
 
-        lblStandortKenziffer.setText("Kennziffer:");
+        lblStandortKenziffer.setText("Kennziffer:"); // NOI18N
 
         cbxStandortKennziffer.setEnabled(false);
         cbxStandortKennziffer.setRenderer(new DefaultListCellRenderer() {
@@ -1868,17 +2048,31 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new NotNullValidator("Kennziffer"));
         bindingGroup.addBinding(binding);
 
+        cbxStandortKennziffer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxStandortKennzifferActionPerformed(evt);
+            }
+        });
+
         txfStandortLaufendenummer.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"), txfStandortLaufendenummer, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"), txfStandortLaufendenummer, org.jdesktop.beansbinding.BeanProperty.create("text"), "standortLaufendeNummerBinding");
+        binding.setConverter(new StringShortConverter());
+        binding.setValidator(new ValidatorChain(new NotNullValidator("Laufende Nummer"),new LaufendeNummerValidator()));
         bindingGroup.addBinding(binding);
 
-        lblStandortLaufendenummer.setText("Laufende Nr.:");
+        txfStandortLaufendenummer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfStandortLaufendenummerActionPerformed(evt);
+            }
+        });
 
-        lblStandortVerrechnungseinheit.setText("V-Einheit:");
-        lblStandortVerrechnungseinheit.setToolTipText("Verrechnungseinheit");
+        lblStandortLaufendenummer.setText("Laufende Nr.:"); // NOI18N
 
-        lblStandortStandortangabe.setText("Standortangabe:");
+        lblStandortVerrechnungseinheit.setText("V-Einheit:"); // NOI18N
+        lblStandortVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
+
+        lblStandortStandortangabe.setText("Standortangabe:"); // NOI18N
 
         txfStandortStandortAngabe.setEnabled(false);
 
@@ -1908,12 +2102,20 @@ public class DetailWidget extends DefaultWidget {
             }
         });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"), cbxStandortStrassenschluesselNr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "strassenschluesselnr");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"), cbxStandortStrassenschluesselNr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "strassenschluesselnr"); // NOI18N
         bindingGroup.addBinding(binding);
 
         cbxStandortStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxStandortStrassenschluesselNrActionPerformed(evt);
+            }
+        });
+
+        btnTakeNextFreeNumber.setText("Nächste Nummer");
+        btnTakeNextFreeNumber.setEnabled(false);
+        btnTakeNextFreeNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTakeNextFreeNumberActionPerformed(evt);
             }
         });
 
@@ -1924,49 +2126,51 @@ public class DetailWidget extends DefaultWidget {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblStandortStrassenschluessel)
+                    .addComponent(lblStandortKenziffer)
                     .addComponent(lblStandortLaufendenummer)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblStandortStandortangabe)
-                            .addComponent(lblStandortMastart)
-                            .addComponent(lblStandortMasttyp)
-                            .addComponent(lblStandortKlassifizierung, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                            .addComponent(lblStandortUnterhalt)
-                            .addComponent(lblStandortMastschutz, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                            .addComponent(lblStandortInbetriebnahme)
-                            .addComponent(lblStandortLetzteAenderung)
-                            .addComponent(lblStandortMastanstrich, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                            .addComponent(lblStandortMontagefirma)
-                            .addComponent(lblStandortHausnummer)
-                            .addComponent(lblStandortVerrechnungseinheit)
-                            .addComponent(lblStandortBemerkung, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                            .addComponent(lblStandortPLZ)
-                            .addComponent(lblStandortStrassenschluessel)
-                            .addComponent(lblStandortKenziffer)
-                            .addComponent(lblStandortStadtbezirk))
+                    .addComponent(lblStandortStandortangabe)
+                    .addComponent(lblStandortMastart)
+                    .addComponent(lblStandortMasttyp)
+                    .addComponent(lblStandortKlassifizierung, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(lblStandortUnterhalt)
+                    .addComponent(lblStandortMastschutz, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(lblStandortInbetriebnahme)
+                    .addComponent(lblStandortLetzteAenderung)
+                    .addComponent(lblStandortMastanstrich, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(lblStandortMontagefirma)
+                    .addComponent(lblStandortHausnummer)
+                    .addComponent(lblStandortVerrechnungseinheit)
+                    .addComponent(lblStandortBemerkung, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(lblStandortPLZ)
+                    .addComponent(lblStandortStadtbezirk))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scpStandortBemerkung, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(txtStandortPLZ, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(cbxStandortMastart, 0, 340, Short.MAX_VALUE)
+                    .addComponent(cbxStandortMasttyp, 0, 340, Short.MAX_VALUE)
+                    .addComponent(cbxStandortKlassifizierung, 0, 340, Short.MAX_VALUE)
+                    .addComponent(cbxStandortUnterhalt, 0, 340, Short.MAX_VALUE)
+                    .addComponent(dapStandortMastschutz, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(dapStandortInbetriebnahme, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(dapStandortLetzteAenderung, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(dapStandortMastanstrich, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(txfStandortMontagefirma, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(cboStandortVerrechnungseinheit, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txfStandortHausnummer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(txfStandortStandortAngabe, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(cbxStandortStadtbezirk, javax.swing.GroupLayout.Alignment.TRAILING, 0, 340, Short.MAX_VALUE)
+                    .addComponent(cbxStandortKennziffer, 0, 340, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cbxStandortStrassenschluesselNr, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbxStandortStadtbezirk, javax.swing.GroupLayout.Alignment.TRAILING, 0, 299, Short.MAX_VALUE)
-                            .addComponent(cbxStandortKennziffer, 0, 299, Short.MAX_VALUE)
-                            .addComponent(txfStandortLaufendenummer, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(txtStandortPLZ, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(scpStandortBemerkung, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(cbxStandortMastart, 0, 299, Short.MAX_VALUE)
-                            .addComponent(cbxStandortMasttyp, 0, 299, Short.MAX_VALUE)
-                            .addComponent(cbxStandortKlassifizierung, 0, 299, Short.MAX_VALUE)
-                            .addComponent(cbxStandortUnterhalt, 0, 299, Short.MAX_VALUE)
-                            .addComponent(dapStandortMastschutz, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(dapStandortInbetriebnahme, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(dapStandortLetzteAenderung, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(dapStandortMastanstrich, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(txfStandortMontagefirma, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(cboStandortVerrechnungseinheit, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txfStandortHausnummer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(txfStandortStandortAngabe, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cbxStandortStrassenschluesselNr, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxStandortStrassenschluessel, 0, 191, Short.MAX_VALUE)))))
+                        .addComponent(cbxStandortStrassenschluessel, 0, 232, Short.MAX_VALUE))
+                    .addComponent(txfStandortLaufendenummer, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(blbCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnTakeNextFreeNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -1989,6 +2193,10 @@ public class DetailWidget extends DefaultWidget {
                     .addComponent(lblStandortLaufendenummer)
                     .addComponent(txfStandortLaufendenummer, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(blbCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTakeNextFreeNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblStandortStadtbezirk)
                     .addComponent(cbxStandortStadtbezirk, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2046,8 +2254,8 @@ public class DetailWidget extends DefaultWidget {
                     .addComponent(lblStandortVerrechnungseinheit))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scpStandortBemerkung, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblStandortBemerkung))
+                    .addComponent(lblStandortBemerkung)
+                    .addComponent(scpStandortBemerkung, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -2059,12 +2267,12 @@ public class DetailWidget extends DefaultWidget {
         panStandort.setLayout(panStandortLayout);
         panStandortLayout.setHorizontalGroup(
             panStandortLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panStandortLayout.createSequentialGroup()
+            .addGroup(panStandortLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panStandortLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sprStandort, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
-                    .addComponent(lblStandort, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGroup(panStandortLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(sprStandort, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+                    .addComponent(lblStandort)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panStandortLayout.setVerticalGroup(
@@ -2076,10 +2284,10 @@ public class DetailWidget extends DefaultWidget {
                 .addComponent(sprStandort, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lblLeuchteLeuchtennummer.setText("Leuchtennummer:");
+        lblLeuchteLeuchtennummer.setText("Leuchtennummer:"); // NOI18N
 
         txtLeuchteLeuchtennummer.setEnabled(false);
 
@@ -2087,7 +2295,7 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new LeuchtennummerValidator());
         bindingGroup.addBinding(binding);
 
-        lblLeuchteEnergielieferant.setText("Energielieferant:");
+        lblLeuchteEnergielieferant.setText("Energielieferant:"); // NOI18N
 
         cbxLeuchteEnergielieferant.setEnabled(false);
         cbxLeuchteEnergielieferant.setRenderer(new DefaultListCellRenderer() {
@@ -2108,7 +2316,7 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.energielieferant}"), cbxLeuchteEnergielieferant, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        lblLeuchteSchaltstelle.setText("Schaltstelle:");
+        lblLeuchteSchaltstelle.setText("Schaltstelle:"); // NOI18N
 
         txtLeuchteSchaltstelle.setEnabled(false);
 
@@ -2116,7 +2324,7 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
-        lblLeuchteRundsteuer.setText("Rundsteuerempf\u00e4nger:");
+        lblLeuchteRundsteuer.setText("Rundsteuerempfänger:"); // NOI18N
 
         txtLeuchteRundsteuer.setEnabled(false);
 
@@ -2130,9 +2338,9 @@ public class DetailWidget extends DefaultWidget {
             }
         });
 
-        lblLeuchteLeuchtentyp.setText("Leuchtentyp:");
+        lblLeuchteLeuchtentyp.setText("Leuchtentyp:"); // NOI18N
 
-        lblLeuchteUnterhalt.setText("Unterhalt Leuchte:");
+        lblLeuchteUnterhalt.setText("Unterhalt Leuchte:"); // NOI18N
 
         cbxLeuchteUnterhalt.setEnabled(false);
         cbxLeuchteUnterhalt.setRenderer(new DefaultListCellRenderer() {
@@ -2153,14 +2361,14 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtLeuchte}"), cbxLeuchteUnterhalt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        lblLeuchteZaehler.setText("Z\u00e4hler vorhanden:");
+        lblLeuchteZaehler.setText("Zähler vorhanden:"); // NOI18N
 
         cboLeuchteZaehler.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zaehler}"), cboLeuchteZaehler, org.jdesktop.beansbinding.BeanProperty.create("selected"));
         bindingGroup.addBinding(binding);
 
-        lblLeuchteInbetriebnahme.setText("Inbetriebnahme:");
+        lblLeuchteInbetriebnahme.setText("Inbetriebnahme:"); // NOI18N
 
         dapLeuchteInbetriebnahme.setEnabled(false);
 
@@ -2168,9 +2376,9 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
-        lblLeuchteStrassenschluessel.setText("Stra\u00dfenschl\u00fcssel:");
+        lblLeuchteStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
 
-        lblLeuchteLaufendenummer.setText("Laufende Nr.:");
+        lblLeuchteLaufendenummer.setText("Laufende Nr.:"); // NOI18N
 
         txfLeuchteLaufendenummer.setEnabled(false);
 
@@ -2198,7 +2406,7 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new NotNullValidator("Kennziffer"));
         bindingGroup.addBinding(binding);
 
-        lblLeuchteKenziffer.setText("Kennziffer:");
+        lblLeuchteKenziffer.setText("Kennziffer:"); // NOI18N
 
         cbxLeuchteLeuchtentyp.setEnabled(false);
         cbxLeuchteLeuchtentyp.setRenderer(new DefaultListCellRenderer() {
@@ -2219,9 +2427,9 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.leuchtentyp}"), cbxLeuchteLeuchtentyp, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        lblLeuchteDoppelkommando1.setText("Doppelkomando 1:");
+        lblLeuchteDoppelkommando1.setText("Doppelkomando 1:"); // NOI18N
 
-        lblLeuchteDoppelkommando2.setText("Doppelkomando 2:");
+        lblLeuchteDoppelkommando2.setText("Doppelkomando 2:"); // NOI18N
 
         sprLeuchteDoppelkommando1Anzahl.setEnabled(false);
 
@@ -2275,7 +2483,7 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dk2}"), cbxLeuchteDoppelkommando2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        lblLeuchteMontagefirma.setText("Montagefirma:");
+        lblLeuchteMontagefirma.setText("Montagefirma:"); // NOI18N
 
         txfLeuchteMontagefirma.setEnabled(false);
 
@@ -2283,7 +2491,7 @@ public class DetailWidget extends DefaultWidget {
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
-        lblLeuchteBemerkung.setText("Bemerkung:");
+        lblLeuchteBemerkung.setText("Bemerkung:"); // NOI18N
 
         txaLeuchteBemerkung.setColumns(20);
         txaLeuchteBemerkung.setRows(5);
@@ -2343,7 +2551,7 @@ public class DetailWidget extends DefaultWidget {
             }
         });
 
-        lblLeuchteStadtbezirk.setText("Stadtbezik:");
+        lblLeuchteStadtbezirk.setText("Stadtbezik:"); // NOI18N
 
         cbxLeuchteStadtbezirk.setEnabled(false);
         cbxLeuchteStadtbezirk.setRenderer(new DefaultListCellRenderer() {
@@ -2364,15 +2572,15 @@ public class DetailWidget extends DefaultWidget {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.stadtbezirk}"), cbxLeuchteStadtbezirk, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        lblLeuchteStandortangabe.setText("Standortangabe:");
+        lblLeuchteStandortangabe.setText("Standortangabe:"); // NOI18N
 
         txfLeuchteStandortAngabe.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.standortangabe}"), txfLeuchteStandortAngabe, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        lblLeuchteVerrechnungseinheit.setText("V-Einheit:");
-        lblLeuchteVerrechnungseinheit.setToolTipText("Verrechnungseinheit");
+        lblLeuchteVerrechnungseinheit.setText("V-Einheit:"); // NOI18N
+        lblLeuchteVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
 
         cboLeuchteVerrechnungseinheit.setEnabled(false);
 
@@ -2537,7 +2745,7 @@ public class DetailWidget extends DefaultWidget {
 
         lblLeuchte.setFont(new java.awt.Font("DejaVu Sans", 1, 13));
         lblLeuchte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/leuchte.png"))); // NOI18N
-        lblLeuchte.setText("Leuchte");
+        lblLeuchte.setText("Leuchte"); // NOI18N
 
         javax.swing.GroupLayout panLeuchteLayout = new javax.swing.GroupLayout(panLeuchte);
         panLeuchte.setLayout(panLeuchteLayout);
@@ -2576,7 +2784,7 @@ public class DetailWidget extends DefaultWidget {
 
         lblAbzweigdose.setFont(new java.awt.Font("DejaVu Sans", 1, 13));
         lblAbzweigdose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/abzweigdose.png"))); // NOI18N
-        lblAbzweigdose.setText("Abzweigdose/Zugkasten");
+        lblAbzweigdose.setText("Abzweigdose/Zugkasten"); // NOI18N
 
         javax.swing.GroupLayout panAbzweidoseLayout = new javax.swing.GroupLayout(panAbzweidose);
         panAbzweidose.setLayout(panAbzweidoseLayout);
@@ -2643,6 +2851,10 @@ private void cbxStandortStrassenschluesselNrActionPerformed(java.awt.event.Actio
 }//GEN-LAST:event_cbxStandortStrassenschluesselNrActionPerformed
 
 private void cbxStandortStrassenschluesselActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStandortStrassenschluesselActionPerformed
+    if (!btnTakeNextFreeNumber.isEnabled() && (((BelisBroker) broker).isInEditMode() || ((BelisBroker) broker).isInCreateMode()) && currentEntity != null && currentEntity instanceof Standort && ((Standort) currentEntity).getStrassenschluessel() != null && ((Standort) currentEntity).getKennziffer() != null) {
+        btnTakeNextFreeNumber.setEnabled(true);
+        txfStandortLaufendenummer.setEnabled(true);
+    }
     try {
         if (!isTriggerd) {
             isTriggerd = true;
@@ -2732,7 +2944,125 @@ private void cbxLeuchteStrassenschluesselActionPerformed(java.awt.event.ActionEv
         isTriggerd = false;
     }
 }//GEN-LAST:event_cbxLeuchteStrassenschluesselActionPerformed
+
+private void btnTakeNextFreeNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTakeNextFreeNumberActionPerformed
+    if (currentEntity != null && currentEntity instanceof Standort) {
+        blbCheck.setBusy(true);
+        btnTakeNextFreeNumber.setEnabled(false);
+        SwingWorker<Short, Void> currentWorker = new SwingWorker<Short, Void>() {
+
+            @Override
+            protected Short doInBackground() throws Exception {
+                final short highestNumber = ((BelisBroker) broker).getWorkbenchWidget().getTreeTableModel().getNextHighestLaufendeNummerForStandort((Standort) currentEntity);
+                log.debug("Standort Highest number: " + highestNumber);
+                final Standort nextNumber = EJBroker.getInstance().determineNextLaufendenummer((Standort) currentEntity, highestNumber);
+                if (nextNumber != null && nextNumber.getLaufendeNummer() != null) {
+                    log.debug("Standort next number: " + nextNumber.getLaufendeNummer());
+                    return nextNumber.getLaufendeNummer();
+                } else {
+                    log.debug("Not possible to determine next number");
+                    return null;
+                }
+            }
+
+            @Override
+            protected void done() {
+                super.done();
+                blbCheck.setBusy(false);
+                btnTakeNextFreeNumber.setEnabled(true);
+                try {
+                    Short result = get();
+                    if (result != null) {
+                        log.debug("nextNumber available: " + result);
+                        txfStandortLaufendenummer.setText(result.toString());
+                    } else {
+                        log.debug("Could not determine next laufende number.");
+                        txfStandortLaufendenummer.setBackground(Color.green);
+                        txfStandortLaufendenummer.setToolTipText("Nächste freie laufende Nummber konnte nicht bestimmt werden.");
+                    }
+                } catch (InterruptedException ex) {
+                    log.error("Thread was interrupted: ", ex);
+                } catch (ExecutionException ex) {
+                    log.error("Error while determining next laufende nummer: ", ex);
+                }
+            }
+        };
+        broker.execute(currentWorker);
+    } else {
+        log.warn("Error next laufende number can not be determined with this entity ");
+    }
+}//GEN-LAST:event_btnTakeNextFreeNumberActionPerformed
+    private SwingWorker<Boolean, Void> currentWorker;
+    private boolean isNumberFree = false;
+
+    private void checkLaufenedNummer() {
+        log.debug("check laufende Nummer thread");
+        if (currentEntity != null && currentEntity instanceof Standort) {
+            blbCheck.setBusy(true);
+            btnTakeNextFreeNumber.setEnabled(false);
+            //btnCheckLaufendeNummer.setEnabled(false);
+            if (currentWorker != null && !currentWorker.isDone()) {
+                currentWorker.cancel(true);
+            }
+            currentWorker = new SwingWorker<Boolean, Void>() {
+
+                @Override
+                protected Boolean doInBackground() throws Exception {
+                    log.debug("checkLaufendeNummerThread started.");
+//                log.debug("Strassenschlüssel of Standort: "+((Standort) currentEntity).getStrassenschluessel().getPk());
+//                log.debug("Kennziffer of Standort: "+((Standort) currentEntity).getKennziffer().getKennziffer());
+//                log.debug("Laufendenummer of Standort: "+((Standort) currentEntity).getLaufendeNummer());
+                    final boolean checkResult = EJBroker.getInstance().checkIfStandortExists((Standort) currentEntity);
+                    log.debug("Standort check result: " + checkResult);
+                    return checkResult;
+                }
+
+                @Override
+                protected void done() {
+                    super.done();
+                    blbCheck.setBusy(false);
+                    btnTakeNextFreeNumber.setEnabled(true);
+                    //btnCheckLaufendeNummer.setEnabled(true);
+
+                    try {
+                        boolean result = get();
+                        if (result) {
+                            log.debug("Standort already exists.");
+                            txfStandortLaufendenummer.setBackground(Color.red);
+                            txfStandortLaufendenummer.setToolTipText("Laufende Nummer ist bereits vergeben.");
+
+                        } else {
+                            log.debug("Standort values don't exist and can be used.");
+                            txfStandortLaufendenummer.setBackground(Color.green);
+                            txfStandortLaufendenummer.setToolTipText("Laufende Nummer ist noch nicht vergeben.");
+                            isNumberFree = true;
+                        }
+                    } catch (InterruptedException ex) {
+                        log.error("Thread was interrupted: ", ex);
+                    } catch (ExecutionException ex) {
+                        log.error("Error while checking Standort: ", ex);
+                    }
+                }
+            };
+
+            broker.execute(currentWorker);
+        } else {
+            log.warn("Error standort check can not be done with entity ");
+        }
+    }
+
+private void txfStandortLaufendenummerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfStandortLaufendenummerActionPerformed
+}//GEN-LAST:event_txfStandortLaufendenummerActionPerformed
+
+private void cbxStandortKennzifferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStandortKennzifferActionPerformed
+    if (!btnTakeNextFreeNumber.isEnabled() && (((BelisBroker) broker).isInEditMode() || ((BelisBroker) broker).isInCreateMode()) && currentEntity != null && currentEntity instanceof Standort && ((Standort) currentEntity).getStrassenschluessel() != null && ((Standort) currentEntity).getKennziffer() != null) {
+        btnTakeNextFreeNumber.setEnabled(true);
+        txfStandortLaufendenummer.setEnabled(true);
+    }
+}//GEN-LAST:event_cbxStandortKennzifferActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXBusyLabel blbCheck;
+    private javax.swing.JButton btnTakeNextFreeNumber;
     private javax.swing.JCheckBox cboLeuchteVerrechnungseinheit;
     private javax.swing.JCheckBox cboLeuchteZaehler;
     private javax.swing.JCheckBox cboStandortVerrechnungseinheit;
@@ -2895,6 +3225,19 @@ private void cbxLeuchteStrassenschluesselActionPerformed(java.awt.event.ActionEv
     @Override
     public int getStatus() {
         commitEdits();
+        if (currentWorker != null && !currentWorker.isDone()) {
+            validationMessage = "Es kann nicht gespeichert werden solange die Laufende Nummer geprüft wird";
+            return Validatable.ERROR;
+        }
+        try {
+            if (currentWorker != null && currentWorker.isDone() && currentWorker.get()) {
+                validationMessage = "Die Laufende Nummer ist vorhanden es kann nicht gewechselt werden.";
+                return Validatable.ERROR;
+            }
+        } catch (Exception ex) {
+            validationMessage = "Fehler beim prüfen der Laufende Nummer. Es kann nicht gewechselt werden.";
+            return Validatable.ERROR;
+        }
         return super.getStatus();
     }
 
@@ -3014,4 +3357,36 @@ private void cbxLeuchteStrassenschluesselActionPerformed(java.awt.event.ActionEv
 //            };
 //        }
 //    }
+
+    public class StringShortConverter extends Converter<Short, String> {
+
+        @Override
+        public Short convertReverse(String value) {
+            if (value == null || value.equals("")) {
+                cleanValidation();
+                log.debug("empty string or null");
+                return null;
+            } else {
+                try {
+                    return Short.parseShort(value);
+                } catch (NumberFormatException ex) {
+                    log.info("Convertion not possible string is no short. Returning null", ex);
+                    return null;
+                }
+            }
+        }
+
+        @Override
+        public String convertForward(Short value) {
+            if (value != null) {
+                log.debug("short != null returning string.");
+                return value.toString();
+            } else {
+                cleanValidation();
+                log.debug("short is null returning null string");
+                return null;
+            }
+        }
+    }
 }
+

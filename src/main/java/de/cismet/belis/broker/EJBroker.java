@@ -647,6 +647,30 @@ public final class EJBroker implements  BelisServerRemote {
              deleteEntity(entityToRemove,userString);
         }
     }
+
+    @Override
+    public boolean checkIfStandortExists(Standort standort) throws ActionNotSuccessfulException {
+        try {
+            return belisEJBServerStub.checkIfStandortExists(standort);
+        } catch (EJBException ex) {
+            log.debug("Exception ist eine EJBException");
+            handleEJBException(ex);
+            return checkIfStandortExists(standort);
+        }
+    }
+
+    @Override
+    public Standort determineNextLaufendenummer(Standort standort, Short minimalNumber) throws ActionNotSuccessfulException {
+        try {
+            return belisEJBServerStub.determineNextLaufendenummer(standort,minimalNumber);
+        } catch (EJBException ex) {
+            log.debug("Exception ist eine EJBException");
+            handleEJBException(ex);
+            return determineNextLaufendenummer(standort,minimalNumber);
+        }
+    }
+
+
     
     
 }

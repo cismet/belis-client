@@ -291,12 +291,14 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         if (!((BelisBroker) broker).validateWidgets()) {
                             log.debug("eventDispatched: One or more widgets are invalid. Informing user.");
                             final int anwser = ((BelisBroker) broker).askUser();
-                            if (anwser == JOptionPane.YES_OPTION) {
-                                log.debug("User wants to cancel changes.");
-                            } else {
-                                log.debug("User wants to correct validation, consuming event.");
-                                ((MouseEvent) event).consume();
-                            }
+//                            if (anwser == JOptionPane.YES_OPTION) {
+//                                log.debug("User wants to cancel changes.");
+//                            } else {
+//                                log.debug("User wants to correct validation, consuming event.");
+//                                ((MouseEvent) event).consume();
+//                            }
+                            log.debug("User has to correct validation, consuming event.");
+                            ((MouseEvent) event).consume();
                         } else {
                             log.debug("eventDispatched: Not consuming event. All Widgets are valid");
                         }
@@ -319,12 +321,14 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         if (!((BelisBroker) broker).validateWidgets()) {
                             log.debug("eventDispatched: One or more widgets are invalid. Informing user.");
                             final int anwser = ((BelisBroker) broker).askUser();
-                            if (anwser == JOptionPane.YES_OPTION) {
-                                log.debug("User wants to cancel changes.");
-                            } else {
-                                log.debug("User wants to correct validation, consuming event.");
+//                            if (anwser == JOptionPane.YES_OPTION) {
+//                                log.debug("User wants to cancel changes.");
+//                            } else {
+//                                log.debug("User wants to correct validation, consuming event.");
+//                                ((KeyEvent) event).consume();
+//                            }
+                                log.debug("User has to correct validation, consuming event.");
                                 ((KeyEvent) event).consume();
-                            }
                         } else {
                             log.debug("eventDispatched: Not consuming event. All Widgets are valid");
                         }

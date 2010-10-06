@@ -365,12 +365,14 @@ private void btnNewAbzweigdoseActionPerformed(java.awt.event.ActionEvent evt) {/
         if (broker.isVetoCheckEnabled() && !broker.validateWidgets()) {
             log.debug("creationCheck: One or more widgets are invalid. Informing user.");
             final int anwser = broker.askUser();
-            if (anwser == JOptionPane.YES_OPTION) {
-                log.debug("creationCheck: User wants to cancel changes and create new Objekt.");
-            } else {
-                log.debug("creationCheck: User wants to correct validation, not creating new objekt.");
-                return false;
-            }
+//            if (anwser == JOptionPane.YES_OPTION) {
+//                log.debug("creationCheck: User wants to cancel changes and create new Objekt.");
+//            } else {
+//                log.debug("creationCheck: User wants to correct validation, not creating new objekt.");
+//                return false;
+                            log.debug("creationCheck: User has to correct validation, not creating new objekt.");
+                            return false;
+//            }
         } else {
             log.debug("creationCheck: No problem all Widgets are valid.");
         }
