@@ -41,7 +41,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/mauerlasche.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Mauerlasche" noResource="true"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Mauerlasche"/>
+            </Property>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel3">
@@ -104,22 +106,30 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblMauerlascheStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblMauerlascheLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Laufende Nr.:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Laufende Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblMauerlascheErstellungsjahr">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Erstellungsjahr:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Erstellungsjahr:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblMauerlascheMaterial">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Material:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Material:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfMauerlascheLaufendenummer">
@@ -239,7 +249,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/schaltstelle.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Schaltstelle" noResource="true"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Schaltstelle"/>
+            </Property>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel4">
@@ -335,42 +347,58 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Laufende Nr.:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Laufende Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleHausnummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Haus Nr.:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Haus Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleNummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Schaltstellen Nr.:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Schaltstellen Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleErstellungsjahr">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Erstellungsjahr:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Erstellungsjahr:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleStandortbezeichnung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Standortbezeichnung:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Standortbezeichnung:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleBauart">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Bauart:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Bauart:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleBemerkung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Bemerkung:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Bemerkung:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfSchaltstelleLaufendenummer">
@@ -545,7 +573,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/leitung.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Leitung" noResource="true"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Leitung"/>
+            </Property>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel2">
@@ -596,17 +626,23 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblLeitungMaterial">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Material:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Material:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeitungLeitungstyp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Leitungstyp:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Leitungstyp:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeitungQuerschnitt">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Querschnitt:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Querschnitt:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeitungLeitungstyp">
@@ -662,14 +698,14 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="sprStandort" alignment="0" pref="489" max="32767" attributes="1"/>
-                      <Component id="lblStandort" alignment="0" min="-2" max="-2" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="sprStandort" alignment="0" pref="448" max="32767" attributes="1"/>
+                      <Component id="lblStandort" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -682,7 +718,7 @@
                   <Component id="sprStandort" min="-2" pref="10" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="17" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -696,7 +732,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/standort.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Standort" noResource="true"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Standort"/>
+            </Property>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel1">
@@ -705,58 +743,57 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblStandortStrassenschluessel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortKenziffer" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblStandortLaufendenummer" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortStandortangabe" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortMastart" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortMasttyp" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortKlassifizierung" linkSize="6" pref="105" max="32767" attributes="1"/>
-                          <Component id="lblStandortUnterhalt" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortMastschutz" linkSize="6" pref="105" max="32767" attributes="1"/>
-                          <Component id="lblStandortInbetriebnahme" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortLetzteAenderung" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortMastanstrich" linkSize="6" pref="105" max="32767" attributes="1"/>
-                          <Component id="lblStandortMontagefirma" linkSize="6" alignment="0" min="-2" max="-2" attributes="1"/>
-                          <Component id="lblStandortHausnummer" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortVerrechnungseinheit" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortBemerkung" linkSize="6" alignment="0" pref="105" max="32767" attributes="1"/>
-                          <Component id="lblStandortPLZ" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblStandortStadtbezirk" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="scpStandortBemerkung" pref="340" max="32767" attributes="2"/>
-                          <Component id="txtStandortPLZ" alignment="1" pref="340" max="32767" attributes="3"/>
-                          <Component id="cbxStandortMastart" alignment="0" pref="340" max="32767" attributes="3"/>
-                          <Component id="cbxStandortMasttyp" alignment="0" pref="340" max="32767" attributes="3"/>
-                          <Component id="cbxStandortKlassifizierung" alignment="0" pref="340" max="32767" attributes="3"/>
-                          <Component id="cbxStandortUnterhalt" alignment="0" pref="340" max="32767" attributes="3"/>
-                          <Component id="dapStandortMastschutz" alignment="0" pref="340" max="32767" attributes="3"/>
-                          <Component id="dapStandortInbetriebnahme" alignment="0" pref="340" max="32767" attributes="3"/>
-                          <Component id="dapStandortLetzteAenderung" alignment="0" pref="340" max="32767" attributes="3"/>
-                          <Component id="dapStandortMastanstrich" alignment="0" pref="340" max="32767" attributes="3"/>
-                          <Component id="txfStandortMontagefirma" alignment="0" pref="340" max="32767" attributes="3"/>
-                          <Component id="cboStandortVerrechnungseinheit" alignment="0" min="-2" pref="163" max="-2" attributes="2"/>
-                          <Component id="txfStandortHausnummer" alignment="1" pref="340" max="32767" attributes="3"/>
-                          <Component id="txfStandortStandortAngabe" alignment="0" pref="340" max="32767" attributes="0"/>
-                          <Component id="cbxStandortStadtbezirk" alignment="1" pref="340" max="32767" attributes="3"/>
-                          <Component id="cbxStandortKennziffer" alignment="0" pref="340" max="32767" attributes="1"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="cbxStandortStrassenschluesselNr" min="-2" pref="102" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cbxStandortStrassenschluessel" pref="232" max="32767" attributes="2"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblStandortStandortangabe" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortMastart" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortMasttyp" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortKlassifizierung" linkSize="6" pref="105" max="32767" attributes="1"/>
+                                  <Component id="lblStandortUnterhalt" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortMastschutz" linkSize="6" pref="105" max="32767" attributes="1"/>
+                                  <Component id="lblStandortInbetriebnahme" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortLetzteAenderung" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortMastanstrich" linkSize="6" pref="105" max="32767" attributes="1"/>
+                                  <Component id="lblStandortMontagefirma" linkSize="6" alignment="0" min="-2" max="-2" attributes="1"/>
+                                  <Component id="lblStandortHausnummer" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortVerrechnungseinheit" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortBemerkung" linkSize="6" alignment="0" pref="105" max="32767" attributes="1"/>
+                                  <Component id="lblStandortPLZ" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortStrassenschluessel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortKenziffer" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblStandortStadtbezirk" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cbxStandortStadtbezirk" alignment="1" pref="299" max="32767" attributes="3"/>
+                                  <Component id="cbxStandortKennziffer" alignment="0" pref="299" max="32767" attributes="1"/>
+                                  <Component id="txfStandortLaufendenummer" alignment="0" pref="299" max="32767" attributes="1"/>
+                                  <Component id="txtStandortPLZ" alignment="1" pref="299" max="32767" attributes="3"/>
+                                  <Component id="scpStandortBemerkung" alignment="0" pref="299" max="32767" attributes="2"/>
+                                  <Component id="cbxStandortMastart" alignment="0" pref="299" max="32767" attributes="3"/>
+                                  <Component id="cbxStandortMasttyp" alignment="0" pref="299" max="32767" attributes="3"/>
+                                  <Component id="cbxStandortKlassifizierung" alignment="0" pref="299" max="32767" attributes="3"/>
+                                  <Component id="cbxStandortUnterhalt" alignment="0" pref="299" max="32767" attributes="3"/>
+                                  <Component id="dapStandortMastschutz" alignment="0" pref="299" max="32767" attributes="3"/>
+                                  <Component id="dapStandortInbetriebnahme" alignment="0" pref="299" max="32767" attributes="3"/>
+                                  <Component id="dapStandortLetzteAenderung" alignment="0" pref="299" max="32767" attributes="3"/>
+                                  <Component id="dapStandortMastanstrich" alignment="0" pref="299" max="32767" attributes="3"/>
+                                  <Component id="txfStandortMontagefirma" alignment="0" pref="299" max="32767" attributes="3"/>
+                                  <Component id="cboStandortVerrechnungseinheit" alignment="0" min="-2" pref="163" max="-2" attributes="2"/>
+                                  <Component id="txfStandortHausnummer" alignment="1" pref="299" max="32767" attributes="3"/>
+                                  <Component id="txfStandortStandortAngabe" alignment="0" pref="299" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="cbxStandortStrassenschluesselNr" min="-2" pref="102" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="cbxStandortStrassenschluessel" pref="191" max="32767" attributes="2"/>
+                                  </Group>
+                              </Group>
                           </Group>
-                          <Component id="txfStandortLaufendenummer" alignment="0" pref="340" max="32767" attributes="1"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="blbCheck" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnTakeNextFreeNumber" min="-2" pref="143" max="-2" attributes="0"/>
-                          </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -774,17 +811,12 @@
                           <Component id="lblStandortKenziffer" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbxStandortKennziffer" linkSize="5" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblStandortLaufendenummer" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txfStandortLaufendenummer" linkSize="5" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="blbCheck" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnTakeNextFreeNumber" min="-2" pref="22" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblStandortStadtbezirk" linkSize="7" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbxStandortStadtbezirk" linkSize="5" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
@@ -856,8 +888,8 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblStandortBemerkung" linkSize="7" min="-2" max="-2" attributes="0"/>
-                          <Component id="scpStandortBemerkung" min="-2" pref="141" max="-2" attributes="0"/>
+                          <Component id="scpStandortBemerkung" min="-2" pref="151" max="-2" attributes="0"/>
+                          <Component id="lblStandortBemerkung" linkSize="7" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -867,12 +899,16 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblStandortStadtbezirk">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stadtbezik:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stadtbezik:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortPLZ">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Postleitzahl:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Postleitzahl:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtStandortPLZ">
@@ -904,7 +940,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortHausnummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Hausnummer:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Hausnummer:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfStandortHausnummer">
@@ -922,12 +960,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMastart">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mastart:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Mastart:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMasttyp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mast Typ:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Mast Typ:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortMastart">
@@ -960,7 +1002,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortKlassifizierung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Klassifizierung:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Klassifizierung:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortKlassifizierung">
@@ -979,7 +1023,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMastanstrich">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mastanstrich:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Mastanstrich:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortMastanstrich">
@@ -996,7 +1042,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMastschutz">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mastschutz:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Mastschutz:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortMastschutz">
@@ -1013,7 +1061,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortInbetriebnahme">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Inbetriebnahme:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Inbetriebnahme:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortInbetriebnahme">
@@ -1030,7 +1080,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortLetzteAenderung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Letze &#xc4;nderung:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Letze &#xc4;nderung:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortLetzteAenderung">
@@ -1047,7 +1099,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortUnterhalt">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Unterhalt:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Unterhalt:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortUnterhalt">
@@ -1066,7 +1120,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMontagefirma">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Montagefirma:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Montagefirma:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfStandortMontagefirma">
@@ -1084,7 +1140,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortBemerkung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Bemerkung:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Bemerkung:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cboStandortVerrechnungseinheit">
@@ -1148,12 +1206,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortKenziffer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kennziffer:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Kennziffer:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortKennziffer">
@@ -1173,44 +1235,37 @@
                   </Property>
                 </BindingProperty>
               </BindingProperties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxStandortKennzifferActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txfStandortLaufendenummer">
               <Properties>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="text" source="Form" sourcePath="${currentEntity.laufendeNummer}" target="txfStandortLaufendenummer" targetPath="text" updateStrategy="0" immediately="false">
-                  <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-                  <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                    <Connection code="new StringShortConverter()" type="code"/>
-                  </Property>
-                  <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                    <Connection code="new ValidatorChain(new NotNullValidator(&quot;Laufende Nummer&quot;),new LaufendeNummerValidator())" type="code"/>
-                  </Property>
-                  <Property name="name" type="java.lang.String" value="standortLaufendeNummerBinding"/>
-                </BindingProperty>
+                <BindingProperty name="text" source="Form" sourcePath="${currentEntity.laufendeNummer}" target="txfStandortLaufendenummer" targetPath="text" updateStrategy="0" immediately="false"/>
               </BindingProperties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txfStandortLaufendenummerActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Laufende Nr.:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Laufende Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortVerrechnungseinheit">
               <Properties>
-                <Property name="text" type="java.lang.String" value="V-Einheit:" noResource="true"/>
-                <Property name="toolTipText" type="java.lang.String" value="Verrechnungseinheit" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="V-Einheit:"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Verrechnungseinheit"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortStandortangabe">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Standortangabe:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Standortangabe:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfStandortStandortAngabe">
@@ -1241,23 +1296,14 @@
               </Properties>
               <BindingProperties>
                 <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.strassenschluessel}" target="cbxStandortStrassenschluesselNr" targetPath="selectedItem" updateStrategy="1" immediately="false">
-                  <Property name="name" type="java.lang.String" value="strassenschluesselnr" noResource="true"/>
+                  <Property name="name" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                    <PlainString value="strassenschluesselnr"/>
+                  </Property>
                 </BindingProperty>
               </BindingProperties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxStandortStrassenschluesselNrActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnTakeNextFreeNumber">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="N&#xe4;chste Nummer"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTakeNextFreeNumberActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="org.jdesktop.swingx.JXBusyLabel" name="blbCheck">
             </Component>
           </SubComponents>
         </Container>
@@ -1489,7 +1535,9 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblLeuchteLeuchtennummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Leuchtennummer:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Leuchtennummer:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLeuchteLeuchtennummer">
@@ -1507,7 +1555,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteEnergielieferant">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Energielieferant:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Energielieferant:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteEnergielieferant">
@@ -1526,7 +1576,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteSchaltstelle">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Schaltstelle:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Schaltstelle:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLeuchteSchaltstelle">
@@ -1544,7 +1596,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteRundsteuer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Rundsteuerempf&#xe4;nger:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Rundsteuerempf&#xe4;nger:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLeuchteRundsteuer">
@@ -1565,12 +1619,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteLeuchtentyp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Leuchtentyp:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Leuchtentyp:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteUnterhalt">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Unterhalt Leuchte:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Unterhalt Leuchte:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteUnterhalt">
@@ -1589,7 +1647,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteZaehler">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Z&#xe4;hler vorhanden:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Z&#xe4;hler vorhanden:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cboLeuchteZaehler">
@@ -1602,7 +1662,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteInbetriebnahme">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Inbetriebnahme:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Inbetriebnahme:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapLeuchteInbetriebnahme">
@@ -1619,12 +1681,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Laufende Nr.:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Laufende Nr.:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfLeuchteLaufendenummer">
@@ -1657,7 +1723,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteKenziffer">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kennziffer:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Kennziffer:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteLeuchtentyp">
@@ -1676,12 +1744,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteDoppelkommando1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Doppelkomando 1:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Doppelkomando 1:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteDoppelkommando2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Doppelkomando 2:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Doppelkomando 2:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="sprLeuchteDoppelkommando1Anzahl">
@@ -1744,7 +1816,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteMontagefirma">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Montagefirma:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Montagefirma:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfLeuchteMontagefirma">
@@ -1762,7 +1836,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteBemerkung">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Bemerkung:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Bemerkung:"/>
+                </Property>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="scpLeuchteBemerkung">
@@ -1829,7 +1905,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteStadtbezirk">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Stadtbezik:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Stadtbezik:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteStadtbezirk">
@@ -1848,7 +1926,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteStandortangabe">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Standortangabe:" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Standortangabe:"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfLeuchteStandortAngabe">
@@ -1861,8 +1941,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteVerrechnungseinheit">
               <Properties>
-                <Property name="text" type="java.lang.String" value="V-Einheit:" noResource="true"/>
-                <Property name="toolTipText" type="java.lang.String" value="Verrechnungseinheit" noResource="true"/>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="V-Einheit:"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <PlainString value="Verrechnungseinheit"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cboLeuchteVerrechnungseinheit">
@@ -1883,7 +1967,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/leuchte.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Leuchte" noResource="true"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Leuchte"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="sprLeuchte">
@@ -1944,7 +2030,9 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/abzweigdose.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Abzweigdose/Zugkasten" noResource="true"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <PlainString value="Abzweigdose/Zugkasten"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="sprLeuchte1">

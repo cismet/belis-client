@@ -179,7 +179,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     public WorkbenchWidget(final AdvancedPluginBroker broker) {
         super(broker);
         initComponents();
-        broker.getMappingComponent().getInputEventListener().put(BELIS_CREATE_MODE, new CreateNewBelisObjectListener(broker.getMappingComponent()));
+        broker.getMappingComponent().getInputEventListener().put(BELIS_CREATE_MODE, new CreateNewBelisObjectListener(broker.getMappingComponent(),PureNewFeature.class));
         broker.getMappingComponent().putCursor(BELIS_CREATE_MODE, broker.getMappingComponent().getCursor(MappingComponent.ZOOM));
         final FeatureCollection collection = broker.getMappingComponent().getFeatureCollection();
         if (collection != null) {
@@ -291,14 +291,12 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         if (!((BelisBroker) broker).validateWidgets()) {
                             log.debug("eventDispatched: One or more widgets are invalid. Informing user.");
                             final int anwser = ((BelisBroker) broker).askUser();
-//                            if (anwser == JOptionPane.YES_OPTION) {
-//                                log.debug("User wants to cancel changes.");
-//                            } else {
-//                                log.debug("User wants to correct validation, consuming event.");
-//                                ((MouseEvent) event).consume();
-//                            }
-                            log.debug("User has to correct validation, consuming event.");
-                            ((MouseEvent) event).consume();
+                            if (anwser == JOptionPane.YES_OPTION) {
+                                log.debug("User wants to cancel changes.");
+                            } else {
+                                log.debug("User wants to correct validation, consuming event.");
+                                ((MouseEvent) event).consume();
+                            }
                         } else {
                             log.debug("eventDispatched: Not consuming event. All Widgets are valid");
                         }
@@ -321,14 +319,12 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         if (!((BelisBroker) broker).validateWidgets()) {
                             log.debug("eventDispatched: One or more widgets are invalid. Informing user.");
                             final int anwser = ((BelisBroker) broker).askUser();
-//                            if (anwser == JOptionPane.YES_OPTION) {
-//                                log.debug("User wants to cancel changes.");
-//                            } else {
-//                                log.debug("User wants to correct validation, consuming event.");
-//                                ((KeyEvent) event).consume();
-//                            }
-                                log.debug("User has to correct validation, consuming event.");
+                            if (anwser == JOptionPane.YES_OPTION) {
+                                log.debug("User wants to cancel changes.");
+                            } else {
+                                log.debug("User wants to correct validation, consuming event.");
                                 ((KeyEvent) event).consume();
+                            }
                         } else {
                             log.debug("eventDispatched: Not consuming event. All Widgets are valid");
                         }
@@ -1695,8 +1691,8 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
 
     class CreateNewBelisObjectListener extends CreateGeometryListener {
 
-        public CreateNewBelisObjectListener(MappingComponent mc) {
-            super(mc);
+        public CreateNewBelisObjectListener(MappingComponent mc, Class geometryFeatureClass) {
+            super(mc, geometryFeatureClass);
         }
 
         @Override

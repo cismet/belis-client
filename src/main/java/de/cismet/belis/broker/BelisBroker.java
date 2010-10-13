@@ -1053,14 +1053,12 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
                 log.debug("selectionVetoCheck: One or more widgets are invalid. Informing user.");
                 final int answer = askUser();
                 log.debug("answer: " + answer);
-//                if (answer == JOptionPane.YES_OPTION) {
-//                    log.debug("selectionVetoCheck: User wants to cancel changes.");
-//                } else {
-//                    log.debug("selectionVetoCheck: User wants to correct validation, throwing veto exception.");
-//                    throw new VetoException();
-//                }
-                    log.debug("selectionVetoCheck: User has to correct validation, throwing veto exception.");
+                if (answer == JOptionPane.YES_OPTION) {
+                    log.debug("selectionVetoCheck: User wants to cancel changes.");
+                } else {
+                    log.debug("selectionVetoCheck: User wants to correct validation, throwing veto exception.");
                     throw new VetoException();
+                }
             } else {
                 log.debug("selectionVetoCheck: No veto all Widgets are valid.");
             }
@@ -1068,18 +1066,16 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
     }
 
     public int askUser() {
-        String string1 = "Ok";
-        //String string2 = "Nein";
+        String string1 = "Ja";
+        String string2 = "Nein";
 
-        Object[] options = {string1};
+        Object[] options = {string1, string2};
         return JOptionPane.showOptionDialog(StaticSwingTools.getParentFrame(getParentComponent()),
                 "<html><table width=\"400\" border=\"0\"><tr><td>Nicht alle Inhalte des ausgewählten Objektes sind korrekt.<p><br>" +
                 "Grund:<br>" +
                 "<b>" + getCurrentValidationErrorMessage() + "</b><p><br>" +
-                //"Wenn Sie das Objekt wechseln, werden die ungültigen Änderungen nicht übernommen. Möchten Sie trotzdem wechseln ?</td></tr></table></html>",
-                //"Achtung! Es gibt falsche Inhalte", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, string2);
-                "Das Objekt darf erst gewecheselt werden, wenn alle ungültigen Änderungen/Einträge beseitigt wurden.</td></tr></table></html>",
-                "Achtung! Es gibt falsche Inhalte", JOptionPane.OK_OPTION, JOptionPane.WARNING_MESSAGE, null, options, string1);
+                "Wenn Sie das Objekt wechseln, werden die ungültigen Änderungen nicht übernommen. Möchten Sie trotzdem wechseln ?</td></tr></table></html>",
+                "Achtung! Es gibt falsche Inhalte", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, string2);
     }
 
     public boolean isVetoCheckEnabled() {

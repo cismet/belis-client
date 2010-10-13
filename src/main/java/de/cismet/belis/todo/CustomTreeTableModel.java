@@ -6,7 +6,6 @@ package de.cismet.belis.todo;
 
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Standort;
 import de.cismet.belisEE.util.BelisEEUtils;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
@@ -56,9 +55,9 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
 
         setRoot(rootNode);
         insertNodeIntoAsLastChild(searchResultsNode, rootNode);
-        //insertNodeIntoAsLastChild(newObjectsNode, rootNode);
-        //ToDo disabled Functionality 04.05.2009
-        //insertNodeInto(processedObjectsNode, rootNode, rootNode.getChildCount());
+    //insertNodeIntoAsLastChild(newObjectsNode, rootNode);
+    //ToDo disabled Functionality 04.05.2009
+    //insertNodeInto(processedObjectsNode, rootNode, rootNode.getChildCount());
     }
 //
 //    public void restoreRemovedObjects(){
@@ -85,41 +84,11 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
     public Set getAllUserObjects() {
         Set allObjects = new TreeSet(new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
         for (TreeTableNode curNode : getAllNodes(rootNode)) {
-            if (curNode.getUserObject() != null && curNode.getUserObject() instanceof BaseEntity) {
+            if (curNode.getUserObject() != null) {
                 allObjects.add(curNode.getUserObject());
             }
         }
         return allObjects;
-    }
-
-    public short getNextHighestLaufendeNummerForStandort(Standort standort) {
-        short max = -1;
-        if (standort != null && standort.getKennziffer() != null && standort.getKennziffer().getKennziffer() != null && standort.getStrassenschluessel() != null) {
-            Set allUserObjects = getAllUserObjects();
-            if (allUserObjects != null) {                
-                for (Object curObject : allUserObjects) {
-                    if (!standort.equals(curObject) && curObject instanceof Standort) {
-                        final Standort curStandort = ((Standort)curObject);
-                        if (curStandort.getKennziffer() != null && curStandort.getKennziffer().getKennziffer() != null && curStandort.getKennziffer().getKennziffer().equals(standort.getKennziffer().getKennziffer()) && curStandort.getStrassenschluessel() != null && curStandort.getStrassenschluessel().equals(standort.getStrassenschluessel())) {
-                        if(curStandort.getLaufendeNummer() != null && curStandort.getLaufendeNummer() > max){
-                            max = curStandort.getLaufendeNummer();
-                        }                        
-                    } else {                      
-                    }
-                    }
-                }
-            } else {
-                return -1;
-            }
-        } else {
-            return -1;
-        }
-        if(max != -1){
-            return (short)(max+1);
-        } else {
-            return max;
-        }
-
     }
 
     public Set<TreeTableNode> getAllNodes(final TreeTableNode node) {
@@ -196,6 +165,7 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
                 }
         }
     }
+
 
 //    private synchronized void clearNewObjects(){
 //        final ArrayList objectsToRemove = new ArrayList();
