@@ -1,38 +1,73 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package de.cismet.belis.gui.widget;
+
+import org.apache.log4j.Logger;
+
+import java.util.Set;
 
 import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
 import de.cismet.commons.architecture.widget.DefaultWidget;
-import java.util.Set;
-import org.apache.log4j.Logger;
 
 /**
+ * DOCUMENT ME!
  *
- * @author spuhl
+ * @author   spuhl
+ * @version  $Revision$, $Date$
  */
-public class SearchResultWidget extends DefaultWidget{
+public class SearchResultWidget extends DefaultWidget {
 
-    
-    private final Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
-    Set searchResults = null;
+    //~ Static fields/initializers ---------------------------------------------
+
     public static final String PROP_SEARCH_RESULTS = "searchResults";
-    
-    public SearchResultWidget(AdvancedPluginBroker broker) {
+
+    //~ Instance fields --------------------------------------------------------
+
+    Set searchResults = null;
+
+    private final Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new SearchResultWidget object.
+     *
+     * @param  broker  DOCUMENT ME!
+     */
+    public SearchResultWidget(final AdvancedPluginBroker broker) {
         super(broker);
     }
 
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Set getSearchResults() {
         return searchResults;
     }
 
-    public void setSearchResults(Set searchResult) {
-        log.debug("Search Results set");
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  searchResult  DOCUMENT ME!
+     */
+    public void setSearchResults(final Set searchResult) {
+        if (log.isDebugEnabled()) {
+            log.debug("Search Results set");
+        }
         this.searchResults = searchResult;
         firePropertyChange(PROP_SEARCH_RESULTS, null, searchResult);
-    }        
-    
+    }
 }

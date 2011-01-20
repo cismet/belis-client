@@ -1,3 +1,10 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -8,20 +15,26 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics;
+
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * Good looking JTable
- * 
- * @author srichter
+ * Good looking JTable.
+ *
+ * @author   srichter
+ * @version  $Revision$, $Date$
  */
 public class StyleTable extends JTable {
 
+    //~ Static fields/initializers ---------------------------------------------
+
     public static final Color COLOR_TXT_BACK = new Color(230, 230, 230);
     public static final Color COLOR_TBL_SECOND = new Color(210, 210, 210);
+
+    //~ Methods ----------------------------------------------------------------
 
     @Override
     public void paint(final Graphics g) {
@@ -29,11 +42,16 @@ public class StyleTable extends JTable {
         paintEmptyRows(g);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  g  DOCUMENT ME!
+     */
     protected void paintEmptyRows(final Graphics g) {
         final int rowCount = getRowCount();
         final java.awt.Rectangle bounds = g.getClipBounds();
-        if (rowCount * rowHeight < bounds.height) {
-            for (int i = rowCount; i <= bounds.height / rowHeight; ++i) {
+        if ((rowCount * rowHeight) < bounds.height) {
+            for (int i = rowCount; i <= (bounds.height / rowHeight); ++i) {
                 g.setColor(colorForRow(i));
                 g.fillRect(bounds.x, i * rowHeight, bounds.width, rowHeight);
             }
@@ -41,26 +59,30 @@ public class StyleTable extends JTable {
     }
 
     /**
-     * Changes the behavior of a table in a JScrollPane to be more like
-     * the behavior of JList, which expands to fill the available space.
-     * JTable normally restricts its size to just what's needed by its
-     * model.
+     * Changes the behavior of a table in a JScrollPane to be more like the behavior of JList, which expands to fill the
+     * available space. JTable normally restricts its size to just what's needed by its model.
+     *
+     * @return  DOCUMENT ME!
      */
     @Override
     public boolean getScrollableTracksViewportHeight() {
         final Container parent = getParent();
         if (parent instanceof JViewport) {
-            final JViewport view = (JViewport) parent;
+            final JViewport view = (JViewport)parent;
             return (view.getHeight() > getPreferredSize().height);
         }
         return false;
     }
 
     /**
-     * Calculate Background color for a given row
+     * Calculate Background color for a given row.
+     *
+     * @param   row  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
      */
     protected Color colorForRow(final int row) {
-        return (row % 2 == 0) ? COLOR_TXT_BACK : COLOR_TBL_SECOND;
+        return ((row % 2) == 0) ? COLOR_TXT_BACK : COLOR_TBL_SECOND;
     }
 
     @Override

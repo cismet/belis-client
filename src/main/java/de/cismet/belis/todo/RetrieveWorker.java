@@ -1,21 +1,37 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package de.cismet.belis.todo;
 
-import de.cismet.belis.broker.BelisBroker;
-import de.cismet.belisEE.bean.interfaces.ObjectKey;
-import de.cismet.cismap.commons.BoundingBox;
-import de.cismet.commons.server.entity.BaseEntity;
 import java.util.Set;
+
 import javax.swing.SwingWorker;
 
+import de.cismet.belis.broker.BelisBroker;
+
+import de.cismet.belisEE.bean.interfaces.ObjectKey;
+
+import de.cismet.cismap.commons.BoundingBox;
+
+import de.cismet.commons.server.entity.BaseEntity;
+
 /**
+ * DOCUMENT ME!
  *
- * @author spuhl
+ * @author   spuhl
+ * @version  $Revision$, $Date$
  */
 public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
+
+    //~ Instance fields --------------------------------------------------------
 
     private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(RetrieveWorker.class);
     private String strassenschluessel;
@@ -24,18 +40,46 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
     private BoundingBox boundingBox;
     private BelisBroker broker;
 
-    public RetrieveWorker(BelisBroker broker, String strassenschluessel, String kennziffer, String laufendenummer) {
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new RetrieveWorker object.
+     *
+     * @param  broker       DOCUMENT ME!
+     * @param  boundingBox  DOCUMENT ME!
+     */
+    public RetrieveWorker(final BelisBroker broker, final BoundingBox boundingBox) {
+        this.broker = broker;
+        this.boundingBox = boundingBox;
+    }
+
+    /**
+     * Creates a new RetrieveWorker object.
+     *
+     * @param  broker              DOCUMENT ME!
+     * @param  strassenschluessel  DOCUMENT ME!
+     * @param  kennziffer          DOCUMENT ME!
+     * @param  laufendenummer      DOCUMENT ME!
+     */
+    public RetrieveWorker(final BelisBroker broker,
+            final String strassenschluessel,
+            final String kennziffer,
+            final String laufendenummer) {
         this.broker = broker;
         this.strassenschluessel = strassenschluessel;
         try {
-            log.debug("parsing String: " + kennziffer + " to Short");
+            if (log.isDebugEnabled()) {
+                log.debug("parsing String: " + kennziffer + " to Short");
+            }
             this.kennziffer = Short.parseShort(kennziffer);
         } catch (NumberFormatException ex) {
             log.info("Kennziffer is no Short: " + kennziffer, ex);
             this.kennziffer = null;
         }
         try {
-            log.debug("parsing String: " + laufendenummer + " to Short");
+            if (log.isDebugEnabled()) {
+                log.debug("parsing String: " + laufendenummer + " to Short");
+            }
             this.laufendenummer = Short.parseShort(laufendenummer);
         } catch (NumberFormatException ex) {
             log.info("Kennziffer is no Short: " + laufendenummer, ex);
@@ -43,20 +87,21 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
         }
     }
 
-    public RetrieveWorker(BelisBroker broker, BoundingBox boundingBox) {
-        this.broker = broker;
-        this.boundingBox = boundingBox;
-    }
+    //~ Methods ----------------------------------------------------------------
 
+    @Override
     protected Set<BaseEntity> doInBackground() throws Exception {
         if (boundingBox != null) {
             return broker.search(boundingBox);
         } else {
-            log.debug("Strassenschluessel: " + strassenschluessel);
+            if (log.isDebugEnabled()) {
+                log.debug("Strassenschluessel: " + strassenschluessel);
+            }
             return broker.search(strassenschluessel, kennziffer, laufendenummer);
         }
     }
 
+    @Override
     protected void done() {
         broker.fireSearchFinished();
         if (isCancelled()) {
@@ -82,7 +127,9 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
 //                    } else {
 //                        log.debug("Unbekannte Klasse");
         try {
-            log.debug("Ergebniss: " + get());
+            if (log.isDebugEnabled()) {
+                log.debug("Ergebniss: " + get());
+            }
         } catch (Exception ex) {
             log.error("Failure during processing RetrieveWorker results", ex);
             return;
@@ -94,22 +141,47 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
 //        }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public BoundingBox getBoundingBox() {
         return boundingBox;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public BelisBroker getBroker() {
         return broker;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Short getKennziffer() {
         return kennziffer;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Short getLaufendenummer() {
         return laufendenummer;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getStrassenschluessel() {
         return strassenschluessel;
     }

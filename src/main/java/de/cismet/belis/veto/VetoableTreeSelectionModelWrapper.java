@@ -1,3 +1,10 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -5,7 +12,9 @@
 package de.cismet.belis.veto;
 
 import java.beans.PropertyChangeListener;
+
 import java.util.ArrayList;
+
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.RowMapper;
@@ -13,26 +22,40 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
+ * DOCUMENT ME!
  *
- * @author spuhl
+ * @author   spuhl
+ * @version  $Revision$, $Date$
  */
 public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
 
-    private final ArrayList<VetoableTreeSelectionListener> m_vetoableTreeSelectionListeners = new ArrayList<VetoableTreeSelectionListener>();
+    //~ Instance fields --------------------------------------------------------
+
+    private final ArrayList<VetoableTreeSelectionListener> m_vetoableTreeSelectionListeners =
+        new ArrayList<VetoableTreeSelectionListener>();
     private TreeSelectionModel m_treeSelectionModel = null;
 
-    public VetoableTreeSelectionModelWrapper(TreeSelectionModel treeSelectionModel) {
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new VetoableTreeSelectionModelWrapper object.
+     *
+     * @param  treeSelectionModel  DOCUMENT ME!
+     */
+    public VetoableTreeSelectionModelWrapper(final TreeSelectionModel treeSelectionModel) {
         if (treeSelectionModel != null) {
             m_treeSelectionModel = treeSelectionModel;
         } else {
             m_treeSelectionModel = new DefaultTreeSelectionModel();
         }
-
     }
+
+    //~ Methods ----------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addTreeSelectionListener(final TreeSelectionListener listener) {
         m_treeSelectionModel.addTreeSelectionListener(listener);
     }
@@ -40,23 +63,24 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeTreeSelectionListener(final TreeSelectionListener listener) {
         m_treeSelectionModel.removeTreeSelectionListener(listener);
     }
 
     /**
-     * Add a vetoable tree selection listener
+     * Add a vetoable tree selection listener.
      *
-     * @param listener the listener
+     * @param  listener  the listener
      */
     public void addVetoableTreeSelectionListener(final VetoableTreeSelectionListener listener) {
         m_vetoableTreeSelectionListeners.add(listener);
     }
 
     /**
-     * Remove a vetoable tree selection listener
+     * Remove a vetoable tree selection listener.
      *
-     * @param listener the listener
+     * @param  listener  the listener
      */
     public void removeVetoableTreeSelectionListener(final VetoableTreeSelectionListener listener) {
         m_vetoableTreeSelectionListeners.remove(listener);
@@ -65,6 +89,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addPropertyChangeListener(final PropertyChangeListener listener) {
         m_treeSelectionModel.addPropertyChangeListener(listener);
     }
@@ -72,6 +97,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removePropertyChangeListener(final PropertyChangeListener listener) {
         m_treeSelectionModel.removePropertyChangeListener(listener);
     }
@@ -79,9 +105,10 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addSelectionPath(final TreePath path) {
         try {
-            for (VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
+            for (final VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
                 curListener.aboutToAddSelectionPath(path);
             }
 
@@ -94,9 +121,10 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addSelectionPaths(final TreePath[] paths) {
         try {
-            for (VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
+            for (final VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
                 curListener.aboutToAddSelectionPaths(paths);
             }
 
@@ -109,9 +137,10 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clearSelection() {
         try {
-            for (VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
+            for (final VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
                 curListener.aboutToClearSelection();
             }
 
@@ -124,6 +153,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public TreePath getLeadSelectionPath() {
         return m_treeSelectionModel.getLeadSelectionPath();
     }
@@ -131,6 +161,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getLeadSelectionRow() {
         return m_treeSelectionModel.getLeadSelectionRow();
     }
@@ -138,6 +169,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getMaxSelectionRow() {
         return m_treeSelectionModel.getMaxSelectionRow();
     }
@@ -145,6 +177,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getMinSelectionRow() {
         return m_treeSelectionModel.getMinSelectionRow();
     }
@@ -152,6 +185,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public RowMapper getRowMapper() {
         return m_treeSelectionModel.getRowMapper();
     }
@@ -159,10 +193,12 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getSelectionCount() {
         return m_treeSelectionModel.getSelectionCount();
     }
 
+    @Override
     public int getSelectionMode() {
         return m_treeSelectionModel.getSelectionMode();
     }
@@ -170,6 +206,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public TreePath getSelectionPath() {
         return m_treeSelectionModel.getSelectionPath();
     }
@@ -177,6 +214,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public TreePath[] getSelectionPaths() {
         return m_treeSelectionModel.getSelectionPaths();
     }
@@ -184,6 +222,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int[] getSelectionRows() {
         return m_treeSelectionModel.getSelectionRows();
     }
@@ -191,6 +230,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isPathSelected(final TreePath path) {
         return m_treeSelectionModel.isPathSelected(path);
     }
@@ -198,6 +238,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isRowSelected(final int row) {
         return m_treeSelectionModel.isRowSelected(row);
     }
@@ -205,6 +246,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isSelectionEmpty() {
         return m_treeSelectionModel.isSelectionEmpty();
     }
@@ -212,9 +254,10 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeSelectionPath(final TreePath path) {
         try {
-            for (VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
+            for (final VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
                 curListener.aboutRemoveSelectionPath(path);
             }
 
@@ -227,9 +270,10 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeSelectionPaths(final TreePath[] paths) {
         try {
-            for (VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
+            for (final VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
                 curListener.aboutRemoveSelectionPaths(paths);
             }
 
@@ -242,9 +286,10 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void resetRowSelection() {
         try {
-            for (VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
+            for (final VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
                 curListener.aboutToResetRowSelection();
             }
 
@@ -257,6 +302,7 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setRowMapper(final RowMapper newMapper) {
         m_treeSelectionModel.setRowMapper(newMapper);
     }
@@ -264,9 +310,10 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSelectionMode(final int mode) {
         try {
-            for (VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
+            for (final VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
                 curListener.aboutToSetSelectionMode(mode);
             }
 
@@ -279,9 +326,10 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSelectionPath(final TreePath path) {
         try {
-            for (VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
+            for (final VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
                 curListener.aboutToSetSelectionPath(path);
             }
 
@@ -294,9 +342,10 @@ public class VetoableTreeSelectionModelWrapper implements TreeSelectionModel {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSelectionPaths(final TreePath[] paths) {
         try {
-            for (VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
+            for (final VetoableTreeSelectionListener curListener : m_vetoableTreeSelectionListeners) {
                 curListener.aboutToSetSelectionPaths(paths);
             }
 

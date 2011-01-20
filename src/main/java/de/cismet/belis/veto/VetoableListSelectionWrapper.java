@@ -1,3 +1,10 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -5,45 +12,69 @@
 package de.cismet.belis.veto;
 
 import java.util.ArrayList;
+
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 
 /**
+ * DOCUMENT ME!
  *
- * @author spuhl
+ * @author   spuhl
+ * @version  $Revision$, $Date$
  */
 public class VetoableListSelectionWrapper implements ListSelectionModel {
 
-    private final ArrayList<VetoableListSelectionListener> vetoableListSelectionListener = new ArrayList<VetoableListSelectionListener>();
+    //~ Instance fields --------------------------------------------------------
+
+    private final ArrayList<VetoableListSelectionListener> vetoableListSelectionListener =
+        new ArrayList<VetoableListSelectionListener>();
     private ListSelectionModel listSelectionModel = null;
 
-    public void addVetoableTreeSelectionListener(final VetoableListSelectionListener listener) {
-        vetoableListSelectionListener.add(listener);
-    }
+    //~ Constructors -----------------------------------------------------------
 
-    public void removeVetoableTreeSelectionListener(final VetoableListSelectionListener listener) {
-        vetoableListSelectionListener.remove(listener);
-    }
-
-    public VetoableListSelectionWrapper(ListSelectionModel listSelectionModel) {
+    /**
+     * Creates a new VetoableListSelectionWrapper object.
+     *
+     * @param  listSelectionModel  DOCUMENT ME!
+     */
+    public VetoableListSelectionWrapper(final ListSelectionModel listSelectionModel) {
         if (listSelectionModel != null) {
             this.listSelectionModel = listSelectionModel;
         } else {
             this.listSelectionModel = new DefaultListSelectionModel();
         }
+    }
 
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void addVetoableTreeSelectionListener(final VetoableListSelectionListener listener) {
+        vetoableListSelectionListener.add(listener);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void removeVetoableTreeSelectionListener(final VetoableListSelectionListener listener) {
+        vetoableListSelectionListener.remove(listener);
     }
 
     @Override
-    public void addListSelectionListener(ListSelectionListener x) {
+    public void addListSelectionListener(final ListSelectionListener x) {
         listSelectionModel.addListSelectionListener(x);
     }
 
     @Override
-    public void addSelectionInterval(int index0, int index1) {
+    public void addSelectionInterval(final int index0, final int index1) {
         try {
-            for (VetoableListSelectionListener curListener : vetoableListSelectionListener) {
+            for (final VetoableListSelectionListener curListener : vetoableListSelectionListener) {
                 curListener.fireListSelectionVeto();
             }
 
@@ -56,7 +87,7 @@ public class VetoableListSelectionWrapper implements ListSelectionModel {
     @Override
     public void clearSelection() {
         try {
-            for (VetoableListSelectionListener curListener : vetoableListSelectionListener) {
+            for (final VetoableListSelectionListener curListener : vetoableListSelectionListener) {
                 curListener.fireListSelectionVeto();
             }
 
@@ -97,9 +128,9 @@ public class VetoableListSelectionWrapper implements ListSelectionModel {
     }
 
     @Override
-    public void insertIndexInterval(int index, int length, boolean before) {
+    public void insertIndexInterval(final int index, final int length, final boolean before) {
         try {
-            for (VetoableListSelectionListener curListener : vetoableListSelectionListener) {
+            for (final VetoableListSelectionListener curListener : vetoableListSelectionListener) {
                 curListener.fireListSelectionVeto();
             }
 
@@ -110,7 +141,7 @@ public class VetoableListSelectionWrapper implements ListSelectionModel {
     }
 
     @Override
-    public boolean isSelectedIndex(int index) {
+    public boolean isSelectedIndex(final int index) {
         return listSelectionModel.isSelectedIndex(index);
     }
 
@@ -120,9 +151,9 @@ public class VetoableListSelectionWrapper implements ListSelectionModel {
     }
 
     @Override
-    public void removeIndexInterval(int index0, int index1) {
+    public void removeIndexInterval(final int index0, final int index1) {
         try {
-            for (VetoableListSelectionListener curListener : vetoableListSelectionListener) {
+            for (final VetoableListSelectionListener curListener : vetoableListSelectionListener) {
                 curListener.fireListSelectionVeto();
             }
             listSelectionModel.removeIndexInterval(index0, index1);
@@ -132,14 +163,15 @@ public class VetoableListSelectionWrapper implements ListSelectionModel {
     }
 
     @Override
-    public void removeListSelectionListener(ListSelectionListener x) {
-        listSelectionModel.removeListSelectionListener(x);;
+    public void removeListSelectionListener(final ListSelectionListener x) {
+        listSelectionModel.removeListSelectionListener(x);
+        ;
     }
 
     @Override
-    public void removeSelectionInterval(int index0, int index1) {
-         try {
-            for (VetoableListSelectionListener curListener : vetoableListSelectionListener) {
+    public void removeSelectionInterval(final int index0, final int index1) {
+        try {
+            for (final VetoableListSelectionListener curListener : vetoableListSelectionListener) {
                 curListener.fireListSelectionVeto();
             }
             listSelectionModel.removeSelectionInterval(index0, index1);
@@ -149,9 +181,9 @@ public class VetoableListSelectionWrapper implements ListSelectionModel {
     }
 
     @Override
-    public void setAnchorSelectionIndex(int index) {
+    public void setAnchorSelectionIndex(final int index) {
         try {
-            for (VetoableListSelectionListener curListener : vetoableListSelectionListener) {
+            for (final VetoableListSelectionListener curListener : vetoableListSelectionListener) {
                 curListener.fireListSelectionVeto();
             }
             listSelectionModel.setAnchorSelectionIndex(index);
@@ -161,9 +193,9 @@ public class VetoableListSelectionWrapper implements ListSelectionModel {
     }
 
     @Override
-    public void setLeadSelectionIndex(int index) {
+    public void setLeadSelectionIndex(final int index) {
         try {
-            for (VetoableListSelectionListener curListener : vetoableListSelectionListener) {
+            for (final VetoableListSelectionListener curListener : vetoableListSelectionListener) {
                 curListener.fireListSelectionVeto();
             }
             listSelectionModel.setLeadSelectionIndex(index);
@@ -173,9 +205,9 @@ public class VetoableListSelectionWrapper implements ListSelectionModel {
     }
 
     @Override
-    public void setSelectionInterval(int index0, int index1) {
+    public void setSelectionInterval(final int index0, final int index1) {
         try {
-            for (VetoableListSelectionListener curListener : vetoableListSelectionListener) {
+            for (final VetoableListSelectionListener curListener : vetoableListSelectionListener) {
                 curListener.fireListSelectionVeto();
             }
             listSelectionModel.setSelectionInterval(index0, index1);
@@ -185,9 +217,9 @@ public class VetoableListSelectionWrapper implements ListSelectionModel {
     }
 
     @Override
-    public void setSelectionMode(int selectionMode) {
-         try {
-            for (VetoableListSelectionListener curListener : vetoableListSelectionListener) {
+    public void setSelectionMode(final int selectionMode) {
+        try {
+            for (final VetoableListSelectionListener curListener : vetoableListSelectionListener) {
                 curListener.fireListSelectionVeto();
             }
             listSelectionModel.setSelectionMode(selectionMode);
@@ -197,7 +229,7 @@ public class VetoableListSelectionWrapper implements ListSelectionModel {
     }
 
     @Override
-    public void setValueIsAdjusting(boolean valueIsAdjusting) {
+    public void setValueIsAdjusting(final boolean valueIsAdjusting) {
         listSelectionModel.setValueIsAdjusting(valueIsAdjusting);
     }
 }
