@@ -91,8 +91,7 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
 
         setRoot(rootNode);
         insertNodeIntoAsLastChild(searchResultsNode, rootNode);
-        // insertNodeIntoAsLastChild(newObjectsNode, rootNode);
-        // ToDo disabled Functionality 04.05.2009
+        // insertNodeIntoAsLastChild(newObjectsNode, rootNode); ToDo disabled Functionality 04.05.2009
         // insertNodeInto(processedObjectsNode, rootNode, rootNode.getChildCount());
     }
 //
