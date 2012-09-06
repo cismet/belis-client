@@ -73,6 +73,7 @@ import de.cismet.cismap.commons.BoundingBox;
 
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.interfaces.Geom;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * s * DOCUMENT ME!
@@ -234,9 +235,10 @@ public final class EJBroker implements BelisServerRemote {
                 (int)((screen.getHeight() / 2) - oldDim.getHeight()),
                 (int)oldDim.getWidth(),
                 (int)oldDim.getHeight());
-        } else if ((parentFrame != null) && parentFrame.isVisible()) {
-            brokenConnectionDialog.setLocationRelativeTo(parentFrame);
-        }
+        } 
+//        else if ((parentFrame != null) && parentFrame.isVisible()) {
+//            brokenConnectionDialog.setLocationRelativeTo(parentFrame);
+//        }
         // ejbReconnectorPanel.getPb().setVisible(false);
     }
     /**
@@ -336,7 +338,7 @@ public final class EJBroker implements BelisServerRemote {
                         log.debug("Dialog noch nicht sichtbar --> zeige an");
                     }
                     initBrokenConnectionDialog();
-                    brokenConnectionDialog.setVisible(true);
+                    StaticSwingTools.showDialog(brokenConnectionDialog);
                 }
             } else {
                 if (log.isDebugEnabled()) {

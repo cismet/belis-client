@@ -725,8 +725,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
         dialog.setIconImage(((ImageIcon)BelisIcons.icoError16).getImage());
         dialog.add(lockPanel);
         dialog.pack();
-        dialog.setLocationRelativeTo(getParentComponent());
-        dialog.setVisible(true);
+        StaticSwingTools.showDialog(dialog);
     }
 
     @Override
@@ -738,8 +737,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
         dialog.setIconImage(((ImageIcon)BelisIcons.icoError16).getImage());
         dialog.add(new SaveErrorDialogPanel());
         dialog.pack();
-        dialog.setLocationRelativeTo(getParentComponent());
-        dialog.setVisible(true);
+        StaticSwingTools.showDialog(dialog);
     }
 
     @Override
@@ -759,8 +757,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
 
                 @Override
                 public void run() {
-                    cancelWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
-                    cancelWaitDialog.setVisible(true);
+                    StaticSwingTools.showDialog(cancelWaitDialog);
                 }
             });
     }
@@ -776,8 +773,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
 
                 @Override
                 public void run() {
-                    saveWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
-                    saveWaitDialog.setVisible(true);
+                    StaticSwingTools.showDialog(saveWaitDialog);
                 }
             });
     }
@@ -1218,8 +1214,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
 
                 @Override
                 public void run() {
-                    searchWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
-                    searchWaitDialog.setVisible(true);
+                    StaticSwingTools.showDialog(searchWaitDialog);
                 }
             });
         for (final JButton curControl : editControls) {
