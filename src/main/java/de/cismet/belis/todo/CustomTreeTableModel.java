@@ -27,11 +27,12 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.belisEE.entity.Leuchte;
-
-import de.cismet.belisEE.util.BelisEEUtils;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
+
+import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.features.Feature;
 
@@ -277,7 +278,7 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
                         log.debug("checking id");
                     }
                     try {
-                        if (BelisEEUtils.getEntityId(curNode.getUserObject()) == null) {
+                        if (((CidsBean)curNode.getUserObject()).getProperty("id") == null) {
                             try {
                                 if (log.isDebugEnabled()) {
                                     log.debug("ID of entity is null. Will be removed.");
@@ -292,7 +293,7 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
                                     broker.getMappingComponent()
                                             .getFeatureCollection()
                                             .removeFeature((Feature)curNode.getUserObject());
-                                } else if ((curNode.getUserObject() instanceof Leuchte)
+                                } else if ((curNode.getUserObject() instanceof TdtaLeuchteCustomBean)
                                             && ((BelisBroker)broker).getWorkbenchWidget().isNodeHaengeLeuchte(
                                                 curNode)) {
                                     if (log.isDebugEnabled()) {
@@ -301,7 +302,8 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
                                     broker.getMappingComponent()
                                             .getFeatureCollection()
                                             .removeFeature(((BelisBroker)broker).getWorkbenchWidget()
-                                                .getVirtualStandortForLeuchte((Leuchte)curNode.getUserObject()));
+                                                .getVirtualStandortForLeuchte(
+                                                    (TdtaLeuchteCustomBean)curNode.getUserObject()));
                                 }
                             } catch (Exception ex) {
                                 log.warn("error while removing geometry from Map", ex);

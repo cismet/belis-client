@@ -18,8 +18,8 @@ import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.util.BelisIcons;
 
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Standort;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
 import de.cismet.commons.architecture.interfaces.Editable;
 

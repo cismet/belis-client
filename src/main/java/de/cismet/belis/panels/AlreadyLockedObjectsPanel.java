@@ -24,7 +24,7 @@ import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
 
-import de.cismet.belisEE.entity.Lock;
+import de.cismet.cids.custom.beans.belis.SperreCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -43,7 +43,7 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
     protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     BindingGroup bindingGroup2 = new BindingGroup();
 
-    private ArrayList<Lock> lockedObjects;
+    private ArrayList<SperreCustomBean> lockedObjects;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -59,7 +59,7 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
      *
      * @param  lockedObjects  DOCUMENT ME!
      */
-    public AlreadyLockedObjectsPanel(final ArrayList<Lock> lockedObjects) {
+    public AlreadyLockedObjectsPanel(final ArrayList<SperreCustomBean> lockedObjects) {
         this.lockedObjects = lockedObjects;
         initComponents();
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -183,7 +183,7 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public ArrayList<Lock> getLockedObjects() {
+    public ArrayList<SperreCustomBean> getLockedObjects() {
         return lockedObjects;
     }
 
@@ -192,7 +192,7 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
      *
      * @param  lockedObjects  DOCUMENT ME!
      */
-    public void setLockedObjects(final ArrayList<Lock> lockedObjects) {
+    public void setLockedObjects(final ArrayList<SperreCustomBean> lockedObjects) {
         this.lockedObjects = lockedObjects;
         propertyChangeSupport.firePropertyChange(PROP_LOCKED_OBJECTS, null, lockedObjects);
     }
@@ -202,16 +202,16 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
  *
  * @version  $Revision$, $Date$
  */
-class LockConverter extends Converter<ArrayList<Lock>, DefaultTableModel> {
+class LockConverter extends Converter<ArrayList<SperreCustomBean>, DefaultTableModel> {
 
     //~ Instance fields --------------------------------------------------------
 
-    private ArrayList<Lock> lockedObjects;
+    private ArrayList<SperreCustomBean> lockedObjects;
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    public DefaultTableModel convertForward(final ArrayList<Lock> lockedObjects) {
+    public DefaultTableModel convertForward(final ArrayList<SperreCustomBean> lockedObjects) {
         this.lockedObjects = lockedObjects;
         Object[][] rows = null;
         if ((lockedObjects != null) && (lockedObjects.size() != 0)) {
@@ -220,7 +220,7 @@ class LockConverter extends Converter<ArrayList<Lock>, DefaultTableModel> {
             rows = new Object[0][2];
         }
         int row = 0;
-        for (final Lock curLock : lockedObjects) {
+        for (final SperreCustomBean curLock : lockedObjects) {
             rows[row][0] = curLock.getUserString();
             rows[row][1] = curLock.getTimestamp();
             row++;
@@ -244,7 +244,7 @@ class LockConverter extends Converter<ArrayList<Lock>, DefaultTableModel> {
     }
 
     @Override
-    public ArrayList<Lock> convertReverse(final DefaultTableModel arg0) {
+    public ArrayList<SperreCustomBean> convertReverse(final DefaultTableModel arg0) {
         return lockedObjects;
     }
 }

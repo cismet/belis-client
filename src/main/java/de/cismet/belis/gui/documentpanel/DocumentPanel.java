@@ -63,7 +63,7 @@ import javax.swing.TransferHandler.TransferSupport;
 
 import de.cismet.belis.gui.utils.UIUtils;
 
-import de.cismet.belisEE.entity.DmsUrl;
+import de.cismet.cids.custom.beans.belis.DmsUrlCustomBean;
 
 import de.cismet.tools.gui.documents.DocumentListModel;
 
@@ -108,7 +108,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
     private int busyIconIndex = 0;
     private SwingWorker<ImageIcon, Void> previewWorker;
     // private DocumentContainer currentEntity = null;
-    private Set<DmsUrl> dokumente = null;
+    private Set<DmsUrlCustomBean> dokumente = null;
     private boolean inEditMode = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -189,7 +189,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public Set<DmsUrl> getDokumente() {
+    public Set<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
 
@@ -198,7 +198,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      *
      * @param  dokumente  DOCUMENT ME!
      */
-    public void setDokumente(final Set<DmsUrl> dokumente) {
+    public void setDokumente(final Set<DmsUrlCustomBean> dokumente) {
         if (log.isDebugEnabled()) {
             log.debug("setDokumente");
         }
@@ -227,8 +227,8 @@ public final class DocumentPanel extends javax.swing.JPanel {
 //    }
     private void openSelectionInBrowser() {
         final Object sel = lstDocList.getSelectedValue();
-        if (sel instanceof DmsUrl) {
-            final DmsUrl dmsUrl = (DmsUrl)sel;
+        if (sel instanceof DmsUrlCustomBean) {
+            final DmsUrlCustomBean dmsUrl = (DmsUrlCustomBean)sel;
             if (dmsUrl.getUrl() != null) {
                 final URL u = dmsUrl.getUrl().getURL();
                 if (u != null) {
@@ -253,7 +253,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
                 urlString);
         if ((description != null) && (description.length() > 0)) {
             // docListModel.addElement(DmsUrl.createDmsURLFromLink(urlString, description));
-            model.add(DmsUrl.createDmsURLFromLink(urlString, description));
+            model.add(DmsUrlCustomBean.createDmsURLFromLink(urlString, description));
         } else {
             // cancel case
             return;
@@ -443,8 +443,8 @@ public final class DocumentPanel extends javax.swing.JPanel {
         lblPreview.setText("");
         final Object toCast = lstDocList.getSelectedValue();
         if (toCast != null) {
-            if (toCast instanceof DmsUrl) {
-                final DmsUrl url = (DmsUrl)toCast;
+            if (toCast instanceof DmsUrlCustomBean) {
+                final DmsUrlCustomBean url = (DmsUrlCustomBean)toCast;
                 final File document = url.toFile();
                 if (document != null) {
                     busyIconTimer.start();
@@ -584,10 +584,10 @@ public final class DocumentPanel extends javax.swing.JPanel {
                         public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException,
                             IOException {
                             final Object[] vals = lstDocList.getSelectedValues();
-                            final List<DmsUrl> urlList = new ArrayList<DmsUrl>();
+                            final List<DmsUrlCustomBean> urlList = new ArrayList<DmsUrlCustomBean>();
                             for (final Object o : vals) {
-                                if (o instanceof DmsUrl) {
-                                    urlList.add((DmsUrl)o);
+                                if (o instanceof DmsUrlCustomBean) {
+                                    urlList.add((DmsUrlCustomBean)o);
                                 }
                             }
                             return urlList;

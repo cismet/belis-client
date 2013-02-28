@@ -18,7 +18,6 @@ package de.cismet.belis.broker;
 import org.apache.commons.collections.comparators.ReverseComparator;
 
 import org.jdesktop.beansbinding.BindingGroup;
-import org.jdesktop.swingx.search.TreeSearchable;
 
 import org.jdom.Element;
 
@@ -37,7 +36,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JToolBar;
 import javax.swing.tree.TreePath;
 
 import de.cismet.belis.gui.search.AddressSearchControl;
@@ -59,22 +57,22 @@ import de.cismet.belis.todo.RetrieveWorker;
 
 import de.cismet.belis.util.BelisIcons;
 
-import de.cismet.belisEE.entity.Doppelkommando;
-import de.cismet.belisEE.entity.Leitung;
-import de.cismet.belisEE.entity.Leitungstyp;
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Lock;
-import de.cismet.belisEE.entity.Mauerlasche;
-import de.cismet.belisEE.entity.Standort;
-import de.cismet.belisEE.entity.Strassenschluessel;
-import de.cismet.belisEE.entity.UnterhaltLeuchte;
-import de.cismet.belisEE.entity.UnterhaltMast;
-
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
 
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
+
+import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
+import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.SperreCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
 
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.features.DefaultFeatureCollection;
@@ -112,9 +110,9 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BelisBroker.class);
     public static final String PROP_CURRENT_SEARCH_RESULTS = "currentSearchResults";
-    private static UnterhaltMast defaultUnterhaltMast = null;
-    private static UnterhaltLeuchte defaultUnterhaltLeuchte = null;
-    private static Doppelkommando defaultDoppelkommando1 = null;
+    private static TkeyUnterhMastCustomBean defaultUnterhaltMast = null;
+    private static TkeyUnterhLeuchteCustomBean defaultUnterhaltLeuchte = null;
+    private static TkeyDoppelkommandoCustomBean defaultDoppelkommando1 = null;
     public static final String[] jxDatePickerFormats = new String[] { "dd.MM.yyyy", "ddMMyy", "ddMMyyyy" };
 
     //~ Instance fields --------------------------------------------------------
@@ -139,9 +137,9 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
     private CancelWaitDialog cancelWaitDialog = null;
     private RetrieveWorker lastSearch = null;
     private DetailWidget detailWidget;
-    private Leitungstyp lastLeitungstyp = null;
+    private LeitungstypCustomBean lastLeitungstyp = null;
     private boolean vetoCheckEnabled = true;
-    private Strassenschluessel lastMauerlascheStrassenschluessel;
+    private TkeyStrassenschluesselCustomBean lastMauerlascheStrassenschluessel;
     private BindingGroup bindingGroup2 = new BindingGroup();
     // I Think the single components should register the properties they want to bind and broker only binds them that
     // would be fine bind Workbench to Details maybe if another applications needs the same feature or if it is used
@@ -212,7 +210,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
             throws ActionNotSuccessfulException {
         // ToDo remove method
         clearMap();
-        final Set result = EJBroker.getInstance().getObjectsByKey(strassenschluessel, kennziffer, laufendenummer);
+        final Set result = CidsBroker.getInstance().getObjectsByKey(strassenschluessel, kennziffer, laufendenummer);
         // ToDo should be checked if is in EDT
         if (result != null) {
             if (log.isDebugEnabled()) {
@@ -310,7 +308,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
         Set result = null;
         try {
             clearMap();
-            result = EJBroker.getInstance().getObjectsByBoundingBox(bb);
+            result = CidsBroker.getInstance().getObjectsByBoundingBox(bb);
             if (result != null) {
                 if (log.isDebugEnabled()) {
                     log.debug("Search results: " + result.size());
@@ -358,24 +356,25 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
                     }
                     featuresToAdd.add((StyledFeature)currentResult);
                     // getMappingComponent().getFeatureCollection().addFeature((StyledFeature) currentResult);
-                    if ((currentResult instanceof Standort) && (((Standort)currentResult).getLeuchten() != null)) {
+                    if ((currentResult instanceof TdtaStandortMastCustomBean)
+                                && (((TdtaStandortMastCustomBean)currentResult).getLeuchten() != null)) {
                         if (log.isDebugEnabled()) {
                             log.debug(
                                 "SearchResult is instance of Standort and owns Leuchte objects --> also adding to Map");
                         }
-                        addEntityRecursiveToMap(((Standort)currentResult).getLeuchten());
+                        addEntityRecursiveToMap(((TdtaStandortMastCustomBean)currentResult).getLeuchten());
                     }
-                    if (currentResult instanceof Leitung) {
+                    if (currentResult instanceof LeitungCustomBean) {
                         if (log.isDebugEnabled()) {
                             log.debug("SearchResult is instance of Leitung. Setting PropertyChangeListener");
                         }
-                        ((Leitung)currentResult).addPropertyChangeListener(this);
+                        ((LeitungCustomBean)currentResult).addPropertyChangeListener(this);
                     }
-                    if (currentResult instanceof Mauerlasche) {
+                    if (currentResult instanceof MauerlascheCustomBean) {
                         if (log.isDebugEnabled()) {
                             log.debug("SearchResult is instance of Leitung. Setting PropertyChangeListener");
                         }
-                        ((Mauerlasche)currentResult).addPropertyChangeListener(this);
+                        ((MauerlascheCustomBean)currentResult).addPropertyChangeListener(this);
                     }
                 }
             }
@@ -610,7 +609,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
         }
         if (!isInCreateMode()) {
             try {
-                EJBroker.getInstance().lockEntity(currentSearchResults, getAccountName());
+                CidsBroker.getInstance().lockEntity(currentSearchResults, getAccountName());
             } catch (ActionNotSuccessfulException ex) {
                 log.error("Error while creating lock:", ex);
                 isPendingForCreateMode = false;
@@ -619,7 +618,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
             } catch (LockAlreadyExistsException ex) {
                 log.info("Some of the objects are already locked", ex);
                 isPendingForCreateMode = false;
-                final ArrayList<Lock> alreadyLocked = ex.getAlreadyExisingLocks();
+                final ArrayList<SperreCustomBean> alreadyLocked = ex.getAlreadyExisingLocks();
                 if (log.isDebugEnabled()) {
                     log.debug("Count of already locked objects: " + alreadyLocked.size());
                 }
@@ -641,7 +640,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
             final Set unsuccessfulObjects = null;
             try {
                 // ToDo problem with unlocking of entities not locked by this user
-                EJBroker.getInstance().unlockEntity(currentSearchResults);
+                CidsBroker.getInstance().unlockEntity(currentSearchResults);
             } catch (ActionNotSuccessfulException ex) {
                 log.error("Error while unlocking locked objects:", ex);
                 throw new UnlockingNotSuccessfulException("Angelegte sperren konnten nicht gelöst werden.");
@@ -713,7 +712,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  lockedObjects  DOCUMENT ME!
      */
-    private void showObjectsLockedDialog(final ArrayList<Lock> lockedObjects) {
+    private void showObjectsLockedDialog(final ArrayList<SperreCustomBean> lockedObjects) {
         final JDialog dialog = new JDialog(StaticSwingTools.getParentFrame(getParentComponent()),
                 "Gesperrte Objekte...",
                 true);
@@ -795,19 +794,19 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
             if (log.isDebugEnabled()) {
                 log.debug(workbenchWidget.getNewObjects().size() + " Objects to Save");
             }
-            EJBroker.getInstance().saveObjects(workbenchWidget.getNewObjects(), getAccountName());
+            CidsBroker.getInstance().saveObjects(workbenchWidget.getNewObjects(), getAccountName());
         } else {
             if (log.isDebugEnabled()) {
                 log.debug(getCurrentSearchResults().size() + " Objects to Save");
             }
-            EJBroker.getInstance().saveObjects(getCurrentSearchResults(), getAccountName());
+            CidsBroker.getInstance().saveObjects(getCurrentSearchResults(), getAccountName());
         }
 
-        EJBroker.getInstance().deleteEntities(workbenchWidget.getObjectsToRemove(), getAccountName());
+        CidsBroker.getInstance().deleteEntities(workbenchWidget.getObjectsToRemove(), getAccountName());
         if (log.isDebugEnabled()) {
             log.debug("Changes are saved");
         }
-        // EJBroker.getInstance().refreshObjects(workbenchWidget.getNewObjects());
+        // CidsBroker.getInstance().refreshObjects(workbenchWidget.getNewObjects());
         final Runnable saveEDTRun = new Runnable() {
 
                 @Override
@@ -1269,41 +1268,43 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
             log.debug("PropertyChangeEvent");
         }
         if ((evt != null) && (evt.getPropertyName() != null)) {
-            if (evt.getPropertyName().equals(Leitung.PROP_LEITUNGSTYP) && (evt.getSource() != null)
-                        && (evt.getSource() instanceof Leitung)) {
+            if (evt.getPropertyName().equals(LeitungCustomBean.PROP_LEITUNGSTYP) && (evt.getSource() != null)
+                        && (evt.getSource() instanceof LeitungCustomBean)) {
                 if (log.isDebugEnabled()) {
                     log.debug("LeitungsTyp Changed");
                 }
-                lastLeitungstyp = (Leitungstyp)evt.getNewValue();
-                getMappingComponent().getFeatureCollection().reconsiderFeature((Leitung)evt.getSource());
-            } else if (evt.getPropertyName().equals(Leuchte.PROP_LEUCHTENNUMMER) && (evt.getSource() != null)
-                        && (evt.getSource() instanceof Leuchte)) {
+                lastLeitungstyp = (LeitungstypCustomBean)evt.getNewValue();
+                getMappingComponent().getFeatureCollection().reconsiderFeature((LeitungCustomBean)evt.getSource());
+            } else if (evt.getPropertyName().equals(TdtaLeuchteCustomBean.PROP_LEUCHTENNUMMER)
+                        && (evt.getSource() != null)
+                        && (evt.getSource() instanceof TdtaLeuchteCustomBean)) {
                 if (log.isDebugEnabled()) {
                     log.debug("Leuchtennummer changed");
                 }
                 final TreePath pathToLeuchte = workbenchWidget.getTreeTableModel()
                             .getPathForUserObject(evt.getSource());
-                Standort parentMast = null;
+                TdtaStandortMastCustomBean parentMast = null;
                 if (pathToLeuchte != null) {
                     parentMast = workbenchWidget.getParentMast(pathToLeuchte.getLastPathComponent());
                 }
                 if (parentMast != null) {
                     getMappingComponent().getFeatureCollection().reconsiderFeature(parentMast);
                 } else {
-                    final Standort virtualStandort = workbenchWidget.getVirtualStandortForLeuchte((Leuchte)
-                            evt.getSource());
+                    final TdtaStandortMastCustomBean virtualStandort = workbenchWidget.getVirtualStandortForLeuchte(
+                            (TdtaLeuchteCustomBean)evt.getSource());
                     if (virtualStandort != null) {
                         getMappingComponent().getFeatureCollection().reconsiderFeature(virtualStandort);
                     } else {
                         log.warn("Leuchte is neither Hängeleuchte nor attached to a mast. Can't update label in map");
                     }
                 }
-            } else if (evt.getPropertyName().equals(Mauerlasche.PROP_STRASSENSCHLUESSEL) && (evt.getSource() != null)
-                        && (evt.getSource() instanceof Mauerlasche)) {
+            } else if (evt.getPropertyName().equals(MauerlascheCustomBean.PROP_STRASSENSCHLUESSEL)
+                        && (evt.getSource() != null)
+                        && (evt.getSource() instanceof MauerlascheCustomBean)) {
                 if (log.isDebugEnabled()) {
                     log.debug("Mauerlasche Straßßenschlüssel Changed");
                 }
-                lastMauerlascheStrassenschluessel = (Strassenschluessel)evt.getNewValue();
+                lastMauerlascheStrassenschluessel = (TkeyStrassenschluesselCustomBean)evt.getNewValue();
             } else {
                 if (log.isDebugEnabled()) {
                     log.debug("PropertyChange not recognized from BelisBroker.");
@@ -1319,7 +1320,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @return  DOCUMENT ME!
      */
-    public Strassenschluessel getLastMauerlascheStrassenschluessel() {
+    public TkeyStrassenschluesselCustomBean getLastMauerlascheStrassenschluessel() {
         return lastMauerlascheStrassenschluessel;
     }
 
@@ -1328,7 +1329,8 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  lastMauerlascheStrassenschluessel  DOCUMENT ME!
      */
-    public void setLastMauerlascheStrassenschluessel(final Strassenschluessel lastMauerlascheStrassenschluessel) {
+    public void setLastMauerlascheStrassenschluessel(
+            final TkeyStrassenschluesselCustomBean lastMauerlascheStrassenschluessel) {
         this.lastMauerlascheStrassenschluessel = lastMauerlascheStrassenschluessel;
     }
 
@@ -1337,7 +1339,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @return  DOCUMENT ME!
      */
-    public Leitungstyp getLastLeitungstyp() {
+    public LeitungstypCustomBean getLastLeitungstyp() {
         return lastLeitungstyp;
     }
 
@@ -1346,7 +1348,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  lastLeitungstyp  DOCUMENT ME!
      */
-    public void setLastLeitungstyp(final Leitungstyp lastLeitungstyp) {
+    public void setLastLeitungstyp(final LeitungstypCustomBean lastLeitungstyp) {
         this.lastLeitungstyp = lastLeitungstyp;
     }
 
@@ -1484,7 +1486,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @return  DOCUMENT ME!
      */
-    public static UnterhaltLeuchte getDefaultUnterhaltLeuchte() {
+    public static TkeyUnterhLeuchteCustomBean getDefaultUnterhaltLeuchte() {
         return defaultUnterhaltLeuchte;
     }
 
@@ -1493,7 +1495,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  defaultUnterhaltLeuchte  DOCUMENT ME!
      */
-    public static void setDefaultUnterhaltLeuchte(final UnterhaltLeuchte defaultUnterhaltLeuchte) {
+    public static void setDefaultUnterhaltLeuchte(final TkeyUnterhLeuchteCustomBean defaultUnterhaltLeuchte) {
         BelisBroker.defaultUnterhaltLeuchte = defaultUnterhaltLeuchte;
     }
 
@@ -1502,7 +1504,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @return  DOCUMENT ME!
      */
-    public static UnterhaltMast getDefaultUnterhaltMast() {
+    public static TkeyUnterhMastCustomBean getDefaultUnterhaltMast() {
         return defaultUnterhaltMast;
     }
 
@@ -1511,7 +1513,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  defaultUnterhaltMast  DOCUMENT ME!
      */
-    public static void setDefaultUnterhaltMast(final UnterhaltMast defaultUnterhaltMast) {
+    public static void setDefaultUnterhaltMast(final TkeyUnterhMastCustomBean defaultUnterhaltMast) {
         BelisBroker.defaultUnterhaltMast = defaultUnterhaltMast;
     }
 
@@ -1520,7 +1522,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @return  DOCUMENT ME!
      */
-    public static Doppelkommando getDefaultDoppelkommando1() {
+    public static TkeyDoppelkommandoCustomBean getDefaultDoppelkommando1() {
         return defaultDoppelkommando1;
     }
 
@@ -1529,7 +1531,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  defaultDoppelkommando1  DOCUMENT ME!
      */
-    public static void setDefaultDoppelkommando1(final Doppelkommando defaultDoppelkommando1) {
+    public static void setDefaultDoppelkommando1(final TkeyDoppelkommandoCustomBean defaultDoppelkommando1) {
         BelisBroker.defaultDoppelkommando1 = defaultDoppelkommando1;
     }
 //    @Override

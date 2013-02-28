@@ -23,12 +23,12 @@ import de.cismet.belis.todo.CustomTreeTableModel;
 
 import de.cismet.belis.util.BelisIcons;
 
-import de.cismet.belisEE.entity.Abzweigdose;
-import de.cismet.belisEE.entity.Leitung;
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Mauerlasche;
-import de.cismet.belisEE.entity.Schaltstelle;
-import de.cismet.belisEE.entity.Standort;
+import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -56,8 +56,8 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
         if (value != null) {
             if (value instanceof CustomMutableTreeTableNode) {
                 final Object userObject = ((CustomMutableTreeTableNode)value).getUserObject();
-                if (userObject instanceof Standort) {
-                    if (((Standort)userObject).isStandortMast()) {
+                if (userObject instanceof TdtaStandortMastCustomBean) {
+                    if (((TdtaStandortMastCustomBean)userObject).isStandortMast()) {
                         setText("Mast");
                         // setToolTipText("Mast");
                     } else {
@@ -65,24 +65,24 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
                         // setToolTipText("Standort");
                     }
                     setIcon(BelisIcons.icoStandort16);
-                } else if (userObject instanceof Leuchte) {
+                } else if (userObject instanceof TdtaLeuchteCustomBean) {
                     setText("Leuchte");
                     // setToolTipText("Leuchte");
                     setIcon(BelisIcons.icoLeuchte16);
-                } else if (userObject instanceof Mauerlasche) {
+                } else if (userObject instanceof MauerlascheCustomBean) {
                     setText("Mauerlasche");
                     // setToolTipText("Mauerlasche");
                     setIcon(BelisIcons.icoMauerlasche16);
-                } else if (userObject instanceof Schaltstelle) {
+                } else if (userObject instanceof SchaltstelleCustomBean) {
                     setText("Schaltstelle");
                     // setToolTipText("Schaltstelle");
                     setIcon(BelisIcons.icoSchaltstelle16);
-                } else if (userObject instanceof Leitung) {
+                } else if (userObject instanceof LeitungCustomBean) {
                     setText("Leitung");
                     // setToolTipText("Leitung");
                     // ToDo Leitung icon
                     setIcon(BelisIcons.icoLeitung16);
-                } else if (userObject instanceof Abzweigdose) {
+                } else if (userObject instanceof AbzweigdoseCustomBean) {
                     setText("Abzweigdose/Zugkasten");
                     // setToolTipText("Leitung");
                     // ToDo Leitung icon

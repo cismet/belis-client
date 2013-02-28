@@ -49,43 +49,43 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
-import javax.swing.SpinnerDateModel;
 import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
-import de.cismet.belis.broker.EJBroker;
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.documentpanel.DocumentPanel;
 
-import de.cismet.belisEE.entity.Abzweigdose;
-import de.cismet.belisEE.entity.Bauart;
-import de.cismet.belisEE.entity.Doppelkommando;
-import de.cismet.belisEE.entity.Energielieferant;
-import de.cismet.belisEE.entity.Kennziffer;
-import de.cismet.belisEE.entity.Klassifizierung;
-import de.cismet.belisEE.entity.Leitung;
-import de.cismet.belisEE.entity.Leitungstyp;
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Leuchtentyp;
-import de.cismet.belisEE.entity.Mastart;
-import de.cismet.belisEE.entity.Masttyp;
-import de.cismet.belisEE.entity.MaterialLeitung;
-import de.cismet.belisEE.entity.MaterialMauerlasche;
-import de.cismet.belisEE.entity.Mauerlasche;
-import de.cismet.belisEE.entity.Querschnitt;
-import de.cismet.belisEE.entity.Schaltstelle;
-import de.cismet.belisEE.entity.Stadtbezirk;
-import de.cismet.belisEE.entity.Standort;
-import de.cismet.belisEE.entity.Strassenschluessel;
-import de.cismet.belisEE.entity.UnterhaltLeuchte;
-import de.cismet.belisEE.entity.UnterhaltMast;
-
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
-import de.cismet.belisEE.util.BelisEEUtils;
 import de.cismet.belisEE.util.CriteriaStringComparator;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
+
+import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis.BauartCustomBean;
+import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
+import de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean;
+import de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.QuerschnittCustomBean;
+import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
 import de.cismet.commons.architecture.widget.DefaultWidget;
@@ -122,7 +122,7 @@ public class DetailWidget extends DefaultWidget {
     // private final Date smallestAllowedDate = new Date(0);
     private final String comboBoxNullValue = "Wert auswählen...";
     private Set<Binding> validationState = new HashSet<Binding>();
-    private Set<Leitungstyp> leitungstypen = new HashSet<Leitungstyp>();
+    private Set<LeitungstypCustomBean> leitungstypen = new HashSet<LeitungstypCustomBean>();
     private boolean isTriggerd = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cboLeuchteVerrechnungseinheit;
@@ -288,7 +288,7 @@ public class DetailWidget extends DefaultWidget {
         bindingGroup.bind();
         // ToDo ugly workaround
         if ((leitungstypen != null) && (leitungstypen.size() > 0)) {
-            for (final Leitungstyp curLeitungstyp : leitungstypen) {
+            for (final LeitungstypCustomBean curLeitungstyp : leitungstypen) {
                 if (curLeitungstyp.getId().equals(1L)) {
                     ((BelisBroker)broker).setLastLeitungstyp(curLeitungstyp);
                 }
@@ -319,7 +319,7 @@ public class DetailWidget extends DefaultWidget {
      */
     private void initContent() {
         try {
-            allStrassenschluessel = EJBroker.getInstance().getAllStrassenschluessel();
+            allStrassenschluessel = CidsBroker.getInstance().getAllStrassenschluessel();
             if (log.isDebugEnabled()) {
                 log.debug("Strassenschluessel size: " + allStrassenschluessel.size());
             }
@@ -369,7 +369,7 @@ public class DetailWidget extends DefaultWidget {
      */
     private void initLeitungPanel() {
         try {
-            final Set<MaterialLeitung> material = EJBroker.getInstance().getAllMaterialLeitung();
+            final Set<MaterialLeitungCustomBean> material = CidsBroker.getInstance().getAllMaterialLeitung();
             createSortedCBoxModelFromCollection(material, cbxLeitungMaterial);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeitungMaterial.setModel(new DefaultComboBoxModel());
@@ -377,7 +377,7 @@ public class DetailWidget extends DefaultWidget {
         cbxLeitungMaterial.setSelectedItem(null);
 
         try {
-            leitungstypen = EJBroker.getInstance().getAllLeitungstypen();
+            leitungstypen = CidsBroker.getInstance().getAllLeitungstypen();
             createSortedCBoxModelFromCollection(leitungstypen, cbxLeitungLeitungstyp);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeitungLeitungstyp.setModel(new DefaultComboBoxModel());
@@ -385,7 +385,7 @@ public class DetailWidget extends DefaultWidget {
         cbxLeitungLeitungstyp.setSelectedItem(null);
 
         try {
-            final Set<Querschnitt> querschnitt = EJBroker.getInstance().getAllQuerschnitte();
+            final Set<QuerschnittCustomBean> querschnitt = CidsBroker.getInstance().getAllQuerschnitte();
             createSortedCBoxModelFromCollection(querschnitt, cbxLeitungQuerschnitt);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeitungQuerschnitt.setModel(new DefaultComboBoxModel());
@@ -411,28 +411,28 @@ public class DetailWidget extends DefaultWidget {
         AutoCompleteDecorator.decorate(cbxLeuchteStrassenschluesselNr, new ObjectToIDConverter());
 
         try {
-            final Set<Kennziffer> kennziffern = EJBroker.getInstance().getAllKennziffer();
+            final Set<TkeyKennzifferCustomBean> kennziffern = CidsBroker.getInstance().getAllKennziffer();
             createSortedCBoxModelFromCollection(kennziffern, cbxLeuchteKennziffer);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteKennziffer.setModel(new DefaultComboBoxModel());
         }
         cbxLeuchteKennziffer.setSelectedItem(null);
         try {
-            final Set<Energielieferant> lieferanten = EJBroker.getInstance().getAllEnergielieferanten();
+            final Set<TkeyEnergielieferantCustomBean> lieferanten = CidsBroker.getInstance().getAllEnergielieferanten();
             createSortedCBoxModelFromCollection(lieferanten, cbxLeuchteEnergielieferant);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteEnergielieferant.setModel(new DefaultComboBoxModel());
         }
         try {
-            final Set<UnterhaltLeuchte> unterhalt = EJBroker.getInstance().getAllUnterhaltLeuchte();
+            final Set<TkeyUnterhLeuchteCustomBean> unterhalt = CidsBroker.getInstance().getAllUnterhaltLeuchte();
             try {
                 if ((unterhalt != null) && (unterhalt.size() > 0)) {
-                    for (final UnterhaltLeuchte curUnterhaltLeuchte : unterhalt) {
+                    for (final TkeyUnterhLeuchteCustomBean curUnterhaltLeuchte : unterhalt) {
                         if (log.isDebugEnabled()) {
-                            log.debug("Leuchte.DEFAULT_UNTERHALT " + Leuchte.DEFAULT_UNTERHALT);
+                            log.debug("Leuchte.DEFAULT_UNTERHALT " + TdtaLeuchteCustomBean.DEFAULT_UNTERHALT);
                         }
-                        if (Leuchte.DEFAULT_UNTERHALT.equals(curUnterhaltLeuchte)
-                                    && Leuchte.DEFAULT_UNTERHALT.getUnterhaltspflichtigeLeuchte().equals(
+                        if (TdtaLeuchteCustomBean.DEFAULT_UNTERHALT.equals(curUnterhaltLeuchte)
+                                    && TdtaLeuchteCustomBean.DEFAULT_UNTERHALT.getUnterhaltspflichtigeLeuchte().equals(
                                         curUnterhaltLeuchte.getUnterhaltspflichtigeLeuchte())) {
                             if (log.isDebugEnabled()) {
                                 log.debug("Setting defaultUnterhaltLeuchte to: " + curUnterhaltLeuchte);
@@ -449,22 +449,22 @@ public class DetailWidget extends DefaultWidget {
             cbxLeuchteUnterhalt.setModel(new DefaultComboBoxModel());
         }
         try {
-            final Set<Leuchtentyp> leuchtentypen = EJBroker.getInstance().getAllLeuchtentypen();
+            final Set<TkeyLeuchtentypCustomBean> leuchtentypen = CidsBroker.getInstance().getAllLeuchtentypen();
             createSortedCBoxModelFromCollection(leuchtentypen, cbxLeuchteLeuchtentyp);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteLeuchtentyp.setModel(new DefaultComboBoxModel());
         }
         cbxLeuchteLeuchtentyp.setSelectedItem(null);
         try {
-            final Set<Doppelkommando> dk1 = EJBroker.getInstance().getAllDoppelkommando();
+            final Set<TkeyDoppelkommandoCustomBean> dk1 = CidsBroker.getInstance().getAllDoppelkommando();
             try {
                 if ((dk1 != null) && (dk1.size() > 0)) {
-                    for (final Doppelkommando curDoppelkommando : dk1) {
+                    for (final TkeyDoppelkommandoCustomBean curDoppelkommando : dk1) {
                         if (log.isDebugEnabled()) {
-                            log.debug("Leuchte.DEFAULT_DOPPELKOMMANDO " + Leuchte.DEFAULT_DOPPELKOMMANDO);
+                            log.debug("Leuchte.DEFAULT_DOPPELKOMMANDO " + TdtaLeuchteCustomBean.DEFAULT_DOPPELKOMMANDO);
                         }
-                        if (Leuchte.DEFAULT_DOPPELKOMMANDO.equals(curDoppelkommando)
-                                    && Leuchte.DEFAULT_DOPPELKOMMANDO.getBeschreibung().equals(
+                        if (TdtaLeuchteCustomBean.DEFAULT_DOPPELKOMMANDO.equals(curDoppelkommando)
+                                    && TdtaLeuchteCustomBean.DEFAULT_DOPPELKOMMANDO.getBeschreibung().equals(
                                         curDoppelkommando.getBeschreibung())) {
                             if (log.isDebugEnabled()) {
                                 log.debug("Setting defaultUnterhaltLeuchte to: " + curDoppelkommando);
@@ -482,7 +482,7 @@ public class DetailWidget extends DefaultWidget {
         }
         cbxLeuchteDoppelkommando1.setSelectedItem(null);
         try {
-            final Set<Doppelkommando> dk2 = EJBroker.getInstance().getAllDoppelkommando();
+            final Set<TkeyDoppelkommandoCustomBean> dk2 = CidsBroker.getInstance().getAllDoppelkommando();
             createSortedCBoxModelFromCollection(dk2, cbxLeuchteDoppelkommando2);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteDoppelkommando2.setModel(new DefaultComboBoxModel());
@@ -493,7 +493,7 @@ public class DetailWidget extends DefaultWidget {
 
         // Virtual properties
         try {
-            final Set<Stadtbezirk> bezirke = EJBroker.getInstance().getAllStadtbezirke();
+            final Set<TkeyBezirkCustomBean> bezirke = CidsBroker.getInstance().getAllStadtbezirke();
             createSortedCBoxModelFromCollection(bezirke, cbxLeuchteStadtbezirk);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteStadtbezirk.setModel(new DefaultComboBoxModel());
@@ -512,7 +512,7 @@ public class DetailWidget extends DefaultWidget {
         cbxMauerlascheStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluesselNr, new ObjectToIDConverter());
         try {
-            final Set<MaterialMauerlasche> material = EJBroker.getInstance().getAllMaterialMauerlasche();
+            final Set<MaterialMauerlascheCustomBean> material = CidsBroker.getInstance().getAllMaterialMauerlasche();
             createSortedCBoxModelFromCollection(material, cbxMauerlascheMaterial);
         } catch (ActionNotSuccessfulException ex) {
             cbxMauerlascheMaterial.setModel(new DefaultComboBoxModel());
@@ -531,7 +531,7 @@ public class DetailWidget extends DefaultWidget {
         cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluesselNr, new ObjectToIDConverter());
         try {
-            final Set<Bauart> bauarten = EJBroker.getInstance().getAllBauarten();
+            final Set<BauartCustomBean> bauarten = CidsBroker.getInstance().getAllBauarten();
             createSortedCBoxModelFromCollection(bauarten, cbxSchaltstelleBauart);
         } catch (ActionNotSuccessfulException ex) {
             cbxSchaltstelleBauart.setModel(new DefaultComboBoxModel());
@@ -585,7 +585,7 @@ public class DetailWidget extends DefaultWidget {
                     } else {
                         log.error("keine JCOmponent");
                     }
-                    if ((currentEntity instanceof Standort)
+                    if ((currentEntity instanceof TdtaStandortMastCustomBean)
                                 && panStandort.isAncestorOf((Component)binding.getTargetObject())) {
                         validationState.add(binding);
                         // log.debug("Validation state changed. Errorcount: "+validationState.size());
@@ -612,7 +612,7 @@ public class DetailWidget extends DefaultWidget {
                     } else {
                         log.error("keine JCOmponent");
                     }
-                    if ((currentEntity instanceof Standort)
+                    if ((currentEntity instanceof TdtaStandortMastCustomBean)
                                 && panStandort.isAncestorOf((Component)binding.getTargetObject())) {
                         validationState.remove(binding);
                         // log.debug("Validation state changed. Errorcount: "+validationState.size());
@@ -651,44 +651,45 @@ public class DetailWidget extends DefaultWidget {
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxStandortStrassenschluesselNr);
         AutoCompleteDecorator.decorate(cbxStandortStrassenschluesselNr, new ObjectToIDConverter());
         try {
-            final Set<Kennziffer> kennziffern = EJBroker.getInstance().getAllKennziffer();
+            final Set<TkeyKennzifferCustomBean> kennziffern = CidsBroker.getInstance().getAllKennziffer();
             createSortedCBoxModelFromCollection(kennziffern, cbxStandortKennziffer);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortKennziffer.setModel(new DefaultComboBoxModel());
         }
         cbxStandortKennziffer.setSelectedItem(null);
         try {
-            final Set<Stadtbezirk> bezirke = EJBroker.getInstance().getAllStadtbezirke();
+            final Set<TkeyBezirkCustomBean> bezirke = CidsBroker.getInstance().getAllStadtbezirke();
             createSortedCBoxModelFromCollection(bezirke, cbxStandortStadtbezirk);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortStadtbezirk.setModel(new DefaultComboBoxModel());
         }
         try {
-            final Set<Klassifizierung> klassifizierungen = EJBroker.getInstance().getAllKlassifizierungen();
+            final Set<TkeyKlassifizierungCustomBean> klassifizierungen = CidsBroker.getInstance()
+                        .getAllKlassifizierungen();
             createSortedCBoxModelFromCollection(klassifizierungen, cbxStandortKlassifizierung);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortKlassifizierung.setModel(new DefaultComboBoxModel());
         }
         try {
-            final Set<Mastart> mastarten = EJBroker.getInstance().getAllMastarten();
+            final Set<TkeyMastartCustomBean> mastarten = CidsBroker.getInstance().getAllMastarten();
             createSortedCBoxModelFromCollection(mastarten, cbxStandortMastart);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortMastart.setModel(new DefaultComboBoxModel());
         }
         try {
-            final Set<Masttyp> masttypen = EJBroker.getInstance().getAllMasttypen();
+            final Set<TkeyMasttypCustomBean> masttypen = CidsBroker.getInstance().getAllMasttypen();
             createSortedCBoxModelFromCollection(masttypen, cbxStandortMasttyp);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortMasttyp.setModel(new DefaultComboBoxModel());
         }
         AutoCompleteDecorator.decorate(cbxStandortMasttyp, new ObjectToKeyStringConverter());
         try {
-            final Set<UnterhaltMast> unterhaltMast = EJBroker.getInstance().getAllUnterhaltMast();
+            final Set<TkeyUnterhMastCustomBean> unterhaltMast = CidsBroker.getInstance().getAllUnterhaltMast();
             try {
                 if ((unterhaltMast != null) && (unterhaltMast.size() > 0)) {
-                    for (final UnterhaltMast curUnterhaltMast : unterhaltMast) {
-                        if (Standort.DEFAULT_UNTERHALT.equals(curUnterhaltMast)
-                                    && Standort.DEFAULT_UNTERHALT.getUnterhaltMast().equals(
+                    for (final TkeyUnterhMastCustomBean curUnterhaltMast : unterhaltMast) {
+                        if (TdtaStandortMastCustomBean.DEFAULT_UNTERHALT.equals(curUnterhaltMast)
+                                    && TdtaStandortMastCustomBean.DEFAULT_UNTERHALT.getUnterhaltMast().equals(
                                         curUnterhaltMast.getUnterhaltMast())) {
                             if (log.isDebugEnabled()) {
                                 log.debug("Setting defaultUnterhaltMast to: " + curUnterhaltMast);
@@ -782,28 +783,28 @@ public class DetailWidget extends DefaultWidget {
             return;
         }
         // validateTest();
-        if (currentEntity instanceof Standort) {
+        if (currentEntity instanceof TdtaStandortMastCustomBean) {
             if (log.isDebugEnabled()) {
                 log.debug("CurrentEntity is Standort");
             }
             // panMain.add(panStandort,BorderLayout.CENTER);
             panMain.add(panStandort, BorderLayout.CENTER);
-            if (((Standort)currentEntity).getStrassenschluessel() == null) {
+            if (((TdtaStandortMastCustomBean)currentEntity).getStrassenschluessel() == null) {
                 cbxStandortStrassenschluessel.setSelectedItem(null);
                 cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
             }
-            if (((Standort)currentEntity).getKennziffer() == null) {
+            if (((TdtaStandortMastCustomBean)currentEntity).getKennziffer() == null) {
                 cbxStandortKennziffer.setSelectedItem(null);
             }
             panStandort.setVisible(true);
-        } else if (currentEntity instanceof Leuchte) {
+        } else if (currentEntity instanceof TdtaLeuchteCustomBean) {
             if (log.isDebugEnabled()) {
                 log.debug("CurrentEntity is Leuchte");
             }
             // panStandort.setVisible(true);
             // panMain.add(panLeuchte,BorderLayout.CENTER);
             panMain.add(panLeuchte, BorderLayout.CENTER);
-            log.info("ParentNode: " + ((Leuchte)currentEntity).getStandort());
+            log.info("ParentNode: " + ((TdtaLeuchteCustomBean)currentEntity).getStandort());
             if (((BelisBroker)broker).getWorkbenchWidget().isParentNodeMast(
                             ((BelisBroker)broker).getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
                 if (log.isDebugEnabled()) {
@@ -816,40 +817,40 @@ public class DetailWidget extends DefaultWidget {
                 }
             }
             panLeuchte.setVisible(true);
-            if (((Leuchte)currentEntity).getStrassenschluessel() == null) {
+            if (((TdtaLeuchteCustomBean)currentEntity).getStrassenschluessel() == null) {
                 cbxLeuchteStrassenschluessel.setSelectedItem(null);
             }
-            if (((Leuchte)currentEntity).getKennziffer() == null) {
+            if (((TdtaLeuchteCustomBean)currentEntity).getKennziffer() == null) {
                 cbxLeuchteKennziffer.setSelectedItem(null);
             }
 //            docPanel.setFileList();
-        } else if (currentEntity instanceof Leitung) {
+        } else if (currentEntity instanceof LeitungCustomBean) {
             if (log.isDebugEnabled()) {
                 log.debug("CurrentEntity is Leitung");
             }
             panMain.add(panLeitung, BorderLayout.CENTER);
             panLeitung.setVisible(true);
-        } else if (currentEntity instanceof Abzweigdose) {
+        } else if (currentEntity instanceof AbzweigdoseCustomBean) {
             if (log.isDebugEnabled()) {
                 log.debug("CurrentEntity is Abzweigdose");
             }
             panMain.add(panAbzweidose, BorderLayout.CENTER);
             panLeitung.setVisible(true);
-        } else if (currentEntity instanceof Mauerlasche) {
+        } else if (currentEntity instanceof MauerlascheCustomBean) {
             if (log.isDebugEnabled()) {
                 log.debug("CurrentEntity is Mauerlasche");
             }
-            if (((Mauerlasche)currentEntity).getStrassenschluessel() == null) {
+            if (((MauerlascheCustomBean)currentEntity).getStrassenschluessel() == null) {
                 cbxMauerlascheStrassenschluessel.setSelectedItem(null);
                 cbxMauerlascheStrassenschluesselNr.setSelectedItem(null);
             }
             panMain.add(panMauerlasche, BorderLayout.CENTER);
             panMauerlasche.setVisible(true);
-        } else if (currentEntity instanceof Schaltstelle) {
+        } else if (currentEntity instanceof SchaltstelleCustomBean) {
             if (log.isDebugEnabled()) {
                 log.debug("CurrentEntity is Schaltstelle");
             }
-            if (((Schaltstelle)currentEntity).getStrassenschluessel() == null) {
+            if (((SchaltstelleCustomBean)currentEntity).getStrassenschluessel() == null) {
                 cbxSchaltstelleStrassenschluessel.setSelectedItem(null);
                 cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
             }
@@ -1037,7 +1038,7 @@ public class DetailWidget extends DefaultWidget {
      */
     private void commitEdits() {
         if (currentEntity != null) {
-            if (currentEntity instanceof Leuchte) {
+            if (currentEntity instanceof TdtaLeuchteCustomBean) {
                 try {
                     dapLeuchteInbetriebnahme.getEditor().commitEdit();
                 } catch (ParseException ex) {
@@ -1053,7 +1054,7 @@ public class DetailWidget extends DefaultWidget {
                 } catch (ParseException ex) {
                     log.warn("Error while commiting edits: " + ex);
                 }
-            } else if (currentEntity instanceof Standort) {
+            } else if (currentEntity instanceof TdtaStandortMastCustomBean) {
                 try {
                     dapStandortInbetriebnahme.getEditor().commitEdit();
                 } catch (ParseException ex) {
@@ -1079,13 +1080,13 @@ public class DetailWidget extends DefaultWidget {
                 } catch (ParseException ex) {
                     log.warn("Error while commiting edits: " + ex);
                 }
-            } else if (currentEntity instanceof Schaltstelle) {
+            } else if (currentEntity instanceof SchaltstelleCustomBean) {
                 try {
                     dapSchaltstelleErstellungsjahr.getEditor().commitEdit();
                 } catch (ParseException ex) {
                     log.warn("Error while commiting edits: " + ex);
                 }
-            } else if (currentEntity instanceof Mauerlasche) {
+            } else if (currentEntity instanceof MauerlascheCustomBean) {
                 try {
                     dapMauerlascheErstellungsjahr.getEditor().commitEdit();
                 } catch (ParseException ex) {
@@ -1293,8 +1294,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof MaterialMauerlasche) {
-                        final MaterialMauerlasche mm = (MaterialMauerlasche)value;
+                    } else if (value instanceof MaterialMauerlascheCustomBean) {
+                        final MaterialMauerlascheCustomBean mm = (MaterialMauerlascheCustomBean)value;
                         setText(mm.getBezeichnung());
                     }
                     return this;
@@ -1330,8 +1331,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Strassenschluessel) {
-                        final Strassenschluessel ss = (Strassenschluessel)value;
+                    } else if (value instanceof TkeyStrassenschluesselCustomBean) {
+                        final TkeyStrassenschluesselCustomBean ss = (TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getPk());
                     }
                     return this;
@@ -1358,8 +1359,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Strassenschluessel) {
-                        final Strassenschluessel ss = (Strassenschluessel)value;
+                    } else if (value instanceof TkeyStrassenschluesselCustomBean) {
+                        final TkeyStrassenschluesselCustomBean ss = (TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getKeyString());
                     }
                     return this;
@@ -1575,8 +1576,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Bauart) {
-                        final Bauart ba = (Bauart)value;
+                    } else if (value instanceof BauartCustomBean) {
+                        final BauartCustomBean ba = (BauartCustomBean)value;
                         setText(ba.getBezeichnung());
                     }
                     return this;
@@ -1619,8 +1620,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Strassenschluessel) {
-                        final Strassenschluessel ss = (Strassenschluessel)value;
+                    } else if (value instanceof TkeyStrassenschluesselCustomBean) {
+                        final TkeyStrassenschluesselCustomBean ss = (TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getPk());
                     }
                     return this;
@@ -1647,8 +1648,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Strassenschluessel) {
-                        final Strassenschluessel ss = (Strassenschluessel)value;
+                    } else if (value instanceof TkeyStrassenschluesselCustomBean) {
+                        final TkeyStrassenschluesselCustomBean ss = (TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getKeyString());
                     }
                     return this;
@@ -1839,8 +1840,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Leitungstyp) {
-                        final Leitungstyp lt = (Leitungstyp)value;
+                    } else if (value instanceof LeitungstypCustomBean) {
+                        final LeitungstypCustomBean lt = (LeitungstypCustomBean)value;
                         setText(lt.getBezeichnung());
                     }
                     return this;
@@ -1868,8 +1869,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof MaterialLeitung) {
-                        final MaterialLeitung mt = (MaterialLeitung)value;
+                    } else if (value instanceof MaterialLeitungCustomBean) {
+                        final MaterialLeitungCustomBean mt = (MaterialLeitungCustomBean)value;
                         setText(mt.getBezeichnung());
                     }
                     return this;
@@ -1897,8 +1898,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Querschnitt) {
-                        final Querschnitt qt = (Querschnitt)value;
+                    } else if (value instanceof QuerschnittCustomBean) {
+                        final QuerschnittCustomBean qt = (QuerschnittCustomBean)value;
                         if (qt.getGroesse() != null) {
                             setText(qt.getGroesse().toString());
                         } else {
@@ -2028,8 +2029,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Stadtbezirk) {
-                        final Stadtbezirk sb = (Stadtbezirk)value;
+                    } else if (value instanceof TkeyBezirkCustomBean) {
+                        final TkeyBezirkCustomBean sb = (TkeyBezirkCustomBean)value;
                         setText(sb.getBezirk());
                     }
                     return this;
@@ -2074,8 +2075,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Mastart) {
-                        final Mastart ma = (Mastart)value;
+                    } else if (value instanceof TkeyMastartCustomBean) {
+                        final TkeyMastartCustomBean ma = (TkeyMastartCustomBean)value;
                         setText(ma.getMastart());
                     }
                     return this;
@@ -2103,8 +2104,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Masttyp) {
-                        final Masttyp mt = (Masttyp)value;
+                    } else if (value instanceof TkeyMasttypCustomBean) {
+                        final TkeyMasttypCustomBean mt = (TkeyMasttypCustomBean)value;
                         setText(mt.getMasttyp());
                     }
                     return this;
@@ -2134,8 +2135,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Klassifizierung) {
-                        final Klassifizierung kl = (Klassifizierung)value;
+                    } else if (value instanceof TkeyKlassifizierungCustomBean) {
+                        final TkeyKlassifizierungCustomBean kl = (TkeyKlassifizierungCustomBean)value;
                         setText(kl.getKlassifizierung());
                     }
                     return this;
@@ -2217,8 +2218,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof UnterhaltMast) {
-                        final UnterhaltMast um = (UnterhaltMast)value;
+                    } else if (value instanceof TkeyUnterhMastCustomBean) {
+                        final TkeyUnterhMastCustomBean um = (TkeyUnterhMastCustomBean)value;
                         setText(um.getUnterhaltMast());
                     }
                     return this;
@@ -2295,8 +2296,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Strassenschluessel) {
-                        final Strassenschluessel ss = (Strassenschluessel)value;
+                    } else if (value instanceof TkeyStrassenschluesselCustomBean) {
+                        final TkeyStrassenschluesselCustomBean ss = (TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getKeyString());
                     }
                     return this;
@@ -2337,8 +2338,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Kennziffer) {
-                        final Kennziffer kzf = (Kennziffer)value;
+                    } else if (value instanceof TkeyKennzifferCustomBean) {
+                        final TkeyKennzifferCustomBean kzf = (TkeyKennzifferCustomBean)value;
                         setText(kzf.getKeyString());
                     }
                     return this;
@@ -2403,8 +2404,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Strassenschluessel) {
-                        final Strassenschluessel ss = (Strassenschluessel)value;
+                    } else if (value instanceof TkeyStrassenschluesselCustomBean) {
+                        final TkeyStrassenschluesselCustomBean ss = (TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getPk());
                     }
                     return this;
@@ -2771,8 +2772,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Energielieferant) {
-                        final Energielieferant el = (Energielieferant)value;
+                    } else if (value instanceof TkeyEnergielieferantCustomBean) {
+                        final TkeyEnergielieferantCustomBean el = (TkeyEnergielieferantCustomBean)value;
                         setText(el.getEnergielieferant());
                     }
                     return this;
@@ -2838,8 +2839,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof UnterhaltLeuchte) {
-                        final UnterhaltLeuchte ul = (UnterhaltLeuchte)value;
+                    } else if (value instanceof TkeyUnterhLeuchteCustomBean) {
+                        final TkeyUnterhLeuchteCustomBean ul = (TkeyUnterhLeuchteCustomBean)value;
                         setText(ul.getUnterhaltspflichtigeLeuchte());
                     }
                     return this;
@@ -2907,8 +2908,8 @@ public class DetailWidget extends DefaultWidget {
 
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Kennziffer) {
-                        final Kennziffer kzf = (Kennziffer)value;
+                    } else if (value instanceof TkeyKennzifferCustomBean) {
+                        final TkeyKennzifferCustomBean kzf = (TkeyKennzifferCustomBean)value;
                         setText(kzf.getKeyString());
                     }
                     return this;
@@ -2939,8 +2940,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Leuchtentyp) {
-                        final Leuchtentyp lt = (Leuchtentyp)value;
+                    } else if (value instanceof TkeyLeuchtentypCustomBean) {
+                        final TkeyLeuchtentypCustomBean lt = (TkeyLeuchtentypCustomBean)value;
                         setText(lt.getLeuchtentyp());
                     }
                     return this;
@@ -2996,8 +2997,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Doppelkommando) {
-                        final Doppelkommando dk = (Doppelkommando)value;
+                    } else if (value instanceof TkeyDoppelkommandoCustomBean) {
+                        final TkeyDoppelkommandoCustomBean dk = (TkeyDoppelkommandoCustomBean)value;
                         setText(dk.getPk() + " - " + dk.getBeschreibung());
                     }
                     return this;
@@ -3025,8 +3026,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Doppelkommando) {
-                        final Doppelkommando dk = (Doppelkommando)value;
+                    } else if (value instanceof TkeyDoppelkommandoCustomBean) {
+                        final TkeyDoppelkommandoCustomBean dk = (TkeyDoppelkommandoCustomBean)value;
                         setText(dk.getPk() + " - " + dk.getBeschreibung());
                     }
                     return this;
@@ -3085,8 +3086,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Strassenschluessel) {
-                        final Strassenschluessel ss = (Strassenschluessel)value;
+                    } else if (value instanceof TkeyStrassenschluesselCustomBean) {
+                        final TkeyStrassenschluesselCustomBean ss = (TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getPk());
                     }
                     return this;
@@ -3113,8 +3114,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Strassenschluessel) {
-                        final Strassenschluessel ss = (Strassenschluessel)value;
+                    } else if (value instanceof TkeyStrassenschluesselCustomBean) {
+                        final TkeyStrassenschluesselCustomBean ss = (TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getKeyString());
                     }
                     return this;
@@ -3153,8 +3154,8 @@ public class DetailWidget extends DefaultWidget {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof Stadtbezirk) {
-                        final Stadtbezirk sb = (Stadtbezirk)value;
+                    } else if (value instanceof TkeyBezirkCustomBean) {
+                        final TkeyBezirkCustomBean sb = (TkeyBezirkCustomBean)value;
                         setText(sb.getBezirk());
                     }
                     return this;
@@ -3897,7 +3898,7 @@ public class DetailWidget extends DefaultWidget {
                                 .getTreeTableModel()
                                 .getPathForUserObject(currentEntity);
                     if ((pathToEntity != null) && (pathToEntity.getLastPathComponent() != null)) {
-                        final Standort parentStandort = ((BelisBroker)broker).getWorkbenchWidget()
+                        final TdtaStandortMastCustomBean parentStandort = ((BelisBroker)broker).getWorkbenchWidget()
                                     .getParentMast(pathToEntity.getLastPathComponent());
                         if ((parentStandort != null) && parentStandort.isStandortMast()
                                     && (parentStandort.getLeuchten().size() > 1)) {
@@ -3905,7 +3906,7 @@ public class DetailWidget extends DefaultWidget {
                                 log.debug(
                                     "Standort is Mast checking leuchten for entries with the same leuchtennummer.");
                             }
-                            for (final Leuchte curLeuchte : parentStandort.getLeuchten()) {
+                            for (final TdtaLeuchteCustomBean curLeuchte : parentStandort.getLeuchten()) {
                                 if (log.isDebugEnabled()) {
                                     log.debug("checking leuchte: " + curLeuchte);
                                 }
@@ -4063,13 +4064,9 @@ public class DetailWidget extends DefaultWidget {
 
         @Override
         public String getPreferredStringForItem(final Object item) {
-            try {
-                if ((item != null) && (item instanceof BaseEntity) && (BelisEEUtils.getEntityId(item) != null)) {
-                    return BelisEEUtils.getEntityId(item).toString();
-                } else {
-                    return null;
-                }
-            } catch (ActionNotSuccessfulException ex) {
+            if ((item != null) && (item instanceof BaseEntity) && (((CidsBean)item).getProperty("id") != null)) {
+                return ((CidsBean)item).getProperty("id").toString();
+            } else {
                 return null;
             }
         }

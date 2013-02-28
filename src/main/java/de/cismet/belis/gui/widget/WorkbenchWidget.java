@@ -66,17 +66,17 @@ import de.cismet.belis.todo.CustomTreeTableModel;
 
 import de.cismet.belis.util.BelisIcons;
 
-import de.cismet.belisEE.entity.Abzweigdose;
-import de.cismet.belisEE.entity.Leitung;
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Mauerlasche;
-import de.cismet.belisEE.entity.Schaltstelle;
-import de.cismet.belisEE.entity.Standort;
-import de.cismet.belisEE.entity.UnterhaltLeuchte;
-import de.cismet.belisEE.entity.UnterhaltMast;
-
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
+
+import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
 
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
@@ -130,10 +130,57 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     public static final int REFRESH_ALL = 4;
     public static final int CLEAR_NEW_OBJECTS = 3;
     public static final int MOVE_NEW_TO_SAVED_OBJECTS = 5;
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+
+    //~ Instance fields --------------------------------------------------------
+
+    BindingGroup bindingGroup2 = new BindingGroup();
+    // Variables declaration - do not modify
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTreeTable jttHitTable;
     private javax.swing.JPanel panMain;
+
+    private boolean ignoreFeatureSelection = false;
+//    protected TreePath[] selectedTreeNodes = null;
+//    public static final String PROP_SELECTEDTREENODE = "selectedTreeNodes";
+    private TreePath selectedTreeNode = null;
+    private final CustomMutableTreeTableNode rootNode = new CustomMutableTreeTableNode(null, true);
+    private final CustomMutableTreeTableNode searchResultsNode = new CustomMutableTreeTableNode(null, true);
+    private final CustomMutableTreeTableNode newObjectsNode = new CustomMutableTreeTableNode(null, true);
+    private CustomTreeTableModel treeTableModel = null;
+    private HashMap<TdtaLeuchteCustomBean, TdtaStandortMastCustomBean> leuchteToVirtualStandortMap = new HashMap();
+    private HashMap<TdtaStandortMastCustomBean, ArrayList<TdtaLeuchteCustomBean>> leuchtenRemovedFromMastMap =
+        new HashMap<TdtaStandortMastCustomBean, ArrayList<TdtaLeuchteCustomBean>>();
+    private JButton btnAttachMode = new JButton();
+    private boolean isAlreadyDisabled = false;
+    private boolean tmpProcessStarted = false;
+    private boolean isSwitchTriggerEnabled = false;
+    private Set currentSearchResults = new TreeSet(new ReverseComparator(
+                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+//    public Set getCurrentSearchResults() {
+//        return currentSearchResults;
+//    }
+//
+//    public void setCurrentSearchResults(Set currentSearchResults) {
+//        this.currentSearchResults = currentSearchResults;
+//        firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, null, currentSearchResults);
+//    }
+    // There is no need to hold the objects in an extra set only convenience
+    private Set newObjects = new TreeSet(new ReverseComparator(
+                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+    // private Set savedObjects = new HashSet();
+    // private Set processedObjects = new HashSet();
+    private final Set removedObjects = new TreeSet(new ReverseComparator(
+                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+    private int currentMode = 0;
+    private Feature newlyAddedFeature = null;
+    // End of variables declaration
+    private boolean isSelectedOverMap = false;
+    // ToDo Workaround because there will be exceptions if a selectedNode is moved. Should normaly not be done in the
+    // model
+    private TreePath selectedElement = null;
+    private Feature selectedFeature = null;
+
+    //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form HitWidget.
@@ -227,11 +274,12 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                             ((AbstractMutableTreeTableNode)jttHitTable.getPathForRow(componentAdapter.row)
                                         .getLastPathComponent()).getUserObject();
                         if (userObj != null) {
-                            Standort virtualStandort = null;
+                            TdtaStandortMastCustomBean virtualStandort = null;
                             if (userObj instanceof GeoBaseEntity) {
                                 return ((GeoBaseEntity)userObj).getGeometry() == null;
-                            } else if ((userObj instanceof Leuchte)
-                                        && ((virtualStandort = leuchteToVirtualStandortMap.get((Leuchte)userObj))
+                            } else if ((userObj instanceof TdtaLeuchteCustomBean)
+                                        && ((virtualStandort = leuchteToVirtualStandortMap.get(
+                                                        (TdtaLeuchteCustomBean)userObj))
                                             != null)) {
                                 return virtualStandort.getGeometry() == null;
                             }
@@ -351,6 +399,8 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 }
             }, AWTEvent.KEY_EVENT_MASK);
     }
+
+    //~ Methods ----------------------------------------------------------------
 
     /**
      * ToDo not necessary.
@@ -602,7 +652,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public boolean checkConstraintForMapModeSwitch() {
-        Standort virtualStandort = null;
+        TdtaStandortMastCustomBean virtualStandort = null;
 
         if (broker.isInEditMode()) {
             if (log.isDebugEnabled()) {
@@ -634,10 +684,11 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                                     log.debug("Geometry != null nothing to do");
                                 }
                             }
-                        } else if ((userObject instanceof Leuchte)
-                                    && ((virtualStandort = leuchteToVirtualStandortMap.get((Leuchte)userObject))
+                        } else if ((userObject instanceof TdtaLeuchteCustomBean)
+                                    && ((virtualStandort = leuchteToVirtualStandortMap.get(
+                                                    (TdtaLeuchteCustomBean)userObject))
                                         != null)
-                                    && (virtualStandort instanceof Standort)
+                                    && (virtualStandort instanceof TdtaStandortMastCustomBean)
                                     && !virtualStandort.isStandortMast()) {
                             if (log.isDebugEnabled()) {
                                 log.debug("UserObject is Leuchte with virtual standort");
@@ -756,41 +807,41 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 btnAttachMode.setSelected(true);
                 final Object userObject = ((CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent())
                             .getUserObject();
-                if (userObject instanceof Leuchte) {
+                if (userObject instanceof TdtaLeuchteCustomBean) {
                     if (log.isDebugEnabled()) {
                         log.debug("Instance is Leuchte --> geometry == point");
                     }
                     ((CreateGeometryListener)broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(
                         CreateGeometryListener.POINT);
-                } else if (userObject instanceof Standort) {
+                } else if (userObject instanceof TdtaStandortMastCustomBean) {
                     if (log.isDebugEnabled()) {
                         log.debug("Instance is Standort --> geometry == point");
                         log.debug(userObject);
                     }
                     ((CreateGeometryListener)broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(
                         CreateGeometryListener.POINT);
-                } else if (userObject instanceof Mauerlasche) {
+                } else if (userObject instanceof MauerlascheCustomBean) {
                     if (log.isDebugEnabled()) {
                         log.debug("Instance is Mauerlasche --> geometry == point");
                         log.debug(userObject);
                     }
                     ((CreateGeometryListener)broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(
                         CreateGeometryListener.POINT);
-                } else if (userObject instanceof Schaltstelle) {
+                } else if (userObject instanceof SchaltstelleCustomBean) {
                     if (log.isDebugEnabled()) {
                         log.debug("Instance is Schaltstelle --> geometry == point");
                         log.debug(userObject);
                     }
                     ((CreateGeometryListener)broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(
                         CreateGeometryListener.POINT);
-                } else if (userObject instanceof Leitung) {
+                } else if (userObject instanceof LeitungCustomBean) {
                     if (log.isDebugEnabled()) {
                         log.debug("Instance is Leitung --> geometry == line");
                         log.debug(userObject);
                     }
                     ((CreateGeometryListener)broker.getMappingComponent().getInputListener(BELIS_CREATE_MODE)).setMode(
                         CreateGeometryListener.LINESTRING);
-                } else if (userObject instanceof Abzweigdose) {
+                } else if (userObject instanceof AbzweigdoseCustomBean) {
                     if (log.isDebugEnabled()) {
                         log.debug("Instance is Abzweigdose --> geometry == point");
                         log.debug(userObject);
@@ -882,53 +933,6 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 Short.MAX_VALUE));
     } // </editor-fold>//GEN-END:initComponents
 
-    //~ Instance fields --------------------------------------------------------
-
-    BindingGroup bindingGroup2 = new BindingGroup();
-
-    private boolean ignoreFeatureSelection = false;
-//    protected TreePath[] selectedTreeNodes = null;
-//    public static final String PROP_SELECTEDTREENODE = "selectedTreeNodes";
-    private TreePath selectedTreeNode = null;
-    private final CustomMutableTreeTableNode rootNode = new CustomMutableTreeTableNode(null, true);
-    private final CustomMutableTreeTableNode searchResultsNode = new CustomMutableTreeTableNode(null, true);
-    private final CustomMutableTreeTableNode newObjectsNode = new CustomMutableTreeTableNode(null, true);
-    private CustomTreeTableModel treeTableModel = null;
-    private HashMap<Leuchte, Standort> leuchteToVirtualStandortMap = new HashMap();
-    private HashMap<Standort, ArrayList<Leuchte>> leuchtenRemovedFromMastMap =
-        new HashMap<Standort, ArrayList<Leuchte>>();
-    private JButton btnAttachMode = new JButton();
-    private boolean isAlreadyDisabled = false;
-    private boolean tmpProcessStarted = false;
-    private boolean isSwitchTriggerEnabled = false;
-    private Set currentSearchResults = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-//    public Set getCurrentSearchResults() {
-//        return currentSearchResults;
-//    }
-//
-//    public void setCurrentSearchResults(Set currentSearchResults) {
-//        this.currentSearchResults = currentSearchResults;
-//        firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, null, currentSearchResults);
-//    }
-    // There is no need to hold the objects in an extra set only convenience
-    private Set newObjects = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-    // private Set savedObjects = new HashSet();
-    // private Set processedObjects = new HashSet();
-    private final Set removedObjects = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-    private int currentMode = 0;
-    private Feature newlyAddedFeature = null;
-    // End of variables declaration//GEN-END:variables
-    private boolean isSelectedOverMap = false;
-    // ToDo Workaround because there will be exceptions if a selectedNode is moved. Should normaly not be done in the
-    // model
-    private TreePath selectedElement = null;
-    private Feature selectedFeature = null;
-
-    //~ Methods ----------------------------------------------------------------
-
     // ToDo if application switches in Edit Mode it must be checked if there is a entry selected and the mode must be
     // switched
     @Override
@@ -981,7 +985,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         if (log.isDebugEnabled()) {
                             log.debug("Leuchte from mast is selected in table.");
                         }
-                        final Standort parentMast = getParentMast(e.getPath().getLastPathComponent());
+                        final TdtaStandortMastCustomBean parentMast = getParentMast(e.getPath().getLastPathComponent());
                         if ((broker.getMappingComponent().getFeatureCollection().getSelectedFeatures() != null)
                                     && (broker.getMappingComponent().getFeatureCollection().getSelectedFeatures()
                                         .size() == 1)
@@ -1041,7 +1045,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     public boolean isUserObjectLeuchte(final Object node) {
         if ((node != null) && (node instanceof CustomMutableTreeTableNode)) {
             final Object userObject = getUserObjectForTreeNode(node);
-            if ((userObject != null) && (userObject instanceof Leuchte)) {
+            if ((userObject != null) && (userObject instanceof TdtaLeuchteCustomBean)) {
                 return true;
             }
         }
@@ -1058,7 +1062,8 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     public boolean isUserObjectMast(final Object node) {
         if ((node != null) && (node instanceof CustomMutableTreeTableNode)) {
             final Object userObject = getUserObjectForTreeNode(node);
-            if ((userObject != null) && (userObject instanceof Standort) && ((Standort)userObject).isStandortMast()) {
+            if ((userObject != null) && (userObject instanceof TdtaStandortMastCustomBean)
+                        && ((TdtaStandortMastCustomBean)userObject).isStandortMast()) {
                 return true;
             }
         }
@@ -1094,14 +1099,14 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
         try {
             if (log.isDebugEnabled()) {
                 log.debug("instance of Leuchte: "
-                            + (((CustomMutableTreeTableNode)node).getUserObject() instanceof Leuchte));
+                            + (((CustomMutableTreeTableNode)node).getUserObject() instanceof TdtaLeuchteCustomBean));
             }
             if (log.isDebugEnabled()) {
                 log.debug("Parent is searchnode: "
                             + ((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent()).equals(
                                 searchResultsNode));
             }
-            return (((CustomMutableTreeTableNode)node).getUserObject() instanceof Leuchte)
+            return (((CustomMutableTreeTableNode)node).getUserObject() instanceof TdtaLeuchteCustomBean)
                         && (((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent()).equals(
                                 searchResultsNode)
                             || ((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent()).equals(
@@ -1121,10 +1126,10 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      *
      * @return  DOCUMENT ME!
      */
-    public Standort getParentMast(final Object node) {
+    public TdtaStandortMastCustomBean getParentMast(final Object node) {
         try {
-            return ((Standort)((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent())
-                            .getUserObject());
+            return ((TdtaStandortMastCustomBean)
+                    ((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent()).getUserObject());
         } catch (Exception ex) {
             if (log.isDebugEnabled()) {
                 log.debug("Exception while getting parent mast. Does not exist", ex);
@@ -1168,14 +1173,15 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         // tReBe.scrollRectToVisible(tmp); } } else {
                         // tReBe.getSelectionModel().removeSelectionInterval(displayedIndex, displayedIndex); }
                         TreePath path = null;
-                        if ((feature instanceof Standort) && !((Standort)feature).isStandortMast()
-                                    && (((Standort)feature).getLeuchten() != null)
-                                    && (((Standort)feature).getLeuchten().size() > 0)) {
+                        if ((feature instanceof TdtaStandortMastCustomBean)
+                                    && !((TdtaStandortMastCustomBean)feature).isStandortMast()
+                                    && (((TdtaStandortMastCustomBean)feature).getLeuchten() != null)
+                                    && (((TdtaStandortMastCustomBean)feature).getLeuchten().size() > 0)) {
                             if (log.isDebugEnabled()) {
                                 log.debug("virtual Standort selected, selecting depending leuchte");
                             }
-                            path = treeTableModel.getPathForUserObject(((Standort)feature).getLeuchten().iterator()
-                                            .next());
+                            path = treeTableModel.getPathForUserObject(((TdtaStandortMastCustomBean)feature)
+                                            .getLeuchten().iterator().next());
                         } else {
                             path = treeTableModel.getPathForUserObject(feature);
                         }
@@ -1259,18 +1265,19 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 }
                 if (searchResultsNode != null) {
                     for (final Object curObject : currentSearchResults) {
-                        if (curObject instanceof Standort) {
+                        if (curObject instanceof TdtaStandortMastCustomBean) {
                             final CustomMutableTreeTableNode standortNode = new CustomMutableTreeTableNode(
                                     curObject,
                                     true);
-                            final Set<Leuchte> leuchten = ((Standort)curObject).getLeuchten();
+                            final Set<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
+                                        .getLeuchten();
                             if (searchResultsNode != null) {
-                                if (((Standort)curObject).isStandortMast()) {
+                                if (((TdtaStandortMastCustomBean)curObject).isStandortMast()) {
                                     if (log.isDebugEnabled()) {
                                         log.debug("Current Object is mast adding node to tree");
                                     }
                                     treeTableModel.insertNodeIntoAsLastChild(standortNode, searchResultsNode);
-                                    ((Standort)curObject).addPropertyChangeListener(this);
+                                    ((TdtaStandortMastCustomBean)curObject).addPropertyChangeListener(this);
                                 } else {
                                     if (log.isDebugEnabled()) {
                                         log.debug(
@@ -1278,19 +1285,22 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                                     }
                                 }
                                 if (leuchten != null) {
-                                    for (final Leuchte curLeuchte : leuchten) {
+                                    for (final TdtaLeuchteCustomBean curLeuchte : leuchten) {
                                         final CustomMutableTreeTableNode leuchteNode = new CustomMutableTreeTableNode(
                                                 curLeuchte,
                                                 false);
                                         curLeuchte.addPropertyChangeListener(this);
                                         // leuchteNode.setParent(standortNode);
                                         // standortNode.add(leuchteNode);
-                                        if (((Standort)curObject).isStandortMast()) {
+                                        if (((TdtaStandortMastCustomBean)curObject).isStandortMast()) {
                                             treeTableModel.insertNodeIntoAsLastChild(leuchteNode, standortNode);
-                                            ((Standort)curObject).addPropertyChangeListener(curLeuchte);
+                                            ((TdtaStandortMastCustomBean)curObject).addPropertyChangeListener(
+                                                curLeuchte);
                                         } else {
                                             treeTableModel.insertNodeIntoAsLastChild(leuchteNode, searchResultsNode);
-                                            leuchteToVirtualStandortMap.put(curLeuchte, (Standort)curObject);
+                                            leuchteToVirtualStandortMap.put(
+                                                curLeuchte,
+                                                (TdtaStandortMastCustomBean)curObject);
                                         }
                                     }
 //                                    searchResultsNode.add(standortNode);
@@ -1339,16 +1349,17 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 }
                 if (newObjects != null) {
                     for (final Object curObject : newObjects) {
-                        if (curObject instanceof Standort) {
+                        if (curObject instanceof TdtaStandortMastCustomBean) {
                             final CustomMutableTreeTableNode standortNode = new CustomMutableTreeTableNode(
                                     curObject,
                                     true);
-                            ((Standort)curObject).addPropertyChangeListener(this);
-                            final Set<Leuchte> leuchten = ((Standort)curObject).getLeuchten();
+                            ((TdtaStandortMastCustomBean)curObject).addPropertyChangeListener(this);
+                            final Set<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
+                                        .getLeuchten();
                             if (newObjectsNode != null) {
                                 treeTableModel.insertNodeIntoAsLastChild(standortNode, newObjectsNode);
                                 if (leuchten != null) {
-                                    for (final Leuchte curLeuchte : leuchten) {
+                                    for (final TdtaLeuchteCustomBean curLeuchte : leuchten) {
                                         final CustomMutableTreeTableNode leuchteNode = new CustomMutableTreeTableNode(
                                                 curLeuchte,
                                                 false);
@@ -1499,64 +1510,67 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 saveSelectedElementAndUnselectAll();
                 log.fatal("removing node:" + nodeToRemove);
                 if (log.isDebugEnabled()) {
-                    log.debug("instance leuchte: " + (nodeToRemove.getUserObject() instanceof Leuchte));
+                    log.debug("instance leuchte: " + (nodeToRemove.getUserObject() instanceof TdtaLeuchteCustomBean));
                 }
                 if (log.isDebugEnabled()) {
                     log.debug("parent != null: " + (nodeToRemove.getParent() != null));
                 }
                 if (log.isDebugEnabled()) {
-                    log.debug("parent instance standort: " + (nodeToRemove.getParent() instanceof Standort));
+                    log.debug("parent instance standort: "
+                                + (nodeToRemove.getParent() instanceof TdtaStandortMastCustomBean));
                 }
                 if (log.isDebugEnabled()) {
                     log.debug("parent childcoutn" + nodeToRemove.getParent().getChildCount());
                 }
                 // ToDo getParentMast for Leuchte Method
                 if ((nodeToRemove.getUserObject() != null)
-                            && (nodeToRemove.getUserObject() instanceof Leuchte)
+                            && (nodeToRemove.getUserObject() instanceof TdtaLeuchteCustomBean)
                             && (nodeToRemove.getParent() != null)
                             && (nodeToRemove.getParent() instanceof CustomMutableTreeTableNode)
                             && (((CustomMutableTreeTableNode)nodeToRemove.getParent()) != null)
                             && (((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject() != null)
                             && (((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject()
-                                instanceof Standort)) {
+                                instanceof TdtaStandortMastCustomBean)) {
                     if (log.isDebugEnabled()) {
                         log.debug("Leuchte is removed from Mast");
                     }
-                    final Standort mast = (Standort)((CustomMutableTreeTableNode)nodeToRemove.getParent())
-                                .getUserObject();
+                    final TdtaStandortMastCustomBean mast = (TdtaStandortMastCustomBean)
+                        ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject();
                     if (log.isDebugEnabled()) {
-                        log.debug("Leuchte: " + (Leuchte)nodeToRemove.getUserObject() + " from Mast: " + mast);
+                        log.debug("Leuchte: " + (TdtaLeuchteCustomBean)nodeToRemove.getUserObject() + " from Mast: "
+                                    + mast);
                     }
-                    mast.getLeuchten().remove((Leuchte)nodeToRemove.getUserObject());
+                    mast.getLeuchten().remove((TdtaLeuchteCustomBean)nodeToRemove.getUserObject());
                     if (log.isDebugEnabled()) {
                         log.debug("Leuchten of Mast: " + mast.getLeuchten());
                     }
                     if (log.isDebugEnabled()) {
                         log.debug("other mast leuchten ref: "
-                                    + ((Standort)((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject())
+                                    + ((TdtaStandortMastCustomBean)
+                                        ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject())
                                     .getLeuchten());
                     }
-                    ArrayList<Leuchte> alreadyRemovedLeuchten = leuchtenRemovedFromMastMap.get(mast);
+                    ArrayList<TdtaLeuchteCustomBean> alreadyRemovedLeuchten = leuchtenRemovedFromMastMap.get(mast);
                     if (alreadyRemovedLeuchten == null) {
-                        alreadyRemovedLeuchten = new ArrayList<Leuchte>();
+                        alreadyRemovedLeuchten = new ArrayList<TdtaLeuchteCustomBean>();
                         leuchtenRemovedFromMastMap.put(mast, alreadyRemovedLeuchten);
                     }
-                    alreadyRemovedLeuchten.add((Leuchte)nodeToRemove.getUserObject());
+                    alreadyRemovedLeuchten.add((TdtaLeuchteCustomBean)nodeToRemove.getUserObject());
                     if (mast.getLeuchten().size() == 0) {
                         if (log.isDebugEnabled()) {
                             log.debug("The leucht was the last leuchte of the mast refreshing icon");
                         }
                         broker.getMappingComponent()
                                 .getFeatureCollection()
-                                .reconsiderFeature(((Standort)((CustomMutableTreeTableNode)nodeToRemove.getParent())
-                                        .getUserObject()));
+                                .reconsiderFeature(((TdtaStandortMastCustomBean)
+                                        ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject()));
                     }
                 } else if (isNodeHaengeLeuchte(nodeToRemove)) {
                     if (log.isDebugEnabled()) {
                         log.debug("Node which will be removed is a haengeleuchte. Removing also virtual Standort");
                     }
-                    final Standort virtualStandort = leuchteToVirtualStandortMap.get((Leuchte)
-                            nodeToRemove.getUserObject());
+                    final TdtaStandortMastCustomBean virtualStandort = leuchteToVirtualStandortMap.get(
+                            (TdtaLeuchteCustomBean)nodeToRemove.getUserObject());
                     if (virtualStandort != null) {
                         broker.getMappingComponent().getFeatureCollection().removeFeature(virtualStandort);
                         removedObjects.add(virtualStandort);
@@ -1586,7 +1600,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
 //                } catch (Exception ex) {
 //                    log.warn("This object has no id field, hence it is no entity.");
 //                }
-                if (!(entity instanceof Leuchte)) {
+                if (!(entity instanceof TdtaLeuchteCustomBean)) {
                     removedObjects.add(entity);
                 }
             } else {
@@ -1687,7 +1701,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
             if (log.isDebugEnabled()) {
                 log.debug("restoring removed leuchten");
             }
-            for (final Standort curMast : leuchtenRemovedFromMastMap.keySet()) {
+            for (final TdtaStandortMastCustomBean curMast : leuchtenRemovedFromMastMap.keySet()) {
                 curMast.getLeuchten().addAll(leuchtenRemovedFromMastMap.get(curMast));
             }
         }
@@ -1729,7 +1743,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewStandort() {
-        final Standort newStandort = new Standort();
+        final TdtaStandortMastCustomBean newStandort = new TdtaStandortMastCustomBean();
         newStandort.setVerrechnungseinheit(true);
 
         if (((BelisBroker)broker).getDefaultUnterhaltMast() != null) {
@@ -1751,7 +1765,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewLeuchte() {
-        final Standort newStandort = new Standort();
+        final TdtaStandortMastCustomBean newStandort = new TdtaStandortMastCustomBean();
         newStandort.addPropertyChangeListener(this);
         newStandort.setVirtuellerStandort(true);
         newStandort.setVerrechnungseinheit(true);
@@ -1770,20 +1784,20 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      */
     public CustomMutableTreeTableNode addNewLeuchte(final Object relatedObject) {
         CustomMutableTreeTableNode nodeToAddLeuchte = null;
-        Standort parent = null;
+        TdtaStandortMastCustomBean parent = null;
         try {
             final TreePath pathToRelatedObejct = treeTableModel.getPathForUserObject(relatedObject);
             if ((pathToRelatedObejct != null)
                         && ((pathToRelatedObejct.getLastPathComponent() != null)
                             && (pathToRelatedObejct.getLastPathComponent() instanceof CustomMutableTreeTableNode)
                             && (((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent())
-                                .getUserObject() instanceof Leuchte))
+                                .getUserObject() instanceof TdtaLeuchteCustomBean))
                         && (pathToRelatedObejct.getParentPath() != null)
                         && (pathToRelatedObejct.getParentPath().getLastPathComponent()
                             instanceof CustomMutableTreeTableNode)
                         && (((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath().getLastPathComponent())
-                            .getUserObject() instanceof Standort)) {
-                parent = (Standort)
+                            .getUserObject() instanceof TdtaStandortMastCustomBean)) {
+                parent = (TdtaStandortMastCustomBean)
                     ((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath().getLastPathComponent())
                             .getUserObject();
                 nodeToAddLeuchte = ((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath()
@@ -1794,23 +1808,23 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
             } else if ((pathToRelatedObejct != null) && (pathToRelatedObejct.getLastPathComponent() != null)
                         && (pathToRelatedObejct.getLastPathComponent() instanceof CustomMutableTreeTableNode)
                         && (((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent()).getUserObject()
-                            instanceof Standort)) {
+                            instanceof TdtaStandortMastCustomBean)) {
                 if (log.isDebugEnabled()) {
                     log.debug("Related object is Standort (parent)");
                 }
-                parent = (Standort)((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent())
-                            .getUserObject();
+                parent = (TdtaStandortMastCustomBean)
+                    ((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent()).getUserObject();
                 nodeToAddLeuchte = ((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent());
             } else if (((pathToRelatedObejct == null) && (relatedObject != null)
-                            && (relatedObject instanceof Standort)
-                            && ((((Standort)relatedObject).isVirtuellerStandort() != null)
-                                && ((Standort)relatedObject).isVirtuellerStandort()))
-                        || !((Standort)relatedObject).isStandortMast()) {
+                            && (relatedObject instanceof TdtaStandortMastCustomBean)
+                            && ((((TdtaStandortMastCustomBean)relatedObject).isVirtuellerStandort() != null)
+                                && ((TdtaStandortMastCustomBean)relatedObject).isVirtuellerStandort()))
+                        || !((TdtaStandortMastCustomBean)relatedObject).isStandortMast()) {
                 if (log.isDebugEnabled()) {
                     log.debug("Leuchte has virtual standort will be added directly to tree");
                 }
                 nodeToAddLeuchte = newObjectsNode;
-                parent = (Standort)relatedObject;
+                parent = (TdtaStandortMastCustomBean)relatedObject;
             } else {
                 log.warn("Can't add Leuchte relatedObject is neither Leuchte nor Standort.");
             }
@@ -1821,7 +1835,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
             log.warn("Can't add Leuchte no node or standort found. Returning.");
             return null;
         }
-        final Leuchte newLeuchte = new Leuchte();
+        final TdtaLeuchteCustomBean newLeuchte = new TdtaLeuchteCustomBean();
         if (((BelisBroker)broker).getDefaultUnterhaltLeuchte() != null) {
             newLeuchte.setUnterhaltspflichtLeuchte(((BelisBroker)broker).getDefaultUnterhaltLeuchte());
         }
@@ -1851,7 +1865,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
         final CustomMutableTreeTableNode newLeuchteNode = new CustomMutableTreeTableNode(newLeuchte, false);
         // nodeToAddLeuchte.add(newLeuchteNode);
         // newLeuchteNode.setParent(nodeToAddLeuchte);
-        Set<Leuchte> tmpLeuchten = parent.getLeuchten();
+        Set<TdtaLeuchteCustomBean> tmpLeuchten = parent.getLeuchten();
         boolean reconsiderFeature = false;
         if (tmpLeuchten == null) {
             if (log.isDebugEnabled()) {
@@ -1892,10 +1906,10 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      *
      * @return  DOCUMENT ME!
      */
-    public short getNextLeuchtennummer(final Standort standort) {
+    public short getNextLeuchtennummer(final TdtaStandortMastCustomBean standort) {
         if ((standort != null) && (standort.getLeuchten() != null) && (standort.getLeuchten().size() > 0)) {
             short max = 0;
-            for (final Leuchte curLeuchte : standort.getLeuchten()) {
+            for (final TdtaLeuchteCustomBean curLeuchte : standort.getLeuchten()) {
                 if ((curLeuchte.getLeuchtennummer() != null) && (curLeuchte.getLeuchtennummer() > max)) {
                     max = curLeuchte.getLeuchtennummer();
                 }
@@ -1910,7 +1924,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewMauerlasche() {
-        final Mauerlasche newMauerlasche = new Mauerlasche();
+        final MauerlascheCustomBean newMauerlasche = new MauerlascheCustomBean();
         newMauerlasche.setStrassenschluessel(((BelisBroker)broker).getLastMauerlascheStrassenschluessel());
         newMauerlasche.addPropertyChangeListener((BelisBroker)broker);
         newMauerlasche.addPropertyChangeListener(this);
@@ -1926,7 +1940,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewSchaltstelle() {
-        final Schaltstelle newSchaltstelle = new Schaltstelle();
+        final SchaltstelleCustomBean newSchaltstelle = new SchaltstelleCustomBean();
         newSchaltstelle.addPropertyChangeListener(this);
         final CustomMutableTreeTableNode newSchaltstelleNode = new CustomMutableTreeTableNode(newSchaltstelle, true);
         newObjects.add(newSchaltstelleNode.getUserObject());
@@ -1940,7 +1954,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewLeitung() {
-        final Leitung newLeitung = new Leitung();
+        final LeitungCustomBean newLeitung = new LeitungCustomBean();
         newLeitung.setLeitungstyp(((BelisBroker)broker).getLastLeitungstyp());
         newLeitung.addPropertyChangeListener((BelisBroker)broker);
         newLeitung.addPropertyChangeListener(this);
@@ -1956,7 +1970,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewAbzweigdose() {
-        final Abzweigdose newAbzweigdose = new Abzweigdose();
+        final AbzweigdoseCustomBean newAbzweigdose = new AbzweigdoseCustomBean();
         final CustomMutableTreeTableNode newAbzweigdoseNode = new CustomMutableTreeTableNode(newAbzweigdose, true);
         newObjects.add(newAbzweigdoseNode.getUserObject());
         treeTableModel.insertNodeIntoAsLastChild(newAbzweigdoseNode, newObjectsNode);
@@ -2016,7 +2030,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      *
      * @return  DOCUMENT ME!
      */
-    public Standort getVirtualStandortForLeuchte(final Leuchte leuchte) {
+    public TdtaStandortMastCustomBean getVirtualStandortForLeuchte(final TdtaLeuchteCustomBean leuchte) {
         return leuchteToVirtualStandortMap.get(leuchte);
     }
 
@@ -2230,8 +2244,8 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                     StyledFeature currentSelectedFeature = null;
                     if (tmpObject instanceof StyledFeature) {
                         currentSelectedFeature = (StyledFeature)tmpObject;
-                    } else if (tmpObject instanceof Leuchte) {
-                        currentSelectedFeature = leuchteToVirtualStandortMap.get((Leuchte)tmpObject);
+                    } else if (tmpObject instanceof TdtaLeuchteCustomBean) {
+                        currentSelectedFeature = leuchteToVirtualStandortMap.get((TdtaLeuchteCustomBean)tmpObject);
                         if (currentSelectedFeature == null) {
                             log.warn("Leuchte has no virtual standort.");
                         }

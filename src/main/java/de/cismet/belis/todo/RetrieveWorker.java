@@ -17,8 +17,6 @@ import javax.swing.SwingWorker;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.belisEE.bean.interfaces.ObjectKey;
-
 import de.cismet.cismap.commons.BoundingBox;
 
 import de.cismet.commons.server.entity.BaseEntity;

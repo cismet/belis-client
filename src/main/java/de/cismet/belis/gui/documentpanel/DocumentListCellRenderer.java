@@ -23,7 +23,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 
-import de.cismet.belisEE.entity.DmsUrl;
+import de.cismet.cids.custom.beans.belis.DmsUrlCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -99,8 +99,8 @@ public class DocumentListCellRenderer extends DefaultListCellRenderer {
             final boolean isSelected,
             final boolean cellHasFocus) {
         ImageIcon imageIcon = null;
-        if (value instanceof DmsUrl) {
-            final DmsUrl url = (DmsUrl)value;
+        if (value instanceof DmsUrlCustomBean) {
+            final DmsUrlCustomBean url = (DmsUrlCustomBean)value;
             final File file = url.toFile();
             value = url.getBeschreibung();
             if (file != null) {

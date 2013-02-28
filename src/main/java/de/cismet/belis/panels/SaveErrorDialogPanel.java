@@ -24,7 +24,7 @@ import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
 
-import de.cismet.belisEE.entity.Lock;
+import de.cismet.cids.custom.beans.belis.SperreCustomBean;
 
 /**
  * DOCUMENT ME!

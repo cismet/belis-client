@@ -41,9 +41,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/mauerlasche.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <PlainString value="Mauerlasche"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Mauerlasche" noResource="true"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel3">
@@ -106,30 +104,22 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblMauerlascheStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblMauerlascheLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Laufende Nr.:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Laufende Nr.:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblMauerlascheErstellungsjahr">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Erstellungsjahr:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Erstellungsjahr:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblMauerlascheMaterial">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Material:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Material:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfMauerlascheLaufendenummer">
@@ -159,7 +149,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof MaterialMauerlasche) {&#xa;                   final MaterialMauerlasche mm = (MaterialMauerlasche)value;&#xa;                   setText(mm.getBezeichnung());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean mm = (de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean)value;&#xa;                   setText(mm.getBezeichnung());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -176,7 +166,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Strassenschluessel) {&#xa;                   final Strassenschluessel ss = (Strassenschluessel)value;&#xa;                   setText(ss.getPk());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;&#xa;                   setText(ss.getPk());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <Events>
@@ -190,7 +180,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Strassenschluessel) {&#xa;                   final Strassenschluessel ss = (Strassenschluessel)value;&#xa;                   setText(ss.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;&#xa;                   setText(ss.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -249,9 +239,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/schaltstelle.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <PlainString value="Schaltstelle"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Schaltstelle" noResource="true"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel4">
@@ -347,58 +335,42 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Laufende Nr.:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Laufende Nr.:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleHausnummer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Haus Nr.:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Haus Nr.:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleNummer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Schaltstellen Nr.:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Schaltstellen Nr.:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleErstellungsjahr">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Erstellungsjahr:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Erstellungsjahr:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleStandortbezeichnung">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Standortbezeichnung:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Standortbezeichnung:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleBauart">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Bauart:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Bauart:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblSchaltstelleBemerkung">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Bemerkung:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Bemerkung:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfSchaltstelleLaufendenummer">
@@ -462,7 +434,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof Bauart) {&#xa;                   final Bauart ba = (Bauart)value;&#xa;                   setText(ba.getBezeichnung());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof de.cismet.cids.custom.beans.belis.BauartCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.BauartCustomBean ba = (de.cismet.cids.custom.beans.belis.BauartCustomBean)value;&#xa;                   setText(ba.getBezeichnung());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -500,7 +472,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Strassenschluessel) {&#xa;                   final Strassenschluessel ss = (Strassenschluessel)value;&#xa;                   setText(ss.getPk());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;&#xa;                   setText(ss.getPk());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <Events>
@@ -514,7 +486,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Strassenschluessel) {&#xa;                   final Strassenschluessel ss = (Strassenschluessel)value;&#xa;                   setText(ss.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;&#xa;                   setText(ss.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -573,9 +545,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/leitung.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <PlainString value="Leitung"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Leitung" noResource="true"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel2">
@@ -626,23 +596,17 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblLeitungMaterial">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Material:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Material:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeitungLeitungstyp">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Leitungstyp:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Leitungstyp:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeitungQuerschnitt">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Querschnitt:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Querschnitt:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeitungLeitungstyp">
@@ -652,7 +616,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if (value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               }else if (value instanceof Leitungstyp) {&#xa;                   final Leitungstyp lt = (Leitungstyp)value;&#xa;                   setText(lt.getBezeichnung());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if (value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               }else if (value instanceof de.cismet.cids.custom.beans.belis.LeitungstypCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.LeitungstypCustomBean lt = (de.cismet.cids.custom.beans.belis.LeitungstypCustomBean)value;&#xa;                   setText(lt.getBezeichnung());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -666,7 +630,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;&#xa;            @Override&#xa;            public Component getListCellRendererComponent(&#xa;                    final JList list, final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;                if (value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               }else if (value instanceof MaterialLeitung) {&#xa;                    final MaterialLeitung mt = (MaterialLeitung) value;&#xa;                    setText(mt.getBezeichnung());&#xa;                }&#xa;                return this;&#xa;            }&#xa;        }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;&#xa;            @Override&#xa;            public Component getListCellRendererComponent(&#xa;                    final JList list, final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;                if (value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               }else if (value instanceof de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean) {&#xa;                    final de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean mt = (de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean) value;&#xa;                    setText(mt.getBezeichnung());&#xa;                }&#xa;                return this;&#xa;            }&#xa;        }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -680,7 +644,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;&#xa;            @Override&#xa;            public Component getListCellRendererComponent(&#xa;                    final JList list, final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;                if (value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               }else if (value instanceof Querschnitt) {&#xa;                    final Querschnitt qt = (Querschnitt) value;&#xa;                    if(qt.getGroesse() != null){&#xa;                        setText(qt.getGroesse().toString());&#xa;                    } else {&#xa;                        setText(&quot;&quot;);&#xa;                    }&#xa;                    &#xa;                }&#xa;                return this;&#xa;            }&#xa;        }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;&#xa;            @Override&#xa;            public Component getListCellRendererComponent(&#xa;                    final JList list, final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;                if (value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               }else if (value instanceof de.cismet.cids.custom.beans.belis.QuerschnittCustomBean) {&#xa;                    final de.cismet.cids.custom.beans.belis.QuerschnittCustomBean qt = (de.cismet.cids.custom.beans.belis.QuerschnittCustomBean) value;&#xa;                    if(qt.getGroesse() != null){&#xa;                        setText(qt.getGroesse().toString());&#xa;                    } else {&#xa;                        setText(&quot;&quot;);&#xa;                    }&#xa;                    &#xa;                }&#xa;                return this;&#xa;            }&#xa;        }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -732,9 +696,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/standort.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <PlainString value="Standort"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Standort" noResource="true"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel1">
@@ -899,16 +861,12 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblStandortStadtbezirk">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Stadtbezik:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Stadtbezik:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortPLZ">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Postleitzahl:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Postleitzahl:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtStandortPLZ">
@@ -931,7 +889,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Stadtbezirk) {&#xa;                   final Stadtbezirk sb = (Stadtbezirk)value;&#xa;                   setText(sb.getBezirk());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean sb = (de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean)value;&#xa;                   setText(sb.getBezirk());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -940,9 +898,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortHausnummer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Hausnummer:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Hausnummer:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfStandortHausnummer">
@@ -960,16 +916,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMastart">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Mastart:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Mastart:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMasttyp">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Mast Typ:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Mast Typ:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortMastart">
@@ -979,7 +931,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Mastart) {&#xa;                   final Mastart ma = (Mastart)value;&#xa;                   setText(ma.getMastart());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean ma = (de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean)value;&#xa;                   setText(ma.getMastart());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -993,7 +945,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Masttyp) {&#xa;                   final Masttyp mt = (Masttyp)value;&#xa;                   setText(mt.getMasttyp());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean mt = (de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean)value;&#xa;                   setText(mt.getMasttyp());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1002,9 +954,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortKlassifizierung">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Klassifizierung:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Klassifizierung:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortKlassifizierung">
@@ -1014,7 +964,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Klassifizierung) {&#xa;                   final Klassifizierung kl = (Klassifizierung)value;&#xa;                   setText(kl.getKlassifizierung());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean kl = (de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean)value;&#xa;                   setText(kl.getKlassifizierung());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1023,9 +973,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMastanstrich">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Mastanstrich:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Mastanstrich:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortMastanstrich">
@@ -1042,9 +990,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMastschutz">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Mastschutz:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Mastschutz:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortMastschutz">
@@ -1061,9 +1007,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortInbetriebnahme">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Inbetriebnahme:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Inbetriebnahme:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortInbetriebnahme">
@@ -1080,9 +1024,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortLetzteAenderung">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Letze &#xc4;nderung:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Letze &#xc4;nderung:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapStandortLetzteAenderung">
@@ -1099,9 +1041,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortUnterhalt">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Unterhalt:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Unterhalt:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortUnterhalt">
@@ -1111,7 +1051,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof UnterhaltMast) {&#xa;                   final UnterhaltMast um = (UnterhaltMast)value;&#xa;                   setText(um.getUnterhaltMast());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean um = (de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean)value;&#xa;                   setText(um.getUnterhaltMast());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1120,9 +1060,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortMontagefirma">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Montagefirma:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Montagefirma:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfStandortMontagefirma">
@@ -1140,9 +1078,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortBemerkung">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Bemerkung:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Bemerkung:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cboStandortVerrechnungseinheit">
@@ -1190,7 +1126,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Strassenschluessel) {&#xa;                   final Strassenschluessel ss = (Strassenschluessel)value;&#xa;                   setText(ss.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;&#xa;                   setText(ss.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1206,16 +1142,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortKenziffer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Kennziffer:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Kennziffer:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxStandortKennziffer">
@@ -1225,13 +1157,13 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Kennziffer) {&#xa;                   final Kennziffer kzf = (Kennziffer)value;&#xa;                   setText(kzf.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean kzf = (de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean)value;&#xa;                   setText(kzf.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
                 <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.kennziffer}" target="cbxStandortKennziffer" targetPath="selectedItem" updateStrategy="0" immediately="false">
                   <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                    <Connection code="new NotNullValidator(&quot;Kennziffer&quot;)" type="code"/>
+                    <Connection code="new NotNullValidator(&quot;de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean&quot;)" type="code"/>
                   </Property>
                 </BindingProperty>
               </BindingProperties>
@@ -1246,26 +1178,18 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Laufende Nr.:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Laufende Nr.:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortVerrechnungseinheit">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="V-Einheit:"/>
-                </Property>
-                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Verrechnungseinheit"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="V-Einheit:" noResource="true"/>
+                <Property name="toolTipText" type="java.lang.String" value="Verrechnungseinheit" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblStandortStandortangabe">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Standortangabe:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Standortangabe:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfStandortStandortAngabe">
@@ -1291,14 +1215,12 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Strassenschluessel) {&#xa;                   final Strassenschluessel ss = (Strassenschluessel)value;&#xa;                   setText(ss.getPk());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;&#xa;                   setText(ss.getPk());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
                 <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.strassenschluessel}" target="cbxStandortStrassenschluesselNr" targetPath="selectedItem" updateStrategy="1" immediately="false">
-                  <Property name="name" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                    <PlainString value="strassenschluesselnr"/>
-                  </Property>
+                  <Property name="name" type="java.lang.String" value="strassenschluesselnr" noResource="true"/>
                 </BindingProperty>
               </BindingProperties>
               <Events>
@@ -1535,9 +1457,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblLeuchteLeuchtennummer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Leuchtennummer:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Leuchtennummer:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLeuchteLeuchtennummer">
@@ -1555,9 +1475,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteEnergielieferant">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Energielieferant:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Energielieferant:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteEnergielieferant">
@@ -1567,7 +1485,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof Energielieferant) {&#xa;                   final Energielieferant el = (Energielieferant)value;&#xa;                   setText(el.getEnergielieferant());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean el = (de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean)value;&#xa;                   setText(el.getEnergielieferant());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1576,9 +1494,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteSchaltstelle">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Schaltstelle:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Schaltstelle:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLeuchteSchaltstelle">
@@ -1596,9 +1512,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteRundsteuer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Rundsteuerempf&#xe4;nger:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Rundsteuerempf&#xe4;nger:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtLeuchteRundsteuer">
@@ -1619,16 +1533,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteLeuchtentyp">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Leuchtentyp:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Leuchtentyp:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteUnterhalt">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Unterhalt Leuchte:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Unterhalt Leuchte:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteUnterhalt">
@@ -1638,7 +1548,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof UnterhaltLeuchte) {&#xa;                   final UnterhaltLeuchte ul = (UnterhaltLeuchte)value;&#xa;                   setText(ul.getUnterhaltspflichtigeLeuchte());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean ul = (de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean)value;&#xa;                   setText(ul.getUnterhaltspflichtigeLeuchte());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1647,9 +1557,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteZaehler">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Z&#xe4;hler vorhanden:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Z&#xe4;hler vorhanden:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cboLeuchteZaehler">
@@ -1662,9 +1570,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteInbetriebnahme">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Inbetriebnahme:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Inbetriebnahme:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="org.jdesktop.swingx.JXDatePicker" name="dapLeuchteInbetriebnahme">
@@ -1681,16 +1587,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteStrassenschluessel">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Stra&#xdf;enschl&#xfc;ssel:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteLaufendenummer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Laufende Nr.:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Laufende Nr.:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfLeuchteLaufendenummer">
@@ -1710,22 +1612,20 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               &#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof Kennziffer) {&#xa;                   final Kennziffer kzf = (Kennziffer)value;&#xa;                   setText(kzf.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               &#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean kzf = (de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean)value;&#xa;                   setText(kzf.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
                 <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.kennziffer}" target="cbxLeuchteKennziffer" targetPath="selectedItem" updateStrategy="0" immediately="false">
                   <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                    <Connection code="new NotNullValidator(&quot;Kennziffer&quot;)" type="code"/>
+                    <Connection code="new NotNullValidator(&quot;de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean&quot;)" type="code"/>
                   </Property>
                 </BindingProperty>
               </BindingProperties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteKenziffer">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Kennziffer:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Kennziffer:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteLeuchtentyp">
@@ -1735,7 +1635,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof Leuchtentyp) {&#xa;                   final Leuchtentyp lt = (Leuchtentyp)value;&#xa;                   setText(lt.getLeuchtentyp());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean lt = (de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean)value;&#xa;                   setText(lt.getLeuchtentyp());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1744,16 +1644,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteDoppelkommando1">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Doppelkomando 1:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Doppelkomando 1:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteDoppelkommando2">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Doppelkomando 2:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Doppelkomando 2:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="sprLeuchteDoppelkommando1Anzahl">
@@ -1793,7 +1689,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof Doppelkommando) {&#xa;                   final Doppelkommando dk = (Doppelkommando)value;&#xa;                   setText(dk.getPk()+&quot; - &quot;+dk.getBeschreibung());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean dk = (de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean)value;&#xa;                   setText(dk.getPk()+&quot; - &quot;+dk.getBeschreibung());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1807,7 +1703,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof Doppelkommando) {&#xa;                   final Doppelkommando dk = (Doppelkommando)value;&#xa;                   setText(dk.getPk()+&quot; - &quot;+dk.getBeschreibung());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean dk = (de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean)value;&#xa;                   setText(dk.getPk()+&quot; - &quot;+dk.getBeschreibung());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1816,9 +1712,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteMontagefirma">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Montagefirma:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Montagefirma:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfLeuchteMontagefirma">
@@ -1836,9 +1730,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteBemerkung">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Bemerkung:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Bemerkung:" noResource="true"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="scpLeuchteBemerkung">
@@ -1875,7 +1767,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Strassenschluessel) {&#xa;                   final Strassenschluessel ss = (Strassenschluessel)value;&#xa;                   setText(ss.getPk());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;&#xa;                   setText(ss.getPk());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <Events>
@@ -1889,7 +1781,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Strassenschluessel) {&#xa;                   final Strassenschluessel ss = (Strassenschluessel)value;&#xa;                   setText(ss.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;&#xa;                   setText(ss.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1905,9 +1797,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteStadtbezirk">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Stadtbezik:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Stadtbezik:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeuchteStadtbezirk">
@@ -1917,7 +1807,7 @@
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof Stadtbezirk) {&#xa;                   final Stadtbezirk sb = (Stadtbezirk)value;&#xa;                   setText(sb.getBezirk());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+                  <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean sb = (de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean)value;&#xa;                   setText(sb.getBezirk());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
                 </Property>
               </Properties>
               <BindingProperties>
@@ -1926,9 +1816,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteStandortangabe">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Standortangabe:"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="Standortangabe:" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txfLeuchteStandortAngabe">
@@ -1941,12 +1829,8 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblLeuchteVerrechnungseinheit">
               <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="V-Einheit:"/>
-                </Property>
-                <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <PlainString value="Verrechnungseinheit"/>
-                </Property>
+                <Property name="text" type="java.lang.String" value="V-Einheit:" noResource="true"/>
+                <Property name="toolTipText" type="java.lang.String" value="Verrechnungseinheit" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cboLeuchteVerrechnungseinheit">
@@ -1967,9 +1851,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/leuchte.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <PlainString value="Leuchte"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Leuchte" noResource="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="sprLeuchte">
@@ -2030,9 +1912,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/belis/resource/icon/22/abzweigdose.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <PlainString value="Abzweigdose/Zugkasten"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Abzweigdose/Zugkasten" noResource="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JSeparator" name="sprLeuchte1">

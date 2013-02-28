@@ -20,8 +20,8 @@ import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.util.BelisIcons;
 
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Standort;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
 import de.cismet.commons.architecture.interfaces.Editable;
 
@@ -142,12 +142,12 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                 setAllButtonsEnabled(true);
                 // btnNewLeuchte.setEnabled(false);
                 btnRemove.setEnabled(false);
-            } else if (currentEntity instanceof Standort) {
+            } else if (currentEntity instanceof TdtaStandortMastCustomBean) {
                 if (log.isDebugEnabled()) {
                     log.debug("Current entity is Standort");
                 }
                 setAllButtonsEnabled(true);
-            } else if (currentEntity instanceof Leuchte) {
+            } else if (currentEntity instanceof TdtaLeuchteCustomBean) {
                 if (log.isDebugEnabled()) {
                     log.debug("CurrentEntity is Leuchte");
                 }
@@ -169,8 +169,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                 } else {
                     btnRemove.setEnabled(true);
                 }
-                if ((currentEntity instanceof Standort)
-                            || ((currentEntity instanceof Leuchte)
+                if ((currentEntity instanceof TdtaStandortMastCustomBean)
+                            || ((currentEntity instanceof TdtaLeuchteCustomBean)
                                 && broker.getWorkbenchWidget().isParentNodeMast(
                                     broker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))) {
                     if (log.isDebugEnabled()) {
@@ -371,16 +371,18 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         try {
             broker.setVetoCheckEnabled(false);
             if ((currentEntity == null)
-                        || ((currentEntity instanceof Leuchte)
+                        || ((currentEntity instanceof TdtaLeuchteCustomBean)
                             && broker.getWorkbenchWidget().isNodeHaengeLeuchte(
                                 broker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))
-                        || !((currentEntity instanceof Standort) || (currentEntity instanceof Leuchte))) {
+                        || !((currentEntity instanceof TdtaStandortMastCustomBean)
+                            || (currentEntity instanceof TdtaLeuchteCustomBean))) {
                 if (log.isDebugEnabled()) {
                     log.debug("Leuchte will be created without Mast");
                 }
                 broker.addNewLeuchte();
-            } else if (((currentEntity instanceof Standort) && ((Standort)currentEntity).isStandortMast())
-                        || (currentEntity instanceof Leuchte)) {
+            } else if (((currentEntity instanceof TdtaStandortMastCustomBean)
+                            && ((TdtaStandortMastCustomBean)currentEntity).isStandortMast())
+                        || (currentEntity instanceof TdtaLeuchteCustomBean)) {
                 if (log.isDebugEnabled()) {
                     log.debug("Leuchte will be appended to Standort");
                 }
