@@ -18,10 +18,11 @@ import org.postgis.PGgeometry;
 import java.awt.Color;
 import java.awt.Paint;
 
+import de.cismet.cids.custom.beans.belis.GeomCustomBean;
+
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 import de.cismet.cismap.commons.jtsgeometryfactories.PostGisGeometryFactory;
 
-import de.cismet.commons.server.interfaces.Geom;
 import de.cismet.commons.server.interfaces.GeometrySlot;
 
 /**
@@ -37,7 +38,7 @@ public class GeoBaseEntity extends BaseEntity implements GeometrySlot {
 
     protected transient FeatureAnnotationSymbol mapIcon = null;
 
-    protected Geom geometrie;
+    protected GeomCustomBean geometrie;
 //
 
     private Boolean isEditable = false;
@@ -54,7 +55,7 @@ public class GeoBaseEntity extends BaseEntity implements GeometrySlot {
      *
      * @return  DOCUMENT ME!
      */
-    public Geom getGeometrie() {
+    public GeomCustomBean getGeometrie() {
         return geometrie;
     }
 
@@ -63,7 +64,7 @@ public class GeoBaseEntity extends BaseEntity implements GeometrySlot {
      *
      * @param  val  DOCUMENT ME!
      */
-    public void setGeometrie(final Geom val) {
+    public void setGeometrie(final GeomCustomBean val) {
         this.geometrie = val;
     }
 
@@ -148,7 +149,7 @@ public class GeoBaseEntity extends BaseEntity implements GeometrySlot {
     @Override
     public void setGeometry(final Geometry geom) {
         if (getGeometrie() == null) {
-            setGeometrie(new Geom());
+            setGeometrie(new GeomCustomBean());
         }
 
         try {

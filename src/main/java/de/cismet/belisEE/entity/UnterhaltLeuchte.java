@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface Mastart extends Serializable {
+public interface UnterhaltLeuchte extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -28,26 +28,26 @@ public interface Mastart extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    String getPk();
+    Short getPk();
 
     /**
      * DOCUMENT ME!
      *
      * @param  pk  DOCUMENT ME!
      */
-    void setPk(final String pk);
+    void setPk(final Short pk);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    String getMastart();
+    String getUnterhaltspflichtigeLeuchte();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  mastart  DOCUMENT ME!
+     * @param  unterhaltspflichtigeLeuchte  DOCUMENT ME!
      */
-    void setMastart(final String mastart);
+    void setUnterhaltspflichtigeLeuchte(final String unterhaltspflichtigeLeuchte);
 }

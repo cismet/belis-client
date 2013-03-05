@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface Querschnitt extends Serializable {
+public interface Doppelkommando extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -28,26 +28,26 @@ public interface Querschnitt extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    Long getId();
+    String getPk();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  id  DOCUMENT ME!
+     * @param  pk  DOCUMENT ME!
      */
-    void setId(final Long id);
+    void setPk(final String pk);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    Double getGroesse();
+    String getBeschreibung();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  groesse  DOCUMENT ME!
+     * @param  beschreibung  DOCUMENT ME!
      */
-    void setGroesse(final Double groesse);
+    void setBeschreibung(final String beschreibung);
 }

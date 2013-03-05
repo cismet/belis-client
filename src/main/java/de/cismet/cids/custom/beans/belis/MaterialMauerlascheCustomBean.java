@@ -11,7 +11,11 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belisEEold.entity.MaterialMauerlasche;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.MaterialMauerlasche;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -22,12 +26,53 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class MaterialMauerlascheCustomBean extends BaseEntity implements MaterialMauerlasche {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            MaterialMauerlascheCustomBean.class);
+
+    public static final String TABLE = "material_mauerlasche";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__BEZEICHNUNG = "bezeichnung";
+
+    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZEICHNUNG };
+
     //~ Instance fields --------------------------------------------------------
 
     private Long id;
     private String bezeichnung;
 
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new AbzweigdoseCustomBean object.
+     */
+    public MaterialMauerlascheCustomBean() {
+    }
+
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static MaterialMauerlascheCustomBean createNew() {
+        try {
+            return (MaterialMauerlascheCustomBean)CidsBean.createNewCidsBeanFromTableName(
+                    CidsBroker.BELIS_DOMAIN,
+                    TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
+    }
 
     @Override
     public Long getId() {
@@ -36,15 +81,9 @@ public class MaterialMauerlascheCustomBean extends BaseEntity implements Materia
 
     @Override
     public void setId(final Long id) {
+        final Long old = this.id;
         this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return super.hashCode();
-        }
-        return this.getId().hashCode();
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override
@@ -54,7 +93,17 @@ public class MaterialMauerlascheCustomBean extends BaseEntity implements Materia
 
     @Override
     public void setBezeichnung(final String bezeichnung) {
+        final Long old = this.id;
         this.bezeichnung = bezeichnung;
+        this.propertyChangeSupport.firePropertyChange(PROP__BEZEICHNUNG, old, this.bezeichnung);
+    }
+
+    @Override
+    public int hashCode() {
+        if (this.getId() == null) {
+            return super.hashCode();
+        }
+        return this.getId().hashCode();
     }
 
     @Override

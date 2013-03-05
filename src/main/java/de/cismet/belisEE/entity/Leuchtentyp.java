@@ -5,18 +5,21 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.belisEEold.entity;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package de.cismet.belisEE.entity;
 
-import java.io.File;
-
-import de.cismet.cids.custom.beans.belis.UrlCustomBean;
+import java.io.Serializable;
 
 /**
  * DOCUMENT ME!
  *
+ * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface DmsUrl {
+public interface Leuchtentyp extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -25,75 +28,82 @@ public interface DmsUrl {
      *
      * @return  DOCUMENT ME!
      */
-    Integer getId();
+    String getLeuchtentyp();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  val  DOCUMENT ME!
+     * @param  leuchtentyp  DOCUMENT ME!
      */
-    void setId(final Integer val);
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    Integer getTyp();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  val  DOCUMENT ME!
-     */
-    void setTyp(final Integer val);
+    void setLeuchtentyp(final String leuchtentyp);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    String getName();
+    String getFabrikat();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  val  DOCUMENT ME!
+     * @param  fabrikat  DOCUMENT ME!
      */
-    void setName(final String val);
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    String getBeschreibung();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  val  DOCUMENT ME!
-     */
-    void setBeschreibung(final String val);
+    void setFabrikat(final String fabrikat);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    UrlCustomBean getUrl();
+    Double getBestueckung();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  val  DOCUMENT ME!
+     * @param  bestueckung  DOCUMENT ME!
      */
-    void setUrl(final UrlCustomBean val);
+    void setBestueckung(final Double bestueckung);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    File toFile();
+    Double getLeistung();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leistung  DOCUMENT ME!
+     */
+    void setLeistung(final Double leistung);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    Double getLeistungBrutto();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leistungBrutto  DOCUMENT ME!
+     */
+    void setLeistungBrutto(final Double leistungBrutto);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    String getLampe();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  lampe  DOCUMENT ME!
+     */
+    void setLampe(final String lampe);
 }

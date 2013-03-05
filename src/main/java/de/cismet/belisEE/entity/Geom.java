@@ -5,21 +5,16 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
-import java.io.Serializable;
+import org.postgis.Geometry;
 
 /**
  * DOCUMENT ME!
  *
- * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface Klassifizierung extends Serializable {
+public interface Geom {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -28,26 +23,26 @@ public interface Klassifizierung extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    Short getPk();
+    Integer getId();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  pk  DOCUMENT ME!
+     * @param  val  DOCUMENT ME!
      */
-    void setPk(final Short pk);
+    void setId(final Integer val);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    String getKlassifizierung();
+    Geometry getGeomField();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  klassifizierung  DOCUMENT ME!
+     * @param  val  DOCUMENT ME!
      */
-    void setKlassifizierung(final String klassifizierung);
+    void setGeomField(final Geometry val);
 }

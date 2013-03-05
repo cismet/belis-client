@@ -11,7 +11,11 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belisEEold.entity.Doppelkommando;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.Doppelkommando;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -22,15 +26,29 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class TkeyDoppelkommandoCustomBean extends BaseEntity implements Doppelkommando {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            TkeyDoppelkommandoCustomBean.class);
+
+    public static final String TABLE = "tkey_doppelkommando";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__BESCHREIBUNG = "Beschreibung";
+    private static final String PROP__PK = "pk";
+
+    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BESCHREIBUNG, PROP__PK };
+
     //~ Instance fields --------------------------------------------------------
 
-    private String pk;
+    private Integer id;
     private String beschreibung;
+    private String pk;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new TkeyDoppelkommandoCustomBean object.
+     * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyDoppelkommandoCustomBean() {
     }
@@ -41,10 +59,51 @@ public class TkeyDoppelkommandoCustomBean extends BaseEntity implements Doppelko
      * @param  pk  DOCUMENT ME!
      */
     public TkeyDoppelkommandoCustomBean(final String pk) {
-        this.pk = pk;
+        setPk(pk);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static TkeyDoppelkommandoCustomBean createNew() {
+        try {
+            return (TkeyDoppelkommandoCustomBean)CidsBean.createNewCidsBeanFromTableName(
+                    CidsBroker.BELIS_DOMAIN,
+                    TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    public void setId(final Integer id) {
+        final Integer old = this.id;
+        this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
 
     @Override
     public String getPk() {
@@ -53,7 +112,9 @@ public class TkeyDoppelkommandoCustomBean extends BaseEntity implements Doppelko
 
     @Override
     public void setPk(final String pk) {
+        final String old = this.pk;
         this.pk = pk;
+        this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }
 
     @Override

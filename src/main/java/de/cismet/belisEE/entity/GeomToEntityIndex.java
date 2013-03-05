@@ -5,14 +5,23 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.belisEEold.entity;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package de.cismet.belisEE.entity;
+
+import java.io.Serializable;
+
+import de.cismet.cids.custom.beans.belis.GeomCustomBean;
 
 /**
  * DOCUMENT ME!
  *
+ * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface UrlBase {
+public interface GeomToEntityIndex extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -21,54 +30,54 @@ public interface UrlBase {
      *
      * @return  DOCUMENT ME!
      */
-    Integer getId();
+    Long getEntityID();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  val  DOCUMENT ME!
+     * @param  enityID  DOCUMENT ME!
      */
-    void setId(final Integer val);
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    String getServer();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  val  DOCUMENT ME!
-     */
-    void setServer(final String val);
+    void setEntityID(final Long enityID);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    String getProtPrefix();
+    Class getEntityClass();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  val  DOCUMENT ME!
+     * @param  entityName  DOCUMENT ME!
      */
-    void setProtPrefix(final String val);
+    void setEntityClass(final Class entityName);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    String getPfad();
+    GeomCustomBean getGeometry();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  val  DOCUMENT ME!
+     * @param  geometry  DOCUMENT ME!
      */
-    void setPfad(final String val);
+    void setGeometry(final GeomCustomBean geometry);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    Long getId();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    void setId(final Long id);
 }

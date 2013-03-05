@@ -11,7 +11,13 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belisEEold.entity.Leuchtentyp;
+import java.util.Date;
+
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.Leuchtentyp;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -22,19 +28,51 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            TkeyLeuchtentypCustomBean.class);
+
+    public static final String TABLE = "tkey_leuchtentyp";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__LEUCHTENTYP = "Leuchtentyp";
+    private static final String PROP__BESTUECKUNG = "Bestueckung";
+    private static final String PROP__LEISTUNG = "Leistung";
+    private static final String PROP__LEISTUNG_BRUTTO = "Leistung_brutto";
+    private static final String PROP__FABRIKAT = "Fabrikat";
+    private static final String PROP__LAMPE = "Lampe";
+    private static final String PROP__EINBAUDATUM = "einbaudatum";
+    private static final String PROP__LEISTUNG2STUFE = "leistung2stufe";
+
+    private static final String[] PROPERTY_NAMES = new String[] {
+            PROP__ID,
+            PROP__LEUCHTENTYP,
+            PROP__BESTUECKUNG,
+            PROP__LEISTUNG,
+            PROP__LEISTUNG_BRUTTO,
+            PROP__FABRIKAT,
+            PROP__LAMPE,
+            PROP__EINBAUDATUM,
+            PROP__LEISTUNG2STUFE
+        };
+
     //~ Instance fields --------------------------------------------------------
 
+    private Integer id;
     private String leuchtentyp;
-    private String fabrikat;
     private Double bestueckung;
     private Double leistung;
-    private Double leistungBrutto;
+    private Double leistung_brutto;
+    private String fabrikat;
     private String lampe;
+    private Date einbaudatum;
+    private Double leistung2stufe;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new TkeyLeuchtentypCustomBean object.
+     * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyLeuchtentypCustomBean() {
     }
@@ -45,10 +83,111 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
      * @param  leuchtentyp  DOCUMENT ME!
      */
     public TkeyLeuchtentypCustomBean(final String leuchtentyp) {
+        final String old = this.leuchtentyp;
         this.leuchtentyp = leuchtentyp;
+        this.propertyChangeSupport.firePropertyChange(PROP__LEUCHTENTYP, old, this.leuchtentyp);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static TkeyLeuchtentypCustomBean createNew() {
+        try {
+            return (TkeyLeuchtentypCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    public void setId(final Integer id) {
+        final Integer old = this.id;
+        this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getLeistung_brutto() {
+        return leistung_brutto;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  Leistung_brutto  DOCUMENT ME!
+     */
+    public void setLeistung_brutto(final Double Leistung_brutto) {
+        final Double old = this.leistung_brutto;
+        this.leistung_brutto = Leistung_brutto;
+        this.propertyChangeSupport.firePropertyChange(PROP__LEISTUNG_BRUTTO, old, this.leistung_brutto);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getEinbaudatum() {
+        return einbaudatum;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  einbaudatum  DOCUMENT ME!
+     */
+    public void setEinbaudatum(final Date einbaudatum) {
+        final Date old = this.einbaudatum;
+        this.einbaudatum = einbaudatum;
+        this.propertyChangeSupport.firePropertyChange(PROP__EINBAUDATUM, old, this.einbaudatum);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getLeistung2stufe() {
+        return leistung2stufe;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leistung2stufe  DOCUMENT ME!
+     */
+    public void setLeistung2stufe(final Double leistung2stufe) {
+        final Double old = this.leistung2stufe;
+        this.leistung2stufe = leistung2stufe;
+        this.propertyChangeSupport.firePropertyChange(PROP__LEISTUNG2STUFE, old, this.leistung2stufe);
+    }
 
     @Override
     public String getLeuchtentyp() {
@@ -57,7 +196,9 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
 
     @Override
     public void setLeuchtentyp(final String leuchtentyp) {
+        final String old = this.leuchtentyp;
         this.leuchtentyp = leuchtentyp;
+        this.propertyChangeSupport.firePropertyChange(PROP__LEUCHTENTYP, old, this.leuchtentyp);
     }
 
     @Override
@@ -67,7 +208,9 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
 
     @Override
     public void setFabrikat(final String fabrikat) {
+        final String old = this.fabrikat;
         this.fabrikat = fabrikat;
+        this.propertyChangeSupport.firePropertyChange(PROP__FABRIKAT, old, this.fabrikat);
     }
 
     @Override
@@ -77,7 +220,9 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
 
     @Override
     public void setBestueckung(final Double bestueckung) {
+        final Double old = this.bestueckung;
         this.bestueckung = bestueckung;
+        this.propertyChangeSupport.firePropertyChange(PROP__BESTUECKUNG, old, this.bestueckung);
     }
 
     @Override
@@ -87,17 +232,9 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
 
     @Override
     public void setLeistung(final Double leistung) {
+        final Double old = this.leistung;
         this.leistung = leistung;
-    }
-
-    @Override
-    public Double getLeistungBrutto() {
-        return leistungBrutto;
-    }
-
-    @Override
-    public void setLeistungBrutto(final Double leistungBrutto) {
-        this.leistungBrutto = leistungBrutto;
+        this.propertyChangeSupport.firePropertyChange(PROP__LEISTUNG, old, this.leistung);
     }
 
     @Override
@@ -107,7 +244,19 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
 
     @Override
     public void setLampe(final String lampe) {
+        final String old = this.lampe;
         this.lampe = lampe;
+        this.propertyChangeSupport.firePropertyChange(PROP__LAMPE, old, this.lampe);
+    }
+
+    @Override
+    public Double getLeistungBrutto() {
+        return getLeistung_brutto();
+    }
+
+    @Override
+    public void setLeistungBrutto(final Double leistungBrutto) {
+        setLeistung_brutto(leistungBrutto);
     }
 
     @Override

@@ -11,7 +11,11 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belisEEold.entity.Strassenschluessel;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.Strassenschluessel;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -22,15 +26,29 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Strassenschluessel {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            TkeyStrassenschluesselCustomBean.class);
+
+    public static final String TABLE = "tkey_strassenschluessel";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__STRASSE = "strasse";
+    private static final String PROP__PK = "pk";
+
+    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__STRASSE, PROP__PK };
+
     //~ Instance fields --------------------------------------------------------
 
-    private String pk;
+    private Integer id;
     private String strasse;
+    private String pk;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new TkeyStrassenschluesselCustomBean object.
+     * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyStrassenschluesselCustomBean() {
     }
@@ -41,10 +59,51 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Stra
      * @param  pk  DOCUMENT ME!
      */
     public TkeyStrassenschluesselCustomBean(final String pk) {
-        this.pk = pk;
+        setPk(pk);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static TkeyStrassenschluesselCustomBean createNew() {
+        try {
+            return (TkeyStrassenschluesselCustomBean)CidsBean.createNewCidsBeanFromTableName(
+                    CidsBroker.BELIS_DOMAIN,
+                    TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    public void setId(final Integer id) {
+        final Integer old = this.id;
+        this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
 
     @Override
     public String getPk() {
@@ -53,7 +112,9 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Stra
 
     @Override
     public void setPk(final String pk) {
+        final String old = this.pk;
         this.pk = pk;
+        this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }
 
     @Override
@@ -63,7 +124,9 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Stra
 
     @Override
     public void setStrasse(final String strasse) {
+        final String old = this.strasse;
         this.strasse = strasse;
+        this.propertyChangeSupport.firePropertyChange(PROP__STRASSE, old, this.strasse);
     }
 
     @Override

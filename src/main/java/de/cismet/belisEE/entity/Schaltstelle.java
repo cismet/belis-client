@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
@@ -27,18 +27,6 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  * @version  $Revision$, $Date$
  */
 public interface Schaltstelle extends Serializable, DocumentContainer {
-
-    //~ Static fields/initializers ---------------------------------------------
-
-    String PROP_ID = "Schaltstelle.id";
-    String PROP_STRASSENSCHLUESSEL = "Schaltstelle.strassenschluessel";
-    String PROP_LAUFENDE_NUMMER = "Schaltstelle.laufendeNummer";
-    String PROP_HAUSNUMMER = "Schaltstelle.hausnummer";
-    String PROP_SCHALTSTELLENNUMMER = "Schaltstelle.schaltstellenNummer";
-    String PROP_ZUSAETZLICHE_STANDORTBEZEICHNUNG = "Schaltstelle.zusaetzlicheStandortbezeichnung";
-    String PROP_BAUART = "Schaltstelle.bauart";
-    String PROP_BEMERKUNG = "Schaltstelle.bemerkung";
-    String PROP_ERSTELLUNGSJAHR = "Schaltstelle.erstellungsjahr";
 
     //~ Methods ----------------------------------------------------------------
 

@@ -9,19 +9,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.commons.server.interfaces;
+package de.cismet.belisEE.entity;
 
-import java.util.Collection;
-
-import de.cismet.cids.custom.beans.belis.DmsUrlCustomBean;
+import java.io.Serializable;
 
 /**
  * DOCUMENT ME!
  *
- * @author   srichter
+ * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface DocumentContainer {
+public interface Querschnitt extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -30,12 +28,26 @@ public interface DocumentContainer {
      *
      * @return  DOCUMENT ME!
      */
-    Collection<DmsUrlCustomBean> getDokumente();
+    Long getId();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  urls  DOCUMENT ME!
+     * @param  id  DOCUMENT ME!
      */
-    void setDokumente(Collection<DmsUrlCustomBean> urls);
+    void setId(final Long id);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    Double getGroesse();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  groesse  DOCUMENT ME!
+     */
+    void setGroesse(final Double groesse);
 }

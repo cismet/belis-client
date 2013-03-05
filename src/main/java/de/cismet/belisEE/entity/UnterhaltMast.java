@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface Energielieferant extends Serializable {
+public interface UnterhaltMast extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -42,12 +42,12 @@ public interface Energielieferant extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    String getEnergielieferant();
+    String getUnterhaltMast();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  energielieferant  DOCUMENT ME!
+     * @param  unterhaltMast  DOCUMENT ME!
      */
-    void setEnergielieferant(final String energielieferant);
+    void setUnterhaltMast(final String unterhaltMast);
 }

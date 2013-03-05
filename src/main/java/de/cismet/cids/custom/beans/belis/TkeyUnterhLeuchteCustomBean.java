@@ -11,7 +11,11 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belisEEold.entity.UnterhaltLeuchte;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.UnterhaltLeuchte;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -23,15 +27,33 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements UnterhaltLeuchte {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            TkeyUnterhLeuchteCustomBean.class);
+
+    public static final String TABLE = "tkey_unterh_leuchte";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__UNTERHALTSPFLICHTIGER_LEUCHTE = "Unterhaltspflichtiger_Leuchte";
+    private static final String PROP__PK = "pk";
+
+    private static final String[] PROPERTY_NAMES = new String[] {
+            PROP__ID,
+            PROP__UNTERHALTSPFLICHTIGER_LEUCHTE,
+            PROP__PK
+        };
+
     //~ Instance fields --------------------------------------------------------
 
+    private Integer id;
+    private String Unterhaltspflichtiger_Leuchte;
     private Short pk;
-    private String unterhaltspflichtigeLeuchte;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new TkeyUnterhLeuchteCustomBean object.
+     * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyUnterhLeuchteCustomBean() {
     }
@@ -42,10 +64,49 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
      * @param  pk  DOCUMENT ME!
      */
     public TkeyUnterhLeuchteCustomBean(final Short pk) {
-        this.pk = pk;
+        setPk(pk);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static TkeyUnterhLeuchteCustomBean createNew() {
+        try {
+            return (TkeyUnterhLeuchteCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    public void setId(final Integer id) {
+        final Integer old = this.id;
+        this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
 
     @Override
     public Short getPk() {
@@ -54,26 +115,43 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
 
     @Override
     public void setPk(final Short pk) {
+        final Short old = this.pk;
         this.pk = pk;
+        this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getUnterhaltspflichtiger_Leuchte() {
+        return Unterhaltspflichtiger_Leuchte;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  Unterhaltspflichtiger_Leuchte  DOCUMENT ME!
+     */
+    public void setUnterhaltspflichtiger_Leuchte(final String Unterhaltspflichtiger_Leuchte) {
+        final String old = this.Unterhaltspflichtiger_Leuchte;
+        this.Unterhaltspflichtiger_Leuchte = Unterhaltspflichtiger_Leuchte;
+        this.propertyChangeSupport.firePropertyChange(
+            PROP__UNTERHALTSPFLICHTIGER_LEUCHTE,
+            old,
+            this.Unterhaltspflichtiger_Leuchte);
     }
 
     @Override
     public String getUnterhaltspflichtigeLeuchte() {
-        return unterhaltspflichtigeLeuchte;
+        return getUnterhaltspflichtiger_Leuchte();
     }
 
     @Override
     public void setUnterhaltspflichtigeLeuchte(final String unterhaltspflichtigeLeuchte) {
-        this.unterhaltspflichtigeLeuchte = unterhaltspflichtigeLeuchte;
+        setUnterhaltspflichtiger_Leuchte(unterhaltspflichtigeLeuchte);
     }
-
-//    public Object getGeom() {
-//        return geom;
-//    }
-//
-//    public void setGeom(Object geom) {
-//        this.geom = geom;
-//    }
 
     @Override
     public int hashCode() {

@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
 
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Set;
 
 import de.cismet.belis.todo.CustomTreeTableModel;
@@ -47,7 +47,8 @@ public class SearchResultConverter extends Converter<Set, CustomTreeTableModel> 
         for (final Object curObject : searchResults) {
             if (curObject instanceof TdtaStandortMastCustomBean) {
                 final DefaultMutableTreeTableNode standortNode = new DefaultMutableTreeTableNode(curObject, true);
-                final Set<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject).getLeuchten();
+                final Collection<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
+                            .getLeuchten();
                 if (searchResults != null) {
                     if (leuchten != null) {
                         for (final TdtaLeuchteCustomBean curLeuchte : leuchten) {

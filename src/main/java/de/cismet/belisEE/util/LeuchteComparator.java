@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 import java.util.Comparator;
 
-import de.cismet.belisEEold.entity.Leuchte;
+import de.cismet.belisEE.entity.Leuchte;
 
 /**
  * DOCUMENT ME!

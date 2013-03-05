@@ -13,7 +13,11 @@ package de.cismet.cids.custom.beans.belis;
 
 import java.util.Date;
 
-import de.cismet.belisEEold.entity.Lock;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.Lock;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -24,72 +28,64 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class SperreCustomBean extends BaseEntity implements Lock {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SperreCustomBean.class);
+
+    public static final String TABLE = "sperre";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__LOCK_TIMESTAMP = "lock_timestamp";
+    private static final String PROP__USER_STRING = "user_string";
+    private static final String PROP__ADDITIONAL_INFO = "additional_info";
+    private static final String PROP__OBJECT_ID = "object_id";
+    private static final String PROP__CLASS_ID = "class_id";
+
+    private static final String[] PROPERTY_NAMES = new String[] {
+            PROP__ID,
+            PROP__LOCK_TIMESTAMP,
+            PROP__USER_STRING,
+            PROP__ADDITIONAL_INFO,
+            PROP__OBJECT_ID,
+            PROP__CLASS_ID
+        };
+
     //~ Instance fields --------------------------------------------------------
 
-    private String classId;
-    private String objectId;
-    private String userString;
-    private String additionalInfo;
-    private Date lockTimestamp;
     private Integer id;
+    private Date lock_timestamp;
+    private String user_string;
+    private String additional_info;
+    private String object_id;
+    private String class_id;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new SperreCustomBean object.
+     * Creates a new AbzweigdoseCustomBean object.
      */
     public SperreCustomBean() {
     }
 
-    /**
-     * Creates a new SperreCustomBean object.
-     *
-     * @param  id  DOCUMENT ME!
-     */
-    public SperreCustomBean(final Integer id) {
-        this.id = id;
-    }
-
     //~ Methods ----------------------------------------------------------------
 
-    @Override
-    public String getClassId() {
-        return classId;
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static SperreCustomBean createNew() {
+        try {
+            return (SperreCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
     }
 
     @Override
-    public void setClassId(final String classId) {
-        this.classId = classId;
-    }
-
-    @Override
-    public String getObjectId() {
-        return objectId;
-    }
-
-    @Override
-    public void setObjectId(final String objectId) {
-        this.objectId = objectId;
-    }
-
-    @Override
-    public String getUserString() {
-        return userString;
-    }
-
-    @Override
-    public void setUserString(final String userString) {
-        this.userString = userString;
-    }
-
-    @Override
-    public String getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    @Override
-    public void setAdditionalInfo(final String additionalInfo) {
-        this.additionalInfo = additionalInfo;
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
     }
 
     @Override
@@ -99,17 +95,159 @@ public class SperreCustomBean extends BaseEntity implements Lock {
 
     @Override
     public void setId(final Integer id) {
+        final Integer old = this.id;
         this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getLock_timestamp() {
+        return lock_timestamp;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  lock_timestamp  DOCUMENT ME!
+     */
+    public void setLock_timestamp(final Date lock_timestamp) {
+        final Date old = this.lock_timestamp;
+        this.lock_timestamp = lock_timestamp;
+        this.propertyChangeSupport.firePropertyChange(PROP__LOCK_TIMESTAMP, old, this.lock_timestamp);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getUser_string() {
+        return user_string;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  user_string  DOCUMENT ME!
+     */
+    public void setUser_string(final String user_string) {
+        final String old = this.user_string;
+        this.user_string = user_string;
+        this.propertyChangeSupport.firePropertyChange(PROP__USER_STRING, old, this.user_string);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getAdditional_info() {
+        return additional_info;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  additional_info  DOCUMENT ME!
+     */
+    public void setAdditional_info(final String additional_info) {
+        final String old = this.additional_info;
+        this.additional_info = additional_info;
+        this.propertyChangeSupport.firePropertyChange(PROP__ADDITIONAL_INFO, old, this.additional_info);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getObject_id() {
+        return object_id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  object_id  DOCUMENT ME!
+     */
+    public void setObject_id(final String object_id) {
+        final String old = this.object_id;
+        this.object_id = object_id;
+        this.propertyChangeSupport.firePropertyChange(PROP__OBJECT_ID, old, this.object_id);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getClass_id() {
+        return class_id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  class_id  DOCUMENT ME!
+     */
+    public void setClass_id(final String class_id) {
+        final String old = this.class_id;
+        this.class_id = class_id;
+        this.propertyChangeSupport.firePropertyChange(PROP__CLASS_ID, old, this.class_id);
+    }
+
+    @Override
+    public String getClassId() {
+        return getClass_id();
+    }
+
+    @Override
+    public void setClassId(final String classId) {
+        setClass_id(classId);
+    }
+
+    @Override
+    public String getObjectId() {
+        return getObject_id();
+    }
+
+    @Override
+    public void setObjectId(final String objectId) {
+        setObject_id(objectId);
+    }
+
+    @Override
+    public String getUserString() {
+        return getUser_string();
+    }
+
+    @Override
+    public void setUserString(final String userString) {
+        setUser_string(userString);
+    }
+
+    @Override
+    public String getAdditionalInfo() {
+        return getAdditional_info();
+    }
+
+    @Override
+    public void setAdditionalInfo(final String additionalInfo) {
+        setAdditional_info(additionalInfo);
     }
 
     @Override
     public Date getTimestamp() {
-        return lockTimestamp;
+        return getLock_timestamp();
     }
 
     @Override
     public void setTimestamp(final Date timestamp) {
-        this.lockTimestamp = timestamp;
+        setLock_timestamp(timestamp);
     }
 
     @Override

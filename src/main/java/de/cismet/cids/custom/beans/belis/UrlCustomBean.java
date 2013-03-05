@@ -10,7 +10,11 @@ package de.cismet.cids.custom.beans.belis;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import de.cismet.belisEEold.entity.Url;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.Url;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -21,11 +25,23 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class UrlCustomBean extends BaseEntity implements Url {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UrlCustomBean.class);
+
+    public static final String TABLE = "url";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__URL_BASE_ID = "url_base_id";
+    private static final String PROP__OBJECT_NAME = "object_name";
+
+    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__URL_BASE_ID, PROP__OBJECT_NAME };
+
     //~ Instance fields --------------------------------------------------------
 
     private Integer id;
-    private UrlBaseCustomBean urlBase;
-    private String objektname;
+    private UrlBaseCustomBean url_base_id;
+    private String object_name;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -37,34 +53,23 @@ public class UrlCustomBean extends BaseEntity implements Url {
 
     //~ Methods ----------------------------------------------------------------
 
-    @Override
-    public URL getURL() {
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static UrlCustomBean createNew() {
         try {
-            return new URL(urlBase.getCompleteURLBase() + objektname);
-        } catch (MalformedURLException ex) {
-            // TODO log
+            return (UrlCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
         }
-        return null;
     }
 
     @Override
-    public UrlBaseCustomBean getUrlBase() {
-        return urlBase;
-    }
-
-    @Override
-    public void setUrlBase(final UrlBaseCustomBean val) {
-        this.urlBase = val;
-    }
-
-    @Override
-    public String getObjektname() {
-        return objektname;
-    }
-
-    @Override
-    public void setObjektname(final String val) {
-        this.objektname = val;
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
     }
 
     @Override
@@ -74,7 +79,79 @@ public class UrlCustomBean extends BaseEntity implements Url {
 
     @Override
     public void setId(final Integer id) {
+        final Integer old = this.id;
         this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public UrlBaseCustomBean getUrl_base_id() {
+        return url_base_id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  url_base_id  DOCUMENT ME!
+     */
+    public void setUrl_base_id(final UrlBaseCustomBean url_base_id) {
+        final UrlBaseCustomBean old = this.url_base_id;
+        this.url_base_id = url_base_id;
+        this.propertyChangeSupport.firePropertyChange(PROP__URL_BASE_ID, old, this.url_base_id);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getObject_name() {
+        return object_name;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  object_name  DOCUMENT ME!
+     */
+    public void setObject_name(final String object_name) {
+        final String old = this.object_name;
+        this.object_name = object_name;
+        this.propertyChangeSupport.firePropertyChange(PROP__OBJECT_NAME, old, this.object_name);
+    }
+
+    @Override
+    public URL getURL() {
+        try {
+            return new URL(getUrlBase().getCompleteURLBase() + getObjektname());
+        } catch (MalformedURLException ex) {
+            // TODO log
+        }
+        return null;
+    }
+
+    @Override
+    public UrlBaseCustomBean getUrlBase() {
+        return getUrl_base_id();
+    }
+
+    @Override
+    public void setUrlBase(final UrlBaseCustomBean urlBase) {
+        setUrl_base_id(urlBase);
+    }
+
+    @Override
+    public String getObjektname() {
+        return getObject_name();
+    }
+
+    @Override
+    public void setObjektname(final String objektname) {
+        setObject_name(objektname);
     }
 
     @Override

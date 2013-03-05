@@ -13,12 +13,16 @@ package de.cismet.cids.custom.beans.belis;
 
 import java.beans.PropertyChangeEvent;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
+
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.Schaltstelle;
 
 import de.cismet.belisEE.mapicons.MapIcons;
 
-import de.cismet.belisEEold.entity.Schaltstelle;
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
@@ -31,30 +35,87 @@ import de.cismet.commons.server.entity.GeoBaseEntity;
  */
 public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstelle {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SchaltstelleCustomBean.class);
+
+    public static final String TABLE = "schaltstelle";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__ERSTELLUNGSJAHR = "erstellungsjahr";
+    private static final String PROP__LAUFENDE_NUMMER = "laufende_nummer";
+    private static final String PROP__FK_GEOM = "fk_geom";
+    private static final String PROP__FK_BAUART = "fk_bauart";
+    private static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
+    private static final String PROP__BEMERKUNG = "bemerkung";
+    private static final String PROP__SCHALTSTELLEN_NUMMER = "schaltstellen_nummer";
+    private static final String PROP__ZUSAETZLICHE_STANDORTBEZEICHNUNG = "zusaetzliche_standortbezeichnung";
+    private static final String PROP__HAUS_NUMMER = "haus_nummer";
+    private static final String PROP__DOKUMENTE = "dokumente";
+    private static final String PROP__PRUEFDATUM = "pruefdatum";
+//    private static final String PROP__FOTO = "foto";
+    private static final String PROP__MONTEUR = "monteur";
+
+    private static final String[] PROPERTY_NAMES = new String[] {
+            PROP__ID,
+            PROP__ERSTELLUNGSJAHR,
+            PROP__LAUFENDE_NUMMER,
+            PROP__FK_GEOM,
+            PROP__FK_BAUART,
+            PROP__FK_STRASSENSCHLUESSEL,
+            PROP__BEMERKUNG,
+            PROP__SCHALTSTELLEN_NUMMER,
+            PROP__ZUSAETZLICHE_STANDORTBEZEICHNUNG,
+            PROP__HAUS_NUMMER,
+            PROP__DOKUMENTE,
+            PROP__PRUEFDATUM, /*PROP__FOTO, */
+            PROP__MONTEUR
+        };
+
     //~ Instance fields --------------------------------------------------------
 
-    protected Set<DmsUrlCustomBean> dokumente;
-
     private Long id;
-    private TkeyStrassenschluesselCustomBean strassenschluessel;
-    private Short laufendeNummer;
-    private String hausnummer;
-    private String schaltstellenNummer;
-    private String zusaetzlicheStandortbezeichnung;
-    private BauartCustomBean bauart;
-    private String bemerkung;
     private Date erstellungsjahr;
+    private Short laufende_nummer;
+    private GeomCustomBean fk_geom;
+    private BauartCustomBean fk_bauart;
+    private TkeyStrassenschluesselCustomBean fk_strassenschluessel;
+    private String bemerkung;
+    private String schaltstellen_nummer;
+    private String zusaetzliche_standortbezeichnung;
+    private String haus_nummer;
+    private Collection<DmsUrlCustomBean> dokumente;
+    private Date pruefdatum;
+    // private FotoCustomBean foto;
+    private String monteur;
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new AbzweigdoseCustomBean object.
+     */
+    public SchaltstelleCustomBean() {
+    }
 
     //~ Methods ----------------------------------------------------------------
 
-    @Override
-    public Set<DmsUrlCustomBean> getDokumente() {
-        return dokumente;
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static SchaltstelleCustomBean createNew() {
+        try {
+            return (SchaltstelleCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
     }
 
     @Override
-    public void setDokumente(final Set<DmsUrlCustomBean> dokumente) {
-        this.dokumente = dokumente;
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
     }
 
     @Override
@@ -64,60 +125,204 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
 
     @Override
     public void setId(final Long id) {
+        final Long old = this.id;
         this.id = id;
-        getPropertyChangeSupport().firePropertyChange(PROP_ID, null, getId());
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Short getLaufende_nummer() {
+        return laufende_nummer;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  laufende_nummer  DOCUMENT ME!
+     */
+    public void setLaufende_nummer(final Short laufende_nummer) {
+        final Short old = this.laufende_nummer;
+        this.laufende_nummer = laufende_nummer;
+        this.propertyChangeSupport.firePropertyChange(PROP__LAUFENDE_NUMMER, old, this.laufende_nummer);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public GeomCustomBean getFk_geom() {
+        return fk_geom;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_geom  DOCUMENT ME!
+     */
+    public void setFk_geom(final GeomCustomBean fk_geom) {
+        final GeomCustomBean old = this.fk_geom;
+        this.fk_geom = fk_geom;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_GEOM, old, this.fk_geom);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public BauartCustomBean getFk_bauart() {
+        return fk_bauart;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_bauart  DOCUMENT ME!
+     */
+    public void setFk_bauart(final BauartCustomBean fk_bauart) {
+        final BauartCustomBean old = this.fk_bauart;
+        this.fk_bauart = fk_bauart;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_BAUART, old, this.fk_bauart);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public TkeyStrassenschluesselCustomBean getFk_strassenschluessel() {
+        return fk_strassenschluessel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_strassenschluessel  DOCUMENT ME!
+     */
+    public void setFk_strassenschluessel(final TkeyStrassenschluesselCustomBean fk_strassenschluessel) {
+        final TkeyStrassenschluesselCustomBean old = this.fk_strassenschluessel;
+        this.fk_strassenschluessel = fk_strassenschluessel;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_STRASSENSCHLUESSEL, old, this.fk_strassenschluessel);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getSchaltstellen_nummer() {
+        return schaltstellen_nummer;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  schaltstellen_nummer  DOCUMENT ME!
+     */
+    public void setSchaltstellen_nummer(final String schaltstellen_nummer) {
+        final String old = this.schaltstellen_nummer;
+        this.schaltstellen_nummer = schaltstellen_nummer;
+        this.propertyChangeSupport.firePropertyChange(PROP__SCHALTSTELLEN_NUMMER, old, this.schaltstellen_nummer);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getZusaetzliche_standortbezeichnung() {
+        return zusaetzliche_standortbezeichnung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  zusaetzliche_standortbezeichnung  DOCUMENT ME!
+     */
+    public void setZusaetzliche_standortbezeichnung(final String zusaetzliche_standortbezeichnung) {
+        final String old = this.zusaetzliche_standortbezeichnung;
+        this.zusaetzliche_standortbezeichnung = zusaetzliche_standortbezeichnung;
+        this.propertyChangeSupport.firePropertyChange(
+            PROP__ZUSAETZLICHE_STANDORTBEZEICHNUNG,
+            old,
+            this.zusaetzliche_standortbezeichnung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getHaus_nummer() {
+        return haus_nummer;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  haus_nummer  DOCUMENT ME!
+     */
+    public void setHaus_nummer(final String haus_nummer) {
+        final String old = this.haus_nummer;
+        this.haus_nummer = haus_nummer;
+        this.propertyChangeSupport.firePropertyChange(PROP__HAUS_NUMMER, old, this.haus_nummer);
     }
 
     @Override
-    public Short getLaufendeNummer() {
-        return laufendeNummer;
+    public Collection<DmsUrlCustomBean> getDokumente() {
+        return dokumente;
     }
 
     @Override
-    public void setLaufendeNummer(final Short laufendeNummer) {
-        this.laufendeNummer = laufendeNummer;
-        getPropertyChangeSupport().firePropertyChange(PROP_LAUFENDE_NUMMER, null, getLaufendeNummer());
+    public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
+        final Collection<DmsUrlCustomBean> old = this.dokumente;
+        this.dokumente = dokumente;
+        this.propertyChangeSupport.firePropertyChange(PROP__DOKUMENTE, old, this.dokumente);
     }
 
-    @Override
-    public TkeyStrassenschluesselCustomBean getStrassenschluessel() {
-        return strassenschluessel;
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getPruefdatum() {
+        return pruefdatum;
     }
 
-    @Override
-    public void setStrassenschluessel(final TkeyStrassenschluesselCustomBean strassenschluessel) {
-        final TkeyStrassenschluesselCustomBean oldStrassenschluessel = getStrassenschluessel();
-        this.strassenschluessel = strassenschluessel;
-        getPropertyChangeSupport().firePropertyChange(
-            PROP_STRASSENSCHLUESSEL,
-            oldStrassenschluessel,
-            strassenschluessel);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  pruefdatum  DOCUMENT ME!
+     */
+    public void setPruefdatum(final Date pruefdatum) {
+        final Date old = this.pruefdatum;
+        this.pruefdatum = pruefdatum;
+        this.propertyChangeSupport.firePropertyChange(PROP__PRUEFDATUM, old, this.pruefdatum);
     }
 
-    @Override
-    public String getHausnummer() {
-        return hausnummer;
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getMonteur() {
+        return monteur;
     }
 
-    @Override
-    public void setHausnummer(final String hausnummer) {
-        this.hausnummer = hausnummer;
-        getPropertyChangeSupport().firePropertyChange(PROP_HAUSNUMMER, null, getHausnummer());
-    }
-
-    @Override
-    public String getSchaltstellenNummer() {
-        return schaltstellenNummer;
-    }
-
-    @Override
-    public void setSchaltstellenNummer(final String schaltstellenNummer) {
-        final String oldSchaltstellenNummer = getSchaltstellenNummer();
-        this.schaltstellenNummer = schaltstellenNummer;
-        getPropertyChangeSupport().firePropertyChange(
-            PROP_SCHALTSTELLENNUMMER,
-            oldSchaltstellenNummer,
-            getSchaltstellenNummer());
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  monteur  DOCUMENT ME!
+     */
+    public void setMonteur(final String monteur) {
+        final String old = this.monteur;
+        this.monteur = monteur;
+        this.propertyChangeSupport.firePropertyChange(PROP__MONTEUR, old, this.monteur);
     }
 
     @Override
@@ -127,19 +332,9 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
 
     @Override
     public void setErstellungsjahr(final Date erstellungsjahr) {
+        final Date old = this.erstellungsjahr;
         this.erstellungsjahr = erstellungsjahr;
-        getPropertyChangeSupport().firePropertyChange(PROP_ERSTELLUNGSJAHR, null, getErstellungsjahr());
-    }
-
-    @Override
-    public BauartCustomBean getBauart() {
-        return bauart;
-    }
-
-    @Override
-    public void setBauart(final BauartCustomBean bauart) {
-        this.bauart = bauart;
-        getPropertyChangeSupport().firePropertyChange(PROP_BAUART, null, getBauart());
+        this.propertyChangeSupport.firePropertyChange(PROP__ERSTELLUNGSJAHR, old, this.erstellungsjahr);
     }
 
     @Override
@@ -149,22 +344,69 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
 
     @Override
     public void setBemerkung(final String bemerkung) {
+        final String old = this.bemerkung;
         this.bemerkung = bemerkung;
-        getPropertyChangeSupport().firePropertyChange(PROP_BEMERKUNG, null, getBemerkung());
+        this.propertyChangeSupport.firePropertyChange(PROP__BEMERKUNG, old, this.bemerkung);
+    }
+
+    @Override
+    public Short getLaufendeNummer() {
+        return getLaufende_nummer();
+    }
+
+    @Override
+    public void setLaufendeNummer(final Short laufendeNummer) {
+        setLaufende_nummer(laufendeNummer);
+    }
+
+    @Override
+    public TkeyStrassenschluesselCustomBean getStrassenschluessel() {
+        return getFk_strassenschluessel();
+    }
+
+    @Override
+    public void setStrassenschluessel(final TkeyStrassenschluesselCustomBean strassenschluessel) {
+        setFk_strassenschluessel(strassenschluessel);
+    }
+
+    @Override
+    public String getHausnummer() {
+        return getHaus_nummer();
+    }
+
+    @Override
+    public void setHausnummer(final String hausnummer) {
+        setHaus_nummer(hausnummer);
+    }
+
+    @Override
+    public String getSchaltstellenNummer() {
+        return getSchaltstellen_nummer();
+    }
+
+    @Override
+    public void setSchaltstellenNummer(final String schaltstellenNummer) {
+        setSchaltstellen_nummer(schaltstellenNummer);
+    }
+
+    @Override
+    public BauartCustomBean getBauart() {
+        return getFk_bauart();
+    }
+
+    @Override
+    public void setBauart(final BauartCustomBean bauart) {
+        setFk_bauart(bauart);
     }
 
     @Override
     public String getZusaetzlicheStandortbezeichnung() {
-        return zusaetzlicheStandortbezeichnung;
+        return getZusaetzliche_standortbezeichnung();
     }
 
     @Override
     public void setZusaetzlicheStandortbezeichnung(final String zusaetzlicheStandortbeschreibung) {
-        this.zusaetzlicheStandortbezeichnung = zusaetzlicheStandortbeschreibung;
-        getPropertyChangeSupport().firePropertyChange(
-            PROP_ZUSAETZLICHE_STANDORTBEZEICHNUNG,
-            null,
-            getZusaetzlicheStandortbezeichnung());
+        setZusaetzliche_standortbezeichnung(zusaetzlicheStandortbeschreibung);
     }
 
     @Override
@@ -231,7 +473,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         super.propertyChange(evt);
-        if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP_ID)) {
+        if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP__ID)) {
             System.out.println("this entity has changed and the property was not the id");
             setWasModified(true);
         }

@@ -16,9 +16,13 @@ import java.awt.Paint;
 
 import java.beans.PropertyChangeEvent;
 
-import java.util.Set;
+import java.util.Collection;
 
-import de.cismet.belisEEold.entity.Leitung;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.Leitung;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
 
@@ -29,25 +33,64 @@ import de.cismet.commons.server.entity.GeoBaseEntity;
  */
 public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LeitungCustomBean.class);
+
+    public static final String TABLE = "leitung";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__FK_GEOM = "fk_geom";
+    private static final String PROP__FK_MATERIAL = "fk_material";
+    private static final String PROP__FK_QUERSCHNITT = "fk_querschnitt";
+    private static final String PROP__FK_LEITUNGSTYP = "fk_leitungstyp";
+    private static final String PROP__DOKUMENTE = "dokumente";
+
+    private static final String[] PROPERTY_NAMES = new String[] {
+            PROP__ID,
+            PROP__FK_GEOM,
+            PROP__FK_MATERIAL,
+            PROP__FK_QUERSCHNITT,
+            PROP__FK_LEITUNGSTYP,
+            PROP__DOKUMENTE
+        };
+
     //~ Instance fields --------------------------------------------------------
 
-    protected Set<DmsUrlCustomBean> dokumente;
-
     private Long id;
-    private MaterialLeitungCustomBean material;
-    private LeitungstypCustomBean leitungstyp;
-    private QuerschnittCustomBean querschnitt;
+    private GeomCustomBean fk_geom;
+    private MaterialLeitungCustomBean fk_material;
+    private QuerschnittCustomBean fk_querschnitt;
+    private LeitungstypCustomBean fk_leitungstyp;
+    private Collection<DmsUrlCustomBean> dokumente;
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new AbzweigdoseCustomBean object.
+     */
+    public LeitungCustomBean() {
+    }
 
     //~ Methods ----------------------------------------------------------------
 
-    @Override
-    public Set<DmsUrlCustomBean> getDokumente() {
-        return dokumente;
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static LeitungCustomBean createNew() {
+        try {
+            return (LeitungCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
     }
 
     @Override
-    public void setDokumente(final Set<DmsUrlCustomBean> dokumente) {
-        this.dokumente = dokumente;
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
     }
 
     @Override
@@ -57,43 +100,133 @@ public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
 
     @Override
     public void setId(final Long id) {
+        final Long old = this.id;
         this.id = id;
-        getPropertyChangeSupport().firePropertyChange(PROP_ID, null, getId());
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public GeomCustomBean getFk_geom() {
+        return fk_geom;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_geom  DOCUMENT ME!
+     */
+    public void setFk_geom(final GeomCustomBean fk_geom) {
+        final GeomCustomBean old = this.fk_geom;
+        this.fk_geom = fk_geom;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_GEOM, old, this.fk_geom);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MaterialLeitungCustomBean getFk_material() {
+        return fk_material;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_material  DOCUMENT ME!
+     */
+    public void setFk_material(final MaterialLeitungCustomBean fk_material) {
+        final MaterialLeitungCustomBean old = this.fk_material;
+        this.fk_material = fk_material;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_MATERIAL, old, this.fk_material);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public QuerschnittCustomBean getFk_querschnitt() {
+        return fk_querschnitt;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_querschnitt  DOCUMENT ME!
+     */
+    public void setFk_querschnitt(final QuerschnittCustomBean fk_querschnitt) {
+        final QuerschnittCustomBean old = this.fk_querschnitt;
+        this.fk_querschnitt = fk_querschnitt;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_QUERSCHNITT, old, this.fk_querschnitt);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public LeitungstypCustomBean getFk_leitungstyp() {
+        return fk_leitungstyp;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_leitungstyp  DOCUMENT ME!
+     */
+    public void setFk_leitungstyp(final LeitungstypCustomBean fk_leitungstyp) {
+        final LeitungstypCustomBean old = this.fk_leitungstyp;
+        this.fk_leitungstyp = fk_leitungstyp;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_LEITUNGSTYP, old, this.fk_leitungstyp);
+    }
+
+    @Override
+    public Collection<DmsUrlCustomBean> getDokumente() {
+        return dokumente;
+    }
+
+    @Override
+    public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
+        final Collection<DmsUrlCustomBean> old = this.dokumente;
+        this.dokumente = dokumente;
+        this.propertyChangeSupport.firePropertyChange(PROP__DOKUMENTE, old, this.dokumente);
     }
 
     @Override
     public MaterialLeitungCustomBean getMaterial() {
-        return material;
+        return getFk_material();
     }
 
     @Override
     public void setMaterial(final MaterialLeitungCustomBean material) {
-        this.material = material;
-        getPropertyChangeSupport().firePropertyChange(PROP_MATERIAL, null, getMaterial());
+        setFk_material(material);
     }
 
     @Override
     public LeitungstypCustomBean getLeitungstyp() {
-        return leitungstyp;
+        return getFk_leitungstyp();
     }
 
     @Override
     public void setLeitungstyp(final LeitungstypCustomBean leitungstyp) {
-        final LeitungstypCustomBean oldLeitungstyp = getLeitungstyp();
-        this.leitungstyp = leitungstyp;
-        getPropertyChangeSupport().firePropertyChange(PROP_LEITUNGSTYP, oldLeitungstyp, getLeitungstyp());
+        setFk_leitungstyp(leitungstyp);
     }
 
     @Override
     public QuerschnittCustomBean getQuerschnitt() {
-        return querschnitt;
+        return getFk_querschnitt();
     }
 
     @Override
     public void setQuerschnitt(final QuerschnittCustomBean querschnitt) {
-        this.querschnitt = querschnitt;
-        getPropertyChangeSupport().firePropertyChange(PROP_QUERSCHNITT, null, getQuerschnitt());
+        setFk_querschnitt(querschnitt);
     }
+
     // ToDo change the style of the leitung depending to the attributes
     @Override
     public int hashCode() {
@@ -159,7 +292,7 @@ public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         super.propertyChange(evt);
-        if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP_ID)) {
+        if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP__ID)) {
             System.out.println("this entity has changed and the property was not the id");
             setWasModified(true);
         }

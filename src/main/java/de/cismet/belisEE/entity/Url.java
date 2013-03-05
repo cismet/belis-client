@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.net.URL;
 

@@ -11,7 +11,11 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belisEEold.entity.Mastart;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.Mastart;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -22,15 +26,28 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TkeyMastartCustomBean.class);
+
+    public static final String TABLE = "tkey_mastart";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__MASTART = "Mastart";
+    private static final String PROP__PK = "pk";
+
+    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__MASTART, PROP__PK };
+
     //~ Instance fields --------------------------------------------------------
 
-    private String pk;
+    private Integer id;
     private String mastart;
+    private String pk;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new TkeyMastartCustomBean object.
+     * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyMastartCustomBean() {
     }
@@ -41,7 +58,7 @@ public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
      * @param  pk  DOCUMENT ME!
      */
     public TkeyMastartCustomBean(final String pk) {
-        this.pk = pk;
+        setPk(pk);
     }
 
     /**
@@ -51,11 +68,50 @@ public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
      * @param  mastart  DOCUMENT ME!
      */
     public TkeyMastartCustomBean(final String pk, final String mastart) {
-        this.pk = pk;
-        this.mastart = mastart;
+        setPk(pk);
+        setMastart(mastart);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static TkeyMastartCustomBean createNew() {
+        try {
+            return (TkeyMastartCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    public void setId(final Integer id) {
+        final Integer old = this.id;
+        this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
 
     @Override
     public String getPk() {
@@ -64,7 +120,9 @@ public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
 
     @Override
     public void setPk(final String pk) {
+        final String old = this.pk;
         this.pk = pk;
+        this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }
 
     @Override
@@ -74,7 +132,9 @@ public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
 
     @Override
     public void setMastart(final String mastart) {
+        final String old = this.mastart;
         this.mastart = mastart;
+        this.propertyChangeSupport.firePropertyChange(PROP__MASTART, old, this.mastart);
     }
 
     @Override

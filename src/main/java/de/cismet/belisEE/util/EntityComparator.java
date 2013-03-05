@@ -15,12 +15,12 @@ import java.io.Serializable;
 
 import java.util.Comparator;
 
-import de.cismet.belisEEold.entity.Abzweigdose;
-import de.cismet.belisEEold.entity.Leitung;
-import de.cismet.belisEEold.entity.Leuchte;
-import de.cismet.belisEEold.entity.Mauerlasche;
-import de.cismet.belisEEold.entity.Schaltstelle;
-import de.cismet.belisEEold.entity.Standort;
+import de.cismet.belisEE.entity.Abzweigdose;
+import de.cismet.belisEE.entity.Leitung;
+import de.cismet.belisEE.entity.Leuchte;
+import de.cismet.belisEE.entity.Mauerlasche;
+import de.cismet.belisEE.entity.Schaltstelle;
+import de.cismet.belisEE.entity.Standort;
 
 import de.cismet.commons.server.entity.BaseEntity;
 

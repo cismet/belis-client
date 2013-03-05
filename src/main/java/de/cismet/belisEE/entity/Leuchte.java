@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.beans.PropertyChangeListener;
 
@@ -35,12 +35,11 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  */
 public interface Leuchte extends Serializable, PropertyChangeListener, DocumentContainer {
 
-    //~ Static fields/initializers ---------------------------------------------
+    //~ Instance fields --------------------------------------------------------
 
     String PROP_STRASSENSCHLUESSEL = "Leuchte.strassenschluessel";
     String PROP_KENNZIFFER = "Leuchte.Kennziffer";
     String PROP_LEUCHTENNUMMER = "Leuchte.leuchtennummer";
-    String PROP_LEUCHTENTYP = "Leuchte.leuchtentyp";
 
     //~ Methods ----------------------------------------------------------------
 

@@ -15,10 +15,10 @@ import java.io.Serializable;
 
 import java.util.Set;
 
+import de.cismet.belisEE.entity.Lock;
+
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
-
-import de.cismet.belisEEold.entity.Lock;
 
 /**
  * DOCUMENT ME!

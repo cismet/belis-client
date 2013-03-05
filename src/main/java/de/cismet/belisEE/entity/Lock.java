@@ -9,9 +9,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
+
+import java.util.Date;
 
 /**
  * DOCUMENT ME!
@@ -19,7 +21,7 @@ import java.io.Serializable;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface Leuchtentyp extends Serializable {
+public interface Lock extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -28,82 +30,82 @@ public interface Leuchtentyp extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    String getLeuchtentyp();
+    String getClassId();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  leuchtentyp  DOCUMENT ME!
+     * @param  classId  DOCUMENT ME!
      */
-    void setLeuchtentyp(final String leuchtentyp);
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    String getFabrikat();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  fabrikat  DOCUMENT ME!
-     */
-    void setFabrikat(final String fabrikat);
+    void setClassId(final String classId);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    Double getBestueckung();
+    String getObjectId();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  bestueckung  DOCUMENT ME!
+     * @param  objectId  DOCUMENT ME!
      */
-    void setBestueckung(final Double bestueckung);
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    Double getLeistung();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  leistung  DOCUMENT ME!
-     */
-    void setLeistung(final Double leistung);
+    void setObjectId(final String objectId);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    Double getLeistungBrutto();
+    String getUserString();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  leistungBrutto  DOCUMENT ME!
+     * @param  userString  DOCUMENT ME!
      */
-    void setLeistungBrutto(final Double leistungBrutto);
+    void setUserString(final String userString);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    String getLampe();
+    String getAdditionalInfo();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  lampe  DOCUMENT ME!
+     * @param  additionalInfo  DOCUMENT ME!
      */
-    void setLampe(final String lampe);
+    void setAdditionalInfo(final String additionalInfo);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    Integer getId();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    void setId(final Integer id);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    Date getTimestamp();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  timestamp  DOCUMENT ME!
+     */
+    void setTimestamp(final Date timestamp);
 }

@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface Strassenschluessel extends Serializable {
+public interface MaterialMauerlasche extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -28,26 +28,26 @@ public interface Strassenschluessel extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    String getPk();
+    Long getId();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  pk  DOCUMENT ME!
+     * @param  id  DOCUMENT ME!
      */
-    void setPk(final String pk);
+    void setId(final Long id);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    String getStrasse();
+    String getBezeichnung();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  strasse  DOCUMENT ME!
+     * @param  bezeichnung  DOCUMENT ME!
      */
-    void setStrasse(final String strasse);
+    void setBezeichnung(final String bezeichnung);
 }

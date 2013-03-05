@@ -19,6 +19,7 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.util.StandortKey;
 
 import de.cismet.cids.custom.beans.belis.BauartCustomBean;
+import de.cismet.cids.custom.beans.belis.GeomCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
 import de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean;
@@ -39,7 +40,6 @@ import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
 import de.cismet.cismap.commons.BoundingBox;
 
 import de.cismet.commons.server.entity.BaseEntity;
-import de.cismet.commons.server.interfaces.Geom;
 
 /**
  * DOCUMENT ME!
@@ -261,7 +261,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Object getObjectsByGeom(Geom geom) throws ActionNotSuccessfulException;
+    Object getObjectsByGeom(GeomCustomBean geom) throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *

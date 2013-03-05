@@ -9,12 +9,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.beans.PropertyChangeListener;
 
 import java.io.Serializable;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  */
 public interface Standort extends Serializable, PropertyChangeListener, DocumentContainer {
 
-    //~ Static fields/initializers ---------------------------------------------
+    //~ Instance fields --------------------------------------------------------
 
     String PROP_PLZ = "Standort.plz";
     String PROP_STRASSENSCHLUESSEL = "Standort.strassenschluessel";
@@ -92,14 +93,14 @@ public interface Standort extends Serializable, PropertyChangeListener, Document
      *
      * @return  DOCUMENT ME!
      */
-    Set<TdtaLeuchteCustomBean> getLeuchten();
+    Collection<TdtaLeuchteCustomBean> getLeuchten();
 
     /**
      * DOCUMENT ME!
      *
      * @param  leuchten  DOCUMENT ME!
      */
-    void setLeuchten(final Set<TdtaLeuchteCustomBean> leuchten);
+    void setLeuchten(final Collection<TdtaLeuchteCustomBean> leuchten);
 
     /**
      * DOCUMENT ME!

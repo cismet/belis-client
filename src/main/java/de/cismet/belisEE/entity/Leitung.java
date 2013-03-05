@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
@@ -27,12 +27,9 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  */
 public interface Leitung extends Serializable, DocumentContainer {
 
-    //~ Static fields/initializers ---------------------------------------------
+    //~ Instance fields --------------------------------------------------------
 
-    String PROP_ID = "Leitung.id";
-    String PROP_MATERIAL = "Leitung.material";
     String PROP_LEITUNGSTYP = "Leitung.Leitungstyp";
-    String PROP_QUERSCHNITT = "Leitung.querschnitt";
 
     //~ Methods ----------------------------------------------------------------
 

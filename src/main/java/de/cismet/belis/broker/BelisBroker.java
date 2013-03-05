@@ -28,6 +28,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -345,7 +346,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  searchResults  DOCUMENT ME!
      */
-    private void addEntityRecursiveToMap(final Set searchResults) {
+    private void addEntityRecursiveToMap(final Collection searchResults) {
         final ArrayList<Feature> featuresToAdd = new ArrayList<Feature>();
         if (searchResults != null) {
             for (final Object currentResult : searchResults) {

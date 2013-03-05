@@ -11,7 +11,11 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belisEEold.entity.Masttyp;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.Masttyp;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -22,14 +26,40 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class TkeyMasttypCustomBean extends BaseEntity implements Masttyp {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TkeyMasttypCustomBean.class);
+
+    public static final String TABLE = "tkey_masttyp";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__MASTTYP = "Masttyp";
+    private static final String PROP__LPH = "lph";
+    private static final String PROP__HERSTELLER = "hersteller";
+    private static final String PROP__WANDSTAERKE = "wandstaerke";
+//    private static final String PROP__FOTO = "foto";
+
+    private static final String[] PROPERTY_NAMES = new String[] {
+            PROP__ID,
+            PROP__MASTTYP,
+            PROP__LPH,
+            PROP__HERSTELLER,
+            PROP__WANDSTAERKE /*, PROP__FOTO*/
+        };
+
     //~ Instance fields --------------------------------------------------------
 
+    private Integer id;
     private String masttyp;
+    private Integer lph;
+    private String hersteller;
+    private Integer wandstaerke;
+//    private FotoCustomBean foto;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new TkeyMasttypCustomBean object.
+     * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyMasttypCustomBean() {
     }
@@ -40,10 +70,49 @@ public class TkeyMasttypCustomBean extends BaseEntity implements Masttyp {
      * @param  masttyp  DOCUMENT ME!
      */
     public TkeyMasttypCustomBean(final String masttyp) {
-        this.masttyp = masttyp;
+        setMasttyp(masttyp);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static TkeyMasttypCustomBean createNew() {
+        try {
+            return (TkeyMasttypCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    public void setId(final Integer id) {
+        final Integer old = this.id;
+        this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
 
     @Override
     public String getMasttyp() {
@@ -52,7 +121,69 @@ public class TkeyMasttypCustomBean extends BaseEntity implements Masttyp {
 
     @Override
     public void setMasttyp(final String masttyp) {
+        final String old = this.masttyp;
         this.masttyp = masttyp;
+        this.propertyChangeSupport.firePropertyChange(PROP__MASTTYP, old, this.masttyp);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getLph() {
+        return lph;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  lph  DOCUMENT ME!
+     */
+    public void setLph(final Integer lph) {
+        final Integer old = this.lph;
+        this.lph = lph;
+        this.propertyChangeSupport.firePropertyChange(PROP__LPH, old, this.lph);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getHersteller() {
+        return hersteller;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  hersteller  DOCUMENT ME!
+     */
+    public void setHersteller(final String hersteller) {
+        final String old = this.hersteller;
+        this.hersteller = hersteller;
+        this.propertyChangeSupport.firePropertyChange(PROP__HERSTELLER, old, this.hersteller);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getWandstaerke() {
+        return wandstaerke;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wandstaerke  DOCUMENT ME!
+     */
+    public void setWandstaerke(final Integer wandstaerke) {
+        final Integer old = this.wandstaerke;
+        this.wandstaerke = wandstaerke;
+        this.propertyChangeSupport.firePropertyChange(PROP__WANDSTAERKE, old, this.wandstaerke);
     }
 
     @Override

@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface Kennziffer extends Serializable {
+public interface Energielieferant extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -28,26 +28,26 @@ public interface Kennziffer extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    Short getKennziffer();
+    Short getPk();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  kennziffer  DOCUMENT ME!
+     * @param  pk  DOCUMENT ME!
      */
-    void setKennziffer(final Short kennziffer);
+    void setPk(final Short pk);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    String getBeschreibung();
+    String getEnergielieferant();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  beschreibung  DOCUMENT ME!
+     * @param  energielieferant  DOCUMENT ME!
      */
-    void setBeschreibung(final String beschreibung);
+    void setEnergielieferant(final String energielieferant);
 }

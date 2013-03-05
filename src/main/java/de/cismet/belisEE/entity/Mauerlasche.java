@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
@@ -29,17 +29,9 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  */
 public interface Mauerlasche extends Serializable, DocumentContainer {
 
-    //~ Static fields/initializers ---------------------------------------------
-
-    String PROP_ID = "Mauerlasche.id";
+    //~ Instance fields --------------------------------------------------------
 
     String PROP_STRASSENSCHLUESSEL = "Mauerlasche.strassenschluessel";
-
-    String PROP_LAUFENDE_NUMMER = "Mauerlasche.laufendeNummer";
-
-    String PROP_ERSTELLUNGSJAHR = "Mauerlasche.erstellungsjahr";
-
-    String PROP_MATERIAL = "Mauerlasche.material";
 
     //~ Methods ----------------------------------------------------------------
 

@@ -9,17 +9,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
 /**
  * DOCUMENT ME!
  *
- * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface UnterhaltLeuchte extends Serializable {
+public interface Stadtbezirk extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -42,12 +41,12 @@ public interface UnterhaltLeuchte extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    String getUnterhaltspflichtigeLeuchte();
+    String getBezirk();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  unterhaltspflichtigeLeuchte  DOCUMENT ME!
+     * @param  bezirk  DOCUMENT ME!
      */
-    void setUnterhaltspflichtigeLeuchte(final String unterhaltspflichtigeLeuchte);
+    void setBezirk(final String bezirk);
 }

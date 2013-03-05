@@ -1269,7 +1269,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                             final CustomMutableTreeTableNode standortNode = new CustomMutableTreeTableNode(
                                     curObject,
                                     true);
-                            final Set<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
+                            final Collection<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
                                         .getLeuchten();
                             if (searchResultsNode != null) {
                                 if (((TdtaStandortMastCustomBean)curObject).isStandortMast()) {
@@ -1354,7 +1354,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                                     curObject,
                                     true);
                             ((TdtaStandortMastCustomBean)curObject).addPropertyChangeListener(this);
-                            final Set<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
+                            final Collection<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
                                         .getLeuchten();
                             if (newObjectsNode != null) {
                                 treeTableModel.insertNodeIntoAsLastChild(standortNode, newObjectsNode);
@@ -1389,7 +1389,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
 //                    for (Object curObject : savedObjects) {
 //                        if (curObject instanceof Standort) {
 //                            final CustomMutableTreeTableNode standortNode = new CustomMutableTreeTableNode(curObject, true);
-//                            Set<Leuchte> leuchten = ((Standort) curObject).getLeuchten();
+//                            Collection<Leuchte> leuchten = ((Standort) curObject).getLeuchten();
 //                            if (newObjectsNode != null) {
 //                                treeTableModel.insertNodeInto(standortNode, newObjectsNode, newObjectsNode.getChildCount());
 //                                if (leuchten != null) {
@@ -1865,7 +1865,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
         final CustomMutableTreeTableNode newLeuchteNode = new CustomMutableTreeTableNode(newLeuchte, false);
         // nodeToAddLeuchte.add(newLeuchteNode);
         // newLeuchteNode.setParent(nodeToAddLeuchte);
-        Set<TdtaLeuchteCustomBean> tmpLeuchten = parent.getLeuchten();
+        Collection<TdtaLeuchteCustomBean> tmpLeuchten = parent.getLeuchten();
         boolean reconsiderFeature = false;
         if (tmpLeuchten == null) {
             if (log.isDebugEnabled()) {
@@ -2173,11 +2173,11 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
 //        treeTableModel.restoreRemovedObjects();
 //    }
 //
-//    public Set<BaseEntity> getSavedObjects() {
+//    public Collection<BaseEntity> getSavedObjects() {
 //        return treeTableModel.getSavedObjects();
 //    }
 //
-//    public void getSavedObjects(Set<BaseEntity> savedObjects) {
+//    public void getSavedObjects(Collection<BaseEntity> savedObjects) {
 //        treeTableModel.setSavedObjects(savedObjects);
 //    }
 //    public void moveNewObjectsAfterSave(){

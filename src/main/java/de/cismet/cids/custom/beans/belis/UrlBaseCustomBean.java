@@ -7,7 +7,11 @@
 ****************************************************/
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belisEEold.entity.UrlBase;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.UrlBase;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -18,12 +22,30 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class UrlBaseCustomBean extends BaseEntity implements UrlBase {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UrlBaseCustomBean.class);
+
+    public static final String TABLE = "url_base";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__PROT_PREFIX = "prot_prefix";
+    private static final String PROP__PATH = "path";
+    private static final String PROP__SERVER = "server";
+
+    private static final String[] PROPERTY_NAMES = new String[] {
+            PROP__ID,
+            PROP__PROT_PREFIX,
+            PROP__PATH,
+            PROP__SERVER
+        };
+
     //~ Instance fields --------------------------------------------------------
 
     private Integer id;
-    private String protPrefix;
+    private String prot_prefix;
+    private String path;
     private String server;
-    private String pfad;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -35,14 +57,75 @@ public class UrlBaseCustomBean extends BaseEntity implements UrlBase {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static UrlBaseCustomBean createNew() {
+        try {
+            return (UrlBaseCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
+    }
+
     @Override
     public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(final Integer val) {
-        this.id = val;
+    public void setId(final Integer id) {
+        final Integer old = this.id;
+        this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getProt_prefix() {
+        return prot_prefix;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  prot_prefix  DOCUMENT ME!
+     */
+    public void setProt_prefix(final String prot_prefix) {
+        final String old = this.prot_prefix;
+        this.prot_prefix = prot_prefix;
+        this.propertyChangeSupport.firePropertyChange(PROP__PROT_PREFIX, old, this.prot_prefix);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  path  DOCUMENT ME!
+     */
+    public void setPath(final String path) {
+        final String old = this.path;
+        this.path = path;
+        this.propertyChangeSupport.firePropertyChange(PROP__PATH, old, this.path);
     }
 
     @Override
@@ -51,28 +134,30 @@ public class UrlBaseCustomBean extends BaseEntity implements UrlBase {
     }
 
     @Override
-    public void setServer(final String val) {
-        this.server = val;
+    public void setServer(final String server) {
+        final String old = this.server;
+        this.server = server;
+        this.propertyChangeSupport.firePropertyChange(PROP__SERVER, old, this.server);
     }
 
     @Override
     public String getProtPrefix() {
-        return protPrefix;
+        return getProt_prefix();
     }
 
     @Override
-    public void setProtPrefix(final String val) {
-        this.protPrefix = val;
+    public void setProtPrefix(final String protPrefix) {
+        setProt_prefix(protPrefix);
     }
 
     @Override
     public String getPfad() {
-        return pfad;
+        return getPath();
     }
 
     @Override
-    public void setPfad(final String val) {
-        this.pfad = val;
+    public void setPfad(final String pfad) {
+        setPath(pfad);
     }
 
     @Override
@@ -107,7 +192,7 @@ public class UrlBaseCustomBean extends BaseEntity implements UrlBase {
      * @return  DOCUMENT ME!
      */
     public String getCompleteURLBase() {
-        return protPrefix + server + pfad;
+        return getProtPrefix() + getServer() + getPfad();
     }
 
     @Override

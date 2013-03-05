@@ -9,16 +9,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
 /**
  * DOCUMENT ME!
  *
+ * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface Stadtbezirk extends Serializable {
+public interface Masttyp extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -27,26 +28,12 @@ public interface Stadtbezirk extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    Short getPk();
+    String getMasttyp();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  pk  DOCUMENT ME!
+     * @param  masttyp  DOCUMENT ME!
      */
-    void setPk(final Short pk);
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    String getBezirk();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  bezirk  DOCUMENT ME!
-     */
-    void setBezirk(final String bezirk);
+    void setMasttyp(final String masttyp);
 }

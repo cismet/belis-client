@@ -12,7 +12,11 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import de.cismet.belisEEold.entity.DmsUrl;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.DmsUrl;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -25,23 +29,62 @@ import de.cismet.tools.URLSplitter;
  */
 public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DmsUrlCustomBean.class);
+
+    public static final String TABLE = "dms_url";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__TYP = "typ";
+    private static final String PROP__URL_ID = "url_id";
+    private static final String PROP__DESCRIPTION = "description";
+    private static final String PROP__NAME = "name";
+
+    private static final String[] PROPERTY_NAMES = new String[] {
+            PROP__ID,
+            PROP__TYP,
+            PROP__URL_ID,
+            PROP__DESCRIPTION,
+            PROP__NAME
+        };
+
     //~ Instance fields --------------------------------------------------------
 
     private Integer id;
     private Integer typ;
+    private UrlCustomBean url_id;
+    private String description;
     private String name;
-    private String beschreibung;
-    private UrlCustomBean url;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new DmsUrlCustomBean object.
+     * Creates a new BauartCustomBean object.
      */
     public DmsUrlCustomBean() {
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static DmsUrlCustomBean createNew() {
+        try {
+            return (DmsUrlCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
+    }
 
     @Override
     public Integer getId() {
@@ -49,8 +92,10 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
     }
 
     @Override
-    public void setId(final Integer val) {
-        this.id = val;
+    public void setId(final Integer id) {
+        final Integer old = this.id;
+        this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override
@@ -59,8 +104,10 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
     }
 
     @Override
-    public void setTyp(final Integer val) {
-        this.typ = val;
+    public void setTyp(final Integer typ) {
+        final Integer old = this.typ;
+        this.typ = typ;
+        this.propertyChangeSupport.firePropertyChange(PROP__TYP, old, this.typ);
     }
 
     @Override
@@ -69,28 +116,70 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
     }
 
     @Override
-    public void setName(final String val) {
-        this.name = val;
+    public void setName(final String name) {
+        final String old = this.name;
+        this.name = name;
+        this.propertyChangeSupport.firePropertyChange(PROP__NAME, old, this.name);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public UrlCustomBean getUrl_id() {
+        return url_id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  url_id  DOCUMENT ME!
+     */
+    public void setUrl_id(final UrlCustomBean url_id) {
+        final UrlCustomBean old = this.url_id;
+        this.url_id = url_id;
+        this.propertyChangeSupport.firePropertyChange(PROP__URL_ID, old, this.url_id);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  description  DOCUMENT ME!
+     */
+    public void setDescription(final String description) {
+        final String old = this.description;
+        this.description = description;
+        this.propertyChangeSupport.firePropertyChange(PROP__DESCRIPTION, old, this.description);
     }
 
     @Override
     public String getBeschreibung() {
-        return beschreibung;
+        return getDescription();
     }
 
     @Override
-    public void setBeschreibung(final String val) {
-        this.beschreibung = val;
+    public void setBeschreibung(final String beschreibung) {
+        setDescription(beschreibung);
     }
 
     @Override
     public UrlCustomBean getUrl() {
-        return url;
+        return getUrl_id();
     }
 
     @Override
-    public void setUrl(final UrlCustomBean val) {
-        this.url = val;
+    public void setUrl(final UrlCustomBean url) {
+        setUrl_id(url);
     }
 
     @Override

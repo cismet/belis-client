@@ -38,14 +38,15 @@ import de.cismet.belis.panels.EJBReconnectorPanel;
 
 import de.cismet.belisEE.bean.interfaces.BelisServerRemote;
 
+import de.cismet.belisEE.entity.Lock;
+
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
 
 import de.cismet.belisEE.util.StandortKey;
 
-import de.cismet.belisEEold.entity.Lock;
-
 import de.cismet.cids.custom.beans.belis.BauartCustomBean;
+import de.cismet.cids.custom.beans.belis.GeomCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
 import de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean;
@@ -66,7 +67,6 @@ import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
 import de.cismet.cismap.commons.BoundingBox;
 
 import de.cismet.commons.server.entity.BaseEntity;
-import de.cismet.commons.server.interfaces.Geom;
 
 /**
  * DOCUMENT ME!
@@ -78,7 +78,8 @@ public class CidsBroker implements BelisServerRemote {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CidsBroker.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CidsBroker.class);
+    public static final String BELIS_DOMAIN = "BELIS";
 
     private static CidsBroker brokerInstance = null;
     private static JFrame parentFrame;
@@ -102,8 +103,8 @@ public class CidsBroker implements BelisServerRemote {
         initBrokenConnectionDialog();
         try {
             execService = Executors.newCachedThreadPool();
-            if (log.isDebugEnabled()) {
-                log.debug("Lookup des belisEJB");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Lookup des belisEJB");
             }
 //            System.setProperty("java.naming.factory.initial", "com.sun.enterprise.naming.SerialInitContextFactory");
             // TODO !!!! CONFIG FILE
@@ -112,15 +113,15 @@ public class CidsBroker implements BelisServerRemote {
             // ToDo Warning hardcoded must be removed
             // System.setProperty("org.omg.CORBA.ORBInitialPort", "5037");
             ic = new InitialContext();
-            if (log.isDebugEnabled()) {
-                log.debug("Initial Kontext komplett");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Initial Kontext komplett");
             }
 //            belisEJBServerStub = (BelisServerRemote)ic.lookup(BelisServerRemote.class.getName());
-            if (log.isDebugEnabled()) {
-                log.debug("Lookup des belisEJB erfolgreich");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Lookup des belisEJB erfolgreich");
             }
         } catch (Throwable ex) {
-            log.fatal("Fehler beim Verbinden mit Glassfish.\nFehler beim initialisieren/lookup des EJBs", ex);
+            LOG.fatal("Fehler beim Verbinden mit Glassfish.\nFehler beim initialisieren/lookup des EJBs", ex);
             brokenConnectionDialog.setVisible(true);
         }
     }
@@ -134,13 +135,13 @@ public class CidsBroker implements BelisServerRemote {
         if (dialogOwner == null) {
             EJBReconnectorPanel = new EJBReconnectorPanel();
             if ((parentFrame != null) && parentFrame.isVisible()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("frame wurde gesetzt");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("frame wurde gesetzt");
                 }
                 dialogOwner = parentFrame;
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("frame wurde nicht gesetzt");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("frame wurde nicht gesetzt");
                 }
                 dialogOwner = null;
             }
@@ -160,8 +161,8 @@ public class CidsBroker implements BelisServerRemote {
 
                     @Override
                     public void windowClosing(final WindowEvent we) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("User hat versucht, das Panel zu schließen");
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("User hat versucht, das Panel zu schließen");
                         }
                     }
                 });
@@ -173,21 +174,21 @@ public class CidsBroker implements BelisServerRemote {
                         if (EJBReconnectorPanel.getBtnExitCancel().getText().equals("Abbrechen")) {
                             EJBReconnectorPanel.getBtnExitCancel().setEnabled(false);
                             if ((EJBConnectorWorker != null) && !EJBConnectorWorker.isDone()) {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("EjbConnector wird abgebrochen");
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("EjbConnector wird abgebrochen");
                                 }
                                 EJBConnectorWorker.cancel(false);
                                 EJBConnectorWorker = null;
                             } else {
-                                log.warn("EjbConnector läuft nicht");
+                                LOG.warn("EjbConnector läuft nicht");
                                 EJBReconnectorPanel.resetPanel();
                             }
-                            if (log.isDebugEnabled()) {
-                                log.debug("Verbindungsvorgang abgebrochen");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Verbindungsvorgang abgebrochen");
                             }
                         } else {
-                            if (log.isDebugEnabled()) {
-                                log.debug("Kein Verbindungsvorgang am laufen --> Belis wird beendet");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Kein Verbindungsvorgang am laufen --> Belis wird beendet");
                             }
                             shutdownBelIS();
                         }
@@ -198,16 +199,16 @@ public class CidsBroker implements BelisServerRemote {
                     @Override
                     public void actionPerformed(final ActionEvent e) {
                         EJBReconnectorPanel.getPb().setIndeterminate(true);
-                        if (log.isDebugEnabled()) {
+                        if (LOG.isDebugEnabled()) {
                             // ejbReconnectorPanel.getPb().setVisible(true);
-                            log.debug("vor Thread Start");
+                            LOG.debug("vor Thread Start");
                         }
 //                        EJBConnectorWorker = new EJBroker.EJBConnector();
                         // EJBConnectorWorker.execute();
                         // BelisBroker.getInstance().execute(EJBConnectorWorker);
                         execute(EJBConnectorWorker);
-                        if (log.isDebugEnabled()) {
-                            log.debug("nach Thread start");
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("nach Thread start");
                         }
                         // ejbReconnectorPanel.getLblMessage().setText("Versuche zu verbinden...");
                         brokenConnectionOptionPane.setMessage("Versuche zu verbinden...");
@@ -240,11 +241,11 @@ public class CidsBroker implements BelisServerRemote {
     public void execute(final SwingWorker workerThread) {
         try {
             execService.submit(workerThread);
-            if (log.isDebugEnabled()) {
-                log.debug("SwingWorker an Threadpool übermittelt");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("SwingWorker an Threadpool übermittelt");
             }
         } catch (Exception ex) {
-            log.fatal("Fehler beim starten eines Swingworkers", ex);
+            LOG.fatal("Fehler beim starten eines Swingworkers", ex);
         }
     }
 
@@ -261,8 +262,8 @@ public class CidsBroker implements BelisServerRemote {
             if (result == JOptionPane.YES_OPTION) {
                 ((JFrame)parentFrame).dispose();
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("beenden abgebrochen");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("beenden abgebrochen");
                 }
             }
         } else {
@@ -298,46 +299,46 @@ public class CidsBroker implements BelisServerRemote {
      */
     private void handleEJBException(final Exception causedEx) {
         if ((causedEx != null) && (causedEx instanceof MarshalException)) {
-            if (log.isDebugEnabled()) {
-                log.debug("CausedException ist eine MarshalException");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("CausedException ist eine MarshalException");
             }
             final Throwable t = causedEx.getCause();
             if ((t != null) && (t instanceof COMM_FAILURE)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Exception ist eine Corba COMM FAILURE Exception");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Exception ist eine Corba COMM FAILURE Exception");
                 }
                 if (brokenConnectionDialog.isVisible()) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Dialog ist bereist sichtbar --> gehe schlafen");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Dialog ist bereist sichtbar --> gehe schlafen");
                     }
                     while (brokenConnectionDialog.isVisible()) {
                         try {
-                            if (log.isDebugEnabled()) {
-                                log.debug("Thread wartet auf wiederverbindung");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Thread wartet auf wiederverbindung");
                             }
                             Thread.currentThread().sleep(500);
                         } catch (InterruptedException IntEx) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("Schlafender Thread wurde unterbrochen", causedEx);
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Schlafender Thread wurde unterbrochen", causedEx);
                             }
                             return;
                         }
                     }
                 } else {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Dialog noch nicht sichtbar --> zeige an");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Dialog noch nicht sichtbar --> zeige an");
                     }
                     initBrokenConnectionDialog();
                     brokenConnectionDialog.setVisible(true);
                 }
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Throwable ist keine Corba Comm Failure Exception --> rethrow");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Throwable ist keine Corba Comm Failure Exception --> rethrow");
                 }
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("CausedException ist keine MarshalException --> rethrow");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("CausedException ist keine MarshalException --> rethrow");
             }
         }
     }
@@ -463,7 +464,7 @@ public class CidsBroker implements BelisServerRemote {
     }
 
     @Override
-    public Object getObjectsByGeom(final Geom geom) throws ActionNotSuccessfulException {
+    public Object getObjectsByGeom(final GeomCustomBean geom) throws ActionNotSuccessfulException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -543,30 +544,30 @@ public class CidsBroker implements BelisServerRemote {
 
         @Override
         protected BelisServerRemote doInBackground() throws Exception {
-            if (log.isDebugEnabled()) {
-                log.debug("starte EJBConnectorjob");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("starte EJBConnectorjob");
             }
             try {
-                if (log.isDebugEnabled()) {
-                    log.debug("Lookup des BelisEJB");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Lookup des BelisEJB");
                 }
                 if (ic != null) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("vor intial Kontext");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("vor intial Kontext");
                     }
                     final InitialContext ic = new InitialContext();
-                    if (log.isDebugEnabled()) {
-                        log.debug("Initial Kontext komplett");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Initial Kontext komplett");
                     }
                 }
                 final BelisServerRemote tmpBelisEJB = (BelisServerRemote)ic.lookup(
                         "de.cismet.belisEE.bean.BelisServerRemote");
-                if (log.isDebugEnabled()) {
-                    log.debug("Lookup des BelisEJB erfolgreich");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Lookup des BelisEJB erfolgreich");
                 }
                 return tmpBelisEJB;
             } catch (Throwable ex) {
-                log.fatal("Fehler beim Verbinden mit Glassfish.\nFehler beim initialisieren/lookup des EJBs", ex);
+                LOG.fatal("Fehler beim Verbinden mit Glassfish.\nFehler beim initialisieren/lookup des EJBs", ex);
                 return null;
             }
         }
@@ -574,12 +575,12 @@ public class CidsBroker implements BelisServerRemote {
         @Override
         protected void done() {
             try {
-                if (log.isDebugEnabled()) {
-                    log.debug("EJBConnector done");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("EJBConnector done");
                 }
                 if (isCancelled()) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("EJBConnector canceled");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("EJBConnector canceled");
                     }
                     brokenConnectionOptionPane.setMessage(
                         "Es konnte keine Verbindung zum BelIS Server hergestellt werden.\n Was Möchten Sie tun ?");
@@ -600,7 +601,7 @@ public class CidsBroker implements BelisServerRemote {
 //                    EJBReconnectorPanel.resetPanel();
 //                }
             } catch (Exception ex) {
-                log.error("Fehler beim Verbinden mit Glassfish(done)");
+                LOG.error("Fehler beim Verbinden mit Glassfish(done)");
             }
             brokenConnectionOptionPane.setMessage(
                 "Es konnte keine Verbindung zum Belis Server hergestellt werden.\n Was Möchten Sie tun ?");

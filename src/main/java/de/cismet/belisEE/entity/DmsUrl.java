@@ -5,81 +5,20 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
-import java.io.Serializable;
+import java.io.File;
 
-import java.util.Date;
+import de.cismet.cids.custom.beans.belis.UrlCustomBean;
 
 /**
  * DOCUMENT ME!
  *
- * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface Lock extends Serializable {
+public interface DmsUrl {
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    String getClassId();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  classId  DOCUMENT ME!
-     */
-    void setClassId(final String classId);
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    String getObjectId();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  objectId  DOCUMENT ME!
-     */
-    void setObjectId(final String objectId);
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    String getUserString();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  userString  DOCUMENT ME!
-     */
-    void setUserString(final String userString);
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    String getAdditionalInfo();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  additionalInfo  DOCUMENT ME!
-     */
-    void setAdditionalInfo(final String additionalInfo);
 
     /**
      * DOCUMENT ME!
@@ -91,21 +30,70 @@ public interface Lock extends Serializable {
     /**
      * DOCUMENT ME!
      *
-     * @param  id  DOCUMENT ME!
+     * @param  val  DOCUMENT ME!
      */
-    void setId(final Integer id);
+    void setId(final Integer val);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    Date getTimestamp();
+    Integer getTyp();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  timestamp  DOCUMENT ME!
+     * @param  val  DOCUMENT ME!
      */
-    void setTimestamp(final Date timestamp);
+    void setTyp(final Integer val);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    String getName();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  val  DOCUMENT ME!
+     */
+    void setName(final String val);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    String getBeschreibung();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  val  DOCUMENT ME!
+     */
+    void setBeschreibung(final String val);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    UrlCustomBean getUrl();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  val  DOCUMENT ME!
+     */
+    void setUrl(final UrlCustomBean val);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    File toFile();
 }

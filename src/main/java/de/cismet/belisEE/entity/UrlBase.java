@@ -5,23 +5,14 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package de.cismet.belisEEold.entity;
-
-import java.io.Serializable;
-
-import de.cismet.commons.server.interfaces.Geom;
+package de.cismet.belisEE.entity;
 
 /**
  * DOCUMENT ME!
  *
- * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface GeomToEntityIndex extends Serializable {
+public interface UrlBase {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -30,54 +21,54 @@ public interface GeomToEntityIndex extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    Long getEntityID();
+    Integer getId();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  enityID  DOCUMENT ME!
+     * @param  val  DOCUMENT ME!
      */
-    void setEntityID(final Long enityID);
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    Class getEntityClass();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  entityName  DOCUMENT ME!
-     */
-    void setEntityClass(final Class entityName);
+    void setId(final Integer val);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    Geom getGeometry();
+    String getServer();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  geometry  DOCUMENT ME!
+     * @param  val  DOCUMENT ME!
      */
-    void setGeometry(final Geom geometry);
+    void setServer(final String val);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    Long getId();
+    String getProtPrefix();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  id  DOCUMENT ME!
+     * @param  val  DOCUMENT ME!
      */
-    void setId(final Long id);
+    void setProtPrefix(final String val);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    String getPfad();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  val  DOCUMENT ME!
+     */
+    void setPfad(final String val);
 }

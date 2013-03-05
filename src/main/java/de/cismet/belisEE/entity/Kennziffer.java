@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEEold.entity;
+package de.cismet.belisEE.entity;
 
 import java.io.Serializable;
 
@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public interface Masttyp extends Serializable {
+public interface Kennziffer extends Serializable {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -28,12 +28,26 @@ public interface Masttyp extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    String getMasttyp();
+    Short getKennziffer();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  masttyp  DOCUMENT ME!
+     * @param  kennziffer  DOCUMENT ME!
      */
-    void setMasttyp(final String masttyp);
+    void setKennziffer(final Short kennziffer);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    String getBeschreibung();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  beschreibung  DOCUMENT ME!
+     */
+    void setBeschreibung(final String beschreibung);
 }

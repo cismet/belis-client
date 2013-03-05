@@ -11,7 +11,11 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belisEEold.entity.UnterhaltMast;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belisEE.entity.UnterhaltMast;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -22,15 +26,29 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMast {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            TkeyUnterhMastCustomBean.class);
+
+    public static final String TABLE = "tkey_unterh_mast";
+
+    private static final String PROP__ID = "id";
+    private static final String PROP__UNTERHALT_MAST = "Unterhalt_Mast";
+    private static final String PROP__PK = "pk";
+
+    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__UNTERHALT_MAST, PROP__PK };
+
     //~ Instance fields --------------------------------------------------------
 
+    private Integer id;
+    private String Unterhalt_Mast;
     private Short pk;
-    private String unterhaltMast;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new TkeyUnterhMastCustomBean object.
+     * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyUnterhMastCustomBean() {
     }
@@ -41,10 +59,49 @@ public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMas
      * @param  pk  DOCUMENT ME!
      */
     public TkeyUnterhMastCustomBean(final Short pk) {
-        this.pk = pk;
+        setPk(pk);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static TkeyUnterhMastCustomBean createNew() {
+        try {
+            return (TkeyUnterhMastCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return PROPERTY_NAMES;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    public void setId(final Integer id) {
+        final Integer old = this.id;
+        this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
 
     @Override
     public Short getPk() {
@@ -53,17 +110,39 @@ public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMas
 
     @Override
     public void setPk(final Short pk) {
+        final Short old = this.pk;
         this.pk = pk;
+        this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getUnterhalt_Mast() {
+        return Unterhalt_Mast;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  Unterhalt_Mast  DOCUMENT ME!
+     */
+    public void setUnterhalt_Mast(final String Unterhalt_Mast) {
+        final String old = this.Unterhalt_Mast;
+        this.Unterhalt_Mast = Unterhalt_Mast;
+        this.propertyChangeSupport.firePropertyChange(PROP__UNTERHALT_MAST, old, this.Unterhalt_Mast);
     }
 
     @Override
     public String getUnterhaltMast() {
-        return unterhaltMast;
+        return getUnterhalt_Mast();
     }
 
     @Override
     public void setUnterhaltMast(final String unterhaltMast) {
-        this.unterhaltMast = unterhaltMast;
+        setUnterhalt_Mast(unterhaltMast);
     }
 
     @Override
