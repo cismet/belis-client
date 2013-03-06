@@ -7,7 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.beans.belis;
 
-import org.postgis.Geometry;
+import com.vividsolutions.jts.geom.Geometry;
 
 import de.cismet.belis.broker.CidsBroker;
 

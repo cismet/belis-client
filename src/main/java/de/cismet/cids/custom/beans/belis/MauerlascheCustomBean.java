@@ -48,7 +48,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
     private static final String PROP__FK_MATERIAL = "fk_material";
     private static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
     private static final String PROP__DOKUMENTE = "dokumente";
-//    private static final String PROP__FOTO = "foto";
+    private static final String PROP__FOTO = "foto";
     private static final String PROP__MONTEUR = "monteur";
     private static final String PROP__PRUEFDATUM = "pruefdatum";
     private static final String PROP__BEMERKUNG = "bemerkung";
@@ -60,7 +60,8 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
             PROP__FK_GEOM,
             PROP__FK_MATERIAL,
             PROP__FK_STRASSENSCHLUESSEL,
-            PROP__DOKUMENTE, /*PROP__FOTO, */
+            PROP__DOKUMENTE,
+            PROP__FOTO,
             PROP__MONTEUR,
             PROP__PRUEFDATUM,
             PROP__BEMERKUNG
@@ -75,7 +76,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
     private MaterialMauerlascheCustomBean fk_material;
     private TkeyStrassenschluesselCustomBean fk_strassenschluessel;
     private Collection<DmsUrlCustomBean> dokumente;
-    // private FotoCustomBean foto;
+    private DmsUrlCustomBean foto;
     private String monteur;
     private Date pruefdatum;
     private String bemerkung;
@@ -283,6 +284,26 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
         final String old = this.bemerkung;
         this.bemerkung = bemerkung;
         this.propertyChangeSupport.firePropertyChange(PROP__BEMERKUNG, old, this.bemerkung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public DmsUrlCustomBean getFoto() {
+        return foto;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  foto  DOCUMENT ME!
+     */
+    public void setFoto(final DmsUrlCustomBean foto) {
+        final DmsUrlCustomBean old = this.foto;
+        this.foto = foto;
+        this.propertyChangeSupport.firePropertyChange(PROP__FOTO, old, this.foto);
     }
 
     @Override

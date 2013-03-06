@@ -7,7 +7,7 @@
 ****************************************************/
 package de.cismet.belisEE.entity;
 
-import org.postgis.Geometry;
+import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * DOCUMENT ME!

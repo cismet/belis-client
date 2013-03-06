@@ -53,7 +53,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
     private static final String PROP__HAUS_NUMMER = "haus_nummer";
     private static final String PROP__DOKUMENTE = "dokumente";
     private static final String PROP__PRUEFDATUM = "pruefdatum";
-//    private static final String PROP__FOTO = "foto";
+    private static final String PROP__FOTO = "foto";
     private static final String PROP__MONTEUR = "monteur";
 
     private static final String[] PROPERTY_NAMES = new String[] {
@@ -68,7 +68,8 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
             PROP__ZUSAETZLICHE_STANDORTBEZEICHNUNG,
             PROP__HAUS_NUMMER,
             PROP__DOKUMENTE,
-            PROP__PRUEFDATUM, /*PROP__FOTO, */
+            PROP__PRUEFDATUM,
+            PROP__FOTO,
             PROP__MONTEUR
         };
 
@@ -86,7 +87,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
     private String haus_nummer;
     private Collection<DmsUrlCustomBean> dokumente;
     private Date pruefdatum;
-    // private FotoCustomBean foto;
+    private DmsUrlCustomBean foto;
     private String monteur;
 
     //~ Constructors -----------------------------------------------------------
@@ -347,6 +348,26 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
         final String old = this.bemerkung;
         this.bemerkung = bemerkung;
         this.propertyChangeSupport.firePropertyChange(PROP__BEMERKUNG, old, this.bemerkung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public DmsUrlCustomBean getFoto() {
+        return foto;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  foto  DOCUMENT ME!
+     */
+    public void setFoto(final DmsUrlCustomBean foto) {
+        final DmsUrlCustomBean old = this.foto;
+        this.foto = foto;
+        this.propertyChangeSupport.firePropertyChange(PROP__FOTO, old, this.foto);
     }
 
     @Override

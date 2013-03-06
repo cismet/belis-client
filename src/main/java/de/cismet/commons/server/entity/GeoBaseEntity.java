@@ -94,7 +94,7 @@ public class GeoBaseEntity extends BaseEntity implements GeometrySlot {
     @Override
     public Geometry getGeometry() {
         if ((getGeometrie() != null) && (getGeometrie().getGeomField() != null)) {
-            return PostGisGeometryFactory.createJtsGeometry(getGeometrie().getGeomField());
+            return getGeometrie().getGeomField();
         } else {
             return null;
         }
@@ -153,12 +153,7 @@ public class GeoBaseEntity extends BaseEntity implements GeometrySlot {
         }
 
         try {
-            if (geom == null) {
-                getGeometrie().setGeomField(null);
-            } else {
-                getGeometrie().setGeomField(PGgeometry.geomFromString(
-                        PostGisGeometryFactory.getPostGisCompliantDbString(geom)));
-            }
+            getGeometrie().setGeomField(geom);
         } catch (Exception ex) {
             System.out.println("Fehler beim setzend er Geometrie");
             ex.printStackTrace();

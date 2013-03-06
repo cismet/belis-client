@@ -11,8 +11,6 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import com.vividsolutions.jts.geom.Geometry;
-
 import java.util.Collection;
 
 import de.cismet.belis.broker.CidsBroker;
@@ -50,7 +48,7 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
 
     private Long id;
     private Collection<DmsUrlCustomBean> dokumente;
-    private Geometry fk_geom;
+    private GeomCustomBean fk_geom;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -110,7 +108,7 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
      *
      * @return  DOCUMENT ME!
      */
-    public Geometry getFk_geom() {
+    public GeomCustomBean getFk_geom() {
         return fk_geom;
     }
 
@@ -119,8 +117,8 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
      *
      * @param  fk_geom  DOCUMENT ME!
      */
-    public void setFk_geom(final Geometry fk_geom) {
-        final Geometry old = this.fk_geom;
+    public void setFk_geom(final GeomCustomBean fk_geom) {
+        final GeomCustomBean old = this.fk_geom;
         this.fk_geom = fk_geom;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_GEOM, old, this.fk_geom);
     }
