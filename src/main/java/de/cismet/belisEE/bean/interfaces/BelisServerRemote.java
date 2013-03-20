@@ -11,7 +11,7 @@
  */
 package de.cismet.belisEE.bean.interfaces;
 
-import java.util.Set;
+import java.util.Collection;
 import java.util.TreeSet;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
@@ -58,7 +58,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyStrassenschluesselCustomBean> getAllStrassenschluessel() throws ActionNotSuccessfulException;
+    Collection<TkeyStrassenschluesselCustomBean> getAllStrassenschluessel() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -66,7 +66,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyEnergielieferantCustomBean> getAllEnergielieferanten() throws ActionNotSuccessfulException;
+    Collection<TkeyEnergielieferantCustomBean> getAllEnergielieferanten() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -74,7 +74,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyKennzifferCustomBean> getAllKennziffer() throws ActionNotSuccessfulException;
+    Collection<TkeyKennzifferCustomBean> getAllKennziffer() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -82,7 +82,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyBezirkCustomBean> getAllStadtbezirke() throws ActionNotSuccessfulException;
+    Collection<TkeyBezirkCustomBean> getAllStadtbezirke() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -90,7 +90,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyMastartCustomBean> getAllMastarten() throws ActionNotSuccessfulException;
+    Collection<TkeyMastartCustomBean> getAllMastarten() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -98,7 +98,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyMasttypCustomBean> getAllMasttypen() throws ActionNotSuccessfulException;
+    Collection<TkeyMasttypCustomBean> getAllMasttypen() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -106,7 +106,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyKlassifizierungCustomBean> getAllKlassifizierungen() throws ActionNotSuccessfulException;
+    Collection<TkeyKlassifizierungCustomBean> getAllKlassifizierungen() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -114,7 +114,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyUnterhMastCustomBean> getAllUnterhaltMast() throws ActionNotSuccessfulException;
+    Collection<TkeyUnterhMastCustomBean> getAllUnterhaltMast() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -122,7 +122,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyUnterhLeuchteCustomBean> getAllUnterhaltLeuchte() throws ActionNotSuccessfulException;
+    Collection<TkeyUnterhLeuchteCustomBean> getAllUnterhaltLeuchte() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -130,7 +130,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<MaterialLeitungCustomBean> getAllMaterialLeitung() throws ActionNotSuccessfulException;
+    Collection<MaterialLeitungCustomBean> getAllMaterialLeitung() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -138,7 +138,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<LeitungstypCustomBean> getAllLeitungstypen() throws ActionNotSuccessfulException;
+    Collection<LeitungstypCustomBean> getAllLeitungstypen() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -146,7 +146,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<QuerschnittCustomBean> getAllQuerschnitte() throws ActionNotSuccessfulException;
+    Collection<QuerschnittCustomBean> getAllQuerschnitte() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -154,7 +154,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<MaterialMauerlascheCustomBean> getAllMaterialMauerlasche() throws ActionNotSuccessfulException;
+    Collection<MaterialMauerlascheCustomBean> getAllMaterialMauerlasche() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -162,7 +162,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<BauartCustomBean> getAllBauarten() throws ActionNotSuccessfulException;
+    Collection<BauartCustomBean> getAllBauarten() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -170,7 +170,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyLeuchtentypCustomBean> getAllLeuchtentypen() throws ActionNotSuccessfulException;
+    Collection<TkeyLeuchtentypCustomBean> getAllLeuchtentypen() throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -178,7 +178,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TkeyDoppelkommandoCustomBean> getAllDoppelkommando() throws ActionNotSuccessfulException;
+    Collection<TkeyDoppelkommandoCustomBean> getAllDoppelkommando() throws ActionNotSuccessfulException;
 
     /**
      * DOCUMENT ME!
@@ -202,7 +202,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<TdtaStandortMastCustomBean> retrieveStandort(StandortKey key) throws ActionNotSuccessfulException;
+    Collection<TdtaStandortMastCustomBean> retrieveStandort(StandortKey key) throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -213,7 +213,8 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<BaseEntity> saveObjects(Set<BaseEntity> objectsToSave, String userString) throws ActionNotSuccessfulException;
+    Collection<BaseEntity> saveObjects(Collection<BaseEntity> objectsToSave, String userString)
+            throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -223,7 +224,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<BaseEntity> refreshObjects(Set<BaseEntity> objectsToSave) throws ActionNotSuccessfulException;
+    Collection<BaseEntity> refreshObjects(Collection<BaseEntity> objectsToSave) throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -241,7 +242,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    void deleteEntities(Set<BaseEntity> objectsToDelete, String userString) throws ActionNotSuccessfulException;
+    void deleteEntities(Collection<BaseEntity> objectsToDelete, String userString) throws ActionNotSuccessfulException;
     /**
      * by Geometry.
      *

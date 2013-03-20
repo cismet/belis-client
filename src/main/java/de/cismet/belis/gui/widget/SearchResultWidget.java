@@ -15,8 +15,11 @@ import org.apache.log4j.Logger;
 
 import java.util.Set;
 
+import de.cismet.belis.broker.BelisBroker;
+
 import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
-import de.cismet.commons.architecture.widget.DefaultWidget;
+
+import de.cismet.commons2.architecture.widget.DefaultWidget;
 
 /**
  * DOCUMENT ME!
@@ -43,7 +46,7 @@ public class SearchResultWidget extends DefaultWidget {
      *
      * @param  broker  DOCUMENT ME!
      */
-    public SearchResultWidget(final AdvancedPluginBroker broker) {
+    public SearchResultWidget(final BelisBroker broker) {
         super(broker);
     }
 

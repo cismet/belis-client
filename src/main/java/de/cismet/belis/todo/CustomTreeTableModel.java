@@ -60,7 +60,7 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
     protected final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     // ToDo disabled Functionality 04.05.2009
     // private final CustomMutableTreeTableNode processedObjectsNode = new CustomMutableTreeTableNode(null, true);
-    AdvancedPluginBroker broker = null;
+    BelisBroker broker = null;
     // private final ArrayList<CustomMutableTreeTableNode> removedNodes = new ArrayList();
     private CustomMutableTreeTableNode rootNode = null;
     private CustomMutableTreeTableNode searchResultsNode = null;
@@ -76,7 +76,7 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
      * @param  searchResultsNode  DOCUMENT ME!
      * @param  newObjectsNode     DOCUMENT ME!
      */
-    public CustomTreeTableModel(final AdvancedPluginBroker broker,
+    public CustomTreeTableModel(final BelisBroker broker,
             final CustomMutableTreeTableNode rootNode,
             final CustomMutableTreeTableNode searchResultsNode,
             final CustomMutableTreeTableNode newObjectsNode) {

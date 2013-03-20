@@ -13,7 +13,7 @@ package de.cismet.belisEE.bean.interfaces;
 
 import java.io.Serializable;
 
-import java.util.Set;
+import java.util.Collection;
 
 import de.cismet.belisEE.entity.Lock;
 
@@ -54,8 +54,8 @@ public interface lockEnabled extends Serializable {
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      * @throws  LockAlreadyExistsException    DOCUMENT ME!
      */
-    Set<Lock> lockEntity(Set<Object> objectsToLock, String userString) throws ActionNotSuccessfulException,
-        LockAlreadyExistsException;
+    Collection<Lock> lockEntity(Collection<Object> objectsToLock, String userString)
+            throws ActionNotSuccessfulException, LockAlreadyExistsException;
     /**
      * DOCUMENT ME!
      *
@@ -96,7 +96,7 @@ public interface lockEnabled extends Serializable {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Set<Object> unlockEntity(Set<Object> objectsToUnlock) throws ActionNotSuccessfulException;
+    Collection<Object> unlockEntity(Collection<Object> objectsToUnlock) throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *

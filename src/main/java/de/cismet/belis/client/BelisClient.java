@@ -1,0 +1,1229 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
+package de.cismet.belis.client;
+
+import Sirius.navigator.plugin.context.PluginContext;
+import Sirius.navigator.plugin.interfaces.FloatingPluginUI;
+import Sirius.navigator.plugin.interfaces.PluginMethod;
+import Sirius.navigator.plugin.interfaces.PluginProperties;
+import Sirius.navigator.plugin.interfaces.PluginSupport;
+import Sirius.navigator.plugin.interfaces.PluginUI;
+
+import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
+
+import org.jdom.Element;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+
+import de.cismet.belis.broker.BelisBroker;
+
+import de.cismet.belis.util.BelisIcons;
+
+import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.gui.ClipboardWaitDialog;
+import de.cismet.cismap.commons.gui.statusbar.StatusBar;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.tools.StaticDecimalTools;
+
+import de.cismet.tools.configuration.Configurable;
+import de.cismet.tools.configuration.ConfigurationManager;
+import de.cismet.tools.configuration.NoWriteError;
+
+import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
+
+/**
+ * DOCUMENT ME!
+ *
+ * @author   spuhl
+ * @version  $Revision$, $Date$
+ */
+public class BelisClient extends javax.swing.JFrame implements PluginSupport, FloatingPluginUI, Configurable {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BelisClient.class);
+    private static final String PLUGIN_CONFIGURATION_CLASSPATH = "/de/cismet/commons/architecture/configuration/";
+
+    //~ Instance fields --------------------------------------------------------
+
+    protected BelisBroker broker = null;
+    private ClipboardWaitDialog clipboarder;
+    private final PluginContext context;
+    private Dimension windowSize = null;
+    private Point windowLocation = null;
+    private boolean readyToShow = false;
+    private ArrayList<JMenuItem> menues = new ArrayList<JMenuItem>();
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  the command line arguments
+     */
+    private ConfigurationManager configManager;
+    private String brokerName;
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
+    private javax.swing.JSeparator jSeparator14;
+    private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JMenu menBookmarks;
+    private javax.swing.JMenu menEdit;
+    private javax.swing.JMenu menExtras;
+    private javax.swing.JMenu menFile;
+    private javax.swing.JMenu menHelp;
+    private javax.swing.JMenu menHistory;
+    private javax.swing.JMenu menWindow;
+    private javax.swing.JMenuItem mniAbout;
+    private javax.swing.JMenuItem mniAddBookmark;
+    private javax.swing.JMenuItem mniBack;
+    private javax.swing.JMenuItem mniBookmarkManager;
+    private javax.swing.JMenuItem mniBookmarkSidebar;
+    private javax.swing.JMenuItem mniClippboard;
+    private javax.swing.JMenuItem mniClose;
+    private javax.swing.JMenuItem mniForward;
+    private javax.swing.JMenuItem mniGotoPoint;
+    private javax.swing.JMenuItem mniHistorySidebar;
+    private javax.swing.JMenuItem mniHome;
+    private javax.swing.JMenuItem mniLisences;
+    private javax.swing.JMenuItem mniLoadLayout;
+    private javax.swing.JMenuItem mniLockLayout;
+    private javax.swing.JMenuItem mniNews;
+    private javax.swing.JMenuItem mniOnlineHelp;
+    private javax.swing.JMenuItem mniOptions;
+    private javax.swing.JMenuItem mniPrint;
+    private javax.swing.JMenuItem mniRefresh;
+    private javax.swing.JMenuItem mniResetWindowLayout;
+    private javax.swing.JMenuItem mniSaveLayout;
+    private javax.swing.JMenuItem mniScale;
+    private javax.swing.JMenuItem mniVersions;
+    private javax.swing.JMenuBar mnuBar;
+    private javax.swing.JPanel panMain;
+    private javax.swing.JSeparator sepAfterPos;
+    private javax.swing.JSeparator sepBeforePos;
+    // End of variables declaration//GEN-END:variables
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new AbstractPlugin object.
+     */
+    public BelisClient() {
+        this(null);
+    }
+
+    /**
+     * Creates a new AbstractPlugin object.
+     *
+     * @param  context  DOCUMENT ME!
+     */
+    public BelisClient(final PluginContext context) {
+        this.context = context;
+        this.addWindowListener(new WindowAdapter() {
+
+                @Override
+                public void windowClosing(final WindowEvent e) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("windowClosing(): beende Application");
+                        LOG.debug("windowClosing(): Check if there unsaved changes.");
+                    }
+                    cleanUp();
+                    dispose();
+                    // needed because the frames default closing op must be "do nothing"!
+                    System.exit(0);
+                }
+            });
+        try {
+            if ((context != null) && (context.getEnvironment() != null)
+                        && this.context.getEnvironment().isProgressObservable()) {
+                this.context.getEnvironment()
+                        .getProgressObserver()
+                        .setProgress(200, "Initialisieren der graphischen Oberfläche...");
+            }
+            initComponents();
+            clipboarder = new ClipboardWaitDialog(this, true);
+            if ((context != null) && (context.getEnvironment() != null)
+                        && this.context.getEnvironment().isProgressObservable()) {
+                this.context.getEnvironment().getProgressObserver().setProgress(400, "Lade Konfiguration...");
+            }
+
+            configurePlugin();
+
+            // application will be layouted
+            if ((context != null) && (context.getEnvironment() != null)
+                        && this.context.getEnvironment().isProgressObservable()) {
+                this.context.getEnvironment()
+                        .getProgressObserver()
+                        .setProgress(600, "Layout der graphischen Benutzeroberflächee");
+            }
+            if (isPlugin()) {
+                menues.add(menFile);
+                menues.add(menEdit);
+                menues.add(menHistory);
+                menues.add(menExtras);
+                menues.add(menWindow);
+                menues.add(menHelp);
+            }
+            final KeyStroke configLoggerKeyStroke = KeyStroke.getKeyStroke('L', InputEvent.CTRL_MASK);
+            final Action configAction = new AbstractAction() {
+
+                    @Override
+                    public void actionPerformed(final ActionEvent e) {
+                        java.awt.EventQueue.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    Log4JQuickConfig.getSingletonInstance().setVisible(true);
+                                }
+                            });
+                    }
+                };
+            getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(configLoggerKeyStroke, "CONFIGLOGGING");
+            getRootPane().getActionMap().put("CONFIGLOGGING", configAction);
+            constructionDone();
+            add(broker.getToolbar(), BorderLayout.NORTH);
+            setWindowSize();
+            final Runnable startupComplete = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            broker.getLayoutManager().loadUserLayout();
+                        } catch (Exception ex) {
+                            LOG.error("Error while loading layout", ex);
+                        }
+                        setReadyToShow(true);
+                        broker.getMappingComponent().unlock();
+                        try {
+                            if ((context != null) && (context.getEnvironment() != null)
+                                        && context.getEnvironment().isProgressObservable()) {
+                                context.getEnvironment()
+                                        .getProgressObserver()
+                                        .setProgress(1000, broker.getAccountName() + " initalisierung abgeschlossen");
+                            }
+                            if ((context != null) && (context.getEnvironment() != null)
+                                        && context.getEnvironment().isProgressObservable()) {
+                                context.getEnvironment().getProgressObserver().setFinished(true);
+                            }
+                        } catch (InterruptedException ex) {
+                            LOG.error("Plugin was interrupted.", ex);
+                        }
+                    }
+                };
+            if (EventQueue.isDispatchThread()) {
+                startupComplete.run();
+            } else {
+                EventQueue.invokeLater(startupComplete);
+            }
+        } catch (final Exception ex) {
+            LOG.fatal("Fatal Error in Abstract Plugin Constructor.", ex);
+            System.out.println("Fatal Error in Abstract Plugin Constructor.");
+            ex.printStackTrace();
+        }
+
+        this.setIconImage(BelisIcons.applicationIcon.getImage());
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isReadyToShow() {
+        return readyToShow;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  readyToShow  DOCUMENT ME!
+     */
+    public void setReadyToShow(final boolean readyToShow) {
+        this.readyToShow = readyToShow;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void configurePlugin() {
+        configManager = new ConfigurationManager();
+        configManager.setDefaultFileName(getPluginConfigurationFile());
+        configManager.setFileName(getPluginConfigurationFile());
+        configManager.setClassPathFolder(PLUGIN_CONFIGURATION_CLASSPATH);
+        configManager.initialiseLocalConfigurationClasspath();
+        configManager.addConfigurable(this);
+        configManager.configure(this);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void constructionDone() {
+        broker.pluginConstructionDone();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getBrokerName() {
+        return brokerName;
+    }
+
+    @Override
+    public JComponent getComponent() {
+        return panMain;
+    }
+
+    @Override
+    public void hidden() {
+    }
+
+    @Override
+    public void moved() {
+    }
+
+    @Override
+    public void resized() {
+    }
+
+    @Override
+    public void shown() {
+    }
+
+    @Override
+    public Collection getMenus() {
+        return menues;
+    }
+
+    @Override
+    public void setActive(final boolean active) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("setActive:" + active);
+        }
+        if (!active) {
+            cleanUp();
+            dispose();
+        }
+    }
+
+    @Override
+    public void floatingStarted() {
+    }
+
+    @Override
+    public void floatingStopped() {
+    }
+
+    @Override
+    public PluginMethod getMethod(final String id) {
+        return null;
+    }
+
+    @Override
+    public Iterator getMethods() {
+        final LinkedList ll = new LinkedList();
+        return ll.iterator();
+    }
+
+    @Override
+    public PluginProperties getProperties() {
+        return null;
+    }
+
+    @Override
+    public String getId() {
+        return broker.getApplicationName();
+    }
+
+    @Override
+    public void configure(final Element parent) {
+        final Element prefs = parent.getChild("cismapPluginUIPreferences");
+        try {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("writing windowSize into Configuration");
+            }
+            final Element window = prefs.getChild("window");
+            final int windowHeight = window.getAttribute("height").getIntValue();
+            final int windowWidth = window.getAttribute("width").getIntValue();
+            final int windowX = window.getAttribute("x").getIntValue();
+            final int windowY = window.getAttribute("y").getIntValue();
+            final boolean windowMaximised = window.getAttribute("max").getBooleanValue();
+            windowSize = new Dimension(windowWidth, windowHeight);
+            windowLocation = new Point(windowX, windowY);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Fenstergröße: Breite " + windowWidth + " Höhe " + windowHeight);
+            }
+            if (windowMaximised) {
+                this.setExtendedState(MAXIMIZED_BOTH);
+            } else {
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Fenstergröße erfolgreich eingelesen");
+            }
+        } catch (Throwable t) {
+            LOG.error("Fehler beim Laden der Fenstergröße", t);
+        }
+    }
+
+    @Override
+    public Element getConfiguration() throws NoWriteError {
+        final Element ret = new Element("cismapPluginUIPreferences");
+        final Element window = new Element("window");
+        final int windowHeight = this.getHeight();
+        final int windowWidth = this.getWidth();
+        final int windowX = (int)this.getLocation().getX();
+        final int windowY = (int)this.getLocation().getY();
+        final boolean windowMaximised = (this.getExtendedState() == MAXIMIZED_BOTH);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Fenstergröße: Breite " + windowWidth + " Höhe " + windowHeight);
+        }
+        window.setAttribute("height", "" + windowHeight);
+        window.setAttribute("width", "" + windowWidth);
+        window.setAttribute("x", "" + windowX);
+        window.setAttribute("y", "" + windowY);
+        window.setAttribute("max", "" + windowMaximised);
+        ret.addContent(window);
+        return ret;
+    }
+
+    @Override
+    public void masterConfigure(final Element parent) {
+        System.out.println("Master Configure: " + getClass().getName());
+        try {
+            try {
+                broker = BelisBroker.getInstance();
+                try {
+                    final String applicationName = parent.getChild("Configuration").getChildText("ApplicationName");
+                    this.setTitle(applicationName);
+                    broker.setApplicatioName(applicationName);
+                } catch (Exception ex) {
+                    broker.setApplicatioName("Kein Name");
+                    LOG.warn("Error while setting application title", ex);
+                }
+                broker.setParentComponent(panMain);
+                broker.setConfigManager(configManager);
+                broker.setContext(context);
+                configManager.addConfigurable(broker);
+                configManager.configure(broker);
+            } catch (Exception ex) {
+                LOG.warn("Error while retrieving broker instance", ex);
+            }
+
+            try {
+                final StatusBar statusBar = new StatusBar(broker.getMappingComponent());
+                broker.setStatusBar(statusBar);
+                broker.getMappingComponent().getFeatureCollection().addFeatureCollectionListener(statusBar);
+                CismapBroker.getInstance().addStatusListener(statusBar);
+                // panStatusbar.add(statusBar);
+                if (broker.isStatusBarEnabled()) {
+                    add(statusBar, BorderLayout.SOUTH);
+                }
+            } catch (Exception ex) {
+                LOG.error("Error whil configuring the statusbar: ", ex);
+            }
+        } catch (Exception ex) {
+            LOG.error("Fehler beim konfigurieren der Lagis Applikation: ", ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        panMain = new javax.swing.JPanel();
+        mnuBar = new javax.swing.JMenuBar();
+        menFile = new javax.swing.JMenu();
+        mniSaveLayout = new javax.swing.JMenuItem();
+        mniLoadLayout = new javax.swing.JMenuItem();
+        mniLockLayout = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JSeparator();
+        mniClippboard = new javax.swing.JMenuItem();
+        mniPrint = new javax.swing.JMenuItem();
+        jSeparator9 = new javax.swing.JSeparator();
+        mniClose = new javax.swing.JMenuItem();
+        menEdit = new javax.swing.JMenu();
+        mniRefresh = new javax.swing.JMenuItem();
+        menHistory = new javax.swing.JMenu();
+        mniBack = new javax.swing.JMenuItem();
+        mniForward = new javax.swing.JMenuItem();
+        mniHome = new javax.swing.JMenuItem();
+        sepBeforePos = new javax.swing.JSeparator();
+        sepAfterPos = new javax.swing.JSeparator();
+        mniHistorySidebar = new javax.swing.JMenuItem();
+        menBookmarks = new javax.swing.JMenu();
+        mniAddBookmark = new javax.swing.JMenuItem();
+        mniBookmarkManager = new javax.swing.JMenuItem();
+        mniBookmarkSidebar = new javax.swing.JMenuItem();
+        menExtras = new javax.swing.JMenu();
+        mniOptions = new javax.swing.JMenuItem();
+        jSeparator12 = new javax.swing.JSeparator();
+        mniGotoPoint = new javax.swing.JMenuItem();
+        jSeparator13 = new javax.swing.JSeparator();
+        mniScale = new javax.swing.JMenuItem();
+        menWindow = new javax.swing.JMenu();
+        jSeparator14 = new javax.swing.JSeparator();
+        mniResetWindowLayout = new javax.swing.JMenuItem();
+        menHelp = new javax.swing.JMenu();
+        mniOnlineHelp = new javax.swing.JMenuItem();
+        mniNews = new javax.swing.JMenuItem();
+        mniVersions = new javax.swing.JMenuItem();
+        mniLisences = new javax.swing.JMenuItem();
+        mniAbout = new javax.swing.JMenuItem();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 600));
+
+        panMain.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(panMain, java.awt.BorderLayout.CENTER);
+
+        menFile.setMnemonic('D');
+        menFile.setText("Datei");
+
+        mniSaveLayout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_S,
+                java.awt.event.InputEvent.CTRL_MASK));
+        mniSaveLayout.setText("Aktuelles Layout speichern");
+        mniSaveLayout.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniSaveLayoutActionPerformed(evt);
+                }
+            });
+        menFile.add(mniSaveLayout);
+
+        mniLoadLayout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_O,
+                java.awt.event.InputEvent.CTRL_MASK));
+        mniLoadLayout.setText("Layout laden");
+        mniLoadLayout.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniLoadLayoutActionPerformed(evt);
+                }
+            });
+        menFile.add(mniLoadLayout);
+
+        mniLockLayout.setText("Layout sperren");
+        mniLockLayout.setEnabled(false);
+        mniLockLayout.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniLockLayoutActionPerformed(evt);
+                }
+            });
+        menFile.add(mniLockLayout);
+
+        jSeparator8.setEnabled(false);
+        menFile.add(jSeparator8);
+
+        mniClippboard.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_C,
+                java.awt.event.InputEvent.CTRL_MASK));
+        mniClippboard.setText("Bild der Karte in die Zwischenablage kopieren");
+        mniClippboard.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniClippboardActionPerformed(evt);
+                }
+            });
+        menFile.add(mniClippboard);
+
+        mniPrint.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_P,
+                java.awt.event.InputEvent.CTRL_MASK));
+        mniPrint.setText("Drucken");
+        mniPrint.setEnabled(false);
+        menFile.add(mniPrint);
+
+        jSeparator9.setEnabled(false);
+        menFile.add(jSeparator9);
+
+        mniClose.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_F4,
+                java.awt.event.InputEvent.ALT_MASK));
+        mniClose.setText("Beenden");
+        mniClose.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniCloseActionPerformed(evt);
+                }
+            });
+        menFile.add(mniClose);
+
+        mnuBar.add(menFile);
+
+        menEdit.setMnemonic('B');
+        menEdit.setText("Bearbeiten");
+
+        mniRefresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        mniRefresh.setText("Neu laden");
+        mniRefresh.setEnabled(false);
+        mniRefresh.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniRefreshActionPerformed(evt);
+                }
+            });
+        menEdit.add(mniRefresh);
+
+        mnuBar.add(menEdit);
+
+        menHistory.setMnemonic('C');
+        menHistory.setText("Chronik");
+
+        mniBack.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_LEFT,
+                java.awt.event.InputEvent.CTRL_MASK));
+        mniBack.setText("Zurück");
+        mniBack.setEnabled(false);
+        mniBack.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniBackActionPerformed(evt);
+                }
+            });
+        menHistory.add(mniBack);
+
+        mniForward.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_RIGHT,
+                java.awt.event.InputEvent.CTRL_MASK));
+        mniForward.setText("Vor");
+        mniForward.setEnabled(false);
+        mniForward.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniForwardActionPerformed(evt);
+                }
+            });
+        menHistory.add(mniForward);
+
+        mniHome.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_HOME, 0));
+        mniHome.setText("Home");
+        mniHome.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniHomeActionPerformed(evt);
+                }
+            });
+        menHistory.add(mniHome);
+
+        sepBeforePos.setEnabled(false);
+        menHistory.add(sepBeforePos);
+
+        sepAfterPos.setEnabled(false);
+        menHistory.add(sepAfterPos);
+
+        mniHistorySidebar.setText("In eigenem Fenster anzeigen");
+        mniHistorySidebar.setEnabled(false);
+        menHistory.add(mniHistorySidebar);
+
+        mnuBar.add(menHistory);
+
+        menBookmarks.setMnemonic('L');
+        menBookmarks.setText("Lesezeichen");
+
+        mniAddBookmark.setText("Lesezeichen hinzufügen");
+        mniAddBookmark.setEnabled(false);
+        menBookmarks.add(mniAddBookmark);
+
+        mniBookmarkManager.setText("Lesezeichen Manager");
+        mniBookmarkManager.setEnabled(false);
+        menBookmarks.add(mniBookmarkManager);
+
+        mniBookmarkSidebar.setText("Lesezeichen in eigenem Fenster öffnen");
+        mniBookmarkSidebar.setEnabled(false);
+        menBookmarks.add(mniBookmarkSidebar);
+
+        mnuBar.add(menBookmarks);
+
+        menExtras.setMnemonic('E');
+        menExtras.setText("Extras");
+
+        mniOptions.setText("Optionen");
+        mniOptions.setEnabled(false);
+        mniOptions.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniOptionsActionPerformed(evt);
+                }
+            });
+        menExtras.add(mniOptions);
+
+        jSeparator12.setEnabled(false);
+        menExtras.add(jSeparator12);
+
+        mniGotoPoint.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_G,
+                java.awt.event.InputEvent.CTRL_MASK));
+        mniGotoPoint.setText("Gehe zu ...");
+        mniGotoPoint.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniGotoPointActionPerformed(evt);
+                }
+            });
+        menExtras.add(mniGotoPoint);
+
+        jSeparator13.setEnabled(false);
+        menExtras.add(jSeparator13);
+
+        mniScale.setText("Maßstab verändern");
+        mniScale.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniScaleActionPerformed(evt);
+                }
+            });
+        menExtras.add(mniScale);
+
+        mnuBar.add(menExtras);
+
+        menWindow.setMnemonic('F');
+        menWindow.setText("Fenster");
+
+        jSeparator14.setEnabled(false);
+        menWindow.add(jSeparator14);
+
+        mniResetWindowLayout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_R,
+                java.awt.event.InputEvent.CTRL_MASK));
+        mniResetWindowLayout.setText("Fensteranordnung zurücksetzen");
+        mniResetWindowLayout.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniResetWindowLayoutActionPerformed(evt);
+                }
+            });
+        menWindow.add(mniResetWindowLayout);
+
+        mnuBar.add(menWindow);
+
+        menHelp.setMnemonic('H');
+        menHelp.setText("Hilfe");
+
+        mniOnlineHelp.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        mniOnlineHelp.setText("Online Hilfe");
+        mniOnlineHelp.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniOnlineHelpActionPerformed(evt);
+                }
+            });
+        menHelp.add(mniOnlineHelp);
+
+        mniNews.setText("News");
+        mniNews.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    mniNewsActionPerformed(evt);
+                }
+            });
+        menHelp.add(mniNews);
+
+        mniVersions.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_V,
+                java.awt.event.InputEvent.ALT_MASK
+                        | java.awt.event.InputEvent.CTRL_MASK));
+        mniVersions.setText("Versionsinformationen");
+        mniVersions.setEnabled(false);
+        menHelp.add(mniVersions);
+
+        mniLisences.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_L,
+                java.awt.event.InputEvent.ALT_MASK
+                        | java.awt.event.InputEvent.CTRL_MASK));
+        mniLisences.setText("Lizenzinformationen");
+        mniLisences.setEnabled(false);
+        menHelp.add(mniLisences);
+
+        mniAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+                java.awt.event.KeyEvent.VK_A,
+                java.awt.event.InputEvent.ALT_MASK
+                        | java.awt.event.InputEvent.CTRL_MASK));
+        mniAbout.setText("Über LaGIS");
+        mniAbout.setEnabled(false);
+        menHelp.add(mniAbout);
+
+        mnuBar.add(menHelp);
+
+        setJMenuBar(mnuBar);
+
+        pack();
+    } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniSaveLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniSaveLayoutActionPerformed
+        broker.getLayoutManager().saveLayout();
+    }                                                                                 //GEN-LAST:event_mniSaveLayoutActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniLoadLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniLoadLayoutActionPerformed
+        broker.getLayoutManager().loadLayout();
+    }                                                                                 //GEN-LAST:event_mniLoadLayoutActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniLockLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniLockLayoutActionPerformed
+    }                                                                                 //GEN-LAST:event_mniLockLayoutActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniClippboardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniClippboardActionPerformed
+        final Thread t = new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        SwingUtilities.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    clipboarder.setLocationRelativeTo(BelisClient.this);
+                                    clipboarder.setVisible(true);
+                                }
+                            });
+
+                        final ImageSelection imgSel = new ImageSelection(broker.getMappingComponent().getImage());
+                        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel, null);
+                        SwingUtilities.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    clipboarder.dispose();
+                                }
+                            });
+                    }
+                });
+        t.start();
+    } //GEN-LAST:event_mniClippboardActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniCloseActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniCloseActionPerformed
+        this.dispose();
+    }                                                                            //GEN-LAST:event_mniCloseActionPerformed
+    /**
+     * ToDo.
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniRefreshActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniRefreshActionPerformed
+    }                                                                              //GEN-LAST:event_mniRefreshActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniBackActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniBackActionPerformed
+        if ((broker.getMappingComponent() != null) && broker.getMappingComponent().isBackPossible()) {
+            broker.getMappingComponent().back(true);
+        }
+    }                                                                           //GEN-LAST:event_mniBackActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniForwardActionPerformed
+        if ((broker.getMappingComponent() != null) && broker.getMappingComponent().isForwardPossible()) {
+            broker.getMappingComponent().forward(true);
+        }
+    }                                                                              //GEN-LAST:event_mniForwardActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniHomeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniHomeActionPerformed
+        if (broker.getMappingComponent() != null) {
+            broker.getMappingComponent().gotoInitialBoundingBox();
+        }
+    }                                                                           //GEN-LAST:event_mniHomeActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOptionsActionPerformed
+// TODO add your handling code here:
+    } //GEN-LAST:event_mniOptionsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniGotoPointActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniGotoPointActionPerformed
+        final BoundingBox c = broker.getMappingComponent().getCurrentBoundingBox();
+        final double x = (c.getX1() + c.getX2()) / 2;
+        final double y = (c.getY1() + c.getY2()) / 2;
+        final String s = JOptionPane.showInputDialog(
+                this,
+                "Zentriere auf folgendem Punkt: x,y",
+                StaticDecimalTools.round(x)
+                        + ","
+                        + StaticDecimalTools.round(y));
+        try {
+            final String[] sa = s.split(",");
+            final Double gotoX = new Double(sa[0]);
+            final Double gotoY = new Double(sa[1]);
+            final BoundingBox bb = new BoundingBox(gotoX, gotoY, gotoX, gotoY);
+            broker.getMappingComponent()
+                    .gotoBoundingBox(bb, true, false, broker.getMappingComponent().getAnimationDuration());
+        } catch (Exception skip) {
+        }
+    }                                                                                //GEN-LAST:event_mniGotoPointActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniScaleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniScaleActionPerformed
+        final String s = JOptionPane.showInputDialog(
+                this,
+                "Maßstab_manuell_auswählen",
+                ((int)broker.getMappingComponent().getScaleDenominator())
+                        + "");
+        try {
+            final Integer i = new Integer(s);
+            broker.getMappingComponent()
+                    .gotoBoundingBoxWithHistory(broker.getMappingComponent().getBoundingBoxFromScale(i));
+        } catch (Exception skip) {
+        }
+    }                                                                            //GEN-LAST:event_mniScaleActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniResetWindowLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniResetWindowLayoutActionPerformed
+        broker.getLayoutManager().doLayoutInfoNodeDefaultFile();
+    }                                                                                        //GEN-LAST:event_mniResetWindowLayoutActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniOnlineHelpActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOnlineHelpActionPerformed
+    }                                                                                 //GEN-LAST:event_mniOnlineHelpActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void mniNewsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniNewsActionPerformed
+        // openUrlInExternalBrowser(newsURL);
+    } //GEN-LAST:event_mniNewsActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public BelisBroker getBroker() {
+        return broker;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  broker  DOCUMENT ME!
+     */
+    public void setBroker(final BelisBroker broker) {
+        this.broker = broker;
+    }
+
+    @Override
+    public void dispose() {
+        setVisible(false);
+        LOG.info("Dispose(): Application gets shutted down");
+        broker.getLayoutManager().saveUserLayout();
+        super.dispose();
+        System.exit(0);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void cleanUp() {
+        if (broker.isInEditMode()) {
+            try {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Application is in Editmode --> ask user if he wants to save");
+                }
+                final int answer = JOptionPane.showConfirmDialog(
+                        this,
+                        "Wollen Sie die gemachten Änderungen speichern",
+                        "Belis Änderungen",
+                        JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.YES_OPTION) {
+                    final boolean isValid = broker.validateWidgets();
+                    if (isValid) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("All changes are valid" + isValid);
+                        }
+                        broker.save();
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Änderungen wurden gespeichert");
+                        }
+                    } else {
+                        LOG.warn("not all changes are valid --> can't save");
+                    }
+                }
+            } catch (Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    // TODO saveCurrentFlurstueck wirft keine Exception, prüfen an welchen Stellen die Methode benutzt
+                    // wird und sicherstellen das keine Probleme durch eine geworfene Exception auftreten
+                    LOG.debug("Es ist ein Fehler wärend dem abspeichern des Flurstuecks aufgetreten", ex);
+                }
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Es traten Fehler beim abspeichern des Flurstuecks auf",
+                    "Fehler",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            while (broker.isInEditMode()) {
+                try {
+                    // TODO Progressbar & !!! Regeneriert sich nicht nach einem Server neustart
+                    broker.releaseLock();
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Sperre konnte erfolgreich gelöst werden");
+                    }
+                    break;
+                } catch (Exception ex) {
+                    Logger.getLogger(BelisClient.class.getName()).log(Level.SEVERE, null, ex);
+                    // ToDo make generic
+                    final int answer = JOptionPane.showConfirmDialog(
+                            this,
+                            "Sperre konnte nicht entfernt werden. Möchten Sie es erneut probieren?",
+                            "Belis Änderungen",
+                            JOptionPane.YES_NO_OPTION);
+                    if (answer == JOptionPane.NO_OPTION) {
+                        break;
+                    }
+                }
+            }
+        }
+        configManager.writeConfiguration();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private boolean isPlugin() {
+        return context != null;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setWindowSize() {
+        if ((windowSize != null) && (windowLocation != null)) {
+            this.setSize(windowSize);
+            this.setLocation(windowLocation);
+        } else {
+            this.pack();
+        }
+    }
+
+    @Override
+    public void setVisible(final boolean visible) {
+        if (isPlugin()) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Plugin setVisible ignored: " + visible);
+            }
+        } else {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("No Plugin super.setVisible: " + visible);
+            }
+            super.setVisible(visible);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getPluginConfigurationFile() {
+        return "defaultBelisConfiguration.xml";
+    }
+
+    @Override
+    public PluginUI getUI(final String id) {
+        return this;
+    }
+
+    @Override
+    public Iterator getUIs() {
+        final LinkedList ll = new LinkedList();
+        ll.add(this);
+        return ll.iterator();
+    }
+
+    @Override
+    public Collection getButtons() {
+        return Arrays.asList(broker.getToolbar().getComponents());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  DOCUMENT ME!
+     */
+    public static void main(final String[] args) {
+        try {
+            final Plastic3DLookAndFeel lf = new Plastic3DLookAndFeel();
+            javax.swing.UIManager.setLookAndFeel(lf);
+        } catch (Exception ex) {
+            LOG.error("Fehler beim setzen des Look & Feels");
+        }
+        final Thread t = new Thread() {
+
+                @Override
+                public void run() {
+                    final BelisClient bc = new BelisClient();
+                    EventQueue.invokeLater(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // ((JFrame) bc).setVisible(true);
+                            }
+                        });
+                }
+            };
+        t.setPriority(Thread.NORM_PRIORITY);
+        t.start();
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * best place ??
+     *
+     * @version  $Revision$, $Date$
+     */
+    class ImageSelection implements Transferable {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private Image image;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new ImageSelection object.
+         *
+         * @param  image  DOCUMENT ME!
+         */
+        public ImageSelection(final Image image) {
+            this.image = image;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        // Returns supported flavors
+        @Override
+        public DataFlavor[] getTransferDataFlavors() {
+            return new DataFlavor[] { DataFlavor.imageFlavor };
+        }
+
+        // Returns true if flavor is supported
+        @Override
+        public boolean isDataFlavorSupported(final DataFlavor flavor) {
+            return DataFlavor.imageFlavor.equals(flavor);
+        }
+
+        // Returns image
+        @Override
+        public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+            if (!DataFlavor.imageFlavor.equals(flavor)) {
+                throw new UnsupportedFlavorException(flavor);
+            }
+            return image;
+        }
+    }
+}

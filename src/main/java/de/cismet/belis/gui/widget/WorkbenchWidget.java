@@ -90,10 +90,11 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateGeometryListener
 import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
 import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
 import de.cismet.commons.architecture.validation.Validatable;
-import de.cismet.commons.architecture.widget.MapWidget.MapMode;
 
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.entity.GeoBaseEntity;
+
+import de.cismet.commons2.architecture.widget.MapWidget.MapMode;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -187,7 +188,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      *
      * @param  broker  DOCUMENT ME!
      */
-    public WorkbenchWidget(final AdvancedPluginBroker broker) {
+    public WorkbenchWidget(final BelisBroker broker) {
         super(broker);
         initComponents();
         broker.getMappingComponent()

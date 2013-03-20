@@ -11,38 +11,34 @@
  */
 package de.cismet.belis.broker;
 
-import org.omg.CORBA.COMM_FAILURE;
+import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.connection.proxy.ConnectionProxy;
+import Sirius.navigator.exception.ConnectionException;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.newuser.User;
 
-import java.rmi.MarshalException;
+import org.apache.commons.collections.comparators.ReverseComparator;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import javax.naming.InitialContext;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
-
-import de.cismet.belis.panels.EJBReconnectorPanel;
 
 import de.cismet.belisEE.bean.interfaces.BelisServerRemote;
 
+import de.cismet.belisEE.entity.GeomToEntityIndex;
 import de.cismet.belisEE.entity.Lock;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
 
+import de.cismet.belisEE.util.EntityComparator;
+import de.cismet.belisEE.util.LeuchteComparator;
 import de.cismet.belisEE.util.StandortKey;
 
 import de.cismet.cids.custom.beans.belis.BauartCustomBean;
@@ -64,6 +60,10 @@ import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
 
+import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
 import de.cismet.cismap.commons.BoundingBox;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -82,17 +82,10 @@ public class CidsBroker implements BelisServerRemote {
     public static final String BELIS_DOMAIN = "BELIS";
 
     private static CidsBroker brokerInstance = null;
-    private static JFrame parentFrame;
-    private static JDialog brokenConnectionDialog;
-    private static EJBReconnectorPanel EJBReconnectorPanel;
-    private static JOptionPane brokenConnectionOptionPane;
-    private static CidsBroker.EJBConnector EJBConnectorWorker;
-    private static JFrame dialogOwner;
-    private static InitialContext ic;
 
     //~ Instance fields --------------------------------------------------------
 
-    protected ExecutorService execService = null;
+    private ConnectionProxy proxy = null;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -100,176 +93,19 @@ public class CidsBroker implements BelisServerRemote {
      * Creates a new CidsBroker object.
      */
     public CidsBroker() {
-        initBrokenConnectionDialog();
         try {
-            execService = Executors.newCachedThreadPool();
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Lookup des belisEJB");
+            setProxy(SessionManager.getProxy());
+            if (!SessionManager.isInitialized()) {
+                SessionManager.init(getProxy());
+                ClassCacheMultiple.setInstance(BELIS_DOMAIN);
             }
-//            System.setProperty("java.naming.factory.initial", "com.sun.enterprise.naming.SerialInitContextFactory");
-            // TODO !!!! CONFIG FILE
-            // System.setProperty("org.omg.CORBA.ORBInitialHost", "roberto");
-//            System.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
-            // ToDo Warning hardcoded must be removed
-            // System.setProperty("org.omg.CORBA.ORBInitialPort", "5037");
-            ic = new InitialContext();
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Initial Kontext komplett");
-            }
-//            belisEJBServerStub = (BelisServerRemote)ic.lookup(BelisServerRemote.class.getName());
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Lookup des belisEJB erfolgreich");
-            }
-        } catch (Throwable ex) {
-            LOG.fatal("Fehler beim Verbinden mit Glassfish.\nFehler beim initialisieren/lookup des EJBs", ex);
-            brokenConnectionDialog.setVisible(true);
+        } catch (Throwable e) {
+            LOG.fatal("no connection to the cids server possible. too bad.", e);
         }
     }
 
     //~ Methods ----------------------------------------------------------------
 
-    /**
-     * DOCUMENT ME!
-     */
-    private void initBrokenConnectionDialog() {
-        if (dialogOwner == null) {
-            EJBReconnectorPanel = new EJBReconnectorPanel();
-            if ((parentFrame != null) && parentFrame.isVisible()) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("frame wurde gesetzt");
-                }
-                dialogOwner = parentFrame;
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("frame wurde nicht gesetzt");
-                }
-                dialogOwner = null;
-            }
-            brokenConnectionOptionPane = new JOptionPane(
-                    "Es konnte keine Verbindung zum Belis Server hergestellt werden.\n Was Möchten Sie tun ?",
-                    JOptionPane.QUESTION_MESSAGE,
-                    JOptionPane.NO_OPTION,
-                    null,
-                    new Object[] { EJBReconnectorPanel });
-            brokenConnectionDialog = new JDialog(dialogOwner,
-                    "Fehler beim Verbinden mit dem Belis Server",
-                    true);
-            brokenConnectionDialog.setContentPane(brokenConnectionOptionPane);
-            brokenConnectionDialog.setDefaultCloseOperation(
-                JDialog.DO_NOTHING_ON_CLOSE);
-            brokenConnectionDialog.addWindowListener(new WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(final WindowEvent we) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("User hat versucht, das Panel zu schließen");
-                        }
-                    }
-                });
-
-            EJBReconnectorPanel.getBtnExitCancel().addActionListener(new ActionListener() {
-
-                    @Override
-                    public void actionPerformed(final ActionEvent e) {
-                        if (EJBReconnectorPanel.getBtnExitCancel().getText().equals("Abbrechen")) {
-                            EJBReconnectorPanel.getBtnExitCancel().setEnabled(false);
-                            if ((EJBConnectorWorker != null) && !EJBConnectorWorker.isDone()) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("EjbConnector wird abgebrochen");
-                                }
-                                EJBConnectorWorker.cancel(false);
-                                EJBConnectorWorker = null;
-                            } else {
-                                LOG.warn("EjbConnector läuft nicht");
-                                EJBReconnectorPanel.resetPanel();
-                            }
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Verbindungsvorgang abgebrochen");
-                            }
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Kein Verbindungsvorgang am laufen --> Belis wird beendet");
-                            }
-                            shutdownBelIS();
-                        }
-                    }
-                });
-            EJBReconnectorPanel.getBtnRetry().addActionListener(new ActionListener() {
-
-                    @Override
-                    public void actionPerformed(final ActionEvent e) {
-                        EJBReconnectorPanel.getPb().setIndeterminate(true);
-                        if (LOG.isDebugEnabled()) {
-                            // ejbReconnectorPanel.getPb().setVisible(true);
-                            LOG.debug("vor Thread Start");
-                        }
-//                        EJBConnectorWorker = new EJBroker.EJBConnector();
-                        // EJBConnectorWorker.execute();
-                        // BelisBroker.getInstance().execute(EJBConnectorWorker);
-                        execute(EJBConnectorWorker);
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("nach Thread start");
-                        }
-                        // ejbReconnectorPanel.getLblMessage().setText("Versuche zu verbinden...");
-                        brokenConnectionOptionPane.setMessage("Versuche zu verbinden...");
-                        EJBReconnectorPanel.getBtnExitCancel().setText("Abbrechen");
-                        EJBReconnectorPanel.getBtnRetry().setVisible(false);
-                    }
-                });
-            brokenConnectionDialog.pack();
-        }
-        EJBReconnectorPanel.getPb().setIndeterminate(false);
-
-        if ((parentFrame == null) || !parentFrame.isVisible()) {
-            final Dimension oldDim = brokenConnectionDialog.getSize();
-            final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-            brokenConnectionDialog.setBounds((int)((screen.getWidth() / 2) - oldDim.getWidth()),
-                (int)((screen.getHeight() / 2) - oldDim.getHeight()),
-                (int)oldDim.getWidth(),
-                (int)oldDim.getHeight());
-        } else if ((parentFrame != null) && parentFrame.isVisible()) {
-            brokenConnectionDialog.setLocationRelativeTo(parentFrame);
-        }
-        // ejbReconnectorPanel.getPb().setVisible(false);
-    }
-
-    /**
-     * ToDo centralise.
-     *
-     * @param  workerThread  DOCUMENT ME!
-     */
-    public void execute(final SwingWorker workerThread) {
-        try {
-            execService.submit(workerThread);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("SwingWorker an Threadpool übermittelt");
-            }
-        } catch (Exception ex) {
-            LOG.fatal("Fehler beim starten eines Swingworkers", ex);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void shutdownBelIS() {
-        if ((parentFrame != null) && parentFrame.isVisible()) {
-            final int result = JOptionPane.showConfirmDialog(
-                    brokenConnectionDialog,
-                    "Sind Sie sicher, das Sie Belis beenden wollen?\nAlle nicht gespeicherten Änderungen gehen verloren!",
-                    "Bestätigung",
-                    JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.YES_OPTION) {
-                ((JFrame)parentFrame).dispose();
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("beenden abgebrochen");
-                }
-            }
-        } else {
-            System.exit(1);
-        }
-    }
     /**
      * synchronized because the lookup take some time and multiple calls causes multiple lookups --> exception.
      *
@@ -283,328 +119,355 @@ public class CidsBroker implements BelisServerRemote {
     }
 
     /**
-     * private Integer blocker = new Integer(0); //TODO im Moment nur inital was wenn lagisEJB != null private void
-     * isConnected(){ if(lagisEJB != null){ return; } else { synchronized(blocker){ if(lagisEJB == null){ boolean
-     * shouldRetry = true; while(shouldRetry){ shouldRetry = JOptionPane.showConfirmDialog(null, "Es besteht keine
-     * Verbindung zum Server möchten Sie es weiterversuchen ?\n(Nein beendet die Applikation und alle nichtgespeicherten
-     * Daten gehen verloren)","Server Verbindung",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION; if (shouldRetry){
-     * try { log.debug("Versuche Verbindung zum Server herzustellen"); InitialContext ic = new InitialContext();
-     * log.debug("Initial Kontext komplett"); lagisEJB = (LagisServerRemote)
-     * ic.lookup("de.cismet.lagisEE.bean.LagisServerRemote"); log.debug("Lookup des LagisEJB erfolgreich"); return; }
-     * catch (Throwable ex) { log.fatal("Fehler beim initialisieren/lookup des EJBs",ex); } } else {
-     * log.debug("Applikation wird auf Benutzerwunsch beendet --> Keine Serververbindung"); System.exit(10); } } } }; }
-     * }.
+     * DOCUMENT ME!
      *
-     * @param  causedEx  ex DOCUMENT ME!
+     * @return  DOCUMENT ME!
      */
-    private void handleEJBException(final Exception causedEx) {
-        if ((causedEx != null) && (causedEx instanceof MarshalException)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CausedException ist eine MarshalException");
-            }
-            final Throwable t = causedEx.getCause();
-            if ((t != null) && (t instanceof COMM_FAILURE)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Exception ist eine Corba COMM FAILURE Exception");
-                }
-                if (brokenConnectionDialog.isVisible()) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Dialog ist bereist sichtbar --> gehe schlafen");
-                    }
-                    while (brokenConnectionDialog.isVisible()) {
-                        try {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Thread wartet auf wiederverbindung");
-                            }
-                            Thread.currentThread().sleep(500);
-                        } catch (InterruptedException IntEx) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Schlafender Thread wurde unterbrochen", causedEx);
-                            }
-                            return;
-                        }
-                    }
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Dialog noch nicht sichtbar --> zeige an");
-                    }
-                    initBrokenConnectionDialog();
-                    brokenConnectionDialog.setVisible(true);
-                }
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Throwable ist keine Corba Comm Failure Exception --> rethrow");
-                }
-            }
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CausedException ist keine MarshalException --> rethrow");
-            }
+    private ConnectionProxy getProxy() {
+        return proxy;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  proxy  DOCUMENT ME!
+     */
+    private void setProxy(final ConnectionProxy proxy) {
+        this.proxy = proxy;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   tablename  DOCUMENT ME!
+     * @param   domain     DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MetaClass getMetaClass(final String tablename, final String domain) {
+        try {
+            return CidsBean.getMetaClassFromTableName(domain, tablename);
+        } catch (Exception exception) {
+            LOG.error("couldn't load metaclass for " + tablename, exception);
+            return null;
         }
     }
 
-    @Override
-    public Set<TkeyStrassenschluesselCustomBean> getAllStrassenschluessel() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   tablename  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MetaClass getBelisMetaClass(final String tablename) {
+        return getMetaClass(tablename, BELIS_DOMAIN);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   query  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MetaObject[] getBelisMetaObject(final String query) {
+        return getMetaObject(query, BELIS_DOMAIN);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   query   DOCUMENT ME!
+     * @param   domain  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MetaObject[] getMetaObject(final String query, final String domain) {
+        MetaObject[] mos = null;
+        try {
+            final User user = SessionManager.getSession().getUser();
+            final ConnectionProxy proxy = getProxy();
+            mos = proxy.getMetaObjectByQuery(user, query, domain);
+        } catch (ConnectionException ex) {
+            LOG.error("error retrieving metaobject by query", ex);
+        }
+        return mos;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   className  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Collection getAll(final String className) {
+        final MetaClass metaclass = CidsBroker.getInstance().getBelisMetaClass(className);
+        if (metaclass == null) {
+            return null;
+        }
+        final MetaObject[] mos = CidsBroker.getInstance()
+                    .getBelisMetaObject("SELECT " + metaclass.getID() + ", " + metaclass.getTableName() + "."
+                        + metaclass.getPrimaryKey() + " FROM " + metaclass.getTableName());
+        final Collection<CidsBean> beans = new HashSet<CidsBean>();
+        for (final MetaObject metaObject : mos) {
+            beans.add(metaObject.getBean());
+        }
+        return (Collection)beans;
     }
 
     @Override
-    public Set<TkeyEnergielieferantCustomBean> getAllEnergielieferanten() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<TkeyStrassenschluesselCustomBean> getAllStrassenschluessel() throws ActionNotSuccessfulException {
+        return getAll(TkeyStrassenschluesselCustomBean.TABLE);
     }
 
     @Override
-    public Set<TkeyKennzifferCustomBean> getAllKennziffer() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<TkeyEnergielieferantCustomBean> getAllEnergielieferanten() throws ActionNotSuccessfulException {
+        return getAll(TkeyEnergielieferantCustomBean.TABLE);
     }
 
     @Override
-    public Set<TkeyBezirkCustomBean> getAllStadtbezirke() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<TkeyKennzifferCustomBean> getAllKennziffer() throws ActionNotSuccessfulException {
+        return getAll(TkeyKennzifferCustomBean.TABLE);
     }
 
     @Override
-    public Set<TkeyMastartCustomBean> getAllMastarten() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<TkeyBezirkCustomBean> getAllStadtbezirke() throws ActionNotSuccessfulException {
+        return getAll(TkeyBezirkCustomBean.TABLE);
     }
 
     @Override
-    public Set<TkeyMasttypCustomBean> getAllMasttypen() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<TkeyMastartCustomBean> getAllMastarten() throws ActionNotSuccessfulException {
+        return getAll(TkeyMastartCustomBean.TABLE);
     }
 
     @Override
-    public Set<TkeyKlassifizierungCustomBean> getAllKlassifizierungen() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<TkeyMasttypCustomBean> getAllMasttypen() throws ActionNotSuccessfulException {
+        return getAll(TkeyMasttypCustomBean.TABLE);
     }
 
     @Override
-    public Set<TkeyUnterhMastCustomBean> getAllUnterhaltMast() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<TkeyKlassifizierungCustomBean> getAllKlassifizierungen() throws ActionNotSuccessfulException {
+        return getAll(TkeyKlassifizierungCustomBean.TABLE);
     }
 
     @Override
-    public Set<TkeyUnterhLeuchteCustomBean> getAllUnterhaltLeuchte() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<TkeyUnterhMastCustomBean> getAllUnterhaltMast() throws ActionNotSuccessfulException {
+        return getAll(TkeyUnterhMastCustomBean.TABLE);
     }
 
     @Override
-    public Set<MaterialLeitungCustomBean> getAllMaterialLeitung() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<TkeyUnterhLeuchteCustomBean> getAllUnterhaltLeuchte() throws ActionNotSuccessfulException {
+        return getAll(TkeyUnterhLeuchteCustomBean.TABLE);
     }
 
     @Override
-    public Set<LeitungstypCustomBean> getAllLeitungstypen() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<MaterialLeitungCustomBean> getAllMaterialLeitung() throws ActionNotSuccessfulException {
+        return getAll(MaterialLeitungCustomBean.TABLE);
     }
 
     @Override
-    public Set<QuerschnittCustomBean> getAllQuerschnitte() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<LeitungstypCustomBean> getAllLeitungstypen() throws ActionNotSuccessfulException {
+        return getAll(LeitungstypCustomBean.TABLE);
     }
 
     @Override
-    public Set<MaterialMauerlascheCustomBean> getAllMaterialMauerlasche() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<QuerschnittCustomBean> getAllQuerschnitte() throws ActionNotSuccessfulException {
+        return getAll(QuerschnittCustomBean.TABLE);
     }
 
     @Override
-    public Set<BauartCustomBean> getAllBauarten() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<MaterialMauerlascheCustomBean> getAllMaterialMauerlasche() throws ActionNotSuccessfulException {
+        return getAll(MaterialMauerlascheCustomBean.TABLE);
     }
 
     @Override
-    public Set<TkeyLeuchtentypCustomBean> getAllLeuchtentypen() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<BauartCustomBean> getAllBauarten() throws ActionNotSuccessfulException {
+        return getAll(BauartCustomBean.TABLE);
     }
 
     @Override
-    public Set<TkeyDoppelkommandoCustomBean> getAllDoppelkommando() throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<TkeyLeuchtentypCustomBean> getAllLeuchtentypen() throws ActionNotSuccessfulException {
+        return getAll(TkeyLeuchtentypCustomBean.TABLE);
+    }
+
+    @Override
+    public Collection<TkeyDoppelkommandoCustomBean> getAllDoppelkommando() throws ActionNotSuccessfulException {
+        return getAll(TkeyDoppelkommandoCustomBean.TABLE);
     }
 
     @Override
     public TreeSet<BaseEntity> getObjectsByKey(final String strassenschluessel,
             final Short kennziffer,
             final Short laufendeNummer) throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
-    public Set<TdtaStandortMastCustomBean> retrieveStandort(final StandortKey key) throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Set<BaseEntity> saveObjects(final Set<BaseEntity> objectsToSave, final String userString)
+    public Collection<TdtaStandortMastCustomBean> retrieveStandort(final StandortKey key)
             throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
-    public Set<BaseEntity> refreshObjects(final Set<BaseEntity> objectsToSave) throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<BaseEntity> saveObjects(final Collection<BaseEntity> objectsToSave, final String userString)
+            throws ActionNotSuccessfulException {
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
+    }
+
+    @Override
+    public Collection<BaseEntity> refreshObjects(final Collection<BaseEntity> objectsToSave)
+            throws ActionNotSuccessfulException {
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
     public void deleteEntity(final BaseEntity objectsToDelete, final String userString)
             throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void deleteEntities(final Set<BaseEntity> objectsToDelete, final String userString)
+    public void deleteEntities(final Collection<BaseEntity> objectsToDelete, final String userString)
             throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public TreeSet<BaseEntity> getObjectsByBoundingBox(final BoundingBox bb) throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public TreeSet getObjectsByBoundingBox(final BoundingBox bb) throws ActionNotSuccessfulException {
+//        final TreeSet result = new TreeSet(new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+//        try {
+//            //ToDo create namedNativeQuery for reusability
+//            System.out.println("GeometryText: " + bb.getGeometryFromTextLineString());
+//            getMetaObject(BELIS_DOMAIN, BELIS_DOMAIN);
+//            List<GeomToEntityIndex> geomToEntityIndices = (List<GeomToEntityIndex>) em.createNativeQuery(
+//                    //ToDo optimize
+//                    //"SELECT id,geometry FROM GeomToEntityIndex WHERE envelope(geometryfromtext(?,-1)) && geometry", GeomToEntityIndex.class).setParameter(1, bb.getGeometryFromTextLineString()).getResultList();
+//                    "SELECT geom_to_entity_index.id,geom_to_entity_index.entityclass,geom_to_entity_index.entityid,geom_to_entity_index.fk_geom FROM geom_to_entity_index,geom WHERE geom.id = geom_to_entity_index.fk_geom AND envelope(geometryfromtext(?,-1)) && geom.geo_field", GeomToEntityIndex.class).setParameter(1, bb.getGeometryFromTextLineString()).getResultList();
+//            if (geomToEntityIndices != null && geomToEntityIndices.size() > 0) {
+//                System.out.println("There are results. size: " + geomToEntityIndices.size());
+//            } else {
+//                System.out.println("There are no results. size: " + geomToEntityIndices.size());
+//                return result;
+//            }
+//
+//            System.out.println("Start searching for entities");
+//            final HashMap<Class, ArrayList> entityIDs = new HashMap();
+//            for (GeomToEntityIndex currentIndex : geomToEntityIndices) {
+////                final Object foundedEntity = getObjectForIndex(currentIndex);
+////                if (foundedEntity != null) {
+////                    System.out.println("Adding Entity: " + foundedEntity + " to result");
+////                    result.add(foundedEntity);
+////                }
+//                if (entityIDs.containsKey(currentIndex.getEntityClass())) {
+//                    final ArrayList classIdList = entityIDs.get(currentIndex.getEntityClass());
+//                    classIdList.add(currentIndex.getEntityID());
+//                } else {
+//                    final ArrayList newClassIdList = new ArrayList();
+//                    newClassIdList.add(currentIndex.getEntityID());
+//                    entityIDs.put(currentIndex.getEntityClass(), newClassIdList);
+//                }
+//            }
+//
+//            for (Class curClass : entityIDs.keySet()) {
+//                System.out.println("Class to search: " + curClass.getSimpleName() + ", id: " + curClass + " ,entityIDs: " + entityIDs.get(curClass));
+//                List curClassResults = em.createNamedQuery(
+//                        curClass.getSimpleName() + ".refresh").setParameter("ids", entityIDs.get(curClass)).getResultList();
+//                System.out.println("found: " + curClassResults);
+//                addCollectionToSortedSet(result, curClassResults);
+//                //result.addAll(curClassResults);
+//            }
+//            System.out.println("Entities in result set: " + result.size());
+//            return result;
+//        } catch (Exception ex) {
+//            System.out.println("Failure during boundingBox querying: " + bb);
+//            ex.printStackTrace();
+//            throw new ActionNotSuccessfulException("Failure during boundingBox querying");
+//        }
+        return null;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  sortedSet   DOCUMENT ME!
+     * @param  collection  DOCUMENT ME!
+     */
+    private static void addCollectionToSortedSet(final SortedSet sortedSet, final Collection collection) {
+        if ((sortedSet != null) && (collection != null) && (collection.size() > 0)) {
+            System.out.println("adding Collection: " + collection + "to sorted set: " + sortedSet);
+            for (final Object curObject : collection) {
+                sortedSet.add(curObject);
+            }
+        }
     }
 
     @Override
     public Object getObjectsByGeom(final GeomCustomBean geom) throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
     public boolean checkIfStandortExists(final TdtaStandortMastCustomBean standort)
             throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return false;
     }
 
     @Override
     public TdtaStandortMastCustomBean determineNextLaufendenummer(final TdtaStandortMastCustomBean standort,
             final Short minimalNumber) throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
     public Lock lockEntity(final Object objectToLock, final String userString) throws ActionNotSuccessfulException,
         LockAlreadyExistsException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
-    public Set<Lock> lockEntity(final Set<Object> objectsToLock, final String userString)
+    public Collection<Lock> lockEntity(final Collection<Object> objectsToLock, final String userString)
             throws ActionNotSuccessfulException, LockAlreadyExistsException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
     public Lock isEntityLocked(final Object lockedObject) throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
     public Lock tryToLockEntity(final Object lockedObject, final String userString) throws ActionNotSuccessfulException,
         LockAlreadyExistsException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
     public void unlockEntity(final Object objectToUnlock) throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Set<Object> unlockEntity(final Set<Object> objectsToUnlock) throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Collection<Object> unlockEntity(final Collection<Object> objectsToUnlock)
+            throws ActionNotSuccessfulException {
+//        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Override
     public void unlockEntity(final Lock holdedLock) throws ActionNotSuccessfulException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    //~ Inner Classes ----------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    class EJBConnector extends SwingWorker<BelisServerRemote, Void> {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private boolean hadErrors;
-        private String errorMessage;
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new EJBConnector object.
-         */
-        public EJBConnector() {
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        protected BelisServerRemote doInBackground() throws Exception {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("starte EJBConnectorjob");
-            }
-            try {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Lookup des BelisEJB");
-                }
-                if (ic != null) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("vor intial Kontext");
-                    }
-                    final InitialContext ic = new InitialContext();
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Initial Kontext komplett");
-                    }
-                }
-                final BelisServerRemote tmpBelisEJB = (BelisServerRemote)ic.lookup(
-                        "de.cismet.belisEE.bean.BelisServerRemote");
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Lookup des BelisEJB erfolgreich");
-                }
-                return tmpBelisEJB;
-            } catch (Throwable ex) {
-                LOG.fatal("Fehler beim Verbinden mit Glassfish.\nFehler beim initialisieren/lookup des EJBs", ex);
-                return null;
-            }
-        }
-
-        @Override
-        protected void done() {
-            try {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("EJBConnector done");
-                }
-                if (isCancelled()) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("EJBConnector canceled");
-                    }
-                    brokenConnectionOptionPane.setMessage(
-                        "Es konnte keine Verbindung zum BelIS Server hergestellt werden.\n Was Möchten Sie tun ?");
-                    EJBReconnectorPanel.resetPanel();
-                    return;
-                }
-//                belisEJBServerStub = get();
-//                if (belisEJBServerStub != null) {
-//                    if (log.isDebugEnabled()) {
-//                        log.debug("Verbinden mit Glassifsh und abrufen des BelisEJB erfogreich");
-//                    }
-//                    brokenConnectionDialog.setVisible(false);
-//                    EJBReconnectorPanel.resetPanel();
-//                } else {
-//                    if (log.isDebugEnabled()) {
-//                        log.debug("Verbinden mit Glassifsh und abrufen des BelisEJB nicht erfogreich");
-//                    }
-//                    EJBReconnectorPanel.resetPanel();
-//                }
-            } catch (Exception ex) {
-                LOG.error("Fehler beim Verbinden mit Glassfish(done)");
-            }
-            brokenConnectionOptionPane.setMessage(
-                "Es konnte keine Verbindung zum Belis Server hergestellt werden.\n Was Möchten Sie tun ?");
-        }
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

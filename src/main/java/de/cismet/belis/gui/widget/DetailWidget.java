@@ -88,10 +88,11 @@ import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
-import de.cismet.commons.architecture.widget.DefaultWidget;
 
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
+
+import de.cismet.commons2.architecture.widget.DefaultWidget;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -115,14 +116,14 @@ public class DetailWidget extends DefaultWidget {
     protected Object currentEntity = null;
 
     private final Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
-    private Set<?> allStrassenschluessel;
+    private Collection<TkeyStrassenschluesselCustomBean> allStrassenschluessel;
     // ToDo configurable
     private int maxStringLength = 250;
     // private final GregorianCalendar calender = new GregorianCalendar();
     // private final Date smallestAllowedDate = new Date(0);
     private final String comboBoxNullValue = "Wert auswählen...";
-    private Set<Binding> validationState = new HashSet<Binding>();
-    private Set<LeitungstypCustomBean> leitungstypen = new HashSet<LeitungstypCustomBean>();
+    private Collection<Binding> validationState = new HashSet<Binding>();
+    private Collection<LeitungstypCustomBean> leitungstypen = new HashSet<LeitungstypCustomBean>();
     private boolean isTriggerd = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cboLeuchteVerrechnungseinheit;
@@ -273,7 +274,7 @@ public class DetailWidget extends DefaultWidget {
      *
      * @param  broker  DOCUMENT ME!
      */
-    public DetailWidget(final AdvancedPluginBroker broker) {
+    public DetailWidget(final BelisBroker broker) {
         super(broker);
         initComponents();
         initContent();
@@ -369,7 +370,7 @@ public class DetailWidget extends DefaultWidget {
      */
     private void initLeitungPanel() {
         try {
-            final Set<MaterialLeitungCustomBean> material = CidsBroker.getInstance().getAllMaterialLeitung();
+            final Collection<MaterialLeitungCustomBean> material = CidsBroker.getInstance().getAllMaterialLeitung();
             createSortedCBoxModelFromCollection(material, cbxLeitungMaterial);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeitungMaterial.setModel(new DefaultComboBoxModel());
@@ -385,7 +386,7 @@ public class DetailWidget extends DefaultWidget {
         cbxLeitungLeitungstyp.setSelectedItem(null);
 
         try {
-            final Set<QuerschnittCustomBean> querschnitt = CidsBroker.getInstance().getAllQuerschnitte();
+            final Collection<QuerschnittCustomBean> querschnitt = CidsBroker.getInstance().getAllQuerschnitte();
             createSortedCBoxModelFromCollection(querschnitt, cbxLeitungQuerschnitt);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeitungQuerschnitt.setModel(new DefaultComboBoxModel());
@@ -411,20 +412,21 @@ public class DetailWidget extends DefaultWidget {
         AutoCompleteDecorator.decorate(cbxLeuchteStrassenschluesselNr, new ObjectToIDConverter());
 
         try {
-            final Set<TkeyKennzifferCustomBean> kennziffern = CidsBroker.getInstance().getAllKennziffer();
+            final Collection<TkeyKennzifferCustomBean> kennziffern = CidsBroker.getInstance().getAllKennziffer();
             createSortedCBoxModelFromCollection(kennziffern, cbxLeuchteKennziffer);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteKennziffer.setModel(new DefaultComboBoxModel());
         }
         cbxLeuchteKennziffer.setSelectedItem(null);
         try {
-            final Set<TkeyEnergielieferantCustomBean> lieferanten = CidsBroker.getInstance().getAllEnergielieferanten();
+            final Collection<TkeyEnergielieferantCustomBean> lieferanten = CidsBroker.getInstance()
+                        .getAllEnergielieferanten();
             createSortedCBoxModelFromCollection(lieferanten, cbxLeuchteEnergielieferant);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteEnergielieferant.setModel(new DefaultComboBoxModel());
         }
         try {
-            final Set<TkeyUnterhLeuchteCustomBean> unterhalt = CidsBroker.getInstance().getAllUnterhaltLeuchte();
+            final Collection<TkeyUnterhLeuchteCustomBean> unterhalt = CidsBroker.getInstance().getAllUnterhaltLeuchte();
             try {
                 if ((unterhalt != null) && (unterhalt.size() > 0)) {
                     for (final TkeyUnterhLeuchteCustomBean curUnterhaltLeuchte : unterhalt) {
@@ -449,14 +451,14 @@ public class DetailWidget extends DefaultWidget {
             cbxLeuchteUnterhalt.setModel(new DefaultComboBoxModel());
         }
         try {
-            final Set<TkeyLeuchtentypCustomBean> leuchtentypen = CidsBroker.getInstance().getAllLeuchtentypen();
+            final Collection<TkeyLeuchtentypCustomBean> leuchtentypen = CidsBroker.getInstance().getAllLeuchtentypen();
             createSortedCBoxModelFromCollection(leuchtentypen, cbxLeuchteLeuchtentyp);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteLeuchtentyp.setModel(new DefaultComboBoxModel());
         }
         cbxLeuchteLeuchtentyp.setSelectedItem(null);
         try {
-            final Set<TkeyDoppelkommandoCustomBean> dk1 = CidsBroker.getInstance().getAllDoppelkommando();
+            final Collection<TkeyDoppelkommandoCustomBean> dk1 = CidsBroker.getInstance().getAllDoppelkommando();
             try {
                 if ((dk1 != null) && (dk1.size() > 0)) {
                     for (final TkeyDoppelkommandoCustomBean curDoppelkommando : dk1) {
@@ -482,7 +484,7 @@ public class DetailWidget extends DefaultWidget {
         }
         cbxLeuchteDoppelkommando1.setSelectedItem(null);
         try {
-            final Set<TkeyDoppelkommandoCustomBean> dk2 = CidsBroker.getInstance().getAllDoppelkommando();
+            final Collection<TkeyDoppelkommandoCustomBean> dk2 = CidsBroker.getInstance().getAllDoppelkommando();
             createSortedCBoxModelFromCollection(dk2, cbxLeuchteDoppelkommando2);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteDoppelkommando2.setModel(new DefaultComboBoxModel());
@@ -493,7 +495,7 @@ public class DetailWidget extends DefaultWidget {
 
         // Virtual properties
         try {
-            final Set<TkeyBezirkCustomBean> bezirke = CidsBroker.getInstance().getAllStadtbezirke();
+            final Collection<TkeyBezirkCustomBean> bezirke = CidsBroker.getInstance().getAllStadtbezirke();
             createSortedCBoxModelFromCollection(bezirke, cbxLeuchteStadtbezirk);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteStadtbezirk.setModel(new DefaultComboBoxModel());
@@ -512,7 +514,8 @@ public class DetailWidget extends DefaultWidget {
         cbxMauerlascheStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluesselNr, new ObjectToIDConverter());
         try {
-            final Set<MaterialMauerlascheCustomBean> material = CidsBroker.getInstance().getAllMaterialMauerlasche();
+            final Collection<MaterialMauerlascheCustomBean> material = CidsBroker.getInstance()
+                        .getAllMaterialMauerlasche();
             createSortedCBoxModelFromCollection(material, cbxMauerlascheMaterial);
         } catch (ActionNotSuccessfulException ex) {
             cbxMauerlascheMaterial.setModel(new DefaultComboBoxModel());
@@ -531,7 +534,7 @@ public class DetailWidget extends DefaultWidget {
         cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluesselNr, new ObjectToIDConverter());
         try {
-            final Set<BauartCustomBean> bauarten = CidsBroker.getInstance().getAllBauarten();
+            final Collection<BauartCustomBean> bauarten = CidsBroker.getInstance().getAllBauarten();
             createSortedCBoxModelFromCollection(bauarten, cbxSchaltstelleBauart);
         } catch (ActionNotSuccessfulException ex) {
             cbxSchaltstelleBauart.setModel(new DefaultComboBoxModel());
@@ -651,40 +654,40 @@ public class DetailWidget extends DefaultWidget {
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxStandortStrassenschluesselNr);
         AutoCompleteDecorator.decorate(cbxStandortStrassenschluesselNr, new ObjectToIDConverter());
         try {
-            final Set<TkeyKennzifferCustomBean> kennziffern = CidsBroker.getInstance().getAllKennziffer();
+            final Collection<TkeyKennzifferCustomBean> kennziffern = CidsBroker.getInstance().getAllKennziffer();
             createSortedCBoxModelFromCollection(kennziffern, cbxStandortKennziffer);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortKennziffer.setModel(new DefaultComboBoxModel());
         }
         cbxStandortKennziffer.setSelectedItem(null);
         try {
-            final Set<TkeyBezirkCustomBean> bezirke = CidsBroker.getInstance().getAllStadtbezirke();
+            final Collection<TkeyBezirkCustomBean> bezirke = CidsBroker.getInstance().getAllStadtbezirke();
             createSortedCBoxModelFromCollection(bezirke, cbxStandortStadtbezirk);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortStadtbezirk.setModel(new DefaultComboBoxModel());
         }
         try {
-            final Set<TkeyKlassifizierungCustomBean> klassifizierungen = CidsBroker.getInstance()
+            final Collection<TkeyKlassifizierungCustomBean> klassifizierungen = CidsBroker.getInstance()
                         .getAllKlassifizierungen();
             createSortedCBoxModelFromCollection(klassifizierungen, cbxStandortKlassifizierung);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortKlassifizierung.setModel(new DefaultComboBoxModel());
         }
         try {
-            final Set<TkeyMastartCustomBean> mastarten = CidsBroker.getInstance().getAllMastarten();
+            final Collection<TkeyMastartCustomBean> mastarten = CidsBroker.getInstance().getAllMastarten();
             createSortedCBoxModelFromCollection(mastarten, cbxStandortMastart);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortMastart.setModel(new DefaultComboBoxModel());
         }
         try {
-            final Set<TkeyMasttypCustomBean> masttypen = CidsBroker.getInstance().getAllMasttypen();
+            final Collection<TkeyMasttypCustomBean> masttypen = CidsBroker.getInstance().getAllMasttypen();
             createSortedCBoxModelFromCollection(masttypen, cbxStandortMasttyp);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortMasttyp.setModel(new DefaultComboBoxModel());
         }
         AutoCompleteDecorator.decorate(cbxStandortMasttyp, new ObjectToKeyStringConverter());
         try {
-            final Set<TkeyUnterhMastCustomBean> unterhaltMast = CidsBroker.getInstance().getAllUnterhaltMast();
+            final Collection<TkeyUnterhMastCustomBean> unterhaltMast = CidsBroker.getInstance().getAllUnterhaltMast();
             try {
                 if ((unterhaltMast != null) && (unterhaltMast.size() > 0)) {
                     for (final TkeyUnterhMastCustomBean curUnterhaltMast : unterhaltMast) {
