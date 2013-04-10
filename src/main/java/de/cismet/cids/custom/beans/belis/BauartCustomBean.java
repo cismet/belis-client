@@ -39,7 +39,7 @@ public class BauartCustomBean extends BaseEntity implements Bauart {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Long id;
+    private Integer id;
     private String bezeichnung;
 
     //~ Constructors -----------------------------------------------------------
@@ -72,13 +72,13 @@ public class BauartCustomBean extends BaseEntity implements Bauart {
     }
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(final Long id) {
-        final Long old = this.id;
+    public void setId(final Integer id) {
+        final Integer old = this.id;
         this.id = id;
         this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
@@ -90,7 +90,7 @@ public class BauartCustomBean extends BaseEntity implements Bauart {
 
     @Override
     public void setBezeichnung(final String bezeichnung) {
-        final Long old = this.id;
+        final String old = this.bezeichnung;
         this.bezeichnung = bezeichnung;
         this.propertyChangeSupport.firePropertyChange(PROP__BEZEICHNUNG, old, this.bezeichnung);
     }

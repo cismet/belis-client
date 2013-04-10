@@ -43,7 +43,7 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity implements Klassif
 
     private Integer id;
     private String klassifizierung;
-    private Short pk;
+    private Integer pk;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -58,7 +58,7 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity implements Klassif
      *
      * @param  pk  DOCUMENT ME!
      */
-    public TkeyKlassifizierungCustomBean(final Short pk) {
+    public TkeyKlassifizierungCustomBean(final Integer pk) {
         setPk(pk);
     }
 
@@ -106,13 +106,13 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity implements Klassif
     }
 
     @Override
-    public Short getPk() {
+    public Integer getPk() {
         return pk;
     }
 
     @Override
-    public void setPk(final Short pk) {
-        final Short old = this.pk;
+    public void setPk(final Integer pk) {
+        final Integer old = this.pk;
         this.pk = pk;
         this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }

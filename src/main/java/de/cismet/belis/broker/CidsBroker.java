@@ -17,15 +17,15 @@ import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
-import Sirius.server.newuser.User;
 
 import org.apache.commons.collections.comparators.ReverseComparator;
+
+import org.openide.util.Exceptions;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -43,10 +43,13 @@ import de.cismet.belisEE.util.StandortKey;
 
 import de.cismet.cids.custom.beans.belis.BauartCustomBean;
 import de.cismet.cids.custom.beans.belis.GeomCustomBean;
+import de.cismet.cids.custom.beans.belis.GeomToEntityIndexCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
 import de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.QuerschnittCustomBean;
+import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
@@ -93,15 +96,6 @@ public class CidsBroker implements BelisServerRemote {
      * Creates a new CidsBroker object.
      */
     public CidsBroker() {
-        try {
-            setProxy(SessionManager.getProxy());
-            if (!SessionManager.isInitialized()) {
-                SessionManager.init(getProxy());
-                ClassCacheMultiple.setInstance(BELIS_DOMAIN);
-            }
-        } catch (Throwable e) {
-            LOG.fatal("no connection to the cids server possible. too bad.", e);
-        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -123,7 +117,7 @@ public class CidsBroker implements BelisServerRemote {
      *
      * @return  DOCUMENT ME!
      */
-    private ConnectionProxy getProxy() {
+    public ConnectionProxy getProxy() {
         return proxy;
     }
 
@@ -132,7 +126,7 @@ public class CidsBroker implements BelisServerRemote {
      *
      * @param  proxy  DOCUMENT ME!
      */
-    private void setProxy(final ConnectionProxy proxy) {
+    public void setProxy(final ConnectionProxy proxy) {
         this.proxy = proxy;
     }
 
@@ -147,8 +141,25 @@ public class CidsBroker implements BelisServerRemote {
     public MetaClass getMetaClass(final String tablename, final String domain) {
         try {
             return CidsBean.getMetaClassFromTableName(domain, tablename);
-        } catch (Exception exception) {
-            LOG.error("couldn't load metaclass for " + tablename, exception);
+        } catch (final Exception ex) {
+            LOG.error("couldn't load metaclass for " + tablename, ex);
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   id      DOCUMENT ME!
+     * @param   domain  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MetaClass getMetaClass(final Integer id, final String domain) {
+        try {
+            return proxy.getMetaClass(id, domain);
+        } catch (final ConnectionException ex) {
+            LOG.error("couldn't load metaclass with the id =" + id, ex);
             return null;
         }
     }
@@ -186,9 +197,7 @@ public class CidsBroker implements BelisServerRemote {
     public MetaObject[] getMetaObject(final String query, final String domain) {
         MetaObject[] mos = null;
         try {
-            final User user = SessionManager.getSession().getUser();
-            final ConnectionProxy proxy = getProxy();
-            mos = proxy.getMetaObjectByQuery(user, query, domain);
+            mos = getProxy().getMetaObjectByQuery(SessionManager.getSession().getUser(), query, domain);
         } catch (ConnectionException ex) {
             LOG.error("error retrieving metaobject by query", ex);
         }
@@ -299,17 +308,300 @@ public class CidsBroker implements BelisServerRemote {
 
     @Override
     public TreeSet<BaseEntity> getObjectsByKey(final String strassenschluessel,
-            final Short kennziffer,
-            final Short laufendeNummer) throws ActionNotSuccessfulException {
-//        throw new UnsupportedOperationException("Not supported yet.");
-        return null;
+            final Integer kennziffer,
+            final Integer laufendeNummer) throws ActionNotSuccessfulException {
+        final Collection<TdtaStandortMastCustomBean> standorte = retrieveStandort(new StandortKey(
+                    strassenschluessel,
+                    kennziffer,
+                    laufendeNummer));
+        final Collection<SchaltstelleCustomBean> schaltstellen = retrieveSchaltstelle(
+                strassenschluessel,
+                laufendeNummer);
+        final Collection<MauerlascheCustomBean> mauerlaschen = retrieveMauerlasche(strassenschluessel, laufendeNummer);
+        // final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(new EntityComparator());
+        final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(new ReverseComparator(
+                    new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+        if (standorte != null) {
+            addCollectionToSortedSet(results, standorte);
+        }
+        if (schaltstellen != null) {
+            addCollectionToSortedSet(results, schaltstellen);
+            // results.addAll(schaltstellen);
+        }
+        if (mauerlaschen != null) {
+            addCollectionToSortedSet(results, mauerlaschen);
+            // results.addAll(mauerlaschen);
+        }
+        return results;
     }
 
+    // ToDo is it a good idea to make a basic identity for generic id access or propertyChange support ??
     @Override
     public Collection<TdtaStandortMastCustomBean> retrieveStandort(final StandortKey key)
             throws ActionNotSuccessfulException {
-//        throw new UnsupportedOperationException("Not supported yet.");
-        return null;
+        try {
+            final MetaClass metaclass = getMetaClass(TdtaStandortMastCustomBean.TABLE, BELIS_DOMAIN);
+
+            if (key == null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("The search key is null");
+                }
+                throw new ActionNotSuccessfulException("The search key is null");
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Finde Standort: ");
+                LOG.debug("Strassenschlüssel       : " + key.getStrassenschluessel().getPk());
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Kennziffer: " + key.getKennziffer());
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("laufende Nummer : " + key.getLaufendeNummer());
+            }
+            // ToDo what todo if one of the values is null --> extra flag useWildcard
+            String strasse = null;
+            if ((key.getStrassenschluessel() == null) || ((strasse = key.getStrassenschluessel().getPk()) == null)) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("At least the strassenschluessel must be != null");
+                }
+                return null;
+            }
+            Integer kennziffer = null;
+            if ((key.getKennziffer() == null) || ((kennziffer = key.getKennziffer().getKennziffer()) == null)) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("kennziffer is null --> wildcard");
+                }
+            }
+            final Integer lfdNummer;
+            if ((lfdNummer = key.getLaufendeNummer()) == null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("lfdNummer is null --> wildcard");
+                }
+            }
+            if (LOG.isDebugEnabled()) {
+                // ToDo optimise
+                LOG.debug("Strasse: " + strasse);
+            }
+            final Collection<TdtaStandortMastCustomBean> result;
+            if ((strasse != null) && (lfdNummer != null) && (kennziffer != null)) {
+                result = (Collection<TdtaStandortMastCustomBean>)getBeanCollectionForQuery("SELECT " + metaclass
+                                .getID() + ", " + metaclass.getTableName() + "." + metaclass.getPrimaryKey() + " "
+                                + " FROM " + metaclass.getTableName() + " s WHERE s.strassenschluessel.pk = " + strasse
+                                + " AND s.kennziffer.kennziffer = " + kennziffer + " AND s.laufendeNummer = "
+                                + lfdNummer + "",
+                        BELIS_DOMAIN);
+            } else if ((strasse != null) && (lfdNummer != null)) {
+                result = (Collection<TdtaStandortMastCustomBean>)getBeanCollectionForQuery("SELECT " + metaclass
+                                .getID() + ", " + metaclass.getTableName() + "." + metaclass.getPrimaryKey() + " "
+                                + " FROM " + metaclass.getTableName() + " s WHERE s.strassenschluessel.pk = " + strasse
+                                + " AND s.laufendeNummer = " + lfdNummer + "",
+                        BELIS_DOMAIN);
+            } else if ((strasse != null) && (kennziffer != null)) {
+                result = (Collection<TdtaStandortMastCustomBean>)getBeanCollectionForQuery("SELECT " + metaclass
+                                .getID() + ", " + metaclass.getTableName() + "." + metaclass.getPrimaryKey() + " "
+                                + " FROM " + metaclass.getTableName() + " s WHERE s.strassenschluessel.pk = " + strasse
+                                + " AND s.kennziffer.kennziffer = " + kennziffer + "",
+                        BELIS_DOMAIN);
+            } else {
+                result = (Collection<TdtaStandortMastCustomBean>)getBeanCollectionForQuery("SELECT " + metaclass
+                                .getID() + ", " + metaclass.getTableName() + "." + metaclass.getPrimaryKey() + " "
+                                + " FROM " + metaclass.getTableName() + " s WHERE s.strassenschluessel.pk = " + strasse
+                                + "",
+                        BELIS_DOMAIN);
+            }
+//            if()
+////            List<Standort> maeste = (List<Standort>) em.createNamedQuery(
+////                    "findStandort").setParameter("strassenschluessel",   key.getStrassenschluessel().getStrasse()).setParameter("kennziffer", "%").setParameter("laufendeNummer", "%").getResultList();
+//                    List<Standort> maeste = (List<Standort>) em.createNamedQuery(
+//                    "Standort.findStandortByStrassenschluessel").setParameter("strassenschluessel",   key.getStrassenschluessel().getStrasse()).getResultList();
+            if ((result != null) && (!result.isEmpty())) {
+                if (LOG.isDebugEnabled()) {
+//                if (maeste. if (masize() > 1) {
+//                    LOG.debug("Maeste count: " + maeste.size());
+//                    throw new Exception("Multiple Maeste should only be one");
+//                } else {
+                    LOG.debug("Found Standort");
+                }
+                return new HashSet<TdtaStandortMastCustomBean>(result);
+            } else {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("No Standort found");
+                }
+                return null;
+            }
+        } catch (Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Failure during Standort querying: " + key, ex);
+            }
+            throw new ActionNotSuccessfulException("Failure during Standort querying");
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   query   DOCUMENT ME!
+     * @param   domain  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Collection getBeanCollectionForQuery(final String query, final String domain) {
+        final MetaObject[] mos = CidsBroker.getInstance().getMetaObject(query, domain);
+        final Collection<CidsBean> beans = new HashSet<CidsBean>();
+        for (final MetaObject metaObject : mos) {
+            beans.add((CidsBean)metaObject.getBean());
+        }
+        return beans;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   key             DOCUMENT ME!
+     * @param   laufendeNummer  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
+    public Collection<SchaltstelleCustomBean> retrieveSchaltstelle(final String key, final Integer laufendeNummer)
+            throws ActionNotSuccessfulException {
+        try {
+            final MetaClass metaclass = getMetaClass(SchaltstelleCustomBean.TABLE, BELIS_DOMAIN);
+            if (key == null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("The search key is null");
+                }
+                throw new ActionNotSuccessfulException("The search key is null");
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Finde Schaltstelle: ");
+                LOG.debug("Strassenschlüssel       : " + key);
+            }
+            // ToDo what todo if one of the values is null --> extra flag useWildcard
+            if (key == null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("The strassenschluessel must be != null");
+                }
+                return null;
+            }
+
+            final Integer lfdNummer = null;
+            if ((laufendeNummer) == null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("lfdNummer is null --> wildcard");
+                }
+            }
+            if (LOG.isDebugEnabled()) {
+                // ToDo optimise
+                LOG.debug("Strasse: " + key);
+            }
+            Collection<SchaltstelleCustomBean> result;
+            if ((key != null) && (lfdNummer != null)) {
+                result = (Collection<SchaltstelleCustomBean>)getBeanCollectionForQuery("SELECT " + metaclass.getID()
+                                + ", " + metaclass.getTableName() + "." + metaclass.getPrimaryKey() + " " + " FROM "
+                                + metaclass.getTableName() + " s WHERE s.strassenschluessel.pk = " + key
+                                + " AND s.laufendeNummer = " + lfdNummer + "",
+                        BELIS_DOMAIN);
+            } else {
+                result = (Collection<SchaltstelleCustomBean>)getBeanCollectionForQuery("SELECT " + metaclass.getID()
+                                + ", " + metaclass.getTableName() + "." + metaclass.getPrimaryKey() + " " + " FROM "
+                                + metaclass.getTableName() + " s WHERE s.strassenschluessel.pk = " + key + "",
+                        BELIS_DOMAIN);
+            }
+            if ((result != null) && (!result.isEmpty())) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Found Schaltstelle");
+                }
+                return new HashSet<SchaltstelleCustomBean>(result);
+            } else {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("No Schaltstelle found");
+                }
+                return null;
+            }
+        } catch (Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Failure during Schaltstelle querying: " + key, ex);
+            }
+            throw new ActionNotSuccessfulException("Failure during Schaltstelle querying");
+        }
+    }
+    // ToDo Generic Method redundant code
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   key             DOCUMENT ME!
+     * @param   laufendeNummer  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
+    public Collection<MauerlascheCustomBean> retrieveMauerlasche(final String key, final Integer laufendeNummer)
+            throws ActionNotSuccessfulException {
+        try {
+            final MetaClass metaclass = getMetaClass(MauerlascheCustomBean.TABLE, BELIS_DOMAIN);
+            if (key == null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("The search key is null");
+                }
+                throw new ActionNotSuccessfulException("The search key is null");
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Finde Mauerlasche: ");
+                LOG.debug("Strassenschlüssel       : " + key);
+            }
+            // ToDo what todo if one of the values is null --> extra flag useWildcard
+            final String strasse = null;
+            if (key == null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("The strassenschluessel must be != null");
+                }
+                return null;
+            }
+
+            final Short lfdNummer = null;
+            if ((laufendeNummer) == null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("lfdNummer is null --> wildcard");
+                }
+            }
+            if (LOG.isDebugEnabled()) {
+                // ToDo optimise
+                LOG.debug("Strasse: " + strasse);
+            }
+            Collection<MauerlascheCustomBean> result;
+            if ((strasse != null) && (lfdNummer != null)) {
+                result = (Collection<MauerlascheCustomBean>)getBeanCollectionForQuery("SELECT " + metaclass.getID()
+                                + ", " + metaclass.getTableName() + "." + metaclass.getPrimaryKey() + " " + " FROM "
+                                + metaclass.getTableName() + " m WHERE m.strassenschluessel.pk = " + strasse
+                                + " AND m.laufendeNummer = " + lfdNummer + "",
+                        BELIS_DOMAIN);
+            } else {
+                result = (Collection<MauerlascheCustomBean>)getBeanCollectionForQuery("SELECT " + metaclass.getID()
+                                + ", " + metaclass.getTableName() + "." + metaclass.getPrimaryKey() + " " + " FROM "
+                                + metaclass.getTableName() + " m WHERE m.strassenschluessel.pk = " + strasse + "",
+                        BELIS_DOMAIN);
+            }
+            if ((result != null) && (!result.isEmpty())) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Found Mauerlasche");
+                }
+                return new HashSet<MauerlascheCustomBean>(result);
+            } else {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("No Mauerlasche found");
+                }
+                return null;
+            }
+        } catch (Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Failure during Mauerlasche querying: " + key, ex);
+            }
+            throw new ActionNotSuccessfulException("Failure during Mauerlasche querying");
+        }
     }
 
     @Override
@@ -340,56 +632,62 @@ public class CidsBroker implements BelisServerRemote {
 
     @Override
     public TreeSet getObjectsByBoundingBox(final BoundingBox bb) throws ActionNotSuccessfulException {
-//        final TreeSet result = new TreeSet(new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-//        try {
-//            //ToDo create namedNativeQuery for reusability
-//            System.out.println("GeometryText: " + bb.getGeometryFromTextLineString());
-//            getMetaObject(BELIS_DOMAIN, BELIS_DOMAIN);
-//            List<GeomToEntityIndex> geomToEntityIndices = (List<GeomToEntityIndex>) em.createNativeQuery(
-//                    //ToDo optimize
-//                    //"SELECT id,geometry FROM GeomToEntityIndex WHERE envelope(geometryfromtext(?,-1)) && geometry", GeomToEntityIndex.class).setParameter(1, bb.getGeometryFromTextLineString()).getResultList();
-//                    "SELECT geom_to_entity_index.id,geom_to_entity_index.entityclass,geom_to_entity_index.entityid,geom_to_entity_index.fk_geom FROM geom_to_entity_index,geom WHERE geom.id = geom_to_entity_index.fk_geom AND envelope(geometryfromtext(?,-1)) && geom.geo_field", GeomToEntityIndex.class).setParameter(1, bb.getGeometryFromTextLineString()).getResultList();
-//            if (geomToEntityIndices != null && geomToEntityIndices.size() > 0) {
-//                System.out.println("There are results. size: " + geomToEntityIndices.size());
-//            } else {
-//                System.out.println("There are no results. size: " + geomToEntityIndices.size());
-//                return result;
-//            }
-//
-//            System.out.println("Start searching for entities");
-//            final HashMap<Class, ArrayList> entityIDs = new HashMap();
-//            for (GeomToEntityIndex currentIndex : geomToEntityIndices) {
-////                final Object foundedEntity = getObjectForIndex(currentIndex);
-////                if (foundedEntity != null) {
-////                    System.out.println("Adding Entity: " + foundedEntity + " to result");
-////                    result.add(foundedEntity);
-////                }
-//                if (entityIDs.containsKey(currentIndex.getEntityClass())) {
-//                    final ArrayList classIdList = entityIDs.get(currentIndex.getEntityClass());
-//                    classIdList.add(currentIndex.getEntityID());
-//                } else {
-//                    final ArrayList newClassIdList = new ArrayList();
-//                    newClassIdList.add(currentIndex.getEntityID());
-//                    entityIDs.put(currentIndex.getEntityClass(), newClassIdList);
-//                }
-//            }
-//
-//            for (Class curClass : entityIDs.keySet()) {
-//                System.out.println("Class to search: " + curClass.getSimpleName() + ", id: " + curClass + " ,entityIDs: " + entityIDs.get(curClass));
-//                List curClassResults = em.createNamedQuery(
-//                        curClass.getSimpleName() + ".refresh").setParameter("ids", entityIDs.get(curClass)).getResultList();
-//                System.out.println("found: " + curClassResults);
-//                addCollectionToSortedSet(result, curClassResults);
-//                //result.addAll(curClassResults);
-//            }
-//            System.out.println("Entities in result set: " + result.size());
-//            return result;
-//        } catch (Exception ex) {
-//            System.out.println("Failure during boundingBox querying: " + bb);
-//            ex.printStackTrace();
-//            throw new ActionNotSuccessfulException("Failure during boundingBox querying");
-//        }
-        return null;
+        final TreeSet result = new TreeSet(new ReverseComparator(
+                    new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+        try {
+            final MetaClass metaclass = getMetaClass(GeomToEntityIndexCustomBean.TABLE, BELIS_DOMAIN);
+            final Collection<GeomToEntityIndexCustomBean> geomToEntityIndices =
+                (Collection<GeomToEntityIndexCustomBean>)getBeanCollectionForQuery("SELECT " + metaclass.getID() + ", "
+                            + metaclass.getTableName() + "." + metaclass.getPrimaryKey() + " " + " FROM "
+                            + metaclass.getTableName() + ", "
+                            + " geom g WHERE g.id = " + metaclass.getTableName()
+                            + ".fk_geom AND envelope(geometryfromtext('"
+                            + bb.getGeometryFromTextLineString() + "', -1)) && g.geo_field",
+                    BELIS_DOMAIN);
+            if ((geomToEntityIndices == null) || (geomToEntityIndices.size() <= 0)) {
+                return result;
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Start searching for entities");
+            }
+            final HashMap<Integer, ArrayList> entityIDs = new HashMap();
+            for (final GeomToEntityIndex currentIndex : geomToEntityIndices) {
+                if (entityIDs.containsKey(Integer.parseInt(currentIndex.getEntityClassId()))) {
+                    final ArrayList classIdList = entityIDs.get(Integer.parseInt(currentIndex.getEntityClassId()));
+                    classIdList.add(currentIndex.getEntityID());
+                } else {
+                    final ArrayList newClassIdList = new ArrayList();
+                    newClassIdList.add(currentIndex.getEntityID());
+                    entityIDs.put(Integer.parseInt(currentIndex.getEntityClassId()), newClassIdList);
+                }
+            }
+
+            for (final Integer curClassId : entityIDs.keySet()) {
+                final MetaClass curMetaclass = getMetaClass(curClassId, BELIS_DOMAIN);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Class to search - id: " + curClassId + " ,entityIDs: " + entityIDs.get(curClassId));
+                }
+                final Collection<CidsBean> curClassResults = (Collection<CidsBean>)getBeanCollectionForQuery("SELECT "
+                                + curMetaclass.getID() + ", " + curMetaclass.getTableName() + "."
+                                + curMetaclass.getPrimaryKey() + " " + " FROM  " + curMetaclass.getTableName()
+                                + " WHERE id IN "
+                                + entityIDs.get(curClassId).toString().replace('[', '(').replace(']', ')') + "",
+                        BELIS_DOMAIN);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("found: " + curClassResults);
+                }
+                addCollectionToSortedSet(result, curClassResults);
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Entities in result set: " + result.size());
+            }
+            return result;
+        } catch (Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Failure during boundingBox querying: " + bb, ex);
+            }
+            throw new ActionNotSuccessfulException("Failure during boundingBox querying");
+        }
     }
 
     /**
@@ -400,7 +698,9 @@ public class CidsBroker implements BelisServerRemote {
      */
     private static void addCollectionToSortedSet(final SortedSet sortedSet, final Collection collection) {
         if ((sortedSet != null) && (collection != null) && (collection.size() > 0)) {
-            System.out.println("adding Collection: " + collection + "to sorted set: " + sortedSet);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("adding Collection: " + collection + "to sorted set: " + sortedSet);
+            }
             for (final Object curObject : collection) {
                 sortedSet.add(curObject);
             }

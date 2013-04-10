@@ -155,7 +155,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     private boolean isAlreadyDisabled = false;
     private boolean tmpProcessStarted = false;
     private boolean isSwitchTriggerEnabled = false;
-    private Set currentSearchResults = new TreeSet(new ReverseComparator(
+    private Collection currentSearchResults = new TreeSet(new ReverseComparator(
                 new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
 //    public Set getCurrentSearchResults() {
 //        return currentSearchResults;
@@ -1622,7 +1622,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      *
      * @return  DOCUMENT ME!
      */
-    public Set getCurrentSearchResults() {
+    public Collection getCurrentSearchResults() {
         return currentSearchResults;
     }
 
@@ -1631,7 +1631,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      *
      * @param  currentSearchResults  DOCUMENT ME!
      */
-    public void setCurrentSearchResults(final Set currentSearchResults) {
+    public void setCurrentSearchResults(final Collection currentSearchResults) {
         if (log.isDebugEnabled()) {
             log.debug("setSearchResults");
         }

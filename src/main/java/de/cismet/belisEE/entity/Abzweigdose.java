@@ -28,12 +28,12 @@ public interface Abzweigdose extends DocumentContainer {
      *
      * @return  DOCUMENT ME!
      */
-    Long getId();
+    Integer getId();
 
     /**
      * DOCUMENT ME!
      *
      * @param  id  DOCUMENT ME!
      */
-    void setId(final Long id);
+    void setId(final Integer id);
 }

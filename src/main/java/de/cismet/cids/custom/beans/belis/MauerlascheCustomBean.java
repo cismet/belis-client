@@ -69,7 +69,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
 
     //~ Instance fields --------------------------------------------------------
 
-    private Long id;
+    private Integer id;
     private Date erstellungsjahr;
     private Short laufende_nummer;
     private GeomCustomBean fk_geom;
@@ -111,13 +111,13 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
     }
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(final Long id) {
-        final Long old = this.id;
+    public void setId(final Integer id) {
+        final Integer old = this.id;
         this.id = id;
         this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }

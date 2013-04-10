@@ -27,14 +27,14 @@ public interface Stadtbezirk extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    Short getPk();
+    Integer getPk();
 
     /**
      * DOCUMENT ME!
      *
      * @param  pk  DOCUMENT ME!
      */
-    void setPk(final Short pk);
+    void setPk(final Integer pk);
 
     /**
      * DOCUMENT ME!

@@ -326,7 +326,9 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
             for (final CustomMutableTreeTableNode curNode : nodesToRemove) {
                 // ToDo why can this be null ??
                 if (curNode != null) {
-                    log.fatal("removing node:" + curNode);
+                    if (log.isDebugEnabled()) {
+                        log.debug("removing node:" + curNode);
+                    }
                     removeNodeFromParent(curNode);
                 }
                 if (log.isDebugEnabled()) {

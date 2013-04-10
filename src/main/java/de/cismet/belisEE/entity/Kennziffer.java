@@ -28,14 +28,14 @@ public interface Kennziffer extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    Short getKennziffer();
+    Integer getKennziffer();
 
     /**
      * DOCUMENT ME!
      *
      * @param  kennziffer  DOCUMENT ME!
      */
-    void setKennziffer(final Short kennziffer);
+    void setKennziffer(final Integer kennziffer);
 
     /**
      * DOCUMENT ME!

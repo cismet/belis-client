@@ -43,7 +43,7 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
 
     private Integer id;
     private String beschreibung;
-    private Short kennziffer;
+    private Integer kennziffer;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -58,7 +58,7 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
      *
      * @param  kennziffer  DOCUMENT ME!
      */
-    public TkeyKennzifferCustomBean(final Short kennziffer) {
+    public TkeyKennzifferCustomBean(final Integer kennziffer) {
         setKennziffer(kennziffer);
     }
 
@@ -104,13 +104,13 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
     }
 
     @Override
-    public Short getKennziffer() {
+    public Integer getKennziffer() {
         return kennziffer;
     }
 
     @Override
-    public void setKennziffer(final Short kennziffer) {
-        final Short old = this.kennziffer;
+    public void setKennziffer(final Integer kennziffer) {
+        final Integer old = this.kennziffer;
         this.kennziffer = kennziffer;
         this.propertyChangeSupport.firePropertyChange(PROP__KENNZIFFER, old, this.kennziffer);
     }

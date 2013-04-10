@@ -162,18 +162,13 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
     }
 
     @Override
-    public Class getEntityClass() {
-        try {
-            return Class.forName(getEntityclass());
-        } catch (ClassNotFoundException ex) {
-            LOG.error(ex, ex);
-            return null;
-        }
+    public String getEntityClassId() {
+        return getEntityclass();
     }
 
     @Override
-    public void setEntityClass(final Class entityClass) {
-        setEntityclass(entityClass.getCanonicalName());
+    public void setEntityClassId(final String entityClassId) {
+        setEntityclass(entityClassId);
     }
 
     @Override

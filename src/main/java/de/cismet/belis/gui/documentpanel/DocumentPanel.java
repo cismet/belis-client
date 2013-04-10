@@ -101,14 +101,13 @@ public final class DocumentPanel extends javax.swing.JPanel {
     //~ Instance fields --------------------------------------------------------
 
     ObservableList model;
-    SyncedSetArrayList al = null;
     // --
     // private final DefaultListModel docListModel;
     private final Timer busyIconTimer;
     private int busyIconIndex = 0;
     private SwingWorker<ImageIcon, Void> previewWorker;
     // private DocumentContainer currentEntity = null;
-    private Set<DmsUrlCustomBean> dokumente = null;
+    private Collection<DmsUrlCustomBean> dokumente = null;
     private boolean inEditMode = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -189,7 +188,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public Set<DmsUrlCustomBean> getDokumente() {
+    public Collection<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
 
@@ -198,7 +197,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      *
      * @param  dokumente  DOCUMENT ME!
      */
-    public void setDokumente(final Set<DmsUrlCustomBean> dokumente) {
+    public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
         if (log.isDebugEnabled()) {
             log.debug("setDokumente");
         }
@@ -245,7 +244,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      */
     private void addURLtoList(final String urlString) {
         if (log.isDebugEnabled()) {
-            log.debug("addURLToList set: " + getDokumente() + " arrayList: " + al + " observable: " + model);
+            log.debug("addURLToList set: " + getDokumente() + "  observable: " + model);
         }
         final String description = JOptionPane.showInputDialog(
                 DocumentPanel.this,
@@ -358,7 +357,6 @@ public final class DocumentPanel extends javax.swing.JPanel {
                         this,
                         eLProperty,
                         lstDocList);
-        jListBinding.setConverter(new SetToListConverter());
         bindingGroup.addBinding(jListBinding);
 
         lstDocList.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -737,121 +735,4 @@ public final class DocumentPanel extends javax.swing.JPanel {
             previewWorker = null;
         }
     }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    class SetToListConverter extends Converter<Set, ObservableList> {
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public ObservableList convertForward(final Set arg0) {
-            if (log.isDebugEnabled()) {
-                log.debug("Convert forward: " + arg0);
-            }
-            if (arg0 != null) {
-                al = new SyncedSetArrayList(arg0);
-                model = ObservableCollections.observableList(al);
-                return model;
-            } else {
-                return null;
-            }
-        }
-
-        @Override
-        public Set convertReverse(final ObservableList arg0) {
-            if (log.isDebugEnabled()) {
-                log.debug("Convert reverse: " + arg0);
-            }
-            if (arg0 != null) {
-                // ToDo maybe a failure because it is possible that the sorting is not correct.
-                // new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))
-                return new HashSet(arg0);
-            } else {
-                return null;
-            }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    class SyncedSetArrayList extends ArrayList {
-
-        //~ Instance fields ----------------------------------------------------
-
-        Set s;
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new SyncedSetArrayList object.
-         *
-         * @param  s  DOCUMENT ME!
-         */
-        public SyncedSetArrayList(final Set s) {
-            super(s);
-            this.s = s;
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public boolean add(final Object e) {
-            s.add(e);
-            return super.add(e);
-        }
-
-        @Override
-        public void add(final int index, final Object element) {
-            s.add(element);
-            super.add(index, element);
-        }
-
-        @Override
-        public boolean addAll(final Collection c) {
-            s.addAll(c);
-            return super.addAll(c);
-        }
-
-        @Override
-        public boolean addAll(final int index, final Collection c) {
-            s.addAll(c);
-            return super.addAll(index, c);
-        }
-
-        @Override
-        public void clear() {
-            s.clear();
-            super.clear();
-        }
-
-        @Override
-        public Object remove(final int index) {
-            final Object removed = super.remove(index);
-            s.remove(removed);
-            return removed;
-        }
-
-        @Override
-        public boolean remove(final Object o) {
-            s.remove(o);
-            return super.remove(o);
-        }
-
-        @Override
-        public Object set(final int index, final Object element) {
-            final Object o = super.get(index);
-            s.remove(o);
-            s.add(element);
-            return super.set(index, element);
-        }
-    }
 }
-
-//class DmsUrlConverter extends Converter<>

@@ -191,7 +191,7 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    TreeSet<BaseEntity> getObjectsByKey(String strassenschluessel, Short kennziffer, Short laufendeNummer)
+    TreeSet<BaseEntity> getObjectsByKey(String strassenschluessel, Integer kennziffer, Integer laufendeNummer)
             throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!

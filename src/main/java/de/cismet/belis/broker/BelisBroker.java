@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.belis.broker;
 
+import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.plugin.context.PluginContext;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -28,6 +29,8 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
+
+import org.jfree.util.Log;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -100,6 +103,7 @@ import de.cismet.cids.custom.beans.belis.SperreCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
@@ -238,10 +242,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     WorkbenchWidget workbenchWidget = null;
     final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
     private final LayoutManager layoutManager = new LayoutManager();
-    private final LoginManager loginManager = new LoginManager();
     private ConfigurationManager configManager;
     private JToolBar toolbar;
-    private PluginContext context;
     private String applicationName;
     private StatusBar statusbar;
     private boolean statusBarEnabled = true;
@@ -846,28 +848,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     @Override
     public void masterConfigure(final Element parent) {
-        System.out.println("conifgure glassfish");
-        try {
-            final Element prefs = parent.getChild("GlassfishSetup");
-            try {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Glassfishhost: " + prefs.getChildText("Host"));
-                }
-                System.setProperty("org.omg.CORBA.ORBInitialHost", prefs.getChildText("Host"));
-            } catch (Exception ex) {
-                LOG.warn("Fehler beim lesen des Glassfish Hosts", ex);
-            }
-            try {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Glassfisport: " + prefs.getChildText("OrbPort"));
-                }
-                System.setProperty("org.omg.CORBA.ORBInitialPort", prefs.getChildText("OrbPort"));
-            } catch (Exception ex) {
-                LOG.warn("Fehler beim lesen des Glassfish Ports", ex);
-            }
-        } catch (Exception ex) {
-            LOG.warn("Error while configuring Glassfish");
-        }
         try {
             final Element prefs = parent.getChild("Options");
             try {
@@ -908,36 +888,29 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 ex.printStackTrace();
             }
 
-            // Initialize Widgets
-            try {
-                final Element widgets = parent.getChild("Widgets");
-                if (widgets != null) {
-                    for (final Element curWidget : (List<Element>)widgets.getChildren()) {
-                        try {
-                            addWidget(createWidget(curWidget));
-                        } catch (Throwable ex) {
-                            // ToDo proper print out of Widget
-                            LOG.error("Error while initializing widget: " + curWidget, ex);
-                        }
+        // Initialize Widgets
+        try {
+            final Element widgets = parent.getChild("Widgets");
+            if (widgets != null) {
+                for (final Element curWidget : (List<Element>)widgets.getChildren()) {
+                    try {
+                        addWidget(createWidget(curWidget));
+                    } catch (Throwable ex) {
+                        // ToDo proper print out of Widget
+                        LOG.error("Error while initializing widget: " + curWidget, ex);
                     }
-                } else {
-                    LOG.warn("No widgets available (widgets=null)");
                 }
-            } catch (Exception ex) {
-                LOG.error("Error while initializing widgets", ex);
+            } else {
+                LOG.warn("No widgets available (widgets=null)");
             }
+        } catch (Exception ex) {
+            LOG.error("Error while initializing widgets", ex);
+        }
 
             System.out.println("masterConfigure: " + BelisBroker.class.getName());
             configManager.addConfigurable(layoutManager);
-            configManager.addConfigurable(loginManager);
             configManager.configure(layoutManager);
-            configManager.configure(loginManager);
-            try {
-                loginManager.handleLogin();
-            } catch (Exception ex) {
-                LOG.error("Fehler beim Loginframe", ex);
-                System.exit(2);
-            }
+
             for (final Widget widget : getWidgets()) {
                 configManager.addConfigurable(widget);
                 configManager.configure(widget);
@@ -969,6 +942,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             LOG.warn("Error setting fontsize for map objects. Setting font to default: " + defaultFontSize);
             IconUtils.setFont(new Font("Courier", Font.PLAIN, defaultFontSize));
         }
+
+        showMainApplication();
     }
 
     /**
@@ -1288,33 +1263,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public RootWindow getRootWindow() {
         return layoutManager.getRootWindow();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  context  DOCUMENT ME!
-     */
-    public void setContext(final PluginContext context) {
-        this.context = context;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public PluginContext getContext() {
-        return context;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public boolean isApplicationPlugin() {
-        return context != null;
     }
 
     /**
@@ -2097,7 +2045,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    public Set search(final String strassenschluessel, final Short kennziffer, final Short laufendenummer)
+    public Set search(final String strassenschluessel, final Integer kennziffer, final Integer laufendenummer)
             throws ActionNotSuccessfulException {
         // ToDo remove method
         clearMap();

@@ -35,28 +35,28 @@ public interface Schaltstelle extends Serializable, DocumentContainer {
      *
      * @return  DOCUMENT ME!
      */
-    Long getId();
+    Integer getId();
 
     /**
      * DOCUMENT ME!
      *
      * @param  id  DOCUMENT ME!
      */
-    void setId(final Long id);
+    void setId(final Integer id);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    Short getLaufendeNummer();
+    Integer getLaufendeNummer();
 
     /**
      * DOCUMENT ME!
      *
      * @param  laufendeNummer  DOCUMENT ME!
      */
-    void setLaufendeNummer(Short laufendeNummer);
+    void setLaufendeNummer(Integer laufendeNummer);
 
     /**
      * DOCUMENT ME!

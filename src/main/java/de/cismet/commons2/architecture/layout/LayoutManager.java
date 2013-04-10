@@ -80,7 +80,6 @@ public class LayoutManager implements Configurable {
     private StringViewMap viewMap = new StringViewMap();
     private String layoutFolder;
     private String layoutFileName;
-    private String pluginLayoutFileName;
     private InputStream defaultLayout;
     private BelisBroker broker;
     private RootWindow rootWindow;
@@ -248,17 +247,10 @@ public class LayoutManager implements Configurable {
      * DOCUMENT ME!
      */
     public void saveUserLayout() {
-        if (broker.isApplicationPlugin()) {
-            if (log.isDebugEnabled()) {
-                log.debug("Speichere PluginLayout nach: " + pluginLayoutFileName);
-            }
-            saveLayout(pluginLayoutFileName);
-        } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Speichere StandaloneLayout nach: " + layoutFileName);
-            }
-            saveLayout(layoutFileName);
+        if (log.isDebugEnabled()) {
+            log.debug("Speichere StandaloneLayout nach: " + layoutFileName);
         }
+        saveLayout(layoutFileName);
     }
 
     /**
@@ -306,11 +298,7 @@ public class LayoutManager implements Configurable {
      * DOCUMENT ME!
      */
     public void loadUserLayout() {
-        if (broker.isApplicationPlugin()) {
-            loadLayout(pluginLayoutFileName);
-        } else {
-            loadLayout(layoutFileName);
-        }
+        loadLayout(layoutFileName);
     }
 
     /**
@@ -560,13 +548,6 @@ public class LayoutManager implements Configurable {
             log.info("LayoutFileName: " + layoutFileName);
         } catch (Exception ex) {
             log.warn("Error while loading LayoutFileName", ex);
-        }
-        try {
-            pluginLayoutFileName = layoutConf.getChildText("PluginLayoutFileName");
-            pluginLayoutFileName = layoutFolder + FILE_SEPARATOR + pluginLayoutFileName;
-            log.info("PluginLayoutFileName: " + pluginLayoutFileName);
-        } catch (Exception ex) {
-            log.warn("Error while loading PluginLayoutFileName", ex);
         }
         try {
             final String defaultLayoutFileFromClasspath = layoutConf.getChildText("DefaultLayout");

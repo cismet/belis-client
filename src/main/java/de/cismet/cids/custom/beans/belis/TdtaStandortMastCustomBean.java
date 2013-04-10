@@ -49,8 +49,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
 
     static {
         DEFAULT_UNTERHALT = new TkeyUnterhMastCustomBean();
-        DEFAULT_UNTERHALT.setPk((short)0);
-        DEFAULT_UNTERHALT.setUnterhaltMast("öffentl. Beleuchtung");
+//        DEFAULT_UNTERHALT.setPk((short)0);
+//        DEFAULT_UNTERHALT.setUnterhaltMast("öffentl. Beleuchtung");
     }
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
@@ -59,45 +59,68 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     public static final String TABLE = "tdta_standort_mast";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__PLZ = "PLZ";
-    private static final String PROP__STRASSENSCHLUESSEL = "strassenschluessel";
-    private static final String PROP__FK_STADTBEZIRK = "fk_Stadtbezirk";
-    private static final String PROP__FK_MASTART = "fk_Mastart";
-    private static final String PROP__FK_KLASSIFIZIERUNG = "fk_Klassifizierung";
-    private static final String PROP__MASTANSTRICH = "Mastanstrich";
-    private static final String PROP__MASTSCHUTZ = "Mastschutz";
-    private static final String PROP__FK_UNTERHALTSPFLICHT_MAST = "fk_Unterhaltspflicht_Mast";
-    private static final String PROP__FK_MASTTYP = "fk_Masttyp";
-    private static final String PROP__INBETRIEBNAHME_MAST = "Inbetriebnahme_Mast";
-    private static final String PROP__VERRECHNUNGSEINHEIT = "Verrechnungseinheit";
+    private static final String PROP__PLZ = "plz";
+    private static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
+    private static final String PROP__FK_STADTBEZIRK = "fk_stadtbezirk";
+    private static final String PROP__FK_MASTART = "fk_mastart";
+    private static final String PROP__FK_KLASSIFIZIERUNG = "fk_klassifizierung";
+    private static final String PROP__MASTANSTRICH = "mastanstrich";
+    private static final String PROP__MASTSCHUTZ = "mastschutz";
+    private static final String PROP__FK_UNTERHALTSPFLICHT_MAST = "fk_unterhaltspflicht_mast";
+    private static final String PROP__FK_MASTTYP = "fk_masttyp";
+    private static final String PROP__INBETRIEBNAHME_MAST = "inbetriebnahme_Mast";
+    private static final String PROP__VERRECHNUNGSEINHEIT = "verrechnungseinheit";
     private static final String PROP__LETZTE_AENDERUNG = "letzte_aenderung";
     private static final String PROP__FK_GEOM = "fk_geom";
     private static final String PROP__IST_VIRTUELLER_STANDORT = "ist_virtueller_standort";
-    private static final String PROP__BEMERKUNGEN = "Bemerkungen";
-    private static final String PROP__MONTAGEFIRMA = "Montagefirma";
-    private static final String PROP__STANDORTANGABE = "Standortangabe";
-    private static final String PROP__KENNZIFFER = "Kennziffer";
-    private static final String PROP__STADTBEZIRK = "Stadtbezirk";
-    private static final String PROP__LFD_NUMMER = "lfd_Nummer";
-    private static final String PROP__HAUS_NR = "Haus_Nr";
+    private static final String PROP__BEMERKUNGEN = "bemerkungen";
+    private static final String PROP__MONTAGEFIRMA = "montagefirma";
+    private static final String PROP__STANDORTANGABE = "standortangabe";
+    private static final String PROP__FK_KENNZIFFER = "fk_kennziffer";
+    private static final String PROP__LFD_NUMMER = "lfd_nummer";
+    private static final String PROP__HAUS_NR = "haus_nr";
     private static final String PROP__DOKUMENTE = "dokumente";
     private static final String PROP__LEUCHTEN = "leuchten";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, };
+    private static final String[] PROPERTY_NAMES = new String[] {
+            PROP__ID,
+            PROP__PLZ,
+            PROP__FK_STRASSENSCHLUESSEL,
+            PROP__FK_STADTBEZIRK,
+            PROP__FK_MASTART,
+            PROP__FK_KLASSIFIZIERUNG,
+            PROP__MASTANSTRICH,
+            PROP__MASTSCHUTZ,
+            PROP__FK_UNTERHALTSPFLICHT_MAST,
+            PROP__FK_MASTTYP,
+            PROP__INBETRIEBNAHME_MAST,
+            PROP__VERRECHNUNGSEINHEIT,
+            PROP__LETZTE_AENDERUNG,
+            PROP__FK_GEOM,
+            PROP__IST_VIRTUELLER_STANDORT,
+            PROP__BEMERKUNGEN,
+            PROP__MONTAGEFIRMA,
+            PROP__STANDORTANGABE,
+            PROP__FK_KENNZIFFER,
+            PROP__LFD_NUMMER,
+            PROP__HAUS_NR,
+            PROP__DOKUMENTE,
+            PROP__LEUCHTEN
+        };
 
     //~ Instance fields --------------------------------------------------------
 
-    private Long id;
+    private Integer id;
     private String plz;
-    private TkeyStrassenschluesselCustomBean strassenschluessel;
-    private Short fk_Stadtbezirk;
+    private TkeyStrassenschluesselCustomBean fk_strassenschluessel;
+    private TkeyBezirkCustomBean fk_Stadtbezirk;
     private TkeyMastartCustomBean fk_Mastart;
-    private TkeyKlassifizierungCustomBean fk_Klassifizierung;
+    private TkeyKlassifizierungCustomBean fk_klassifizierung;
     private Date mastanstrich;
     private Date mastschutz;
-    private TkeyUnterhMastCustomBean fk_Unterhaltspflicht_Mast;
-    private TkeyMasttypCustomBean fk_Masttyp;
-    private Date inbetriebnahme_Mast;
+    private TkeyUnterhMastCustomBean fk_unterhaltspflicht_mast;
+    private TkeyMasttypCustomBean fk_masttyp;
+    private Date inbetriebnahme_mast;
     private Boolean verrechnungseinheit;
     private Date letzte_aenderung;
     private GeomCustomBean fk_geom;
@@ -105,10 +128,9 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     private String bemerkungen;
     private String montagefirma;
     private String standortangabe;
-    private TkeyKennzifferCustomBean kennziffer;
-    private TkeyBezirkCustomBean stadtbezirk;
-    private Short lfd_Nummer;
-    private String haus_Nr;
+    private TkeyKennzifferCustomBean fk_kennziffer;
+    private Integer lfd_nummer;
+    private String haus_nr;
     private Collection<DmsUrlCustomBean> dokumente;
     private Collection<TdtaLeuchteCustomBean> leuchten;
 
@@ -125,7 +147,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @param  id  DOCUMENT ME!
      */
-    public TdtaStandortMastCustomBean(final Long id) {
+    public TdtaStandortMastCustomBean(final Integer id) {
         setId(id);
     }
 
@@ -155,13 +177,13 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     }
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(final Long id) {
-        final Long old = this.id;
+    public void setId(final Integer id) {
+        final Integer old = this.id;
         this.id = id;
         this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
@@ -190,28 +212,64 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
         this.propertyChangeSupport.firePropertyChange(PROP__PLZ, old, this.plz);
     }
 
-    @Override
-    public TkeyStrassenschluesselCustomBean getStrassenschluessel() {
-        return strassenschluessel;
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public TkeyStrassenschluesselCustomBean getFk_strassenschluessel() {
+        return fk_strassenschluessel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_strassenschluessel  DOCUMENT ME!
+     */
+    public void setFk_strassenschluessel(final TkeyStrassenschluesselCustomBean fk_strassenschluessel) {
+        final TkeyStrassenschluesselCustomBean old = this.fk_strassenschluessel;
+        this.fk_strassenschluessel = fk_strassenschluessel;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_STRASSENSCHLUESSEL, old, this.fk_strassenschluessel);
     }
 
     @Override
-    public void setStrassenschluessel(final TkeyStrassenschluesselCustomBean strassenschluessel) {
-        final TkeyStrassenschluesselCustomBean old = this.strassenschluessel;
-        this.strassenschluessel = strassenschluessel;
-        this.propertyChangeSupport.firePropertyChange(PROP__STRASSENSCHLUESSEL, old, this.strassenschluessel);
+    public TkeyStrassenschluesselCustomBean getStrassenschluessel() {
+        return getFk_strassenschluessel();
+    }
+
+    @Override
+    public void setStrassenschluessel(final TkeyStrassenschluesselCustomBean fk_strassenschluessel) {
+        setFk_strassenschluessel(fk_strassenschluessel);
     }
 
     @Override
     public TkeyKennzifferCustomBean getKennziffer() {
-        return kennziffer;
+        return getFk_kennziffer();
     }
 
     @Override
     public void setKennziffer(final TkeyKennzifferCustomBean kennziffer) {
-        final TkeyKennzifferCustomBean old = this.kennziffer;
-        this.kennziffer = kennziffer;
-        this.propertyChangeSupport.firePropertyChange(PROP__KENNZIFFER, old, this.kennziffer);
+        setFk_kennziffer(kennziffer);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public TkeyKennzifferCustomBean getFk_kennziffer() {
+        return fk_kennziffer;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_kennziffer  DOCUMENT ME!
+     */
+    public void setFk_kennziffer(final TkeyKennzifferCustomBean fk_kennziffer) {
+        final TkeyKennzifferCustomBean old = this.fk_kennziffer;
+        this.fk_kennziffer = fk_kennziffer;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_KENNZIFFER, old, this.fk_kennziffer);
     }
 
     @Override
@@ -228,14 +286,12 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
 
     @Override
     public TkeyBezirkCustomBean getStadtbezirk() {
-        return stadtbezirk;
+        return getFk_stadtbezirk();
     }
 
     @Override
     public void setStadtbezirk(final TkeyBezirkCustomBean stadtbezirk) {
-        final TkeyBezirkCustomBean old = this.stadtbezirk;
-        this.stadtbezirk = stadtbezirk;
-        this.propertyChangeSupport.firePropertyChange(PROP__STADTBEZIRK, old, this.stadtbezirk);
+        setFk_stadtbezirk(stadtbezirk);
     }
 
     @Override
@@ -291,7 +347,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @return  DOCUMENT ME!
      */
-    public Short getFk_Stadtbezirk() {
+    public TkeyBezirkCustomBean getFk_stadtbezirk() {
         return fk_Stadtbezirk;
     }
 
@@ -300,8 +356,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @param  fk_Stadtbezirk  DOCUMENT ME!
      */
-    public void setFk_Stadtbezirk(final Short fk_Stadtbezirk) {
-        final Short old = this.fk_Stadtbezirk;
+    public void setFk_stadtbezirk(final TkeyBezirkCustomBean fk_Stadtbezirk) {
+        final TkeyBezirkCustomBean old = this.fk_Stadtbezirk;
         this.fk_Stadtbezirk = fk_Stadtbezirk;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_STADTBEZIRK, old, this.fk_Stadtbezirk);
     }
@@ -311,7 +367,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @return  DOCUMENT ME!
      */
-    public TkeyMastartCustomBean getFk_Mastart() {
+    public TkeyMastartCustomBean getFk_mastart() {
         return fk_Mastart;
     }
 
@@ -320,7 +376,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @param  fk_Mastart  DOCUMENT ME!
      */
-    public void setFk_Mastart(final TkeyMastartCustomBean fk_Mastart) {
+    public void setFk_mastart(final TkeyMastartCustomBean fk_Mastart) {
         final TkeyMastartCustomBean old = this.fk_Mastart;
         this.fk_Mastart = fk_Mastart;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_MASTART, old, this.fk_Mastart);
@@ -331,19 +387,19 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @return  DOCUMENT ME!
      */
-    public TkeyKlassifizierungCustomBean getFk_Klassifizierung() {
-        return fk_Klassifizierung;
+    public TkeyKlassifizierungCustomBean getFk_klassifizierung() {
+        return fk_klassifizierung;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  fk_Klassifizierung  DOCUMENT ME!
+     * @param  fk_klassifizierung  DOCUMENT ME!
      */
-    public void setFk_Klassifizierung(final TkeyKlassifizierungCustomBean fk_Klassifizierung) {
-        final TkeyKlassifizierungCustomBean old = this.fk_Klassifizierung;
-        this.fk_Klassifizierung = fk_Klassifizierung;
-        this.propertyChangeSupport.firePropertyChange(PROP__FK_KLASSIFIZIERUNG, old, this.fk_Klassifizierung);
+    public void setFk_klassifizierung(final TkeyKlassifizierungCustomBean fk_klassifizierung) {
+        final TkeyKlassifizierungCustomBean old = this.fk_klassifizierung;
+        this.fk_klassifizierung = fk_klassifizierung;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_KLASSIFIZIERUNG, old, this.fk_klassifizierung);
     }
 
     /**
@@ -351,22 +407,22 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @return  DOCUMENT ME!
      */
-    public TkeyUnterhMastCustomBean getFk_Unterhaltspflicht_Mast() {
-        return fk_Unterhaltspflicht_Mast;
+    public TkeyUnterhMastCustomBean getFk_unterhaltspflicht_mast() {
+        return fk_unterhaltspflicht_mast;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  fk_Unterhaltspflicht_Mast  DOCUMENT ME!
+     * @param  fk_unterhaltspflicht_mast  DOCUMENT ME!
      */
-    public void setFk_Unterhaltspflicht_Mast(final TkeyUnterhMastCustomBean fk_Unterhaltspflicht_Mast) {
-        final TkeyUnterhMastCustomBean old = this.fk_Unterhaltspflicht_Mast;
-        this.fk_Unterhaltspflicht_Mast = fk_Unterhaltspflicht_Mast;
+    public void setFk_unterhaltspflicht_mast(final TkeyUnterhMastCustomBean fk_unterhaltspflicht_mast) {
+        final TkeyUnterhMastCustomBean old = this.fk_unterhaltspflicht_mast;
+        this.fk_unterhaltspflicht_mast = fk_unterhaltspflicht_mast;
         this.propertyChangeSupport.firePropertyChange(
             PROP__FK_UNTERHALTSPFLICHT_MAST,
             old,
-            this.fk_Unterhaltspflicht_Mast);
+            this.fk_unterhaltspflicht_mast);
     }
 
     /**
@@ -374,19 +430,19 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @return  DOCUMENT ME!
      */
-    public TkeyMasttypCustomBean getFk_Masttyp() {
-        return fk_Masttyp;
+    public TkeyMasttypCustomBean getFk_masttyp() {
+        return fk_masttyp;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  fk_Masttyp  DOCUMENT ME!
+     * @param  fk_masttyp  DOCUMENT ME!
      */
-    public void setFk_Masttyp(final TkeyMasttypCustomBean fk_Masttyp) {
-        final TkeyMasttypCustomBean old = this.fk_Masttyp;
-        this.fk_Masttyp = fk_Masttyp;
-        this.propertyChangeSupport.firePropertyChange(PROP__FK_MASTTYP, old, this.fk_Masttyp);
+    public void setFk_masttyp(final TkeyMasttypCustomBean fk_masttyp) {
+        final TkeyMasttypCustomBean old = this.fk_masttyp;
+        this.fk_masttyp = fk_masttyp;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_MASTTYP, old, this.fk_masttyp);
     }
 
     /**
@@ -394,19 +450,19 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @return  DOCUMENT ME!
      */
-    public Date getInbetriebnahme_Mast() {
-        return inbetriebnahme_Mast;
+    public Date getInbetriebnahme_mast() {
+        return inbetriebnahme_mast;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  inbetriebnahme_Mast  DOCUMENT ME!
+     * @param  inbetriebnahme_mast  DOCUMENT ME!
      */
-    public void setInbetriebnahme_Mast(final Date inbetriebnahme_Mast) {
-        final Date old = this.inbetriebnahme_Mast;
-        this.inbetriebnahme_Mast = inbetriebnahme_Mast;
-        this.propertyChangeSupport.firePropertyChange(PROP__INBETRIEBNAHME_MAST, old, this.inbetriebnahme_Mast);
+    public void setInbetriebnahme_mast(final Date inbetriebnahme_mast) {
+        final Date old = this.inbetriebnahme_mast;
+        this.inbetriebnahme_mast = inbetriebnahme_mast;
+        this.propertyChangeSupport.firePropertyChange(PROP__INBETRIEBNAHME_MAST, old, this.inbetriebnahme_mast);
     }
 
     /**
@@ -494,19 +550,19 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @return  DOCUMENT ME!
      */
-    public Short getLfd_Nummer() {
-        return lfd_Nummer;
+    public Integer getLfd_nummer() {
+        return lfd_nummer;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  lfd_Nummer  DOCUMENT ME!
+     * @param  lfd_nummer  DOCUMENT ME!
      */
-    public void setLfd_Nummer(final Short lfd_Nummer) {
-        final Short old = this.lfd_Nummer;
-        this.lfd_Nummer = lfd_Nummer;
-        this.propertyChangeSupport.firePropertyChange(PROP__LFD_NUMMER, old, this.lfd_Nummer);
+    public void setLfd_nummer(final Integer lfd_nummer) {
+        final Integer old = this.lfd_nummer;
+        this.lfd_nummer = lfd_nummer;
+        this.propertyChangeSupport.firePropertyChange(PROP__LFD_NUMMER, old, this.lfd_nummer);
     }
 
     /**
@@ -514,19 +570,19 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
      *
      * @return  DOCUMENT ME!
      */
-    public String getHaus_Nr() {
-        return haus_Nr;
+    public String getHaus_nr() {
+        return haus_nr;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  haus_Nr  DOCUMENT ME!
+     * @param  haus_nr  DOCUMENT ME!
      */
-    public void setHaus_Nr(final String haus_Nr) {
-        final String old = this.haus_Nr;
-        this.haus_Nr = haus_Nr;
-        this.propertyChangeSupport.firePropertyChange(PROP__HAUS_NR, old, this.haus_Nr);
+    public void setHaus_nr(final String haus_nr) {
+        final String old = this.haus_nr;
+        this.haus_nr = haus_nr;
+        this.propertyChangeSupport.firePropertyChange(PROP__HAUS_NR, old, this.haus_nr);
     }
 
     @Override
@@ -575,73 +631,73 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     }
 
     @Override
-    public Short getLaufendeNummer() {
-        return getLfd_Nummer();
+    public Integer getLaufendeNummer() {
+        return getLfd_nummer();
     }
 
     @Override
-    public void setLaufendeNummer(final Short lfdNummer) {
-        setLfd_Nummer(lfdNummer);
+    public void setLaufendeNummer(final Integer lfdNummer) {
+        setLfd_nummer(lfdNummer);
     }
 
     @Override
     public String getHausnummer() {
-        return getHaus_Nr();
+        return getHaus_nr();
     }
 
     @Override
     public void setHausnummer(final String hausnummer) {
-        setHaus_Nr(hausnummer);
+        setHaus_nr(hausnummer);
     }
 
     @Override
     public TkeyMastartCustomBean getMastart() {
-        return getFk_Mastart();
+        return getFk_mastart();
     }
 
     @Override
     public void setMastart(final TkeyMastartCustomBean mastart) {
-        setFk_Mastart(mastart);
+        setFk_mastart(mastart);
     }
 
     @Override
     public TkeyKlassifizierungCustomBean getKlassifizierung() {
-        return getFk_Klassifizierung();
+        return getFk_klassifizierung();
     }
 
     @Override
     public void setKlassifizierung(final TkeyKlassifizierungCustomBean klassifizierung) {
-        setFk_Klassifizierung(klassifizierung);
+        setFk_klassifizierung(klassifizierung);
     }
 
     @Override
     public TkeyUnterhMastCustomBean getUnterhaltspflichtMast() {
-        return getFk_Unterhaltspflicht_Mast();
+        return getFk_unterhaltspflicht_mast();
     }
 
     @Override
     public void setUnterhaltspflichtMast(final TkeyUnterhMastCustomBean unterhaltspflichtMast) {
-        setFk_Unterhaltspflicht_Mast(unterhaltspflichtMast);
+        setFk_unterhaltspflicht_mast(unterhaltspflichtMast);
     }
 
     @Override
     public TkeyMasttypCustomBean getMasttyp() {
-        return getFk_Masttyp();
+        return getFk_masttyp();
     }
 
     @Override
     public void setMasttyp(final TkeyMasttypCustomBean masttyp) {
-        setFk_Masttyp(masttyp);
+        setFk_masttyp(masttyp);
     }
 
     @Override
     public Date getInbetriebnahmeMast() {
-        return getInbetriebnahme_Mast();
+        return getInbetriebnahme_mast();
     }
 
     @Override
     public void setInbetriebnahmeMast(final Date inbetriebnahmeMast) {
-        setInbetriebnahme_Mast(inbetriebnahmeMast);
+        setInbetriebnahme_mast(inbetriebnahmeMast);
     }
 
     @Override

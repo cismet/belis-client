@@ -57,7 +57,7 @@ public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Long id;
+    private Integer id;
     private GeomCustomBean fk_geom;
     private MaterialLeitungCustomBean fk_material;
     private QuerschnittCustomBean fk_querschnitt;
@@ -94,13 +94,13 @@ public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
     }
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(final Long id) {
-        final Long old = this.id;
+    public void setId(final Integer id) {
+        final Integer old = this.id;
         this.id = id;
         this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }

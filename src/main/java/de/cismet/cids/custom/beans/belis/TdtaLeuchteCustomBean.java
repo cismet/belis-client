@@ -112,7 +112,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     private TkeyDoppelkommandoCustomBean dk2;
     private Date inbetriebnahme_Leuchte;
     private TdtaStandortMastCustomBean standort_id;
-    private Short lfd_Nummer;
+    private Integer lfd_Nummer;
     private TkeyKennzifferCustomBean kennziffer;
     private Short leuchtennummer;
     private String montagefirma_Leuchte;
@@ -413,7 +413,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @return  DOCUMENT ME!
      */
-    public Short getLfd_Nummer() {
+    public Integer getLfd_Nummer() {
         return lfd_Nummer;
     }
 
@@ -422,8 +422,8 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @param  lfd_Nummer  DOCUMENT ME!
      */
-    public void setLfd_Nummer(final Short lfd_Nummer) {
-        final Short old = this.lfd_Nummer;
+    public void setLfd_Nummer(final Integer lfd_Nummer) {
+        final Integer old = this.lfd_Nummer;
         this.lfd_Nummer = lfd_Nummer;
         this.propertyChangeSupport.firePropertyChange(PROP__LFD_NUMMER, old, this.lfd_Nummer);
     }
@@ -511,12 +511,12 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     }
 
     @Override
-    public Short getLaufendeNummer() {
+    public Integer getLaufendeNummer() {
         return getLfd_Nummer();
     }
 
     @Override
-    public void setLaufendeNummer(final Short laufendeNummer) {
+    public void setLaufendeNummer(final Integer laufendeNummer) {
         setLfd_Nummer(laufendeNummer);
     }
 
@@ -678,7 +678,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
             } else if ((evt.getPropertyName() != null)
                         && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP_LAUFENDENUMMER)) {
                 System.out.println("Laufende Nummer changed");
-                setLaufendeNummer((Short)evt.getNewValue());
+                setLaufendeNummer((Integer)evt.getNewValue());
             } else {
                 System.out.println("Unkown property. Nothing to change");
             }

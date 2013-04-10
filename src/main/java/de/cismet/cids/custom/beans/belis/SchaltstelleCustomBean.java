@@ -75,9 +75,9 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
 
     //~ Instance fields --------------------------------------------------------
 
-    private Long id;
+    private Integer id;
     private Date erstellungsjahr;
-    private Short laufende_nummer;
+    private Integer laufende_nummer;
     private GeomCustomBean fk_geom;
     private BauartCustomBean fk_bauart;
     private TkeyStrassenschluesselCustomBean fk_strassenschluessel;
@@ -120,13 +120,13 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
     }
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(final Long id) {
-        final Long old = this.id;
+    public void setId(final Integer id) {
+        final Integer old = this.id;
         this.id = id;
         this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
@@ -136,7 +136,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
      *
      * @return  DOCUMENT ME!
      */
-    public Short getLaufende_nummer() {
+    public Integer getLaufende_nummer() {
         return laufende_nummer;
     }
 
@@ -145,8 +145,8 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
      *
      * @param  laufende_nummer  DOCUMENT ME!
      */
-    public void setLaufende_nummer(final Short laufende_nummer) {
-        final Short old = this.laufende_nummer;
+    public void setLaufende_nummer(final Integer laufende_nummer) {
+        final Integer old = this.laufende_nummer;
         this.laufende_nummer = laufende_nummer;
         this.propertyChangeSupport.firePropertyChange(PROP__LAUFENDE_NUMMER, old, this.laufende_nummer);
     }
@@ -371,12 +371,12 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
     }
 
     @Override
-    public Short getLaufendeNummer() {
+    public Integer getLaufendeNummer() {
         return getLaufende_nummer();
     }
 
     @Override
-    public void setLaufendeNummer(final Short laufendeNummer) {
+    public void setLaufendeNummer(final Integer laufendeNummer) {
         setLaufende_nummer(laufendeNummer);
     }
 

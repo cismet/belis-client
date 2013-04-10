@@ -7,12 +7,13 @@
 ****************************************************/
 package de.cismet.belis.client;
 
-import Sirius.navigator.plugin.context.PluginContext;
+import Sirius.navigator.connection.Connection;
+import Sirius.navigator.connection.ConnectionFactory;
+import Sirius.navigator.connection.ConnectionInfo;
+import Sirius.navigator.connection.ConnectionSession;
+import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.connection.proxy.ConnectionProxy;
 import Sirius.navigator.plugin.interfaces.FloatingPluginUI;
-import Sirius.navigator.plugin.interfaces.PluginMethod;
-import Sirius.navigator.plugin.interfaces.PluginProperties;
-import Sirius.navigator.plugin.interfaces.PluginSupport;
-import Sirius.navigator.plugin.interfaces.PluginUI;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 
@@ -37,8 +38,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,8 +50,10 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import de.cismet.belis.broker.BelisBroker;
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.util.BelisIcons;
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.gui.ClipboardWaitDialog;
@@ -66,6 +67,14 @@ import de.cismet.tools.configuration.ConfigurationManager;
 import de.cismet.tools.configuration.NoWriteError;
 
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
+import java.util.HashMap;
+import java.util.List;
+import java.util.prefs.Preferences;
+import javax.swing.JFrame;
+import org.jdesktop.swingx.JXLoginPane;
+import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.auth.DefaultUserNameStore;
+import org.jdesktop.swingx.auth.LoginService;
 
 /**
  * DOCUMENT ME!
@@ -73,7 +82,7 @@ import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public class BelisClient extends javax.swing.JFrame implements PluginSupport, FloatingPluginUI, Configurable {
+public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI, Configurable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -82,9 +91,8 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
 
     //~ Instance fields --------------------------------------------------------
 
-    protected BelisBroker broker = null;
+    protected static BelisBroker broker = null;
     private ClipboardWaitDialog clipboarder;
-    private final PluginContext context;
     private Dimension windowSize = null;
     private Point windowLocation = null;
     private boolean readyToShow = false;
@@ -94,7 +102,7 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
      *
      * @param  args  the command line arguments
      */
-    private ConfigurationManager configManager;
+    private static ConfigurationManager configManager;
     private String brokerName;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -145,16 +153,6 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
      * Creates a new AbstractPlugin object.
      */
     public BelisClient() {
-        this(null);
-    }
-
-    /**
-     * Creates a new AbstractPlugin object.
-     *
-     * @param  context  DOCUMENT ME!
-     */
-    public BelisClient(final PluginContext context) {
-        this.context = context;
         this.addWindowListener(new WindowAdapter() {
 
                 @Override
@@ -170,36 +168,18 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
                 }
             });
         try {
-            if ((context != null) && (context.getEnvironment() != null)
-                        && this.context.getEnvironment().isProgressObservable()) {
-                this.context.getEnvironment()
-                        .getProgressObserver()
-                        .setProgress(200, "Initialisieren der graphischen Oberfläche...");
-            }
             initComponents();
             clipboarder = new ClipboardWaitDialog(this, true);
-            if ((context != null) && (context.getEnvironment() != null)
-                        && this.context.getEnvironment().isProgressObservable()) {
-                this.context.getEnvironment().getProgressObserver().setProgress(400, "Lade Konfiguration...");
-            }
 
             configurePlugin();
 
-            // application will be layouted
-            if ((context != null) && (context.getEnvironment() != null)
-                        && this.context.getEnvironment().isProgressObservable()) {
-                this.context.getEnvironment()
-                        .getProgressObserver()
-                        .setProgress(600, "Layout der graphischen Benutzeroberflächee");
-            }
-            if (isPlugin()) {
-                menues.add(menFile);
-                menues.add(menEdit);
-                menues.add(menHistory);
-                menues.add(menExtras);
-                menues.add(menWindow);
-                menues.add(menHelp);
-            }
+            menues.add(menFile);
+            menues.add(menEdit);
+            menues.add(menHistory);
+            menues.add(menExtras);
+            menues.add(menWindow);
+            menues.add(menHelp);
+            
             final KeyStroke configLoggerKeyStroke = KeyStroke.getKeyStroke('L', InputEvent.CTRL_MASK);
             final Action configAction = new AbstractAction() {
 
@@ -230,20 +210,6 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
                         }
                         setReadyToShow(true);
                         broker.getMappingComponent().unlock();
-                        try {
-                            if ((context != null) && (context.getEnvironment() != null)
-                                        && context.getEnvironment().isProgressObservable()) {
-                                context.getEnvironment()
-                                        .getProgressObserver()
-                                        .setProgress(1000, broker.getAccountName() + " initalisierung abgeschlossen");
-                            }
-                            if ((context != null) && (context.getEnvironment() != null)
-                                        && context.getEnvironment().isProgressObservable()) {
-                                context.getEnvironment().getProgressObserver().setFinished(true);
-                            }
-                        } catch (InterruptedException ex) {
-                            LOG.error("Plugin was interrupted.", ex);
-                        }
                     }
                 };
             if (EventQueue.isDispatchThread()) {
@@ -284,11 +250,6 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
      * DOCUMENT ME!
      */
     private void configurePlugin() {
-        configManager = new ConfigurationManager();
-        configManager.setDefaultFileName(getPluginConfigurationFile());
-        configManager.setFileName(getPluginConfigurationFile());
-        configManager.setClassPathFolder(PLUGIN_CONFIGURATION_CLASSPATH);
-        configManager.initialiseLocalConfigurationClasspath();
         configManager.addConfigurable(this);
         configManager.configure(this);
     }
@@ -336,38 +297,11 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
     }
 
     @Override
-    public void setActive(final boolean active) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setActive:" + active);
-        }
-        if (!active) {
-            cleanUp();
-            dispose();
-        }
-    }
-
-    @Override
     public void floatingStarted() {
     }
 
     @Override
     public void floatingStopped() {
-    }
-
-    @Override
-    public PluginMethod getMethod(final String id) {
-        return null;
-    }
-
-    @Override
-    public Iterator getMethods() {
-        final LinkedList ll = new LinkedList();
-        return ll.iterator();
-    }
-
-    @Override
-    public PluginProperties getProperties() {
-        return null;
     }
 
     @Override
@@ -442,7 +376,6 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
                 }
                 broker.setParentComponent(panMain);
                 broker.setConfigManager(configManager);
-                broker.setContext(context);
                 configManager.addConfigurable(broker);
                 configManager.configure(broker);
             } catch (Exception ex) {
@@ -813,33 +746,33 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniSaveLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniSaveLayoutActionPerformed
+    private void mniSaveLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSaveLayoutActionPerformed
         broker.getLayoutManager().saveLayout();
-    }                                                                                 //GEN-LAST:event_mniSaveLayoutActionPerformed
+    }//GEN-LAST:event_mniSaveLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniLoadLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniLoadLayoutActionPerformed
+    private void mniLoadLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLoadLayoutActionPerformed
         broker.getLayoutManager().loadLayout();
-    }                                                                                 //GEN-LAST:event_mniLoadLayoutActionPerformed
+    }//GEN-LAST:event_mniLoadLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniLockLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniLockLayoutActionPerformed
-    }                                                                                 //GEN-LAST:event_mniLockLayoutActionPerformed
+    private void mniLockLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLockLayoutActionPerformed
+    }//GEN-LAST:event_mniLockLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniClippboardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniClippboardActionPerformed
+    private void mniClippboardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniClippboardActionPerformed
         final Thread t = new Thread(new Runnable() {
 
                     @Override
@@ -865,72 +798,72 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
                     }
                 });
         t.start();
-    } //GEN-LAST:event_mniClippboardActionPerformed
+    }//GEN-LAST:event_mniClippboardActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniCloseActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniCloseActionPerformed
+    private void mniCloseActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniCloseActionPerformed
         this.dispose();
-    }                                                                            //GEN-LAST:event_mniCloseActionPerformed
+    }//GEN-LAST:event_mniCloseActionPerformed
     /**
      * ToDo.
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniRefreshActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniRefreshActionPerformed
-    }                                                                              //GEN-LAST:event_mniRefreshActionPerformed
+    private void mniRefreshActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRefreshActionPerformed
+    }//GEN-LAST:event_mniRefreshActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniBackActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniBackActionPerformed
+    private void mniBackActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBackActionPerformed
         if ((broker.getMappingComponent() != null) && broker.getMappingComponent().isBackPossible()) {
             broker.getMappingComponent().back(true);
         }
-    }                                                                           //GEN-LAST:event_mniBackActionPerformed
+    }//GEN-LAST:event_mniBackActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniForwardActionPerformed
+    private void mniForwardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniForwardActionPerformed
         if ((broker.getMappingComponent() != null) && broker.getMappingComponent().isForwardPossible()) {
             broker.getMappingComponent().forward(true);
         }
-    }                                                                              //GEN-LAST:event_mniForwardActionPerformed
+    }//GEN-LAST:event_mniForwardActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniHomeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniHomeActionPerformed
+    private void mniHomeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniHomeActionPerformed
         if (broker.getMappingComponent() != null) {
             broker.getMappingComponent().gotoInitialBoundingBox();
         }
-    }                                                                           //GEN-LAST:event_mniHomeActionPerformed
+    }//GEN-LAST:event_mniHomeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOptionsActionPerformed
+    private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniOptionsActionPerformed
 // TODO add your handling code here:
-    } //GEN-LAST:event_mniOptionsActionPerformed
+    }//GEN-LAST:event_mniOptionsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniGotoPointActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniGotoPointActionPerformed
+    private void mniGotoPointActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniGotoPointActionPerformed
         final BoundingBox c = broker.getMappingComponent().getCurrentBoundingBox();
         final double x = (c.getX1() + c.getX2()) / 2;
         final double y = (c.getY1() + c.getY2()) / 2;
@@ -949,14 +882,14 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
                     .gotoBoundingBox(bb, true, false, broker.getMappingComponent().getAnimationDuration());
         } catch (Exception skip) {
         }
-    }                                                                                //GEN-LAST:event_mniGotoPointActionPerformed
+    }//GEN-LAST:event_mniGotoPointActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniScaleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniScaleActionPerformed
+    private void mniScaleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniScaleActionPerformed
         final String s = JOptionPane.showInputDialog(
                 this,
                 "Maßstab_manuell_auswählen",
@@ -968,33 +901,33 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
                     .gotoBoundingBoxWithHistory(broker.getMappingComponent().getBoundingBoxFromScale(i));
         } catch (Exception skip) {
         }
-    }                                                                            //GEN-LAST:event_mniScaleActionPerformed
+    }//GEN-LAST:event_mniScaleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniResetWindowLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniResetWindowLayoutActionPerformed
+    private void mniResetWindowLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniResetWindowLayoutActionPerformed
         broker.getLayoutManager().doLayoutInfoNodeDefaultFile();
-    }                                                                                        //GEN-LAST:event_mniResetWindowLayoutActionPerformed
+    }//GEN-LAST:event_mniResetWindowLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniOnlineHelpActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOnlineHelpActionPerformed
-    }                                                                                 //GEN-LAST:event_mniOnlineHelpActionPerformed
+    private void mniOnlineHelpActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniOnlineHelpActionPerformed
+    }//GEN-LAST:event_mniOnlineHelpActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniNewsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniNewsActionPerformed
+    private void mniNewsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNewsActionPerformed
         // openUrlInExternalBrowser(newsURL);
-    } //GEN-LAST:event_mniNewsActionPerformed
+    }//GEN-LAST:event_mniNewsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1090,15 +1023,6 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
 
     /**
      * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private boolean isPlugin() {
-        return context != null;
-    }
-
-    /**
-     * DOCUMENT ME!
      */
     private void setWindowSize() {
         if ((windowSize != null) && (windowLocation != null)) {
@@ -1111,16 +1035,10 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
 
     @Override
     public void setVisible(final boolean visible) {
-        if (isPlugin()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Plugin setVisible ignored: " + visible);
-            }
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("No Plugin super.setVisible: " + visible);
-            }
-            super.setVisible(visible);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("No Plugin super.setVisible: " + visible);
         }
+        super.setVisible(visible);
     }
 
     /**
@@ -1128,20 +1046,8 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
      *
      * @return  DOCUMENT ME!
      */
-    public String getPluginConfigurationFile() {
+    public static String getPluginConfigurationFile() {
         return "defaultBelisConfiguration.xml";
-    }
-
-    @Override
-    public PluginUI getUI(final String id) {
-        return this;
-    }
-
-    @Override
-    public Iterator getUIs() {
-        final LinkedList ll = new LinkedList();
-        ll.add(this);
-        return ll.iterator();
     }
 
     @Override
@@ -1165,14 +1071,24 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
 
                 @Override
                 public void run() {
-                    final BelisClient bc = new BelisClient();
-                    EventQueue.invokeLater(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                // ((JFrame) bc).setVisible(true);
-                            }
-                        });
+                    configManager = new ConfigurationManager();
+                    configManager.setDefaultFileName(getPluginConfigurationFile());
+                    configManager.setFileName(getPluginConfigurationFile());
+                    configManager.setClassPathFolder(PLUGIN_CONFIGURATION_CLASSPATH);
+                    configManager.initialiseLocalConfigurationClasspath();
+                    
+//                    final LoginManager loginManager = new LoginManager();
+//
+//                    configManager.addConfigurable(loginManager);
+//                    configManager.configure(loginManager);
+                    configManager.addConfigurable(wa);
+                    configManager.configure(wa);
+                    try {
+                        handleLogin();
+                    } catch (Exception ex) {
+                        LOG.error("Fehler beim Loginframe", ex);
+                System.exit(2);
+            }
                 }
             };
         t.setPriority(Thread.NORM_PRIORITY);
@@ -1226,4 +1142,292 @@ public class BelisClient extends javax.swing.JFrame implements PluginSupport, Fl
             return image;
         }
     }
+    
+    private static Image banner = new javax.swing.ImageIcon(BelisClient.class.getResource(
+            "/de/cismet/belis/resource/icon/image/login.png")).getImage();
+    private static Image applicationIcon = null;
+    // ToDo maybe changeable would be cool for different authentication methods!!!
+    private static BelisClient.WundaAuthentification wa = new BelisClient.WundaAuthentification();
+    private static boolean isLoginEnabled = true;
+
+    //~ Methods ----------------------------------------------------------------
+    /**
+     * DOCUMENT ME!
+     */
+    public static void handleLogin() {
+        if (isLoginEnabled) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Intialisiere Loginframe");
+            }
+            final DefaultUserNameStore usernames = new DefaultUserNameStore();
+            // ToDo for every
+            final Preferences appPrefs = Preferences.userNodeForPackage(BelisClient.class);
+            usernames.setPreferences(appPrefs.node("login"));
+
+            final JXLoginPane login = new JXLoginPane(wa, null, usernames) {
+                @Override
+                protected Image createLoginBanner() {
+                    return getBannerImage();
+                }
+            };
+
+            String u = null;
+            try {
+                u = usernames.getUserNames()[usernames.getUserNames().length - 1];
+            } catch (Exception skip) {
+            }
+            if (u != null) {
+                login.setUserName(u);
+            }
+            final JXLoginPane.JXLoginDialog d = new JXLoginPane.JXLoginDialog((JFrame) null, login);
+
+            d.setIconImage(applicationIcon);
+            login.setPassword("".toCharArray());
+            try {
+                ((JXPanel) ((JXPanel) login.getComponent(1)).getComponent(1)).getComponent(3).requestFocus();
+            } catch (Exception skip) {
+            }
+            d.setIconImage(applicationIcon);
+            d.setAlwaysOnTop(true);
+
+            d.setVisible(true);
+
+            handleLoginStatus(d.getStatus(), usernames, login);
+        } else {
+            LOG.info("Login is disabled. Attention writing is possible.");
+            // ToDo maybe should be also configurable
+            broker.setCoreReadOnlyMode(false);
+            broker.setFullReadOnlyMode(false);
+            broker.showMainApplication();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
+    public static Image getBannerImage() {
+        return banner;
+    }
+    // TODO VERDIS COPY
+    // obsolete because for failed logins --> only for saving the username
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param status DOCUMENT ME!
+     * @param usernames DOCUMENT ME!
+     * @param login DOCUMENT ME!
+     */
+    private static void handleLoginStatus(final JXLoginPane.Status status,
+            final DefaultUserNameStore usernames,
+            final JXLoginPane login) {
+        if (status == JXLoginPane.Status.SUCCEEDED) {
+            // Damit wird sichergestellt, dass dieser als erstes vorgeschlagen wird
+            usernames.removeUserName(login.getUserName());
+            usernames.saveUserNames();
+            usernames.addUserName((login.getUserName()));
+            usernames.saveUserNames();                        
+            if (LOG.isDebugEnabled()) {
+                // Added for RM Plugin functionalty 22.07.2007 Sebastian Puhl
+                LOG.debug("Login erfolgreich");
+            }
+            
+            final BelisClient client = new BelisClient();
+            client.setVisible(true);
+        } else {
+            LOG.warn("Login fehlgeschlagen");
+            System.exit(0);
+        }
+    }
+    
+    /**
+     * DOCUMENT ME!
+     *
+     * @version $Revision$, $Date$
+     */
+    public static class WundaAuthentification extends LoginService implements Configurable {
+
+        //~ Static fields/initializers -----------------------------------------
+        // TODO steht auch so in VERDIS schlecht für ÄNDERUNGEN !!!!!
+        public static final String CONNECTION_CLASS = "Sirius.navigator.connection.RMIConnection";
+        public static final String CONNECTION_PROXY_CLASS =
+                "Sirius.navigator.connection.proxy.DefaultConnectionProxyHandler";
+        // private String standaloneDomain;
+        private static String standaloneDomain;
+        //~ Instance fields ----------------------------------------------------
+        private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(WundaAuthentification.class);
+        private String callserverhost;
+        private String userString;
+        private BelisBroker broker;
+        // private String userDependingConfigurationFile;
+        // private UserDependingConfigurationManager configManager;
+
+        //~ Constructors -------------------------------------------------------
+        
+        /**
+         * Creates a new WundaAuthentification object.
+         */
+        public WundaAuthentification() {
+        }
+
+        //~ Methods ------------------------------------------------------------
+        @Override
+        public boolean authenticate(final String name, final char[] password, final String server) throws Exception {
+            try {
+                if (log.isDebugEnabled()) {
+                    log.debug("Authentication for :" + name);
+                }
+
+                System.setProperty("sun.rmi.transport.connectionTimeout", "15");
+                final String user = name.split("@")[0];
+                final String group = name.split("@")[1];
+
+                broker.setAccountName(name);
+                final String callServerURL = "rmi://" + callserverhost + "/callServer";
+                if (log.isDebugEnabled()) {
+                    log.debug("callServerUrl:" + callServerURL);
+                }
+                final String domain = standaloneDomain;
+                userString = name;
+                if (log.isDebugEnabled()) {
+                    log.debug("full qualified username: " + userString + "@" + standaloneDomain);
+                }
+
+                final Connection connection = ConnectionFactory.getFactory().createConnection(CONNECTION_CLASS, callServerURL);
+                final ConnectionSession session;
+                final ConnectionProxy proxy;
+                final ConnectionInfo connectionInfo = new ConnectionInfo();
+                connectionInfo.setCallserverURL(callServerURL);
+                connectionInfo.setPassword(new String(password));
+                connectionInfo.setUserDomain(domain);
+                connectionInfo.setUsergroup(group);
+                connectionInfo.setUsergroupDomain(domain);
+                connectionInfo.setUsername(user);
+
+                session = ConnectionFactory.getFactory().createSession(connection, connectionInfo, true);
+                proxy = ConnectionFactory.getFactory().createProxy(CONNECTION_PROXY_CLASS, session);
+                // proxy = ConnectionFactory.getFactory().createProxy(CONNECTION_CLASS,CONNECTION_PROXY_CLASS,
+                // connectionInfo,false);
+                SessionManager.init(proxy);
+                ClassCacheMultiple.setInstance(CidsBroker.BELIS_DOMAIN);
+
+                CidsBroker.getInstance().setProxy(proxy);
+                final String tester = (group + "@" + domain).toLowerCase();
+                if (log.isDebugEnabled()) {
+                    log.debug("authentication: tester = " + tester);
+                    log.debug("authentication: name = " + name);
+                    log.debug("authentication: RM Plugin key = " + name + "@" + domain);
+                    // setUserString(name); TODO update Configuration depending on username --> formaly after the
+                    // handlelogin method --> test if its work!!!!
+                }
+
+//                configManager.setCurrentUser(userString + "@" + standaloneDomain);
+//                //zweimal wegen userdepending konfiguration
+//                configManager.configure(this);
+                
+                final Boolean permission = broker.getPermissions().get(tester);
+                if (log.isDebugEnabled()) {
+                    log.debug("Permissions Hashmap: " + broker.getPermissions());
+                }
+                if (log.isDebugEnabled()) {
+                    log.debug("Permission: " + permission);
+                }
+                if ((permission != null) && permission) {
+                    if (log.isDebugEnabled()) {
+                        log.debug("Authentication successfull user has granted readwrite access");
+                    }
+                    broker.setCoreReadOnlyMode(false);
+                    broker.setFullReadOnlyMode(false);
+                    // loginWasSuccessful = true;
+                    return true;
+                } else if (permission != null) {
+                    if (log.isDebugEnabled()) {
+                        log.debug("Authentication successfull user has granted readonly access");
+                    }
+                    // loginWasSuccessful = true;
+                    return true;
+                } else {
+                    if (log.isDebugEnabled()) {
+                        log.debug("authentication else false: no permission available");
+                    }
+                    // loginWasSuccessful = false;
+                    return false;
+                }
+            } catch (Throwable t) {
+                log.error("Fehler beim Anmelden", t);
+                return false;
+            }
+        }
+
+        @Override
+        public void configure(final Element parent) {
+        }
+
+        @Override
+        public Element getConfiguration() throws NoWriteError {
+            return null;
+        }
+
+        @Override
+        public void masterConfigure(final Element parent) {
+            try {
+                final Element login = parent.getChild("Login").getChild("Standalone");
+                try {
+                    if (log.isDebugEnabled()) {
+                        log.debug("Userdomain: " + login.getAttribute("userdomainname").getValue());
+                    }
+                    standaloneDomain = login.getAttribute("userdomainname").getValue();
+                } catch (Exception ex) {
+                    log.fatal("Error while reading userdomain can't authenticate", ex);
+                    System.exit(2);
+                    // TODO wenigstens den Nutzer benachrichtigen sonst ist es zu hard oder nur lesen modus -->
+                    // besser!!!
+                }
+                try {
+                    if (log.isDebugEnabled()) {
+                        log.debug("Callserverhost: " + login.getAttribute("callserverhost").getValue());
+                    }
+                    callserverhost = login.getAttribute("callserverhost").getValue();
+                } catch (Exception ex) {
+                    log.fatal("Error while reading callserverhost can't authenticate", ex);
+                    System.exit(2);
+                    // TODO wenigstens den Nutzer benachrichtigen sonst ist es zu hard oder nur lesen modus -->
+                    // besser!!!
+                }
+
+                broker = BelisBroker.getInstance();
+                
+                final Element userPermissions = parent.getChild("Login").getChild("Permissions");
+                final HashMap<String, Boolean> permissions = new HashMap<String, Boolean>();
+                final List<Element> xmlPermissions = userPermissions.getChildren();
+                for (final Element currentPermission : xmlPermissions) {
+                    try {
+                        final String isReadWriteAllowedString = currentPermission.getChildText("ReadWrite");
+                        boolean isReadWriteAllowed = false;
+                        if (isReadWriteAllowedString != null) {
+                            if (isReadWriteAllowedString.equals("true")) {
+                                isReadWriteAllowed = true;
+                            }
+                        }
+                        final String userGroup = currentPermission.getChildText("UserGroup");
+                        final String userDomain = currentPermission.getChildText("UserDomain");
+                        final String permissionString = userGroup + "@" + userDomain;
+                        LOG.info("Permissions für: login=*@" + permissionString + " readWriteAllowed=" + isReadWriteAllowed
+                                + "(boolean)/" + isReadWriteAllowedString + "(String)");
+                        if (permissionString != null) {
+                            permissions.put(permissionString.toLowerCase(), isReadWriteAllowed);
+                        }
+                    } catch (Exception ex) {
+                        LOG.warn("Error while reading user right can't authenticate", ex);
+                    }
+                }
+                broker.setPermissions(permissions);
+            } catch (Exception ex) {
+                log.fatal("Error while configuring Login", ex);
+                System.exit(2);
+            }
+        }
+    }    
 }

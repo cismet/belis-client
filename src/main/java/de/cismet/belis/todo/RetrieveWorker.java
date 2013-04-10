@@ -33,8 +33,8 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
 
     private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(RetrieveWorker.class);
     private String strassenschluessel;
-    private Short kennziffer;
-    private Short laufendenummer;
+    private Integer kennziffer;
+    private Integer laufendenummer;
     private BoundingBox boundingBox;
     private BelisBroker broker;
 
@@ -69,7 +69,7 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
             if (log.isDebugEnabled()) {
                 log.debug("parsing String: " + kennziffer + " to Short");
             }
-            this.kennziffer = Short.parseShort(kennziffer);
+            this.kennziffer = Integer.parseInt(kennziffer);
         } catch (NumberFormatException ex) {
             log.info("Kennziffer is no Short: " + kennziffer, ex);
             this.kennziffer = null;
@@ -78,7 +78,7 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
             if (log.isDebugEnabled()) {
                 log.debug("parsing String: " + laufendenummer + " to Short");
             }
-            this.laufendenummer = Short.parseShort(laufendenummer);
+            this.laufendenummer = Integer.parseInt(laufendenummer);
         } catch (NumberFormatException ex) {
             log.info("Kennziffer is no Short: " + laufendenummer, ex);
             this.laufendenummer = null;
@@ -162,7 +162,7 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
      *
      * @return  DOCUMENT ME!
      */
-    public Short getKennziffer() {
+    public Integer getKennziffer() {
         return kennziffer;
     }
 
@@ -171,7 +171,7 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
      *
      * @return  DOCUMENT ME!
      */
-    public Short getLaufendenummer() {
+    public Integer getLaufendenummer() {
         return laufendenummer;
     }
 

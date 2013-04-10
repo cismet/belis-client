@@ -42,7 +42,7 @@ public class TkeyBezirkCustomBean extends BaseEntity implements Stadtbezirk {
 
     private Integer id;
     private String bezirk;
-    private Short pk;
+    private Integer pk;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -57,7 +57,7 @@ public class TkeyBezirkCustomBean extends BaseEntity implements Stadtbezirk {
      *
      * @param  pk  DOCUMENT ME!
      */
-    public TkeyBezirkCustomBean(final Short pk) {
+    public TkeyBezirkCustomBean(final Integer pk) {
         setPk(pk);
     }
 
@@ -103,13 +103,13 @@ public class TkeyBezirkCustomBean extends BaseEntity implements Stadtbezirk {
     }
 
     @Override
-    public Short getPk() {
+    public Integer getPk() {
         return pk;
     }
 
     @Override
-    public void setPk(final Short pk) {
-        final Short old = this.pk;
+    public void setPk(final Integer pk) {
+        final Integer old = this.pk;
         this.pk = pk;
         this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }

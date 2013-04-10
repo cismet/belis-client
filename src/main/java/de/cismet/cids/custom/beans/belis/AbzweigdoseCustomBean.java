@@ -46,7 +46,7 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
 
     //~ Instance fields --------------------------------------------------------
 
-    private Long id;
+    private Integer id;
     private Collection<DmsUrlCustomBean> dokumente;
     private GeomCustomBean fk_geom;
 
@@ -80,13 +80,13 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
     }
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(final Long id) {
-        final Long old = this.id;
+    public void setId(final Integer id) {
+        final Integer old = this.id;
         this.id = id;
         this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }

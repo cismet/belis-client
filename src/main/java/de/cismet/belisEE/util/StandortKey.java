@@ -31,7 +31,7 @@ public class StandortKey implements Serializable {
 
     private TkeyKennzifferCustomBean kennziffer;
 
-    private Short laufendeNummer;
+    private Integer laufendeNummer;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -50,7 +50,7 @@ public class StandortKey implements Serializable {
      */
     public StandortKey(final TkeyStrassenschluesselCustomBean strassenschluessel,
             final TkeyKennzifferCustomBean kennziffer,
-            final Short laufendeNummer) {
+            final Integer laufendeNummer) {
         this.strassenschluessel = strassenschluessel;
         this.kennziffer = kennziffer;
         this.laufendeNummer = laufendeNummer;
@@ -63,7 +63,7 @@ public class StandortKey implements Serializable {
      * @param  kennziffer      DOCUMENT ME!
      * @param  laufendeNummer  DOCUMENT ME!
      */
-    public StandortKey(final String pk, final Short kennziffer, final Short laufendeNummer) {
+    public StandortKey(final String pk, final Integer kennziffer, final Integer laufendeNummer) {
         this.strassenschluessel = new TkeyStrassenschluesselCustomBean();
         this.strassenschluessel.setPk(pk);
         this.kennziffer = new TkeyKennzifferCustomBean(kennziffer);
@@ -95,7 +95,7 @@ public class StandortKey implements Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    public Short getLaufendeNummer() {
+    public Integer getLaufendeNummer() {
         return laufendeNummer;
     }
 
@@ -104,7 +104,7 @@ public class StandortKey implements Serializable {
      *
      * @param  laufendeNummer  DOCUMENT ME!
      */
-    public void setLaufendeNummer(final Short laufendeNummer) {
+    public void setLaufendeNummer(final Integer laufendeNummer) {
         this.laufendeNummer = laufendeNummer;
     }
 

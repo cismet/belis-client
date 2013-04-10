@@ -149,14 +149,14 @@ public interface Standort extends Serializable, PropertyChangeListener, Document
      *
      * @return  DOCUMENT ME!
      */
-    Short getLaufendeNummer();
+    Integer getLaufendeNummer();
 
     /**
      * DOCUMENT ME!
      *
      * @param  lfdNummer  DOCUMENT ME!
      */
-    void setLaufendeNummer(final Short lfdNummer);
+    void setLaufendeNummer(final Integer lfdNummer);
 
     /**
      * DOCUMENT ME!
@@ -359,14 +359,14 @@ public interface Standort extends Serializable, PropertyChangeListener, Document
      *
      * @return  DOCUMENT ME!
      */
-    Long getId();
+    Integer getId();
 
     /**
      * DOCUMENT ME!
      *
      * @param  id  DOCUMENT ME!
      */
-    void setId(final Long id);
+    void setId(final Integer id);
 
     /**
      * DOCUMENT ME!

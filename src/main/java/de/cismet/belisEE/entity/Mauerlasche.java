@@ -40,14 +40,14 @@ public interface Mauerlasche extends Serializable, DocumentContainer {
      *
      * @return  DOCUMENT ME!
      */
-    Long getId();
+    Integer getId();
 
     /**
      * DOCUMENT ME!
      *
      * @param  id  DOCUMENT ME!
      */
-    void setId(final Long id);
+    void setId(final Integer id);
 
     /**
      * DOCUMENT ME!
