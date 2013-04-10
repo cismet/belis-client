@@ -40,7 +40,7 @@ public class MaterialMauerlascheCustomBean extends BaseEntity implements Materia
 
     //~ Instance fields --------------------------------------------------------
 
-    private Long id;
+    private Integer id;
     private String bezeichnung;
 
     //~ Constructors -----------------------------------------------------------
@@ -75,13 +75,13 @@ public class MaterialMauerlascheCustomBean extends BaseEntity implements Materia
     }
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(final Long id) {
-        final Long old = this.id;
+    public void setId(final Integer id) {
+        final Integer old = this.id;
         this.id = id;
         this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
@@ -93,7 +93,7 @@ public class MaterialMauerlascheCustomBean extends BaseEntity implements Materia
 
     @Override
     public void setBezeichnung(final String bezeichnung) {
-        final Long old = this.id;
+        final Integer old = this.id;
         this.bezeichnung = bezeichnung;
         this.propertyChangeSupport.firePropertyChange(PROP__BEZEICHNUNG, old, this.bezeichnung);
     }

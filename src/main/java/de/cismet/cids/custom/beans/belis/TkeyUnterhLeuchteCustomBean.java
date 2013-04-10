@@ -35,7 +35,7 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
     public static final String TABLE = "tkey_unterh_leuchte";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__UNTERHALTSPFLICHTIGER_LEUCHTE = "Unterhaltspflichtiger_Leuchte";
+    private static final String PROP__UNTERHALTSPFLICHTIGER_LEUCHTE = "unterhaltspflichtiger_leuchte";
     private static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] {
@@ -47,8 +47,8 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
     //~ Instance fields --------------------------------------------------------
 
     private Integer id;
-    private String Unterhaltspflichtiger_Leuchte;
-    private Short pk;
+    private String unterhaltspflichtiger_leuchte;
+    private Integer pk;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -63,7 +63,7 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
      *
      * @param  pk  DOCUMENT ME!
      */
-    public TkeyUnterhLeuchteCustomBean(final Short pk) {
+    public TkeyUnterhLeuchteCustomBean(final Integer pk) {
         setPk(pk);
     }
 
@@ -109,13 +109,13 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
     }
 
     @Override
-    public Short getPk() {
+    public Integer getPk() {
         return pk;
     }
 
     @Override
-    public void setPk(final Short pk) {
-        final Short old = this.pk;
+    public void setPk(final Integer pk) {
+        final Integer old = this.pk;
         this.pk = pk;
         this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }
@@ -125,8 +125,8 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
      *
      * @return  DOCUMENT ME!
      */
-    public String getUnterhaltspflichtiger_Leuchte() {
-        return Unterhaltspflichtiger_Leuchte;
+    public String getUnterhaltspflichtiger_leuchte() {
+        return unterhaltspflichtiger_leuchte;
     }
 
     /**
@@ -134,23 +134,23 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
      *
      * @param  Unterhaltspflichtiger_Leuchte  DOCUMENT ME!
      */
-    public void setUnterhaltspflichtiger_Leuchte(final String Unterhaltspflichtiger_Leuchte) {
-        final String old = this.Unterhaltspflichtiger_Leuchte;
-        this.Unterhaltspflichtiger_Leuchte = Unterhaltspflichtiger_Leuchte;
+    public void setUnterhaltspflichtiger_leuchte(final String Unterhaltspflichtiger_Leuchte) {
+        final String old = this.unterhaltspflichtiger_leuchte;
+        this.unterhaltspflichtiger_leuchte = Unterhaltspflichtiger_Leuchte;
         this.propertyChangeSupport.firePropertyChange(
             PROP__UNTERHALTSPFLICHTIGER_LEUCHTE,
             old,
-            this.Unterhaltspflichtiger_Leuchte);
+            this.unterhaltspflichtiger_leuchte);
     }
 
     @Override
     public String getUnterhaltspflichtigeLeuchte() {
-        return getUnterhaltspflichtiger_Leuchte();
+        return getUnterhaltspflichtiger_leuchte();
     }
 
     @Override
     public void setUnterhaltspflichtigeLeuchte(final String unterhaltspflichtigeLeuchte) {
-        setUnterhaltspflichtiger_Leuchte(unterhaltspflichtigeLeuchte);
+        setUnterhaltspflichtiger_leuchte(unterhaltspflichtigeLeuchte);
     }
 
     @Override

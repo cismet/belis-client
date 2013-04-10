@@ -28,14 +28,14 @@ public interface MaterialLeitung extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    Long getId();
+    Integer getId();
 
     /**
      * DOCUMENT ME!
      *
      * @param  id  DOCUMENT ME!
      */
-    void setId(Long id);
+    void setId(Integer id);
 
     /**
      * DOCUMENT ME!

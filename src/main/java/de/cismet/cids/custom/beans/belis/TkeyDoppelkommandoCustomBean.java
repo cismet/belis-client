@@ -34,7 +34,7 @@ public class TkeyDoppelkommandoCustomBean extends BaseEntity implements Doppelko
     public static final String TABLE = "tkey_doppelkommando";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__BESCHREIBUNG = "Beschreibung";
+    private static final String PROP__BESCHREIBUNG = "beschreibung";
     private static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BESCHREIBUNG, PROP__PK };

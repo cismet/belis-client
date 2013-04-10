@@ -62,14 +62,14 @@ public interface Leuchte extends Serializable, PropertyChangeListener, DocumentC
      *
      * @return  DOCUMENT ME!
      */
-    Short getStadtbezirk();
+    Integer getStadtbezirk();
 
     /**
      * DOCUMENT ME!
      *
      * @param  stadtbezirk  DOCUMENT ME!
      */
-    void setStadtbezirk(final Short stadtbezirk);
+    void setStadtbezirk(final Integer stadtbezirk);
 
     /**
      * DOCUMENT ME!
@@ -132,14 +132,14 @@ public interface Leuchte extends Serializable, PropertyChangeListener, DocumentC
      *
      * @return  DOCUMENT ME!
      */
-    Short getLeuchtennummer();
+    Integer getLeuchtennummer();
 
     /**
      * DOCUMENT ME!
      *
      * @param  leuchtennummer  DOCUMENT ME!
      */
-    void setLeuchtennummer(final Short leuchtennummer);
+    void setLeuchtennummer(final Integer leuchtennummer);
 
     /**
      * DOCUMENT ME!
@@ -244,14 +244,14 @@ public interface Leuchte extends Serializable, PropertyChangeListener, DocumentC
      *
      * @return  DOCUMENT ME!
      */
-    Short getAnzahl1DK();
+    Integer getAnzahl1DK();
 
     /**
      * DOCUMENT ME!
      *
      * @param  anzahl1DK  DOCUMENT ME!
      */
-    void setAnzahl1DK(final Short anzahl1DK);
+    void setAnzahl1DK(final Integer anzahl1DK);
 
     /**
      * DOCUMENT ME!
@@ -272,14 +272,14 @@ public interface Leuchte extends Serializable, PropertyChangeListener, DocumentC
      *
      * @return  DOCUMENT ME!
      */
-    Short getAnzahl2DK();
+    Integer getAnzahl2DK();
 
     /**
      * DOCUMENT ME!
      *
      * @param  anzahl2DK  DOCUMENT ME!
      */
-    void setAnzahl2DK(final Short anzahl2DK);
+    void setAnzahl2DK(final Integer anzahl2DK);
 
     /**
      * DOCUMENT ME!

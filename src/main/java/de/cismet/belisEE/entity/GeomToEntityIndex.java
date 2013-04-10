@@ -30,14 +30,14 @@ public interface GeomToEntityIndex extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    Long getEntityID();
+    Integer getEntityID();
 
     /**
      * DOCUMENT ME!
      *
      * @param  enityID  DOCUMENT ME!
      */
-    void setEntityID(final Long enityID);
+    void setEntityID(final Integer enityID);
 
     /**
      * DOCUMENT ME!
@@ -72,12 +72,12 @@ public interface GeomToEntityIndex extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    Long getId();
+    Integer getId();
 
     /**
      * DOCUMENT ME!
      *
      * @param  id  DOCUMENT ME!
      */
-    void setId(final Long id);
+    void setId(final Integer id);
 }

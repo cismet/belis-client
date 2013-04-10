@@ -45,9 +45,9 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
 
     //~ Instance fields --------------------------------------------------------
 
-    private Long id;
+    private Integer id;
     private String entityclass;
-    private Long entityid;
+    private Integer entityid;
     private GeomCustomBean fk_geom;
 
     //~ Constructors -----------------------------------------------------------
@@ -80,13 +80,13 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
     }
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(final Long id) {
-        final Long old = this.id;
+    public void setId(final Integer id) {
+        final Integer old = this.id;
         this.id = id;
         this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
@@ -116,7 +116,7 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
      *
      * @return  DOCUMENT ME!
      */
-    public Long getEntityid() {
+    public Integer getEntityid() {
         return entityid;
     }
 
@@ -125,8 +125,8 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
      *
      * @param  entityid  DOCUMENT ME!
      */
-    public void setEntityid(final Long entityid) {
-        final Long old = this.entityid;
+    public void setEntityid(final Integer entityid) {
+        final Integer old = this.entityid;
         this.entityid = entityid;
         this.propertyChangeSupport.firePropertyChange(PROP__ENTITYID, old, this.entityid);
     }
@@ -152,12 +152,12 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
     }
 
     @Override
-    public Long getEntityID() {
+    public Integer getEntityID() {
         return getEntityid();
     }
 
     @Override
-    public void setEntityID(final Long enityID) {
+    public void setEntityID(final Integer enityID) {
         setEntityid(enityID);
     }
 

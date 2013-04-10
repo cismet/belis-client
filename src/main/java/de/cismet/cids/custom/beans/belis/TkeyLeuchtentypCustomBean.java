@@ -36,12 +36,12 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
     public static final String TABLE = "tkey_leuchtentyp";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__LEUCHTENTYP = "Leuchtentyp";
-    private static final String PROP__BESTUECKUNG = "Bestueckung";
-    private static final String PROP__LEISTUNG = "Leistung";
-    private static final String PROP__LEISTUNG_BRUTTO = "Leistung_brutto";
-    private static final String PROP__FABRIKAT = "Fabrikat";
-    private static final String PROP__LAMPE = "Lampe";
+    private static final String PROP__LEUCHTENTYP = "leuchtentyp";
+    private static final String PROP__BESTUECKUNG = "bestueckung";
+    private static final String PROP__LEISTUNG = "leistung";
+    private static final String PROP__LEISTUNG_BRUTTO = "leistung_brutto";
+    private static final String PROP__FABRIKAT = "fabrikat";
+    private static final String PROP__LAMPE = "lampe";
     private static final String PROP__EINBAUDATUM = "einbaudatum";
     private static final String PROP__LEISTUNG2STUFE = "leistung2stufe";
 

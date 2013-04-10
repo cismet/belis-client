@@ -49,7 +49,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
 
     static {
         DEFAULT_UNTERHALT = new TkeyUnterhMastCustomBean();
-//        DEFAULT_UNTERHALT.setPk((short)0);
+//        DEFAULT_UNTERHALT.setPk((Integer)0);
 //        DEFAULT_UNTERHALT.setUnterhaltMast("öffentl. Beleuchtung");
     }
 

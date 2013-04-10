@@ -68,14 +68,14 @@ public interface Mauerlasche extends Serializable, DocumentContainer {
      *
      * @return  DOCUMENT ME!
      */
-    Short getLaufendeNummer();
+    Integer getLaufendeNummer();
 
     /**
      * DOCUMENT ME!
      *
      * @param  laufendeNummer  DOCUMENT ME!
      */
-    void setLaufendeNummer(final Short laufendeNummer);
+    void setLaufendeNummer(final Integer laufendeNummer);
 
     /**
      * DOCUMENT ME!

@@ -33,7 +33,7 @@ public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
     public static final String TABLE = "tkey_mastart";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__MASTART = "Mastart";
+    private static final String PROP__MASTART = "mastart";
     private static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__MASTART, PROP__PK };

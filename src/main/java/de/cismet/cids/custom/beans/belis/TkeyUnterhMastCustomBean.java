@@ -34,7 +34,7 @@ public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMas
     public static final String TABLE = "tkey_unterh_mast";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__UNTERHALT_MAST = "Unterhalt_Mast";
+    private static final String PROP__UNTERHALT_MAST = "unterhalt_mast";
     private static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__UNTERHALT_MAST, PROP__PK };
@@ -42,8 +42,8 @@ public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMas
     //~ Instance fields --------------------------------------------------------
 
     private Integer id;
-    private String Unterhalt_Mast;
-    private Short pk;
+    private String unterhalt_mast;
+    private Integer pk;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -58,7 +58,7 @@ public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMas
      *
      * @param  pk  DOCUMENT ME!
      */
-    public TkeyUnterhMastCustomBean(final Short pk) {
+    public TkeyUnterhMastCustomBean(final Integer pk) {
         setPk(pk);
     }
 
@@ -104,13 +104,13 @@ public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMas
     }
 
     @Override
-    public Short getPk() {
+    public Integer getPk() {
         return pk;
     }
 
     @Override
-    public void setPk(final Short pk) {
-        final Short old = this.pk;
+    public void setPk(final Integer pk) {
+        final Integer old = this.pk;
         this.pk = pk;
         this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }
@@ -120,8 +120,8 @@ public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMas
      *
      * @return  DOCUMENT ME!
      */
-    public String getUnterhalt_Mast() {
-        return Unterhalt_Mast;
+    public String getUnterhalt_mast() {
+        return unterhalt_mast;
     }
 
     /**
@@ -129,20 +129,20 @@ public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMas
      *
      * @param  Unterhalt_Mast  DOCUMENT ME!
      */
-    public void setUnterhalt_Mast(final String Unterhalt_Mast) {
-        final String old = this.Unterhalt_Mast;
-        this.Unterhalt_Mast = Unterhalt_Mast;
-        this.propertyChangeSupport.firePropertyChange(PROP__UNTERHALT_MAST, old, this.Unterhalt_Mast);
+    public void setUnterhalt_mast(final String Unterhalt_Mast) {
+        final String old = this.unterhalt_mast;
+        this.unterhalt_mast = Unterhalt_Mast;
+        this.propertyChangeSupport.firePropertyChange(PROP__UNTERHALT_MAST, old, this.unterhalt_mast);
     }
 
     @Override
     public String getUnterhaltMast() {
-        return getUnterhalt_Mast();
+        return getUnterhalt_mast();
     }
 
     @Override
     public void setUnterhaltMast(final String unterhaltMast) {
-        setUnterhalt_Mast(unterhaltMast);
+        setUnterhalt_mast(unterhaltMast);
     }
 
     @Override

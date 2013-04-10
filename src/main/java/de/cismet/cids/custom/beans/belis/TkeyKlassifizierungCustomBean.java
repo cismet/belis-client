@@ -34,7 +34,7 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity implements Klassif
     public static final String TABLE = "tkey_klassifizierung";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__KLASSIFIZIERUNG = "Klassifizierung";
+    private static final String PROP__KLASSIFIZIERUNG = "klassifizierung";
     private static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__KLASSIFIZIERUNG, PROP__PK };

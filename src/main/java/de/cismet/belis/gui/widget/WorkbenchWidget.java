@@ -1851,7 +1851,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
             }
             newLeuchte.addPropertyChangeListener(parent);
             leuchteToVirtualStandortMap.put(newLeuchte, parent);
-            newLeuchte.setLeuchtennummer((short)0);
+            newLeuchte.setLeuchtennummer((Integer)0);
         } else {
             parent.addPropertyChangeListener(newLeuchte);
             newLeuchte.setLeuchtennummer(getNextLeuchtennummer(parent));
@@ -1907,17 +1907,17 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      *
      * @return  DOCUMENT ME!
      */
-    public short getNextLeuchtennummer(final TdtaStandortMastCustomBean standort) {
+    public Integer getNextLeuchtennummer(final TdtaStandortMastCustomBean standort) {
         if ((standort != null) && (standort.getLeuchten() != null) && (standort.getLeuchten().size() > 0)) {
-            short max = 0;
+            Integer max = 0;
             for (final TdtaLeuchteCustomBean curLeuchte : standort.getLeuchten()) {
                 if ((curLeuchte.getLeuchtennummer() != null) && (curLeuchte.getLeuchtennummer() > max)) {
                     max = curLeuchte.getLeuchtennummer();
                 }
             }
-            return (short)(max + 1);
+            return (Integer)(max + 1);
         }
-        return (short)0;
+        return (Integer)0;
     }
     /**
      * ToDo make generic.

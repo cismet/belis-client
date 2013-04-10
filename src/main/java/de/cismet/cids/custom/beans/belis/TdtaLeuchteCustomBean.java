@@ -38,7 +38,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
 
     static {
         DEFAULT_UNTERHALT = new TkeyUnterhLeuchteCustomBean();
-        DEFAULT_UNTERHALT.setPk((short)0);
+        DEFAULT_UNTERHALT.setPk((Integer)0);
         DEFAULT_UNTERHALT.setUnterhaltspflichtigeLeuchte("Öffentl. Beleuchtung");
 
         DEFAULT_DOPPELKOMMANDO = new TkeyDoppelkommandoCustomBean();
@@ -51,18 +51,18 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     public static final String TABLE = "tdta_leuchten";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__PLZ = "PLZ";
+    private static final String PROP__PLZ = "plz";
     private static final String PROP__STRASSENSCHLUESSEL = "strassenschluessel";
-    private static final String PROP__FK_ENERGIELIEFERANT = "fk_Energielieferant";
+    private static final String PROP__FK_ENERGIELIEFERANT = "fk_energielieferant";
     private static final String PROP__RUNDSTEUEREMPFAENGER = "rundsteuerempfaenger";
-    private static final String PROP__FK_LEUCHTTYP = "fk_Leuchttyp";
-    private static final String PROP__FK_UNTERHALTSPFLICHT_LEUCHTE = "fk_Unterhaltspflicht_Leuchte";
+    private static final String PROP__FK_LEUCHTTYP = "fk_leuchttyp";
+    private static final String PROP__FK_UNTERHALTSPFLICHT_LEUCHTE = "fk_unterhaltspflicht_leuchte";
     private static final String PROP__ZAEHLER = "zaehler";
-    private static final String PROP__DK1 = "DK1";
-    private static final String PROP__DK2 = "DK2";
-    private static final String PROP__INBETRIEBNAHME_LEUCHTE = "Inbetriebnahme_Leuchte";
+    private static final String PROP__DK1 = "dk1";
+    private static final String PROP__DK2 = "dk2";
+    private static final String PROP__INBETRIEBNAHME_LEUCHTE = "inbetriebnahme_leuchte";
     private static final String PROP__STANDORT_ID = "standort_id";
-    private static final String PROP__LFD_NUMMER = "lfd_Nummer";
+    private static final String PROP__LFD_NUMMER = "lfd_nummer";
     private static final String PROP__ANZAHL_2DK = "Anzahl_2DK";
     private static final String PROP__KENNZIFFER = "Kennziffer";
     private static final String PROP__LEUCHTENNUMMER = "Leuchtennummer";
@@ -106,7 +106,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     private TkeyEnergielieferantCustomBean fk_energielieferant;
     private String rundsteuerempfaenger;
     private TkeyLeuchtentypCustomBean fk_Leuchttyp;
-    private TkeyUnterhLeuchteCustomBean fk_Unterhaltspflicht_Leuchte;
+    private TkeyUnterhLeuchteCustomBean fk_unterhaltspflicht_leuchte;
     private Boolean zaehler;
     private TkeyDoppelkommandoCustomBean dk1;
     private TkeyDoppelkommandoCustomBean dk2;
@@ -114,12 +114,12 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     private TdtaStandortMastCustomBean standort_id;
     private Integer lfd_Nummer;
     private TkeyKennzifferCustomBean kennziffer;
-    private Short leuchtennummer;
+    private Integer leuchtennummer;
     private String montagefirma_Leuchte;
     private String schaltstelle;
-    private Short anzahl_1DK;
-    private Short anzahl_2DK;
-    private Short stadtbezirk;
+    private Integer anzahl_1DK;
+    private Integer anzahl_2DK;
+    private Integer stadtbezirk;
     private String bemerkungen;
     private Collection<DmsUrlCustomBean> dokumente;
 
@@ -186,13 +186,13 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     }
 
     @Override
-    public Short getStadtbezirk() {
+    public Integer getStadtbezirk() {
         return stadtbezirk;
     }
 
     @Override
-    public void setStadtbezirk(final Short stadtbezirk) {
-        final Short old = this.stadtbezirk;
+    public void setStadtbezirk(final Integer stadtbezirk) {
+        final Integer old = this.stadtbezirk;
         this.stadtbezirk = stadtbezirk;
         this.propertyChangeSupport.firePropertyChange(PROP__STADTBEZIRK, old, this.stadtbezirk);
     }
@@ -234,13 +234,13 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     }
 
     @Override
-    public Short getLeuchtennummer() {
+    public Integer getLeuchtennummer() {
         return leuchtennummer;
     }
 
     @Override
-    public void setLeuchtennummer(final Short leuchtennummer) {
-        final Short old = this.leuchtennummer;
+    public void setLeuchtennummer(final Integer leuchtennummer) {
+        final Integer old = this.leuchtennummer;
         this.leuchtennummer = leuchtennummer;
         this.propertyChangeSupport.firePropertyChange(PROP__LEUCHTENNUMMER, old, this.leuchtennummer);
     }
@@ -351,7 +351,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      * @return  DOCUMENT ME!
      */
     public TkeyUnterhLeuchteCustomBean getFk_Unterhaltspflicht_Leuchte() {
-        return fk_Unterhaltspflicht_Leuchte;
+        return fk_unterhaltspflicht_leuchte;
     }
 
     /**
@@ -360,12 +360,12 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      * @param  fk_Unterhaltspflicht_Leuchte  DOCUMENT ME!
      */
     public void setFk_Unterhaltspflicht_Leuchte(final TkeyUnterhLeuchteCustomBean fk_Unterhaltspflicht_Leuchte) {
-        final TkeyUnterhLeuchteCustomBean old = this.fk_Unterhaltspflicht_Leuchte;
-        this.fk_Unterhaltspflicht_Leuchte = fk_Unterhaltspflicht_Leuchte;
+        final TkeyUnterhLeuchteCustomBean old = this.fk_unterhaltspflicht_leuchte;
+        this.fk_unterhaltspflicht_leuchte = fk_Unterhaltspflicht_Leuchte;
         this.propertyChangeSupport.firePropertyChange(
             PROP__FK_UNTERHALTSPFLICHT_LEUCHTE,
             old,
-            this.fk_Unterhaltspflicht_Leuchte);
+            this.fk_unterhaltspflicht_leuchte);
     }
 
     /**
@@ -433,7 +433,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @return  DOCUMENT ME!
      */
-    public Short getAnzahl_2DK() {
+    public Integer getAnzahl_2DK() {
         return anzahl_2DK;
     }
 
@@ -442,8 +442,8 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @param  Anzahl_2DK  DOCUMENT ME!
      */
-    public void setAnzahl_2DK(final Short Anzahl_2DK) {
-        final Short old = this.anzahl_2DK;
+    public void setAnzahl_2DK(final Integer Anzahl_2DK) {
+        final Integer old = this.anzahl_2DK;
         this.anzahl_2DK = Anzahl_2DK;
         this.propertyChangeSupport.firePropertyChange(PROP__ANZAHL_2DK, old, this.anzahl_2DK);
     }
@@ -473,7 +473,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @return  DOCUMENT ME!
      */
-    public Short getAnzahl_1DK() {
+    public Integer getAnzahl_1DK() {
         return anzahl_1DK;
     }
 
@@ -482,8 +482,8 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @param  anzahl_1DK  DOCUMENT ME!
      */
-    public void setAnzahl_1DK(final Short anzahl_1DK) {
-        final Short old = this.anzahl_1DK;
+    public void setAnzahl_1DK(final Integer anzahl_1DK) {
+        final Integer old = this.anzahl_1DK;
         this.anzahl_1DK = anzahl_1DK;
         this.propertyChangeSupport.firePropertyChange(PROP__ANZAHL_1DK, old, this.anzahl_1DK);
     }
@@ -551,22 +551,22 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     }
 
     @Override
-    public Short getAnzahl1DK() {
+    public Integer getAnzahl1DK() {
         return getAnzahl_1DK();
     }
 
     @Override
-    public void setAnzahl1DK(final Short anzahl1DK) {
+    public void setAnzahl1DK(final Integer anzahl1DK) {
         setAnzahl_1DK(anzahl1DK);
     }
 
     @Override
-    public Short getAnzahl2DK() {
+    public Integer getAnzahl2DK() {
         return getAnzahl_2DK();
     }
 
     @Override
-    public void setAnzahl2DK(final Short anzahl2DK) {
+    public void setAnzahl2DK(final Integer anzahl2DK) {
         setAnzahl_2DK(anzahl2DK);
     }
 

@@ -34,7 +34,7 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity implements Energi
     public static final String TABLE = "tkey_energielieferant";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__ENERGIELIEFERANT = "Energielieferant";
+    private static final String PROP__ENERGIELIEFERANT = "energielieferant";
     private static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__ENERGIELIEFERANT, PROP__PK };
@@ -43,7 +43,7 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity implements Energi
 
     private Integer id;
     private String energielieferant;
-    private Short pk;
+    private Integer pk;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -58,7 +58,7 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity implements Energi
      *
      * @param  pk  DOCUMENT ME!
      */
-    public TkeyEnergielieferantCustomBean(final Short pk) {
+    public TkeyEnergielieferantCustomBean(final Integer pk) {
         setPk(pk);
     }
 
@@ -106,13 +106,13 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity implements Energi
     }
 
     @Override
-    public Short getPk() {
+    public Integer getPk() {
         return pk;
     }
 
     @Override
-    public void setPk(final Short pk) {
-        final Short old = this.pk;
+    public void setPk(final Integer pk) {
+        final Integer old = this.pk;
         this.pk = pk;
         this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }

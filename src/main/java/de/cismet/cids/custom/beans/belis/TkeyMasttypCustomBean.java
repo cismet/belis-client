@@ -33,7 +33,7 @@ public class TkeyMasttypCustomBean extends BaseEntity implements Masttyp {
     public static final String TABLE = "tkey_masttyp";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__MASTTYP = "Masttyp";
+    private static final String PROP__MASTTYP = "masttyp";
     private static final String PROP__LPH = "lph";
     private static final String PROP__HERSTELLER = "hersteller";
     private static final String PROP__WANDSTAERKE = "wandstaerke";
