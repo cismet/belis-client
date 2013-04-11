@@ -620,7 +620,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.leitungstyp}" target="cbxLeitungLeitungstyp" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.fk_leitungstyp}" target="cbxLeitungLeitungstyp" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
               </BindingProperties>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbxLeitungMaterial">

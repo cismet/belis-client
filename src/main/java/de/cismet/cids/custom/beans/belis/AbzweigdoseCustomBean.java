@@ -165,4 +165,15 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
             return mapIcon;
         }
     }
+
+    @Override
+    public GeomCustomBean getGeometrie() {
+        return getFk_geom();
+    }
+
+    @Override
+    public void setGeometrie(final GeomCustomBean geometrie) {
+        setFk_geom(geometrie);
+    }    
+    
 }

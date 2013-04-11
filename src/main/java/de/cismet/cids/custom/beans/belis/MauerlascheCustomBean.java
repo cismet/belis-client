@@ -395,4 +395,15 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
             setWasModified(true);
         }
     }
+    
+    @Override
+    public GeomCustomBean getGeometrie() {
+        return getFk_geom();
+    }
+
+    @Override
+    public void setGeometrie(final GeomCustomBean geometrie) {
+        setFk_geom(geometrie);
+    }    
+        
 }

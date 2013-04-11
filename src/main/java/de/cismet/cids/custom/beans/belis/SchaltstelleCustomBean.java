@@ -499,4 +499,15 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
             setWasModified(true);
         }
     }
+    
+    @Override
+    public GeomCustomBean getGeometrie() {
+        return getFk_geom();
+    }
+
+    @Override
+    public void setGeometrie(final GeomCustomBean geometrie) {
+        setFk_geom(geometrie);
+    }    
+        
 }

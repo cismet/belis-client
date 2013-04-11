@@ -32,13 +32,12 @@ import de.cismet.commons.server.interfaces.GeometrySlot;
  * @version  $Revision$, $Date$
  */
 //ToDo!!! why is the supperclass not working in the testeeapplication the field are inherited right
-public class GeoBaseEntity extends BaseEntity implements GeometrySlot {
+public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
 
     //~ Instance fields --------------------------------------------------------
 
     protected transient FeatureAnnotationSymbol mapIcon = null;
 
-    protected GeomCustomBean geometrie;
 //
 
     private Boolean isEditable = false;
@@ -55,18 +54,14 @@ public class GeoBaseEntity extends BaseEntity implements GeometrySlot {
      *
      * @return  DOCUMENT ME!
      */
-    public GeomCustomBean getGeometrie() {
-        return geometrie;
-    }
+    public abstract GeomCustomBean getGeometrie();
 
     /**
      * DOCUMENT ME!
      *
      * @param  val  DOCUMENT ME!
      */
-    public void setGeometrie(final GeomCustomBean val) {
-        this.geometrie = val;
-    }
+    public abstract void setGeometrie(final GeomCustomBean val);
 
     /**
      * DOCUMENT ME!
