@@ -11,12 +11,6 @@
  */
 package de.cismet.commons.server.entity;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
-import java.io.Serializable;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 /**
@@ -25,15 +19,38 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public class BaseEntity extends CidsBean implements Serializable, PropertyChangeListener {
+public class BaseEntity extends CidsBean {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static final String PROP__ID = "id";
 
     //~ Instance fields --------------------------------------------------------
 
-    protected transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
     private boolean wasModified = false;
+    private Integer id;
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
+    public void setId(final Integer id) {
+        final Integer old = this.id;
+        this.id = id;
+        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
+    }
 
     /**
      * DOCUMENT ME!
@@ -51,48 +68,6 @@ public class BaseEntity extends CidsBean implements Serializable, PropertyChange
      */
     public void setWasModified(final boolean wasModified) {
         this.wasModified = wasModified;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public PropertyChangeSupport getPropertyChangeSupport() {
-        if (propertyChangeSupport == null) {
-            propertyChangeSupport = new PropertyChangeSupport(this);
-            propertyChangeSupport.addPropertyChangeListener(this);
-        }
-        return propertyChangeSupport;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  propertyChangeSupport  DOCUMENT ME!
-     */
-    public void setPropertyChangeSupport(final PropertyChangeSupport propertyChangeSupport) {
-        this.propertyChangeSupport = propertyChangeSupport;
-    }
-
-    /**
-     * Add PropertyChangeListener.
-     *
-     * @param  listener  DOCUMENT ME!
-     */
-    @Override
-    public void addPropertyChangeListener(final PropertyChangeListener listener) {
-        getPropertyChangeSupport().addPropertyChangeListener(listener);
-    }
-
-    /**
-     * Remove PropertyChangeListener.
-     *
-     * @param  listener  DOCUMENT ME!
-     */
-    @Override
-    public void removePropertyChangeListener(final PropertyChangeListener listener) {
-        getPropertyChangeSupport().removePropertyChangeListener(listener);
     }
 
     /**
@@ -120,9 +95,5 @@ public class BaseEntity extends CidsBean implements Serializable, PropertyChange
      */
     public String getHumanReadablePosition() {
         return "";
-    }
-
-    @Override
-    public void propertyChange(final PropertyChangeEvent evt) {
     }
 }

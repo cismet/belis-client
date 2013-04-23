@@ -50,7 +50,6 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
 
     public static final String TABLE = "tdta_leuchten";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__PLZ = "plz";
     private static final String PROP__STRASSENSCHLUESSEL = "strassenschluessel";
     private static final String PROP__FK_ENERGIELIEFERANT = "fk_energielieferant";
@@ -100,7 +99,6 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String plz;
     private TkeyStrassenschluesselCustomBean strassenschluessel;
     private TkeyEnergielieferantCustomBean fk_energielieferant;
@@ -159,18 +157,6 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override
@@ -618,7 +604,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.Leuchte[id=" + id + "]";
+        return "de.cismet.belis.entity.Leuchte[id=" + getId() + "]";
     }
 
     @Override
@@ -666,24 +652,36 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     public void propertyChange(final PropertyChangeEvent evt) {
         if ((evt.getSource() != null) && (evt.getSource() instanceof TdtaStandortMastCustomBean)
                     && isParentMast((TdtaStandortMastCustomBean)evt.getSource())) {
-            System.out.println("Property of parent Mast has changed. Changing this leuchte property");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Property of parent Mast has changed. Changing this leuchte property");
+            }
             if ((evt.getPropertyName() != null)
                         && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP_STRASSENSCHLUESSEL)) {
-                System.out.println("Strassenschluessel changed");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Strassenschluessel changed");
+                }
                 setStrassenschluessel((TkeyStrassenschluesselCustomBean)evt.getNewValue());
             } else if ((evt.getPropertyName() != null)
                         && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP_KENNZIFFER)) {
-                System.out.println("Kennziffer changed");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Kennziffer changed");
+                }
                 setKennziffer((TkeyKennzifferCustomBean)evt.getNewValue());
             } else if ((evt.getPropertyName() != null)
                         && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP_LAUFENDENUMMER)) {
-                System.out.println("Laufende Nummer changed");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Laufende Nummer changed");
+                }
                 setLaufendeNummer((Integer)evt.getNewValue());
             } else {
-                System.out.println("Unkown property. Nothing to change");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Unkown property. Nothing to change");
+                }
             }
         } else {
-            System.out.println("Property not from parent mast");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Property not from parent mast");
+            }
         }
     }
 

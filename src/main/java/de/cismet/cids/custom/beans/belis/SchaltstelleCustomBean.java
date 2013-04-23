@@ -41,7 +41,6 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
 
     public static final String TABLE = "schaltstelle";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__ERSTELLUNGSJAHR = "erstellungsjahr";
     private static final String PROP__LAUFENDE_NUMMER = "laufende_nummer";
     private static final String PROP__FK_GEOM = "fk_geom";
@@ -75,7 +74,6 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private Date erstellungsjahr;
     private Integer laufende_nummer;
     private GeomCustomBean fk_geom;
@@ -117,18 +115,6 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     /**
@@ -458,7 +444,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.Schaltstelle[id=" + id + "]";
+        return "de.cismet.belisEE.entity.Schaltstelle[id=" + getId() + "]";
     }
 
     @Override
@@ -495,11 +481,13 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
     public void propertyChange(final PropertyChangeEvent evt) {
         super.propertyChange(evt);
         if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP__ID)) {
-            System.out.println("this entity has changed and the property was not the id");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("this entity has changed and the property was not the id");
+            }
             setWasModified(true);
         }
     }
-    
+
     @Override
     public GeomCustomBean getGeometrie() {
         return getFk_geom();
@@ -508,6 +496,5 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements Schaltstell
     @Override
     public void setGeometrie(final GeomCustomBean geometrie) {
         setFk_geom(geometrie);
-    }    
-        
+    }
 }

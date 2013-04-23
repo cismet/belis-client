@@ -30,28 +30,28 @@ public interface Lock extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    String getClassId();
+    Integer getClassId();
 
     /**
      * DOCUMENT ME!
      *
      * @param  classId  DOCUMENT ME!
      */
-    void setClassId(final String classId);
+    void setClassId(final Integer classId);
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    String getObjectId();
+    Integer getObjectId();
 
     /**
      * DOCUMENT ME!
      *
      * @param  objectId  DOCUMENT ME!
      */
-    void setObjectId(final String objectId);
+    void setObjectId(final Integer objectId);
 
     /**
      * DOCUMENT ME!

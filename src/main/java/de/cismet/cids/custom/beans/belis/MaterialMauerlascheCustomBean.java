@@ -33,14 +33,12 @@ public class MaterialMauerlascheCustomBean extends BaseEntity implements Materia
 
     public static final String TABLE = "material_mauerlasche";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__BEZEICHNUNG = "bezeichnung";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZEICHNUNG };
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String bezeichnung;
 
     //~ Constructors -----------------------------------------------------------
@@ -75,25 +73,13 @@ public class MaterialMauerlascheCustomBean extends BaseEntity implements Materia
     }
 
     @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
-    }
-
-    @Override
     public String getBezeichnung() {
         return bezeichnung;
     }
 
     @Override
     public void setBezeichnung(final String bezeichnung) {
-        final Integer old = this.id;
+        final String old = this.bezeichnung;
         this.bezeichnung = bezeichnung;
         this.propertyChangeSupport.firePropertyChange(PROP__BEZEICHNUNG, old, this.bezeichnung);
     }
@@ -113,7 +99,8 @@ public class MaterialMauerlascheCustomBean extends BaseEntity implements Materia
             return false;
         }
         final MaterialMauerlascheCustomBean other = (MaterialMauerlascheCustomBean)object;
-        if (((this.id == null) && (other.id != null)) || ((this.id != null) && !this.id.equals(other.id))) {
+        if (((this.getId() == null) && (other.getId() != null))
+                    || ((this.getId() != null) && !this.getId().equals(other.getId()))) {
             return false;
         }
         return true;
@@ -121,7 +108,7 @@ public class MaterialMauerlascheCustomBean extends BaseEntity implements Materia
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.MaterialMauerlasche[id=" + id + "]";
+        return "de.cismet.belisEE.entity.MaterialMauerlasche[id=" + getId() + "]";
     }
 
     @Override

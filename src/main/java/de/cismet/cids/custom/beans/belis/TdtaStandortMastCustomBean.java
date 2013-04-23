@@ -58,7 +58,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
 
     public static final String TABLE = "tdta_standort_mast";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__PLZ = "plz";
     private static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
     private static final String PROP__FK_STADTBEZIRK = "fk_stadtbezirk";
@@ -110,7 +109,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String plz;
     private TkeyStrassenschluesselCustomBean fk_strassenschluessel;
     private TkeyBezirkCustomBean fk_Stadtbezirk;
@@ -174,18 +172,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override
@@ -821,16 +807,22 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
 //            return mapIcon;
 //        }
         if (isStandortMast()) {
-            System.out.println("Standort is Mast");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Standort is Mast");
+            }
             if (getLaufendeNummer() != null) {
                 nums.add(getLaufendeNummer().intValue());
             }
             Image iconToUse = null;
             if ((getLeuchten() != null) && (getLeuchten().size() > 0)) {
-                System.out.println("There are leuchten at this mast.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("There are leuchten at this mast.");
+                }
                 iconToUse = MapIcons.icoMastWithLeuchte;
             } else {
-                System.out.println("There are no leuchten at this mast.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("There are no leuchten at this mast.");
+                }
                 iconToUse = MapIcons.icoMast;
             }
 
@@ -848,11 +840,15 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
 ////                        MapIcons.icoMast, null);
 //            }
         } else {
-            System.out.println("Standort is no Mast. There fore must be Leuchte");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Standort is no Mast. There fore must be Leuchte");
+            }
             if (getLeuchten() != null) {
                 if (getLeuchten().size() != 1) {
-                    System.out.println("Standort is Leuchte, but getLeuchten().size() is != 1! (It is "
-                                + getLeuchten().size() + ")");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Standort is Leuchte, but getLeuchten().size() is != 1! (It is "
+                                    + getLeuchten().size() + ")");
+                    }
                 }
                 for (final TdtaLeuchteCustomBean l : getLeuchten()) {
                     if (l.getLaufendeNummer() != null) {
@@ -873,26 +869,38 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-        System.out.println("PropertyChange Standort");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("PropertyChange Standort");
+        }
         if (!isStandortMast() && (evt.getSource() instanceof TdtaLeuchteCustomBean)) {
-            System.out.println("Property of Leuchte has changed. Changing Standort property");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Property of Leuchte has changed. Changing Standort property");
+            }
             if ((evt.getPropertyName() != null)
                         && evt.getPropertyName().equals(TdtaLeuchteCustomBean.PROP_STRASSENSCHLUESSEL)) {
-                System.out.println("Strassenschluessel changed");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Strassenschluessel changed");
+                }
                 setStrassenschluessel((TkeyStrassenschluesselCustomBean)evt.getNewValue());
             } else if ((evt.getPropertyName() != null)
                         && evt.getPropertyName().equals(TdtaLeuchteCustomBean.PROP_KENNZIFFER)) {
-                System.out.println("Kennziffer changed");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Kennziffer changed");
+                }
                 setKennziffer((TkeyKennzifferCustomBean)evt.getNewValue());
             } else {
-                System.out.println("Unkown property. Nothing to change");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Unkown property. Nothing to change");
+                }
             }
         } else if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP_ID)) {
-            System.out.println("this entity has changed and the property was not the id");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("this entity has changed and the property was not the id");
+            }
             setWasModified(true);
         }
     }
-    
+
     @Override
     public GeomCustomBean getGeometrie() {
         return getFk_geom();
@@ -901,6 +909,5 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     @Override
     public void setGeometrie(final GeomCustomBean geometrie) {
         setFk_geom(geometrie);
-    }    
-        
+    }
 }

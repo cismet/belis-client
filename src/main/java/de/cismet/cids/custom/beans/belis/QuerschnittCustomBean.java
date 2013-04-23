@@ -32,14 +32,12 @@ public class QuerschnittCustomBean extends BaseEntity implements Querschnitt {
 
     public static final String TABLE = "querschnitt";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__GROESSE = "groesse";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__GROESSE };
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private Double groesse;
 
     //~ Constructors -----------------------------------------------------------
@@ -72,18 +70,6 @@ public class QuerschnittCustomBean extends BaseEntity implements Querschnitt {
     }
 
     @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
-    }
-
-    @Override
     public Double getGroesse() {
         return groesse;
     }
@@ -110,7 +96,8 @@ public class QuerschnittCustomBean extends BaseEntity implements Querschnitt {
             return false;
         }
         final QuerschnittCustomBean other = (QuerschnittCustomBean)object;
-        if (((this.id == null) && (other.id != null)) || ((this.id != null) && !this.id.equals(other.id))) {
+        if (((this.getId() == null) && (other.getId() != null))
+                    || ((this.getId() != null) && !this.getId().equals(other.getId()))) {
             return false;
         }
         return true;
@@ -118,7 +105,7 @@ public class QuerschnittCustomBean extends BaseEntity implements Querschnitt {
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.Querschnitt[id=" + id + "]";
+        return "de.cismet.belisEE.entity.Querschnitt[id=" + getId() + "]";
     }
 
     @Override

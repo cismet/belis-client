@@ -33,14 +33,12 @@ public class MaterialLeitungCustomBean extends BaseEntity implements MaterialLei
 
     public static final String TABLE = "material_leitung";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__BEZEICHNUNG = "bezeichnung";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZEICHNUNG };
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String bezeichnung;
 
     //~ Constructors -----------------------------------------------------------
@@ -73,18 +71,6 @@ public class MaterialLeitungCustomBean extends BaseEntity implements MaterialLei
     }
 
     @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
-    }
-
-    @Override
     public String getBezeichnung() {
         return bezeichnung;
     }
@@ -111,7 +97,8 @@ public class MaterialLeitungCustomBean extends BaseEntity implements MaterialLei
             return false;
         }
         final MaterialLeitungCustomBean other = (MaterialLeitungCustomBean)object;
-        if (((this.id == null) && (other.id != null)) || ((this.id != null) && !this.id.equals(other.id))) {
+        if (((this.getId() == null) && (other.getId() != null))
+                    || ((this.getId() != null) && !this.getId().equals(other.getId()))) {
             return false;
         }
         return true;
@@ -119,7 +106,7 @@ public class MaterialLeitungCustomBean extends BaseEntity implements MaterialLei
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.MaterialLeitung[id=" + id + "]";
+        return "de.cismet.belisEE.entity.MaterialLeitung[id=" + getId() + "]";
     }
 
     @Override

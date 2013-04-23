@@ -33,7 +33,6 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Stra
 
     public static final String TABLE = "tkey_strassenschluessel";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__STRASSE = "strasse";
     private static final String PROP__PK = "pk";
 
@@ -41,7 +40,6 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Stra
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String strasse;
     private String pk;
 
@@ -83,26 +81,6 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Stra
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  id  DOCUMENT ME!
-     */
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override

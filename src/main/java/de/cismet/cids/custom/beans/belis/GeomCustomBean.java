@@ -30,14 +30,12 @@ public class GeomCustomBean extends BaseEntity implements Geom {
 
     public static final String TABLE = "geom";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__GEO_FIELD = "geo_field";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__GEO_FIELD };
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private Geometry geo_field;
 
     //~ Constructors -----------------------------------------------------------
@@ -67,28 +65,6 @@ public class GeomCustomBean extends BaseEntity implements Geom {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  id  val DOCUMENT ME!
-     */
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     /**

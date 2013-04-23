@@ -38,7 +38,6 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
 
     public static final String TABLE = "abzweigdose";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__DOKUMENTE = "dokumente";
     private static final String PROP__FK_GEOM = "fk_geom";
 
@@ -46,7 +45,6 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private Collection<DmsUrlCustomBean> dokumente;
     private GeomCustomBean fk_geom;
 
@@ -77,18 +75,6 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override
@@ -151,7 +137,7 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.Abzweigdose[id=" + id + "]";
+        return "de.cismet.belisEE.entity.Abzweigdose[id=" + getId() + "]";
     }
 
     @Override
@@ -174,6 +160,5 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
     @Override
     public void setGeometrie(final GeomCustomBean geometrie) {
         setFk_geom(geometrie);
-    }    
-    
+    }
 }

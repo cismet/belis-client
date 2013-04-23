@@ -32,13 +32,13 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
     public static final String TABLE = "geom_to_entity_index";
 
     private static final String PROP__ID = "id";
-    private static final String PROP__ENTITYCLASS = "entityclass";
+    private static final String PROP__ENTITYCLASSID = "entityclassid";
     private static final String PROP__ENTITYID = "entityid";
     private static final String PROP__FK_GEOM = "fk_geom";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
-            PROP__ENTITYCLASS,
+            PROP__ENTITYCLASSID,
             PROP__ENTITYID,
             PROP__FK_GEOM
         };
@@ -46,7 +46,7 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
     //~ Instance fields --------------------------------------------------------
 
     private Integer id;
-    private String entityclass;
+    private Integer entityclassid;
     private Integer entityid;
     private GeomCustomBean fk_geom;
 
@@ -96,19 +96,19 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
      *
      * @return  DOCUMENT ME!
      */
-    public String getEntityclass() {
-        return entityclass;
+    public Integer getEntityclassid() {
+        return entityclassid;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  entityclass  DOCUMENT ME!
+     * @param  entityclassid  DOCUMENT ME!
      */
-    public void setEntityclass(final String entityclass) {
-        final String old = this.entityclass;
-        this.entityclass = entityclass;
-        this.propertyChangeSupport.firePropertyChange(PROP__ENTITYCLASS, old, this.entityclass);
+    public void setEntityclassid(final Integer entityclassid) {
+        final Integer old = this.entityclassid;
+        this.entityclassid = entityclassid;
+        this.propertyChangeSupport.firePropertyChange(PROP__ENTITYCLASSID, old, this.entityclassid);
     }
 
     /**
@@ -162,13 +162,13 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
     }
 
     @Override
-    public String getEntityClassId() {
-        return getEntityclass();
+    public Integer getEntityClassId() {
+        return getEntityclassid();
     }
 
     @Override
-    public void setEntityClassId(final String entityClassId) {
-        setEntityclass(entityClassId);
+    public void setEntityClassId(final Integer entityClassId) {
+        setEntityclassid(entityClassId);
     }
 
     @Override

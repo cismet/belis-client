@@ -35,7 +35,6 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
 
     public static final String TABLE = "tkey_leuchtentyp";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__LEUCHTENTYP = "leuchtentyp";
     private static final String PROP__BESTUECKUNG = "bestueckung";
     private static final String PROP__LEISTUNG = "leistung";
@@ -59,7 +58,6 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String leuchtentyp;
     private Double bestueckung;
     private Double leistung;
@@ -107,26 +105,6 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  id  DOCUMENT ME!
-     */
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     /**

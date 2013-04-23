@@ -35,7 +35,6 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
 
     public static final String TABLE = "dms_url";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__TYP = "typ";
     private static final String PROP__URL_ID = "url_id";
     private static final String PROP__DESCRIPTION = "description";
@@ -51,7 +50,6 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private Integer typ;
     private UrlCustomBean url_id;
     private String description;
@@ -84,18 +82,6 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override

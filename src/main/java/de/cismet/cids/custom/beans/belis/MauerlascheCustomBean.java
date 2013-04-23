@@ -41,7 +41,6 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
 
     public static final String TABLE = "mauerlasche";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__ERSTELLUNGSJAHR = "erstellungsjahr";
     private static final String PROP__LAUFENDE_NUMMER = "laufende_nummer";
     private static final String PROP__FK_GEOM = "fk_geom";
@@ -69,7 +68,6 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private Date erstellungsjahr;
     private Integer laufende_nummer;
     private GeomCustomBean fk_geom;
@@ -108,18 +106,6 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override
@@ -372,7 +358,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.Mauerlasche[id=" + id + "]";
+        return "de.cismet.belisEE.entity.Mauerlasche[id=" + getId() + "]";
     }
 
     @Override
@@ -391,11 +377,13 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
     public void propertyChange(final PropertyChangeEvent evt) {
         super.propertyChange(evt);
         if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP__ID)) {
-            System.out.println("this entity has changed and the property was not the id");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("this entity has changed and the property was not the id");
+            }
             setWasModified(true);
         }
     }
-    
+
     @Override
     public GeomCustomBean getGeometrie() {
         return getFk_geom();
@@ -404,6 +392,5 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
     @Override
     public void setGeometrie(final GeomCustomBean geometrie) {
         setFk_geom(geometrie);
-    }    
-        
+    }
 }

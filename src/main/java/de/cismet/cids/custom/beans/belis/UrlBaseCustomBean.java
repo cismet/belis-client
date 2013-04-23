@@ -28,7 +28,6 @@ public class UrlBaseCustomBean extends BaseEntity implements UrlBase {
 
     public static final String TABLE = "url_base";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__PROT_PREFIX = "prot_prefix";
     private static final String PROP__PATH = "path";
     private static final String PROP__SERVER = "server";
@@ -42,7 +41,6 @@ public class UrlBaseCustomBean extends BaseEntity implements UrlBase {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String prot_prefix;
     private String path;
     private String server;
@@ -74,18 +72,6 @@ public class UrlBaseCustomBean extends BaseEntity implements UrlBase {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     /**

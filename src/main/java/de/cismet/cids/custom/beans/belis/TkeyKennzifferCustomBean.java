@@ -33,7 +33,6 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
 
     public static final String TABLE = "tkey_kennziffer";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__BESCHREIBUNG = "Beschreibung";
     private static final String PROP__KENNZIFFER = "Kennziffer";
 
@@ -41,7 +40,6 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String beschreibung;
     private Integer kennziffer;
 
@@ -81,26 +79,6 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  id  DOCUMENT ME!
-     */
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override

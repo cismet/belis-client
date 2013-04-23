@@ -32,7 +32,6 @@ public class TkeyBezirkCustomBean extends BaseEntity implements Stadtbezirk {
 
     public static final String TABLE = "tkey_bezirk";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__BEZIRK = "bezirk";
     private static final String PROP__PK = "pk";
 
@@ -40,7 +39,6 @@ public class TkeyBezirkCustomBean extends BaseEntity implements Stadtbezirk {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String bezirk;
     private Integer pk;
 
@@ -80,26 +78,6 @@ public class TkeyBezirkCustomBean extends BaseEntity implements Stadtbezirk {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  id  DOCUMENT ME!
-     */
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override

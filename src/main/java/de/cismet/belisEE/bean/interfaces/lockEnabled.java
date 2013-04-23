@@ -15,10 +15,12 @@ import java.io.Serializable;
 
 import java.util.Collection;
 
-import de.cismet.belisEE.entity.Lock;
-
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
+
+import de.cismet.cids.custom.beans.belis.SperreCustomBean;
+
+import de.cismet.commons.server.entity.BaseEntity;
 
 /**
  * DOCUMENT ME!
@@ -41,7 +43,7 @@ public interface lockEnabled extends Serializable {
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      * @throws  LockAlreadyExistsException    DOCUMENT ME!
      */
-    Lock lockEntity(Object objectToLock, String userString) throws ActionNotSuccessfulException,
+    SperreCustomBean lockEntity(BaseEntity objectToLock, String userString) throws ActionNotSuccessfulException,
         LockAlreadyExistsException;
     /**
      * DOCUMENT ME!
@@ -54,7 +56,7 @@ public interface lockEnabled extends Serializable {
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      * @throws  LockAlreadyExistsException    DOCUMENT ME!
      */
-    Collection<Lock> lockEntity(Collection<Object> objectsToLock, String userString)
+    Collection<SperreCustomBean> lockEntity(Collection<BaseEntity> objectsToLock, String userString)
             throws ActionNotSuccessfulException, LockAlreadyExistsException;
     /**
      * DOCUMENT ME!
@@ -65,7 +67,7 @@ public interface lockEnabled extends Serializable {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Lock isEntityLocked(Object lockedObject) throws ActionNotSuccessfulException;
+    SperreCustomBean isEntityLocked(BaseEntity lockedObject) throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -77,7 +79,7 @@ public interface lockEnabled extends Serializable {
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      * @throws  LockAlreadyExistsException    DOCUMENT ME!
      */
-    Lock tryToLockEntity(Object lockedObject, String userString) throws ActionNotSuccessfulException,
+    SperreCustomBean tryToLockEntity(BaseEntity lockedObject, String userString) throws ActionNotSuccessfulException,
         LockAlreadyExistsException;
     /**
      * DOCUMENT ME!
@@ -86,7 +88,7 @@ public interface lockEnabled extends Serializable {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    void unlockEntity(Object objectToUnlock) throws ActionNotSuccessfulException;
+    void unlockEntity(BaseEntity objectToUnlock) throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -96,7 +98,7 @@ public interface lockEnabled extends Serializable {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Collection<Object> unlockEntity(Collection<Object> objectsToUnlock) throws ActionNotSuccessfulException;
+    Collection<Object> unlockEntity(Collection<SperreCustomBean> objectsToUnlock) throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
@@ -104,5 +106,5 @@ public interface lockEnabled extends Serializable {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    void unlockEntity(Lock holdedLock) throws ActionNotSuccessfulException;
+    void unlockEntity(SperreCustomBean holdedLock) throws ActionNotSuccessfulException;
 }

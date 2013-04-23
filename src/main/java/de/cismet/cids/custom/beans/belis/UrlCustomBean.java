@@ -31,7 +31,6 @@ public class UrlCustomBean extends BaseEntity implements Url {
 
     public static final String TABLE = "url";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__URL_BASE_ID = "url_base_id";
     private static final String PROP__OBJECT_NAME = "object_name";
 
@@ -39,7 +38,6 @@ public class UrlCustomBean extends BaseEntity implements Url {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private UrlBaseCustomBean url_base_id;
     private String object_name;
 
@@ -70,18 +68,6 @@ public class UrlCustomBean extends BaseEntity implements Url {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     /**

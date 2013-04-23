@@ -39,7 +39,6 @@ public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
 
     public static final String TABLE = "leitung";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__FK_GEOM = "fk_geom";
     private static final String PROP__FK_MATERIAL = "fk_material";
     private static final String PROP__FK_QUERSCHNITT = "fk_querschnitt";
@@ -57,7 +56,6 @@ public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private GeomCustomBean fk_geom;
     private MaterialLeitungCustomBean fk_material;
     private QuerschnittCustomBean fk_querschnitt;
@@ -91,18 +89,6 @@ public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     /**
@@ -286,18 +272,20 @@ public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.Leitung[id=" + id + "]";
+        return "de.cismet.belisEE.entity.Leitung[id=" + getId() + "]";
     }
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         super.propertyChange(evt);
         if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP__ID)) {
-            System.out.println("this entity has changed and the property was not the id");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("this entity has changed and the property was not the id");
+            }
             setWasModified(true);
         }
     }
-    
+
     @Override
     public GeomCustomBean getGeometrie() {
         return getFk_geom();
@@ -306,6 +294,5 @@ public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
     @Override
     public void setGeometrie(final GeomCustomBean geometrie) {
         setFk_geom(geometrie);
-    }    
-        
+    }
 }

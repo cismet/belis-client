@@ -34,7 +34,6 @@ public class SperreCustomBean extends BaseEntity implements Lock {
 
     public static final String TABLE = "sperre";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__LOCK_TIMESTAMP = "lock_timestamp";
     private static final String PROP__USER_STRING = "user_string";
     private static final String PROP__ADDITIONAL_INFO = "additional_info";
@@ -52,12 +51,11 @@ public class SperreCustomBean extends BaseEntity implements Lock {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private Date lock_timestamp;
     private String user_string;
     private String additional_info;
-    private String object_id;
-    private String class_id;
+    private Integer object_id;
+    private Integer class_id;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -86,18 +84,6 @@ public class SperreCustomBean extends BaseEntity implements Lock {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     /**
@@ -165,7 +151,7 @@ public class SperreCustomBean extends BaseEntity implements Lock {
      *
      * @return  DOCUMENT ME!
      */
-    public String getObject_id() {
+    public Integer getObject_id() {
         return object_id;
     }
 
@@ -174,8 +160,8 @@ public class SperreCustomBean extends BaseEntity implements Lock {
      *
      * @param  object_id  DOCUMENT ME!
      */
-    public void setObject_id(final String object_id) {
-        final String old = this.object_id;
+    public void setObject_id(final Integer object_id) {
+        final Integer old = this.object_id;
         this.object_id = object_id;
         this.propertyChangeSupport.firePropertyChange(PROP__OBJECT_ID, old, this.object_id);
     }
@@ -185,7 +171,7 @@ public class SperreCustomBean extends BaseEntity implements Lock {
      *
      * @return  DOCUMENT ME!
      */
-    public String getClass_id() {
+    public Integer getClass_id() {
         return class_id;
     }
 
@@ -194,29 +180,29 @@ public class SperreCustomBean extends BaseEntity implements Lock {
      *
      * @param  class_id  DOCUMENT ME!
      */
-    public void setClass_id(final String class_id) {
-        final String old = this.class_id;
+    public void setClass_id(final Integer class_id) {
+        final Integer old = this.class_id;
         this.class_id = class_id;
         this.propertyChangeSupport.firePropertyChange(PROP__CLASS_ID, old, this.class_id);
     }
 
     @Override
-    public String getClassId() {
+    public Integer getClassId() {
         return getClass_id();
     }
 
     @Override
-    public void setClassId(final String classId) {
+    public void setClassId(final Integer classId) {
         setClass_id(classId);
     }
 
     @Override
-    public String getObjectId() {
+    public Integer getObjectId() {
         return getObject_id();
     }
 
     @Override
-    public void setObjectId(final String objectId) {
+    public void setObjectId(final Integer objectId) {
         setObject_id(objectId);
     }
 
@@ -265,7 +251,8 @@ public class SperreCustomBean extends BaseEntity implements Lock {
             return false;
         }
         final SperreCustomBean other = (SperreCustomBean)object;
-        if (((this.id == null) && (other.id != null)) || ((this.id != null) && !this.id.equals(other.id))) {
+        if (((this.getId() == null) && (other.getId() != null))
+                    || ((this.getId() != null) && !this.getId().equals(other.getId()))) {
             return false;
         }
         return true;
@@ -273,11 +260,11 @@ public class SperreCustomBean extends BaseEntity implements Lock {
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.Lock[id=" + id + "]";
+        return "de.cismet.belisEE.entity.Lock[id=" + getId() + "]";
     }
 
     @Override
     public String getKeyString() {
-        return "de.cismet.belisEE.entity.Lock[id=" + id + "]";
+        return "de.cismet.belisEE.entity.Lock[id=" + getId() + "]";
     }
 }

@@ -44,14 +44,14 @@ public interface GeomToEntityIndex extends Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    String getEntityClassId();
+    Integer getEntityClassId();
 
     /**
      * DOCUMENT ME!
      *
      * @param  classId  DOCUMENT ME!
      */
-    void setEntityClassId(final String classId);
+    void setEntityClassId(final Integer classId);
 
     /**
      * DOCUMENT ME!

@@ -32,7 +32,6 @@ public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
 
     public static final String TABLE = "tkey_mastart";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__MASTART = "mastart";
     private static final String PROP__PK = "pk";
 
@@ -40,7 +39,6 @@ public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String mastart;
     private String pk;
 
@@ -91,26 +89,6 @@ public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  id  DOCUMENT ME!
-     */
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
     @Override

@@ -32,14 +32,12 @@ public class LeitungstypCustomBean extends BaseEntity implements Leitungstyp {
 
     public static final String TABLE = "leistungstyp";
 
-    private static final String PROP__ID = "id";
     private static final String PROP__BEZEICHNUNG = "bezeichnung";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZEICHNUNG };
 
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String bezeichnung;
 
     //~ Constructors -----------------------------------------------------------
@@ -72,18 +70,6 @@ public class LeitungstypCustomBean extends BaseEntity implements Leitungstyp {
     }
 
     @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(final Integer id) {
-        final Integer old = this.id;
-        this.id = id;
-        this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
-    }
-
-    @Override
     public String getBezeichnung() {
         return bezeichnung;
     }
@@ -110,7 +96,8 @@ public class LeitungstypCustomBean extends BaseEntity implements Leitungstyp {
             return false;
         }
         final LeitungstypCustomBean other = (LeitungstypCustomBean)object;
-        if (((this.id == null) && (other.id != null)) || ((this.id != null) && !this.id.equals(other.id))) {
+        if (((this.getId() == null) && (other.getId() != null))
+                    || ((this.getId() != null) && !this.getId().equals(other.getId()))) {
             return false;
         }
         return true;
@@ -118,7 +105,7 @@ public class LeitungstypCustomBean extends BaseEntity implements Leitungstyp {
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.Leitungstyp[id=" + id + "]";
+        return "de.cismet.belisEE.entity.Leitungstyp[id=" + getId() + "]";
     }
 
     @Override
