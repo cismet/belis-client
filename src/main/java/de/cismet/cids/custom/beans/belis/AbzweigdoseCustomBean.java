@@ -112,7 +112,7 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
     @Override
     public int hashCode() {
         if (this.getId() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getId().hashCode();
     }

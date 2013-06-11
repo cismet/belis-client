@@ -51,15 +51,6 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
     public TkeyKennzifferCustomBean() {
     }
 
-    /**
-     * Creates a new TkeyKennzifferCustomBean object.
-     *
-     * @param  kennziffer  DOCUMENT ME!
-     */
-    public TkeyKennzifferCustomBean(final Integer kennziffer) {
-        setKennziffer(kennziffer);
-    }
-
     //~ Methods ----------------------------------------------------------------
 
     /**
@@ -74,6 +65,19 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
             LOG.error("error creating " + TABLE + " bean", ex);
             return null;
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   kennziffer  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static TkeyKennzifferCustomBean createNew(final Integer kennziffer) {
+        final TkeyKennzifferCustomBean newBean = createNew();
+        newBean.setKennziffer(kennziffer);
+        return newBean;
     }
 
     @Override
@@ -108,7 +112,7 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
     @Override
     public int hashCode() {
         if (this.getKennziffer() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getKennziffer().hashCode();
     }

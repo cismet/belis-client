@@ -18,9 +18,13 @@ import org.postgis.PGgeometry;
 import java.awt.Color;
 import java.awt.Paint;
 
+import javax.swing.JOptionPane;
+
 import de.cismet.cids.custom.beans.belis.GeomCustomBean;
 
+import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.jtsgeometryfactories.PostGisGeometryFactory;
 
 import de.cismet.commons.server.interfaces.GeometrySlot;
@@ -141,10 +145,47 @@ public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
         isEditable = editable;
     }
 //
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  geom  DOCUMENT ME!
+     */
+    public static void transformToDefaultCrsNeeded(Geometry geom) {
+        if (geom == null) {
+            return;
+        }
+
+        // Srid des solefeatures prüfen
+        int srid = geom.getSRID();
+        final int defaultSrid = CrsTransformer.extractSridFromCrs(CismapBroker.getInstance().getDefaultCrs());
+        if (srid == CismapBroker.getInstance().getDefaultCrsAlias()) {
+            srid = defaultSrid;
+        }
+        // gegebenenfalls transformieren
+        if (srid != defaultSrid) {
+            final int ans = JOptionPane.showConfirmDialog(
+                    null,
+                    "Die angegebene Geometrie befindet sich nicht im Standard-CRS. Soll die Geometrie konvertiert werden?",
+                    "Geometrie konvertieren?",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (ans == JOptionPane.YES_OPTION) {
+                geom = CrsTransformer.transformToDefaultCrs(geom);
+                geom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+            }
+        } else {
+            geom.setSRID(CismapBroker.getInstance().getDefaultCrsAlias());
+        }
+    }
+
     @Override
     public void setGeometry(final Geometry geom) {
+        transformToDefaultCrsNeeded(geom);
+
         if (getGeometrie() == null) {
-            setGeometrie(new GeomCustomBean());
+            setGeometrie(GeomCustomBean.createNew());
         }
 
         try {

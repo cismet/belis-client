@@ -21,7 +21,7 @@ import java.util.Set;
 
 import de.cismet.belis.todo.CustomTreeTableModel;
 
-import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
 /**
@@ -47,11 +47,11 @@ public class SearchResultConverter extends Converter<Set, CustomTreeTableModel> 
         for (final Object curObject : searchResults) {
             if (curObject instanceof TdtaStandortMastCustomBean) {
                 final DefaultMutableTreeTableNode standortNode = new DefaultMutableTreeTableNode(curObject, true);
-                final Collection<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
+                final Collection<TdtaLeuchtenCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
                             .getLeuchten();
                 if (searchResults != null) {
                     if (leuchten != null) {
-                        for (final TdtaLeuchteCustomBean curLeuchte : leuchten) {
+                        for (final TdtaLeuchtenCustomBean curLeuchte : leuchten) {
                             final DefaultMutableTreeTableNode leuchteNode = new DefaultMutableTreeTableNode(
                                     curLeuchte,
                                     false);

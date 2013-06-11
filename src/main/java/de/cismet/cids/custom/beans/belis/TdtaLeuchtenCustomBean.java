@@ -29,7 +29,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
+public class TdtaLeuchtenCustomBean extends BaseEntity implements Leuchte {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -37,57 +37,57 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     public static final TkeyDoppelkommandoCustomBean DEFAULT_DOPPELKOMMANDO;
 
     static {
-        DEFAULT_UNTERHALT = new TkeyUnterhLeuchteCustomBean();
+        DEFAULT_UNTERHALT = TkeyUnterhLeuchteCustomBean.createNew();
         DEFAULT_UNTERHALT.setPk((Integer)0);
         DEFAULT_UNTERHALT.setUnterhaltspflichtigeLeuchte("Öffentl. Beleuchtung");
 
-        DEFAULT_DOPPELKOMMANDO = new TkeyDoppelkommandoCustomBean();
+        DEFAULT_DOPPELKOMMANDO = TkeyDoppelkommandoCustomBean.createNew();
         DEFAULT_DOPPELKOMMANDO.setPk("12");
         DEFAULT_DOPPELKOMMANDO.setBeschreibung("Ganznachtbetrieb (früher Nacht)");
     }
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TdtaLeuchteCustomBean.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TdtaLeuchtenCustomBean.class);
 
     public static final String TABLE = "tdta_leuchten";
 
     private static final String PROP__PLZ = "plz";
-    private static final String PROP__STRASSENSCHLUESSEL = "strassenschluessel";
+    private static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
     private static final String PROP__FK_ENERGIELIEFERANT = "fk_energielieferant";
     private static final String PROP__RUNDSTEUEREMPFAENGER = "rundsteuerempfaenger";
     private static final String PROP__FK_LEUCHTTYP = "fk_leuchttyp";
     private static final String PROP__FK_UNTERHALTSPFLICHT_LEUCHTE = "fk_unterhaltspflicht_leuchte";
     private static final String PROP__ZAEHLER = "zaehler";
-    private static final String PROP__DK1 = "dk1";
-    private static final String PROP__DK2 = "dk2";
+    private static final String PROP__FK_DK1 = "fk_dk1";
+    private static final String PROP__FK_DK2 = "fk_dk2";
     private static final String PROP__INBETRIEBNAHME_LEUCHTE = "inbetriebnahme_leuchte";
-    private static final String PROP__STANDORT_ID = "standort_id";
+    private static final String PROP__FK_STANDORT = "fk_standort";
     private static final String PROP__LFD_NUMMER = "lfd_nummer";
-    private static final String PROP__ANZAHL_2DK = "Anzahl_2DK";
-    private static final String PROP__KENNZIFFER = "Kennziffer";
-    private static final String PROP__LEUCHTENNUMMER = "Leuchtennummer";
-    private static final String PROP__MONTAGEFIRMA_LEUCHTE = "Montagefirma_Leuchte";
-    private static final String PROP__SCHALTSTELLE = "Schaltstelle";
-    private static final String PROP__ANZAHL_1DK = "Anzahl_1DK";
-    private static final String PROP__STADTBEZIRK = "Stadtbezirk";
-    private static final String PROP__BEMERKUNGEN = "Bemerkungen";
+    private static final String PROP__ANZAHL_2DK = "anzahl_2dk";
+    private static final String PROP__FK_KENNZIFFER = "fk_kennziffer";
+    private static final String PROP__LEUCHTENNUMMER = "leuchtennummer";
+    private static final String PROP__MONTAGEFIRMA_LEUCHTE = "montagefirma_leuchte";
+    private static final String PROP__SCHALTSTELLE = "schaltstelle";
+    private static final String PROP__ANZAHL_1DK = "anzahl_1dk";
+    private static final String PROP__STADTBEZIRK = "stadtbezirk";
+    private static final String PROP__BEMERKUNGEN = "bemerkungen";
     private static final String PROP__DOKUMENTE = "dokumente";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
             PROP__PLZ,
-            PROP__STRASSENSCHLUESSEL,
+            PROP__FK_STRASSENSCHLUESSEL,
             PROP__FK_ENERGIELIEFERANT,
             PROP__RUNDSTEUEREMPFAENGER,
             PROP__FK_LEUCHTTYP,
             PROP__FK_UNTERHALTSPFLICHT_LEUCHTE,
             PROP__ZAEHLER,
-            PROP__DK1,
-            PROP__DK2,
+            PROP__FK_DK1,
+            PROP__FK_DK2,
             PROP__INBETRIEBNAHME_LEUCHTE,
-            PROP__STANDORT_ID,
+            PROP__FK_STANDORT,
             PROP__LFD_NUMMER,
             PROP__ANZAHL_2DK,
-            PROP__KENNZIFFER,
+            PROP__FK_KENNZIFFER,
             PROP__LEUCHTENNUMMER,
             PROP__MONTAGEFIRMA_LEUCHTE,
             PROP__SCHALTSTELLE,
@@ -100,24 +100,24 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     //~ Instance fields --------------------------------------------------------
 
     private String plz;
-    private TkeyStrassenschluesselCustomBean strassenschluessel;
+    private TkeyStrassenschluesselCustomBean fk_strassenschluessel;
     private TkeyEnergielieferantCustomBean fk_energielieferant;
     private String rundsteuerempfaenger;
-    private TkeyLeuchtentypCustomBean fk_Leuchttyp;
+    private TkeyLeuchtentypCustomBean fk_leuchttyp;
     private TkeyUnterhLeuchteCustomBean fk_unterhaltspflicht_leuchte;
     private Boolean zaehler;
-    private TkeyDoppelkommandoCustomBean dk1;
-    private TkeyDoppelkommandoCustomBean dk2;
-    private Date inbetriebnahme_Leuchte;
-    private TdtaStandortMastCustomBean standort_id;
-    private Integer lfd_Nummer;
-    private TkeyKennzifferCustomBean kennziffer;
+    private TkeyDoppelkommandoCustomBean fk_dk1;
+    private TkeyDoppelkommandoCustomBean fk_dk2;
+    private Date inbetriebnahme_leuchte;
+    private TdtaStandortMastCustomBean fk_standort;
+    private Integer lfd_nummer;
+    private TkeyKennzifferCustomBean fk_kennziffer;
     private Integer leuchtennummer;
-    private String montagefirma_Leuchte;
+    private String montagefirma_leuchte;
     private String schaltstelle;
-    private Integer anzahl_1DK;
-    private Integer anzahl_2DK;
-    private Integer stadtbezirk;
+    private Integer anzahl_1dk;
+    private Integer anzahl_2dk;
+    private TkeyBezirkCustomBean fk_stadtbezirk;
     private String bemerkungen;
     private Collection<DmsUrlCustomBean> dokumente;
 
@@ -126,7 +126,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     /**
      * Creates a new AbzweigdoseCustomBean object.
      */
-    public TdtaLeuchteCustomBean() {
+    public TdtaLeuchtenCustomBean() {
     }
 
     /**
@@ -134,7 +134,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @param  id  DOCUMENT ME!
      */
-    public TdtaLeuchteCustomBean(final Integer id) {
+    public TdtaLeuchtenCustomBean(final Integer id) {
         setId(id);
     }
 
@@ -145,9 +145,9 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @return  DOCUMENT ME!
      */
-    public static TdtaLeuchteCustomBean createNew() {
+    public static TdtaLeuchtenCustomBean createNew() {
         try {
-            return (TdtaLeuchteCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
+            return (TdtaLeuchtenCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
         } catch (Exception ex) {
             LOG.error("error creating " + TABLE + " bean", ex);
             return null;
@@ -172,15 +172,33 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     }
 
     @Override
-    public Integer getStadtbezirk() {
-        return stadtbezirk;
+    public TkeyBezirkCustomBean getStadtbezirk() {
+        return getFk_stadtbezirk();
     }
 
     @Override
-    public void setStadtbezirk(final Integer stadtbezirk) {
-        final Integer old = this.stadtbezirk;
-        this.stadtbezirk = stadtbezirk;
-        this.propertyChangeSupport.firePropertyChange(PROP__STADTBEZIRK, old, this.stadtbezirk);
+    public void setStadtbezirk(final TkeyBezirkCustomBean stadtbezirk) {
+        setFk_stadtbezirk(stadtbezirk);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public TkeyBezirkCustomBean getFk_stadtbezirk() {
+        return fk_stadtbezirk;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  stadtbezirk  DOCUMENT ME!
+     */
+    public void setFk_stadtbezirk(final TkeyBezirkCustomBean stadtbezirk) {
+        final TkeyBezirkCustomBean old = this.fk_stadtbezirk;
+        this.fk_stadtbezirk = stadtbezirk;
+        this.propertyChangeSupport.firePropertyChange(PROP__STADTBEZIRK, old, this.fk_stadtbezirk);
     }
 
     @Override
@@ -197,26 +215,62 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
 
     @Override
     public TkeyStrassenschluesselCustomBean getStrassenschluessel() {
-        return strassenschluessel;
+        return getFk_strassenschluessel();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public TkeyStrassenschluesselCustomBean getFk_strassenschluessel() {
+        return fk_strassenschluessel;
     }
 
     @Override
-    public void setStrassenschluessel(final TkeyStrassenschluesselCustomBean strassenschluessel) {
-        final TkeyStrassenschluesselCustomBean old = this.strassenschluessel;
-        this.strassenschluessel = strassenschluessel;
-        this.propertyChangeSupport.firePropertyChange(PROP__STRASSENSCHLUESSEL, old, this.strassenschluessel);
+    public void setStrassenschluessel(final TkeyStrassenschluesselCustomBean fk_strassenschluessel) {
+        setFk_strassenschluessel(fk_strassenschluessel);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_strassenschluessel  DOCUMENT ME!
+     */
+    public void setFk_strassenschluessel(final TkeyStrassenschluesselCustomBean fk_strassenschluessel) {
+        final TkeyStrassenschluesselCustomBean old = this.fk_strassenschluessel;
+        this.fk_strassenschluessel = fk_strassenschluessel;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_STRASSENSCHLUESSEL, old, this.fk_strassenschluessel);
     }
 
     @Override
     public TkeyKennzifferCustomBean getKennziffer() {
-        return kennziffer;
+        return getFk_kennziffer();
     }
 
     @Override
-    public void setKennziffer(final TkeyKennzifferCustomBean kennziffer) {
-        final TkeyKennzifferCustomBean old = this.kennziffer;
-        this.kennziffer = kennziffer;
-        this.propertyChangeSupport.firePropertyChange(PROP__KENNZIFFER, old, this.kennziffer);
+    public void setKennziffer(final TkeyKennzifferCustomBean fk_kennziffer) {
+        setFk_kennziffer(fk_kennziffer);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public TkeyKennzifferCustomBean getFk_kennziffer() {
+        return fk_kennziffer;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_kennziffer  DOCUMENT ME!
+     */
+    public void setFk_kennziffer(final TkeyKennzifferCustomBean fk_kennziffer) {
+        final TkeyKennzifferCustomBean old = this.fk_kennziffer;
+        this.fk_kennziffer = fk_kennziffer;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_KENNZIFFER, old, this.fk_kennziffer);
     }
 
     @Override
@@ -256,12 +310,12 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
     }
 
     @Override
-    public boolean getZaehler() {
+    public Boolean getZaehler() {
         return zaehler;
     }
 
     @Override
-    public void setZaehler(final boolean zaehler) {
+    public void setZaehler(final Boolean zaehler) {
         final Boolean old = this.zaehler;
         this.zaehler = zaehler;
         this.propertyChangeSupport.firePropertyChange(PROP__ZAEHLER, old, this.zaehler);
@@ -269,26 +323,62 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
 
     @Override
     public TkeyDoppelkommandoCustomBean getDk1() {
-        return dk1;
+        return getFk_dk1();
     }
 
     @Override
     public void setDk1(final TkeyDoppelkommandoCustomBean dk1) {
-        final TkeyDoppelkommandoCustomBean old = this.dk1;
-        this.dk1 = dk1;
-        this.propertyChangeSupport.firePropertyChange(PROP__DK1, old, this.dk1);
+        setFk_dk1(dk1);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public TkeyDoppelkommandoCustomBean getFk_dk1() {
+        return fk_dk1;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_dk1  DOCUMENT ME!
+     */
+    public void setFk_dk1(final TkeyDoppelkommandoCustomBean fk_dk1) {
+        final TkeyDoppelkommandoCustomBean old = this.fk_dk1;
+        this.fk_dk1 = fk_dk1;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_DK1, old, this.fk_dk1);
     }
 
     @Override
     public TkeyDoppelkommandoCustomBean getDk2() {
-        return dk2;
+        return getFk_dk2();
     }
 
     @Override
     public void setDk2(final TkeyDoppelkommandoCustomBean dk2) {
-        final TkeyDoppelkommandoCustomBean old = this.dk2;
-        this.dk2 = dk2;
-        this.propertyChangeSupport.firePropertyChange(PROP__DK2, old, this.dk2);
+        setFk_dk2(dk2);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public TkeyDoppelkommandoCustomBean getFk_dk2() {
+        return fk_dk2;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  dk2  DOCUMENT ME!
+     */
+    public void setFk_dk2(final TkeyDoppelkommandoCustomBean dk2) {
+        final TkeyDoppelkommandoCustomBean old = this.fk_dk2;
+        this.fk_dk2 = dk2;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_DK2, old, this.fk_dk2);
     }
 
     /**
@@ -316,19 +406,19 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @return  DOCUMENT ME!
      */
-    public TkeyLeuchtentypCustomBean getFk_Leuchttyp() {
-        return fk_Leuchttyp;
+    public TkeyLeuchtentypCustomBean getFk_leuchttyp() {
+        return fk_leuchttyp;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  fk_Leuchttyp  DOCUMENT ME!
+     * @param  fk_leuchttyp  DOCUMENT ME!
      */
-    public void setFk_Leuchttyp(final TkeyLeuchtentypCustomBean fk_Leuchttyp) {
-        final TkeyLeuchtentypCustomBean old = this.fk_Leuchttyp;
-        this.fk_Leuchttyp = fk_Leuchttyp;
-        this.propertyChangeSupport.firePropertyChange(PROP__FK_LEUCHTTYP, old, this.fk_Leuchttyp);
+    public void setFk_leuchttyp(final TkeyLeuchtentypCustomBean fk_leuchttyp) {
+        final TkeyLeuchtentypCustomBean old = this.fk_leuchttyp;
+        this.fk_leuchttyp = fk_leuchttyp;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_LEUCHTTYP, old, this.fk_leuchttyp);
     }
 
     /**
@@ -336,18 +426,18 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @return  DOCUMENT ME!
      */
-    public TkeyUnterhLeuchteCustomBean getFk_Unterhaltspflicht_Leuchte() {
+    public TkeyUnterhLeuchteCustomBean getFk_unterhaltspflicht_leuchte() {
         return fk_unterhaltspflicht_leuchte;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  fk_Unterhaltspflicht_Leuchte  DOCUMENT ME!
+     * @param  fk_unterhaltspflicht_leuchte  DOCUMENT ME!
      */
-    public void setFk_Unterhaltspflicht_Leuchte(final TkeyUnterhLeuchteCustomBean fk_Unterhaltspflicht_Leuchte) {
+    public void setFk_unterhaltspflicht_leuchte(final TkeyUnterhLeuchteCustomBean fk_unterhaltspflicht_leuchte) {
         final TkeyUnterhLeuchteCustomBean old = this.fk_unterhaltspflicht_leuchte;
-        this.fk_unterhaltspflicht_leuchte = fk_Unterhaltspflicht_Leuchte;
+        this.fk_unterhaltspflicht_leuchte = fk_unterhaltspflicht_leuchte;
         this.propertyChangeSupport.firePropertyChange(
             PROP__FK_UNTERHALTSPFLICHT_LEUCHTE,
             old,
@@ -359,39 +449,19 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @return  DOCUMENT ME!
      */
-    public Date getInbetriebnahme_Leuchte() {
-        return inbetriebnahme_Leuchte;
+    public Date getInbetriebnahme_leuchte() {
+        return inbetriebnahme_leuchte;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  inbetriebnahme_Leuchte  DOCUMENT ME!
+     * @param  inbetriebnahme_leuchte  DOCUMENT ME!
      */
-    public void setInbetriebnahme_Leuchte(final Date inbetriebnahme_Leuchte) {
-        final Date old = this.inbetriebnahme_Leuchte;
-        this.inbetriebnahme_Leuchte = inbetriebnahme_Leuchte;
-        this.propertyChangeSupport.firePropertyChange(PROP__INBETRIEBNAHME_LEUCHTE, old, this.inbetriebnahme_Leuchte);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public TdtaStandortMastCustomBean getStandort_id() {
-        return standort_id;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  standort_id  DOCUMENT ME!
-     */
-    public void setStandort_id(final TdtaStandortMastCustomBean standort_id) {
-        final TdtaStandortMastCustomBean old = this.standort_id;
-        this.standort_id = standort_id;
-        this.propertyChangeSupport.firePropertyChange(PROP__STANDORT_ID, old, this.standort_id);
+    public void setInbetriebnahme_leuchte(final Date inbetriebnahme_leuchte) {
+        final Date old = this.inbetriebnahme_leuchte;
+        this.inbetriebnahme_leuchte = inbetriebnahme_leuchte;
+        this.propertyChangeSupport.firePropertyChange(PROP__INBETRIEBNAHME_LEUCHTE, old, this.inbetriebnahme_leuchte);
     }
 
     /**
@@ -399,39 +469,19 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getLfd_Nummer() {
-        return lfd_Nummer;
+    public TdtaStandortMastCustomBean getFkStandort() {
+        return fk_standort;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  lfd_Nummer  DOCUMENT ME!
+     * @param  fk_standort  DOCUMENT ME!
      */
-    public void setLfd_Nummer(final Integer lfd_Nummer) {
-        final Integer old = this.lfd_Nummer;
-        this.lfd_Nummer = lfd_Nummer;
-        this.propertyChangeSupport.firePropertyChange(PROP__LFD_NUMMER, old, this.lfd_Nummer);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Integer getAnzahl_2DK() {
-        return anzahl_2DK;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  Anzahl_2DK  DOCUMENT ME!
-     */
-    public void setAnzahl_2DK(final Integer Anzahl_2DK) {
-        final Integer old = this.anzahl_2DK;
-        this.anzahl_2DK = Anzahl_2DK;
-        this.propertyChangeSupport.firePropertyChange(PROP__ANZAHL_2DK, old, this.anzahl_2DK);
+    public void setFkStandort(final TdtaStandortMastCustomBean fk_standort) {
+        final TdtaStandortMastCustomBean old = this.fk_standort;
+        this.fk_standort = fk_standort;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_STANDORT, old, this.fk_standort);
     }
 
     /**
@@ -439,19 +489,19 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @return  DOCUMENT ME!
      */
-    public String getMontagefirma_Leuchte() {
-        return montagefirma_Leuchte;
+    public Integer getLfd_nummer() {
+        return lfd_nummer;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  montagefirma_Leuchte  DOCUMENT ME!
+     * @param  lfd_nummer  DOCUMENT ME!
      */
-    public void setMontagefirma_Leuchte(final String montagefirma_Leuchte) {
-        final String old = this.montagefirma_Leuchte;
-        this.montagefirma_Leuchte = montagefirma_Leuchte;
-        this.propertyChangeSupport.firePropertyChange(PROP__MONTAGEFIRMA_LEUCHTE, old, this.montagefirma_Leuchte);
+    public void setLfd_nummer(final Integer lfd_nummer) {
+        final Integer old = this.lfd_nummer;
+        this.lfd_nummer = lfd_nummer;
+        this.propertyChangeSupport.firePropertyChange(PROP__LFD_NUMMER, old, this.lfd_nummer);
     }
 
     /**
@@ -459,19 +509,59 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getAnzahl_1DK() {
-        return anzahl_1DK;
+    public Integer getAnzahl_2dk() {
+        return anzahl_2dk;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  anzahl_1DK  DOCUMENT ME!
+     * @param  anzahl_2dk  DOCUMENT ME!
      */
-    public void setAnzahl_1DK(final Integer anzahl_1DK) {
-        final Integer old = this.anzahl_1DK;
-        this.anzahl_1DK = anzahl_1DK;
-        this.propertyChangeSupport.firePropertyChange(PROP__ANZAHL_1DK, old, this.anzahl_1DK);
+    public void setAnzahl_2dk(final Integer anzahl_2dk) {
+        final Integer old = this.anzahl_2dk;
+        this.anzahl_2dk = anzahl_2dk;
+        this.propertyChangeSupport.firePropertyChange(PROP__ANZAHL_2DK, old, this.anzahl_2dk);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getMontagefirma_leuchte() {
+        return montagefirma_leuchte;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  montagefirma_leuchte  DOCUMENT ME!
+     */
+    public void setMontagefirma_leuchte(final String montagefirma_leuchte) {
+        final String old = this.montagefirma_leuchte;
+        this.montagefirma_leuchte = montagefirma_leuchte;
+        this.propertyChangeSupport.firePropertyChange(PROP__MONTAGEFIRMA_LEUCHTE, old, this.montagefirma_leuchte);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getAnzahl_1dk() {
+        return anzahl_1dk;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  anzahl_1dk  DOCUMENT ME!
+     */
+    public void setAnzahl_1dk(final Integer anzahl_1dk) {
+        final Integer old = this.anzahl_1dk;
+        this.anzahl_1dk = anzahl_1dk;
+        this.propertyChangeSupport.firePropertyChange(PROP__ANZAHL_1DK, old, this.anzahl_1dk);
     }
 
     @Override
@@ -488,22 +578,22 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
 
     @Override
     public TdtaStandortMastCustomBean getStandort() {
-        return getStandort_id();
+        return getFkStandort();
     }
 
     @Override
     public void setStandort(final TdtaStandortMastCustomBean standort) {
-        setStandort_id(standort);
+        setFkStandort(standort);
     }
 
     @Override
     public Integer getLaufendeNummer() {
-        return getLfd_Nummer();
+        return getLfd_nummer();
     }
 
     @Override
     public void setLaufendeNummer(final Integer laufendeNummer) {
-        setLfd_Nummer(laufendeNummer);
+        setLfd_nummer(laufendeNummer);
     }
 
     @Override
@@ -518,76 +608,76 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
 
     @Override
     public TkeyLeuchtentypCustomBean getLeuchtentyp() {
-        return getFk_Leuchttyp();
+        return getFk_leuchttyp();
     }
 
     @Override
     public void setLeuchtentyp(final TkeyLeuchtentypCustomBean leuchtentyp) {
-        setFk_Leuchttyp(leuchtentyp);
+        setFk_leuchttyp(leuchtentyp);
     }
 
     @Override
     public TkeyUnterhLeuchteCustomBean getUnterhaltspflichtLeuchte() {
-        return getFk_Unterhaltspflicht_Leuchte();
+        return getFk_unterhaltspflicht_leuchte();
     }
 
     @Override
     public void setUnterhaltspflichtLeuchte(final TkeyUnterhLeuchteCustomBean unterhaltspflichtLeuchte) {
-        setFk_Unterhaltspflicht_Leuchte(unterhaltspflichtLeuchte);
+        setFk_unterhaltspflicht_leuchte(unterhaltspflichtLeuchte);
     }
 
     @Override
     public Integer getAnzahl1DK() {
-        return getAnzahl_1DK();
+        return getAnzahl_1dk();
     }
 
     @Override
     public void setAnzahl1DK(final Integer anzahl1DK) {
-        setAnzahl_1DK(anzahl1DK);
+        setAnzahl_1dk(anzahl1DK);
     }
 
     @Override
     public Integer getAnzahl2DK() {
-        return getAnzahl_2DK();
+        return getAnzahl_2dk();
     }
 
     @Override
     public void setAnzahl2DK(final Integer anzahl2DK) {
-        setAnzahl_2DK(anzahl2DK);
+        setAnzahl_2dk(anzahl2DK);
     }
 
     @Override
     public String getMontageFirmaLeuchte() {
-        return getMontagefirma_Leuchte();
+        return getMontagefirma_leuchte();
     }
 
     @Override
     public void setMontageFirmaLeuchte(final String montageFirmaLeuchte) {
-        setMontagefirma_Leuchte(montageFirmaLeuchte);
+        setMontagefirma_leuchte(montageFirmaLeuchte);
     }
 
     @Override
     public Date getInbetriebnahmeLeuchte() {
-        return getInbetriebnahme_Leuchte();
+        return getInbetriebnahme_leuchte();
     }
 
     @Override
     public void setInbetriebnahmeLeuchte(final Date inbetriebnahmeLeuchte) {
-        setInbetriebnahme_Leuchte(inbetriebnahmeLeuchte);
+        setInbetriebnahme_leuchte(inbetriebnahmeLeuchte);
     }
 
     @Override
     public int hashCode() {
         if (this.getId() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getId().hashCode();
     }
 
     @Override
     public boolean equals(final Object other) {
-        if (other instanceof TdtaLeuchteCustomBean) {
-            final TdtaLeuchteCustomBean anEntity = (TdtaLeuchteCustomBean)other;
+        if (other instanceof TdtaLeuchtenCustomBean) {
+            final TdtaLeuchtenCustomBean anEntity = (TdtaLeuchtenCustomBean)other;
             if (this == other) {
                 return true;
             } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
@@ -660,7 +750,7 @@ public class TdtaLeuchteCustomBean extends BaseEntity implements Leuchte {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Strassenschluessel changed");
                 }
-                setStrassenschluessel((TkeyStrassenschluesselCustomBean)evt.getNewValue());
+                setFk_strassenschluessel((TkeyStrassenschluesselCustomBean)evt.getNewValue());
             } else if ((evt.getPropertyName() != null)
                         && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP_KENNZIFFER)) {
                 if (LOG.isDebugEnabled()) {

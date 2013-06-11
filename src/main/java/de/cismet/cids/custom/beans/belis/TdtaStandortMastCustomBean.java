@@ -48,7 +48,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     public static TkeyUnterhMastCustomBean DEFAULT_UNTERHALT;
 
     static {
-        DEFAULT_UNTERHALT = new TkeyUnterhMastCustomBean();
+        DEFAULT_UNTERHALT = TkeyUnterhMastCustomBean.createNew();
 //        DEFAULT_UNTERHALT.setPk((Integer)0);
 //        DEFAULT_UNTERHALT.setUnterhaltMast("öffentl. Beleuchtung");
     }
@@ -130,7 +130,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     private Integer lfd_nummer;
     private String haus_nr;
     private Collection<DmsUrlCustomBean> dokumente;
-    private Collection<TdtaLeuchteCustomBean> leuchten;
+    private Collection<TdtaLeuchtenCustomBean> leuchten;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -305,12 +305,12 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     }
 
     @Override
-    public boolean isVerrechnungseinheit() {
-        return verrechnungseinheit;
+    public Boolean isVerrechnungseinheit() {
+        return getVerrechnungseinheit();
     }
 
     @Override
-    public void setVerrechnungseinheit(final boolean verrechnungseinheit) {
+    public void setVerrechnungseinheit(final Boolean verrechnungseinheit) {
         final Boolean old = this.verrechnungseinheit;
         this.verrechnungseinheit = verrechnungseinheit;
         this.propertyChangeSupport.firePropertyChange(PROP__VERRECHNUNGSEINHEIT, old, this.verrechnungseinheit);
@@ -463,17 +463,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     /**
      * DOCUMENT ME!
      *
-     * @param  verrechnungseinheit  DOCUMENT ME!
-     */
-    public void setVerrechnungseinheit(final Boolean verrechnungseinheit) {
-        final Boolean old = this.verrechnungseinheit;
-        this.verrechnungseinheit = verrechnungseinheit;
-        this.propertyChangeSupport.firePropertyChange(PROP__VERRECHNUNGSEINHEIT, old, this.verrechnungseinheit);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @return  DOCUMENT ME!
      */
     public Date getLetzte_aenderung() {
@@ -572,13 +561,13 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     }
 
     @Override
-    public Collection<TdtaLeuchteCustomBean> getLeuchten() {
+    public Collection<TdtaLeuchtenCustomBean> getLeuchten() {
         return leuchten;
     }
 
     @Override
-    public void setLeuchten(final Collection<TdtaLeuchteCustomBean> leuchten) {
-        final Collection<TdtaLeuchteCustomBean> old = this.leuchten;
+    public void setLeuchten(final Collection<TdtaLeuchtenCustomBean> leuchten) {
+        final Collection<TdtaLeuchtenCustomBean> old = this.leuchten;
         this.leuchten = leuchten;
         this.propertyChangeSupport.firePropertyChange(PROP__LEUCHTEN, old, this.leuchten);
     }
@@ -699,7 +688,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
     @Override
     public int hashCode() {
         if (this.getId() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getId().hashCode();
     }
@@ -850,7 +839,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
                                     + getLeuchten().size() + ")");
                     }
                 }
-                for (final TdtaLeuchteCustomBean l : getLeuchten()) {
+                for (final TdtaLeuchtenCustomBean l : getLeuchten()) {
                     if (l.getLaufendeNummer() != null) {
                         nums.add(l.getLaufendeNummer().intValue());
                         break;
@@ -872,18 +861,18 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Standor
         if (LOG.isDebugEnabled()) {
             LOG.debug("PropertyChange Standort");
         }
-        if (!isStandortMast() && (evt.getSource() instanceof TdtaLeuchteCustomBean)) {
+        if (!isStandortMast() && (evt.getSource() instanceof TdtaLeuchtenCustomBean)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Property of Leuchte has changed. Changing Standort property");
             }
             if ((evt.getPropertyName() != null)
-                        && evt.getPropertyName().equals(TdtaLeuchteCustomBean.PROP_STRASSENSCHLUESSEL)) {
+                        && evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP_STRASSENSCHLUESSEL)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Strassenschluessel changed");
                 }
                 setStrassenschluessel((TkeyStrassenschluesselCustomBean)evt.getNewValue());
             } else if ((evt.getPropertyName() != null)
-                        && evt.getPropertyName().equals(TdtaLeuchteCustomBean.PROP_KENNZIFFER)) {
+                        && evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP_KENNZIFFER)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Kennziffer changed");
                 }

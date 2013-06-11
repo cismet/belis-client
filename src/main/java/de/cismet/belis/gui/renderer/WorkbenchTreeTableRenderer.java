@@ -27,7 +27,7 @@ import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
 /**
@@ -65,7 +65,7 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
                         // setToolTipText("Standort");
                     }
                     setIcon(BelisIcons.icoStandort16);
-                } else if (userObject instanceof TdtaLeuchteCustomBean) {
+                } else if (userObject instanceof TdtaLeuchtenCustomBean) {
                     setText("Leuchte");
                     // setToolTipText("Leuchte");
                     setIcon(BelisIcons.icoLeuchte16);

@@ -30,7 +30,7 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 
-import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -293,7 +293,7 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
                                     broker.getMappingComponent()
                                             .getFeatureCollection()
                                             .removeFeature((Feature)curNode.getUserObject());
-                                } else if ((curNode.getUserObject() instanceof TdtaLeuchteCustomBean)
+                                } else if ((curNode.getUserObject() instanceof TdtaLeuchtenCustomBean)
                                             && ((BelisBroker)broker).getWorkbenchWidget().isNodeHaengeLeuchte(
                                                 curNode)) {
                                     if (log.isDebugEnabled()) {
@@ -303,7 +303,7 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
                                             .getFeatureCollection()
                                             .removeFeature(((BelisBroker)broker).getWorkbenchWidget()
                                                 .getVirtualStandortForLeuchte(
-                                                    (TdtaLeuchteCustomBean)curNode.getUserObject()));
+                                                    (TdtaLeuchtenCustomBean)curNode.getUserObject()));
                                 }
                             } catch (Exception ex) {
                                 log.warn("error while removing geometry from Map", ex);

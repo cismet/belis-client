@@ -8,76 +8,39 @@
 package de.cismet.belis.broker;
 
 import com.vividsolutions.jts.geom.Geometry;
-import de.cismet.belis.gui.search.AddressSearchControl;
-import de.cismet.belis.gui.search.LocationSearchControl;
-import de.cismet.belis.gui.search.MapSearchControl;
-import de.cismet.belis.gui.search.SearchControl;
-import de.cismet.belis.gui.search.SearchController;
-import de.cismet.belis.gui.widget.DetailWidget;
-import de.cismet.belis.gui.widget.WorkbenchWidget;
-import de.cismet.belis.panels.AlreadyLockedObjectsPanel;
-import de.cismet.belis.panels.CancelWaitDialog;
-import de.cismet.belis.panels.CreateToolBar;
-import de.cismet.belis.panels.SaveErrorDialogPanel;
-import de.cismet.belis.panels.SaveWaitDialog;
-import de.cismet.belis.panels.SearchWaitDialog;
-import de.cismet.belis.todo.RetrieveWorker;
-import de.cismet.belis.util.BelisIcons;
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
-import de.cismet.belisEE.exception.LockAlreadyExistsException;
-import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
-import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
-import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
-import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
-import de.cismet.cids.custom.beans.belis.SperreCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
-import de.cismet.cismap.commons.BoundingBox;
-import de.cismet.cismap.commons.features.DefaultFeatureCollection;
-import de.cismet.cismap.commons.features.Feature;
-import de.cismet.cismap.commons.features.FeatureCollection;
-import de.cismet.cismap.commons.features.StyledFeature;
-import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.statusbar.StatusBar;
-import de.cismet.cismap.commons.tools.IconUtils;
-import de.cismet.commons.architecture.exception.LockingNotSuccessfulException;
-import de.cismet.commons.architecture.geometrySlot.GeometrySlot;
-import de.cismet.commons.architecture.geometrySlot.GeometrySlotInformation;
-import de.cismet.commons.architecture.geometrySlot.GeometrySlotProvider;
-import de.cismet.commons.architecture.interfaces.Clearable;
-import de.cismet.commons.architecture.interfaces.Editable;
-import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
-import de.cismet.commons.architecture.interfaces.ObjectChangeListener;
-import de.cismet.commons.architecture.interfaces.Refreshable;
-import de.cismet.commons.architecture.interfaces.Widget;
-import de.cismet.commons.architecture.plugin.AbstractPlugin;
-import de.cismet.commons.architecture.validation.Validatable;
-import de.cismet.commons.server.entity.GeoBaseEntity;
-import de.cismet.commons2.architecture.layout.LayoutManager;
-import de.cismet.commons2.architecture.widget.MapWidget;
-import de.cismet.tools.CurrentStackTrace;
-import de.cismet.tools.configuration.Configurable;
-import de.cismet.tools.configuration.ConfigurationManager;
-import de.cismet.tools.configuration.NoWriteError;
-import de.cismet.tools.gui.StaticSwingTools;
-import de.cismet.veto.VetoException;
-import de.cismet.veto.VetoListener;
+
+import net.infonode.docking.RootWindow;
+import net.infonode.gui.componentpainter.GradientComponentPainter;
+
+import org.apache.commons.collections.comparators.ReverseComparator;
+import org.apache.log4j.PropertyConfigurator;
+
+import org.jdesktop.beansbinding.BindingGroup;
+import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
+import org.jdesktop.swingx.decorator.ComponentAdapter;
+import org.jdesktop.swingx.decorator.CompoundHighlighter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.decorator.Highlighter;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
+
+import org.jdom.Element;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagLayout;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -90,6 +53,7 @@ import java.util.TreeSet;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -101,20 +65,80 @@ import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 import javax.swing.SwingWorker;
 import javax.swing.tree.TreePath;
-import net.infonode.docking.RootWindow;
-import net.infonode.gui.componentpainter.GradientComponentPainter;
-import org.apache.commons.collections.comparators.ReverseComparator;
-import org.apache.log4j.PropertyConfigurator;
-import org.jdesktop.beansbinding.BindingGroup;
-import org.jdesktop.swingx.JXTreeTable;
-import org.jdesktop.swingx.decorator.ColorHighlighter;
-import org.jdesktop.swingx.decorator.ComponentAdapter;
-import org.jdesktop.swingx.decorator.CompoundHighlighter;
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.Highlighter;
-import org.jdesktop.swingx.decorator.HighlighterFactory;
-import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
-import org.jdom.Element;
+
+import de.cismet.belis.gui.search.AddressSearchControl;
+import de.cismet.belis.gui.search.LocationSearchControl;
+import de.cismet.belis.gui.search.MapSearchControl;
+import de.cismet.belis.gui.search.SearchControl;
+import de.cismet.belis.gui.search.SearchController;
+import de.cismet.belis.gui.widget.DetailWidget;
+import de.cismet.belis.gui.widget.WorkbenchWidget;
+
+import de.cismet.belis.panels.AlreadyLockedObjectsPanel;
+import de.cismet.belis.panels.CancelWaitDialog;
+import de.cismet.belis.panels.CreateToolBar;
+import de.cismet.belis.panels.SaveErrorDialogPanel;
+import de.cismet.belis.panels.SaveWaitDialog;
+import de.cismet.belis.panels.SearchWaitDialog;
+
+import de.cismet.belis.todo.RetrieveWorker;
+
+import de.cismet.belis.util.BelisIcons;
+
+import de.cismet.belisEE.exception.ActionNotSuccessfulException;
+import de.cismet.belisEE.exception.LockAlreadyExistsException;
+
+import de.cismet.belisEE.util.EntityComparator;
+import de.cismet.belisEE.util.LeuchteComparator;
+
+import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
+import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.SperreCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
+
+import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.features.DefaultFeatureCollection;
+import de.cismet.cismap.commons.features.Feature;
+import de.cismet.cismap.commons.features.FeatureCollection;
+import de.cismet.cismap.commons.features.StyledFeature;
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.gui.statusbar.StatusBar;
+import de.cismet.cismap.commons.tools.IconUtils;
+
+import de.cismet.commons.architecture.exception.LockingNotSuccessfulException;
+import de.cismet.commons.architecture.geometrySlot.GeometrySlot;
+import de.cismet.commons.architecture.geometrySlot.GeometrySlotInformation;
+import de.cismet.commons.architecture.geometrySlot.GeometrySlotProvider;
+import de.cismet.commons.architecture.interfaces.Clearable;
+import de.cismet.commons.architecture.interfaces.Editable;
+import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
+import de.cismet.commons.architecture.interfaces.ObjectChangeListener;
+import de.cismet.commons.architecture.interfaces.Refreshable;
+import de.cismet.commons.architecture.interfaces.Widget;
+import de.cismet.commons.architecture.plugin.AbstractPlugin;
+import de.cismet.commons.architecture.validation.Validatable;
+
+import de.cismet.commons.server.entity.GeoBaseEntity;
+
+import de.cismet.commons2.architecture.layout.LayoutManager;
+import de.cismet.commons2.architecture.widget.MapWidget;
+
+import de.cismet.tools.CurrentStackTrace;
+
+import de.cismet.tools.configuration.Configurable;
+import de.cismet.tools.configuration.ConfigurationManager;
+import de.cismet.tools.configuration.NoWriteError;
+
+import de.cismet.tools.gui.StaticSwingTools;
+
+import de.cismet.veto.VetoException;
+import de.cismet.veto.VetoListener;
 
 /**
  * DOCUMENT ME!
@@ -2720,9 +2744,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 }
                 lastLeitungstyp = (LeitungstypCustomBean)evt.getNewValue();
                 getMappingComponent().getFeatureCollection().reconsiderFeature((LeitungCustomBean)evt.getSource());
-            } else if (evt.getPropertyName().equals(TdtaLeuchteCustomBean.PROP_LEUCHTENNUMMER)
+            } else if (evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP_LEUCHTENNUMMER)
                         && (evt.getSource() != null)
-                        && (evt.getSource() instanceof TdtaLeuchteCustomBean)) {
+                        && (evt.getSource() instanceof TdtaLeuchtenCustomBean)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Leuchtennummer changed");
                 }
@@ -2736,7 +2760,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     getMappingComponent().getFeatureCollection().reconsiderFeature(parentMast);
                 } else {
                     final TdtaStandortMastCustomBean virtualStandort = workbenchWidget.getVirtualStandortForLeuchte(
-                            (TdtaLeuchteCustomBean)evt.getSource());
+                            (TdtaLeuchtenCustomBean)evt.getSource());
                     if (virtualStandort != null) {
                         getMappingComponent().getFeatureCollection().reconsiderFeature(virtualStandort);
                     } else {

@@ -143,7 +143,7 @@ public class UrlCustomBean extends BaseEntity implements Url {
     @Override
     public int hashCode() {
         if (this.getId() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getId().hashCode();
     }

@@ -14,18 +14,36 @@ package de.cismet.belis.broker;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.connection.proxy.ConnectionProxy;
 import Sirius.navigator.exception.ConnectionException;
+
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+
+import org.apache.commons.collections.comparators.ReverseComparator;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import de.cismet.belis.server.search.HighestLfdNummerSearch;
+
 import de.cismet.belisEE.bean.interfaces.BelisServerRemote;
+
 import de.cismet.belisEE.entity.GeomToEntityIndex;
 import de.cismet.belisEE.entity.Leuchte;
 import de.cismet.belisEE.entity.Standort;
+
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
+
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 import de.cismet.belisEE.util.StandortKey;
+
 import de.cismet.cids.custom.beans.belis.BauartCustomBean;
 import de.cismet.cids.custom.beans.belis.GeomCustomBean;
 import de.cismet.cids.custom.beans.belis.GeomToEntityIndexCustomBean;
@@ -36,7 +54,7 @@ import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.QuerschnittCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.SperreCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
@@ -49,19 +67,13 @@ import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
+
 import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cismap.commons.BoundingBox;
+
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.entity.GeoBaseEntity;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import org.apache.commons.collections.comparators.ReverseComparator;
 
 /**
  * DOCUMENT ME!
@@ -792,7 +804,7 @@ public class CidsBroker implements BelisServerRemote {
      */
     private void setLeuchtenPropertiesDependingOnStandort(final TdtaStandortMastCustomBean standort) {
         if (standort != null) {
-            final Collection<TdtaLeuchteCustomBean> leuchten = standort.getLeuchten();
+            final Collection<TdtaLeuchtenCustomBean> leuchten = standort.getLeuchten();
             if (leuchten != null) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Setting properties of Leuchte.");
@@ -895,11 +907,11 @@ public class CidsBroker implements BelisServerRemote {
             final MetaClass mcGeom = getMetaClass(GeomCustomBean.TABLE, BELIS_DOMAIN);
             final MetaObject[] mos = CidsBroker.getInstance()
                         .getMetaObject("SELECT " + mcGeomToEntityIndex.getID() + ", "
-                            + mcGeomToEntityIndex.getTableName() + "." + mcGeomToEntityIndex.getPrimaryKey() + " "
+                            + "gtei." + mcGeomToEntityIndex.getPrimaryKey() + " "
                             + "FROM "
                             + mcGeomToEntityIndex.getTableName() + " AS gtei, "
                             + mcGeom.getTableName() + " AS g "
-                            + "WHERE gtei.geometry = g.id "
+                            + "WHERE gtei.fk_geom = g.id "
                             + "AND g.id = " + id + ";",
                             BELIS_DOMAIN);
 
@@ -1038,6 +1050,7 @@ public class CidsBroker implements BelisServerRemote {
                     LOG.debug("UpdatedEntity: " + updatedEntity);
                 }
                 updatedEntity.delete();
+                updatedEntity.persist();
             } catch (Exception ex) {
                 LOG.error("Error while deleting entity", ex);
                 throw new ActionNotSuccessfulException("Error while deleting entity", ex);
@@ -1335,6 +1348,7 @@ public class CidsBroker implements BelisServerRemote {
         try {
             if (holdedLock != null) {
                 holdedLock.delete();
+                holdedLock.persist();
             }
         } catch (final Exception ex) {
             LOG.error("Failure while releasing lock", ex);

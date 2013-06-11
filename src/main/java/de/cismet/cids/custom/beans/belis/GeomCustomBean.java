@@ -115,7 +115,7 @@ public class GeomCustomBean extends BaseEntity implements Geom {
     @Override
     public int hashCode() {
         if (this.getId() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getId().hashCode();
     }

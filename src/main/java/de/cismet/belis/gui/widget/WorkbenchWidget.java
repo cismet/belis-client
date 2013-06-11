@@ -73,7 +73,7 @@ import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
@@ -148,9 +148,9 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     private final CustomMutableTreeTableNode searchResultsNode = new CustomMutableTreeTableNode(null, true);
     private final CustomMutableTreeTableNode newObjectsNode = new CustomMutableTreeTableNode(null, true);
     private CustomTreeTableModel treeTableModel = null;
-    private HashMap<TdtaLeuchteCustomBean, TdtaStandortMastCustomBean> leuchteToVirtualStandortMap = new HashMap();
-    private HashMap<TdtaStandortMastCustomBean, ArrayList<TdtaLeuchteCustomBean>> leuchtenRemovedFromMastMap =
-        new HashMap<TdtaStandortMastCustomBean, ArrayList<TdtaLeuchteCustomBean>>();
+    private HashMap<TdtaLeuchtenCustomBean, TdtaStandortMastCustomBean> leuchteToVirtualStandortMap = new HashMap();
+    private HashMap<TdtaStandortMastCustomBean, ArrayList<TdtaLeuchtenCustomBean>> leuchtenRemovedFromMastMap =
+        new HashMap<TdtaStandortMastCustomBean, ArrayList<TdtaLeuchtenCustomBean>>();
     private JButton btnAttachMode = new JButton();
     private boolean isAlreadyDisabled = false;
     private boolean tmpProcessStarted = false;
@@ -278,9 +278,9 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                             TdtaStandortMastCustomBean virtualStandort = null;
                             if (userObj instanceof GeoBaseEntity) {
                                 return ((GeoBaseEntity)userObj).getGeometry() == null;
-                            } else if ((userObj instanceof TdtaLeuchteCustomBean)
+                            } else if ((userObj instanceof TdtaLeuchtenCustomBean)
                                         && ((virtualStandort = leuchteToVirtualStandortMap.get(
-                                                        (TdtaLeuchteCustomBean)userObj))
+                                                        (TdtaLeuchtenCustomBean)userObj))
                                             != null)) {
                                 return virtualStandort.getGeometry() == null;
                             }
@@ -527,7 +527,9 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                     log.debug("Configuring Workbench for CreateMode. Removing search hits.");
                 }
                 setCurrentMode(CREATE_MODE);
-                log.fatal("removing node:" + searchResultsNode);
+                if (log.isDebugEnabled()) {
+                    log.debug("removing node:" + searchResultsNode);
+                }
                 treeTableModel.removeNodeFromParent(searchResultsNode);
                 treeTableModel.insertNodeInto(newObjectsNode, rootNode, rootNode.getChildCount());
             } else {
@@ -685,9 +687,9 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                                     log.debug("Geometry != null nothing to do");
                                 }
                             }
-                        } else if ((userObject instanceof TdtaLeuchteCustomBean)
+                        } else if ((userObject instanceof TdtaLeuchtenCustomBean)
                                     && ((virtualStandort = leuchteToVirtualStandortMap.get(
-                                                    (TdtaLeuchteCustomBean)userObject))
+                                                    (TdtaLeuchtenCustomBean)userObject))
                                         != null)
                                     && (virtualStandort instanceof TdtaStandortMastCustomBean)
                                     && !virtualStandort.isStandortMast()) {
@@ -808,7 +810,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 btnAttachMode.setSelected(true);
                 final Object userObject = ((CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent())
                             .getUserObject();
-                if (userObject instanceof TdtaLeuchteCustomBean) {
+                if (userObject instanceof TdtaLeuchtenCustomBean) {
                     if (log.isDebugEnabled()) {
                         log.debug("Instance is Leuchte --> geometry == point");
                     }
@@ -1046,7 +1048,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     public boolean isUserObjectLeuchte(final Object node) {
         if ((node != null) && (node instanceof CustomMutableTreeTableNode)) {
             final Object userObject = getUserObjectForTreeNode(node);
-            if ((userObject != null) && (userObject instanceof TdtaLeuchteCustomBean)) {
+            if ((userObject != null) && (userObject instanceof TdtaLeuchtenCustomBean)) {
                 return true;
             }
         }
@@ -1100,14 +1102,14 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
         try {
             if (log.isDebugEnabled()) {
                 log.debug("instance of Leuchte: "
-                            + (((CustomMutableTreeTableNode)node).getUserObject() instanceof TdtaLeuchteCustomBean));
+                            + (((CustomMutableTreeTableNode)node).getUserObject() instanceof TdtaLeuchtenCustomBean));
             }
             if (log.isDebugEnabled()) {
                 log.debug("Parent is searchnode: "
                             + ((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent()).equals(
                                 searchResultsNode));
             }
-            return (((CustomMutableTreeTableNode)node).getUserObject() instanceof TdtaLeuchteCustomBean)
+            return (((CustomMutableTreeTableNode)node).getUserObject() instanceof TdtaLeuchtenCustomBean)
                         && (((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent()).equals(
                                 searchResultsNode)
                             || ((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent()).equals(
@@ -1270,7 +1272,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                             final CustomMutableTreeTableNode standortNode = new CustomMutableTreeTableNode(
                                     curObject,
                                     true);
-                            final Collection<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
+                            final Collection<TdtaLeuchtenCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
                                         .getLeuchten();
                             if (searchResultsNode != null) {
                                 if (((TdtaStandortMastCustomBean)curObject).isStandortMast()) {
@@ -1286,7 +1288,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                                     }
                                 }
                                 if (leuchten != null) {
-                                    for (final TdtaLeuchteCustomBean curLeuchte : leuchten) {
+                                    for (final TdtaLeuchtenCustomBean curLeuchte : leuchten) {
                                         final CustomMutableTreeTableNode leuchteNode = new CustomMutableTreeTableNode(
                                                 curLeuchte,
                                                 false);
@@ -1355,12 +1357,12 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                                     curObject,
                                     true);
                             ((TdtaStandortMastCustomBean)curObject).addPropertyChangeListener(this);
-                            final Collection<TdtaLeuchteCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
+                            final Collection<TdtaLeuchtenCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
                                         .getLeuchten();
                             if (newObjectsNode != null) {
                                 treeTableModel.insertNodeIntoAsLastChild(standortNode, newObjectsNode);
                                 if (leuchten != null) {
-                                    for (final TdtaLeuchteCustomBean curLeuchte : leuchten) {
+                                    for (final TdtaLeuchtenCustomBean curLeuchte : leuchten) {
                                         final CustomMutableTreeTableNode leuchteNode = new CustomMutableTreeTableNode(
                                                 curLeuchte,
                                                 false);
@@ -1509,9 +1511,11 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 final CustomMutableTreeTableNode nodeToRemove = (CustomMutableTreeTableNode)
                     pathToNodeToRemove.getLastPathComponent();
                 saveSelectedElementAndUnselectAll();
-                log.fatal("removing node:" + nodeToRemove);
                 if (log.isDebugEnabled()) {
-                    log.debug("instance leuchte: " + (nodeToRemove.getUserObject() instanceof TdtaLeuchteCustomBean));
+                    log.debug("removing node:" + nodeToRemove);
+                }
+                if (log.isDebugEnabled()) {
+                    log.debug("instance leuchte: " + (nodeToRemove.getUserObject() instanceof TdtaLeuchtenCustomBean));
                 }
                 if (log.isDebugEnabled()) {
                     log.debug("parent != null: " + (nodeToRemove.getParent() != null));
@@ -1525,7 +1529,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 }
                 // ToDo getParentMast for Leuchte Method
                 if ((nodeToRemove.getUserObject() != null)
-                            && (nodeToRemove.getUserObject() instanceof TdtaLeuchteCustomBean)
+                            && (nodeToRemove.getUserObject() instanceof TdtaLeuchtenCustomBean)
                             && (nodeToRemove.getParent() != null)
                             && (nodeToRemove.getParent() instanceof CustomMutableTreeTableNode)
                             && (((CustomMutableTreeTableNode)nodeToRemove.getParent()) != null)
@@ -1538,10 +1542,10 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                     final TdtaStandortMastCustomBean mast = (TdtaStandortMastCustomBean)
                         ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject();
                     if (log.isDebugEnabled()) {
-                        log.debug("Leuchte: " + (TdtaLeuchteCustomBean)nodeToRemove.getUserObject() + " from Mast: "
+                        log.debug("Leuchte: " + (TdtaLeuchtenCustomBean)nodeToRemove.getUserObject() + " from Mast: "
                                     + mast);
                     }
-                    mast.getLeuchten().remove((TdtaLeuchteCustomBean)nodeToRemove.getUserObject());
+                    mast.getLeuchten().remove((TdtaLeuchtenCustomBean)nodeToRemove.getUserObject());
                     if (log.isDebugEnabled()) {
                         log.debug("Leuchten of Mast: " + mast.getLeuchten());
                     }
@@ -1551,12 +1555,12 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                                         ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject())
                                     .getLeuchten());
                     }
-                    ArrayList<TdtaLeuchteCustomBean> alreadyRemovedLeuchten = leuchtenRemovedFromMastMap.get(mast);
+                    ArrayList<TdtaLeuchtenCustomBean> alreadyRemovedLeuchten = leuchtenRemovedFromMastMap.get(mast);
                     if (alreadyRemovedLeuchten == null) {
-                        alreadyRemovedLeuchten = new ArrayList<TdtaLeuchteCustomBean>();
+                        alreadyRemovedLeuchten = new ArrayList<TdtaLeuchtenCustomBean>();
                         leuchtenRemovedFromMastMap.put(mast, alreadyRemovedLeuchten);
                     }
-                    alreadyRemovedLeuchten.add((TdtaLeuchteCustomBean)nodeToRemove.getUserObject());
+                    alreadyRemovedLeuchten.add((TdtaLeuchtenCustomBean)nodeToRemove.getUserObject());
                     if (mast.getLeuchten().size() == 0) {
                         if (log.isDebugEnabled()) {
                             log.debug("The leucht was the last leuchte of the mast refreshing icon");
@@ -1571,7 +1575,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         log.debug("Node which will be removed is a haengeleuchte. Removing also virtual Standort");
                     }
                     final TdtaStandortMastCustomBean virtualStandort = leuchteToVirtualStandortMap.get(
-                            (TdtaLeuchteCustomBean)nodeToRemove.getUserObject());
+                            (TdtaLeuchtenCustomBean)nodeToRemove.getUserObject());
                     if (virtualStandort != null) {
                         broker.getMappingComponent().getFeatureCollection().removeFeature(virtualStandort);
                         removedObjects.add(virtualStandort);
@@ -1601,7 +1605,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
 //                } catch (Exception ex) {
 //                    log.warn("This object has no id field, hence it is no entity.");
 //                }
-                if (!(entity instanceof TdtaLeuchteCustomBean)) {
+                if (!(entity instanceof TdtaLeuchtenCustomBean)) {
                     removedObjects.add(entity);
                 }
             } else {
@@ -1744,7 +1748,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewStandort() {
-        final TdtaStandortMastCustomBean newStandort = new TdtaStandortMastCustomBean();
+        final TdtaStandortMastCustomBean newStandort = TdtaStandortMastCustomBean.createNew();
         newStandort.setVerrechnungseinheit(true);
 
         if (((BelisBroker)broker).getDefaultUnterhaltMast() != null) {
@@ -1766,7 +1770,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewLeuchte() {
-        final TdtaStandortMastCustomBean newStandort = new TdtaStandortMastCustomBean();
+        final TdtaStandortMastCustomBean newStandort = TdtaStandortMastCustomBean.createNew();
         newStandort.addPropertyChangeListener(this);
         newStandort.setVirtuellerStandort(true);
         newStandort.setVerrechnungseinheit(true);
@@ -1792,7 +1796,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         && ((pathToRelatedObejct.getLastPathComponent() != null)
                             && (pathToRelatedObejct.getLastPathComponent() instanceof CustomMutableTreeTableNode)
                             && (((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent())
-                                .getUserObject() instanceof TdtaLeuchteCustomBean))
+                                .getUserObject() instanceof TdtaLeuchtenCustomBean))
                         && (pathToRelatedObejct.getParentPath() != null)
                         && (pathToRelatedObejct.getParentPath().getLastPathComponent()
                             instanceof CustomMutableTreeTableNode)
@@ -1836,7 +1840,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
             log.warn("Can't add Leuchte no node or standort found. Returning.");
             return null;
         }
-        final TdtaLeuchteCustomBean newLeuchte = new TdtaLeuchteCustomBean();
+        final TdtaLeuchtenCustomBean newLeuchte = TdtaLeuchtenCustomBean.createNew();
         if (((BelisBroker)broker).getDefaultUnterhaltLeuchte() != null) {
             newLeuchte.setUnterhaltspflichtLeuchte(((BelisBroker)broker).getDefaultUnterhaltLeuchte());
         }
@@ -1858,7 +1862,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
         }
         newLeuchte.setStandort(parent);
         // ToDo must also be set if these attributes are changed in the parent standort
-        newLeuchte.setStrassenschluessel(parent.getStrassenschluessel());
+        newLeuchte.setFk_strassenschluessel(parent.getStrassenschluessel());
         newLeuchte.setKennziffer(parent.getKennziffer());
         newLeuchte.setLaufendeNummer(parent.getLaufendeNummer());
         // ToDo attention if a new Leuchte is added to an already existing Standort it will be saved automatically
@@ -1866,7 +1870,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
         final CustomMutableTreeTableNode newLeuchteNode = new CustomMutableTreeTableNode(newLeuchte, false);
         // nodeToAddLeuchte.add(newLeuchteNode);
         // newLeuchteNode.setParent(nodeToAddLeuchte);
-        Collection<TdtaLeuchteCustomBean> tmpLeuchten = parent.getLeuchten();
+        Collection<TdtaLeuchtenCustomBean> tmpLeuchten = parent.getLeuchten();
         boolean reconsiderFeature = false;
         if (tmpLeuchten == null) {
             if (log.isDebugEnabled()) {
@@ -1910,7 +1914,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     public Integer getNextLeuchtennummer(final TdtaStandortMastCustomBean standort) {
         if ((standort != null) && (standort.getLeuchten() != null) && (standort.getLeuchten().size() > 0)) {
             Integer max = 0;
-            for (final TdtaLeuchteCustomBean curLeuchte : standort.getLeuchten()) {
+            for (final TdtaLeuchtenCustomBean curLeuchte : standort.getLeuchten()) {
                 if ((curLeuchte.getLeuchtennummer() != null) && (curLeuchte.getLeuchtennummer() > max)) {
                     max = curLeuchte.getLeuchtennummer();
                 }
@@ -1925,7 +1929,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewMauerlasche() {
-        final MauerlascheCustomBean newMauerlasche = new MauerlascheCustomBean();
+        final MauerlascheCustomBean newMauerlasche = MauerlascheCustomBean.createNew();
         newMauerlasche.setStrassenschluessel(((BelisBroker)broker).getLastMauerlascheStrassenschluessel());
         newMauerlasche.addPropertyChangeListener((BelisBroker)broker);
         newMauerlasche.addPropertyChangeListener(this);
@@ -1941,7 +1945,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewSchaltstelle() {
-        final SchaltstelleCustomBean newSchaltstelle = new SchaltstelleCustomBean();
+        final SchaltstelleCustomBean newSchaltstelle = SchaltstelleCustomBean.createNew();
         newSchaltstelle.addPropertyChangeListener(this);
         final CustomMutableTreeTableNode newSchaltstelleNode = new CustomMutableTreeTableNode(newSchaltstelle, true);
         newObjects.add(newSchaltstelleNode.getUserObject());
@@ -1955,7 +1959,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewLeitung() {
-        final LeitungCustomBean newLeitung = new LeitungCustomBean();
+        final LeitungCustomBean newLeitung = LeitungCustomBean.createNew();
         newLeitung.setLeitungstyp(((BelisBroker)broker).getLastLeitungstyp());
         newLeitung.addPropertyChangeListener((BelisBroker)broker);
         newLeitung.addPropertyChangeListener(this);
@@ -1971,7 +1975,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewAbzweigdose() {
-        final AbzweigdoseCustomBean newAbzweigdose = new AbzweigdoseCustomBean();
+        final AbzweigdoseCustomBean newAbzweigdose = AbzweigdoseCustomBean.createNew();
         final CustomMutableTreeTableNode newAbzweigdoseNode = new CustomMutableTreeTableNode(newAbzweigdose, true);
         newObjects.add(newAbzweigdoseNode.getUserObject());
         treeTableModel.insertNodeIntoAsLastChild(newAbzweigdoseNode, newObjectsNode);
@@ -2031,7 +2035,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      *
      * @return  DOCUMENT ME!
      */
-    public TdtaStandortMastCustomBean getVirtualStandortForLeuchte(final TdtaLeuchteCustomBean leuchte) {
+    public TdtaStandortMastCustomBean getVirtualStandortForLeuchte(final TdtaLeuchtenCustomBean leuchte) {
         return leuchteToVirtualStandortMap.get(leuchte);
     }
 
@@ -2245,8 +2249,8 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                     StyledFeature currentSelectedFeature = null;
                     if (tmpObject instanceof StyledFeature) {
                         currentSelectedFeature = (StyledFeature)tmpObject;
-                    } else if (tmpObject instanceof TdtaLeuchteCustomBean) {
-                        currentSelectedFeature = leuchteToVirtualStandortMap.get((TdtaLeuchteCustomBean)tmpObject);
+                    } else if (tmpObject instanceof TdtaLeuchtenCustomBean) {
+                        currentSelectedFeature = leuchteToVirtualStandortMap.get((TdtaLeuchtenCustomBean)tmpObject);
                         if (currentSelectedFeature == null) {
                             log.warn("Leuchte has no virtual standort.");
                         }

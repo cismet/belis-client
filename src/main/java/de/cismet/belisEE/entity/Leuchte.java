@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
@@ -62,14 +63,14 @@ public interface Leuchte extends Serializable, PropertyChangeListener, DocumentC
      *
      * @return  DOCUMENT ME!
      */
-    Integer getStadtbezirk();
+    TkeyBezirkCustomBean getStadtbezirk();
 
     /**
      * DOCUMENT ME!
      *
      * @param  stadtbezirk  DOCUMENT ME!
      */
-    void setStadtbezirk(final Integer stadtbezirk);
+    void setStadtbezirk(final TkeyBezirkCustomBean stadtbezirk);
 
     /**
      * DOCUMENT ME!
@@ -216,14 +217,14 @@ public interface Leuchte extends Serializable, PropertyChangeListener, DocumentC
      *
      * @return  DOCUMENT ME!
      */
-    boolean getZaehler();
+    Boolean getZaehler();
 
     /**
      * DOCUMENT ME!
      *
      * @param  zaehler  DOCUMENT ME!
      */
-    void setZaehler(final boolean zaehler);
+    void setZaehler(final Boolean zaehler);
 
     /**
      * DOCUMENT ME!

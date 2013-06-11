@@ -240,7 +240,7 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
     @Override
     public int hashCode() {
         if (this.getLeuchtentyp() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getLeuchtentyp().hashCode();
     }

@@ -64,9 +64,9 @@ public class StandortKey implements Serializable {
      * @param  laufendeNummer  DOCUMENT ME!
      */
     public StandortKey(final String pk, final Integer kennziffer, final Integer laufendeNummer) {
-        this.strassenschluessel = new TkeyStrassenschluesselCustomBean();
+        this.strassenschluessel = TkeyStrassenschluesselCustomBean.createNew();
         this.strassenschluessel.setPk(pk);
-        this.kennziffer = new TkeyKennzifferCustomBean(kennziffer);
+        this.kennziffer = TkeyKennzifferCustomBean.createNew(kennziffer);
         this.laufendeNummer = laufendeNummer;
     }
 

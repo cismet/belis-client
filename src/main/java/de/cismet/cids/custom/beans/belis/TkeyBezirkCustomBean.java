@@ -107,7 +107,7 @@ public class TkeyBezirkCustomBean extends BaseEntity implements Stadtbezirk {
     @Override
     public int hashCode() {
         if (this.getPk() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getPk().hashCode();
     }

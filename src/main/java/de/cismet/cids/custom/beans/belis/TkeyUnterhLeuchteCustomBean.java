@@ -135,7 +135,7 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
     @Override
     public int hashCode() {
         if (this.getPk() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getPk().hashCode();
     }

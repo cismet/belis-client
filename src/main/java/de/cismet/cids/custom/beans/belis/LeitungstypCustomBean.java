@@ -30,7 +30,7 @@ public class LeitungstypCustomBean extends BaseEntity implements Leitungstyp {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LeitungstypCustomBean.class);
 
-    public static final String TABLE = "leistungstyp";
+    public static final String TABLE = "leitungstyp";
 
     private static final String PROP__BEZEICHNUNG = "bezeichnung";
 
@@ -84,7 +84,7 @@ public class LeitungstypCustomBean extends BaseEntity implements Leitungstyp {
     @Override
     public int hashCode() {
         if (this.getId() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getId().hashCode();
     }

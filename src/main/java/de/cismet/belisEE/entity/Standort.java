@@ -21,7 +21,7 @@ import java.util.Set;
 
 import de.cismet.belisEE.util.StandortKey;
 
-import de.cismet.cids.custom.beans.belis.TdtaLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean;
@@ -93,14 +93,14 @@ public interface Standort extends Serializable, PropertyChangeListener, Document
      *
      * @return  DOCUMENT ME!
      */
-    Collection<TdtaLeuchteCustomBean> getLeuchten();
+    Collection<TdtaLeuchtenCustomBean> getLeuchten();
 
     /**
      * DOCUMENT ME!
      *
      * @param  leuchten  DOCUMENT ME!
      */
-    void setLeuchten(final Collection<TdtaLeuchteCustomBean> leuchten);
+    void setLeuchten(final Collection<TdtaLeuchtenCustomBean> leuchten);
 
     /**
      * DOCUMENT ME!
@@ -317,14 +317,14 @@ public interface Standort extends Serializable, PropertyChangeListener, Document
      *
      * @return  DOCUMENT ME!
      */
-    boolean isVerrechnungseinheit();
+    Boolean isVerrechnungseinheit();
 
     /**
      * DOCUMENT ME!
      *
      * @param  verrechnungseinheit  DOCUMENT ME!
      */
-    void setVerrechnungseinheit(final boolean verrechnungseinheit);
+    void setVerrechnungseinheit(final Boolean verrechnungseinheit);
 
     /**
      * DOCUMENT ME!

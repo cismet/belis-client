@@ -167,7 +167,7 @@ public class TkeyMasttypCustomBean extends BaseEntity implements Masttyp {
     @Override
     public int hashCode() {
         if (this.getMasttyp() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getMasttyp().hashCode();
     }

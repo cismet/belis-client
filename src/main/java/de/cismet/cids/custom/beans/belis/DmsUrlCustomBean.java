@@ -171,7 +171,7 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
     @Override
     public int hashCode() {
         if (this.getId() == null) {
-            return super.hashCode();
+            return System.identityHashCode(this);
         }
         return this.getId().hashCode();
     }
@@ -232,9 +232,9 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
         if ((link == null) || (description == null)) {
             throw new NullPointerException();
         }
-        final DmsUrlCustomBean dmsUrlEntity = new DmsUrlCustomBean();
-        final UrlCustomBean url = new UrlCustomBean();
-        final UrlBaseCustomBean base = new UrlBaseCustomBean();
+        final DmsUrlCustomBean dmsUrlEntity = DmsUrlCustomBean.createNew();
+        final UrlCustomBean url = UrlCustomBean.createNew();
+        final UrlBaseCustomBean base = UrlBaseCustomBean.createNew();
         final URLSplitter splitter = new URLSplitter(link);
         dmsUrlEntity.setBeschreibung(description);
         url.setUrlBase(base);
