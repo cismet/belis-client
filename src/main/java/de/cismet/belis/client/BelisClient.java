@@ -70,6 +70,8 @@ import de.cismet.cismap.commons.gui.ClipboardWaitDialog;
 import de.cismet.cismap.commons.gui.statusbar.StatusBar;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
+import de.cismet.lookupoptions.gui.OptionsDialog;
+
 import de.cismet.tools.StaticDecimalTools;
 
 import de.cismet.tools.configuration.Configurable;
@@ -630,7 +632,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         menExtras.setText("Extras");
 
         mniOptions.setText("Optionen");
-        mniOptions.setEnabled(false);
         mniOptions.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -861,8 +862,10 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      * @param  evt  DOCUMENT ME!
      */
     private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOptionsActionPerformed
-// TODO add your handling code here:
-    } //GEN-LAST:event_mniOptionsActionPerformed
+        final OptionsDialog od = new OptionsDialog(this, true);
+        od.setLocationRelativeTo(this);
+        od.setVisible(true);
+    }                                                                              //GEN-LAST:event_mniOptionsActionPerformed
 
     /**
      * DOCUMENT ME!
