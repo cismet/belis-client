@@ -13,8 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Masttyp;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -24,7 +22,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyMasttypCustomBean extends BaseEntity implements Masttyp {
+public class TkeyMasttypCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -92,12 +90,20 @@ public class TkeyMasttypCustomBean extends BaseEntity implements Masttyp {
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getMasttyp() {
         return masttyp;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  masttyp  DOCUMENT ME!
+     */
     public void setMasttyp(final String masttyp) {
         final String old = this.masttyp;
         this.masttyp = masttyp;

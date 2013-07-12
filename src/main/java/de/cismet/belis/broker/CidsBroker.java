@@ -29,13 +29,11 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import de.cismet.belis.gui.widget.BeanChangedListener;
+
 import de.cismet.belis.server.search.HighestLfdNummerSearch;
 
 import de.cismet.belisEE.bean.interfaces.BelisServerRemote;
-
-import de.cismet.belisEE.entity.GeomToEntityIndex;
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Standort;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
@@ -92,6 +90,8 @@ public class CidsBroker implements BelisServerRemote {
     //~ Instance fields --------------------------------------------------------
 
     private ConnectionProxy proxy = null;
+
+    private final HashMap<String, Collection> beanChangedListeners = new HashMap<String, Collection>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -709,7 +709,7 @@ public class CidsBroker implements BelisServerRemote {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    public Standort determineNextLaufendenummer(final TdtaStandortMastCustomBean standort)
+    public TdtaStandortMastCustomBean determineNextLaufendenummer(final TdtaStandortMastCustomBean standort)
             throws ActionNotSuccessfulException {
         return determineNextLaufendenummer(standort, new Short((short)-1));
     }
@@ -724,8 +724,8 @@ public class CidsBroker implements BelisServerRemote {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    public Standort determineNextLaufendenummer(final TdtaStandortMastCustomBean standort, final Integer minimalNumber)
-            throws ActionNotSuccessfulException {
+    public TdtaStandortMastCustomBean determineNextLaufendenummer(final TdtaStandortMastCustomBean standort,
+            final Integer minimalNumber) throws ActionNotSuccessfulException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("determine next laufendenummer");
         }
@@ -819,7 +819,7 @@ public class CidsBroker implements BelisServerRemote {
                     }
                 }
                 // ToDo check if there is only one Leuchte per no mast standort
-                for (final Leuchte curLeuchte : leuchten) {
+                for (final TdtaLeuchtenCustomBean curLeuchte : leuchten) {
                     if (standort.isStandortMast()) {
                         curLeuchte.setStrassenschluessel(standort.getStrassenschluessel());
                         curLeuchte.setKennziffer(standort.getKennziffer());
@@ -1021,11 +1021,11 @@ public class CidsBroker implements BelisServerRemote {
             throws ActionNotSuccessfulException {
         if (objectToDelete != null) {
             try {
-                if (objectToDelete instanceof Standort) {
-                    if (((Standort)objectToDelete).getLeuchten() != null) {
+                if (objectToDelete instanceof TdtaStandortMastCustomBean) {
+                    if (((TdtaStandortMastCustomBean)objectToDelete).getLeuchten() != null) {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("Leuchten des zu löschenden Standorts: "
-                                        + ((Standort)objectToDelete).getLeuchten());
+                                        + ((TdtaStandortMastCustomBean)objectToDelete).getLeuchten());
                         }
                     } else {
                         if (LOG.isDebugEnabled()) {
@@ -1034,11 +1034,11 @@ public class CidsBroker implements BelisServerRemote {
                     }
                 }
                 final BaseEntity updatedEntity = (BaseEntity)objectToDelete.persist();
-                if (objectToDelete instanceof Standort) {
-                    if (((Standort)objectToDelete).getLeuchten() != null) {
+                if (objectToDelete instanceof TdtaStandortMastCustomBean) {
+                    if (((TdtaStandortMastCustomBean)objectToDelete).getLeuchten() != null) {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("Leuchten des zu löschenden Standorts: "
-                                        + ((Standort)objectToDelete).getLeuchten());
+                                        + ((TdtaStandortMastCustomBean)objectToDelete).getLeuchten());
                         }
                     } else {
                         if (LOG.isDebugEnabled()) {
@@ -1108,7 +1108,7 @@ public class CidsBroker implements BelisServerRemote {
                 LOG.debug("Start searching for entities");
             }
             final HashMap<Integer, ArrayList> entityIDs = new HashMap();
-            for (final GeomToEntityIndex currentIndex : geomToEntityIndices) {
+            for (final GeomToEntityIndexCustomBean currentIndex : geomToEntityIndices) {
                 if (entityIDs.containsKey(currentIndex.getEntityClassId())) {
                     final ArrayList classIdList = entityIDs.get(currentIndex.getEntityClassId());
                     classIdList.add(currentIndex.getEntityID());
@@ -1284,6 +1284,55 @@ public class CidsBroker implements BelisServerRemote {
                 LOG.debug("The set of objects to lock is null");
             }
             throw new ActionNotSuccessfulException("The set of objects to lock is null");
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  classname  DOCUMENT ME!
+     * @param  listener   DOCUMENT ME!
+     */
+    public void addListenerForBeanChange(final String classname, final BeanChangedListener listener) {
+        Collection<BeanChangedListener> listenerlist = (Collection<BeanChangedListener>)beanChangedListeners.get(
+                classname.toLowerCase());
+        if (listenerlist == null) {
+            listenerlist = new ArrayList<BeanChangedListener>();
+            beanChangedListeners.put(classname.toLowerCase(), listenerlist);
+        }
+        listenerlist.add(listener);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  classname  DOCUMENT ME!
+     * @param  listener   DOCUMENT ME!
+     */
+    public void removeListenerForBeanChange(final String classname, final BeanChangedListener listener) {
+        final Collection<BeanChangedListener> listenerlist = (Collection<BeanChangedListener>)beanChangedListeners.get(
+                classname.toLowerCase());
+        if (listenerlist != null) {
+            listenerlist.remove(listener);
+            if (listenerlist.isEmpty()) {
+                beanChangedListeners.remove(classname.toLowerCase());
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  classname  DOCUMENT ME!
+     */
+    public void fireListenerForBeanChange(final String classname) {
+        final Collection<BeanChangedListener> listenerlist = (Collection<BeanChangedListener>)beanChangedListeners.get(
+                classname.toLowerCase());
+
+        if (listenerlist != null) {
+            for (final BeanChangedListener listener : listenerlist) {
+                listener.beanChanged();
+            }
         }
     }
 

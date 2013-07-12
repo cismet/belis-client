@@ -12,8 +12,6 @@ import java.net.URL;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Url;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -23,7 +21,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class UrlCustomBean extends BaseEntity implements Url {
+public class UrlCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -110,7 +108,11 @@ public class UrlCustomBean extends BaseEntity implements Url {
         this.propertyChangeSupport.firePropertyChange(PROP__OBJECT_NAME, old, this.object_name);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public URL getURL() {
         try {
             return new URL(getUrlBase().getCompleteURLBase() + getObjektname());
@@ -120,22 +122,38 @@ public class UrlCustomBean extends BaseEntity implements Url {
         return null;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public UrlBaseCustomBean getUrlBase() {
         return getUrl_base_id();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  urlBase  DOCUMENT ME!
+     */
     public void setUrlBase(final UrlBaseCustomBean urlBase) {
         setUrl_base_id(urlBase);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getObjektname() {
         return getObject_name();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  objektname  DOCUMENT ME!
+     */
     public void setObjektname(final String objektname) {
         setObject_name(objektname);
     }

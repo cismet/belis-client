@@ -11,8 +11,6 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Geom;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -22,7 +20,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class GeomCustomBean extends BaseEntity implements Geom {
+public class GeomCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -92,7 +90,6 @@ public class GeomCustomBean extends BaseEntity implements Geom {
      *
      * @return  DOCUMENT ME!
      */
-    @Override
     public Geometry getGeomField() {
         return getGeo_field();
     }
@@ -102,7 +99,6 @@ public class GeomCustomBean extends BaseEntity implements Geom {
      *
      * @param  geomField  val DOCUMENT ME!
      */
-    @Override
     public void setGeomField(final Geometry geomField) {
         setGeo_field(geomField);
     }

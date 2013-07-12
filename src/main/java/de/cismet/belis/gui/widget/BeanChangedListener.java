@@ -9,31 +9,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belisEE.entity;
-
-import de.cismet.commons.server.interfaces.DocumentContainer;
+package de.cismet.belis.gui.widget;
 
 /**
  * DOCUMENT ME!
  *
- * @author   spuhl
+ * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public interface Abzweigdose extends DocumentContainer {
+public interface BeanChangedListener {
 
     //~ Methods ----------------------------------------------------------------
 
     /**
      * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
      */
-    Integer getId();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  id  DOCUMENT ME!
-     */
-    void setId(final Integer id);
+    void beanChanged();
 }

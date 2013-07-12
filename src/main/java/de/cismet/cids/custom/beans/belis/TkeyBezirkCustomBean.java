@@ -13,8 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Stadtbezirk;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -24,7 +22,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyBezirkCustomBean extends BaseEntity implements Stadtbezirk {
+public class TkeyBezirkCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -80,24 +78,40 @@ public class TkeyBezirkCustomBean extends BaseEntity implements Stadtbezirk {
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getPk() {
         return pk;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  pk  DOCUMENT ME!
+     */
     public void setPk(final Integer pk) {
         final Integer old = this.pk;
         this.pk = pk;
         this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getBezirk() {
         return bezirk;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  bezirk  DOCUMENT ME!
+     */
     public void setBezirk(final String bezirk) {
         final String old = this.bezirk;
         this.bezirk = bezirk;

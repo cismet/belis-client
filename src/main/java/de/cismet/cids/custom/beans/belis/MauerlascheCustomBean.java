@@ -18,8 +18,6 @@ import java.util.Date;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Mauerlasche;
-
 import de.cismet.belisEE.mapicons.MapIcons;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -33,13 +31,15 @@ import de.cismet.commons.server.entity.GeoBaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche {
+public class MauerlascheCustomBean extends GeoBaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MauerlascheCustomBean.class);
 
     public static final String TABLE = "mauerlasche";
+
+    public static final String PROP_STRASSENSCHLUESSEL = "Mauerlasche.strassenschluessel";
 
     private static final String PROP__ERSTELLUNGSJAHR = "erstellungsjahr";
     private static final String PROP__LAUFENDE_NUMMER = "laufende_nummer";
@@ -108,24 +108,40 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Collection<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  dokumente  DOCUMENT ME!
+     */
     public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
         final Collection<DmsUrlCustomBean> old = this.dokumente;
         this.dokumente = dokumente;
         this.propertyChangeSupport.firePropertyChange(PROP__DOKUMENTE, old, this.dokumente);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Date getErstellungsjahr() {
         return erstellungsjahr;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  erstellungsjahr  DOCUMENT ME!
+     */
     public void setErstellungsjahr(final Date erstellungsjahr) {
         final Date old = this.erstellungsjahr;
         this.erstellungsjahr = erstellungsjahr;
@@ -292,32 +308,56 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements Mauerlasche 
         this.propertyChangeSupport.firePropertyChange(PROP__FOTO, old, this.foto);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getLaufendeNummer() {
         return getLaufende_nummer();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  laufendeNummer  DOCUMENT ME!
+     */
     public void setLaufendeNummer(final Integer laufendeNummer) {
         setLaufende_nummer(laufendeNummer);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public TkeyStrassenschluesselCustomBean getStrassenschluessel() {
         return getFk_strassenschluessel();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  strassenschluessel  DOCUMENT ME!
+     */
     public void setStrassenschluessel(final TkeyStrassenschluesselCustomBean strassenschluessel) {
         setFk_strassenschluessel(strassenschluessel);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public MaterialMauerlascheCustomBean getMaterial() {
         return getFk_material();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  material  DOCUMENT ME!
+     */
     public void setMaterial(final MaterialMauerlascheCustomBean material) {
         setFk_material(material);
     }

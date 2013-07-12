@@ -13,8 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Querschnitt;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -24,7 +22,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class QuerschnittCustomBean extends BaseEntity implements Querschnitt {
+public class QuerschnittCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -69,12 +67,20 @@ public class QuerschnittCustomBean extends BaseEntity implements Querschnitt {
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Double getGroesse() {
         return groesse;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  groesse  DOCUMENT ME!
+     */
     public void setGroesse(final Double groesse) {
         final Double old = this.groesse;
         this.groesse = groesse;

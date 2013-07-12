@@ -13,8 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Mastart;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -24,7 +22,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
+public class TkeyMastartCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -91,24 +89,40 @@ public class TkeyMastartCustomBean extends BaseEntity implements Mastart {
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getPk() {
         return pk;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  pk  DOCUMENT ME!
+     */
     public void setPk(final String pk) {
         final String old = this.pk;
         this.pk = pk;
         this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getMastart() {
         return mastart;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  mastart  DOCUMENT ME!
+     */
     public void setMastart(final String mastart) {
         final String old = this.mastart;
         this.mastart = mastart;

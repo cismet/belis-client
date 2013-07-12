@@ -13,8 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Leitungstyp;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -24,7 +22,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class LeitungstypCustomBean extends BaseEntity implements Leitungstyp {
+public class LeitungstypCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -69,12 +67,20 @@ public class LeitungstypCustomBean extends BaseEntity implements Leitungstyp {
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getBezeichnung() {
         return bezeichnung;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  bezeichnung  DOCUMENT ME!
+     */
     public void setBezeichnung(final String bezeichnung) {
         final String old = this.bezeichnung;
         this.bezeichnung = bezeichnung;

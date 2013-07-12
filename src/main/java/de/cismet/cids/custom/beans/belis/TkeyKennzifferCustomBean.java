@@ -13,8 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Kennziffer;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -24,7 +22,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
+public class TkeyKennzifferCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -85,24 +83,40 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Kennziffer {
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getKennziffer() {
         return kennziffer;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  kennziffer  DOCUMENT ME!
+     */
     public void setKennziffer(final Integer kennziffer) {
         final Integer old = this.kennziffer;
         this.kennziffer = kennziffer;
         this.propertyChangeSupport.firePropertyChange(PROP__KENNZIFFER, old, this.kennziffer);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getBeschreibung() {
         return beschreibung;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  beschreibung  DOCUMENT ME!
+     */
     public void setBeschreibung(final String beschreibung) {
         final String old = this.beschreibung;
         this.beschreibung = beschreibung;

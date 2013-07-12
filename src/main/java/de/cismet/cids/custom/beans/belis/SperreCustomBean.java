@@ -15,8 +15,6 @@ import java.util.Date;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Lock;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -26,7 +24,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class SperreCustomBean extends BaseEntity implements Lock {
+public class SperreCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -186,52 +184,92 @@ public class SperreCustomBean extends BaseEntity implements Lock {
         this.propertyChangeSupport.firePropertyChange(PROP__CLASS_ID, old, this.class_id);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getClassId() {
         return getClass_id();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  classId  DOCUMENT ME!
+     */
     public void setClassId(final Integer classId) {
         setClass_id(classId);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getObjectId() {
         return getObject_id();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  objectId  DOCUMENT ME!
+     */
     public void setObjectId(final Integer objectId) {
         setObject_id(objectId);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getUserString() {
         return getUser_string();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  userString  DOCUMENT ME!
+     */
     public void setUserString(final String userString) {
         setUser_string(userString);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getAdditionalInfo() {
         return getAdditional_info();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  additionalInfo  DOCUMENT ME!
+     */
     public void setAdditionalInfo(final String additionalInfo) {
         setAdditional_info(additionalInfo);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Date getTimestamp() {
         return getLock_timestamp();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  timestamp  DOCUMENT ME!
+     */
     public void setTimestamp(final Date timestamp) {
         setLock_timestamp(timestamp);
     }

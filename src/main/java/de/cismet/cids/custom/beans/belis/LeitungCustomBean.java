@@ -20,8 +20,6 @@ import java.util.Collection;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Leitung;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
@@ -31,13 +29,15 @@ import de.cismet.commons.server.entity.GeoBaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
+public class LeitungCustomBean extends GeoBaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LeitungCustomBean.class);
 
     public static final String TABLE = "leitung";
+
+    public static final String PROP_LEITUNGSTYP = "Leitung.Leitungstyp";
 
     private static final String PROP__FK_GEOM = "fk_geom";
     private static final String PROP__FK_MATERIAL = "fk_material";
@@ -171,44 +171,76 @@ public class LeitungCustomBean extends GeoBaseEntity implements Leitung {
         this.propertyChangeSupport.firePropertyChange(PROP__FK_LEITUNGSTYP, old, this.fk_leitungstyp);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Collection<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  dokumente  DOCUMENT ME!
+     */
     public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
         final Collection<DmsUrlCustomBean> old = this.dokumente;
         this.dokumente = dokumente;
         this.propertyChangeSupport.firePropertyChange(PROP__DOKUMENTE, old, this.dokumente);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public MaterialLeitungCustomBean getMaterial() {
         return getFk_material();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  material  DOCUMENT ME!
+     */
     public void setMaterial(final MaterialLeitungCustomBean material) {
         setFk_material(material);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public LeitungstypCustomBean getLeitungstyp() {
         return getFk_leitungstyp();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leitungstyp  DOCUMENT ME!
+     */
     public void setLeitungstyp(final LeitungstypCustomBean leitungstyp) {
         setFk_leitungstyp(leitungstyp);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public QuerschnittCustomBean getQuerschnitt() {
         return getFk_querschnitt();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  querschnitt  DOCUMENT ME!
+     */
     public void setQuerschnitt(final QuerschnittCustomBean querschnitt) {
         setFk_querschnitt(querschnitt);
     }
