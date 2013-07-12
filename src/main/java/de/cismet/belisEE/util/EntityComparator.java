@@ -15,12 +15,12 @@ import java.io.Serializable;
 
 import java.util.Comparator;
 
-import de.cismet.belisEE.entity.Abzweigdose;
-import de.cismet.belisEE.entity.Leitung;
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Mauerlasche;
-import de.cismet.belisEE.entity.Schaltstelle;
-import de.cismet.belisEE.entity.Standort;
+import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -34,7 +34,7 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Comparator<Leuchte> leuchteComparator;
+    private Comparator<TdtaLeuchtenCustomBean> leuchteComparator;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -49,7 +49,7 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
      *
      * @param  leuchteComparator  DOCUMENT ME!
      */
-    public EntityComparator(final Comparator<Leuchte> leuchteComparator) {
+    public EntityComparator(final Comparator<TdtaLeuchtenCustomBean> leuchteComparator) {
         this.leuchteComparator = leuchteComparator;
     }
 
@@ -60,13 +60,13 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
     @Override
     public int compare(final BaseEntity o1, final BaseEntity o2) {
 //        System.out.println("compare called: o1: "+o1+" o2: "+o2);
-//        if(o1 != null && o1 instanceof Standort){
-//            System.out.println(("o1 istStandortMast: ")+((Standort)o1).isStandortMast());
-//            System.out.println("o1 has leuchten"+(((Standort)o1).getLeuchten() != null && ((Standort)o1).getLeuchten().size() > 0));
+//        if(o1 != null && o1 instanceof TdtaStandortMastCustomBean){
+//            System.out.println(("o1 istStandortMast: ")+((TdtaStandortMastCustomBean)o1).isStandortMast());
+//            System.out.println("o1 has leuchten"+(((TdtaStandortMastCustomBean)o1).getLeuchten() != null && ((TdtaStandortMastCustomBean)o1).getLeuchten().size() > 0));
 //        }
-//        if(o2 != null && o2 instanceof Standort){
-//            System.out.println(("o2 istStandortMast: ")+((Standort)o2).isStandortMast());
-//            System.out.println("o2 has leuchten"+(((Standort)o2).getLeuchten() != null && ((Standort)o2).getLeuchten().size() > 0));
+//        if(o2 != null && o2 instanceof TdtaStandortMastCustomBean){
+//            System.out.println(("o2 istStandortMast: ")+((TdtaStandortMastCustomBean)o2).isStandortMast());
+//            System.out.println("o2 has leuchten"+(((TdtaStandortMastCustomBean)o2).getLeuchten() != null && ((TdtaStandortMastCustomBean)o2).getLeuchten().size() > 0));
 //        }
         final int result = compareImpl(o1, o2);
         // System.out.println("result: "+result);
@@ -83,41 +83,46 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
      */
     private int compareImpl(final BaseEntity o1, final BaseEntity o2) {
         if ((o1 != null) && (o2 != null)) {
-            if (o1 instanceof Leuchte) {
-                if (o2 instanceof Leuchte) {
-                    return leuchteComparator.compare((Leuchte)o1, (Leuchte)o2);
+            if (o1 instanceof TdtaLeuchtenCustomBean) {
+                if (o2 instanceof TdtaLeuchtenCustomBean) {
+                    return leuchteComparator.compare((TdtaLeuchtenCustomBean)o1, (TdtaLeuchtenCustomBean)o2);
                 } else {
                     return 1;
                 }
-            } else if (o1 instanceof Standort) {
-                if (o2 instanceof Standort) {
+            } else if (o1 instanceof TdtaStandortMastCustomBean) {
+                if (o2 instanceof TdtaStandortMastCustomBean) {
                     if (o1.equals(o2)) {
                         return 0;
-                    } else if (!((Standort)o1).isStandortMast()) {
+                    } else if (!((TdtaStandortMastCustomBean)o1).isStandortMast()) {
                         return -1;
-                    } else if (!((Standort)o2).isStandortMast()) {
+                    } else if (!((TdtaStandortMastCustomBean)o2).isStandortMast()) {
                         return 1;
-                    } else if ((((Standort)o1).getLeuchten() != null) && (((Standort)o1).getLeuchten().size() == 0)) {
+                    } else if ((((TdtaStandortMastCustomBean)o1).getLeuchten() != null)
+                                && (((TdtaStandortMastCustomBean)o1).getLeuchten().size() == 0)) {
                         return -1;
-                    } else if ((((Standort)o2).getLeuchten() != null) && (((Standort)o2).getLeuchten().size() == 0)) {
+                    } else if ((((TdtaStandortMastCustomBean)o2).getLeuchten() != null)
+                                && (((TdtaStandortMastCustomBean)o2).getLeuchten().size() == 0)) {
                         return 1;
-                    } else if ((((Standort)o1).getStrassenschluessel() != null)
-                                && (((Standort)o2).getStrassenschluessel() != null)) {
+                    } else if ((((TdtaStandortMastCustomBean)o1).getStrassenschluessel() != null)
+                                && (((TdtaStandortMastCustomBean)o2).getStrassenschluessel() != null)) {
                         int result = CriteriaStringComparator.getInstance()
-                                    .compare(((Standort)o1).getStrassenschluessel(),
-                                        ((Standort)o2).getStrassenschluessel());
-                        // ((Standort) o1).getLaufendeNummer().compareTo(((Standort) o2).getLaufendeNummer());
+                                    .compare(((TdtaStandortMastCustomBean)o1).getStrassenschluessel(),
+                                        ((TdtaStandortMastCustomBean)o2).getStrassenschluessel());
+                        // ((TdtaStandortMastCustomBean)
+                        // o1).getLaufendeNummer().compareTo(((TdtaStandortMastCustomBean) o2).getLaufendeNummer());
                         if (result == 0) {
                             System.out.println("Strassen sind gleich");
-                            if ((((Standort)o1).getKennziffer() != null) && (((Standort)o2).getKennziffer() != null)) {
+                            if ((((TdtaStandortMastCustomBean)o1).getKennziffer() != null)
+                                        && (((TdtaStandortMastCustomBean)o2).getKennziffer() != null)) {
                                 result = CriteriaStringComparator.getInstance()
-                                            .compare(((Standort)o1).getKennziffer(), ((Standort)o2).getKennziffer());
+                                            .compare(((TdtaStandortMastCustomBean)o1).getKennziffer(),
+                                                    ((TdtaStandortMastCustomBean)o2).getKennziffer());
                                 if (result == 0) {
                                     System.out.println("Kennziffern sind gleich");
-                                    if ((((Standort)o1).getLaufendeNummer() != null)
-                                                && (((Standort)o2).getLaufendeNummer() != null)) {
-                                        result = ((Standort)o1).getLaufendeNummer()
-                                                    .compareTo(((Standort)o2).getLaufendeNummer());
+                                    if ((((TdtaStandortMastCustomBean)o1).getLaufendeNummer() != null)
+                                                && (((TdtaStandortMastCustomBean)o2).getLaufendeNummer() != null)) {
+                                        result = ((TdtaStandortMastCustomBean)o1).getLaufendeNummer()
+                                                    .compareTo(((TdtaStandortMastCustomBean)o2).getLaufendeNummer());
                                         if (result == 0) {
                                             System.out.println("laufende Nummern sind gleich");
                                             System.out.println("the entity fields are equals odering dosen't matter");
@@ -126,9 +131,9 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
                                             System.out.println("laufende Nummern sind ungleich");
                                             return result;
                                         }
-                                    } else if (((Standort)o1).getLaufendeNummer() != null) {
+                                    } else if (((TdtaStandortMastCustomBean)o1).getLaufendeNummer() != null) {
                                         return 1;
-                                    } else if (((Standort)o2).getLaufendeNummer() != null) {
+                                    } else if (((TdtaStandortMastCustomBean)o2).getLaufendeNummer() != null) {
                                         return -1;
                                     } else {
                                         return -1;
@@ -137,9 +142,9 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
                                     System.out.println("Kennziffern sind ungleich");
                                     return result;
                                 }
-                            } else if (((Standort)o1).getKennziffer() != null) {
+                            } else if (((TdtaStandortMastCustomBean)o1).getKennziffer() != null) {
                                 return 1;
-                            } else if (((Standort)o2).getKennziffer() != null) {
+                            } else if (((TdtaStandortMastCustomBean)o2).getKennziffer() != null) {
                                 return -1;
                             } else {
                                 return -1;
@@ -148,65 +153,68 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
                             System.out.println("Strassen sind ungleich");
                             return result;
                         }
-                    } else if (((Standort)o1).getStrassenschluessel() != null) {
+                    } else if (((TdtaStandortMastCustomBean)o1).getStrassenschluessel() != null) {
                         return 1;
-                    } else if (((Standort)o2).getStrassenschluessel() != null) {
+                    } else if (((TdtaStandortMastCustomBean)o2).getStrassenschluessel() != null) {
                         return -1;
                     } else {
                         return -1;
                     }
-                } else if (o2 instanceof Leuchte) {
+                } else if (o2 instanceof TdtaLeuchtenCustomBean) {
                     return -1;
                 } else {
                     return 1;
                 }
-            } else if (o1 instanceof Leitung) {
-                if (o2 instanceof Leitung) {
+            } else if (o1 instanceof LeitungCustomBean) {
+                if (o2 instanceof LeitungCustomBean) {
                     if (o1.equals(o2)) {
                         return 0;
                     } else {
                         return 1;
                     }
-                } else if ((o2 instanceof Standort) || (o2 instanceof Leuchte)) {
+                } else if ((o2 instanceof TdtaStandortMastCustomBean) || (o2 instanceof TdtaLeuchtenCustomBean)) {
                     return -1;
                 } else {
                     return 1;
                 }
-            } else if (o1 instanceof Schaltstelle) {
-                if (o2 instanceof Schaltstelle) {
+            } else if (o1 instanceof SchaltstelleCustomBean) {
+                if (o2 instanceof SchaltstelleCustomBean) {
                     if (o1.equals(o2)) {
                         return 0;
                     } else {
                         return 1;
                     }
-                } else if ((o2 instanceof Standort) || (o2 instanceof Leuchte) || (o2 instanceof Leitung)) {
+                } else if ((o2 instanceof TdtaStandortMastCustomBean) || (o2 instanceof TdtaLeuchtenCustomBean)
+                            || (o2 instanceof LeitungCustomBean)) {
                     return -1;
                 } else {
                     return 1;
                 }
-            } else if (o1 instanceof Mauerlasche) {
-                if (o2 instanceof Mauerlasche) {
+            } else if (o1 instanceof MauerlascheCustomBean) {
+                if (o2 instanceof MauerlascheCustomBean) {
                     if (o1.equals(o2)) {
                         return 0;
                     } else {
                         return 1;
                     }
-                } else if ((o2 instanceof Standort) || (o2 instanceof Leuchte) || (o2 instanceof Leitung)
-                            || (o2 instanceof Schaltstelle)) {
+                } else if ((o2 instanceof TdtaStandortMastCustomBean) || (o2 instanceof TdtaLeuchtenCustomBean)
+                            || (o2 instanceof LeitungCustomBean)
+                            || (o2 instanceof SchaltstelleCustomBean)) {
                     return -1;
                 } else {
                     return 1;
                 }
-            } else if (o1 instanceof Abzweigdose) {
-                if (o2 instanceof Abzweigdose) {
+            } else if (o1 instanceof AbzweigdoseCustomBean) {
+                if (o2 instanceof AbzweigdoseCustomBean) {
                     if (o1.equals(o2)) {
                         return 0;
                     } else {
                         return 1;
                     }
-                } else if ((o2 instanceof Standort) || (o2 instanceof Leuchte) || (o2 instanceof Leitung)
-                            || (o2 instanceof Schaltstelle)
-                            || (o2 instanceof Mauerlasche)) {
+                } else if ((o2 instanceof TdtaStandortMastCustomBean) || (o2 instanceof TdtaLeuchtenCustomBean)
+                            || (o2 instanceof LeitungCustomBean)
+                            || (o2 instanceof SchaltstelleCustomBean)
+                            || (o2 instanceof MauerlascheCustomBean)) {
                     return -1;
                 } else {
                     return 1;

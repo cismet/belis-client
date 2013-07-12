@@ -13,8 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.UnterhaltMast;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -24,7 +22,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMast {
+public class TkeyUnterhMastCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -81,12 +79,20 @@ public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMas
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getPk() {
         return pk;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  pk  DOCUMENT ME!
+     */
     public void setPk(final Integer pk) {
         final Integer old = this.pk;
         this.pk = pk;
@@ -113,12 +119,20 @@ public class TkeyUnterhMastCustomBean extends BaseEntity implements UnterhaltMas
         this.propertyChangeSupport.firePropertyChange(PROP__UNTERHALT_MAST, old, this.unterhalt_mast);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getUnterhaltMast() {
         return getUnterhalt_mast();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  unterhaltMast  DOCUMENT ME!
+     */
     public void setUnterhaltMast(final String unterhaltMast) {
         setUnterhalt_mast(unterhaltMast);
     }

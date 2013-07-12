@@ -331,6 +331,7 @@ public class DetailWidget extends DefaultWidget {
             log.error("Error while initializing all strassenschlussel.");
             allStrassenschluessel = new HashSet();
         }
+
         initComponentToLabelHashMap();
         initLeuchtePanel();
         initStandortPanel();
@@ -406,6 +407,18 @@ public class DetailWidget extends DefaultWidget {
     /**
      * DOCUMENT ME!
      */
+    private void refreshCbxLeuchteLeuchtentyp() {
+        try {
+            final Collection<TkeyLeuchtentypCustomBean> leuchtentypen = CidsBroker.getInstance().getAllLeuchtentypen();
+            createSortedCBoxModelFromCollection(leuchtentypen, cbxLeuchteLeuchtentyp);
+        } catch (ActionNotSuccessfulException ex) {
+            cbxLeuchteLeuchtentyp.setModel(new DefaultComboBoxModel());
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     private void initLeuchtePanel() {
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxLeuchteStrassenschluessel);
         cbxLeuchteStrassenschluessel.setSelectedItem(null);
@@ -453,12 +466,18 @@ public class DetailWidget extends DefaultWidget {
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteUnterhalt.setModel(new DefaultComboBoxModel());
         }
-        try {
-            final Collection<TkeyLeuchtentypCustomBean> leuchtentypen = CidsBroker.getInstance().getAllLeuchtentypen();
-            createSortedCBoxModelFromCollection(leuchtentypen, cbxLeuchteLeuchtentyp);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteLeuchtentyp.setModel(new DefaultComboBoxModel());
-        }
+
+        CidsBroker.getInstance().addListenerForBeanChange("tkey_leuchtentyp", new BeanChangedListener() {
+
+                @Override
+                public void beanChanged() {
+                    bindingGroup.unbind();
+                    refreshCbxLeuchteLeuchtentyp();
+                    bindingGroup.bind();
+                }
+            });
+
+        refreshCbxLeuchteLeuchtentyp();
         cbxLeuchteLeuchtentyp.setSelectedItem(null);
         try {
             final Collection<TkeyDoppelkommandoCustomBean> dk1 = CidsBroker.getInstance().getAllDoppelkommando();

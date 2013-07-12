@@ -15,8 +15,6 @@ import java.util.Collection;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Abzweigdose;
-
 import de.cismet.belisEE.mapicons.MapIcons;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -30,7 +28,7 @@ import de.cismet.commons.server.entity.GeoBaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose {
+public class AbzweigdoseCustomBean extends GeoBaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -77,12 +75,20 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements Abzweigdose 
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Collection<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  dokumente  DOCUMENT ME!
+     */
     public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
         final Collection<DmsUrlCustomBean> old = this.dokumente;
         this.dokumente = dokumente;

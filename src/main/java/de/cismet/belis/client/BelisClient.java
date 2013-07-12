@@ -13,7 +13,23 @@ import Sirius.navigator.connection.ConnectionInfo;
 import Sirius.navigator.connection.ConnectionSession;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.connection.proxy.ConnectionProxy;
+import Sirius.navigator.event.CatalogueActivationListener;
+import Sirius.navigator.event.CatalogueSelectionListener;
 import Sirius.navigator.plugin.interfaces.FloatingPluginUI;
+import Sirius.navigator.resource.PropertyManager;
+import Sirius.navigator.search.dynamic.SearchDialog;
+import Sirius.navigator.types.treenode.RootTreeNode;
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.DescriptionPane;
+import Sirius.navigator.ui.DescriptionPaneFS;
+import Sirius.navigator.ui.LayoutedContainer;
+import Sirius.navigator.ui.MutableMenuBar;
+import Sirius.navigator.ui.MutablePopupMenu;
+import Sirius.navigator.ui.MutableToolBar;
+import Sirius.navigator.ui.attributes.AttributeViewer;
+import Sirius.navigator.ui.attributes.editor.AttributeEditor;
+import Sirius.navigator.ui.tree.MetaCatalogueTree;
+import Sirius.navigator.ui.tree.SearchResultsTree;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 
@@ -25,6 +41,7 @@ import org.jdesktop.swingx.auth.LoginService;
 import org.jdom.Element;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -55,11 +72,14 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis.gui.widget.ExtendedNavigatorAttributeEditorGui;
 
 import de.cismet.belis.util.BelisIcons;
 
@@ -78,6 +98,7 @@ import de.cismet.tools.configuration.Configurable;
 import de.cismet.tools.configuration.ConfigurationManager;
 import de.cismet.tools.configuration.NoWriteError;
 
+import de.cismet.tools.gui.DefaultPopupMenuListener;
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 
 /**
@@ -177,6 +198,63 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             });
         try {
             initComponents();
+
+            final SearchResultsTree searchResultsTree = new SearchResultsTree();
+            final MutableToolBar toolBar = new MutableToolBar();
+            final MutableMenuBar menuBar = new MutableMenuBar();
+            final LayoutedContainer container = new LayoutedContainer(toolBar, menuBar, true);
+            final AttributeViewer attributeViewer = new AttributeViewer();
+            final AttributeEditor attributeEditor = new ExtendedNavigatorAttributeEditorGui();
+            final SearchDialog searchDialog = null;
+
+            final DescriptionPane descriptionPane = new DescriptionPaneFS();
+            final MutablePopupMenu popupMenu = new MutablePopupMenu();
+
+            final Collection<Component> toRemoveComponents = new ArrayList<Component>();
+            for (final Component component : popupMenu.getComponents()) {
+                if ((component instanceof JSeparator)
+                            || ((component instanceof JMenuItem)
+                                && (((JMenuItem)component).getActionCommand() != null)
+                                && (((JMenuItem)component).getActionCommand().equals("cmdSearch")
+                                    || ((JMenuItem)component).getActionCommand().equals("treecommand")))) {
+                    toRemoveComponents.add(component);
+                }
+            }
+            for (final Component toRemoveComponent : toRemoveComponents) {
+                popupMenu.remove(toRemoveComponent);
+            }
+
+            final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
+            final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
+            final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
+                    rootTreeNode,
+                    PropertyManager.getManager().isEditable(),
+                    true,
+                    5);
+            final CatalogueSelectionListener catalogueSelectionListener = new CatalogueSelectionListener(
+                    attributeViewer,
+                    descriptionPane);
+            final CatalogueActivationListener catalogueActivationListener = new CatalogueActivationListener(
+                    metaCatalogueTree,
+                    attributeViewer,
+                    descriptionPane);
+
+            metaCatalogueTree.addMouseListener(cataloguePopupMenuListener);
+            metaCatalogueTree.addTreeSelectionListener(catalogueSelectionListener);
+            metaCatalogueTree.addComponentListener(catalogueActivationListener);
+
+            ComponentRegistry.registerComponents((JFrame)this,
+                container,
+                menuBar,
+                toolBar,
+                popupMenu,
+                metaCatalogueTree,
+                searchResultsTree,
+                attributeViewer,
+                attributeEditor,
+                searchDialog,
+                descriptionPane);
+
             clipboarder = new ClipboardWaitDialog(this, true);
 
             configurePlugin();
@@ -1254,8 +1332,9 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 
         // TODO steht auch so in VERDIS schlecht für ÄNDERUNGEN !!!!!
         public static final String CONNECTION_CLASS = "Sirius.navigator.connection.RMIConnection";
-        public static final String CONNECTION_PROXY_CLASS =
-            "Sirius.navigator.connection.proxy.DefaultConnectionProxyHandler";
+//        public static final String CONNECTION_PROXY_CLASS =
+//            "Sirius.navigator.connection.proxy.DefaultConnectionProxyHandler";
+        public static final String CONNECTION_PROXY_CLASS = "de.cismet.belis.broker.ConnectionProxyHandler";
         // private String standaloneDomain;
         private static String standaloneDomain;
 
@@ -1334,6 +1413,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 //                configManager.configure(this);
 
                 final Boolean permission = broker.getPermissions().get(tester);
+                PropertyManager.getManager().setEditable(permission);
                 if (log.isDebugEnabled()) {
                     log.debug("Permissions Hashmap: " + broker.getPermissions());
                 }

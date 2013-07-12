@@ -13,8 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.GeomToEntityIndex;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 /**
@@ -22,7 +20,7 @@ import de.cismet.cids.dynamics.CidsBean;
  *
  * @version  $Revision$, $Date$
  */
-public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntityIndex {
+public class GeomToEntityIndexCustomBean extends CidsBean {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -79,12 +77,20 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getId() {
         return id;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  id  DOCUMENT ME!
+     */
     public void setId(final Integer id) {
         final Integer old = this.id;
         this.id = id;
@@ -151,32 +157,56 @@ public class GeomToEntityIndexCustomBean extends CidsBean implements GeomToEntit
         this.propertyChangeSupport.firePropertyChange(PROP__FK_GEOM, old, this.fk_geom);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getEntityID() {
         return getEntityid();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  enityID  DOCUMENT ME!
+     */
     public void setEntityID(final Integer enityID) {
         setEntityid(enityID);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getEntityClassId() {
         return getEntityclassid();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  entityClassId  DOCUMENT ME!
+     */
     public void setEntityClassId(final Integer entityClassId) {
         setEntityclassid(entityClassId);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public GeomCustomBean getGeometry() {
         return getFk_geom();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  geometry  DOCUMENT ME!
+     */
     public void setGeometry(final GeomCustomBean geometry) {
         setFk_geom(geometry);
     }

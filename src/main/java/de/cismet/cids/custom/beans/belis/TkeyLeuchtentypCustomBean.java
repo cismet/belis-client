@@ -15,8 +15,6 @@ import java.util.Date;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Leuchtentyp;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -26,7 +24,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp {
+public class TkeyLeuchtentypCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -66,6 +64,7 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
     private String lampe;
     private Date einbaudatum;
     private Double leistung2stufe;
+    private String vorschaltgeraet;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -167,74 +166,140 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements Leuchtentyp
         this.propertyChangeSupport.firePropertyChange(PROP__LEISTUNG2STUFE, old, this.leistung2stufe);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getLeuchtentyp() {
         return leuchtentyp;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leuchtentyp  DOCUMENT ME!
+     */
     public void setLeuchtentyp(final String leuchtentyp) {
         final String old = this.leuchtentyp;
         this.leuchtentyp = leuchtentyp;
         this.propertyChangeSupport.firePropertyChange(PROP__LEUCHTENTYP, old, this.leuchtentyp);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getFabrikat() {
         return fabrikat;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fabrikat  DOCUMENT ME!
+     */
     public void setFabrikat(final String fabrikat) {
         final String old = this.fabrikat;
         this.fabrikat = fabrikat;
         this.propertyChangeSupport.firePropertyChange(PROP__FABRIKAT, old, this.fabrikat);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Double getBestueckung() {
         return bestueckung;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  bestueckung  DOCUMENT ME!
+     */
     public void setBestueckung(final Double bestueckung) {
         final Double old = this.bestueckung;
         this.bestueckung = bestueckung;
         this.propertyChangeSupport.firePropertyChange(PROP__BESTUECKUNG, old, this.bestueckung);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Double getLeistung() {
         return leistung;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leistung  DOCUMENT ME!
+     */
     public void setLeistung(final Double leistung) {
         final Double old = this.leistung;
         this.leistung = leistung;
         this.propertyChangeSupport.firePropertyChange(PROP__LEISTUNG, old, this.leistung);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getLampe() {
         return lampe;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  lampe  DOCUMENT ME!
+     */
     public void setLampe(final String lampe) {
         final String old = this.lampe;
         this.lampe = lampe;
         this.propertyChangeSupport.firePropertyChange(PROP__LAMPE, old, this.lampe);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Double getLeistungBrutto() {
         return getLeistung_brutto();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leistungBrutto  DOCUMENT ME!
+     */
     public void setLeistungBrutto(final Double leistungBrutto) {
         setLeistung_brutto(leistungBrutto);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getVorschaltgeraet() {
+        return vorschaltgeraet;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  vorschaltgeraet  DOCUMENT ME!
+     */
+    public void setVorschaltgeraet(final String vorschaltgeraet) {
+        this.vorschaltgeraet = vorschaltgeraet;
     }
 
     @Override

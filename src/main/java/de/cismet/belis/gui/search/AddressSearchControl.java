@@ -78,26 +78,33 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
         panNr.setOpaque(false);
         panStr.setOpaque(false);
         chkVisualize.setSelected(false);
-        chkVisualize.setVisible(false);
+        // chkVisualize.setVisible(false);
         chkLockScale.setSelected(false);
         chkLockScale.setVisible(false);
-        jLabel1.setVisible(false);
+        // jLabel1.setVisible(false);
         jLabel2.setVisible(false);
         cmdOk.setText("");
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         // cmdOk.setSize(23, 23);
-        cmdOk.setPreferredSize(new Dimension(225, 23));
+        cmdOk.setPreferredSize(new Dimension(200, 23));
         cmdOk.setFocusable(false);
+        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
+        cmdOk.setText("Straße, Hausnummer");
+        cmdOk.setIcon(BelisIcons.icoSearch22);
         final GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
+        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 0);
         add(cmdOk, gridBagConstraints);
-        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        cmdOk.setText("Straße, Hausnummer");
-        cmdOk.setIcon(BelisIcons.icoSearch22);
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.insets = new java.awt.Insets(3, 7, 0, 0);
+        add(chkVisualize, gridBagConstraints);
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.insets = new java.awt.Insets(3, 7, 0, 7);
+        add(jLabel1, gridBagConstraints);
+
         addWFSFormAddressListner(this);
 //        cmdOk.addActionListener(new ActionListener() {
 //

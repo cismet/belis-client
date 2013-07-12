@@ -13,8 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.Energielieferant;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -24,7 +22,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyEnergielieferantCustomBean extends BaseEntity implements Energielieferant {
+public class TkeyEnergielieferantCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -83,24 +81,40 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity implements Energi
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getPk() {
         return pk;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  pk  DOCUMENT ME!
+     */
     public void setPk(final Integer pk) {
         final Integer old = this.pk;
         this.pk = pk;
         this.propertyChangeSupport.firePropertyChange(PROP__PK, old, this.pk);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getEnergielieferant() {
         return energielieferant;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  energielieferant  DOCUMENT ME!
+     */
     public void setEnergielieferant(final String energielieferant) {
         final String old = this.energielieferant;
         this.energielieferant = energielieferant;

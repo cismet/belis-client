@@ -14,8 +14,6 @@ import java.net.URL;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.DmsUrl;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -27,7 +25,7 @@ import de.cismet.tools.URLSplitter;
  *
  * @version  $Revision$, $Date$
  */
-public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
+public class DmsUrlCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -84,24 +82,40 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getTyp() {
         return typ;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  typ  DOCUMENT ME!
+     */
     public void setTyp(final Integer typ) {
         final Integer old = this.typ;
         this.typ = typ;
         this.propertyChangeSupport.firePropertyChange(PROP__TYP, old, this.typ);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getName() {
         return name;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  name  DOCUMENT ME!
+     */
     public void setName(final String name) {
         final String old = this.name;
         this.name = name;
@@ -148,22 +162,38 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
         this.propertyChangeSupport.firePropertyChange(PROP__DESCRIPTION, old, this.description);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getBeschreibung() {
         return getDescription();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  beschreibung  DOCUMENT ME!
+     */
     public void setBeschreibung(final String beschreibung) {
         setDescription(beschreibung);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public UrlCustomBean getUrl() {
         return getUrl_id();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  url  DOCUMENT ME!
+     */
     public void setUrl(final UrlCustomBean url) {
         setUrl_id(url);
     }
@@ -176,7 +206,11 @@ public class DmsUrlCustomBean extends BaseEntity implements DmsUrl {
         return this.getId().hashCode();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public File toFile() {
         File candidate = null;
         if (getUrl() != null) {

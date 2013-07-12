@@ -9,8 +9,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.UrlBase;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -20,7 +18,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class UrlBaseCustomBean extends BaseEntity implements UrlBase {
+public class UrlBaseCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -114,34 +112,58 @@ public class UrlBaseCustomBean extends BaseEntity implements UrlBase {
         this.propertyChangeSupport.firePropertyChange(PROP__PATH, old, this.path);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getServer() {
         return server;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  server  DOCUMENT ME!
+     */
     public void setServer(final String server) {
         final String old = this.server;
         this.server = server;
         this.propertyChangeSupport.firePropertyChange(PROP__SERVER, old, this.server);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getProtPrefix() {
         return getProt_prefix();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  protPrefix  DOCUMENT ME!
+     */
     public void setProtPrefix(final String protPrefix) {
         setProt_prefix(protPrefix);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getPfad() {
         return getPath();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  pfad  DOCUMENT ME!
+     */
     public void setPfad(final String pfad) {
         setPath(pfad);
     }

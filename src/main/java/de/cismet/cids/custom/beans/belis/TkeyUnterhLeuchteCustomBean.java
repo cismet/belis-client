@@ -13,8 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.entity.UnterhaltLeuchte;
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -25,7 +23,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements UnterhaltLeuchte {
+public class TkeyUnterhLeuchteCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -87,12 +85,20 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
         return PROPERTY_NAMES;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getPk() {
         return pk;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  pk  DOCUMENT ME!
+     */
     public void setPk(final Integer pk) {
         final Integer old = this.pk;
         this.pk = pk;
@@ -122,12 +128,20 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity implements Unterhalt
             this.unterhaltspflichtiger_leuchte);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public String getUnterhaltspflichtigeLeuchte() {
         return getUnterhaltspflichtiger_leuchte();
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  unterhaltspflichtigeLeuchte  DOCUMENT ME!
+     */
     public void setUnterhaltspflichtigeLeuchte(final String unterhaltspflichtigeLeuchte) {
         setUnterhaltspflichtiger_leuchte(unterhaltspflichtigeLeuchte);
     }
