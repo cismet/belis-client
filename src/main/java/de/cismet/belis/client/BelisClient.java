@@ -33,6 +33,8 @@ import Sirius.navigator.ui.tree.SearchResultsTree;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 
+import org.apache.log4j.PropertyConfigurator;
+
 import org.jdesktop.swingx.JXLoginPane;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.auth.DefaultUserNameStore;
@@ -90,6 +92,8 @@ import de.cismet.cismap.commons.gui.ClipboardWaitDialog;
 import de.cismet.cismap.commons.gui.statusbar.StatusBar;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
+import de.cismet.lookupoptions.gui.OptionsDialog;
+
 import de.cismet.tools.StaticDecimalTools;
 
 import de.cismet.tools.configuration.Configurable;
@@ -98,6 +102,7 @@ import de.cismet.tools.configuration.NoWriteError;
 
 import de.cismet.tools.gui.DefaultPopupMenuListener;
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
+import de.cismet.tools.gui.startup.StaticStartupTools;
 
 /**
  * DOCUMENT ME!
@@ -122,6 +127,18 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     // ToDo maybe changeable would be cool for different authentication methods!!!
     private static BelisClient.WundaAuthentification wa = new BelisClient.WundaAuthentification();
     private static boolean isLoginEnabled = true;
+
+    private static final String FILESEPARATOR = System.getProperty("file.separator");
+    private static final String DIRECTORYPATH_HOME = System.getProperty("user.home");
+    private static final String DIRECTORYEXTENSION = System.getProperty("directory.extension");
+
+    private static final String DIRECTORYNAME_BELISHOME = ".belis"
+                + ((DIRECTORYEXTENSION != null) ? DIRECTORYEXTENSION : "");
+
+    private static final String DIRECTORYPATH_BELIS = DIRECTORYPATH_HOME + FILESEPARATOR + DIRECTORYNAME_BELISHOME;
+    private static final String FILEPATH_SCREEN = DIRECTORYPATH_BELIS + FILESEPARATOR + "belis.screen";
+
+    private static JFrame SPLASH;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -283,6 +300,12 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             constructionDone();
             add(broker.getToolbar(), BorderLayout.NORTH);
             setWindowSize();
+
+            if (SPLASH != null) {
+                SPLASH.dispose();
+            }
+            SPLASH = null;
+
             final Runnable startupComplete = new Runnable() {
 
                     @Override
@@ -479,7 +502,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                 LOG.error("Error whil configuring the statusbar: ", ex);
             }
         } catch (Exception ex) {
-            LOG.error("Fehler beim konfigurieren der Lagis Applikation: ", ex);
+            LOG.error("Fehler beim konfigurieren der Belis Applikation: ", ex);
         }
     }
 
@@ -708,7 +731,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         menExtras.setText("Extras");
 
         mniOptions.setText("Optionen");
-        mniOptions.setEnabled(false);
         mniOptions.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -814,7 +836,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                 java.awt.event.KeyEvent.VK_A,
                 java.awt.event.InputEvent.ALT_MASK
                         | java.awt.event.InputEvent.CTRL_MASK));
-        mniAbout.setText("Über LaGIS");
+        mniAbout.setText("Über BelIS");
         mniAbout.setEnabled(false);
         menHelp.add(mniAbout);
 
@@ -939,8 +961,10 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      * @param  evt  DOCUMENT ME!
      */
     private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOptionsActionPerformed
-// TODO add your handling code here:
-    } //GEN-LAST:event_mniOptionsActionPerformed
+        final OptionsDialog od = new OptionsDialog(this, true);
+        od.setLocationRelativeTo(this);
+        od.setVisible(true);
+    }                                                                              //GEN-LAST:event_mniOptionsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1033,6 +1057,12 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 
     @Override
     public void dispose() {
+        try {
+            StaticStartupTools.saveScreenshotOfFrame(this, FILEPATH_SCREEN);
+        } catch (Exception ex) {
+            LOG.fatal("Fehler beim Capturen des App-Inhaltes", ex);
+        }
+
         setVisible(false);
         LOG.info("Dispose(): Application gets shutted down");
         broker.getLayoutManager().saveUserLayout();
@@ -1167,6 +1197,14 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 //                    configManager.configure(loginManager);
                     configManager.addConfigurable(wa);
                     configManager.configure(wa);
+
+                    try {
+                        SPLASH = StaticStartupTools.showGhostFrame(FILEPATH_SCREEN, "belis [Startup]");
+                        SPLASH.setLocationRelativeTo(null);
+                    } catch (Exception e) {
+                        LOG.warn("Problem beim Darstellen des Pre-Loading-Frame", e);
+                    }
+
                     try {
                         handleLogin();
                     } catch (Exception ex) {
