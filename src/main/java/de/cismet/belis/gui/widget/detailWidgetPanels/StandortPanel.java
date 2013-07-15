@@ -11,9 +11,8 @@
  */
 package de.cismet.belis.gui.widget.detailWidgetPanels;
 
-import org.apache.log4j.Logger;
-
 import org.jdesktop.beansbinding.Binding;
+import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.BindingListener;
 import org.jdesktop.beansbinding.PropertyStateEvent;
 import org.jdesktop.beansbinding.Validator;
@@ -24,28 +23,19 @@ import java.awt.Component;
 
 import java.text.ParseException;
 
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
 
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis.gui.widget.DetailWidget;
-
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
-
-import de.cismet.belisEE.util.CriteriaStringComparator;
 
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
@@ -53,7 +43,6 @@ import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
 
 /**
@@ -62,27 +51,19 @@ import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class StandortPanel extends javax.swing.JPanel {
+public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCustomBean> {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StandortPanel.class);
-    private static final Calendar earliestDate = new GregorianCalendar(1950, Calendar.JANUARY, 1);
 
     private static StandortPanel instance = null;
-    public static final String PROP_CURRENT_ENTITY = "currentEntity";
 
     private static final HashMap<JComponent, JComponent> componentToLabelMap = new HashMap<JComponent, JComponent>();
 
     //~ Instance fields --------------------------------------------------------
 
-    protected TdtaStandortMastCustomBean currentEntity = null;
-
-    private final String comboBoxNullValue = "Wert auswählen...";
-    private boolean isTriggerd = false;
-    private int maxStringLength = 250;
     private Collection<Binding> validationState = new HashSet<Binding>();
-    private Collection<TkeyStrassenschluesselCustomBean> allStrassenschluessel;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cboStandortVerrechnungseinheit;
@@ -137,7 +118,7 @@ public class StandortPanel extends javax.swing.JPanel {
     private StandortPanel() {
         initComponents();
         initComponentToLabelMap();
-        initStandortPanel();
+        initPanel();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -997,17 +978,8 @@ public class StandortPanel extends javax.swing.JPanel {
     /**
      * DOCUMENT ME!
      */
-    private void initStandortPanel() {
-        try {
-            allStrassenschluessel = CidsBroker.getInstance().getAllStrassenschluessel();
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Strassenschluessel size: " + allStrassenschluessel.size());
-            }
-        } catch (Exception ex) {
-            LOG.error("Error while initializing all strassenschlussel.");
-            allStrassenschluessel = new HashSet();
-        }
-
+    @Override
+    final void initPanel() {
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxStandortStrassenschluessel);
         bindingGroup.addBindingListener(new BindingListener() {
 
@@ -1180,34 +1152,6 @@ public class StandortPanel extends javax.swing.JPanel {
     /**
      * DOCUMENT ME!
      *
-     * @param  col  DOCUMENT ME!
-     * @param  box  DOCUMENT ME!
-     */
-    private void createSortedCBoxModelFromCollection(final Collection<?> col, final JComboBox box) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("sorting collection: " + col);
-        }
-        try {
-            if (box != null) {
-                if (col != null) {
-                    final Object[] objArr = col.toArray();
-                    Arrays.sort(objArr, CriteriaStringComparator.getInstance());
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("sorted Collection:" + objArr);
-                    }
-                    box.setModel(new DefaultComboBoxModel(objArr));
-                } else {
-                    box.setModel(new DefaultComboBoxModel());
-                }
-            }
-        } catch (Exception ex) {
-            LOG.error("error while sorting collection", ex);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @param  evt  DOCUMENT ME!
      */
     private void cboStandortVerrechnungseinheitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cboStandortVerrechnungseinheitActionPerformed
@@ -1258,41 +1202,13 @@ public class StandortPanel extends javax.swing.JPanel {
             isTriggerd = false;
         }
     }                                                                                                   //GEN-LAST:event_cbxStandortStrassenschluesselNrActionPerformed
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Object getCurrentEntity() {
-        return currentEntity;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  currentEntity  DOCUMENT ME!
-     */
-    public void setCurrentEntity(final TdtaStandortMastCustomBean currentEntity) {
-        final Object oldCurrentEntity = this.currentEntity;
-        this.currentEntity = currentEntity;
-        firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
-        bindingGroup.unbind();
-        bindingGroup.bind();
-
-        if (((TdtaStandortMastCustomBean)currentEntity).getStrassenschluessel() == null) {
-            cbxStandortStrassenschluessel.setSelectedItem(null);
-            cbxStandortStrassenschluesselNr.setSelectedItem(null);
-        }
-        if (((TdtaStandortMastCustomBean)currentEntity).getKennziffer() == null) {
-            cbxStandortKennziffer.setSelectedItem(null);
-        }
-    }
 
     /**
      * DOCUMENT ME!
      *
      * @param  isEditable  DOCUMENT ME!
      */
+    @Override
     public void setPanelEditable(final boolean isEditable) {
         cbxStandortStrassenschluessel.setEnabled(isEditable);
         cbxStandortStrassenschluesselNr.setEnabled(isEditable);
@@ -1345,6 +1261,22 @@ public class StandortPanel extends javax.swing.JPanel {
         }
     }
 
+    @Override
+    public void setElementsNull() {
+        if (currentEntity.getStrassenschluessel() == null) {
+            cbxStandortStrassenschluessel.setSelectedItem(null);
+            cbxStandortStrassenschluesselNr.setSelectedItem(null);
+        }
+        if (currentEntity.getKennziffer() == null) {
+            cbxStandortKennziffer.setSelectedItem(null);
+        }
+    }
+
+    @Override
+    BindingGroup getBindingGroup() {
+        return bindingGroup;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -1389,105 +1321,6 @@ public class StandortPanel extends javax.swing.JPanel {
                 LOG.debug("plz valide");
             }
             return null;
-        }
-    }
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    public class StringMaxLengthValidator extends Validator<String> {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private int maxLength;
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new StringMaxLengthValidator object.
-         */
-        public StringMaxLengthValidator() {
-            this.maxLength = maxStringLength;
-        }
-
-        /**
-         * Creates a new StringMaxLengthValidator object.
-         *
-         * @param  maxLength  DOCUMENT ME!
-         */
-        public StringMaxLengthValidator(final int maxLength) {
-            this.maxLength = maxLength;
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public Validator.Result validate(final String value) {
-            if ((value != null) && (value.length() > maxLength)) {
-                return new Validator.Result("code", "Der Text darf nicht länger als " + maxLength + " Zeichen sein.");
-            }
-            return null;
-        }
-    }
-
-    /**
-     * ToDo JXDatePicker Visualisierung.
-     *
-     * @version  $Revision$, $Date$
-     */
-    public class DateValidator extends Validator<Date> {
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public Validator.Result validate(final Date value) {
-            if ((value != null) && (value.compareTo(earliestDate.getTime()) < 0)) {
-                return new Validator.Result("code", "Datum muss nach dem 01.01.1950 sein.");
-            }
-            return null;
-        }
-    }
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    public class NotNullValidator extends Validator {
-
-        //~ Instance fields ----------------------------------------------------
-
-        String elementname = "Element";
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new NotNullValidator object.
-         */
-        public NotNullValidator() {
-        }
-
-        /**
-         * Creates a new NotNullValidator object.
-         *
-         * @param  elementname  DOCUMENT ME!
-         */
-        public NotNullValidator(final String elementname) {
-            this.elementname = elementname;
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public Validator.Result validate(final Object value) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("NotNullValidatorcheck: " + value);
-            }
-            if (value != null) {
-                return null;
-            } else {
-                return new Validator.Result("code", elementname + " muss gesetzt werden.");
-            }
         }
     }
 }
