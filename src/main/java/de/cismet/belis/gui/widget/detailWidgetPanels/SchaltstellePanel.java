@@ -467,6 +467,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     @Override
     final void initPanel() {
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxSchaltstelleStrassenschluessel);
+        bindingGroup.addBindingListener(new PanelBindingListener());
         cbxSchaltstelleStrassenschluessel.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluessel, new ObjectToKeyStringConverter());
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxSchaltstelleStrassenschluesselNr);
@@ -554,5 +555,18 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     @Override
     BindingGroup getBindingGroup() {
         return bindingGroup;
+    }
+
+    @Override
+    void initComponentToLabelMap() {
+        componentToLabelMap.put(cbxSchaltstelleBauart, lblSchaltstelleBauart);
+        componentToLabelMap.put(cbxSchaltstelleStrassenschluessel, lblSchaltstelleStrassenschluessel);
+        componentToLabelMap.put(cbxSchaltstelleStrassenschluesselNr, lblSchaltstelleStrassenschluessel);
+        componentToLabelMap.put(dapSchaltstelleErstellungsjahr, lblSchaltstelleErstellungsjahr);
+        componentToLabelMap.put(txaSchaltstelleBemerkung, lblSchaltstelleBemerkung);
+        componentToLabelMap.put(txfSchaltstelleHausnummer, lblSchaltstelleHausnummer);
+        componentToLabelMap.put(txfSchaltstelleLaufendenummer, lblSchaltstelleLaufendenummer);
+        componentToLabelMap.put(txfSchaltstelleNummer, lblSchaltstelleNummer);
+        componentToLabelMap.put(txfSchaltstelleStandortbezeichnung, lblSchaltstelleStandortbezeichnung);
     }
 }

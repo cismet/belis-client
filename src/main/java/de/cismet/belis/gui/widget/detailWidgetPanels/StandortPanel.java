@@ -13,12 +13,9 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
-import org.jdesktop.beansbinding.BindingListener;
-import org.jdesktop.beansbinding.PropertyStateEvent;
 import org.jdesktop.beansbinding.Validator;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import java.text.ParseException;
@@ -58,12 +55,6 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StandortPanel.class);
 
     private static StandortPanel instance = null;
-
-    private static final HashMap<JComponent, JComponent> componentToLabelMap = new HashMap<JComponent, JComponent>();
-
-    //~ Instance fields --------------------------------------------------------
-
-    private Collection<Binding> validationState = new HashSet<Binding>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cboStandortVerrechnungseinheit;
@@ -953,7 +944,8 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     /**
      * DOCUMENT ME!
      */
-    private void initComponentToLabelMap() {
+    @Override
+    void initComponentToLabelMap() {
         componentToLabelMap.put(cboStandortVerrechnungseinheit, lblStandortVerrechnungseinheit);
         componentToLabelMap.put(cbxStandortKennziffer, lblStandortKenziffer);
         componentToLabelMap.put(cbxStandortKlassifizierung, lblStandortKlassifizierung);
@@ -981,105 +973,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     @Override
     final void initPanel() {
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxStandortStrassenschluessel);
-        bindingGroup.addBindingListener(new BindingListener() {
-
-                @Override
-                public void bindingBecameBound(final Binding binding) {
-                    // log.debug("binding became bound");
-                }
-
-                @Override
-                public void bindingBecameUnbound(final Binding binding) {
-                    // log.debug("binding became unbound");
-                }
-
-                @Override
-                public void syncWarning(final Binding binding, final Binding.SyncFailure failure) {
-                }
-
-                @Override
-                public void syncFailed(final Binding binding, final Binding.SyncFailure failure) {
-                    // log.debug("syncFailed");
-                    final Object target = binding.getTargetObject();
-                    // log.debug("Target: " + target);
-                    if (target instanceof JComponent) { // && !(target instanceof JComboBox)) {
-                        final JComponent c = (JComponent)target;
-                        final JComponent associatedLabel = componentToLabelMap.get(c);
-                        if (associatedLabel != null) {
-                            associatedLabel.setForeground(Color.red);
-                        } else {
-                            c.setForeground(Color.red);
-                        }
-                        try {
-                            if (associatedLabel != null) {
-                                associatedLabel.setToolTipText(failure.getValidationResult().getDescription());
-                            }
-                            c.setToolTipText(failure.getValidationResult().getDescription());
-                        } catch (Exception ex) {
-                            // log.debug("Error while setting tooltip", ex);
-                            c.setToolTipText(null);
-                        }
-                    } else {
-                        LOG.error("keine JCOmponent");
-                    }
-                    if ((currentEntity instanceof TdtaStandortMastCustomBean)
-                                && StandortPanel.getInstance().isAncestorOf((Component)binding.getTargetObject())) {
-                        validationState.add(binding);
-                        // log.debug("Validation state changed. Errorcount: "+validationState.size());
-                    }
-                    // ToDo message with complete text to user;
-                    // lblStrassenschluesselValidation.setIcon(BelisIcons.icoCancel22);
-                }
-
-                @Override
-                public void synced(final Binding binding) {
-                    // log.debug("synced: source: "+binding.getSourceObject()+" target: "+binding.getTargetObject(),new
-                    // CurrentStackTrace()); log.debug("sync: " + cbxLeuchteStrassenschluessel.getSelectedItem());
-                    // lblStrassenschluesselValidation.setIcon(BelisIcons.icoAccept22);
-                    final Object target = binding.getTargetObject();
-                    if (target instanceof JComponent) { // && !(target instanceof JComboBox)) {
-                        final JComponent c = (JComponent)target;
-                        final JComponent associatedLabel = componentToLabelMap.get(c);
-                        if (associatedLabel != null) {
-                            associatedLabel.setForeground(Color.black);
-                        } else {
-                            c.setForeground(Color.black);
-                        }
-                        c.setToolTipText(null);
-                    } else {
-                        LOG.error("keine JCOmponent");
-                    }
-                    if ((currentEntity instanceof TdtaStandortMastCustomBean)
-                                && StandortPanel.getInstance().isAncestorOf((Component)binding.getTargetObject())) {
-                        validationState.remove(binding);
-                        // log.debug("Validation state changed. Errorcount: "+validationState.size());
-                    }
-//                String bindingName = binding.getName();
-//                if (bindingName != null) {
-//                    Collection<String> additionalValidationBindings = validationDependencies.get(binding.getName());
-//                    log.debug("for binding " + bindingName + "-->> dependencies: " + additionalValidationBindings);
-//                    if (additionalValidationBindings != null) {
-//
-//                        for (String name : additionalValidationBindings) {
-//                            Binding b = bindingGroup.getBinding(name);
-//                            if (b != 06694null) {
-//                                log.debug("CheckAgain: " + name);
-//                                b.saveAndNotify();
-//                            }
-//                        }
-//                    }
-//
-//                }
-                }
-
-                @Override
-                public void sourceChanged(final Binding binding, final PropertyStateEvent event) {
-                }
-
-                @Override
-                public void targetChanged(final Binding binding, final PropertyStateEvent event) {
-                }
-            });
+        bindingGroup.addBindingListener(new PanelBindingListener());
         cbxStandortStrassenschluessel.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxStandortStrassenschluessel, new ObjectToKeyStringConverter());
 //        cbxStandortStrassenschluessel.setEditable(true);
