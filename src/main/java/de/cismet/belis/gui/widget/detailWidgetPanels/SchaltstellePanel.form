@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.6" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
+                  <Component id="sprSchaltstelle" alignment="0" pref="439" max="32767" attributes="1"/>
+                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="sprSchaltstelle" min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel4" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="13" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/de/cismet/belis/resource/icon/22/schaltstelle.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Schaltstelle" noResource="true"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JPanel" name="jPanel4">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblSchaltstelleStandortbezeichnung" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblSchaltstelleBauart" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblSchaltstelleErstellungsjahr" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblSchaltstelleNummer" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblSchaltstelleStrassenschluessel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblSchaltstelleLaufendenummer" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblSchaltstelleHausnummer" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblSchaltstelleBemerkung" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="txfSchaltstelleStandortbezeichnung" pref="262" max="32767" attributes="0"/>
+                      <Component id="txfSchaltstelleHausnummer" alignment="0" pref="262" max="32767" attributes="0"/>
+                      <Component id="txfSchaltstelleNummer" alignment="0" pref="262" max="32767" attributes="0"/>
+                      <Component id="dapSchaltstelleErstellungsjahr" alignment="0" pref="181" max="32767" attributes="0"/>
+                      <Component id="cbxSchaltstelleBauart" alignment="0" pref="262" max="32767" attributes="0"/>
+                      <Component id="scpSchaltstelleBemerkung" alignment="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="cbxSchaltstelleStrassenschluesselNr" min="-2" pref="102" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="cbxSchaltstelleStrassenschluessel" pref="154" max="32767" attributes="2"/>
+                      </Group>
+                      <Component id="txfSchaltstelleLaufendenummer" alignment="0" pref="262" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblSchaltstelleStrassenschluessel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbxSchaltstelleStrassenschluesselNr" alignment="3" min="-2" pref="19" max="-2" attributes="0"/>
+                      <Component id="cbxSchaltstelleStrassenschluessel" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblSchaltstelleLaufendenummer" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txfSchaltstelleLaufendenummer" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblSchaltstelleHausnummer" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txfSchaltstelleHausnummer" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblSchaltstelleNummer" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txfSchaltstelleNummer" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblSchaltstelleErstellungsjahr" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="dapSchaltstelleErstellungsjahr" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblSchaltstelleStandortbezeichnung" alignment="3" min="-2" max="-2" attributes="1"/>
+                      <Component id="txfSchaltstelleStandortbezeichnung" alignment="3" min="-2" pref="22" max="-2" attributes="1"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblSchaltstelleBauart" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbxSchaltstelleBauart" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblSchaltstelleBemerkung" min="-2" max="-2" attributes="0"/>
+                      <Component id="scpSchaltstelleBemerkung" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblSchaltstelleStrassenschluessel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSchaltstelleLaufendenummer">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Laufende Nr.:" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSchaltstelleHausnummer">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Haus Nr.:" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSchaltstelleNummer">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Schaltstellen Nr.:" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSchaltstelleErstellungsjahr">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Erstellungsjahr:" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSchaltstelleStandortbezeichnung">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Standortbezeichnung:" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSchaltstelleBauart">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Bauart:" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSchaltstelleBemerkung">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Bemerkung:" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txfSchaltstelleLaufendenummer">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="Form" sourcePath="${currentEntity.laufendeNummer}" target="txfSchaltstelleLaufendenummer" targetPath="text" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txfSchaltstelleHausnummer">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="Form" sourcePath="${currentEntity.hausnummer}" target="txfSchaltstelleHausnummer" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new StringMaxLengthValidator(5)" type="code"/>
+              </Property>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txfSchaltstelleNummer">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="Form" sourcePath="${currentEntity.schaltstellenNummer}" target="txfSchaltstelleNummer" targetPath="text" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXDatePicker" name="dapSchaltstelleErstellungsjahr">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.erstellungsjahr}" target="dapSchaltstelleErstellungsjahr" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new DateValidator()" type="code"/>
+              </Property>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txfSchaltstelleStandortbezeichnung">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="text" source="Form" sourcePath="${currentEntity.zusaetzlicheStandortbezeichnung}" target="txfSchaltstelleStandortbezeichnung" targetPath="text" updateStrategy="0" immediately="false">
+              <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+              <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new StringMaxLengthValidator()" type="code"/>
+              </Property>
+            </BindingProperty>
+          </BindingProperties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cbxSchaltstelleBauart">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if(value == null){&#xa;                   setText(comboBoxNullValue);&#xa;               } else if (value instanceof de.cismet.cids.custom.beans.belis.BauartCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.BauartCustomBean ba = (de.cismet.cids.custom.beans.belis.BauartCustomBean)value;&#xa;                   setText(ba.getBezeichnung());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+            </Property>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.bauart}" target="cbxSchaltstelleBauart" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="scpSchaltstelleBemerkung">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTextArea" name="txaSchaltstelleBemerkung">
+              <Properties>
+                <Property name="columns" type="int" value="20"/>
+                <Property name="rows" type="int" value="5"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="text" source="Form" sourcePath="${currentEntity.bemerkung}" target="txaSchaltstelleBemerkung" targetPath="text" updateStrategy="0" immediately="false">
+                  <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+                  <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                    <Connection code="new StringMaxLengthValidator()" type="code"/>
+                  </Property>
+                </BindingProperty>
+              </BindingProperties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JComboBox" name="cbxSchaltstelleStrassenschluesselNr">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;&#xa;                   setText(ss.getPk());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxSchaltstelleStrassenschluesselNrActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cbxSchaltstelleStrassenschluessel">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;              if(value == null){&#xa;                  setText(comboBoxNullValue);&#xa;              } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {&#xa;                   final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;&#xa;                   setText(ss.getKeyString());&#xa;              }&#xa;              return this; &#xa;            }&#xa;}" type="code"/>
+            </Property>
+          </Properties>
+          <BindingProperties>
+            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.strassenschluessel}" target="cbxSchaltstelleStrassenschluessel" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new NotNullValidator(&quot;Stra&#xdf;enschl&#xfc;ssel&quot;)" type="code"/>
+              </Property>
+            </BindingProperty>
+          </BindingProperties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxSchaltstelleStrassenschluesselActionPerformed"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JSeparator" name="sprSchaltstelle">
+    </Component>
+  </SubComponents>
+</Form>

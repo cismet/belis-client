@@ -12,7 +12,6 @@
  */
 package de.cismet.belis.gui.widget;
 
-
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Converter;
@@ -47,6 +46,7 @@ import de.cismet.belis.broker.CidsBroker;
 import de.cismet.belis.gui.documentpanel.DocumentPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToPkConverter;
+import de.cismet.belis.gui.widget.detailWidgetPanels.SchaltstellePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.StandortPanel;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
@@ -72,6 +72,7 @@ import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
+
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
 import de.cismet.commons2.architecture.widget.DefaultWidget;
@@ -124,18 +125,12 @@ public class DetailWidget extends DefaultWidget {
     private javax.swing.JComboBox cbxMauerlascheMaterial;
     private javax.swing.JComboBox cbxMauerlascheStrassenschluessel;
     private javax.swing.JComboBox cbxMauerlascheStrassenschluesselNr;
-    private javax.swing.JComboBox cbxSchaltstelleBauart;
-    private javax.swing.JComboBox cbxSchaltstelleStrassenschluessel;
-    private javax.swing.JComboBox cbxSchaltstelleStrassenschluesselNr;
     private org.jdesktop.swingx.JXDatePicker dapLeuchteInbetriebnahme;
     private org.jdesktop.swingx.JXDatePicker dapMauerlascheErstellungsjahr;
-    private org.jdesktop.swingx.JXDatePicker dapSchaltstelleErstellungsjahr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblAbzweigdose;
     private javax.swing.JLabel lblLeitungLeitungstyp;
     private javax.swing.JLabel lblLeitungMaterial;
@@ -163,14 +158,6 @@ public class DetailWidget extends DefaultWidget {
     private javax.swing.JLabel lblMauerlascheLaufendenummer;
     private javax.swing.JLabel lblMauerlascheMaterial;
     private javax.swing.JLabel lblMauerlascheStrassenschluessel;
-    private javax.swing.JLabel lblSchaltstelleBauart;
-    private javax.swing.JLabel lblSchaltstelleBemerkung;
-    private javax.swing.JLabel lblSchaltstelleErstellungsjahr;
-    private javax.swing.JLabel lblSchaltstelleHausnummer;
-    private javax.swing.JLabel lblSchaltstelleLaufendenummer;
-    private javax.swing.JLabel lblSchaltstelleNummer;
-    private javax.swing.JLabel lblSchaltstelleStandortbezeichnung;
-    private javax.swing.JLabel lblSchaltstelleStrassenschluessel;
     private javax.swing.JPanel panAbzweidose;
     private javax.swing.JPanel panContent;
     private javax.swing.JPanel panContent1;
@@ -179,27 +166,19 @@ public class DetailWidget extends DefaultWidget {
     private javax.swing.JPanel panLeuchte;
     private javax.swing.JPanel panMain;
     private javax.swing.JPanel panMauerlasche;
-    private javax.swing.JPanel panSchaltstelle;
     private javax.swing.JScrollPane scpLeuchteBemerkung;
     private javax.swing.JScrollPane scpMain;
-    private javax.swing.JScrollPane scpSchaltstelleBemerkung;
     private javax.swing.JSeparator sprLeitung;
     private javax.swing.JSeparator sprLeuchte;
     private javax.swing.JSeparator sprLeuchte1;
     private javax.swing.JSpinner sprLeuchteDoppelkommando1Anzahl;
     private javax.swing.JSpinner sprLeuchteDoppelkommando2Anzahl;
     private javax.swing.JSeparator sprMauerlasche;
-    private javax.swing.JSeparator sprSchaltstelle;
     private javax.swing.JTextArea txaLeuchteBemerkung;
-    private javax.swing.JTextArea txaSchaltstelleBemerkung;
     private javax.swing.JTextField txfLeuchteLaufendenummer;
     private javax.swing.JTextField txfLeuchteMontagefirma;
     private javax.swing.JTextField txfLeuchteStandortAngabe;
     private javax.swing.JTextField txfMauerlascheLaufendenummer;
-    private javax.swing.JTextField txfSchaltstelleHausnummer;
-    private javax.swing.JTextField txfSchaltstelleLaufendenummer;
-    private javax.swing.JTextField txfSchaltstelleNummer;
-    private javax.swing.JTextField txfSchaltstelleStandortbezeichnung;
     private javax.swing.JTextField txtLeuchteLeuchtennummer;
     private javax.swing.JTextField txtLeuchteRundsteuer;
     private javax.swing.JTextField txtLeuchteSchaltstelle;
@@ -271,7 +250,6 @@ public class DetailWidget extends DefaultWidget {
         initLeuchtePanel();
         initLeitungPanel();
         initMauerlaschePanel();
-        initSchaltstellePanel();
         initAbzweigdosePanel();
     }
 
@@ -482,25 +460,6 @@ public class DetailWidget extends DefaultWidget {
 
     /**
      * DOCUMENT ME!
-     */
-    private void initSchaltstellePanel() {
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxSchaltstelleStrassenschluessel);
-        cbxSchaltstelleStrassenschluessel.setSelectedItem(null);
-        AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluessel, new ObjectToKeyStringConverter());
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxSchaltstelleStrassenschluesselNr);
-        cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
-        AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluesselNr, new ObjectToPkConverter("pk"));
-        try {
-            final Collection<BauartCustomBean> bauarten = CidsBroker.getInstance().getAllBauarten();
-            createSortedCBoxModelFromCollection(bauarten, cbxSchaltstelleBauart);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxSchaltstelleBauart.setModel(new DefaultComboBoxModel());
-        }
-        cbxSchaltstelleBauart.setSelectedItem(null);
-    }
-
-    /**
-     * DOCUMENT ME!
      *
      * @param  enabled  DOCUMENT ME!
      */
@@ -579,9 +538,9 @@ public class DetailWidget extends DefaultWidget {
             // panMain.add(panStandort,BorderLayout.CENTER);
             final StandortPanel standortPanel = StandortPanel.getInstance();
             standortPanel.setCurrentEntity((TdtaStandortMastCustomBean)currentEntity);
+            standortPanel.setElementsNull();
 
             panMain.add(standortPanel, BorderLayout.CENTER);
-
             standortPanel.setVisible(true);
         } else if (currentEntity instanceof TdtaLeuchtenCustomBean) {
             if (LOG.isDebugEnabled()) {
@@ -636,12 +595,14 @@ public class DetailWidget extends DefaultWidget {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Schaltstelle");
             }
-            if (((SchaltstelleCustomBean)currentEntity).getStrassenschluessel() == null) {
-                cbxSchaltstelleStrassenschluessel.setSelectedItem(null);
-                cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
-            }
-            panMain.add(panSchaltstelle, BorderLayout.CENTER);
-            panSchaltstelle.setVisible(true);
+
+            final SchaltstellePanel schaltstellePanel = SchaltstellePanel.getInstance();
+
+            schaltstellePanel.setCurrentEntity((SchaltstelleCustomBean)currentEntity);
+            schaltstellePanel.setElementsNull();
+
+            panMain.add(schaltstellePanel, BorderLayout.CENTER);
+            schaltstellePanel.setVisible(true);
         } else {
             LOG.warn("no panel for entity available");
         }
@@ -673,7 +634,7 @@ public class DetailWidget extends DefaultWidget {
         panLeuchte.setVisible(visible);
         panLeitung.setVisible(visible);
         panMauerlasche.setVisible(visible);
-        panSchaltstelle.setVisible(visible);
+        SchaltstellePanel.getInstance().setVisible(visible);
     }
 
     @Override
@@ -728,15 +689,7 @@ public class DetailWidget extends DefaultWidget {
         txfMauerlascheLaufendenummer.setEnabled(isEditable);
 
         // Schaltstelle fields
-        cbxSchaltstelleStrassenschluessel.setEnabled(isEditable);
-        cbxSchaltstelleStrassenschluesselNr.setEnabled(isEditable);
-        cbxSchaltstelleBauart.setEnabled(isEditable);
-        txfSchaltstelleHausnummer.setEnabled(isEditable);
-        txfSchaltstelleLaufendenummer.setEnabled(isEditable);
-        txfSchaltstelleNummer.setEnabled(isEditable);
-        txfSchaltstelleStandortbezeichnung.setEnabled(isEditable);
-        dapSchaltstelleErstellungsjahr.setEnabled(isEditable);
-        txaSchaltstelleBemerkung.setEnabled(isEditable);
+        SchaltstellePanel.getInstance().setPanelEditable(isEditable);
 
         // doc panel
         panDokumente.setEditable(isEditable);
@@ -766,11 +719,7 @@ public class DetailWidget extends DefaultWidget {
             } else if (currentEntity instanceof TdtaStandortMastCustomBean) {
                 StandortPanel.getInstance().commitEdits();
             } else if (currentEntity instanceof SchaltstelleCustomBean) {
-                try {
-                    dapSchaltstelleErstellungsjahr.getEditor().commitEdit();
-                } catch (ParseException ex) {
-                    LOG.warn("Error while commiting edits: " + ex);
-                }
+                SchaltstellePanel.getInstance().commitEdits();
             } else if (currentEntity instanceof MauerlascheCustomBean) {
                 try {
                     dapMauerlascheErstellungsjahr.getEditor().commitEdit();
@@ -806,28 +755,6 @@ public class DetailWidget extends DefaultWidget {
         cbxMauerlascheStrassenschluesselNr = new javax.swing.JComboBox();
         cbxMauerlascheStrassenschluessel = new javax.swing.JComboBox();
         sprMauerlasche = new javax.swing.JSeparator();
-        panSchaltstelle = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        lblSchaltstelleStrassenschluessel = new javax.swing.JLabel();
-        lblSchaltstelleLaufendenummer = new javax.swing.JLabel();
-        lblSchaltstelleHausnummer = new javax.swing.JLabel();
-        lblSchaltstelleNummer = new javax.swing.JLabel();
-        lblSchaltstelleErstellungsjahr = new javax.swing.JLabel();
-        lblSchaltstelleStandortbezeichnung = new javax.swing.JLabel();
-        lblSchaltstelleBauart = new javax.swing.JLabel();
-        lblSchaltstelleBemerkung = new javax.swing.JLabel();
-        txfSchaltstelleLaufendenummer = new javax.swing.JTextField();
-        txfSchaltstelleHausnummer = new javax.swing.JTextField();
-        txfSchaltstelleNummer = new javax.swing.JTextField();
-        dapSchaltstelleErstellungsjahr = new org.jdesktop.swingx.JXDatePicker();
-        txfSchaltstelleStandortbezeichnung = new javax.swing.JTextField();
-        cbxSchaltstelleBauart = new javax.swing.JComboBox();
-        scpSchaltstelleBemerkung = new javax.swing.JScrollPane();
-        txaSchaltstelleBemerkung = new javax.swing.JTextArea();
-        cbxSchaltstelleStrassenschluesselNr = new javax.swing.JComboBox();
-        cbxSchaltstelleStrassenschluessel = new javax.swing.JComboBox();
-        sprSchaltstelle = new javax.swing.JSeparator();
         panLeitung = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -1131,331 +1058,6 @@ public class DetailWidget extends DefaultWidget {
                     javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
                     javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
                     jPanel3,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE).addContainerGap()));
-
-        jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                               // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/schaltstelle.png"))); // NOI18N
-        jLabel3.setText("Schaltstelle");                                                        // NOI18N
-
-        lblSchaltstelleStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
-
-        lblSchaltstelleLaufendenummer.setText("Laufende Nr.:"); // NOI18N
-
-        lblSchaltstelleHausnummer.setText("Haus Nr.:"); // NOI18N
-
-        lblSchaltstelleNummer.setText("Schaltstellen Nr.:"); // NOI18N
-
-        lblSchaltstelleErstellungsjahr.setText("Erstellungsjahr:"); // NOI18N
-
-        lblSchaltstelleStandortbezeichnung.setText("Standortbezeichnung:"); // NOI18N
-
-        lblSchaltstelleBauart.setText("Bauart:"); // NOI18N
-
-        lblSchaltstelleBemerkung.setText("Bemerkung:"); // NOI18N
-
-        txfSchaltstelleLaufendenummer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
-                txfSchaltstelleLaufendenummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        txfSchaltstelleHausnummer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.hausnummer}"),
-                txfSchaltstelleHausnummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator(5));
-        bindingGroup.addBinding(binding);
-
-        txfSchaltstelleNummer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.schaltstellenNummer}"),
-                txfSchaltstelleNummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        dapSchaltstelleErstellungsjahr.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erstellungsjahr}"),
-                dapSchaltstelleErstellungsjahr,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        txfSchaltstelleStandortbezeichnung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zusaetzlicheStandortbezeichnung}"),
-                txfSchaltstelleStandortbezeichnung,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator());
-        bindingGroup.addBinding(binding);
-
-        cbxSchaltstelleBauart.setEnabled(false);
-        cbxSchaltstelleBauart.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.BauartCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.BauartCustomBean ba =
-                            (de.cismet.cids.custom.beans.belis.BauartCustomBean)value;
-                        setText(ba.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bauart}"),
-                cbxSchaltstelleBauart,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        txaSchaltstelleBemerkung.setColumns(20);
-        txaSchaltstelleBemerkung.setRows(5);
-        txaSchaltstelleBemerkung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkung}"),
-                txaSchaltstelleBemerkung,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator());
-        bindingGroup.addBinding(binding);
-
-        scpSchaltstelleBemerkung.setViewportView(txaSchaltstelleBemerkung);
-
-        cbxSchaltstelleStrassenschluesselNr.setEnabled(false);
-        cbxSchaltstelleStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
-                        setText(ss.getPk());
-                    }
-                    return this;
-                }
-            });
-        cbxSchaltstelleStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxSchaltstelleStrassenschluesselNrActionPerformed(evt);
-                }
-            });
-
-        cbxSchaltstelleStrassenschluessel.setEnabled(false);
-        cbxSchaltstelleStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
-                        setText(ss.getKeyString());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
-                cbxSchaltstelleStrassenschluessel,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setValidator(new NotNullValidator("Straßenschlüssel"));
-        bindingGroup.addBinding(binding);
-
-        cbxSchaltstelleStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxSchaltstelleStrassenschluesselActionPerformed(evt);
-                }
-            });
-
-        final javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel4Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblSchaltstelleStandortbezeichnung).addComponent(lblSchaltstelleBauart).addComponent(
-                        lblSchaltstelleErstellungsjahr).addComponent(lblSchaltstelleNummer).addComponent(
-                        lblSchaltstelleStrassenschluessel).addComponent(lblSchaltstelleLaufendenummer).addComponent(
-                        lblSchaltstelleHausnummer).addComponent(lblSchaltstelleBemerkung)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        txfSchaltstelleStandortbezeichnung,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        262,
-                        Short.MAX_VALUE).addComponent(
-                        txfSchaltstelleHausnummer,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        262,
-                        Short.MAX_VALUE).addComponent(
-                        txfSchaltstelleNummer,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        262,
-                        Short.MAX_VALUE).addComponent(
-                        dapSchaltstelleErstellungsjahr,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        262,
-                        Short.MAX_VALUE).addComponent(cbxSchaltstelleBauart, 0, 262, Short.MAX_VALUE).addComponent(
-                        scpSchaltstelleBemerkung).addGroup(
-                        jPanel4Layout.createSequentialGroup().addComponent(
-                            cbxSchaltstelleStrassenschluesselNr,
-                            javax.swing.GroupLayout.PREFERRED_SIZE,
-                            102,
-                            javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                            cbxSchaltstelleStrassenschluessel,
-                            0,
-                            154,
-                            Short.MAX_VALUE)).addComponent(
-                        txfSchaltstelleLaufendenummer,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        262,
-                        Short.MAX_VALUE)).addContainerGap()));
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel4Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleStrassenschluessel).addComponent(
-                        cbxSchaltstelleStrassenschluesselNr,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        19,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        cbxSchaltstelleStrassenschluessel,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleLaufendenummer).addComponent(
-                        txfSchaltstelleLaufendenummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleHausnummer).addComponent(
-                        txfSchaltstelleHausnummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleNummer).addComponent(
-                        txfSchaltstelleNummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleErstellungsjahr).addComponent(
-                        dapSchaltstelleErstellungsjahr,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleStandortbezeichnung).addComponent(
-                        txfSchaltstelleStandortbezeichnung,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleBauart).addComponent(
-                        cbxSchaltstelleBauart,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblSchaltstelleBemerkung).addComponent(
-                        scpSchaltstelleBemerkung,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(16, Short.MAX_VALUE)));
-
-        final javax.swing.GroupLayout panSchaltstelleLayout = new javax.swing.GroupLayout(panSchaltstelle);
-        panSchaltstelle.setLayout(panSchaltstelleLayout);
-        panSchaltstelleLayout.setHorizontalGroup(
-            panSchaltstelleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                panSchaltstelleLayout.createSequentialGroup().addContainerGap().addGroup(
-                    panSchaltstelleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        jPanel4,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addComponent(
-                        sprSchaltstelle,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        439,
-                        Short.MAX_VALUE).addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addContainerGap()));
-        panSchaltstelleLayout.setVerticalGroup(
-            panSchaltstelleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panSchaltstelleLayout.createSequentialGroup().addContainerGap().addComponent(jLabel3).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    sprSchaltstelle,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    jPanel4,
                     javax.swing.GroupLayout.DEFAULT_SIZE,
                     javax.swing.GroupLayout.DEFAULT_SIZE,
                     Short.MAX_VALUE).addContainerGap()));
@@ -2497,63 +2099,25 @@ public class DetailWidget extends DefaultWidget {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtLeuchteRundsteuerActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLeuchteRundsteuerActionPerformed
+    private void txtLeuchteRundsteuerActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtLeuchteRundsteuerActionPerformed
 // TODO add your handling code here:
-    }//GEN-LAST:event_txtLeuchteRundsteuerActionPerformed
+    } //GEN-LAST:event_txtLeuchteRundsteuerActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxMauerlascheMaterialActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMauerlascheMaterialActionPerformed
+    private void cbxMauerlascheMaterialActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheMaterialActionPerformed
 // TODO add your handling code here:
-    }//GEN-LAST:event_cbxMauerlascheMaterialActionPerformed
+    } //GEN-LAST:event_cbxMauerlascheMaterialActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxSchaltstelleStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
-        try {
-            if (!isTriggerd) {
-                isTriggerd = true;
-                cbxSchaltstelleStrassenschluessel.setSelectedItem(cbxSchaltstelleStrassenschluesselNr
-                            .getSelectedItem());
-            }
-        } catch (Exception ex) {
-            LOG.warn("failuire while updating strassenschluessel ", ex);
-        } finally {
-            isTriggerd = false;
-        }
-    }//GEN-LAST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbxSchaltstelleStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSchaltstelleStrassenschluesselActionPerformed
-        try {
-            if (!isTriggerd) {
-                isTriggerd = true;
-                cbxSchaltstelleStrassenschluesselNr.setSelectedItem(cbxSchaltstelleStrassenschluessel
-                            .getSelectedItem());
-            }
-        } catch (Exception ex) {
-            LOG.warn("failuire while updating strassenschluessel ", ex);
-        } finally {
-            isTriggerd = false;
-        }
-    }//GEN-LAST:event_cbxSchaltstelleStrassenschluesselActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbxMauerlascheStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
+    private void cbxMauerlascheStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -2564,14 +2128,14 @@ public class DetailWidget extends DefaultWidget {
         } finally {
             isTriggerd = false;
         }
-    }//GEN-LAST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
+    }                                                                                                      //GEN-LAST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxMauerlascheStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMauerlascheStrassenschluesselActionPerformed
+    private void cbxMauerlascheStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -2582,14 +2146,14 @@ public class DetailWidget extends DefaultWidget {
         } finally {
             isTriggerd = false;
         }
-    }//GEN-LAST:event_cbxMauerlascheStrassenschluesselActionPerformed
+    }                                                                                                    //GEN-LAST:event_cbxMauerlascheStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxLeuchteStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLeuchteStrassenschluesselNrActionPerformed
+    private void cbxLeuchteStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxLeuchteStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -2600,14 +2164,14 @@ public class DetailWidget extends DefaultWidget {
         } finally {
             isTriggerd = false;
         }
-    }//GEN-LAST:event_cbxLeuchteStrassenschluesselNrActionPerformed
+    }                                                                                                  //GEN-LAST:event_cbxLeuchteStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxLeuchteStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLeuchteStrassenschluesselActionPerformed
+    private void cbxLeuchteStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxLeuchteStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -2618,7 +2182,7 @@ public class DetailWidget extends DefaultWidget {
         } finally {
             isTriggerd = false;
         }
-    }//GEN-LAST:event_cbxLeuchteStrassenschluesselActionPerformed
+    }                                                                                                //GEN-LAST:event_cbxLeuchteStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
