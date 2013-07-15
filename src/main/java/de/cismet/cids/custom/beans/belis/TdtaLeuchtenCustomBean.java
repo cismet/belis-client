@@ -559,7 +559,7 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
      *
      * @return  DOCUMENT ME!
      */
-    public TdtaStandortMastCustomBean getFkStandort() {
+    public TdtaStandortMastCustomBean getFk_standort() {
         return fk_standort;
     }
 
@@ -568,7 +568,7 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
      *
      * @param  fk_standort  DOCUMENT ME!
      */
-    public void setFkStandort(final TdtaStandortMastCustomBean fk_standort) {
+    public void setFk_standort(final TdtaStandortMastCustomBean fk_standort) {
         final TdtaStandortMastCustomBean old = this.fk_standort;
         this.fk_standort = fk_standort;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_STANDORT, old, this.fk_standort);
@@ -680,7 +680,7 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public TdtaStandortMastCustomBean getStandort() {
-        return getFkStandort();
+        return getFk_standort();
     }
 
     /**
@@ -689,7 +689,7 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
      * @param  standort  DOCUMENT ME!
      */
     public void setStandort(final TdtaStandortMastCustomBean standort) {
-        setFkStandort(standort);
+        setFk_standort(standort);
     }
 
     /**
