@@ -94,7 +94,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="cbxMauerlascheMaterial" linkSize="12" min="0" pref="0" max="32767" attributes="1"/>
-                          <Component id="lblMauerlascheMaterial" alignment="0" max="32767" attributes="1"/>
+                          <Component id="lblMauerlascheMaterial" alignment="0" pref="22" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace pref="25" max="32767" attributes="0"/>
                   </Group>
@@ -224,7 +224,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="sprSchaltstelle" min="-2" pref="10" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel4" pref="300" max="32767" attributes="0"/>
+                  <Component id="jPanel4" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -268,16 +268,11 @@
                           <Component id="cbxSchaltstelleBauart" alignment="0" pref="262" max="32767" attributes="0"/>
                           <Component id="scpSchaltstelleBemerkung" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
+                              <Component id="cbxSchaltstelleStrassenschluesselNr" min="-2" pref="102" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="cbxSchaltstelleStrassenschluesselNr" min="-2" pref="102" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cbxSchaltstelleStrassenschluessel" pref="154" max="32767" attributes="2"/>
-                                  </Group>
-                                  <Component id="txfSchaltstelleLaufendenummer" alignment="0" pref="262" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="cbxSchaltstelleStrassenschluessel" pref="154" max="32767" attributes="2"/>
                           </Group>
+                          <Component id="txfSchaltstelleLaufendenummer" alignment="0" pref="262" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -327,7 +322,7 @@
                           <Component id="lblSchaltstelleBemerkung" min="-2" max="-2" attributes="0"/>
                           <Component id="scpSchaltstelleBemerkung" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="16" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -713,16 +708,16 @@
                                   <Component id="lblStandortStandortangabe" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblStandortMastart" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblStandortMasttyp" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblStandortKlassifizierung" linkSize="6" pref="105" max="32767" attributes="1"/>
+                                  <Component id="lblStandortKlassifizierung" linkSize="6" max="32767" attributes="1"/>
                                   <Component id="lblStandortUnterhalt" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblStandortMastschutz" linkSize="6" pref="105" max="32767" attributes="1"/>
+                                  <Component id="lblStandortMastschutz" linkSize="6" max="32767" attributes="1"/>
                                   <Component id="lblStandortInbetriebnahme" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblStandortLetzteAenderung" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblStandortMastanstrich" linkSize="6" pref="105" max="32767" attributes="1"/>
+                                  <Component id="lblStandortMastanstrich" linkSize="6" max="32767" attributes="1"/>
                                   <Component id="lblStandortMontagefirma" linkSize="6" alignment="0" min="-2" max="-2" attributes="1"/>
                                   <Component id="lblStandortHausnummer" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblStandortVerrechnungseinheit" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblStandortBemerkung" linkSize="6" alignment="0" pref="105" max="32767" attributes="1"/>
+                                  <Component id="lblStandortBemerkung" linkSize="6" alignment="0" max="32767" attributes="1"/>
                                   <Component id="lblStandortPLZ" linkSize="6" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblStandortStrassenschluessel" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblStandortKenziffer" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -811,7 +806,7 @@
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblStandortKlassifizierung" linkSize="7" alignment="3" min="-2" max="-2" attributes="1"/>
-                          <Component id="cbxStandortKlassifizierung" linkSize="5" alignment="3" min="0" pref="0" max="32767" attributes="1"/>
+                          <Component id="cbxStandortKlassifizierung" linkSize="5" alignment="3" min="0" pref="22" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
