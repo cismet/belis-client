@@ -57,12 +57,7 @@ public class TkeyKennzifferCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TkeyKennzifferCustomBean createNew() {
-        try {
-            return (TkeyKennzifferCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TkeyKennzifferCustomBean)createNew(TABLE);
     }
 
     /**

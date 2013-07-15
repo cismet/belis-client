@@ -54,12 +54,7 @@ public class QuerschnittCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static QuerschnittCustomBean createNew() {
-        try {
-            return (QuerschnittCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (QuerschnittCustomBean)createNew(TABLE);
     }
 
     @Override

@@ -11,10 +11,6 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -54,12 +50,7 @@ public class BauartCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static BauartCustomBean createNew() {
-        try {
-            return (BauartCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (BauartCustomBean)createNew(TABLE);
     }
 
     @Override

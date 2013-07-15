@@ -59,12 +59,7 @@ public class UrlBaseCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static UrlBaseCustomBean createNew() {
-        try {
-            return (UrlBaseCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (UrlBaseCustomBean)createNew(TABLE);
     }
 
     @Override

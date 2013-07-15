@@ -66,14 +66,7 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TkeyEnergielieferantCustomBean createNew() {
-        try {
-            return (TkeyEnergielieferantCustomBean)CidsBean.createNewCidsBeanFromTableName(
-                    CidsBroker.BELIS_DOMAIN,
-                    TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TkeyEnergielieferantCustomBean)createNew(TABLE);
     }
 
     @Override

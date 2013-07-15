@@ -11,10 +11,6 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -55,14 +51,7 @@ public class MaterialMauerlascheCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static MaterialMauerlascheCustomBean createNew() {
-        try {
-            return (MaterialMauerlascheCustomBean)CidsBean.createNewCidsBeanFromTableName(
-                    CidsBroker.BELIS_DOMAIN,
-                    TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (MaterialMauerlascheCustomBean)createNew(TABLE);
     }
 
     @Override

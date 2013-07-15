@@ -618,7 +618,7 @@ public class CidsBroker implements BelisServerRemote {
         final ArrayList<BaseEntity> errornousEntities = new ArrayList<BaseEntity>();
         try {
             if (objectsToSave != null) {
-                for (final BaseEntity curEntity : objectsToSave) {
+                for (BaseEntity curEntity : objectsToSave) {
                     try {
                         if (curEntity != null) {
                             if (curEntity.getId() == null) {
@@ -637,7 +637,7 @@ public class CidsBroker implements BelisServerRemote {
                                         LOG.debug("Laufende Nummer already set no need to determine next one");
                                     }
                                 }
-                                curEntity.persist();
+                                curEntity = (BaseEntity)curEntity.persist();
 //                                if (curEntity instanceof Standort) {
 //                                   final Set<Leuchte> leuchten =((Standort)curEntity).getLeuchten();
 //                                   if(leuchten != null && leuchten.size() > 0){

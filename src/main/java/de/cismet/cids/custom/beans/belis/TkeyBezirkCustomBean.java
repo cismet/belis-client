@@ -65,12 +65,7 @@ public class TkeyBezirkCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TkeyBezirkCustomBean createNew() {
-        try {
-            return (TkeyBezirkCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TkeyBezirkCustomBean)createNew(TABLE);
     }
 
     @Override

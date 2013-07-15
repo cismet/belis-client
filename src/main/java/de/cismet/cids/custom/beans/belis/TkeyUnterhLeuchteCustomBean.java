@@ -72,12 +72,7 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TkeyUnterhLeuchteCustomBean createNew() {
-        try {
-            return (TkeyUnterhLeuchteCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TkeyUnterhLeuchteCustomBean)createNew(TABLE);
     }
 
     @Override

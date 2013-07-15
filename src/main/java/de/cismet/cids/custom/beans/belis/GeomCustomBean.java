@@ -52,12 +52,7 @@ public class GeomCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static GeomCustomBean createNew() {
-        try {
-            return (GeomCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (GeomCustomBean)createNew(TABLE);
     }
 
     @Override

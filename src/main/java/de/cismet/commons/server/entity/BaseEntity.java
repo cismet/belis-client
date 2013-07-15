@@ -11,7 +11,13 @@
  */
 package de.cismet.commons.server.entity;
 
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.cids.custom.beans.belis.BauartCustomBean;
+
 import de.cismet.cids.dynamics.CidsBean;
+
+import static de.cismet.cids.custom.beans.belis.BauartCustomBean.TABLE;
 
 /**
  * DOCUMENT ME!
@@ -23,11 +29,13 @@ public class BaseEntity extends CidsBean {
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BaseEntity.class);
+
     protected static final String PROP__ID = "id";
+    private static int NEXT_NEW_ID = -1;
 
     //~ Instance fields --------------------------------------------------------
 
-    private boolean wasModified = false;
     private Integer id;
 
     //~ Methods ----------------------------------------------------------------
@@ -37,8 +45,39 @@ public class BaseEntity extends CidsBean {
      *
      * @return  DOCUMENT ME!
      */
+    private static int getNextNewId() {
+        return NEXT_NEW_ID--;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   tableName  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected static BaseEntity createNew(final String tableName) {
+        try {
+            final BaseEntity entity = (BaseEntity)CidsBean.createNewCidsBeanFromTableName(
+                    CidsBroker.BELIS_DOMAIN,
+                    tableName);
+            final int nextId = getNextNewId();
+            entity.setId(nextId);
+            entity.getMetaObject().setID(nextId);
+            return entity;
+        } catch (Exception ex) {
+            LOG.error("error creating " + TABLE + " bean", ex);
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Integer getId() {
-        return id;
+        return (id < 0) ? null : id;
     }
 
     /**
@@ -50,24 +89,6 @@ public class BaseEntity extends CidsBean {
         final Integer old = this.id;
         this.id = id;
         this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public boolean isWasModified() {
-        return wasModified;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  wasModified  DOCUMENT ME!
-     */
-    public void setWasModified(final boolean wasModified) {
-        this.wasModified = wasModified;
     }
 
     /**

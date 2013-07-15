@@ -148,12 +148,7 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TdtaLeuchtenCustomBean createNew() {
-        try {
-            return (TdtaLeuchtenCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TdtaLeuchtenCustomBean)createNew(TABLE);
     }
 
     @Override
@@ -942,6 +937,7 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Property not from parent mast");
             }
+            super.propertyChange(evt);
         }
     }
 

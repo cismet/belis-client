@@ -62,12 +62,7 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity {
      * @return  DOCUMENT ME!
      */
     public static AbzweigdoseCustomBean createNew() {
-        try {
-            return (AbzweigdoseCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (AbzweigdoseCustomBean)createNew(TABLE);
     }
 
     @Override

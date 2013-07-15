@@ -66,12 +66,7 @@ public class TkeyUnterhMastCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TkeyUnterhMastCustomBean createNew() {
-        try {
-            return (TkeyUnterhMastCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TkeyUnterhMastCustomBean)createNew(TABLE);
     }
 
     @Override

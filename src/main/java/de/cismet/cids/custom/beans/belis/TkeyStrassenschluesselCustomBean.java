@@ -66,14 +66,7 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TkeyStrassenschluesselCustomBean createNew() {
-        try {
-            return (TkeyStrassenschluesselCustomBean)CidsBean.createNewCidsBeanFromTableName(
-                    CidsBroker.BELIS_DOMAIN,
-                    TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TkeyStrassenschluesselCustomBean)createNew(TABLE);
     }
 
     @Override

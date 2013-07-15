@@ -66,14 +66,7 @@ public class TkeyDoppelkommandoCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TkeyDoppelkommandoCustomBean createNew() {
-        try {
-            return (TkeyDoppelkommandoCustomBean)CidsBean.createNewCidsBeanFromTableName(
-                    CidsBroker.BELIS_DOMAIN,
-                    TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TkeyDoppelkommandoCustomBean)createNew(TABLE);
     }
 
     @Override
