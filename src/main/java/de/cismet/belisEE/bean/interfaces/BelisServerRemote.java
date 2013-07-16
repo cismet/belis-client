@@ -283,6 +283,6 @@ public interface BelisServerRemote extends lockEnabled {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    TdtaStandortMastCustomBean determineNextLaufendenummer(TdtaStandortMastCustomBean standort, Short minimalNumber)
+    TdtaStandortMastCustomBean determineNextLaufendenummer(TdtaStandortMastCustomBean standort, Integer minimalNumber)
             throws ActionNotSuccessfulException;
 }
