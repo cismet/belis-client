@@ -44,6 +44,7 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.documentpanel.DocumentPanel;
+import de.cismet.belis.gui.widget.detailWidgetPanels.LeuchtePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToPkConverter;
 import de.cismet.belis.gui.widget.detailWidgetPanels.SchaltstellePanel;
@@ -108,24 +109,12 @@ public class DetailWidget extends DefaultWidget {
     private Collection<LeitungstypCustomBean> leitungstypen = new HashSet<LeitungstypCustomBean>();
     private boolean isTriggerd = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox cboLeuchteVerrechnungseinheit;
-    private javax.swing.JCheckBox cboLeuchteZaehler;
     private javax.swing.JComboBox cbxLeitungLeitungstyp;
     private javax.swing.JComboBox cbxLeitungMaterial;
     private javax.swing.JComboBox cbxLeitungQuerschnitt;
-    private javax.swing.JComboBox cbxLeuchteDoppelkommando1;
-    private javax.swing.JComboBox cbxLeuchteDoppelkommando2;
-    private javax.swing.JComboBox cbxLeuchteEnergielieferant;
-    private javax.swing.JComboBox cbxLeuchteKennziffer;
-    private javax.swing.JComboBox cbxLeuchteLeuchtentyp;
-    private javax.swing.JComboBox cbxLeuchteStadtbezirk;
-    private javax.swing.JComboBox cbxLeuchteStrassenschluessel;
-    private javax.swing.JComboBox cbxLeuchteStrassenschluesselNr;
-    private javax.swing.JComboBox cbxLeuchteUnterhalt;
     private javax.swing.JComboBox cbxMauerlascheMaterial;
     private javax.swing.JComboBox cbxMauerlascheStrassenschluessel;
     private javax.swing.JComboBox cbxMauerlascheStrassenschluesselNr;
-    private org.jdesktop.swingx.JXDatePicker dapLeuchteInbetriebnahme;
     private org.jdesktop.swingx.JXDatePicker dapMauerlascheErstellungsjahr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -135,53 +124,21 @@ public class DetailWidget extends DefaultWidget {
     private javax.swing.JLabel lblLeitungLeitungstyp;
     private javax.swing.JLabel lblLeitungMaterial;
     private javax.swing.JLabel lblLeitungQuerschnitt;
-    private javax.swing.JLabel lblLeuchte;
-    private javax.swing.JLabel lblLeuchteBemerkung;
-    private javax.swing.JLabel lblLeuchteDoppelkommando1;
-    private javax.swing.JLabel lblLeuchteDoppelkommando2;
-    private javax.swing.JLabel lblLeuchteEnergielieferant;
-    private javax.swing.JLabel lblLeuchteInbetriebnahme;
-    private javax.swing.JLabel lblLeuchteKenziffer;
-    private javax.swing.JLabel lblLeuchteLaufendenummer;
-    private javax.swing.JLabel lblLeuchteLeuchtennummer;
-    private javax.swing.JLabel lblLeuchteLeuchtentyp;
-    private javax.swing.JLabel lblLeuchteMontagefirma;
-    private javax.swing.JLabel lblLeuchteRundsteuer;
-    private javax.swing.JLabel lblLeuchteSchaltstelle;
-    private javax.swing.JLabel lblLeuchteStadtbezirk;
-    private javax.swing.JLabel lblLeuchteStandortangabe;
-    private javax.swing.JLabel lblLeuchteStrassenschluessel;
-    private javax.swing.JLabel lblLeuchteUnterhalt;
-    private javax.swing.JLabel lblLeuchteVerrechnungseinheit;
-    private javax.swing.JLabel lblLeuchteZaehler;
     private javax.swing.JLabel lblMauerlascheErstellungsjahr;
     private javax.swing.JLabel lblMauerlascheLaufendenummer;
     private javax.swing.JLabel lblMauerlascheMaterial;
     private javax.swing.JLabel lblMauerlascheStrassenschluessel;
     private javax.swing.JPanel panAbzweidose;
-    private javax.swing.JPanel panContent;
     private javax.swing.JPanel panContent1;
     private de.cismet.belis.gui.documentpanel.DocumentPanel panDokumente;
     private javax.swing.JPanel panLeitung;
-    private javax.swing.JPanel panLeuchte;
     private javax.swing.JPanel panMain;
     private javax.swing.JPanel panMauerlasche;
-    private javax.swing.JScrollPane scpLeuchteBemerkung;
     private javax.swing.JScrollPane scpMain;
     private javax.swing.JSeparator sprLeitung;
-    private javax.swing.JSeparator sprLeuchte;
     private javax.swing.JSeparator sprLeuchte1;
-    private javax.swing.JSpinner sprLeuchteDoppelkommando1Anzahl;
-    private javax.swing.JSpinner sprLeuchteDoppelkommando2Anzahl;
     private javax.swing.JSeparator sprMauerlasche;
-    private javax.swing.JTextArea txaLeuchteBemerkung;
-    private javax.swing.JTextField txfLeuchteLaufendenummer;
-    private javax.swing.JTextField txfLeuchteMontagefirma;
-    private javax.swing.JTextField txfLeuchteStandortAngabe;
     private javax.swing.JTextField txfMauerlascheLaufendenummer;
-    private javax.swing.JTextField txtLeuchteLeuchtennummer;
-    private javax.swing.JTextField txtLeuchteRundsteuer;
-    private javax.swing.JTextField txtLeuchteSchaltstelle;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -246,8 +203,6 @@ public class DetailWidget extends DefaultWidget {
             LOG.error("Error while initializing all strassenschlussel.");
             allStrassenschluessel = new HashSet();
         }
-
-        initLeuchtePanel();
         initLeitungPanel();
         initMauerlaschePanel();
         initAbzweigdosePanel();
@@ -319,128 +274,6 @@ public class DetailWidget extends DefaultWidget {
     /**
      * DOCUMENT ME!
      */
-    private void refreshCbxLeuchteLeuchtentyp() {
-        try {
-            final Collection<TkeyLeuchtentypCustomBean> leuchtentypen = CidsBroker.getInstance().getAllLeuchtentypen();
-            createSortedCBoxModelFromCollection(leuchtentypen, cbxLeuchteLeuchtentyp);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteLeuchtentyp.setModel(new DefaultComboBoxModel());
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void initLeuchtePanel() {
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxLeuchteStrassenschluessel);
-        cbxLeuchteStrassenschluessel.setSelectedItem(null);
-        AutoCompleteDecorator.decorate(cbxLeuchteStrassenschluessel, new ObjectToKeyStringConverter());
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxLeuchteStrassenschluesselNr);
-        cbxLeuchteStrassenschluesselNr.setSelectedItem(null);
-        AutoCompleteDecorator.decorate(cbxLeuchteStrassenschluesselNr, new ObjectToPkConverter("pk"));
-
-        try {
-            final Collection<TkeyKennzifferCustomBean> kennziffern = CidsBroker.getInstance().getAllKennziffer();
-            createSortedCBoxModelFromCollection(kennziffern, cbxLeuchteKennziffer);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteKennziffer.setModel(new DefaultComboBoxModel());
-        }
-        cbxLeuchteKennziffer.setSelectedItem(null);
-        try {
-            final Collection<TkeyEnergielieferantCustomBean> lieferanten = CidsBroker.getInstance()
-                        .getAllEnergielieferanten();
-            createSortedCBoxModelFromCollection(lieferanten, cbxLeuchteEnergielieferant);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteEnergielieferant.setModel(new DefaultComboBoxModel());
-        }
-        try {
-            final Collection<TkeyUnterhLeuchteCustomBean> unterhalt = CidsBroker.getInstance().getAllUnterhaltLeuchte();
-            try {
-                if ((unterhalt != null) && (unterhalt.size() > 0)) {
-                    for (final TkeyUnterhLeuchteCustomBean curUnterhaltLeuchte : unterhalt) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Leuchte.DEFAULT_UNTERHALT " + TdtaLeuchtenCustomBean.DEFAULT_UNTERHALT);
-                        }
-                        if (TdtaLeuchtenCustomBean.DEFAULT_UNTERHALT.equals(curUnterhaltLeuchte)
-                                    && TdtaLeuchtenCustomBean.DEFAULT_UNTERHALT.getUnterhaltspflichtigeLeuchte().equals(
-                                        curUnterhaltLeuchte.getUnterhaltspflichtigeLeuchte())) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Setting defaultUnterhaltLeuchte to: " + curUnterhaltLeuchte);
-                            }
-                            ((BelisBroker)broker).setDefaultUnterhaltLeuchte(curUnterhaltLeuchte);
-                        }
-                    }
-                }
-            } catch (Exception ex) {
-                LOG.warn("Error while determining default UnterhaltLeuchte: ", ex);
-            }
-            createSortedCBoxModelFromCollection(unterhalt, cbxLeuchteUnterhalt);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteUnterhalt.setModel(new DefaultComboBoxModel());
-        }
-
-        CidsBroker.getInstance().addListenerForBeanChange("tkey_leuchtentyp", new BeanChangedListener() {
-
-                @Override
-                public void beanChanged() {
-                    bindingGroup.unbind();
-                    refreshCbxLeuchteLeuchtentyp();
-                    bindingGroup.bind();
-                }
-            });
-
-        refreshCbxLeuchteLeuchtentyp();
-        cbxLeuchteLeuchtentyp.setSelectedItem(null);
-        try {
-            final Collection<TkeyDoppelkommandoCustomBean> dk1 = CidsBroker.getInstance().getAllDoppelkommando();
-            try {
-                if ((dk1 != null) && (dk1.size() > 0)) {
-                    for (final TkeyDoppelkommandoCustomBean curDoppelkommando : dk1) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Leuchte.DEFAULT_DOPPELKOMMANDO "
-                                        + TdtaLeuchtenCustomBean.DEFAULT_DOPPELKOMMANDO);
-                        }
-                        if (TdtaLeuchtenCustomBean.DEFAULT_DOPPELKOMMANDO.equals(curDoppelkommando)
-                                    && TdtaLeuchtenCustomBean.DEFAULT_DOPPELKOMMANDO.getBeschreibung().equals(
-                                        curDoppelkommando.getBeschreibung())) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Setting defaultUnterhaltLeuchte to: " + curDoppelkommando);
-                            }
-                            ((BelisBroker)broker).setDefaultDoppelkommando1(curDoppelkommando);
-                        }
-                    }
-                }
-            } catch (Exception ex) {
-                LOG.warn("Error while determining default Doppelkommando1: ", ex);
-            }
-            createSortedCBoxModelFromCollection(dk1, cbxLeuchteDoppelkommando1);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteDoppelkommando1.setModel(new DefaultComboBoxModel());
-        }
-        cbxLeuchteDoppelkommando1.setSelectedItem(null);
-        try {
-            final Collection<TkeyDoppelkommandoCustomBean> dk2 = CidsBroker.getInstance().getAllDoppelkommando();
-            createSortedCBoxModelFromCollection(dk2, cbxLeuchteDoppelkommando2);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteDoppelkommando2.setModel(new DefaultComboBoxModel());
-        }
-        cbxLeuchteDoppelkommando2.setSelectedItem(null);
-        cbxLeuchteUnterhalt.setSelectedItem(null);
-        cbxLeuchteEnergielieferant.setSelectedItem(null);
-
-        // Virtual properties
-        try {
-            final Collection<TkeyBezirkCustomBean> bezirke = CidsBroker.getInstance().getAllStadtbezirke();
-            createSortedCBoxModelFromCollection(bezirke, cbxLeuchteStadtbezirk);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteStadtbezirk.setModel(new DefaultComboBoxModel());
-        }
-        cbxLeuchteStadtbezirk.setSelectedItem(null);
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
     private void initMauerlaschePanel() {
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxMauerlascheStrassenschluessel);
         cbxMauerlascheStrassenschluessel.setSelectedItem(null);
@@ -456,26 +289,6 @@ public class DetailWidget extends DefaultWidget {
             cbxMauerlascheMaterial.setModel(new DefaultComboBoxModel());
         }
         cbxMauerlascheMaterial.setSelectedItem(null);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  enabled  DOCUMENT ME!
-     */
-    private void setInheritedMastPropertiesEnabled(final boolean enabled) {
-        cbxLeuchteStrassenschluessel.setEnabled(enabled);
-        cbxLeuchteStrassenschluesselNr.setEnabled(enabled);
-        cbxLeuchteKennziffer.setEnabled(enabled);
-        lblLeuchteStandortangabe.setVisible(enabled);
-        lblLeuchteVerrechnungseinheit.setVisible(enabled);
-        lblLeuchteStadtbezirk.setVisible(enabled);
-        cbxLeuchteStadtbezirk.setVisible(enabled);
-        txfLeuchteStandortAngabe.setVisible(enabled);
-        cboLeuchteVerrechnungseinheit.setVisible(enabled);
-        cbxLeuchteStadtbezirk.setEnabled(enabled);
-        txfLeuchteStandortAngabe.setEnabled(enabled);
-        cboLeuchteVerrechnungseinheit.setEnabled(enabled);
     }
 
     /**
@@ -526,7 +339,7 @@ public class DetailWidget extends DefaultWidget {
                 LOG.debug("current Entity is null");
             }
             StandortPanel.getInstance().setVisible(false);
-            panLeuchte.setVisible(false);
+            LeuchtePanel.getInstance().setVisible(false);
             this.repaint();
             return;
         }
@@ -548,26 +361,22 @@ public class DetailWidget extends DefaultWidget {
             }
             // panStandort.setVisible(true);
             // panMain.add(panLeuchte,BorderLayout.CENTER);
-            panMain.add(panLeuchte, BorderLayout.CENTER);
+            panMain.add(LeuchtePanel.getInstance(), BorderLayout.CENTER);
             LOG.info("ParentNode: " + ((TdtaLeuchtenCustomBean)currentEntity).getStandort());
             if (((BelisBroker)broker).getWorkbenchWidget().isParentNodeMast(
                             ((BelisBroker)broker).getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("ParentNode ist Mast");
                 }
-                setInheritedMastPropertiesEnabled(false);
+                LeuchtePanel.getInstance().setInheritedMastPropertiesEnabled(false);
             } else {
                 if (broker.isInEditMode()) {
-                    setInheritedMastPropertiesEnabled(true);
+                    LeuchtePanel.getInstance().setInheritedMastPropertiesEnabled(true);
                 }
             }
-            panLeuchte.setVisible(true);
-            if (((TdtaLeuchtenCustomBean)currentEntity).getStrassenschluessel() == null) {
-                cbxLeuchteStrassenschluessel.setSelectedItem(null);
-            }
-            if (((TdtaLeuchtenCustomBean)currentEntity).getKennziffer() == null) {
-                cbxLeuchteKennziffer.setSelectedItem(null);
-            }
+            LeuchtePanel.getInstance().setCurrentEntity((TdtaLeuchtenCustomBean)currentEntity);
+            LeuchtePanel.getInstance().setVisible(true);
+            LeuchtePanel.getInstance().setElementsNull();
 //            docPanel.setFileList();
         } else if (currentEntity instanceof LeitungCustomBean) {
             if (LOG.isDebugEnabled()) {
@@ -631,7 +440,7 @@ public class DetailWidget extends DefaultWidget {
      */
     private void setAllPanelsVisible(final boolean visible) {
         StandortPanel.getInstance().setVisible(visible);
-        panLeuchte.setVisible(visible);
+        LeuchtePanel.getInstance().setVisible(visible);
         panLeitung.setVisible(visible);
         panMauerlasche.setVisible(visible);
         SchaltstellePanel.getInstance().setVisible(visible);
@@ -651,30 +460,7 @@ public class DetailWidget extends DefaultWidget {
         StandortPanel.getInstance().setPanelEditable(isEditable);
 
         // Leuchte fields
-        txtLeuchteLeuchtennummer.setEnabled(isEditable);
-        cbxLeuchteEnergielieferant.setEnabled(isEditable);
-        txtLeuchteSchaltstelle.setEnabled(isEditable);
-        txtLeuchteRundsteuer.setEnabled(isEditable);
-        cbxLeuchteUnterhalt.setEnabled(isEditable);
-        cboLeuchteZaehler.setEnabled(isEditable);
-        dapLeuchteInbetriebnahme.setEnabled(isEditable);
-        cbxLeuchteLeuchtentyp.setEnabled(isEditable);
-        cbxLeuchteDoppelkommando1.setEnabled(isEditable);
-        cbxLeuchteDoppelkommando2.setEnabled(isEditable);
-        sprLeuchteDoppelkommando1Anzahl.setEnabled(isEditable);
-        sprLeuchteDoppelkommando2Anzahl.setEnabled(isEditable);
-        txfLeuchteMontagefirma.setEnabled(isEditable);
-        txaLeuchteBemerkung.setEnabled(isEditable);
-        if (!((((BelisBroker)broker).getWorkbenchWidget().getSelectedTreeNode() != null)
-                        && ((BelisBroker)broker).getWorkbenchWidget().isParentNodeMast(
-                            ((BelisBroker)broker).getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))) {
-            cbxLeuchteKennziffer.setEnabled(isEditable);
-            cbxLeuchteStrassenschluessel.setEnabled(isEditable);
-            cbxLeuchteStrassenschluesselNr.setEnabled(isEditable);
-            cbxLeuchteStadtbezirk.setEnabled(isEditable);
-            txfLeuchteStandortAngabe.setEnabled(isEditable);
-            cboLeuchteVerrechnungseinheit.setEnabled(isEditable);
-        }
+        LeuchtePanel.getInstance().setPanelEditable(isEditable);
 
         // Leitungs fields
         cbxLeitungLeitungstyp.setEnabled(isEditable);
@@ -701,21 +487,7 @@ public class DetailWidget extends DefaultWidget {
     private void commitEdits() {
         if (currentEntity != null) {
             if (currentEntity instanceof TdtaLeuchtenCustomBean) {
-                try {
-                    dapLeuchteInbetriebnahme.getEditor().commitEdit();
-                } catch (ParseException ex) {
-                    LOG.warn("Error while commiting edits: " + ex);
-                }
-                try {
-                    sprLeuchteDoppelkommando1Anzahl.commitEdit();
-                } catch (ParseException ex) {
-                    LOG.warn("Error while commiting edits: " + ex);
-                }
-                try {
-                    sprLeuchteDoppelkommando2Anzahl.commitEdit();
-                } catch (ParseException ex) {
-                    LOG.warn("Error while commiting edits: " + ex);
-                }
+                LeuchtePanel.getInstance().commitEdits();
             } else if (currentEntity instanceof TdtaStandortMastCustomBean) {
                 StandortPanel.getInstance().commitEdits();
             } else if (currentEntity instanceof SchaltstelleCustomBean) {
@@ -765,50 +537,6 @@ public class DetailWidget extends DefaultWidget {
         cbxLeitungMaterial = new javax.swing.JComboBox();
         cbxLeitungQuerschnitt = new javax.swing.JComboBox();
         sprLeitung = new javax.swing.JSeparator();
-        panLeuchte = new javax.swing.JPanel();
-        panContent = new javax.swing.JPanel();
-        lblLeuchteLeuchtennummer = new javax.swing.JLabel();
-        txtLeuchteLeuchtennummer = new javax.swing.JTextField();
-        lblLeuchteEnergielieferant = new javax.swing.JLabel();
-        cbxLeuchteEnergielieferant = new javax.swing.JComboBox();
-        lblLeuchteSchaltstelle = new javax.swing.JLabel();
-        txtLeuchteSchaltstelle = new javax.swing.JTextField();
-        lblLeuchteRundsteuer = new javax.swing.JLabel();
-        txtLeuchteRundsteuer = new javax.swing.JTextField();
-        lblLeuchteLeuchtentyp = new javax.swing.JLabel();
-        lblLeuchteUnterhalt = new javax.swing.JLabel();
-        cbxLeuchteUnterhalt = new javax.swing.JComboBox();
-        lblLeuchteZaehler = new javax.swing.JLabel();
-        cboLeuchteZaehler = new javax.swing.JCheckBox();
-        lblLeuchteInbetriebnahme = new javax.swing.JLabel();
-        dapLeuchteInbetriebnahme = new org.jdesktop.swingx.JXDatePicker();
-        lblLeuchteStrassenschluessel = new javax.swing.JLabel();
-        lblLeuchteLaufendenummer = new javax.swing.JLabel();
-        txfLeuchteLaufendenummer = new javax.swing.JTextField();
-        cbxLeuchteKennziffer = new javax.swing.JComboBox();
-        lblLeuchteKenziffer = new javax.swing.JLabel();
-        cbxLeuchteLeuchtentyp = new javax.swing.JComboBox();
-        lblLeuchteDoppelkommando1 = new javax.swing.JLabel();
-        lblLeuchteDoppelkommando2 = new javax.swing.JLabel();
-        sprLeuchteDoppelkommando1Anzahl = new javax.swing.JSpinner();
-        sprLeuchteDoppelkommando2Anzahl = new javax.swing.JSpinner();
-        cbxLeuchteDoppelkommando1 = new javax.swing.JComboBox();
-        cbxLeuchteDoppelkommando2 = new javax.swing.JComboBox();
-        lblLeuchteMontagefirma = new javax.swing.JLabel();
-        txfLeuchteMontagefirma = new javax.swing.JTextField();
-        lblLeuchteBemerkung = new javax.swing.JLabel();
-        scpLeuchteBemerkung = new javax.swing.JScrollPane();
-        txaLeuchteBemerkung = new javax.swing.JTextArea();
-        cbxLeuchteStrassenschluesselNr = new javax.swing.JComboBox();
-        cbxLeuchteStrassenschluessel = new javax.swing.JComboBox();
-        lblLeuchteStadtbezirk = new javax.swing.JLabel();
-        cbxLeuchteStadtbezirk = new javax.swing.JComboBox();
-        lblLeuchteStandortangabe = new javax.swing.JLabel();
-        txfLeuchteStandortAngabe = new javax.swing.JTextField();
-        lblLeuchteVerrechnungseinheit = new javax.swing.JLabel();
-        cboLeuchteVerrechnungseinheit = new javax.swing.JCheckBox();
-        lblLeuchte = new javax.swing.JLabel();
-        sprLeuchte = new javax.swing.JSeparator();
         panAbzweidose = new javax.swing.JPanel();
         panContent1 = new javax.swing.JPanel();
         lblAbzweigdose = new javax.swing.JLabel();
@@ -1245,799 +973,6 @@ public class DetailWidget extends DefaultWidget {
                     javax.swing.GroupLayout.DEFAULT_SIZE,
                     Short.MAX_VALUE).addContainerGap()));
 
-        lblLeuchteLeuchtennummer.setText("Leuchtennummer:"); // NOI18N
-
-        txtLeuchteLeuchtennummer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.leuchtennummer}"),
-                txtLeuchteLeuchtennummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new LeuchtennummerValidator());
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteEnergielieferant.setText("Energielieferant:"); // NOI18N
-
-        cbxLeuchteEnergielieferant.setEnabled(false);
-        cbxLeuchteEnergielieferant.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean el =
-                            (de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean)value;
-                        setText(el.getEnergielieferant());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.energielieferant}"),
-                cbxLeuchteEnergielieferant,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteSchaltstelle.setText("Schaltstelle:"); // NOI18N
-
-        txtLeuchteSchaltstelle.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.schaltstelle}"),
-                txtLeuchteSchaltstelle,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator());
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteRundsteuer.setText("Rundsteuerempfänger:"); // NOI18N
-
-        txtLeuchteRundsteuer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.rundsteuerempfaenger}"),
-                txtLeuchteRundsteuer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator());
-        bindingGroup.addBinding(binding);
-
-        txtLeuchteRundsteuer.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    txtLeuchteRundsteuerActionPerformed(evt);
-                }
-            });
-
-        lblLeuchteLeuchtentyp.setText("Leuchtentyp:"); // NOI18N
-
-        lblLeuchteUnterhalt.setText("Unterhalt Leuchte:"); // NOI18N
-
-        cbxLeuchteUnterhalt.setEnabled(false);
-        cbxLeuchteUnterhalt.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean ul =
-                            (de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean)value;
-                        setText(ul.getUnterhaltspflichtigeLeuchte());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtLeuchte}"),
-                cbxLeuchteUnterhalt,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteZaehler.setText("Zähler vorhanden:"); // NOI18N
-
-        cboLeuchteZaehler.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zaehler}"),
-                cboLeuchteZaehler,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteInbetriebnahme.setText("Inbetriebnahme:"); // NOI18N
-
-        dapLeuchteInbetriebnahme.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahmeLeuchte}"),
-                dapLeuchteInbetriebnahme,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
-
-        lblLeuchteLaufendenummer.setText("Laufende Nr.:"); // NOI18N
-
-        txfLeuchteLaufendenummer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
-                txfLeuchteLaufendenummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        cbxLeuchteKennziffer.setEnabled(false);
-        cbxLeuchteKennziffer.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean kzf =
-                            (de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean)value;
-                        setText(kzf.getKeyString());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.kennziffer}"),
-                cbxLeuchteKennziffer,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
-                "");
-        binding.setValidator(new NotNullValidator("de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean"));
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteKenziffer.setText("Kennziffer:"); // NOI18N
-
-        cbxLeuchteLeuchtentyp.setEnabled(false);
-        cbxLeuchteLeuchtentyp.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean lt =
-                            (de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean)value;
-                        setText(lt.getLeuchtentyp());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.leuchtentyp}"),
-                cbxLeuchteLeuchtentyp,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteDoppelkommando1.setText("Doppelkomando 1:"); // NOI18N
-
-        lblLeuchteDoppelkommando2.setText("Doppelkomando 2:"); // NOI18N
-
-        sprLeuchteDoppelkommando1Anzahl.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anzahl1DK}"),
-                sprLeuchteDoppelkommando1Anzahl,
-                org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        bindingGroup.addBinding(binding);
-
-        sprLeuchteDoppelkommando2Anzahl.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anzahl2DK}"),
-                sprLeuchteDoppelkommando2Anzahl,
-                org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        bindingGroup.addBinding(binding);
-
-        cbxLeuchteDoppelkommando1.setEnabled(false);
-        cbxLeuchteDoppelkommando1.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean dk =
-                            (de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean)value;
-                        setText(dk.getPk() + " - " + dk.getBeschreibung());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dk1}"),
-                cbxLeuchteDoppelkommando1,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        cbxLeuchteDoppelkommando2.setEnabled(false);
-        cbxLeuchteDoppelkommando2.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean dk =
-                            (de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean)value;
-                        setText(dk.getPk() + " - " + dk.getBeschreibung());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dk2}"),
-                cbxLeuchteDoppelkommando2,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteMontagefirma.setText("Montagefirma:"); // NOI18N
-
-        txfLeuchteMontagefirma.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.montageFirmaLeuchte}"),
-                txfLeuchteMontagefirma,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator());
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteBemerkung.setText("Bemerkung:"); // NOI18N
-
-        txaLeuchteBemerkung.setColumns(20);
-        txaLeuchteBemerkung.setRows(5);
-        txaLeuchteBemerkung.setEnabled(false);
-        txaLeuchteBemerkung.setPreferredSize(new java.awt.Dimension(50, 50));
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkungen}"),
-                txaLeuchteBemerkung,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator());
-        bindingGroup.addBinding(binding);
-
-        scpLeuchteBemerkung.setViewportView(txaLeuchteBemerkung);
-
-        cbxLeuchteStrassenschluesselNr.setEnabled(false);
-        cbxLeuchteStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
-                        setText(ss.getPk());
-                    }
-                    return this;
-                }
-            });
-        cbxLeuchteStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxLeuchteStrassenschluesselNrActionPerformed(evt);
-                }
-            });
-
-        cbxLeuchteStrassenschluessel.setEnabled(false);
-        cbxLeuchteStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
-                        setText(ss.getKeyString());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
-                cbxLeuchteStrassenschluessel,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setValidator(new NotNullValidator("Strassenschlüssel"));
-        bindingGroup.addBinding(binding);
-
-        cbxLeuchteStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxLeuchteStrassenschluesselActionPerformed(evt);
-                }
-            });
-
-        lblLeuchteStadtbezirk.setText("Stadtbezik:"); // NOI18N
-
-        cbxLeuchteStadtbezirk.setEnabled(false);
-        cbxLeuchteStadtbezirk.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean sb =
-                            (de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean)value;
-                        setText(sb.getBezirk());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.stadtbezirk}"),
-                cbxLeuchteStadtbezirk,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteStandortangabe.setText("Standortangabe:"); // NOI18N
-
-        txfLeuchteStandortAngabe.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.standortangabe}"),
-                txfLeuchteStandortAngabe,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        lblLeuchteVerrechnungseinheit.setText("V-Einheit:");                 // NOI18N
-        lblLeuchteVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
-
-        cboLeuchteVerrechnungseinheit.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.verrechnungseinheit}"),
-                cboLeuchteVerrechnungseinheit,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        bindingGroup.addBinding(binding);
-
-        final javax.swing.GroupLayout panContentLayout = new javax.swing.GroupLayout(panContent);
-        panContent.setLayout(panContentLayout);
-        panContentLayout.setHorizontalGroup(
-            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panContentLayout.createSequentialGroup().addContainerGap().addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                        panContentLayout.createSequentialGroup().addComponent(lblLeuchteUnterhalt).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                            cbxLeuchteUnterhalt,
-                            0,
-                            251,
-                            Short.MAX_VALUE)).addGroup(
-                        panContentLayout.createSequentialGroup().addGroup(
-                            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblLeuchteRundsteuer).addComponent(lblLeuchteLeuchtentyp)
-                                        .addComponent(lblLeuchteZaehler).addComponent(lblLeuchteInbetriebnahme)
-                                        .addComponent(lblLeuchteDoppelkommando1).addComponent(
-                                lblLeuchteDoppelkommando2).addComponent(lblLeuchteMontagefirma).addComponent(
-                                lblLeuchteSchaltstelle).addComponent(lblLeuchteStrassenschluessel).addComponent(
-                                lblLeuchteKenziffer).addComponent(lblLeuchteLaufendenummer).addComponent(
-                                lblLeuchteLeuchtennummer).addComponent(lblLeuchteEnergielieferant)).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                                panContentLayout.createSequentialGroup().addComponent(
-                                    cbxLeuchteStrassenschluesselNr,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                    90,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                                    cbxLeuchteStrassenschluessel,
-                                    0,
-                                    155,
-                                    Short.MAX_VALUE)).addComponent(cbxLeuchteKennziffer, 0, 251, Short.MAX_VALUE)
-                                        .addComponent(
-                                            txfLeuchteLaufendenummer,
-                                            javax.swing.GroupLayout.Alignment.TRAILING,
-                                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                                            251,
-                                            Short.MAX_VALUE).addComponent(
-                                txtLeuchteLeuchtennummer,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                251,
-                                Short.MAX_VALUE).addComponent(cbxLeuchteEnergielieferant, 0, 251, Short.MAX_VALUE)
-                                        .addComponent(
-                                            txtLeuchteSchaltstelle,
-                                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                                            251,
-                                            Short.MAX_VALUE).addComponent(
-                                txtLeuchteRundsteuer,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                251,
-                                Short.MAX_VALUE).addComponent(cbxLeuchteLeuchtentyp, 0, 251, Short.MAX_VALUE)
-                                        .addComponent(
-                                            cboLeuchteZaehler,
-                                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                                            251,
-                                            Short.MAX_VALUE).addComponent(
-                                dapLeuchteInbetriebnahme,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                251,
-                                Short.MAX_VALUE).addComponent(
-                                txfLeuchteMontagefirma,
-                                javax.swing.GroupLayout.Alignment.TRAILING,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                251,
-                                Short.MAX_VALUE).addGroup(
-                                javax.swing.GroupLayout.Alignment.TRAILING,
-                                panContentLayout.createSequentialGroup().addGroup(
-                                    panContentLayout.createParallelGroup(
-                                        javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                                        cbxLeuchteDoppelkommando2,
-                                        0,
-                                        198,
-                                        Short.MAX_VALUE).addComponent(
-                                        cbxLeuchteDoppelkommando1,
-                                        javax.swing.GroupLayout.Alignment.TRAILING,
-                                        0,
-                                        198,
-                                        Short.MAX_VALUE)).addPreferredGap(
-                                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                                    panContentLayout.createParallelGroup(
-                                        javax.swing.GroupLayout.Alignment.LEADING,
-                                        false).addComponent(
-                                        sprLeuchteDoppelkommando2Anzahl,
-                                        javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                                        sprLeuchteDoppelkommando1Anzahl,
-                                        javax.swing.GroupLayout.Alignment.TRAILING,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        47,
-                                        Short.MAX_VALUE))))).addGroup(
-                        javax.swing.GroupLayout.Alignment.TRAILING,
-                        panContentLayout.createSequentialGroup().addComponent(
-                            lblLeuchteBemerkung,
-                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                            147,
-                            Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(
-                                        scpLeuchteBemerkung,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        251,
-                                        Short.MAX_VALUE)).addGroup(
-                        panContentLayout.createSequentialGroup().addComponent(lblLeuchteVerrechnungseinheit).addGap(
-                            98,
-                            98,
-                            98).addGroup(
-                            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(
-                                            txfLeuchteStandortAngabe,
-                                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                                            251,
-                                            Short.MAX_VALUE).addComponent(
-                                cbxLeuchteStadtbezirk,
-                                0,
-                                251,
-                                Short.MAX_VALUE).addComponent(
-                                cboLeuchteVerrechnungseinheit,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                251,
-                                Short.MAX_VALUE))).addComponent(lblLeuchteStandortangabe).addComponent(
-                        lblLeuchteStadtbezirk)).addContainerGap()));
-
-        panContentLayout.linkSize(
-            javax.swing.SwingConstants.HORIZONTAL,
-            new java.awt.Component[] {
-                lblLeuchteBemerkung,
-                lblLeuchteDoppelkommando1,
-                lblLeuchteDoppelkommando2,
-                lblLeuchteEnergielieferant,
-                lblLeuchteInbetriebnahme,
-                lblLeuchteKenziffer,
-                lblLeuchteLaufendenummer,
-                lblLeuchteLeuchtennummer,
-                lblLeuchteLeuchtentyp,
-                lblLeuchteMontagefirma,
-                lblLeuchteRundsteuer,
-                lblLeuchteSchaltstelle,
-                lblLeuchteStrassenschluessel,
-                lblLeuchteUnterhalt,
-                lblLeuchteZaehler
-            });
-
-        panContentLayout.setVerticalGroup(
-            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panContentLayout.createSequentialGroup().addContainerGap().addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteStrassenschluessel).addComponent(
-                        cbxLeuchteStrassenschluesselNr,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        19,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        cbxLeuchteStrassenschluessel,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteKenziffer).addComponent(
-                        cbxLeuchteKennziffer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteLaufendenummer).addComponent(
-                        txfLeuchteLaufendenummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteLeuchtennummer).addComponent(
-                        txtLeuchteLeuchtennummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteEnergielieferant).addComponent(
-                        cbxLeuchteEnergielieferant,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteSchaltstelle).addComponent(
-                        txtLeuchteSchaltstelle,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteRundsteuer).addComponent(
-                        txtLeuchteRundsteuer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteLeuchtentyp).addComponent(
-                        cbxLeuchteLeuchtentyp,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteUnterhalt).addComponent(
-                        cbxLeuchteUnterhalt,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        lblLeuchteZaehler).addComponent(cboLeuchteZaehler)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteInbetriebnahme).addComponent(
-                        dapLeuchteInbetriebnahme,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteDoppelkommando1).addComponent(
-                        sprLeuchteDoppelkommando1Anzahl,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        cbxLeuchteDoppelkommando1,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        20,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteDoppelkommando2).addComponent(
-                        sprLeuchteDoppelkommando2Anzahl,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        cbxLeuchteDoppelkommando2,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        19,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteMontagefirma).addComponent(
-                        txfLeuchteMontagefirma,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblLeuchteBemerkung).addComponent(
-                        scpLeuchteBemerkung,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        101,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteStandortangabe).addComponent(
-                        txfLeuchteStandortAngabe,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteStadtbezirk).addComponent(
-                        cbxLeuchteStadtbezirk,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblLeuchteVerrechnungseinheit).addComponent(cboLeuchteVerrechnungseinheit)).addContainerGap(
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE)));
-
-        panContentLayout.linkSize(
-            javax.swing.SwingConstants.VERTICAL,
-            new java.awt.Component[] {
-                cboLeuchteZaehler,
-                cbxLeuchteDoppelkommando1,
-                cbxLeuchteDoppelkommando2,
-                cbxLeuchteEnergielieferant,
-                cbxLeuchteKennziffer,
-                cbxLeuchteUnterhalt,
-                sprLeuchteDoppelkommando1Anzahl,
-                sprLeuchteDoppelkommando2Anzahl,
-                txfLeuchteLaufendenummer,
-                txtLeuchteLeuchtennummer,
-                txtLeuchteRundsteuer,
-                txtLeuchteSchaltstelle
-            });
-
-        lblLeuchte.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
-        lblLeuchte.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/leuchte.png"))); // NOI18N
-        lblLeuchte.setText("Leuchte");                                                     // NOI18N
-
-        final javax.swing.GroupLayout panLeuchteLayout = new javax.swing.GroupLayout(panLeuchte);
-        panLeuchte.setLayout(panLeuchteLayout);
-        panLeuchteLayout.setHorizontalGroup(
-            panLeuchteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                panLeuchteLayout.createSequentialGroup().addContainerGap().addGroup(
-                    panLeuchteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        panContent,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addComponent(lblLeuchte, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(
-                                    sprLeuchte,
-                                    javax.swing.GroupLayout.Alignment.LEADING,
-                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                    434,
-                                    Short.MAX_VALUE)).addContainerGap()));
-        panLeuchteLayout.setVerticalGroup(
-            panLeuchteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panLeuchteLayout.createSequentialGroup().addContainerGap().addComponent(lblLeuchte).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    sprLeuchte,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    panContent,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE)));
-
         final javax.swing.GroupLayout panContent1Layout = new javax.swing.GroupLayout(panContent1);
         panContent1.setLayout(panContent1Layout);
         panContent1Layout.setHorizontalGroup(
@@ -2099,15 +1034,6 @@ public class DetailWidget extends DefaultWidget {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtLeuchteRundsteuerActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtLeuchteRundsteuerActionPerformed
-// TODO add your handling code here:
-    } //GEN-LAST:event_txtLeuchteRundsteuerActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
     private void cbxMauerlascheMaterialActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheMaterialActionPerformed
 // TODO add your handling code here:
     } //GEN-LAST:event_cbxMauerlascheMaterialActionPerformed
@@ -2147,42 +1073,6 @@ public class DetailWidget extends DefaultWidget {
             isTriggerd = false;
         }
     }                                                                                                    //GEN-LAST:event_cbxMauerlascheStrassenschluesselActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbxLeuchteStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxLeuchteStrassenschluesselNrActionPerformed
-        try {
-            if (!isTriggerd) {
-                isTriggerd = true;
-                cbxLeuchteStrassenschluessel.setSelectedItem(cbxLeuchteStrassenschluesselNr.getSelectedItem());
-            }
-        } catch (Exception ex) {
-            LOG.warn("failuire while updating strassenschluessel ", ex);
-        } finally {
-            isTriggerd = false;
-        }
-    }                                                                                                  //GEN-LAST:event_cbxLeuchteStrassenschluesselNrActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbxLeuchteStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxLeuchteStrassenschluesselActionPerformed
-        try {
-            if (!isTriggerd) {
-                isTriggerd = true;
-                cbxLeuchteStrassenschluesselNr.setSelectedItem(cbxLeuchteStrassenschluessel.getSelectedItem());
-            }
-        } catch (Exception ex) {
-            LOG.warn("failuire while updating strassenschluessel ", ex);
-        } finally {
-            isTriggerd = false;
-        }
-    }                                                                                                //GEN-LAST:event_cbxLeuchteStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -2287,58 +1177,6 @@ public class DetailWidget extends DefaultWidget {
                 return null;
             } else {
                 return new Result("code", elementname + " muss gesetzt werden.");
-            }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    public class LeuchtennummerValidator extends Validator<Integer> {
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public Result validate(final Integer value) {
-            if (value != null) {
-                if (value.shortValue() > -1) {
-                    final TreePath pathToEntity = ((BelisBroker)broker).getWorkbenchWidget()
-                                .getTreeTableModel()
-                                .getPathForUserObject(currentEntity);
-                    if ((pathToEntity != null) && (pathToEntity.getLastPathComponent() != null)) {
-                        final TdtaStandortMastCustomBean parentStandort = ((BelisBroker)broker).getWorkbenchWidget()
-                                    .getParentMast(pathToEntity.getLastPathComponent());
-                        if ((parentStandort != null) && parentStandort.isStandortMast()
-                                    && (parentStandort.getLeuchten().size() > 1)) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug(
-                                    "Standort is Mast checking leuchten for entries with the same leuchtennummer.");
-                            }
-                            for (final TdtaLeuchtenCustomBean curLeuchte : parentStandort.getLeuchten()) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("checking leuchte: " + curLeuchte);
-                                }
-                                if ((curLeuchte.getLeuchtennummer() != null)
-                                            && curLeuchte.getLeuchtennummer().equals(value)
-                                            && !curLeuchte.equals(currentEntity)) {
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug("found another leuchte with the same leuchtennumber");
-                                    }
-                                    return new Result(
-                                            "code",
-                                            "Es darf nicht zwei Leuchten mit der selben Leuchtennummer geben.");
-                                }
-                            }
-                        }
-                    }
-                    return null;
-                } else {
-                    return new Result("code", "Leuchtennummer darf nicht negativ sein.");
-                }
-            } else {
-                return new Result("code", "Leuchtennummer muss gesetzt sein.");
             }
         }
     }
