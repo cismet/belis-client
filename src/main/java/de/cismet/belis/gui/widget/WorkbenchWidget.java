@@ -52,6 +52,7 @@ import java.util.TreeSet;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -135,10 +136,6 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     //~ Instance fields --------------------------------------------------------
 
     BindingGroup bindingGroup2 = new BindingGroup();
-    // Variables declaration - do not modify
-    private javax.swing.JScrollPane jScrollPane1;
-    private org.jdesktop.swingx.JXTreeTable jttHitTable;
-    private javax.swing.JPanel panMain;
 
     private boolean ignoreFeatureSelection = false;
 //    protected TreePath[] selectedTreeNodes = null;
@@ -180,6 +177,11 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     // model
     private TreePath selectedElement = null;
     private Feature selectedFeature = null;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private org.jdesktop.swingx.JXTreeTable jttHitTable;
+    private javax.swing.JPanel panMain;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
