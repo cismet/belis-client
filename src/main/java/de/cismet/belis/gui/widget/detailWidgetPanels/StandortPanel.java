@@ -968,8 +968,8 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
      */
     @Override
     final void initPanel() {
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxStandortStrassenschluessel);
         bindingGroup.addBindingListener(new PanelBindingListener());
+        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxStandortStrassenschluessel);
         cbxStandortStrassenschluessel.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxStandortStrassenschluessel, new ObjectToKeyStringConverter());
 //        cbxStandortStrassenschluessel.setEditable(true);

@@ -38,13 +38,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JList;
-import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.documentpanel.DocumentPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeuchtePanel;
+import de.cismet.belis.gui.widget.detailWidgetPanels.MauerlaschePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToPkConverter;
 import de.cismet.belis.gui.widget.detailWidgetPanels.SchaltstellePanel;
@@ -55,7 +55,6 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.util.CriteriaStringComparator;
 
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
-import de.cismet.cids.custom.beans.belis.BauartCustomBean;
 import de.cismet.cids.custom.beans.belis.DmsUrlCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
@@ -66,13 +65,7 @@ import de.cismet.cids.custom.beans.belis.QuerschnittCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
 
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
@@ -112,33 +105,20 @@ public class DetailWidget extends DefaultWidget {
     private javax.swing.JComboBox cbxLeitungLeitungstyp;
     private javax.swing.JComboBox cbxLeitungMaterial;
     private javax.swing.JComboBox cbxLeitungQuerschnitt;
-    private javax.swing.JComboBox cbxMauerlascheMaterial;
-    private javax.swing.JComboBox cbxMauerlascheStrassenschluessel;
-    private javax.swing.JComboBox cbxMauerlascheStrassenschluesselNr;
-    private org.jdesktop.swingx.JXDatePicker dapMauerlascheErstellungsjahr;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblAbzweigdose;
     private javax.swing.JLabel lblLeitungLeitungstyp;
     private javax.swing.JLabel lblLeitungMaterial;
     private javax.swing.JLabel lblLeitungQuerschnitt;
-    private javax.swing.JLabel lblMauerlascheErstellungsjahr;
-    private javax.swing.JLabel lblMauerlascheLaufendenummer;
-    private javax.swing.JLabel lblMauerlascheMaterial;
-    private javax.swing.JLabel lblMauerlascheStrassenschluessel;
     private javax.swing.JPanel panAbzweidose;
     private javax.swing.JPanel panContent1;
     private de.cismet.belis.gui.documentpanel.DocumentPanel panDokumente;
     private javax.swing.JPanel panLeitung;
     private javax.swing.JPanel panMain;
-    private javax.swing.JPanel panMauerlasche;
     private javax.swing.JScrollPane scpMain;
     private javax.swing.JSeparator sprLeitung;
     private javax.swing.JSeparator sprLeuchte1;
-    private javax.swing.JSeparator sprMauerlasche;
-    private javax.swing.JTextField txfMauerlascheLaufendenummer;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -204,7 +184,6 @@ public class DetailWidget extends DefaultWidget {
             allStrassenschluessel = new HashSet();
         }
         initLeitungPanel();
-        initMauerlaschePanel();
         initAbzweigdosePanel();
     }
 
@@ -269,26 +248,6 @@ public class DetailWidget extends DefaultWidget {
      * DOCUMENT ME!
      */
     private void initAbzweigdosePanel() {
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void initMauerlaschePanel() {
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxMauerlascheStrassenschluessel);
-        cbxMauerlascheStrassenschluessel.setSelectedItem(null);
-        AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluessel, new ObjectToKeyStringConverter());
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxMauerlascheStrassenschluesselNr);
-        cbxMauerlascheStrassenschluesselNr.setSelectedItem(null);
-        AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluesselNr, new ObjectToPkConverter("pk"));
-        try {
-            final Collection<MaterialMauerlascheCustomBean> material = CidsBroker.getInstance()
-                        .getAllMaterialMauerlasche();
-            createSortedCBoxModelFromCollection(material, cbxMauerlascheMaterial);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxMauerlascheMaterial.setModel(new DefaultComboBoxModel());
-        }
-        cbxMauerlascheMaterial.setSelectedItem(null);
     }
 
     /**
@@ -394,12 +353,14 @@ public class DetailWidget extends DefaultWidget {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Mauerlasche");
             }
-            if (((MauerlascheCustomBean)currentEntity).getStrassenschluessel() == null) {
-                cbxMauerlascheStrassenschluessel.setSelectedItem(null);
-                cbxMauerlascheStrassenschluesselNr.setSelectedItem(null);
-            }
-            panMain.add(panMauerlasche, BorderLayout.CENTER);
-            panMauerlasche.setVisible(true);
+
+            final MauerlaschePanel mauerlaschePanel = MauerlaschePanel.getInstance();
+
+            mauerlaschePanel.setCurrentEntity((MauerlascheCustomBean)currentEntity);
+            mauerlaschePanel.setElementsNull();
+
+            panMain.add(mauerlaschePanel, BorderLayout.CENTER);
+            mauerlaschePanel.setVisible(true);
         } else if (currentEntity instanceof SchaltstelleCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Schaltstelle");
@@ -442,7 +403,7 @@ public class DetailWidget extends DefaultWidget {
         StandortPanel.getInstance().setVisible(visible);
         LeuchtePanel.getInstance().setVisible(visible);
         panLeitung.setVisible(visible);
-        panMauerlasche.setVisible(visible);
+        MauerlaschePanel.getInstance().setVisible(visible);
         SchaltstellePanel.getInstance().setVisible(visible);
     }
 
@@ -468,11 +429,7 @@ public class DetailWidget extends DefaultWidget {
         cbxLeitungQuerschnitt.setEnabled(isEditable);
 
         // Mauerlasche fields
-        cbxMauerlascheStrassenschluessel.setEnabled(isEditable);
-        cbxMauerlascheStrassenschluesselNr.setEnabled(isEditable);
-        cbxMauerlascheMaterial.setEnabled(isEditable);
-        dapMauerlascheErstellungsjahr.setEnabled(isEditable);
-        txfMauerlascheLaufendenummer.setEnabled(isEditable);
+        MauerlaschePanel.getInstance().setPanelEditable(isEditable);
 
         // Schaltstelle fields
         SchaltstellePanel.getInstance().setPanelEditable(isEditable);
@@ -493,11 +450,7 @@ public class DetailWidget extends DefaultWidget {
             } else if (currentEntity instanceof SchaltstelleCustomBean) {
                 SchaltstellePanel.getInstance().commitEdits();
             } else if (currentEntity instanceof MauerlascheCustomBean) {
-                try {
-                    dapMauerlascheErstellungsjahr.getEditor().commitEdit();
-                } catch (ParseException ex) {
-                    LOG.warn("Error while commiting edits: " + ex);
-                }
+                MauerlaschePanel.getInstance().commitEdits();
             }
         }
     }
@@ -514,19 +467,6 @@ public class DetailWidget extends DefaultWidget {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        panMauerlasche = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        lblMauerlascheStrassenschluessel = new javax.swing.JLabel();
-        lblMauerlascheLaufendenummer = new javax.swing.JLabel();
-        lblMauerlascheErstellungsjahr = new javax.swing.JLabel();
-        lblMauerlascheMaterial = new javax.swing.JLabel();
-        txfMauerlascheLaufendenummer = new javax.swing.JTextField();
-        dapMauerlascheErstellungsjahr = new org.jdesktop.swingx.JXDatePicker();
-        cbxMauerlascheMaterial = new javax.swing.JComboBox();
-        cbxMauerlascheStrassenschluesselNr = new javax.swing.JComboBox();
-        cbxMauerlascheStrassenschluessel = new javax.swing.JComboBox();
-        sprMauerlasche = new javax.swing.JSeparator();
         panLeitung = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -544,251 +484,6 @@ public class DetailWidget extends DefaultWidget {
         panDokumente = new de.cismet.belis.gui.documentpanel.DocumentPanel();
         scpMain = new javax.swing.JScrollPane();
         panMain = new javax.swing.JPanel();
-
-        jLabel2.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                              // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/mauerlasche.png"))); // NOI18N
-        jLabel2.setText("Mauerlasche");                                                        // NOI18N
-
-        lblMauerlascheStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
-
-        lblMauerlascheLaufendenummer.setText("Laufende Nr.:"); // NOI18N
-
-        lblMauerlascheErstellungsjahr.setText("Erstellungsjahr:"); // NOI18N
-
-        lblMauerlascheMaterial.setText("Material:"); // NOI18N
-
-        txfMauerlascheLaufendenummer.setEnabled(false);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
-                txfMauerlascheLaufendenummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        dapMauerlascheErstellungsjahr.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erstellungsjahr}"),
-                dapMauerlascheErstellungsjahr,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        cbxMauerlascheMaterial.setEnabled(false);
-        cbxMauerlascheMaterial.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean mm =
-                            (de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean)value;
-                        setText(mm.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.material}"),
-                cbxMauerlascheMaterial,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        cbxMauerlascheMaterial.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxMauerlascheMaterialActionPerformed(evt);
-                }
-            });
-
-        cbxMauerlascheStrassenschluesselNr.setEnabled(false);
-        cbxMauerlascheStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
-                        setText(ss.getPk());
-                    }
-                    return this;
-                }
-            });
-        cbxMauerlascheStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxMauerlascheStrassenschluesselNrActionPerformed(evt);
-                }
-            });
-
-        cbxMauerlascheStrassenschluessel.setEnabled(false);
-        cbxMauerlascheStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
-                        setText(ss.getKeyString());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
-                cbxMauerlascheStrassenschluessel,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setValidator(new NotNullValidator("Straßenschlüssel"));
-        bindingGroup.addBinding(binding);
-
-        cbxMauerlascheStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxMauerlascheStrassenschluesselActionPerformed(evt);
-                }
-            });
-
-        final javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel3Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblMauerlascheStrassenschluessel).addComponent(lblMauerlascheLaufendenummer).addComponent(
-                        lblMauerlascheErstellungsjahr).addComponent(lblMauerlascheMaterial)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        dapMauerlascheErstellungsjahr,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        166,
-                        Short.MAX_VALUE).addComponent(
-                        txfMauerlascheLaufendenummer,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        166,
-                        Short.MAX_VALUE).addComponent(cbxMauerlascheMaterial, 0, 166, Short.MAX_VALUE).addGroup(
-                        jPanel3Layout.createSequentialGroup().addComponent(
-                            cbxMauerlascheStrassenschluesselNr,
-                            javax.swing.GroupLayout.PREFERRED_SIZE,
-                            77,
-                            javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                            cbxMauerlascheStrassenschluessel,
-                            0,
-                            83,
-                            Short.MAX_VALUE))).addContainerGap()));
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel3Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblMauerlascheStrassenschluessel).addComponent(
-                        cbxMauerlascheStrassenschluesselNr,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        19,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        cbxMauerlascheStrassenschluessel,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblMauerlascheLaufendenummer).addComponent(
-                        txfMauerlascheLaufendenummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblMauerlascheErstellungsjahr).addComponent(
-                        dapMauerlascheErstellungsjahr,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false).addComponent(
-                        cbxMauerlascheMaterial,
-                        0,
-                        0,
-                        Short.MAX_VALUE).addComponent(
-                        lblMauerlascheMaterial,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        22,
-                        Short.MAX_VALUE)).addContainerGap(25, Short.MAX_VALUE)));
-
-        jPanel3Layout.linkSize(
-            javax.swing.SwingConstants.VERTICAL,
-            new java.awt.Component[] {
-                cbxMauerlascheMaterial,
-                dapMauerlascheErstellungsjahr,
-                txfMauerlascheLaufendenummer
-            });
-
-        final javax.swing.GroupLayout panMauerlascheLayout = new javax.swing.GroupLayout(panMauerlasche);
-        panMauerlasche.setLayout(panMauerlascheLayout);
-        panMauerlascheLayout.setHorizontalGroup(
-            panMauerlascheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                panMauerlascheLayout.createSequentialGroup().addContainerGap().addGroup(
-                    panMauerlascheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        jPanel3,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        sprMauerlasche,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        315,
-                        Short.MAX_VALUE)).addContainerGap()));
-        panMauerlascheLayout.setVerticalGroup(
-            panMauerlascheLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panMauerlascheLayout.createSequentialGroup().addContainerGap().addComponent(jLabel2).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    sprMauerlasche,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    jPanel3,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE).addContainerGap()));
 
         jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                          // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(
@@ -823,7 +518,7 @@ public class DetailWidget extends DefaultWidget {
                 }
             });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_leitungstyp}"),
@@ -1028,51 +723,6 @@ public class DetailWidget extends DefaultWidget {
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbxMauerlascheMaterialActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheMaterialActionPerformed
-// TODO add your handling code here:
-    } //GEN-LAST:event_cbxMauerlascheMaterialActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbxMauerlascheStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
-        try {
-            if (!isTriggerd) {
-                isTriggerd = true;
-                cbxMauerlascheStrassenschluessel.setSelectedItem(cbxMauerlascheStrassenschluesselNr.getSelectedItem());
-            }
-        } catch (Exception ex) {
-            LOG.warn("failuire while updating strassenschluessel ", ex);
-        } finally {
-            isTriggerd = false;
-        }
-    }                                                                                                      //GEN-LAST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbxMauerlascheStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheStrassenschluesselActionPerformed
-        try {
-            if (!isTriggerd) {
-                isTriggerd = true;
-                cbxMauerlascheStrassenschluesselNr.setSelectedItem(cbxMauerlascheStrassenschluessel.getSelectedItem());
-            }
-        } catch (Exception ex) {
-            LOG.warn("failuire while updating strassenschluessel ", ex);
-        } finally {
-            isTriggerd = false;
-        }
-    }                                                                                                    //GEN-LAST:event_cbxMauerlascheStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
