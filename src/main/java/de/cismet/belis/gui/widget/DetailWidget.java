@@ -37,6 +37,7 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.documentpanel.DocumentPanel;
+import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeitungPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeuchtePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.MauerlaschePanel;
@@ -83,18 +84,10 @@ public class DetailWidget extends DefaultWidget {
     private Collection<TkeyStrassenschluesselCustomBean> allStrassenschluessel;
     // ToDo configurable
     private int maxStringLength = 250;
-    private final String comboBoxNullValue = "Wert auswählen...";
-    private Collection<Binding> validationState = new HashSet<Binding>();
-    private Collection<LeitungstypCustomBean> leitungstypen = new HashSet<LeitungstypCustomBean>();
-    private boolean isTriggerd = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblAbzweigdose;
-    private javax.swing.JPanel panAbzweidose;
-    private javax.swing.JPanel panContent1;
     private de.cismet.belis.gui.documentpanel.DocumentPanel panDokumente;
     private javax.swing.JPanel panMain;
     private javax.swing.JScrollPane scpMain;
-    private javax.swing.JSeparator sprLeuchte1;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -290,8 +283,8 @@ public class DetailWidget extends DefaultWidget {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Abzweigdose");
             }
-            panMain.add(panAbzweidose, BorderLayout.CENTER);
-            panAbzweidose.setVisible(true);
+            panMain.add(AbzweigdosePanel.getInstance(), BorderLayout.CENTER);
+            AbzweigdosePanel.getInstance().setVisible(true);
         } else if (currentEntity instanceof MauerlascheCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Mauerlasche");
@@ -348,6 +341,7 @@ public class DetailWidget extends DefaultWidget {
         LeitungPanel.getInstance().setVisible(visible);
         MauerlaschePanel.getInstance().setVisible(visible);
         SchaltstellePanel.getInstance().setVisible(visible);
+        AbzweigdosePanel.getInstance().setVisible(visible);
     }
 
     @Override
@@ -406,59 +400,10 @@ public class DetailWidget extends DefaultWidget {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        panAbzweidose = new javax.swing.JPanel();
-        panContent1 = new javax.swing.JPanel();
-        lblAbzweigdose = new javax.swing.JLabel();
-        sprLeuchte1 = new javax.swing.JSeparator();
+
         panDokumente = new de.cismet.belis.gui.documentpanel.DocumentPanel();
         scpMain = new javax.swing.JScrollPane();
         panMain = new javax.swing.JPanel();
-
-        final javax.swing.GroupLayout panContent1Layout = new javax.swing.GroupLayout(panContent1);
-        panContent1.setLayout(panContent1Layout);
-        panContent1Layout.setHorizontalGroup(
-            panContent1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                411,
-                Short.MAX_VALUE));
-        panContent1Layout.setVerticalGroup(
-            panContent1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                517,
-                Short.MAX_VALUE));
-
-        lblAbzweigdose.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
-        lblAbzweigdose.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/abzweigdose.png"))); // NOI18N
-        lblAbzweigdose.setText("Abzweigdose/Zugkasten");                                       // NOI18N
-
-        final javax.swing.GroupLayout panAbzweidoseLayout = new javax.swing.GroupLayout(panAbzweidose);
-        panAbzweidose.setLayout(panAbzweidoseLayout);
-        panAbzweidoseLayout.setHorizontalGroup(
-            panAbzweidoseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panAbzweidoseLayout.createSequentialGroup().addContainerGap().addGroup(
-                    panAbzweidoseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        panContent1,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addComponent(lblAbzweigdose).addComponent(
-                        sprLeuchte1,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        411,
-                        Short.MAX_VALUE)).addContainerGap()));
-        panAbzweidoseLayout.setVerticalGroup(
-            panAbzweidoseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panAbzweidoseLayout.createSequentialGroup().addContainerGap().addComponent(lblAbzweigdose)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    sprLeuchte1,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    panContent1,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE).addContainerGap()));
 
         setLayout(new java.awt.BorderLayout());
 
@@ -466,7 +411,7 @@ public class DetailWidget extends DefaultWidget {
         scpMain.setViewportView(panMain);
 
         add(scpMain, java.awt.BorderLayout.CENTER);
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
