@@ -11,7 +11,6 @@
  */
 package de.cismet.belis.gui.widget.detailWidgetPanels;
 
-import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Validator;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -21,12 +20,9 @@ import java.awt.Component;
 import java.text.ParseException;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComponent;
 import javax.swing.JList;
 
 import de.cismet.belis.broker.BelisBroker;
@@ -945,7 +941,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
      * DOCUMENT ME!
      */
     @Override
-    void initComponentToLabelMap() {
+    final void initComponentToLabelMap() {
         componentToLabelMap.put(cboStandortVerrechnungseinheit, lblStandortVerrechnungseinheit);
         componentToLabelMap.put(cbxStandortKennziffer, lblStandortKenziffer);
         componentToLabelMap.put(cbxStandortKlassifizierung, lblStandortKlassifizierung);
