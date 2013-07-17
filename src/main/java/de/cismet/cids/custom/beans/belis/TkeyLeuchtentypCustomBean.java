@@ -93,12 +93,7 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TkeyLeuchtentypCustomBean createNew() {
-        try {
-            return (TkeyLeuchtentypCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TkeyLeuchtentypCustomBean)createNew(TABLE);
     }
 
     @Override

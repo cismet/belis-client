@@ -178,16 +178,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TdtaStandortMastCustomBean createNew() {
-        try {
-            final TdtaStandortMastCustomBean bean = (TdtaStandortMastCustomBean)CidsBean.createNewCidsBeanFromTableName(
-                    CidsBroker.BELIS_DOMAIN,
-                    TABLE);
-            bean.setVirtuellerStandort(false);
-            return bean;
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TdtaStandortMastCustomBean)createNew(TABLE);
     }
 
     @Override
@@ -1079,11 +1070,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity {
                     LOG.debug("Unkown property. Nothing to change");
                 }
             }
-        } else if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP_ID)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("this entity has changed and the property was not the id");
-            }
-            setWasModified(true);
+        } else {
+            super.propertyChange(evt);
         }
     }
 

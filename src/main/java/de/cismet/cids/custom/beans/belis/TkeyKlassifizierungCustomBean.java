@@ -66,14 +66,7 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static TkeyKlassifizierungCustomBean createNew() {
-        try {
-            return (TkeyKlassifizierungCustomBean)CidsBean.createNewCidsBeanFromTableName(
-                    CidsBroker.BELIS_DOMAIN,
-                    TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (TkeyKlassifizierungCustomBean)createNew(TABLE);
     }
 
     @Override

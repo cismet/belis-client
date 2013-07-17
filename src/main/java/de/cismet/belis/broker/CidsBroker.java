@@ -618,7 +618,7 @@ public class CidsBroker implements BelisServerRemote {
         final ArrayList<BaseEntity> errornousEntities = new ArrayList<BaseEntity>();
         try {
             if (objectsToSave != null) {
-                for (final BaseEntity curEntity : objectsToSave) {
+                for (BaseEntity curEntity : objectsToSave) {
                     try {
                         if (curEntity != null) {
                             if (curEntity.getId() == null) {
@@ -637,7 +637,7 @@ public class CidsBroker implements BelisServerRemote {
                                         LOG.debug("Laufende Nummer already set no need to determine next one");
                                     }
                                 }
-                                curEntity.persist();
+                                curEntity = (BaseEntity)curEntity.persist();
 //                                if (curEntity instanceof Standort) {
 //                                   final Set<Leuchte> leuchten =((Standort)curEntity).getLeuchten();
 //                                   if(leuchten != null && leuchten.size() > 0){
@@ -711,7 +711,7 @@ public class CidsBroker implements BelisServerRemote {
      */
     public TdtaStandortMastCustomBean determineNextLaufendenummer(final TdtaStandortMastCustomBean standort)
             throws ActionNotSuccessfulException {
-        return determineNextLaufendenummer(standort, new Short((short)-1));
+        return determineNextLaufendenummer(standort, -1);
     }
 
     /**
@@ -724,6 +724,7 @@ public class CidsBroker implements BelisServerRemote {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
+    @Override
     public TdtaStandortMastCustomBean determineNextLaufendenummer(final TdtaStandortMastCustomBean standort,
             final Integer minimalNumber) throws ActionNotSuccessfulException {
         if (LOG.isDebugEnabled()) {
@@ -731,9 +732,9 @@ public class CidsBroker implements BelisServerRemote {
         }
         if (standort != null) {
             // ToDo would be cooler to use the objects itself as parameter;
-            String strasse = null;
+            String strassenschluessel = null;
             if ((standort.getStrassenschluessel() == null)
-                        || ((strasse = standort.getStrassenschluessel().getPk()) == null)) {
+                        || ((strassenschluessel = standort.getStrassenschluessel().getPk()) == null)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("strassenschluessel must be != null");
                 }
@@ -745,14 +746,14 @@ public class CidsBroker implements BelisServerRemote {
                     LOG.debug("kennziffer must be != null");
                 }
             }
-            if ((kennziffer != null) && (strasse != null)) {
+            if ((kennziffer != null) && (strassenschluessel != null)) {
                 try {
                     final List<Integer> highestNumbers = (List<Integer>)proxy.customServerSearch(proxy.getSession()
                                     .getUser(),
-                            new HighestLfdNummerSearch());
+                            new HighestLfdNummerSearch(strassenschluessel, kennziffer));
 
-                    final Integer highestNumber = highestNumbers.get(0);
-                    if ((highestNumber == null) || highestNumbers.isEmpty()) {
+                    final Integer highestNumber = (highestNumbers.isEmpty()) ? null : highestNumbers.get(0);
+                    if ((highestNumber == null)) {
                         if (minimalNumber > -1) {
                             if (LOG.isDebugEnabled()) {
                                 LOG.debug("there is no highest laufende nummer using minimal: " + minimalNumber);
@@ -1175,13 +1176,6 @@ public class CidsBroker implements BelisServerRemote {
             throws ActionNotSuccessfulException {
 //        throw new UnsupportedOperationException("Not supported yet.");
         return false;
-    }
-
-    @Override
-    public TdtaStandortMastCustomBean determineNextLaufendenummer(final TdtaStandortMastCustomBean standort,
-            final Short minimalNumber) throws ActionNotSuccessfulException {
-//        throw new UnsupportedOperationException("Not supported yet.");
-        return null;
     }
 
     @Override

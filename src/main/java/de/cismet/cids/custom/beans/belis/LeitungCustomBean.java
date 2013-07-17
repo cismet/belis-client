@@ -78,12 +78,7 @@ public class LeitungCustomBean extends GeoBaseEntity {
      * @return  DOCUMENT ME!
      */
     public static LeitungCustomBean createNew() {
-        try {
-            return (LeitungCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (LeitungCustomBean)createNew(TABLE);
     }
 
     @Override
@@ -305,17 +300,6 @@ public class LeitungCustomBean extends GeoBaseEntity {
     @Override
     public String toString() {
         return "de.cismet.belisEE.entity.Leitung[id=" + getId() + "]";
-    }
-
-    @Override
-    public void propertyChange(final PropertyChangeEvent evt) {
-        super.propertyChange(evt);
-        if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP__ID)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("this entity has changed and the property was not the id");
-            }
-            setWasModified(true);
-        }
     }
 
     @Override

@@ -12,10 +12,6 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.commons.server.entity.BaseEntity;
 
 import de.cismet.tools.URLSplitter;
@@ -69,12 +65,7 @@ public class DmsUrlCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static DmsUrlCustomBean createNew() {
-        try {
-            return (DmsUrlCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (DmsUrlCustomBean)createNew(TABLE);
     }
 
     @Override

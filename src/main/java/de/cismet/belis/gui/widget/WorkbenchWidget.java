@@ -1860,7 +1860,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
             parent.addPropertyChangeListener(newLeuchte);
             newLeuchte.setLeuchtennummer(getNextLeuchtennummer(parent));
         }
-        newLeuchte.setStandort(parent);
+        parent.getLeuchten().add(newLeuchte);
         // ToDo must also be set if these attributes are changed in the parent standort
         newLeuchte.setFk_strassenschluessel(parent.getStrassenschluessel());
         newLeuchte.setKennziffer(parent.getKennziffer());

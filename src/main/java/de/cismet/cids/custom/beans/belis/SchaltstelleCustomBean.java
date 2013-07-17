@@ -102,12 +102,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity {
      * @return  DOCUMENT ME!
      */
     public static SchaltstelleCustomBean createNew() {
-        try {
-            return (SchaltstelleCustomBean)CidsBean.createNewCidsBeanFromTableName(CidsBroker.BELIS_DOMAIN, TABLE);
-        } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
-            return null;
-        }
+        return (SchaltstelleCustomBean)createNew(TABLE);
     }
 
     @Override
@@ -544,17 +539,6 @@ public class SchaltstelleCustomBean extends GeoBaseEntity {
                     MapIcons.icoSchaltstelle,
                     null);
             return mapIcon;
-        }
-    }
-
-    @Override
-    public void propertyChange(final PropertyChangeEvent evt) {
-        super.propertyChange(evt);
-        if (evt.getSource().equals(this) && !evt.getPropertyName().equals(PROP__ID)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("this entity has changed and the property was not the id");
-            }
-            setWasModified(true);
         }
     }
 
