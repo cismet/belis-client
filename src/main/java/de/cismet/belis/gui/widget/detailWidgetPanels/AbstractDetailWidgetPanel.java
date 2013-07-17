@@ -123,7 +123,7 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
      * @param  currentEntity  DOCUMENT ME!
      */
     public void setCurrentEntity(final T currentEntity) {
-        final Object oldCurrentEntity = this.currentEntity;
+        final T oldCurrentEntity = this.currentEntity;
         this.currentEntity = currentEntity;
         firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
         getBindingGroup().unbind();
