@@ -17,14 +17,10 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.Validator;
 import org.jdesktop.beansbinding.Validator.Result;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 
 import java.beans.PropertyChangeEvent;
-
-import java.text.ParseException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,22 +31,17 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
-import javax.swing.JList;
 
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.documentpanel.DocumentPanel;
+import de.cismet.belis.gui.widget.detailWidgetPanels.LeitungPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeuchtePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.MauerlaschePanel;
-import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
-import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToPkConverter;
 import de.cismet.belis.gui.widget.detailWidgetPanels.SchaltstellePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.StandortPanel;
-
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.belisEE.util.CriteriaStringComparator;
 
@@ -58,10 +49,7 @@ import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.DmsUrlCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
-import de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean;
-import de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
-import de.cismet.cids.custom.beans.belis.QuerschnittCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
@@ -95,31 +83,18 @@ public class DetailWidget extends DefaultWidget {
     private Collection<TkeyStrassenschluesselCustomBean> allStrassenschluessel;
     // ToDo configurable
     private int maxStringLength = 250;
-    // private final GregorianCalendar calender = new GregorianCalendar();
-    // private final Date smallestAllowedDate = new Date(0);
     private final String comboBoxNullValue = "Wert auswählen...";
     private Collection<Binding> validationState = new HashSet<Binding>();
     private Collection<LeitungstypCustomBean> leitungstypen = new HashSet<LeitungstypCustomBean>();
     private boolean isTriggerd = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox cbxLeitungLeitungstyp;
-    private javax.swing.JComboBox cbxLeitungMaterial;
-    private javax.swing.JComboBox cbxLeitungQuerschnitt;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAbzweigdose;
-    private javax.swing.JLabel lblLeitungLeitungstyp;
-    private javax.swing.JLabel lblLeitungMaterial;
-    private javax.swing.JLabel lblLeitungQuerschnitt;
     private javax.swing.JPanel panAbzweidose;
     private javax.swing.JPanel panContent1;
     private de.cismet.belis.gui.documentpanel.DocumentPanel panDokumente;
-    private javax.swing.JPanel panLeitung;
     private javax.swing.JPanel panMain;
     private javax.swing.JScrollPane scpMain;
-    private javax.swing.JSeparator sprLeitung;
     private javax.swing.JSeparator sprLeuchte1;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -140,16 +115,9 @@ public class DetailWidget extends DefaultWidget {
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dokumente}"),
                 panDokumente,
                 org.jdesktop.beansbinding.BeanProperty.create("dokumente"));
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
         bindingGroup.addBinding(binding);
         bindingGroup.bind();
-        // ToDo ugly workaround
-        if ((leitungstypen != null) && (leitungstypen.size() > 0)) {
-            for (final LeitungstypCustomBean curLeitungstyp : leitungstypen) {
-                if (curLeitungstyp.getId().equals(1L)) {
-                    ((BelisBroker)broker).setLastLeitungstyp(curLeitungstyp);
-                }
-            }
-        }
         // panMain.add(panStandort,BorderLayout.CENTER);
         // setAllPanelsVisible(false);
     }
@@ -183,7 +151,6 @@ public class DetailWidget extends DefaultWidget {
             LOG.error("Error while initializing all strassenschlussel.");
             allStrassenschluessel = new HashSet();
         }
-        initLeitungPanel();
         initAbzweigdosePanel();
     }
 
@@ -213,35 +180,6 @@ public class DetailWidget extends DefaultWidget {
         } catch (Exception ex) {
             LOG.error("error while sorting collection", ex);
         }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void initLeitungPanel() {
-        try {
-            final Collection<MaterialLeitungCustomBean> material = CidsBroker.getInstance().getAllMaterialLeitung();
-            createSortedCBoxModelFromCollection(material, cbxLeitungMaterial);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeitungMaterial.setModel(new DefaultComboBoxModel());
-        }
-        cbxLeitungMaterial.setSelectedItem(null);
-
-        try {
-            leitungstypen = CidsBroker.getInstance().getAllLeitungstypen();
-            createSortedCBoxModelFromCollection(leitungstypen, cbxLeitungLeitungstyp);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeitungLeitungstyp.setModel(new DefaultComboBoxModel());
-        }
-        cbxLeitungLeitungstyp.setSelectedItem(null);
-
-        try {
-            final Collection<QuerschnittCustomBean> querschnitt = CidsBroker.getInstance().getAllQuerschnitte();
-            createSortedCBoxModelFromCollection(querschnitt, cbxLeitungQuerschnitt);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeitungQuerschnitt.setModel(new DefaultComboBoxModel());
-        }
-        cbxLeitungQuerschnitt.setSelectedItem(null);
     }
 
     /**
@@ -341,14 +279,19 @@ public class DetailWidget extends DefaultWidget {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Leitung");
             }
-            panMain.add(panLeitung, BorderLayout.CENTER);
-            panLeitung.setVisible(true);
+            final LeitungPanel leitungPanel = LeitungPanel.getInstance();
+
+            leitungPanel.setCurrentEntity((LeitungCustomBean)currentEntity);
+            leitungPanel.setElementsNull();
+
+            panMain.add(leitungPanel, BorderLayout.CENTER);
+            leitungPanel.setVisible(true);
         } else if (currentEntity instanceof AbzweigdoseCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Abzweigdose");
             }
             panMain.add(panAbzweidose, BorderLayout.CENTER);
-            panLeitung.setVisible(true);
+            panAbzweidose.setVisible(true);
         } else if (currentEntity instanceof MauerlascheCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Mauerlasche");
@@ -402,7 +345,7 @@ public class DetailWidget extends DefaultWidget {
     private void setAllPanelsVisible(final boolean visible) {
         StandortPanel.getInstance().setVisible(visible);
         LeuchtePanel.getInstance().setVisible(visible);
-        panLeitung.setVisible(visible);
+        LeitungPanel.getInstance().setVisible(visible);
         MauerlaschePanel.getInstance().setVisible(visible);
         SchaltstellePanel.getInstance().setVisible(visible);
     }
@@ -424,9 +367,7 @@ public class DetailWidget extends DefaultWidget {
         LeuchtePanel.getInstance().setPanelEditable(isEditable);
 
         // Leitungs fields
-        cbxLeitungLeitungstyp.setEnabled(isEditable);
-        cbxLeitungMaterial.setEnabled(isEditable);
-        cbxLeitungQuerschnitt.setEnabled(isEditable);
+        LeitungPanel.getInstance().setPanelEditable(isEditable);
 
         // Mauerlasche fields
         MauerlaschePanel.getInstance().setPanelEditable(isEditable);
@@ -465,18 +406,6 @@ public class DetailWidget extends DefaultWidget {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
-
-        panLeitung = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        lblLeitungMaterial = new javax.swing.JLabel();
-        lblLeitungLeitungstyp = new javax.swing.JLabel();
-        lblLeitungQuerschnitt = new javax.swing.JLabel();
-        cbxLeitungLeitungstyp = new javax.swing.JComboBox();
-        cbxLeitungMaterial = new javax.swing.JComboBox();
-        cbxLeitungQuerschnitt = new javax.swing.JComboBox();
-        sprLeitung = new javax.swing.JSeparator();
         panAbzweidose = new javax.swing.JPanel();
         panContent1 = new javax.swing.JPanel();
         lblAbzweigdose = new javax.swing.JLabel();
@@ -484,189 +413,6 @@ public class DetailWidget extends DefaultWidget {
         panDokumente = new de.cismet.belis.gui.documentpanel.DocumentPanel();
         scpMain = new javax.swing.JScrollPane();
         panMain = new javax.swing.JPanel();
-
-        jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                          // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/leitung.png"))); // NOI18N
-        jLabel1.setText("Leitung");                                                        // NOI18N
-
-        lblLeitungMaterial.setText("Material:"); // NOI18N
-
-        lblLeitungLeitungstyp.setText("Leitungstyp:"); // NOI18N
-
-        lblLeitungQuerschnitt.setText("Querschnitt:"); // NOI18N
-
-        cbxLeitungLeitungstyp.setEnabled(false);
-        cbxLeitungLeitungstyp.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.LeitungstypCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.LeitungstypCustomBean lt =
-                            (de.cismet.cids.custom.beans.belis.LeitungstypCustomBean)value;
-                        setText(lt.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_leitungstyp}"),
-                cbxLeitungLeitungstyp,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        cbxLeitungMaterial.setEnabled(false);
-        cbxLeitungMaterial.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean mt =
-                            (de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean)value;
-                        setText(mt.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.material}"),
-                cbxLeitungMaterial,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        cbxLeitungQuerschnitt.setEnabled(false);
-        cbxLeitungQuerschnitt.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.QuerschnittCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.QuerschnittCustomBean qt =
-                            (de.cismet.cids.custom.beans.belis.QuerschnittCustomBean)value;
-                        if (qt.getGroesse() != null) {
-                            setText(qt.getGroesse().toString());
-                        } else {
-                            setText("");
-                        }
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.querschnitt}"),
-                cbxLeitungQuerschnitt,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel2Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblLeitungLeitungstyp).addComponent(lblLeitungMaterial).addComponent(lblLeitungQuerschnitt))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        cbxLeitungQuerschnitt,
-                        0,
-                        156,
-                        Short.MAX_VALUE).addComponent(cbxLeitungMaterial, 0, 156, Short.MAX_VALUE).addComponent(
-                        cbxLeitungLeitungstyp,
-                        javax.swing.GroupLayout.Alignment.TRAILING,
-                        0,
-                        156,
-                        Short.MAX_VALUE)).addContainerGap()));
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel2Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeitungLeitungstyp).addComponent(
-                        cbxLeitungLeitungstyp,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeitungMaterial).addComponent(
-                        cbxLeitungMaterial,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeitungQuerschnitt).addComponent(
-                        cbxLeitungQuerschnitt,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE)));
-
-        jPanel2Layout.linkSize(
-            javax.swing.SwingConstants.VERTICAL,
-            new java.awt.Component[] { cbxLeitungLeitungstyp, cbxLeitungMaterial, cbxLeitungQuerschnitt });
-
-        final javax.swing.GroupLayout panLeitungLayout = new javax.swing.GroupLayout(panLeitung);
-        panLeitung.setLayout(panLeitungLayout);
-        panLeitungLayout.setHorizontalGroup(
-            panLeitungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                panLeitungLayout.createSequentialGroup().addContainerGap().addGroup(
-                    panLeitungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        jPanel2,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        sprLeitung,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        270,
-                        Short.MAX_VALUE)).addContainerGap()));
-        panLeitungLayout.setVerticalGroup(
-            panLeitungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panLeitungLayout.createSequentialGroup().addContainerGap().addComponent(jLabel1).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    sprLeitung,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    jPanel2,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE).addContainerGap()));
 
         final javax.swing.GroupLayout panContent1Layout = new javax.swing.GroupLayout(panContent1);
         panContent1.setLayout(panContent1Layout);
@@ -720,8 +466,6 @@ public class DetailWidget extends DefaultWidget {
         scpMain.setViewportView(panMain);
 
         add(scpMain, java.awt.BorderLayout.CENTER);
-
-        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
     /**
