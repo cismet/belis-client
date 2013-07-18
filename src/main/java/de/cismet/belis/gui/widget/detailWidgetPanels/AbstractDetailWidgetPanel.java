@@ -126,8 +126,6 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
         final T oldCurrentEntity = this.currentEntity;
         this.currentEntity = currentEntity;
         firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
-        getBindingGroup().unbind();
-        getBindingGroup().bind();
     }
 
     /**
@@ -175,12 +173,10 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
 
         @Override
         public void bindingBecameBound(final Binding binding) {
-            // log.debug("binding became bound");
         }
 
         @Override
         public void bindingBecameUnbound(final Binding binding) {
-            // log.debug("binding became unbound");
         }
 
         @Override
