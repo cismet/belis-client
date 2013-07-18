@@ -985,7 +985,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                         }
                         ignoreFeatureSelection = true;
                         broker.addFeatureSelectionChangeIgnore(this);
-                        broker.getMappingComponent().getFeatureCollection().select((StyledFeature)currentUserObject);
+                        selectFeature((StyledFeature)currentUserObject);
                     } else if (isParentNodeMast(e.getPath().getLastPathComponent())) {
                         if (log.isDebugEnabled()) {
                             log.debug("Leuchte from mast is selected in table.");
@@ -1005,16 +1005,14 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                             }
                             ignoreFeatureSelection = true;
                             broker.addFeatureSelectionChangeIgnore(this);
-                            broker.getMappingComponent().getFeatureCollection().select((StyledFeature)parentMast);
+                            selectFeature((StyledFeature)parentMast);
                         }
                     } else if (isNodeHaengeLeuchte(e.getPath().getLastPathComponent())) {
                         if (log.isDebugEnabled()) {
                             log.debug(
                                 "current selected node is haengeleuchte. Selecting corresponding standort in map: ");
                         }
-                        broker.getMappingComponent()
-                                .getFeatureCollection()
-                                .select(leuchteToVirtualStandortMap.get(currentUserObject));
+                        selectFeature(leuchteToVirtualStandortMap.get(currentUserObject));
                     } else {
                         if (log.isDebugEnabled()) {
                             log.debug("no geometry to select --> unselect");
@@ -1038,6 +1036,21 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
             ignoreFeatureSelection = false;
             isSelectedOverMap = false;
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  feature  DOCUMENT ME!
+     */
+    private void selectFeature(final Feature feature) {
+        final Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    broker.getMappingComponent().getFeatureCollection().select(feature);
+                }
+            };
+        SwingUtilities.invokeLater(runnable);
     }
 
     /**
