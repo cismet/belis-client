@@ -1045,6 +1045,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
      */
     private void selectFeature(final Feature feature) {
         final Runnable runnable = new Runnable() {
+
                 @Override
                 public void run() {
                     broker.getMappingComponent().getFeatureCollection().select(feature);

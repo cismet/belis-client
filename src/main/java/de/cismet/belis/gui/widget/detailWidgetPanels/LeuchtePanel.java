@@ -29,6 +29,7 @@ import javax.swing.tree.TreePath;
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
+import de.cismet.belis.gui.utils.KeyTableListener;
 import de.cismet.belis.gui.widget.BeanChangedListener;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
@@ -990,6 +991,19 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         return bindingGroup;
     }
 
+    /**
+     * DOCUMENT ME!
+     */
+    private void fillCbxLeuchteEnergielieferant() {
+        try {
+            final Collection<TkeyEnergielieferantCustomBean> lieferanten = CidsBroker.getInstance()
+                        .getAllEnergielieferanten();
+            createSortedCBoxModelFromCollection(lieferanten, cbxLeuchteEnergielieferant);
+        } catch (ActionNotSuccessfulException ex) {
+            cbxLeuchteEnergielieferant.setModel(new DefaultComboBoxModel());
+        }
+    }
+
     @Override
     final void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
@@ -1007,13 +1021,17 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
             cbxLeuchteKennziffer.setModel(new DefaultComboBoxModel());
         }
         cbxLeuchteKennziffer.setSelectedItem(null);
-        try {
-            final Collection<TkeyEnergielieferantCustomBean> lieferanten = CidsBroker.getInstance()
-                        .getAllEnergielieferanten();
-            createSortedCBoxModelFromCollection(lieferanten, cbxLeuchteEnergielieferant);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteEnergielieferant.setModel(new DefaultComboBoxModel());
-        }
+
+        fillCbxLeuchteEnergielieferant();
+        CidsBroker.getInstance()
+                .addListenerForKeyTableChange(TkeyEnergielieferantCustomBean.TABLE, new KeyTableListener() {
+
+                        @Override
+                        public void keyTableChanged() {
+                            fillCbxLeuchteEnergielieferant();
+                        }
+                    });
+
         try {
             final Collection<TkeyUnterhLeuchteCustomBean> unterhalt = CidsBroker.getInstance().getAllUnterhaltLeuchte();
             try {
