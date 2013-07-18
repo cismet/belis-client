@@ -26,9 +26,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Observable;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import de.cismet.belis.gui.utils.KeyTableListener;
 import de.cismet.belis.gui.widget.BeanChangedListener;
 
 import de.cismet.belis.server.search.HighestLfdNummerSearch;
@@ -89,8 +94,10 @@ public class CidsBroker implements BelisServerRemote {
 
     //~ Instance fields --------------------------------------------------------
 
+    HashMap<String, Collection<CidsBean>> keyTableCollections = new HashMap<String, Collection<CidsBean>>();
+    HashMap<String, Collection<KeyTableListener>> keyTableListeners =
+        new HashMap<String, Collection<KeyTableListener>>();
     private ConnectionProxy proxy = null;
-
     private final HashMap<String, Collection> beanChangedListeners = new HashMap<String, Collection>();
 
     //~ Constructors -----------------------------------------------------------
@@ -210,11 +217,58 @@ public class CidsBroker implements BelisServerRemote {
     /**
      * DOCUMENT ME!
      *
+     * @param  className  DOCUMENT ME!
+     * @param  listener   DOCUMENT ME!
+     */
+    public void addListenerForKeyTableChange(final String className, final KeyTableListener listener) {
+        Collection<KeyTableListener> listeners = keyTableListeners.get(className.toLowerCase());
+        if (listeners == null) {
+            listeners = new ArrayList<KeyTableListener>();
+            keyTableListeners.put(className, listeners);
+        }
+        listeners.add(listener);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  classname  DOCUMENT ME!
+     * @param  listener   DOCUMENT ME!
+     */
+    public void removeListenerForKeyTableChange(final String classname, final KeyTableListener listener) {
+        final Collection<KeyTableListener> listeners = keyTableListeners.get(classname.toLowerCase());
+        if (listeners != null) {
+            listeners.remove(listener);
+            if (listeners.isEmpty()) {
+                beanChangedListeners.remove(classname);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  className  DOCUMENT ME!
+     */
+    public void fireListenerForKeyTableChange(final String className) {
+        final Collection<KeyTableListener> listeners = keyTableListeners.get(className.toLowerCase());
+
+        if (listeners != null) {
+            for (final KeyTableListener listener : listeners) {
+                listener.keyTableChanged();
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   className  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    private Collection getAll(final String className) {
+    public Collection refreshAll(String className) {
+        className = className.toLowerCase();
         final MetaClass metaclass = CidsBroker.getInstance().getBelisMetaClass(className);
         if (metaclass == null) {
             return null;
@@ -226,7 +280,25 @@ public class CidsBroker implements BelisServerRemote {
         for (final MetaObject metaObject : mos) {
             beans.add(metaObject.getBean());
         }
+        keyTableCollections.put(className, beans);
+        fireListenerForKeyTableChange(className);
         return (Collection)beans;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   className  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Collection getAll(String className) {
+        className = className.toLowerCase();
+        if (keyTableCollections.containsKey(className)) {
+            return keyTableCollections.get(className);
+        } else {
+            return refreshAll(className);
+        }
     }
 
     @Override
