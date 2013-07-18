@@ -49,12 +49,23 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             AbstractDetailWidgetPanel.class);
     public static final String PROP_CURRENT_ENTITY = "currentEntity";
+    static Collection<TkeyStrassenschluesselCustomBean> allStrassenschluessel;
+
+    static {
+        try {
+            allStrassenschluessel = CidsBroker.getInstance().getAllStrassenschluessel();
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Strassenschluessel size: " + allStrassenschluessel.size());
+            }
+        } catch (Exception ex) {
+            LOG.error("Error while initializing all strassenschlussel.");
+            allStrassenschluessel = new HashSet();
+        }
+    }
 
     //~ Instance fields --------------------------------------------------------
 
     protected T currentEntity = null;
-
-    Collection<TkeyStrassenschluesselCustomBean> allStrassenschluessel = null;
     final String comboBoxNullValue = "Wert auswählen...";
     boolean isTriggerd = false;
     final HashMap<JComponent, JComponent> componentToLabelMap = new HashMap<JComponent, JComponent>();
@@ -65,17 +76,6 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
      * Creates a new AbstractDetailWidgetPanel object.
      */
     public AbstractDetailWidgetPanel() {
-        if (allStrassenschluessel == null) {
-            try {
-                allStrassenschluessel = CidsBroker.getInstance().getAllStrassenschluessel();
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Strassenschluessel size: " + allStrassenschluessel.size());
-                }
-            } catch (Exception ex) {
-                LOG.error("Error while initializing all strassenschlussel.");
-                allStrassenschluessel = new HashSet();
-            }
-        }
     }
 
     //~ Methods ----------------------------------------------------------------
