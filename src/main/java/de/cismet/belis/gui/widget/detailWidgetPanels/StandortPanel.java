@@ -176,9 +176,10 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         cbxStandortStrassenschluesselNr = new javax.swing.JComboBox();
         sprStandort = new javax.swing.JSeparator();
 
-        lblStandort.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        lblStandort.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/standort.png"))); // NOI18N
-        lblStandort.setText("Standort"); // NOI18N
+        lblStandort.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
+        lblStandort.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/standort.png"))); // NOI18N
+        lblStandort.setText("Standort");                                                    // NOI18N
 
         lblStandortStadtbezirk.setText("Stadtbezirk:"); // NOI18N
 
@@ -186,34 +187,55 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         txtStandortPLZ.setEnabled(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.plz}"), txtStandortPLZ, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.plz}"),
+                txtStandortPLZ,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new PLZValidator());
         bindingGroup.addBinding(binding);
 
         cbxStandortStadtbezirk.setEnabled(false);
         cbxStandortStadtbezirk.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean sb = (de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean)value;
-                    setText(sb.getBezirk());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.stadtbezirk}"), cbxStandortStadtbezirk, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean sb =
+                            (de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean)value;
+                        setText(sb.getBezirk());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.stadtbezirk}"),
+                cbxStandortStadtbezirk,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         lblStandortHausnummer.setText("Hausnummer:"); // NOI18N
 
         txfStandortHausnummer.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.hausnummer}"), txfStandortHausnummer, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.hausnummer}"),
+                txfStandortHausnummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator(5));
         bindingGroup.addBinding(binding);
 
@@ -223,68 +245,106 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortMastart.setEnabled(false);
         cbxStandortMastart.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean ma = (de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean)value;
-                    setText(ma.getMastart());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastart}"), cbxStandortMastart, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean ma =
+                            (de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean)value;
+                        setText(ma.getMastart());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastart}"),
+                cbxStandortMastart,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         cbxStandortMasttyp.setEnabled(false);
         cbxStandortMasttyp.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean mt = (de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean)value;
-                    setText(mt.getMasttyp());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.masttyp}"), cbxStandortMasttyp, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean mt =
+                            (de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean)value;
+                        setText(mt.getMasttyp());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.masttyp}"),
+                cbxStandortMasttyp,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         lblStandortKlassifizierung.setText("Klassifizierung:"); // NOI18N
 
         cbxStandortKlassifizierung.setEnabled(false);
         cbxStandortKlassifizierung.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean kl = (de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean)value;
-                    setText(kl.getKlassifizierung());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.klassifizierung}"), cbxStandortKlassifizierung, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean kl =
+                            (de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean)value;
+                        setText(kl.getKlassifizierung());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.klassifizierung}"),
+                cbxStandortKlassifizierung,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         lblStandortMastanstrich.setText("Mastanstrich:"); // NOI18N
 
         dapStandortMastanstrich.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastanstrich}"), dapStandortMastanstrich, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastanstrich}"),
+                dapStandortMastanstrich,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -292,7 +352,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortMastschutz.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastschutz}"), dapStandortMastschutz, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastschutz}"),
+                dapStandortMastschutz,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -300,7 +365,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortInbetriebnahme.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahmeMast}"), dapStandortInbetriebnahme, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahmeMast}"),
+                dapStandortInbetriebnahme,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -308,7 +378,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortLetzteAenderung.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.letzteAenderung}"), dapStandortLetzteAenderung, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.letzteAenderung}"),
+                dapStandortLetzteAenderung,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -316,28 +391,44 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortUnterhalt.setEnabled(false);
         cbxStandortUnterhalt.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean um = (de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean)value;
-                    setText(um.getUnterhaltMast());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtMast}"), cbxStandortUnterhalt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean um =
+                            (de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean)value;
+                        setText(um.getUnterhaltMast());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtMast}"),
+                cbxStandortUnterhalt,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         lblStandortMontagefirma.setText("Montagefirma:"); // NOI18N
 
         txfStandortMontagefirma.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.montagefirma}"), txfStandortMontagefirma, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.montagefirma}"),
+                txfStandortMontagefirma,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
@@ -345,21 +436,33 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cboStandortVerrechnungseinheit.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.verrechnungseinheit}"), cboStandortVerrechnungseinheit, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.verrechnungseinheit}"),
+                cboStandortVerrechnungseinheit,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
         bindingGroup.addBinding(binding);
 
         cboStandortVerrechnungseinheit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboStandortVerrechnungseinheitActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cboStandortVerrechnungseinheitActionPerformed(evt);
+                }
+            });
 
         txaStandortBemerkung.setColumns(20);
         txaStandortBemerkung.setRows(5);
         txaStandortBemerkung.setEnabled(false);
         txaStandortBemerkung.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkungen}"), txaStandortBemerkung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkungen}"),
+                txaStandortBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
@@ -367,29 +470,42 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortStrassenschluessel.setEnabled(false);
         cbxStandortStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
-                    setText(ss.getKeyString());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"), cbxStandortStrassenschluessel, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                        setText(ss.getKeyString());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
+                cbxStandortStrassenschluessel,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setValidator(new NotNullValidator("Straßenschlüssel"));
         bindingGroup.addBinding(binding);
 
         cbxStandortStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxStandortStrassenschluesselActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbxStandortStrassenschluesselActionPerformed(evt);
+                }
+            });
 
         lblStandortStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
 
@@ -397,237 +513,429 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortKennziffer.setEnabled(false);
         cbxStandortKennziffer.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean kzf = (de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean)value;
-                    setText(kzf.getKeyString());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.kennziffer}"), cbxStandortKennziffer, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean kzf =
+                            (de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean)value;
+                        setText(kzf.getKeyString());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.kennziffer}"),
+                cbxStandortKennziffer,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setValidator(new NotNullValidator("de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean"));
         bindingGroup.addBinding(binding);
 
         txfStandortLaufendenummer.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"), txfStandortLaufendenummer, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
+                txfStandortLaufendenummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         lblStandortLaufendenummer.setText("Laufende Nr.:"); // NOI18N
 
-        lblStandortVerrechnungseinheit.setText("V-Einheit:"); // NOI18N
+        lblStandortVerrechnungseinheit.setText("V-Einheit:");                 // NOI18N
         lblStandortVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
 
         lblStandortStandortangabe.setText("Standortangabe:"); // NOI18N
 
         txfStandortStandortAngabe.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standortangabe}"), txfStandortStandortAngabe, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standortangabe}"),
+                txfStandortStandortAngabe,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
         txfStandortStandortAngabe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txfStandortStandortAngabeActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    txfStandortStandortAngabeActionPerformed(evt);
+                }
+            });
 
         cbxStandortStrassenschluesselNr.setEnabled(false);
         cbxStandortStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
-                    setText(ss.getPk());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"), cbxStandortStrassenschluesselNr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "strassenschluesselnr"); // NOI18N
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                        setText(ss.getPk());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
+                cbxStandortStrassenschluesselNr,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "strassenschluesselnr"); // NOI18N
         bindingGroup.addBinding(binding);
 
         cbxStandortStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxStandortStrassenschluesselNrActionPerformed(evt);
-            }
-        });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbxStandortStrassenschluesselNrActionPerformed(evt);
+                }
+            });
+
+        final javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblStandortLaufendenummer)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblStandortStandortangabe)
-                            .addComponent(lblStandortMastart)
-                            .addComponent(lblStandortMasttyp)
-                            .addComponent(lblStandortKlassifizierung, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblStandortUnterhalt)
-                            .addComponent(lblStandortMastschutz, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblStandortInbetriebnahme)
-                            .addComponent(lblStandortLetzteAenderung)
-                            .addComponent(lblStandortMastanstrich, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblStandortMontagefirma)
-                            .addComponent(lblStandortHausnummer)
-                            .addComponent(lblStandortVerrechnungseinheit)
-                            .addComponent(lblStandortBemerkung, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblStandortPLZ)
-                            .addComponent(lblStandortStrassenschluessel)
-                            .addComponent(lblStandortKenziffer)
-                            .addComponent(lblStandortStadtbezirk))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbxStandortStadtbezirk, javax.swing.GroupLayout.Alignment.TRAILING, 0, 299, Short.MAX_VALUE)
-                            .addComponent(cbxStandortKennziffer, 0, 299, Short.MAX_VALUE)
-                            .addComponent(txfStandortLaufendenummer, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(txtStandortPLZ, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(scpStandortBemerkung, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(cbxStandortMastart, 0, 299, Short.MAX_VALUE)
-                            .addComponent(cbxStandortMasttyp, 0, 299, Short.MAX_VALUE)
-                            .addComponent(cbxStandortKlassifizierung, 0, 299, Short.MAX_VALUE)
-                            .addComponent(cbxStandortUnterhalt, 0, 299, Short.MAX_VALUE)
-                            .addComponent(dapStandortMastschutz, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                            .addComponent(dapStandortInbetriebnahme, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(dapStandortLetzteAenderung, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(dapStandortMastanstrich, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(txfStandortMontagefirma, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(cboStandortVerrechnungseinheit, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txfStandortHausnummer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(txfStandortStandortAngabe, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cbxStandortStrassenschluesselNr, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxStandortStrassenschluessel, 0, 191, Short.MAX_VALUE)))))
-                .addContainerGap())
-        );
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                jPanel1Layout.createSequentialGroup().addContainerGap().addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+                        lblStandortLaufendenummer).addGroup(
+                        javax.swing.GroupLayout.Alignment.TRAILING,
+                        jPanel1Layout.createSequentialGroup().addGroup(
+                            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+                                lblStandortStandortangabe).addComponent(lblStandortMastart).addComponent(
+                                lblStandortMasttyp).addComponent(
+                                lblStandortKlassifizierung,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                Short.MAX_VALUE).addComponent(lblStandortUnterhalt).addComponent(
+                                lblStandortMastschutz,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                Short.MAX_VALUE).addComponent(lblStandortInbetriebnahme).addComponent(
+                                lblStandortLetzteAenderung).addComponent(
+                                lblStandortMastanstrich,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                Short.MAX_VALUE).addComponent(lblStandortMontagefirma).addComponent(
+                                lblStandortHausnummer).addComponent(lblStandortVerrechnungseinheit).addComponent(
+                                lblStandortBemerkung,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                Short.MAX_VALUE).addComponent(lblStandortPLZ).addComponent(
+                                lblStandortStrassenschluessel).addComponent(lblStandortKenziffer).addComponent(
+                                lblStandortStadtbezirk)).addPreferredGap(
+                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+                                cbxStandortStadtbezirk,
+                                javax.swing.GroupLayout.Alignment.TRAILING,
+                                0,
+                                299,
+                                Short.MAX_VALUE).addComponent(cbxStandortKennziffer, 0, 299, Short.MAX_VALUE)
+                                        .addComponent(
+                                            txfStandortLaufendenummer,
+                                            javax.swing.GroupLayout.DEFAULT_SIZE,
+                                            299,
+                                            Short.MAX_VALUE).addComponent(
+                                txtStandortPLZ,
+                                javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                299,
+                                Short.MAX_VALUE).addComponent(
+                                scpStandortBemerkung,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                299,
+                                Short.MAX_VALUE).addComponent(cbxStandortMastart, 0, 299, Short.MAX_VALUE).addComponent(
+                                cbxStandortMasttyp,
+                                0,
+                                299,
+                                Short.MAX_VALUE).addComponent(cbxStandortKlassifizierung, 0, 299, Short.MAX_VALUE)
+                                        .addComponent(cbxStandortUnterhalt, 0, 299, Short.MAX_VALUE).addComponent(
+                                dapStandortMastschutz,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                212,
+                                Short.MAX_VALUE).addComponent(
+                                dapStandortInbetriebnahme,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                299,
+                                Short.MAX_VALUE).addComponent(
+                                dapStandortLetzteAenderung,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                299,
+                                Short.MAX_VALUE).addComponent(
+                                dapStandortMastanstrich,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                299,
+                                Short.MAX_VALUE).addComponent(
+                                txfStandortMontagefirma,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                299,
+                                Short.MAX_VALUE).addComponent(
+                                cboStandortVerrechnungseinheit,
+                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                163,
+                                javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
+                                txfStandortHausnummer,
+                                javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                299,
+                                Short.MAX_VALUE).addComponent(
+                                txfStandortStandortAngabe,
+                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                299,
+                                Short.MAX_VALUE).addGroup(
+                                jPanel1Layout.createSequentialGroup().addComponent(
+                                    cbxStandortStrassenschluesselNr,
+                                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                                    102,
+                                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
+                                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
+                                    cbxStandortStrassenschluessel,
+                                    0,
+                                    191,
+                                    Short.MAX_VALUE))))).addContainerGap()));
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblStandortBemerkung, lblStandortHausnummer, lblStandortInbetriebnahme, lblStandortKlassifizierung, lblStandortLetzteAenderung, lblStandortMastanstrich, lblStandortMastart, lblStandortMastschutz, lblStandortMasttyp, lblStandortMontagefirma, lblStandortPLZ, lblStandortStadtbezirk, lblStandortUnterhalt});
+        jPanel1Layout.linkSize(
+            javax.swing.SwingConstants.HORIZONTAL,
+            new java.awt.Component[] {
+                lblStandortBemerkung,
+                lblStandortHausnummer,
+                lblStandortInbetriebnahme,
+                lblStandortKlassifizierung,
+                lblStandortLetzteAenderung,
+                lblStandortMastanstrich,
+                lblStandortMastart,
+                lblStandortMastschutz,
+                lblStandortMasttyp,
+                lblStandortMontagefirma,
+                lblStandortPLZ,
+                lblStandortStadtbezirk,
+                lblStandortUnterhalt
+            });
 
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortStrassenschluessel)
-                    .addComponent(cbxStandortStrassenschluesselNr, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxStandortStrassenschluessel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortKenziffer)
-                    .addComponent(cbxStandortKennziffer, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortLaufendenummer)
-                    .addComponent(txfStandortLaufendenummer, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortStadtbezirk)
-                    .addComponent(cbxStandortStadtbezirk, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortPLZ)
-                    .addComponent(txtStandortPLZ, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortStandortangabe)
-                    .addComponent(txfStandortStandortAngabe, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortHausnummer)
-                    .addComponent(txfStandortHausnummer, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortMastart)
-                    .addComponent(cbxStandortMastart, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortMasttyp)
-                    .addComponent(cbxStandortMasttyp, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortKlassifizierung)
-                    .addComponent(cbxStandortKlassifizierung, 0, 22, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortUnterhalt)
-                    .addComponent(cbxStandortUnterhalt, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortMastschutz)
-                    .addComponent(dapStandortMastschutz, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortInbetriebnahme)
-                    .addComponent(dapStandortInbetriebnahme, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortLetzteAenderung)
-                    .addComponent(dapStandortLetzteAenderung, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortMastanstrich)
-                    .addComponent(dapStandortMastanstrich, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStandortMontagefirma)
-                    .addComponent(txfStandortMontagefirma, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cboStandortVerrechnungseinheit)
-                    .addComponent(lblStandortVerrechnungseinheit))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scpStandortBemerkung, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblStandortBemerkung))
-                .addContainerGap())
-        );
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                jPanel1Layout.createSequentialGroup().addContainerGap().addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortStrassenschluessel).addComponent(
+                        cbxStandortStrassenschluesselNr,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        19,
+                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
+                        cbxStandortStrassenschluessel,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        21,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortKenziffer).addComponent(
+                        cbxStandortKennziffer,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        21,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortLaufendenummer).addComponent(
+                        txfStandortLaufendenummer,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortStadtbezirk).addComponent(
+                        cbxStandortStadtbezirk,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        21,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortPLZ).addComponent(
+                        txtStandortPLZ,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortStandortangabe).addComponent(
+                        txfStandortStandortAngabe,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortHausnummer).addComponent(
+                        txfStandortHausnummer,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortMastart).addComponent(
+                        cbxStandortMastart,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortMasttyp).addComponent(
+                        cbxStandortMasttyp,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortKlassifizierung).addComponent(cbxStandortKlassifizierung, 0, 22, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortUnterhalt).addComponent(
+                        cbxStandortUnterhalt,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortMastschutz).addComponent(
+                        dapStandortMastschutz,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortInbetriebnahme).addComponent(
+                        dapStandortInbetriebnahme,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortLetzteAenderung).addComponent(
+                        dapStandortLetzteAenderung,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortMastanstrich).addComponent(
+                        dapStandortMastanstrich,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+                        lblStandortMontagefirma).addComponent(
+                        txfStandortMontagefirma,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        22,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
+                        cboStandortVerrechnungseinheit).addComponent(lblStandortVerrechnungseinheit)).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+                        scpStandortBemerkung,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        151,
+                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(lblStandortBemerkung)).addContainerGap()));
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cboStandortVerrechnungseinheit, cbxStandortKennziffer, cbxStandortKlassifizierung, cbxStandortMastart, cbxStandortMasttyp, cbxStandortStadtbezirk, cbxStandortStrassenschluessel, cbxStandortUnterhalt, dapStandortInbetriebnahme, dapStandortLetzteAenderung, dapStandortMastanstrich, dapStandortMastschutz, txfStandortHausnummer, txfStandortLaufendenummer, txfStandortMontagefirma, txtStandortPLZ});
+        jPanel1Layout.linkSize(
+            javax.swing.SwingConstants.VERTICAL,
+            new java.awt.Component[] {
+                cboStandortVerrechnungseinheit,
+                cbxStandortKennziffer,
+                cbxStandortKlassifizierung,
+                cbxStandortMastart,
+                cbxStandortMasttyp,
+                cbxStandortStadtbezirk,
+                cbxStandortStrassenschluessel,
+                cbxStandortUnterhalt,
+                dapStandortInbetriebnahme,
+                dapStandortLetzteAenderung,
+                dapStandortMastanstrich,
+                dapStandortMastschutz,
+                txfStandortHausnummer,
+                txfStandortLaufendenummer,
+                txfStandortMontagefirma,
+                txtStandortPLZ
+            });
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblStandortBemerkung, lblStandortHausnummer, lblStandortInbetriebnahme, lblStandortKlassifizierung, lblStandortLetzteAenderung, lblStandortMastanstrich, lblStandortMastart, lblStandortMastschutz, lblStandortMasttyp, lblStandortMontagefirma, lblStandortPLZ, lblStandortStadtbezirk, lblStandortUnterhalt});
+        jPanel1Layout.linkSize(
+            javax.swing.SwingConstants.VERTICAL,
+            new java.awt.Component[] {
+                lblStandortBemerkung,
+                lblStandortHausnummer,
+                lblStandortInbetriebnahme,
+                lblStandortKlassifizierung,
+                lblStandortLetzteAenderung,
+                lblStandortMastanstrich,
+                lblStandortMastart,
+                lblStandortMastschutz,
+                lblStandortMasttyp,
+                lblStandortMontagefirma,
+                lblStandortPLZ,
+                lblStandortStadtbezirk,
+                lblStandortUnterhalt
+            });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sprStandort, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
-                    .addComponent(lblStandort, javax.swing.GroupLayout.Alignment.LEADING))
-                .addContainerGap())
-        );
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                javax.swing.GroupLayout.Alignment.TRAILING,
+                layout.createSequentialGroup().addContainerGap().addGroup(
+                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
+                        jPanel1,
+                        javax.swing.GroupLayout.Alignment.LEADING,
+                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                        Short.MAX_VALUE).addComponent(
+                        sprStandort,
+                        javax.swing.GroupLayout.Alignment.LEADING,
+                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                        448,
+                        Short.MAX_VALUE).addComponent(lblStandort, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addContainerGap()));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblStandort)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sprStandort, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
+                layout.createSequentialGroup().addContainerGap().addComponent(lblStandort).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
+                    sprStandort,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    10,
+                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
+                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
+                    jPanel1,
+                    javax.swing.GroupLayout.PREFERRED_SIZE,
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(
+                    javax.swing.GroupLayout.DEFAULT_SIZE,
+                    Short.MAX_VALUE)));
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -720,16 +1028,16 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cboStandortVerrechnungseinheitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboStandortVerrechnungseinheitActionPerformed
+    private void cboStandortVerrechnungseinheitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cboStandortVerrechnungseinheitActionPerformed
 // TODO add your handling code here:
-    }//GEN-LAST:event_cboStandortVerrechnungseinheitActionPerformed
+    } //GEN-LAST:event_cboStandortVerrechnungseinheitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxStandortStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStandortStrassenschluesselActionPerformed
+    private void cbxStandortStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStandortStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -740,23 +1048,23 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         } finally {
             isTriggerd = false;
         }
-    }//GEN-LAST:event_cbxStandortStrassenschluesselActionPerformed
+    }                                                                                                 //GEN-LAST:event_cbxStandortStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txfStandortStandortAngabeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfStandortStandortAngabeActionPerformed
+    private void txfStandortStandortAngabeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txfStandortStandortAngabeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txfStandortStandortAngabeActionPerformed
+    } //GEN-LAST:event_txfStandortStandortAngabeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxStandortStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStandortStrassenschluesselNrActionPerformed
+    private void cbxStandortStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStandortStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -767,7 +1075,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         } finally {
             isTriggerd = false;
         }
-    }//GEN-LAST:event_cbxStandortStrassenschluesselNrActionPerformed
+    }                                                                                                   //GEN-LAST:event_cbxStandortStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!

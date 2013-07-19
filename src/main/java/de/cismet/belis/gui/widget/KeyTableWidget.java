@@ -133,6 +133,7 @@ public class KeyTableWidget extends DefaultWidget {
 
         setLayout(new java.awt.GridBagLayout());
 
+        jSplitPane1.setBorder(null);
         jSplitPane1.setRightComponent(jPanel2);
 
         jScrollPane1.setViewportView(jTree1);

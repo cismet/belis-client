@@ -345,7 +345,6 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         mapWidgetToolbar = new javax.swing.JToolBar();
         cmdFullPoly = new javax.swing.JButton();
         cmdFullPoly1 = new javax.swing.JButton();
@@ -375,47 +374,59 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
         mapWidgetToolbar.setMinimumSize(new java.awt.Dimension(300, 25));
         mapWidgetToolbar.setPreferredSize(new java.awt.Dimension(300, 28));
 
-        cmdFullPoly.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/fullPoly.png"))); // NOI18N
+        cmdFullPoly.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/fullPoly.png"))); // NOI18N
         cmdFullPoly.setToolTipText("Zeige alle Flächen");
         cmdFullPoly.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
         cmdFullPoly.setIconTextGap(8);
         cmdFullPoly.setMargin(new java.awt.Insets(10, 14, 10, 14));
         cmdFullPoly.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdFullPolyActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdFullPolyActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdFullPoly);
 
-        cmdFullPoly1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/fullSelPoly.png"))); // NOI18N
+        cmdFullPoly1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/fullSelPoly.png"))); // NOI18N
         cmdFullPoly1.setToolTipText("Zoom zur ausgewählten Fläche");
         cmdFullPoly1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
         cmdFullPoly1.setIconTextGap(8);
         cmdFullPoly1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdFullPoly1ActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdFullPoly1ActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdFullPoly1);
 
-        cmdBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/back2.png"))); // NOI18N
+        cmdBack.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/back2.png"))); // NOI18N
         cmdBack.setToolTipText("Zurück");
         cmdBack.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
         cmdBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdBackActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdBackActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdBack);
 
-        cmdForward.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/fwd.png"))); // NOI18N
+        cmdForward.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/fwd.png"))); // NOI18N
         cmdForward.setToolTipText("Vor");
         cmdForward.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
         cmdForward.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdForwardActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdForwardActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdForward);
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -424,42 +435,54 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
         jSeparator4.setPreferredSize(new java.awt.Dimension(2, 10));
         mapWidgetToolbar.add(jSeparator4);
 
-        cmdWmsBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/map.png"))); // NOI18N
+        cmdWmsBackground.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/map.png")));    // NOI18N
         cmdWmsBackground.setToolTipText("Hintergrund an/aus");
         cmdWmsBackground.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        cmdWmsBackground.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/map_on.png"))); // NOI18N
+        cmdWmsBackground.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/map_on.png"))); // NOI18N
         cmdWmsBackground.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdWmsBackgroundActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdWmsBackgroundActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdWmsBackground);
 
-        cmdForeground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/foreground.png"))); // NOI18N
+        cmdForeground.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/foreground.png")));    // NOI18N
         cmdForeground.setToolTipText("Vordergrund an/aus");
         cmdForeground.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         cmdForeground.setFocusable(false);
         cmdForeground.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         cmdForeground.setSelected(true);
-        cmdForeground.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/foreground_on.png"))); // NOI18N
+        cmdForeground.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/foreground_on.png"))); // NOI18N
         cmdForeground.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         cmdForeground.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdForegroundActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdForegroundActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdForeground);
 
-        cmdSnap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/snap.png"))); // NOI18N
+        cmdSnap.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/snap.png")));          // NOI18N
         cmdSnap.setToolTipText("Snapping an/aus");
         cmdSnap.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
         cmdSnap.setSelected(true);
-        cmdSnap.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/snap_selected.png"))); // NOI18N
+        cmdSnap.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/snap_selected.png"))); // NOI18N
         cmdSnap.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdSnapActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdSnapActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdSnap);
 
         jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -468,60 +491,81 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
         jSeparator5.setPreferredSize(new java.awt.Dimension(2, 10));
         mapWidgetToolbar.add(jSeparator5);
 
-        cmdZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/zoom.png"))); // NOI18N
+        cmdZoom.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/zoom.png")));          // NOI18N
         cmdZoom.setToolTipText("Zoomen");
         cmdZoom.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        cmdZoom.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/zoom_selected.png"))); // NOI18N
+        cmdZoom.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/zoom_selected.png"))); // NOI18N
         cmdZoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdZoomActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdZoomActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdZoom);
 
-        cmdPan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/move2.png"))); // NOI18N
+        cmdPan.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/move2.png")));          // NOI18N
         cmdPan.setToolTipText("Verschieben");
         cmdPan.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        cmdPan.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/move2_selected.png"))); // NOI18N
+        cmdPan.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/move2_selected.png"))); // NOI18N
         cmdPan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdPanActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdPanActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdPan);
 
-        cmdSelect.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/select.png"))); // NOI18N
+        cmdSelect.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/select.png")));          // NOI18N
         cmdSelect.setToolTipText("Auswählen");
         cmdSelect.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
         cmdSelect.setSelected(true);
-        cmdSelect.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/select_selected.png"))); // NOI18N
+        cmdSelect.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/select_selected.png"))); // NOI18N
         cmdSelect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdSelectActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdSelectActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdSelect);
 
-        cmdMovePolygon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/movePoly.png"))); // NOI18N
+        cmdMovePolygon.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/movePoly.png")));          // NOI18N
         cmdMovePolygon.setToolTipText("Polygon verschieben");
         cmdMovePolygon.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        cmdMovePolygon.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/movePoly_selected.png"))); // NOI18N
+        cmdMovePolygon.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/movePoly_selected.png"))); // NOI18N
         cmdMovePolygon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdMovePolygonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdMovePolygonActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdMovePolygon);
 
-        cmdRemovePolygon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/removePoly.png"))); // NOI18N
+        cmdRemovePolygon.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/removePoly.png"))); // NOI18N
         cmdRemovePolygon.setToolTipText("Polygon entfernen");
         cmdRemovePolygon.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        cmdRemovePolygon.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/removePoly_selected.png"))); // NOI18N
+        cmdRemovePolygon.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource(
+                    "/de/cismet/commons/architecture/resource/icon/toolbar/removePoly_selected.png")));           // NOI18N
         cmdRemovePolygon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdRemovePolygonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdRemovePolygonActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdRemovePolygon);
 
         jSeparator6.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -530,38 +574,53 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
         jSeparator6.setPreferredSize(new java.awt.Dimension(2, 10));
         mapWidgetToolbar.add(jSeparator6);
 
-        cmdMoveHandle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/moveHandle.png"))); // NOI18N
+        cmdMoveHandle.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/moveHandle.png"))); // NOI18N
         cmdMoveHandle.setToolTipText("Handle verschieben");
         cmdMoveHandle.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
         cmdMoveHandle.setSelected(true);
-        cmdMoveHandle.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/moveHandle_selected.png"))); // NOI18N
+        cmdMoveHandle.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource(
+                    "/de/cismet/commons/architecture/resource/icon/toolbar/moveHandle_selected.png")));           // NOI18N
         cmdMoveHandle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdMoveHandleActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdMoveHandleActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdMoveHandle);
 
-        cmdAddHandle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/addHandle.png"))); // NOI18N
+        cmdAddHandle.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/addHandle.png"))); // NOI18N
         cmdAddHandle.setToolTipText("Handle hinzufügen");
         cmdAddHandle.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        cmdAddHandle.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/addHandle_selected.png"))); // NOI18N
+        cmdAddHandle.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource(
+                    "/de/cismet/commons/architecture/resource/icon/toolbar/addHandle_selected.png")));           // NOI18N
         cmdAddHandle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdAddHandleActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdAddHandleActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdAddHandle);
 
-        cmdRemoveHandle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/removeHandle.png"))); // NOI18N
+        cmdRemoveHandle.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/removeHandle.png"))); // NOI18N
         cmdRemoveHandle.setToolTipText("Handle entfernen");
         cmdRemoveHandle.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        cmdRemoveHandle.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/removeHandle_selected.png"))); // NOI18N
+        cmdRemoveHandle.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource(
+                    "/de/cismet/commons/architecture/resource/icon/toolbar/removeHandle_selected.png")));           // NOI18N
         cmdRemoveHandle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdRemoveHandleActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdRemoveHandleActionPerformed(evt);
+                }
+            });
         mapWidgetToolbar.add(cmdRemoveHandle);
 
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -575,116 +634,122 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
         jPanel1.setMinimumSize(new java.awt.Dimension(50, 100));
         jPanel1.setPreferredSize(new java.awt.Dimension(50, 30));
 
-        cmdAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/layersman.png"))); // NOI18N
+        cmdAdd.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/layersman.png"))); // NOI18N
         cmdAdd.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
         cmdAdd.setBorderPainted(false);
         cmdAdd.setFocusPainted(false);
         cmdAdd.setMinimumSize(new java.awt.Dimension(25, 25));
         cmdAdd.setPreferredSize(new java.awt.Dimension(25, 25));
         cmdAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdAddActionPerformed(evt);
-            }
-        });
 
-        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdAddActionPerformed(evt);
+                }
+            });
+
+        final org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(497, Short.MAX_VALUE)
-                .add(cmdAdd, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-        );
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
+                org.jdesktop.layout.GroupLayout.TRAILING,
+                jPanel1Layout.createSequentialGroup().addContainerGap(497, Short.MAX_VALUE).add(
+                    cmdAdd,
+                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)));
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(cmdAdd, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
-        );
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
+                jPanel1Layout.createSequentialGroup().add(
+                    cmdAdd,
+                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
+                    org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
+                    org.jdesktop.layout.GroupLayout.PREFERRED_SIZE).addContainerGap(75, Short.MAX_VALUE)));
 
         add(jPanel1, java.awt.BorderLayout.SOUTH);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdMovePolygonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMovePolygonActionPerformed
+    private void cmdMovePolygonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdMovePolygonActionPerformed
         removeMainGroupSelection();
         cmdMovePolygon.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.MOVE_POLYGON);
         setLastMapMode(getCurrentMapMode());
         setCurrentMapMode(MapMode.MOVE_POLYGON);
-    }//GEN-LAST:event_cmdMovePolygonActionPerformed
+    }                                                                                  //GEN-LAST:event_cmdMovePolygonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdAddActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddActionPerformed
+    private void cmdAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdAddActionPerformed
         mappingComponent.showInternalLayerWidget(!mappingComponent.isInternalLayerWidgetVisible(), 500);
-    }//GEN-LAST:event_cmdAddActionPerformed
+    }                                                                          //GEN-LAST:event_cmdAddActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdRemoveHandleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRemoveHandleActionPerformed
+    private void cmdRemoveHandleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdRemoveHandleActionPerformed
         removeHandleGroupSelection();
         cmdRemoveHandle.setSelected(true);
         mappingComponent.setHandleInteractionMode(MappingComponent.REMOVE_HANDLE);
-    }//GEN-LAST:event_cmdRemoveHandleActionPerformed
+    }                                                                                   //GEN-LAST:event_cmdRemoveHandleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdAddHandleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddHandleActionPerformed
+    private void cmdAddHandleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdAddHandleActionPerformed
         removeHandleGroupSelection();
         cmdAddHandle.setSelected(true);
         mappingComponent.setHandleInteractionMode(MappingComponent.ADD_HANDLE);
-    }//GEN-LAST:event_cmdAddHandleActionPerformed
+    }                                                                                //GEN-LAST:event_cmdAddHandleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdMoveHandleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMoveHandleActionPerformed
+    private void cmdMoveHandleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdMoveHandleActionPerformed
         removeHandleGroupSelection();
         cmdMoveHandle.setSelected(true);
         mappingComponent.setHandleInteractionMode(MappingComponent.MOVE_HANDLE);
-    }//GEN-LAST:event_cmdMoveHandleActionPerformed
+    }                                                                                 //GEN-LAST:event_cmdMoveHandleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdRemovePolygonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRemovePolygonActionPerformed
+    private void cmdRemovePolygonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdRemovePolygonActionPerformed
         removeMainGroupSelection();
         cmdRemovePolygon.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.REMOVE_POLYGON);
         setLastMapMode(getCurrentMapMode());
         setCurrentMapMode(MapMode.REMOVE_POLYGON);
-    }//GEN-LAST:event_cmdRemovePolygonActionPerformed
+    }                                                                                    //GEN-LAST:event_cmdRemovePolygonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdSelectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSelectActionPerformed
+    private void cmdSelectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdSelectActionPerformed
         removeMainGroupSelection();
         cmdSelect.setSelected(true);
         setLastMapMode(getCurrentMapMode());
         mappingComponent.setInteractionMode(MappingComponent.SELECT);
         cmdMoveHandleActionPerformed(null);
         setCurrentMapMode(MapMode.SELECT);
-    }//GEN-LAST:event_cmdSelectActionPerformed
+    }                                                                             //GEN-LAST:event_cmdSelectActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -700,13 +765,13 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdPanActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPanActionPerformed
+    private void cmdPanActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdPanActionPerformed
         removeMainGroupSelection();
         cmdPan.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.PAN);
         setLastMapMode(getCurrentMapMode());
         setCurrentMapMode(MapMode.PAN);
-    }//GEN-LAST:event_cmdPanActionPerformed
+    }                                                                          //GEN-LAST:event_cmdPanActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -880,20 +945,20 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdZoomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdZoomActionPerformed
+    private void cmdZoomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdZoomActionPerformed
         removeMainGroupSelection();
         cmdZoom.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.ZOOM);
         setLastMapMode(getCurrentMapMode());
         setCurrentMapMode(MapMode.ZOOM);
-    }//GEN-LAST:event_cmdZoomActionPerformed
+    }                                                                           //GEN-LAST:event_cmdZoomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdSnapActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSnapActionPerformed
+    private void cmdSnapActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdSnapActionPerformed
         if (log.isDebugEnabled()) {
             log.debug("Set snapping Enabled: " + cmdSnap.isSelected());
         }
@@ -904,14 +969,14 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
         mappingComponent.setSnappingEnabled(!mappingComponent.isReadOnly() && cmdSnap.isSelected());
         mappingComponent.setVisualizeSnappingEnabled(!mappingComponent.isReadOnly() && cmdSnap.isSelected());
         mappingComponent.setInGlueIdenticalPointsMode(cmdSnap.isSelected());
-    }//GEN-LAST:event_cmdSnapActionPerformed
+    } //GEN-LAST:event_cmdSnapActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdWmsBackgroundActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdWmsBackgroundActionPerformed
+    private void cmdWmsBackgroundActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdWmsBackgroundActionPerformed
         if (mappingComponent.isBackgroundEnabled()) {
             mappingComponent.setBackgroundEnabled(false);
             cmdWmsBackground.setSelected(false);
@@ -920,49 +985,49 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
             cmdWmsBackground.setSelected(true);
             mappingComponent.queryServices();
         }
-    }//GEN-LAST:event_cmdWmsBackgroundActionPerformed
+    }                                                                                    //GEN-LAST:event_cmdWmsBackgroundActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdForwardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdForwardActionPerformed
+    private void cmdForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdForwardActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cmdForwardActionPerformed
+    } //GEN-LAST:event_cmdForwardActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdBackActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBackActionPerformed
-    }//GEN-LAST:event_cmdBackActionPerformed
+    private void cmdBackActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdBackActionPerformed
+    }                                                                           //GEN-LAST:event_cmdBackActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdFullPoly1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdFullPoly1ActionPerformed
+    private void cmdFullPoly1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdFullPoly1ActionPerformed
         mappingComponent.zoomToSelectedNode();
-    }//GEN-LAST:event_cmdFullPoly1ActionPerformed
+    }                                                                                //GEN-LAST:event_cmdFullPoly1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdFullPolyActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdFullPolyActionPerformed
+    private void cmdFullPolyActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdFullPolyActionPerformed
         mappingComponent.zoomToFullFeatureCollectionBounds();
-    }//GEN-LAST:event_cmdFullPolyActionPerformed
+    }                                                                               //GEN-LAST:event_cmdFullPolyActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdForegroundActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdForegroundActionPerformed
+    private void cmdForegroundActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdForegroundActionPerformed
         if (mappingComponent.isFeatureCollectionVisible()) {
             mappingComponent.setFeatureCollectionVisibility(false);
             cmdForeground.setSelected(false);
@@ -970,7 +1035,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
             mappingComponent.setFeatureCollectionVisibility(true);
             cmdForeground.setSelected(true);
         }
-    }//GEN-LAST:event_cmdForegroundActionPerformed
+    }                                                                                 //GEN-LAST:event_cmdForegroundActionPerformed
 
     /**
      * DOCUMENT ME!
