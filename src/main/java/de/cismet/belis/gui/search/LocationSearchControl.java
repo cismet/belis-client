@@ -45,7 +45,6 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton cmdOk;
-    protected javax.swing.JPanel panEmpty;
     protected javax.swing.JPanel panEmpty1;
     private javax.swing.JTextField txfKennziffer;
     private javax.swing.JTextField txfLaufendenummer;
@@ -81,7 +80,6 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         cmdOk = new javax.swing.JButton();
         txfStrassenschluessel = new javax.swing.JTextField();
         txfKennziffer = new javax.swing.JTextField();
-        panEmpty = new javax.swing.JPanel();
 
         panEmpty1.setMinimumSize(new java.awt.Dimension(1, 19));
         panEmpty1.setOpaque(false);
@@ -111,9 +109,9 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 2;
-        gridBagConstraints.weightx = 30.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 0);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 15.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 3, 0, 0);
         add(txfLaufendenummer, gridBagConstraints);
 
         cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
@@ -122,9 +120,9 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         cmdOk.setFocusable(false);
-        cmdOk.setMaximumSize(new java.awt.Dimension(139, 23));
-        cmdOk.setMinimumSize(new java.awt.Dimension(139, 23));
-        cmdOk.setPreferredSize(new java.awt.Dimension(139, 23));
+        cmdOk.setMaximumSize(new java.awt.Dimension(2000, 23));
+        cmdOk.setMinimumSize(new java.awt.Dimension(130, 23));
+        cmdOk.setPreferredSize(new java.awt.Dimension(160, 23));
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -135,12 +133,13 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 2);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
         add(cmdOk, gridBagConstraints);
 
         txfStrassenschluessel.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txfStrassenschluessel.setMaximumSize(new java.awt.Dimension(2147483647, 18));
-        txfStrassenschluessel.setMinimumSize(new java.awt.Dimension(10, 18));
+        txfStrassenschluessel.setMinimumSize(new java.awt.Dimension(50, 18));
         txfStrassenschluessel.setPreferredSize(new java.awt.Dimension(65, 18));
         txfStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
 
@@ -152,10 +151,9 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 44;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 30.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 0, 0);
         add(txfStrassenschluessel, gridBagConstraints);
 
         txfKennziffer.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -172,36 +170,10 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 3;
-        gridBagConstraints.weightx = 30.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
-        add(txfKennziffer, gridBagConstraints);
-
-        panEmpty.setMinimumSize(new java.awt.Dimension(1, 19));
-        panEmpty.setOpaque(false);
-        panEmpty.setPreferredSize(new java.awt.Dimension(1, 19));
-
-        final javax.swing.GroupLayout panEmptyLayout = new javax.swing.GroupLayout(panEmpty);
-        panEmpty.setLayout(panEmptyLayout);
-        panEmptyLayout.setHorizontalGroup(
-            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                0,
-                Short.MAX_VALUE));
-        panEmptyLayout.setVerticalGroup(
-            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                0,
-                Short.MAX_VALUE));
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 99.0;
-        gridBagConstraints.weighty = 1.0;
-        add(panEmpty, gridBagConstraints);
+        gridBagConstraints.weightx = 15.0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 3, 0, 0);
+        add(txfKennziffer, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**

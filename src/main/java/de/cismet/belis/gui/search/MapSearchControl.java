@@ -85,9 +85,9 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         cmdOk.setFocusable(false);
-        cmdOk.setMaximumSize(new java.awt.Dimension(150, 23));
-        cmdOk.setMinimumSize(new java.awt.Dimension(150, 23));
-        cmdOk.setPreferredSize(new java.awt.Dimension(150, 23));
+        cmdOk.setMaximumSize(new java.awt.Dimension(200, 23));
+        cmdOk.setMinimumSize(new java.awt.Dimension(100, 23));
+        cmdOk.setPreferredSize(new java.awt.Dimension(130, 23));
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -110,12 +110,12 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
         panEmptyLayout.setHorizontalGroup(
             panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                0,
+                43,
                 Short.MAX_VALUE));
         panEmptyLayout.setVerticalGroup(
             panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                0,
+                25,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
