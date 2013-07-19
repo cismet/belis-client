@@ -25,16 +25,23 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import de.cismet.belis.broker.CidsBroker;
 
+import de.cismet.belis.gui.utils.KeyTableListener;
+
+import de.cismet.belisEE.exception.ActionNotSuccessfulException;
+
 import de.cismet.belisEE.util.CriteriaStringComparator;
 
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
+
+import de.cismet.commons.server.entity.BaseEntity;
 
 /**
  * DOCUMENT ME!
@@ -134,10 +141,11 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
      * @param  col  DOCUMENT ME!
      * @param  box  DOCUMENT ME!
      */
-    void createSortedCBoxModelFromCollection(final Collection<?> col, final JComboBox box) {
+    void createSortedCBoxModelFromCollection(final Collection<? extends BaseEntity> col, final JComboBox box) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("sorting collection: " + col);
         }
+        final BaseEntity selectedEntity = (BaseEntity)box.getSelectedItem();
         try {
             if (box != null) {
                 if (col != null) {
@@ -154,6 +162,39 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
         } catch (Exception ex) {
             LOG.error("error while sorting collection", ex);
         }
+        box.setSelectedItem(selectedEntity);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  comboBox           DOCUMENT ME!
+     * @param  keyTableClassname  DOCUMENT ME!
+     */
+    public void fillComboBoxWithKeyTableValues(final JComboBox comboBox, final String keyTableClassname) {
+        try {
+            final Collection<BaseEntity> keyTableValues = CidsBroker.getInstance().getAll(keyTableClassname);
+            createSortedCBoxModelFromCollection(keyTableValues, comboBox);
+        } catch (ActionNotSuccessfulException ex) {
+            comboBox.setModel(new DefaultComboBoxModel());
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  comboBox           DOCUMENT ME!
+     * @param  keyTableClassname  DOCUMENT ME!
+     */
+    public void fillComboBoxWithKeyTableValuesAndAddListener(final JComboBox comboBox, final String keyTableClassname) {
+        fillComboBoxWithKeyTableValues(comboBox, keyTableClassname);
+        CidsBroker.getInstance().addListenerForKeyTableChange(keyTableClassname, new KeyTableListener() {
+
+                @Override
+                public void keyTableChanged() {
+                    fillComboBoxWithKeyTableValues(comboBox, keyTableClassname);
+                }
+            });
     }
 
     //~ Inner Classes ----------------------------------------------------------
