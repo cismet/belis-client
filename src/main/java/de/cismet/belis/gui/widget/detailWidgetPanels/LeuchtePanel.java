@@ -991,19 +991,6 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         return bindingGroup;
     }
 
-    /**
-     * DOCUMENT ME!
-     */
-    private void fillCbxLeuchteEnergielieferant() {
-        try {
-            final Collection<TkeyEnergielieferantCustomBean> lieferanten = CidsBroker.getInstance()
-                        .getAllEnergielieferanten();
-            createSortedCBoxModelFromCollection(lieferanten, cbxLeuchteEnergielieferant);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteEnergielieferant.setModel(new DefaultComboBoxModel());
-        }
-    }
-
     @Override
     final void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
@@ -1014,23 +1001,10 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         cbxLeuchteStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxLeuchteStrassenschluesselNr, new ObjectToPkConverter("pk"));
 
-        try {
-            final Collection<TkeyKennzifferCustomBean> kennziffern = CidsBroker.getInstance().getAllKennziffer();
-            createSortedCBoxModelFromCollection(kennziffern, cbxLeuchteKennziffer);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteKennziffer.setModel(new DefaultComboBoxModel());
-        }
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeuchteKennziffer, TkeyKennzifferCustomBean.TABLE);
         cbxLeuchteKennziffer.setSelectedItem(null);
 
-        fillCbxLeuchteEnergielieferant();
-        CidsBroker.getInstance()
-                .addListenerForKeyTableChange(TkeyEnergielieferantCustomBean.TABLE, new KeyTableListener() {
-
-                        @Override
-                        public void keyTableChanged() {
-                            fillCbxLeuchteEnergielieferant();
-                        }
-                    });
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeuchteEnergielieferant, TkeyEnergielieferantCustomBean.TABLE);
 
         try {
             final Collection<TkeyUnterhLeuchteCustomBean> unterhalt = CidsBroker.getInstance().getAllUnterhaltLeuchte();
@@ -1053,23 +1027,14 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
             } catch (Exception ex) {
                 LOG.warn("Error while determining default UnterhaltLeuchte: ", ex);
             }
-            createSortedCBoxModelFromCollection(unterhalt, cbxLeuchteUnterhalt);
+            fillComboBoxWithKeyTableValuesAndAddListener(cbxLeuchteUnterhalt, TkeyUnterhLeuchteCustomBean.TABLE);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteUnterhalt.setModel(new DefaultComboBoxModel());
         }
 
-        CidsBroker.getInstance().addListenerForBeanChange("tkey_leuchtentyp", new BeanChangedListener() {
-
-                @Override
-                public void beanChanged() {
-                    bindingGroup.unbind();
-                    refreshCbxLeuchteLeuchtentyp();
-                    bindingGroup.bind();
-                }
-            });
-
-        refreshCbxLeuchteLeuchtentyp();
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeuchteLeuchtentyp, TkeyLeuchtentypCustomBean.TABLE);
         cbxLeuchteLeuchtentyp.setSelectedItem(null);
+
         try {
             final Collection<TkeyDoppelkommandoCustomBean> dk1 = CidsBroker.getInstance().getAllDoppelkommando();
             try {
@@ -1092,41 +1057,20 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
             } catch (Exception ex) {
                 LOG.warn("Error while determining default Doppelkommando1: ", ex);
             }
-            createSortedCBoxModelFromCollection(dk1, cbxLeuchteDoppelkommando1);
+            fillComboBoxWithKeyTableValuesAndAddListener(cbxLeuchteDoppelkommando1, TkeyDoppelkommandoCustomBean.TABLE);
         } catch (ActionNotSuccessfulException ex) {
             cbxLeuchteDoppelkommando1.setModel(new DefaultComboBoxModel());
         }
         cbxLeuchteDoppelkommando1.setSelectedItem(null);
-        try {
-            final Collection<TkeyDoppelkommandoCustomBean> dk2 = CidsBroker.getInstance().getAllDoppelkommando();
-            createSortedCBoxModelFromCollection(dk2, cbxLeuchteDoppelkommando2);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteDoppelkommando2.setModel(new DefaultComboBoxModel());
-        }
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeuchteDoppelkommando2, TkeyDoppelkommandoCustomBean.TABLE);
         cbxLeuchteDoppelkommando2.setSelectedItem(null);
         cbxLeuchteUnterhalt.setSelectedItem(null);
         cbxLeuchteEnergielieferant.setSelectedItem(null);
 
         // Virtual properties
-        try {
-            final Collection<TkeyBezirkCustomBean> bezirke = CidsBroker.getInstance().getAllStadtbezirke();
-            createSortedCBoxModelFromCollection(bezirke, cbxLeuchteStadtbezirk);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteStadtbezirk.setModel(new DefaultComboBoxModel());
-        }
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeuchteStadtbezirk, TkeyBezirkCustomBean.TABLE);
         cbxLeuchteStadtbezirk.setSelectedItem(null);
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void refreshCbxLeuchteLeuchtentyp() {
-        try {
-            final Collection<TkeyLeuchtentypCustomBean> leuchtentypen = CidsBroker.getInstance().getAllLeuchtentypen();
-            createSortedCBoxModelFromCollection(leuchtentypen, cbxLeuchteLeuchtentyp);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeuchteLeuchtentyp.setModel(new DefaultComboBoxModel());
-        }
     }
 
     /**

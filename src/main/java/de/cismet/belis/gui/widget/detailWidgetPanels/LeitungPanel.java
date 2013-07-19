@@ -312,28 +312,14 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
     @Override
     void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
-        try {
-            final Collection<MaterialLeitungCustomBean> material = CidsBroker.getInstance().getAllMaterialLeitung();
-            createSortedCBoxModelFromCollection(material, cbxLeitungMaterial);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeitungMaterial.setModel(new DefaultComboBoxModel());
-        }
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeitungMaterial, MaterialLeitungCustomBean.TABLE);
         cbxLeitungMaterial.setSelectedItem(null);
 
-        try {
-            leitungstypen = CidsBroker.getInstance().getAllLeitungstypen();
-            createSortedCBoxModelFromCollection(leitungstypen, cbxLeitungLeitungstyp);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeitungLeitungstyp.setModel(new DefaultComboBoxModel());
-        }
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeitungLeitungstyp, LeitungstypCustomBean.TABLE);
         cbxLeitungLeitungstyp.setSelectedItem(null);
 
-        try {
-            final Collection<QuerschnittCustomBean> querschnitt = CidsBroker.getInstance().getAllQuerschnitte();
-            createSortedCBoxModelFromCollection(querschnitt, cbxLeitungQuerschnitt);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxLeitungQuerschnitt.setModel(new DefaultComboBoxModel());
-        }
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeitungQuerschnitt, QuerschnittCustomBean.TABLE);
         cbxLeitungQuerschnitt.setSelectedItem(null);
     }
 

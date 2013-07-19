@@ -473,12 +473,8 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxSchaltstelleStrassenschluesselNr);
         cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluesselNr, new ObjectToPkConverter("pk"));
-        try {
-            final Collection<BauartCustomBean> bauarten = CidsBroker.getInstance().getAllBauarten();
-            createSortedCBoxModelFromCollection(bauarten, cbxSchaltstelleBauart);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxSchaltstelleBauart.setModel(new DefaultComboBoxModel());
-        }
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxSchaltstelleBauart, BauartCustomBean.TABLE);
         cbxSchaltstelleBauart.setSelectedItem(null);
     }
 

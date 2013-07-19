@@ -417,13 +417,8 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         createSortedCBoxModelFromCollection(allStrassenschluessel, cbxMauerlascheStrassenschluesselNr);
         cbxMauerlascheStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluesselNr, new ObjectToPkConverter("pk"));
-        try {
-            final Collection<MaterialMauerlascheCustomBean> material = CidsBroker.getInstance()
-                        .getAllMaterialMauerlasche();
-            createSortedCBoxModelFromCollection(material, cbxMauerlascheMaterial);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxMauerlascheMaterial.setModel(new DefaultComboBoxModel());
-        }
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxMauerlascheMaterial, MaterialMauerlascheCustomBean.TABLE);
         cbxMauerlascheMaterial.setSelectedItem(null);
     }
 

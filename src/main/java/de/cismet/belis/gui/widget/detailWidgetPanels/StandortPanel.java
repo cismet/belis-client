@@ -984,31 +984,15 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
             cbxStandortKennziffer.setModel(new DefaultComboBoxModel());
         }
         cbxStandortKennziffer.setSelectedItem(null);
-        try {
-            final Collection<TkeyBezirkCustomBean> bezirke = CidsBroker.getInstance().getAllStadtbezirke();
-            createSortedCBoxModelFromCollection(bezirke, cbxStandortStadtbezirk);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxStandortStadtbezirk.setModel(new DefaultComboBoxModel());
-        }
-        try {
-            final Collection<TkeyKlassifizierungCustomBean> klassifizierungen = CidsBroker.getInstance()
-                        .getAllKlassifizierungen();
-            createSortedCBoxModelFromCollection(klassifizierungen, cbxStandortKlassifizierung);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxStandortKlassifizierung.setModel(new DefaultComboBoxModel());
-        }
-        try {
-            final Collection<TkeyMastartCustomBean> mastarten = CidsBroker.getInstance().getAllMastarten();
-            createSortedCBoxModelFromCollection(mastarten, cbxStandortMastart);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxStandortMastart.setModel(new DefaultComboBoxModel());
-        }
-        try {
-            final Collection<TkeyMasttypCustomBean> masttypen = CidsBroker.getInstance().getAllMasttypen();
-            createSortedCBoxModelFromCollection(masttypen, cbxStandortMasttyp);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxStandortMasttyp.setModel(new DefaultComboBoxModel());
-        }
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortStadtbezirk, TkeyBezirkCustomBean.TABLE);
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortKlassifizierung, TkeyKlassifizierungCustomBean.TABLE);
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortMastart, TkeyMastartCustomBean.TABLE);
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortMasttyp, TkeyMasttypCustomBean.TABLE);
+
         AutoCompleteDecorator.decorate(cbxStandortMasttyp, new ObjectToKeyStringConverter());
         try {
             final Collection<TkeyUnterhMastCustomBean> unterhaltMast = CidsBroker.getInstance().getAllUnterhaltMast();
@@ -1028,7 +1012,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
             } catch (Exception ex) {
                 LOG.warn("Error while determining default UnterhaltMast: ", ex);
             }
-            createSortedCBoxModelFromCollection(unterhaltMast, cbxStandortUnterhalt);
+            fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortUnterhalt, TkeyUnterhMastCustomBean.TABLE);
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortUnterhalt.setModel(new DefaultComboBoxModel());
         }
