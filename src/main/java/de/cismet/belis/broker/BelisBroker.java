@@ -63,6 +63,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.tree.TreePath;
 
@@ -1741,6 +1742,23 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     }
 
     /**
+     * DOCUMENT ME!
+     */
+    private void cleanUp() {
+        workbenchWidget.objectsRemoved();
+        if (isInCreateMode()) {
+            workbenchWidget.clearNewObjects();
+            // ToDo search Map for Objects
+        } else {
+        }
+        // ToDo disabled Functionality 04.05.2009
+        // workbenchWidget.moveNewObjectsAfterSave();
+        if (isInCreateMode()) {
+            setCurrentSearchResults(new TreeSet());
+        }
+    }
+
+    /**
      * ToDo!!! use Backgroundworker
      *
      * @return  DOCUMENT ME!
@@ -1771,7 +1789,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             LOG.debug("Changes are saved");
         }
 
-        EventQueue.invokeAndWait(new Runnable() {
+        final Runnable runnable = new Runnable() {
 
                 @Override
                 public void run() {
@@ -1787,7 +1805,14 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         setCurrentSearchResults(new TreeSet());
                     }
                 }
-            });
+            };
+
+        if (SwingUtilities.isEventDispatchThread()) {
+            runnable.run();
+        } else {
+            EventQueue.invokeAndWait(runnable);
+        }
+
         if (isInCreateMode()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("refreshing SearchResults. Doing mapsearch");
