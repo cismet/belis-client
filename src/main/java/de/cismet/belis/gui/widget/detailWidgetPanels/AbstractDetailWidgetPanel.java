@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis.gui.utils.KeyTableListener;
+import de.cismet.belis.gui.widget.KeyTableListener;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 

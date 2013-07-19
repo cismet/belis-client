@@ -29,9 +29,6 @@ import javax.swing.tree.TreePath;
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis.gui.utils.KeyTableListener;
-import de.cismet.belis.gui.widget.BeanChangedListener;
-
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;

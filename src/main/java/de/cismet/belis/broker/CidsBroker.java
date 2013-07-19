@@ -26,15 +26,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Observable;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import de.cismet.belis.gui.utils.KeyTableListener;
-import de.cismet.belis.gui.widget.BeanChangedListener;
+import de.cismet.belis.gui.widget.KeyTableListener;
 
 import de.cismet.belis.server.search.HighestLfdNummerSearch;
 
@@ -98,7 +93,6 @@ public class CidsBroker implements BelisServerRemote {
     HashMap<String, Collection<KeyTableListener>> keyTableListeners =
         new HashMap<String, Collection<KeyTableListener>>();
     private ConnectionProxy proxy = null;
-    private final HashMap<String, Collection> beanChangedListeners = new HashMap<String, Collection>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -240,7 +234,7 @@ public class CidsBroker implements BelisServerRemote {
         if (listeners != null) {
             listeners.remove(listener);
             if (listeners.isEmpty()) {
-                beanChangedListeners.remove(classname);
+                keyTableListeners.remove(classname);
             }
         }
     }
@@ -1352,55 +1346,6 @@ public class CidsBroker implements BelisServerRemote {
                 LOG.debug("The set of objects to lock is null");
             }
             throw new ActionNotSuccessfulException("The set of objects to lock is null");
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  classname  DOCUMENT ME!
-     * @param  listener   DOCUMENT ME!
-     */
-    public void addListenerForBeanChange(final String classname, final BeanChangedListener listener) {
-        Collection<BeanChangedListener> listenerlist = (Collection<BeanChangedListener>)beanChangedListeners.get(
-                classname.toLowerCase());
-        if (listenerlist == null) {
-            listenerlist = new ArrayList<BeanChangedListener>();
-            beanChangedListeners.put(classname.toLowerCase(), listenerlist);
-        }
-        listenerlist.add(listener);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  classname  DOCUMENT ME!
-     * @param  listener   DOCUMENT ME!
-     */
-    public void removeListenerForBeanChange(final String classname, final BeanChangedListener listener) {
-        final Collection<BeanChangedListener> listenerlist = (Collection<BeanChangedListener>)beanChangedListeners.get(
-                classname.toLowerCase());
-        if (listenerlist != null) {
-            listenerlist.remove(listener);
-            if (listenerlist.isEmpty()) {
-                beanChangedListeners.remove(classname.toLowerCase());
-            }
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  classname  DOCUMENT ME!
-     */
-    public void fireListenerForBeanChange(final String classname) {
-        final Collection<BeanChangedListener> listenerlist = (Collection<BeanChangedListener>)beanChangedListeners.get(
-                classname.toLowerCase());
-
-        if (listenerlist != null) {
-            for (final BeanChangedListener listener : listenerlist) {
-                listener.beanChanged();
-            }
         }
     }
 

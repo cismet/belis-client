@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belis.gui.utils;
+package de.cismet.belis.gui.widget;
 
 /**
  * DOCUMENT ME!
