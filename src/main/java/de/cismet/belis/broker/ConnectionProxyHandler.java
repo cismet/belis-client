@@ -69,7 +69,7 @@ public class ConnectionProxyHandler extends DefaultConnectionProxyHandler {
                             } catch (InterruptedException ex) {
                             }
                             CidsBroker.getInstance()
-                                    .fireListenerForBeanChange(metaObject.getMetaClass().getTableName());
+                                    .fireListenerForKeyTableChange(metaObject.getMetaClass().getTableName());
                         }
                     });
             }
@@ -79,7 +79,7 @@ public class ConnectionProxyHandler extends DefaultConnectionProxyHandler {
         @Override
         public int updateMetaObject(final MetaObject metaObject, final String domain) throws ConnectionException {
             final int ret = super.updateMetaObject(metaObject, domain);
-            CidsBroker.getInstance().fireListenerForBeanChange(metaObject.getMetaClass().getTableName());
+            CidsBroker.getInstance().fireListenerForKeyTableChange(metaObject.getMetaClass().getTableName());
             return ret;
         }
     }
