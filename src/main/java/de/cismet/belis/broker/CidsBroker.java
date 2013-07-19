@@ -291,8 +291,10 @@ public class CidsBroker implements BelisServerRemote {
      * @param   className  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    private Collection getAll(String className) {
+    public Collection getAll(String className) throws ActionNotSuccessfulException {
         className = className.toLowerCase();
         if (keyTableCollections.containsKey(className)) {
             return keyTableCollections.get(className);
