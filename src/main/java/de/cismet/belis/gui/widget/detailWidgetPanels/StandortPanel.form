@@ -215,7 +215,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblStandortStadtbezirk">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Stadtbezik:" noResource="true"/>
+            <Property name="text" type="java.lang.String" value="Stadtbezirk:" noResource="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblStandortPLZ">
