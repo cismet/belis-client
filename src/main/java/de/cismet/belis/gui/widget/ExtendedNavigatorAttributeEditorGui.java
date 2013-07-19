@@ -30,7 +30,6 @@ public class ExtendedNavigatorAttributeEditorGui extends NavigatorAttributeEdito
     @Override
     protected void executeAfterSuccessfullSave(final CidsBean savedBean) {
         final String classname = savedBean.getMetaObject().getMetaClass().getTableName();
-        CidsBroker.getInstance().fireListenerForBeanChange(classname);
         CidsBroker.getInstance().refreshAll(classname);
     }
 }
