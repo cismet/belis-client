@@ -29,6 +29,7 @@ import org.jdom.Element;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
@@ -53,6 +54,7 @@ import java.util.TreeSet;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -72,6 +74,7 @@ import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
 import de.cismet.belis.gui.search.SearchControl;
 import de.cismet.belis.gui.search.SearchController;
+import de.cismet.belis.gui.toolbar.EditButtonsPanel;
 import de.cismet.belis.gui.widget.DetailWidget;
 import de.cismet.belis.gui.widget.WorkbenchWidget;
 
@@ -208,6 +211,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     //~ Instance fields --------------------------------------------------------
 
+    // this is ugly there should be a default toolbar ......
+    public AtomicBoolean isPendingForCreateMode = new AtomicBoolean(false);
+
     protected JButton btnSwitchInEditmode = new javax.swing.JButton();
     protected JButton btnDiscardChanges = new javax.swing.JButton();
     protected JButton btnAcceptChanges = new javax.swing.JButton();
@@ -270,8 +276,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     // more often throughout the application ToDo if there is need for more special binding generalize this with static
     // binding methods (e.g. Master/Slave or other mechanismn)
     private final ArrayList<GeoBaseEntity> currentFeatures = new ArrayList<GeoBaseEntity>();
-    // this is ugly there should be a default toolbar ......
-    private boolean isPendingForCreateMode = false;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -283,7 +287,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         execService = Executors.newCachedThreadPool();
 
         System.out.println("Constructor: " + BelisBroker.class.getName());
-        initToolbar();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -843,6 +846,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     @Override
     public void masterConfigure(final Element parent) {
+        initToolbar();
         try {
             final Element prefs = parent.getChild("Options");
             try {
@@ -1412,24 +1416,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     private void initToolbar() {
         try {
-            java.awt.GridBagConstraints gridBagConstraints;
             toolbar = new javax.swing.JToolBar();
+            toolbar.setRollover(true);
+            toolbar.setMinimumSize(new java.awt.Dimension(496, 33));
 
-            final JPanel editPan = new JPanel(new GridBagLayout());
-            getToolbar().setRollover(true);
-            getToolbar().setMinimumSize(new java.awt.Dimension(496, 33));
-            final ArrayList<JButton> editButtons = getEditButtons();
-            for (int i = 0; i < editButtons.size(); i++) {
-                final JButton curButton = editButtons.get(i);
-                gridBagConstraints = new java.awt.GridBagConstraints();
-                if (!(i == 0)) {
-                    gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
-                } else {
-                    gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
-                }
-                editPan.add(curButton, gridBagConstraints);
-                // getToolbar().add(curButton);
-            }
+            final JPanel editPan = new EditButtonsPanel();
             editPan.setOpaque(false);
             getToolbar().add(editPan);
             addSeparatorToToolbar();
@@ -1456,7 +1447,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         getMappingComponent().showPrintingSettingsDialog(oldMode);
                     }
                 });
-            getToolbar().add(cmdPrint);
+            toolbar.add(cmdPrint);
 
             addSeparatorToToolbar();
         } catch (Exception ex) {
@@ -1468,199 +1459,27 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     /**
      * DOCUMENT ME!
+     */
+    public void fireSaveStartedAndExecuteSaveCancelWorker() {
+        fireSaveStarted();
+        execute(new SaveCancelWorker(SaveCancelWorker.SAVE_MODE));
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void fireCancelStartedAndExecuteSaveCancelWorker() {
+        fireCancelStarted();
+        execute(new SaveCancelWorker(SaveCancelWorker.CANCEL_MODE));
+    }
+
+    /**
+     * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    protected ArrayList<JButton> getEditButtons() {
-        final ArrayList<JButton> editButtons = new ArrayList<JButton>();
-        btnSwitchInEditmode.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/editmode.png"))); // NOI18N
-        // btnSwitchInEditmode.setEnabled(false);
-        btnSwitchInEditmode.setToolTipText("Editormodus");
-        btnSwitchInEditmode.setBorderPainted(false);
-        btnSwitchInEditmode.setFocusable(false);
-        btnSwitchInEditmode.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnSwitchInEditmode.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Versuche in Editiermodus zu wechseln: ");
-                    }
-                    try {
-                        switchEditMode();
-                        for (final JButton curControl : editControls) {
-                            curControl.setEnabled(false);
-                        }
-                        btnAcceptChanges.setEnabled(true);
-                        btnDiscardChanges.setEnabled(true);
-                        setTitleBarComponentpainter(EDIT_MODE_COLOR); //
-                    } catch (Exception ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Fehler beim anlegen der Sperre", ex);
-                        }
-                    }
-
-                    getMappingComponent().setReadOnly(false);
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("ist im Editiermodus: " + isInEditMode());
-                    }
-                }
-            });
-        editControls.add(btnSwitchInEditmode);
-
-        editButtons.add(btnSwitchInEditmode);
-        btnDiscardChanges.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/cancel.png"))); // NOI18N
-
-        btnDiscardChanges.setToolTipText("Änderungen Abbrechen");
-        btnDiscardChanges.setBorderPainted(false);
-        btnDiscardChanges.setFocusable(false);
-        btnDiscardChanges.setEnabled(false);
-        btnDiscardChanges.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnDiscardChanges.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    if (isInEditMode()) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Versuche aus Editiermodus heraus zu wechseln: ");
-                        }
-                        // ToDo make generic
-                        final int answer = JOptionPane.showConfirmDialog(
-                                getParentComponent(),
-                                "Wollen Sie die gemachten Änderungen verwerfen?",
-                                "Belis Änderungen",
-                                JOptionPane.YES_NO_OPTION);
-                        if (answer == JOptionPane.NO_OPTION) {
-                            return;
-                        }
-
-                        try {
-                            fireCancelStarted();
-                            execute(new SaveCancelWorker(SaveCancelWorker.CANCEL_MODE));
-                            // ((DefaultFeatureCollection)LagisBroker.getInstance().getMappingComponent().getFeatureCollection()).setAllFeaturesEditable(false);
-                            // TODO TEST IT!!!!
-                            // TODO EDT
-                        } catch (Exception ex) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Fehler beim lösen der Sperre", ex);
-                            }
-                        }
-                        if (LOG.isDebugEnabled()) {
-                            // btnOpenWizard.setEnabled(true);
-                            // LagisBroker.getInstance().reloadFlurstueck();
-                            LOG.debug("ist im Editiermodus: " + isInEditMode());
-                        }
-                    }
-                }
-            });
-        editButtons.add(btnDiscardChanges);
-        btnAcceptChanges.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/ok.png"))); // NOI18N
-
-        btnAcceptChanges.setToolTipText("Änderungen annehmen");
-        btnAcceptChanges.setBorderPainted(false);
-        btnAcceptChanges.setFocusable(false);
-        btnAcceptChanges.setEnabled(false);
-        btnAcceptChanges.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnAcceptChanges.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    try {
-                        if (isInEditMode()) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Versuche aus Editiermodus heraus zu wechseln: ");
-                            }
-                            final boolean isValid = validateWidgets();
-                            if (isValid) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("Alle Änderungen sind valide: " + isValid);
-                                }
-                                // ToDo make generic
-                                final int answer = JOptionPane.showConfirmDialog(
-                                        getParentComponent(),
-                                        "Wollen Sie die gemachten Änderungen speichern?",
-                                        "Belis Änderungen",
-                                        JOptionPane.YES_NO_OPTION);
-                                if (answer == JOptionPane.YES_OPTION) {
-                                    // LagisBroker.getInstance().saveCurrentFlurstueck();
-                                    fireSaveStarted();
-                                    execute(new SaveCancelWorker(SaveCancelWorker.SAVE_MODE));
-                                } else {
-                                    return;
-                                }
-                            } else {
-                                final String reason = getCurrentValidationErrorMessage();
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug(
-                                        "Es kann nicht gespeichert werden, da nicht alle Komponenten valide sind. Grund:\n"
-                                                + reason);
-                                }
-                                JOptionPane.showMessageDialog(
-                                    getParentComponent(),
-                                    "Änderungen können nur gespeichert werden, wenn alle Inhalte korrekt sind:\n\n"
-                                            + reason
-                                            + "\n\nBitte berichtigen Sie die Inhalte oder machen Sie die jeweiligen Änderungen rückgängig.",
-                                    "Fehler",
-                                    JOptionPane.WARNING_MESSAGE);
-                            }
-                        }
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("ist im Editiermodus: " + isInEditMode());
-                        }
-                    } catch (Exception ex) {
-                        LOG.error("Fehler beim akzeptieren von Änderungen: ", ex);
-                        showSaveErrorDialog();
-                    }
-                }
-            });
-        editButtons.add(btnAcceptChanges);
-
-        btnSwitchInCreateMode = new javax.swing.JButton();
-        editControls.add(btnSwitchInCreateMode);
-        btnSwitchInCreateMode.setIcon(BelisIcons.icoCreate22); // NOI18N
-        // btnSwitchInEditmode.setEnabled(false);
-        btnSwitchInCreateMode.setToolTipText("Anlegenmodus");
-        btnSwitchInCreateMode.setBorderPainted(false);
-        btnSwitchInCreateMode.setFocusable(false);
-        btnSwitchInCreateMode.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnSwitchInCreateMode.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("try to switch in createmode", new CurrentStackTrace());
-                    }
-                    try {
-                        isPendingForCreateMode = true;
-                        switchEditMode();
-                        for (final JButton curControl : editControls) {
-                            curControl.setEnabled(false);
-                        }
-                        btnAcceptChanges.setEnabled(true);
-                        btnDiscardChanges.setEnabled(true);
-                        setTitleBarComponentpainter(EDIT_MODE_COLOR); //
-                        // ToDo CreateFlag
-                    } catch (Exception ex) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Fehler beim anlegen der Sperre", ex);
-                        }
-                    }
-
-                    getMappingComponent().setReadOnly(false);
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("ist im Editiermodus: " + isInEditMode());
-                    }
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("ist im Createmodus: " + isInCreateMode());
-                    }
-                }
-            });
-        editButtons.add(1, btnSwitchInCreateMode);
-
-        return editButtons;
+    public ArrayList<JButton> getEditControls() {
+        return editControls;
     }
 
     /**
@@ -1954,7 +1773,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      */
-    protected void showSaveErrorDialog() {
+    public void showSaveErrorDialog() {
         final JDialog dialog = new JDialog(StaticSwingTools.getParentFrame(getParentComponent()),
                 "Fehler beim speichern...",
                 true);
@@ -1976,10 +1795,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * DOCUMENT ME!
      */
     public void customizeApplicationToolbar() {
+        addCreateToolBar();
         addAddressSearch();
         addLocationSearch();
         addMapSearchControl();
-        addCreateToolBar();
         btnAcceptChanges.setIcon(BelisIcons.icoAccept22);
         btnDiscardChanges.setIcon(BelisIcons.icoCancel22);
         btnSwitchInEditmode.setIcon(BelisIcons.icoEdit22);
@@ -2376,27 +2195,27 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public void acquireLock() throws Exception {
         // ToDo should be some notification for edit mode this is not the right place
-        if (isPendingForCreateMode) {
+        if (isPendingForCreateMode.get()) {
             setInCreateMode(true);
-            isPendingForCreateMode = false;
+            isPendingForCreateMode.set(false);
         }
         if (!isInCreateMode()) {
             try {
                 CidsBroker.getInstance().lockEntity(currentSearchResults, getAccountName());
             } catch (ActionNotSuccessfulException ex) {
                 LOG.error("Error while creating lock:", ex);
-                isPendingForCreateMode = false;
+                isPendingForCreateMode.set(false);
                 throw new Exception(
                     "Sperren konnten nicht angelegt werden, wechseln in Editmodus nicht möglich");
             } catch (LockAlreadyExistsException ex) {
                 LOG.info("Some of the objects are already locked", ex);
-                isPendingForCreateMode = false;
+                isPendingForCreateMode.set(false);
                 final ArrayList<SperreCustomBean> alreadyLocked = ex.getAlreadyExisingLocks();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Count of already locked objects: " + alreadyLocked.size());
                 }
                 showObjectsLockedDialog(alreadyLocked);
-                isPendingForCreateMode = false;
+                isPendingForCreateMode.set(false);
                 throw new LockingNotSuccessfulException(
                     "Einige der Objekte konnten nicht gesperrt werden, weil sie schon gesperrt sind");
             }
@@ -2602,8 +2421,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     private void addCreateToolBar() {
         addEdtiable(panCreate);
         panCreate.setFocusable(false);
-        getToolbar().add(panCreate, 4);
-        getToolbar().add(createToolBarSeperator(), 5);
+        getToolbar().add(panCreate);
+        getToolbar().add(createToolBarSeperator());
     }
     // ToDo mayby better to operate on the
 
