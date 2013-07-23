@@ -90,6 +90,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 2);
         add(btnSwitchInEditmode, gridBagConstraints);
+        broker.setBtnSwitchInEditmode(btnSwitchInEditmode);
 
         btnSwitchInCreateMode.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/createMode.png"))); // NOI18N
@@ -113,6 +114,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnSwitchInCreateMode, gridBagConstraints);
+        broker.setBtnSwitchInCreateMode(btnSwitchInCreateMode);
 
         btnAcceptChanges.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/accept.png"))); // NOI18N
@@ -136,6 +138,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnAcceptChanges, gridBagConstraints);
+        broker.setBtnAcceptChanges(btnAcceptChanges);
 
         btnDiscardChanges.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/cancel.png"))); // NOI18N
@@ -159,6 +162,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 3);
         add(btnDiscardChanges, gridBagConstraints);
+        broker.setBtnDiscardChanges(btnDiscardChanges);
     } // </editor-fold>//GEN-END:initComponents
 
     /**

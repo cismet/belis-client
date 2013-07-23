@@ -215,9 +215,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     // this is ugly there should be a default toolbar ......
     public AtomicBoolean isPendingForCreateMode = new AtomicBoolean(false);
 
-    protected JButton btnSwitchInEditmode = new javax.swing.JButton();
-    protected JButton btnDiscardChanges = new javax.swing.JButton();
-    protected JButton btnAcceptChanges = new javax.swing.JButton();
+    protected JButton btnSwitchInEditmode;
+    protected JButton btnDiscardChanges;
+    protected JButton btnAcceptChanges;
+    protected JButton btnSwitchInCreateMode;
     protected JButton cmdPrint = new javax.swing.JButton();
     protected JButton btnReload = new javax.swing.JButton();
     protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -238,7 +239,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     protected StatusBar statusBar;
     protected ExecutorService execService = null;
     protected String currentValidationErrorMessage = null;
-    protected JButton btnSwitchInCreateMode;
     final CreateToolBar panCreate = new CreateToolBar(this);
     WorkbenchWidget workbenchWidget = null;
     final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
@@ -1388,6 +1388,24 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public void setBtnSwitchInEditmode(final JButton btnSwitchInEditmode) {
         this.btnSwitchInEditmode = btnSwitchInEditmode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public JButton getBtnSwitchInCreateMode() {
+        return btnSwitchInCreateMode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  btnSwitchInCreateMode  DOCUMENT ME!
+     */
+    public void setBtnSwitchInCreateMode(final JButton btnSwitchInCreateMode) {
+        this.btnSwitchInCreateMode = btnSwitchInCreateMode;
     }
 
     /**
