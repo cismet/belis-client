@@ -66,9 +66,9 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         btnAcceptChanges = new javax.swing.JButton();
         btnDiscardChanges = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(120, 33));
-        setMinimumSize(new java.awt.Dimension(120, 33));
-        setPreferredSize(new java.awt.Dimension(120, 33));
+        setMaximumSize(new java.awt.Dimension(111, 33));
+        setMinimumSize(new java.awt.Dimension(111, 33));
+        setPreferredSize(new java.awt.Dimension(111, 33));
         setLayout(new java.awt.GridBagLayout());
 
         btnSwitchInEditmode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/editMode.png"))); // NOI18N
@@ -83,7 +83,9 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
                 btnSwitchInEditmodeActionPerformed(evt);
             }
         });
-        add(btnSwitchInEditmode, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        add(btnSwitchInEditmode, gridBagConstraints);
         broker.addEditControl(btnSwitchInEditmode);
 
         btnSwitchInCreateMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/createMode.png"))); // NOI18N
@@ -135,7 +137,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 5);
         add(btnDiscardChanges, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
