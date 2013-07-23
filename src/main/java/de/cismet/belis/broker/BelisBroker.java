@@ -641,6 +641,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             LOG.debug("switchEditMode");
         }
         if (isInEditMode()) {
+            switchInEditMode(false);
+            setComponentsEditable(false);
             new SwingWorker<Void, Void>() {
 
                     @Override
@@ -651,13 +653,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                     @Override
                     protected void done() {
-                        setComponentsEditable(false);
                         setInEditMode(false);
                         getMappingComponent().setReadOnly(true);
-                        switchInEditMode(false);
                     }
                 }.execute();
         } else {
+            switchInEditMode(true);
             new SwingWorker<Void, Void>() {
 
                     @Override
@@ -669,9 +670,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     @Override
                     protected void done() {
                         setInEditMode(true);
-                        getMappingComponent().setReadOnly(false);
                         setComponentsEditable(true);
-                        switchInEditMode(true);
+                        getMappingComponent().setReadOnly(false);
+                        btnAcceptChanges.setEnabled(true);
+                        btnDiscardChanges.setEnabled(true);
                     }
                 }.execute();
         }

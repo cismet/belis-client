@@ -121,6 +121,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         org.openide.awt.Mnemonics.setLocalizedText(btnAcceptChanges, "");
         btnAcceptChanges.setToolTipText("Änderungen annehmen");
         btnAcceptChanges.setBorderPainted(false);
+        btnAcceptChanges.setEnabled(false);
         btnAcceptChanges.setFocusable(false);
         btnAcceptChanges.setLabel(org.openide.util.NbBundle.getMessage(
                 EditButtonsToolbar.class,
@@ -145,6 +146,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         org.openide.awt.Mnemonics.setLocalizedText(btnDiscardChanges, "");
         btnDiscardChanges.setToolTipText("Änderungen Abbrechen");
         btnDiscardChanges.setBorderPainted(false);
+        btnDiscardChanges.setEnabled(false);
         btnDiscardChanges.setFocusable(false);
         btnDiscardChanges.setLabel(org.openide.util.NbBundle.getMessage(
                 EditButtonsToolbar.class,
@@ -175,14 +177,8 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
             LOG.debug("Versuche in Editiermodus zu wechseln: ");
         }
         try {
+            switchInEditMode();
             broker.switchEditMode();
-
-            btnSwitchInEditmode.setEnabled(false);
-            btnSwitchInCreateMode.setEnabled(false);
-
-            btnAcceptChanges.setEnabled(true);
-            btnDiscardChanges.setEnabled(true);
-            broker.setTitleBarComponentpainter(BelisBroker.EDIT_MODE_COLOR); //
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Fehler beim anlegen der Sperre", ex);
@@ -205,15 +201,9 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
             LOG.debug("try to switch in createmode", new CurrentStackTrace());
         }
         try {
+            switchInEditMode();
             broker.isPendingForCreateMode.set(true);
             broker.switchEditMode();
-
-            btnSwitchInEditmode.setEnabled(false);
-            btnSwitchInCreateMode.setEnabled(false);
-
-            btnAcceptChanges.setEnabled(true);
-            btnDiscardChanges.setEnabled(true);
-            broker.setTitleBarComponentpainter(BelisBroker.EDIT_MODE_COLOR); //
             // ToDo CreateFlag
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
@@ -229,6 +219,15 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
             LOG.debug("ist im Createmodus: " + broker.isInCreateMode());
         }
     } //GEN-LAST:event_btnSwitchInCreateModeActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void switchInEditMode() {
+        btnSwitchInEditmode.setEnabled(false);
+        btnSwitchInCreateMode.setEnabled(false);
+        broker.setTitleBarComponentpainter(BelisBroker.EDIT_MODE_COLOR);
+    }
 
     /**
      * DOCUMENT ME!
