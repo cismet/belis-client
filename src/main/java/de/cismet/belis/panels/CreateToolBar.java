@@ -204,9 +204,12 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnRemove = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(120, 2147483647));
+        setMinimumSize(new java.awt.Dimension(191, 27));
+        setPreferredSize(new java.awt.Dimension(191, 27));
         setLayout(new java.awt.GridBagLayout());
 
-        btnNewStandort.setIcon(BelisIcons.icoStandort22);
+        btnNewStandort.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/standort.png"))); // NOI18N
         btnNewStandort.setToolTipText("Neuer Mast hinzufügen");
         btnNewStandort.setBorder(null);
         btnNewStandort.setBorderPainted(false);
@@ -226,7 +229,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         gridBagConstraints.insets = new java.awt.Insets(2, 3, 2, 3);
         add(btnNewStandort, gridBagConstraints);
 
-        btnNewLeuchte.setIcon(BelisIcons.icoLeuchte22);
+        btnNewLeuchte.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/leuchte.png"))); // NOI18N
         btnNewLeuchte.setToolTipText("Neue Leuchte hinzufügen");
         btnNewLeuchte.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewLeuchte.setBorderPainted(false);
@@ -245,7 +249,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
         add(btnNewLeuchte, gridBagConstraints);
 
-        btnNewSchaltstelle.setIcon(BelisIcons.icoSchaltstelle22);
+        btnNewSchaltstelle.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/schaltstelle.png"))); // NOI18N
         btnNewSchaltstelle.setToolTipText("Neue Schaltstelle hinzufügen");
         btnNewSchaltstelle.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewSchaltstelle.setBorderPainted(false);
@@ -264,7 +269,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
         add(btnNewSchaltstelle, gridBagConstraints);
 
-        btnNewMauerlasche.setIcon(BelisIcons.icoMauerlasche22);
+        btnNewMauerlasche.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/mauerlasche.png"))); // NOI18N
         btnNewMauerlasche.setToolTipText("Neue Mauerlasche hinzufügen");
         btnNewMauerlasche.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewMauerlasche.setBorderPainted(false);
@@ -283,7 +289,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
         add(btnNewMauerlasche, gridBagConstraints);
 
-        btnNewLeitung.setIcon(BelisIcons.icoLeitung22);
+        btnNewLeitung.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/leitung.png"))); // NOI18N
         btnNewLeitung.setToolTipText("Neue Leitung hinzufügen");
         btnNewLeitung.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewLeitung.setBorderPainted(false);
@@ -302,7 +309,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
         add(btnNewLeitung, gridBagConstraints);
 
-        btnNewAbzweigdose.setIcon(BelisIcons.icoAbzweigdose22);
+        btnNewAbzweigdose.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/abzweigdose.png"))); // NOI18N
         btnNewAbzweigdose.setToolTipText("Neue Abzweigdose/Zugkasten hinzufügen");
         btnNewAbzweigdose.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewAbzweigdose.setBorderPainted(false);
@@ -321,7 +329,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
         add(btnNewAbzweigdose, gridBagConstraints);
 
-        btnRemove.setIcon(BelisIcons.icoTrash22);
+        btnRemove.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/trash.png"))); // NOI18N
         btnRemove.setToolTipText("Ausgewähltes Objekt entfernen");
         btnRemove.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnRemove.setBorderPainted(false);

@@ -67,6 +67,7 @@ import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreePath;
 
 import de.cismet.belis.gui.search.AddressSearchControl;
@@ -74,13 +75,13 @@ import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
 import de.cismet.belis.gui.search.SearchControl;
 import de.cismet.belis.gui.search.SearchController;
-import de.cismet.belis.panels.EditButtonsToolbar;
 import de.cismet.belis.gui.widget.DetailWidget;
 import de.cismet.belis.gui.widget.WorkbenchWidget;
 
 import de.cismet.belis.panels.AlreadyLockedObjectsPanel;
 import de.cismet.belis.panels.CancelWaitDialog;
 import de.cismet.belis.panels.CreateToolBar;
+import de.cismet.belis.panels.EditButtonsToolbar;
 import de.cismet.belis.panels.SaveErrorDialogPanel;
 import de.cismet.belis.panels.SaveWaitDialog;
 import de.cismet.belis.panels.SearchWaitDialog;
@@ -1418,7 +1419,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         try {
             toolbar = new javax.swing.JToolBar();
             toolbar.setRollover(true);
-            toolbar.setMinimumSize(new java.awt.Dimension(496, 33));
+            toolbar.setMinimumSize(new java.awt.Dimension(496, 27));
+            toolbar.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 27));
 
             final JPanel editPan = new EditButtonsToolbar();
             editPan.setOpaque(false);
@@ -1432,7 +1434,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             cmdPrint.setBorderPainted(false);
             cmdPrint.setFocusable(false);
             cmdPrint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-            cmdPrint.setPreferredSize(new java.awt.Dimension(23, 23));
+            final Dimension size = new java.awt.Dimension(23, 23);
+            cmdPrint.setPreferredSize(size);
+            cmdPrint.setMinimumSize(size);
+            cmdPrint.setMaximumSize(size);
             cmdPrint.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
             cmdPrint.addActionListener(new java.awt.event.ActionListener() {
 
@@ -1447,7 +1452,17 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         getMappingComponent().showPrintingSettingsDialog(oldMode);
                     }
                 });
-            toolbar.add(cmdPrint);
+
+            final JPanel printPanel = new JPanel();
+            printPanel.setLayout(new java.awt.GridBagLayout());
+            printPanel.setMaximumSize(new java.awt.Dimension(29, 23));
+            printPanel.setMinimumSize(new java.awt.Dimension(29, 23));
+            printPanel.setPreferredSize(new java.awt.Dimension(29, 23));
+            final java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 0;
+            printPanel.add(cmdPrint, gridBagConstraints);
+            toolbar.add(printPanel);
 
             addSeparatorToToolbar();
         } catch (Exception ex) {
@@ -2386,7 +2401,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         getConfigManager().addConfigurable(asPan);
         getConfigManager().configure(asPan);
         asPan.setFocusable(false);
-        asPan.setPreferredSize(new java.awt.Dimension(450, 23));
+        final Dimension size = new java.awt.Dimension(456, 23);
+        asPan.setPreferredSize(size);
+        asPan.setMinimumSize(size);
+        asPan.setMaximumSize(size);
         getToolbar().add(asPan);
         // ToDo ugly winning;
         addSeparatorToToolbar();

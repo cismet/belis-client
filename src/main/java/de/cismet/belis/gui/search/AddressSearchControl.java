@@ -17,6 +17,8 @@ import org.jdom.Element;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -26,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.Vector;
+
+import javax.swing.border.EmptyBorder;
 
 import de.cismet.belis.broker.BelisBroker;
 
@@ -72,6 +76,7 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
      */
     public AddressSearchControl(final BelisBroker broker) {
         super();
+        this.setPreferredSize(new Dimension(498, 27));
         this.broker = broker;
         this.setOpaque(false);
         panEmpty.setOpaque(false);
@@ -92,17 +97,18 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
         cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
         cmdOk.setText("Straße, Hausnummer");
         cmdOk.setIcon(BelisIcons.icoSearch22);
+        this.setBorder(new EmptyBorder(0, 10, 0, 5));
         final GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 2, 0);
         add(cmdOk, gridBagConstraints);
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.insets = new java.awt.Insets(3, 7, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
         add(chkVisualize, gridBagConstraints);
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.insets = new java.awt.Insets(3, 7, 0, 7);
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 7);
         add(jLabel1, gridBagConstraints);
 
         addWFSFormAddressListner(this);

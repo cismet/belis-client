@@ -76,47 +76,44 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
 
         setMinimumSize(new java.awt.Dimension(100, 25));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(100, 100));
+        setPreferredSize(new java.awt.Dimension(100, 27));
         setLayout(new java.awt.GridBagLayout());
 
         cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
+        cmdOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/search.png"))); // NOI18N
         cmdOk.setMnemonic('P');
         cmdOk.setText("Karteninhalt");
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         cmdOk.setFocusable(false);
-        cmdOk.setMaximumSize(new java.awt.Dimension(200, 23));
-        cmdOk.setMinimumSize(new java.awt.Dimension(100, 23));
-        cmdOk.setPreferredSize(new java.awt.Dimension(130, 23));
+        cmdOk.setMaximumSize(new java.awt.Dimension(117, 23));
+        cmdOk.setMinimumSize(new java.awt.Dimension(117, 23));
+        cmdOk.setPreferredSize(new java.awt.Dimension(117, 23));
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cmdOkActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdOkActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
+        gridBagConstraints.insets = new java.awt.Insets(2, 3, 2, 3);
         add(cmdOk, gridBagConstraints);
 
         panEmpty.setMinimumSize(new java.awt.Dimension(1, 19));
         panEmpty.setOpaque(false);
         panEmpty.setPreferredSize(new java.awt.Dimension(1, 19));
 
-        final javax.swing.GroupLayout panEmptyLayout = new javax.swing.GroupLayout(panEmpty);
+        javax.swing.GroupLayout panEmptyLayout = new javax.swing.GroupLayout(panEmpty);
         panEmpty.setLayout(panEmptyLayout);
         panEmptyLayout.setHorizontalGroup(
-            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                43,
-                Short.MAX_VALUE));
+            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 183, Short.MAX_VALUE)
+        );
         panEmptyLayout.setVerticalGroup(
-            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                25,
-                Short.MAX_VALUE));
+            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -126,7 +123,7 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
         gridBagConstraints.weightx = 99.0;
         gridBagConstraints.weighty = 1.0;
         add(panEmpty, gridBagConstraints);
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -140,7 +137,7 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
+    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdOkActionPerformed
         if (log.isDebugEnabled()) {
             log.debug("Search with boundingBox");
         }
@@ -189,7 +186,7 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
 //        }
 //        mc.gotoBoundingBox(bb,history,scaling,animation);
 //        chkVisualizeActionPerformed(null);
-    }                                                                         //GEN-LAST:event_cmdOkActionPerformed
+    }//GEN-LAST:event_cmdOkActionPerformed
 
     /**
      * DOCUMENT ME!

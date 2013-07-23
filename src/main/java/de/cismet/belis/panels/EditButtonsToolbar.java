@@ -66,12 +66,14 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         btnAcceptChanges = new javax.swing.JButton();
         btnDiscardChanges = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(111, 33));
-        setMinimumSize(new java.awt.Dimension(111, 33));
-        setPreferredSize(new java.awt.Dimension(111, 33));
+        setMaximumSize(new java.awt.Dimension(110, 27));
+        setMinimumSize(new java.awt.Dimension(110, 27));
+        setPreferredSize(new java.awt.Dimension(110, 27));
         setLayout(new java.awt.GridBagLayout());
 
-        btnSwitchInEditmode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/editMode.png"))); // NOI18N
+        btnSwitchInEditmode.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/editMode.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnSwitchInEditmode, "");
         btnSwitchInEditmode.setToolTipText("Editormodus");
         btnSwitchInEditmode.setBorderPainted(false);
         btnSwitchInEditmode.setFocusable(false);
@@ -79,74 +81,94 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         btnSwitchInEditmode.setMinimumSize(new java.awt.Dimension(23, 23));
         btnSwitchInEditmode.setPreferredSize(new java.awt.Dimension(23, 23));
         btnSwitchInEditmode.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSwitchInEditmodeActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnSwitchInEditmodeActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 2);
         add(btnSwitchInEditmode, gridBagConstraints);
         broker.addEditControl(btnSwitchInEditmode);
 
-        btnSwitchInCreateMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/createMode.png"))); // NOI18N
+        btnSwitchInCreateMode.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/createMode.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnSwitchInCreateMode, "");
         btnSwitchInCreateMode.setToolTipText("Anlegenmodus");
         btnSwitchInCreateMode.setBorderPainted(false);
         btnSwitchInCreateMode.setFocusable(false);
-        btnSwitchInCreateMode.setLabel(org.openide.util.NbBundle.getMessage(EditButtonsToolbar.class, "EditButtonsToolbar.btnSwitchInCreateMode.label")); // NOI18N
+        btnSwitchInCreateMode.setLabel(org.openide.util.NbBundle.getMessage(
+                EditButtonsToolbar.class,
+                "EditButtonsToolbar.btnSwitchInCreateMode.label"));                           // NOI18N
         btnSwitchInCreateMode.setMaximumSize(new java.awt.Dimension(23, 23));
         btnSwitchInCreateMode.setMinimumSize(new java.awt.Dimension(23, 23));
         btnSwitchInCreateMode.setPreferredSize(new java.awt.Dimension(23, 23));
         btnSwitchInCreateMode.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSwitchInCreateModeActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnSwitchInCreateModeActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnSwitchInCreateMode, gridBagConstraints);
         broker.addEditControl(btnSwitchInCreateMode);
 
-        btnAcceptChanges.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/accept.png"))); // NOI18N
+        btnAcceptChanges.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/accept.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnAcceptChanges, "");
         btnAcceptChanges.setToolTipText("Änderungen annehmen");
         btnAcceptChanges.setBorderPainted(false);
         btnAcceptChanges.setFocusable(false);
-        btnAcceptChanges.setLabel(org.openide.util.NbBundle.getMessage(EditButtonsToolbar.class, "EditButtonsToolbar.btnAcceptChanges.label")); // NOI18N
+        btnAcceptChanges.setLabel(org.openide.util.NbBundle.getMessage(
+                EditButtonsToolbar.class,
+                "EditButtonsToolbar.btnAcceptChanges.label"));                            // NOI18N
         btnAcceptChanges.setMaximumSize(new java.awt.Dimension(23, 23));
         btnAcceptChanges.setMinimumSize(new java.awt.Dimension(23, 23));
         btnAcceptChanges.setPreferredSize(new java.awt.Dimension(23, 23));
         btnAcceptChanges.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAcceptChangesActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAcceptChangesActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnAcceptChanges, gridBagConstraints);
 
-        btnDiscardChanges.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/cancel.png"))); // NOI18N
+        btnDiscardChanges.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/cancel.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(btnDiscardChanges, "");
         btnDiscardChanges.setToolTipText("Änderungen Abbrechen");
         btnDiscardChanges.setBorderPainted(false);
         btnDiscardChanges.setFocusable(false);
-        btnDiscardChanges.setLabel(org.openide.util.NbBundle.getMessage(EditButtonsToolbar.class, "EditButtonsToolbar.btnDiscardChanges.label")); // NOI18N
+        btnDiscardChanges.setLabel(org.openide.util.NbBundle.getMessage(
+                EditButtonsToolbar.class,
+                "EditButtonsToolbar.btnDiscardChanges.label"));                           // NOI18N
         btnDiscardChanges.setMaximumSize(new java.awt.Dimension(23, 23));
         btnDiscardChanges.setMinimumSize(new java.awt.Dimension(23, 23));
         btnDiscardChanges.setPreferredSize(new java.awt.Dimension(23, 23));
         btnDiscardChanges.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDiscardChangesActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnDiscardChangesActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 3);
         add(btnDiscardChanges, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnSwitchInEditmodeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSwitchInEditmodeActionPerformed
+    private void btnSwitchInEditmodeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSwitchInEditmodeActionPerformed
         if (LOG.isDebugEnabled()) {
             LOG.debug("Versuche in Editiermodus zu wechseln: ");
         }
@@ -170,14 +192,14 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         if (LOG.isDebugEnabled()) {
             LOG.debug("ist im Editiermodus: " + broker.isInEditMode());
         }
-    }//GEN-LAST:event_btnSwitchInEditmodeActionPerformed
+    } //GEN-LAST:event_btnSwitchInEditmodeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnSwitchInCreateModeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSwitchInCreateModeActionPerformed
+    private void btnSwitchInCreateModeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSwitchInCreateModeActionPerformed
         if (LOG.isDebugEnabled()) {
             LOG.debug("try to switch in createmode", new CurrentStackTrace());
         }
@@ -204,14 +226,14 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         if (LOG.isDebugEnabled()) {
             LOG.debug("ist im Createmodus: " + broker.isInCreateMode());
         }
-    }//GEN-LAST:event_btnSwitchInCreateModeActionPerformed
+    } //GEN-LAST:event_btnSwitchInCreateModeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAcceptChangesActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptChangesActionPerformed
+    private void btnAcceptChangesActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAcceptChangesActionPerformed
         try {
             if (broker.isInEditMode()) {
                 if (LOG.isDebugEnabled()) {
@@ -257,14 +279,14 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
             LOG.error("Fehler beim akzeptieren von Änderungen: ", ex);
             broker.showSaveErrorDialog();
         }
-    }//GEN-LAST:event_btnAcceptChangesActionPerformed
+    } //GEN-LAST:event_btnAcceptChangesActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnDiscardChangesActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiscardChangesActionPerformed
+    private void btnDiscardChangesActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnDiscardChangesActionPerformed
         if (broker.isInEditMode()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Versuche aus Editiermodus heraus zu wechseln: ");
@@ -295,5 +317,5 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
                 LOG.debug("ist im Editiermodus: " + broker.isInEditMode());
             }
         }
-    }//GEN-LAST:event_btnDiscardChangesActionPerformed
+    } //GEN-LAST:event_btnDiscardChangesActionPerformed
 }
