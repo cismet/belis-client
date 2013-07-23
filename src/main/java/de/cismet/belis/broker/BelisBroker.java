@@ -642,17 +642,39 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             LOG.debug("switchEditMode");
         }
         if (isInEditMode()) {
-            setComponentsEditable(false);
-            releaseLock();
-            setInEditMode(false);
-            getMappingComponent().setReadOnly(true);
-            switchInEditMode(false);
+            new SwingWorker<Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        releaseLock();
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        setComponentsEditable(false);
+                        setInEditMode(false);
+                        getMappingComponent().setReadOnly(true);
+                        switchInEditMode(false);
+                    }
+                }.execute();
         } else {
-            acquireLock();
-            setInEditMode(true);
-            getMappingComponent().setReadOnly(false);
-            setComponentsEditable(true);
-            switchInEditMode(true);
+            new SwingWorker<Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        acquireLock();
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        setInEditMode(true);
+                        getMappingComponent().setReadOnly(false);
+                        setComponentsEditable(true);
+                        switchInEditMode(true);
+                    }
+                }.execute();
         }
     }
 
