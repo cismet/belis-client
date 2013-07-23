@@ -83,20 +83,23 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         panEmpty1.setMinimumSize(new java.awt.Dimension(1, 19));
         panEmpty1.setOpaque(false);
 
-        javax.swing.GroupLayout panEmpty1Layout = new javax.swing.GroupLayout(panEmpty1);
+        final javax.swing.GroupLayout panEmpty1Layout = new javax.swing.GroupLayout(panEmpty1);
         panEmpty1.setLayout(panEmpty1Layout);
         panEmpty1Layout.setHorizontalGroup(
-            panEmpty1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 116, Short.MAX_VALUE)
-        );
+            panEmpty1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                116,
+                Short.MAX_VALUE));
         panEmpty1Layout.setVerticalGroup(
-            panEmpty1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
+            panEmpty1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                25,
+                Short.MAX_VALUE));
 
-        setMinimumSize(new java.awt.Dimension(250, 25));
+        setMaximumSize(new java.awt.Dimension(310, 27));
+        setMinimumSize(new java.awt.Dimension(310, 27));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(250, 27));
+        setPreferredSize(new java.awt.Dimension(310, 27));
         setLayout(new java.awt.GridBagLayout());
 
         txfLaufendenummer.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -107,25 +110,27 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 15.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 0, 2);
         add(txfLaufendenummer, gridBagConstraints);
 
-        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        cmdOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/search.png"))); // NOI18N
+        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                           // NOI18N
+        cmdOk.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/search.png"))); // NOI18N
         cmdOk.setMnemonic('P');
         cmdOk.setText("Objektschlüssel");
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         cmdOk.setFocusable(false);
         cmdOk.setMaximumSize(new java.awt.Dimension(2000, 23));
-        cmdOk.setMinimumSize(new java.awt.Dimension(142, 23));
-        cmdOk.setPreferredSize(new java.awt.Dimension(142, 23));
+        cmdOk.setMinimumSize(new java.awt.Dimension(145, 23));
+        cmdOk.setPreferredSize(new java.awt.Dimension(145, 23));
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdOkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdOkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -138,15 +143,16 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         txfStrassenschluessel.setMinimumSize(new java.awt.Dimension(50, 18));
         txfStrassenschluessel.setPreferredSize(new java.awt.Dimension(65, 18));
         txfStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txfStrassenschluesselActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    txfStrassenschluesselActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 30.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 3, 0, 2);
         add(txfStrassenschluessel, gridBagConstraints);
 
@@ -155,25 +161,26 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         txfKennziffer.setMinimumSize(new java.awt.Dimension(25, 18));
         txfKennziffer.setPreferredSize(new java.awt.Dimension(30, 18));
         txfKennziffer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txfKennzifferActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    txfKennzifferActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 15.0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 0, 2);
         add(txfKennziffer, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdOkActionPerformed
+    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
         broker.fireSearchStarted();
         broker.setCurrentSearchResults(new TreeSet(
                 new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))));
@@ -200,25 +207,25 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         // }(strasse.getJTSGeometry()); } else { bb=new
         // BoundingBox(strasse.getPosition().buffer(AbstractWFSForm.FEATURE_BORDER)); } } else { return; }
         // mc.gotoBoundingBox(bb,history,scaling,animation); chkVisualizeActionPerformed(null);
-    }//GEN-LAST:event_cmdOkActionPerformed
+    }                                                                         //GEN-LAST:event_cmdOkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txfKennzifferActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfKennzifferActionPerformed
+    private void txfKennzifferActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txfKennzifferActionPerformed
 // TODO add your handling code here:
-    }//GEN-LAST:event_txfKennzifferActionPerformed
+    } //GEN-LAST:event_txfKennzifferActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txfStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfStrassenschluesselActionPerformed
+    private void txfStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txfStrassenschluesselActionPerformed
 // TODO add your handling code here:
-    }//GEN-LAST:event_txfStrassenschluesselActionPerformed
+    } //GEN-LAST:event_txfStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!

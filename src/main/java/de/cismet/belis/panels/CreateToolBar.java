@@ -203,7 +203,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewAbzweigdose = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(120, 2147483647));
+        setMaximumSize(new java.awt.Dimension(191, 27));
         setMinimumSize(new java.awt.Dimension(191, 27));
         setPreferredSize(new java.awt.Dimension(191, 27));
         setLayout(new java.awt.GridBagLayout());

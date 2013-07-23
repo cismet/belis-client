@@ -39,13 +39,12 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
 
     //~ Instance fields --------------------------------------------------------
 
-    private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MapSearchControl.class);
-    private BelisBroker broker;
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton cmdOk;
-    protected javax.swing.JPanel panEmpty;
     // End of variables declaration//GEN-END:variables
+
+    private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MapSearchControl.class);
+    private BelisBroker broker;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -69,18 +68,20 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
+        final java.awt.GridBagConstraints gridBagConstraints;
 
         cmdOk = new javax.swing.JButton();
-        panEmpty = new javax.swing.JPanel();
 
-        setMinimumSize(new java.awt.Dimension(100, 25));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 3, 0, 0));
+        setMaximumSize(new java.awt.Dimension(120, 25));
+        setMinimumSize(new java.awt.Dimension(120, 25));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(100, 27));
+        setPreferredSize(new java.awt.Dimension(120, 27));
         setLayout(new java.awt.GridBagLayout());
 
-        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        cmdOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/search.png"))); // NOI18N
+        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                           // NOI18N
+        cmdOk.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/search.png"))); // NOI18N
         cmdOk.setMnemonic('P');
         cmdOk.setText("Karteninhalt");
         cmdOk.setBorder(null);
@@ -90,40 +91,18 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
         cmdOk.setMinimumSize(new java.awt.Dimension(117, 23));
         cmdOk.setPreferredSize(new java.awt.Dimension(117, 23));
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdOkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdOkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(2, 3, 2, 3);
         add(cmdOk, gridBagConstraints);
-
-        panEmpty.setMinimumSize(new java.awt.Dimension(1, 19));
-        panEmpty.setOpaque(false);
-        panEmpty.setPreferredSize(new java.awt.Dimension(1, 19));
-
-        javax.swing.GroupLayout panEmptyLayout = new javax.swing.GroupLayout(panEmpty);
-        panEmpty.setLayout(panEmptyLayout);
-        panEmptyLayout.setHorizontalGroup(
-            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 183, Short.MAX_VALUE)
-        );
-        panEmptyLayout.setVerticalGroup(
-            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 99.0;
-        gridBagConstraints.weighty = 1.0;
-        add(panEmpty, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -137,7 +116,7 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdOkActionPerformed
+    private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
         if (log.isDebugEnabled()) {
             log.debug("Search with boundingBox");
         }
@@ -186,7 +165,7 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
 //        }
 //        mc.gotoBoundingBox(bb,history,scaling,animation);
 //        chkVisualizeActionPerformed(null);
-    }//GEN-LAST:event_cmdOkActionPerformed
+    }                                                                         //GEN-LAST:event_cmdOkActionPerformed
 
     /**
      * DOCUMENT ME!
