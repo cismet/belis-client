@@ -237,7 +237,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /** Creates a new instance of LagisBroker. */
     protected StatusBar statusBar;
     protected ExecutorService execService = null;
-    protected ArrayList<JButton> editControls = new ArrayList<JButton>();
     protected String currentValidationErrorMessage = null;
     protected JButton btnSwitchInCreateMode;
     final CreateToolBar panCreate = new CreateToolBar(this);
@@ -1177,9 +1176,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("is inFullReadOnlyMode disable edit buttions");
                         }
-                        for (final JButton curButton : editControls) {
-                            curButton.setEnabled(false);
-                        }
+                        btnSwitchInEditmode.setEnabled(false);
+                        btnSwitchInCreateMode.setEnabled(false);
                     }
                     mapWidget.setInteractionMode();
                     frame.setVisible(true);
@@ -1327,28 +1325,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public JButton getBtnAcceptChanges() {
         return btnAcceptChanges;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  editControl  DOCUMENT ME!
-     */
-    public void addEditControl(final JButton editControl) {
-        if (editControl != null) {
-            editControls.add(editControl);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  editControl  DOCUMENT ME!
-     */
-    public void removeEditControl(final JButton editControl) {
-        if (editControl != null) {
-            editControls.remove(editControl);
-        }
     }
 
     /**
@@ -1508,15 +1484,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public void fireCancelStartedAndExecuteSaveCancelWorker() {
         fireCancelStarted();
         execute(new SaveCancelWorker(SaveCancelWorker.CANCEL_MODE));
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public ArrayList<JButton> getEditControls() {
-        return editControls;
     }
 
     /**
@@ -2550,9 +2517,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 }
             });
         if (!isFullReadOnlyMode) {
-            for (final JButton curControl : editControls) {
-                curControl.setEnabled(true);
-            }
+            btnSwitchInEditmode.setEnabled(true);
+            btnSwitchInCreateMode.setEnabled(true);
         }
         btnReload.setEnabled(true);
         cmdPrint.setEnabled(true);
@@ -2574,9 +2540,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     searchWaitDialog.setVisible(true);
                 }
             });
-        for (final JButton curControl : editControls) {
-            curControl.setEnabled(false);
-        }
+        btnSwitchInEditmode.setEnabled(false);
+        btnSwitchInCreateMode.setEnabled(false);
+
         btnReload.setEnabled(false);
         cmdPrint.setEnabled(false);
         for (final SearchControl curSearchControl : searchControls) {
@@ -2911,9 +2877,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     LOG.debug("enable buttons");
                 }
                 if (!isFullReadOnlyMode()) {
-                    for (final JButton curControl : editControls) {
-                        curControl.setEnabled(true);
-                    }
+                    btnSwitchInEditmode.setEnabled(true);
+                    btnSwitchInCreateMode.setEnabled(true);
                 }
                 btnAcceptChanges.setEnabled(false);
                 btnDiscardChanges.setEnabled(false);

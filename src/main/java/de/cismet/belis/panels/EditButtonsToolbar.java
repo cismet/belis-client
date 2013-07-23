@@ -90,7 +90,6 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 2);
         add(btnSwitchInEditmode, gridBagConstraints);
-        broker.addEditControl(btnSwitchInEditmode);
 
         btnSwitchInCreateMode.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/createMode.png"))); // NOI18N
@@ -114,7 +113,6 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnSwitchInCreateMode, gridBagConstraints);
-        broker.addEditControl(btnSwitchInCreateMode);
 
         btnAcceptChanges.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/accept.png"))); // NOI18N
@@ -175,9 +173,8 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         try {
             broker.switchEditMode();
 
-            for (final JButton curControl : broker.getEditControls()) {
-                curControl.setEnabled(false);
-            }
+            btnSwitchInEditmode.setEnabled(false);
+            btnSwitchInCreateMode.setEnabled(false);
 
             btnAcceptChanges.setEnabled(true);
             btnDiscardChanges.setEnabled(true);
@@ -206,12 +203,13 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         try {
             broker.isPendingForCreateMode.set(true);
             broker.switchEditMode();
-            for (final JButton curControl : broker.getEditControls()) {
-                curControl.setEnabled(false);
-            }
+
+            btnSwitchInEditmode.setEnabled(false);
+            btnSwitchInCreateMode.setEnabled(false);
+
             btnAcceptChanges.setEnabled(true);
             btnDiscardChanges.setEnabled(true);
-            broker.setTitleBarComponentpainter(BelisBroker.EDIT_MODE_COLOR);                  //
+            broker.setTitleBarComponentpainter(BelisBroker.EDIT_MODE_COLOR); //
             // ToDo CreateFlag
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
