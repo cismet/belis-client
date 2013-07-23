@@ -74,7 +74,7 @@ import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
 import de.cismet.belis.gui.search.SearchControl;
 import de.cismet.belis.gui.search.SearchController;
-import de.cismet.belis.gui.toolbar.EditButtonsPanel;
+import de.cismet.belis.panels.EditButtonsToolbar;
 import de.cismet.belis.gui.widget.DetailWidget;
 import de.cismet.belis.gui.widget.WorkbenchWidget;
 
@@ -1420,7 +1420,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             toolbar.setRollover(true);
             toolbar.setMinimumSize(new java.awt.Dimension(496, 33));
 
-            final JPanel editPan = new EditButtonsPanel();
+            final JPanel editPan = new EditButtonsToolbar();
             editPan.setOpaque(false);
             getToolbar().add(editPan);
             addSeparatorToToolbar();

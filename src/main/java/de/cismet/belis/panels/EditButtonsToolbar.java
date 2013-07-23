@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.belis.gui.toolbar;
+package de.cismet.belis.panels;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -24,11 +24,11 @@ import de.cismet.tools.CurrentStackTrace;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public class EditButtonsPanel extends javax.swing.JPanel {
+public class EditButtonsToolbar extends javax.swing.JPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EditButtonsPanel.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EditButtonsToolbar.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -46,7 +46,7 @@ public class EditButtonsPanel extends javax.swing.JPanel {
     /**
      * Creates new form EditButtonsPanel.
      */
-    public EditButtonsPanel() {
+    public EditButtonsToolbar() {
         initComponents();
     }
 
@@ -72,7 +72,6 @@ public class EditButtonsPanel extends javax.swing.JPanel {
         setLayout(new java.awt.GridBagLayout());
 
         btnSwitchInEditmode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/editMode.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(btnSwitchInEditmode, org.openide.util.NbBundle.getMessage(EditButtonsPanel.class, "EditButtonsPanel.btnSwitchInEditmode.text")); // NOI18N
         btnSwitchInEditmode.setToolTipText("Editormodus");
         btnSwitchInEditmode.setBorderPainted(false);
         btnSwitchInEditmode.setFocusable(false);
@@ -88,11 +87,10 @@ public class EditButtonsPanel extends javax.swing.JPanel {
         broker.addEditControl(btnSwitchInEditmode);
 
         btnSwitchInCreateMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/createMode.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(btnSwitchInCreateMode, org.openide.util.NbBundle.getMessage(EditButtonsPanel.class, "EditButtonsPanel.btnSwitchInCreateMode.text")); // NOI18N
         btnSwitchInCreateMode.setToolTipText("Anlegenmodus");
         btnSwitchInCreateMode.setBorderPainted(false);
         btnSwitchInCreateMode.setFocusable(false);
-        btnSwitchInCreateMode.setLabel(org.openide.util.NbBundle.getMessage(EditButtonsPanel.class, "EditButtonsPanel.btnSwitchInCreateMode.label")); // NOI18N
+        btnSwitchInCreateMode.setLabel(org.openide.util.NbBundle.getMessage(EditButtonsToolbar.class, "EditButtonsToolbar.btnSwitchInCreateMode.label")); // NOI18N
         btnSwitchInCreateMode.setMaximumSize(new java.awt.Dimension(23, 23));
         btnSwitchInCreateMode.setMinimumSize(new java.awt.Dimension(23, 23));
         btnSwitchInCreateMode.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -107,11 +105,10 @@ public class EditButtonsPanel extends javax.swing.JPanel {
         broker.addEditControl(btnSwitchInCreateMode);
 
         btnAcceptChanges.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/accept.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(btnAcceptChanges, org.openide.util.NbBundle.getMessage(EditButtonsPanel.class, "EditButtonsPanel.btnAcceptChanges.text_1")); // NOI18N
         btnAcceptChanges.setToolTipText("Änderungen annehmen");
         btnAcceptChanges.setBorderPainted(false);
         btnAcceptChanges.setFocusable(false);
-        btnAcceptChanges.setLabel(org.openide.util.NbBundle.getMessage(EditButtonsPanel.class, "EditButtonsPanel.btnAcceptChanges.label")); // NOI18N
+        btnAcceptChanges.setLabel(org.openide.util.NbBundle.getMessage(EditButtonsToolbar.class, "EditButtonsToolbar.btnAcceptChanges.label")); // NOI18N
         btnAcceptChanges.setMaximumSize(new java.awt.Dimension(23, 23));
         btnAcceptChanges.setMinimumSize(new java.awt.Dimension(23, 23));
         btnAcceptChanges.setPreferredSize(new java.awt.Dimension(23, 23));
@@ -128,7 +125,7 @@ public class EditButtonsPanel extends javax.swing.JPanel {
         btnDiscardChanges.setToolTipText("Änderungen Abbrechen");
         btnDiscardChanges.setBorderPainted(false);
         btnDiscardChanges.setFocusable(false);
-        btnDiscardChanges.setLabel(org.openide.util.NbBundle.getMessage(EditButtonsPanel.class, "EditButtonsPanel.btnDiscardChanges.label")); // NOI18N
+        btnDiscardChanges.setLabel(org.openide.util.NbBundle.getMessage(EditButtonsToolbar.class, "EditButtonsToolbar.btnDiscardChanges.label")); // NOI18N
         btnDiscardChanges.setMaximumSize(new java.awt.Dimension(23, 23));
         btnDiscardChanges.setMinimumSize(new java.awt.Dimension(23, 23));
         btnDiscardChanges.setPreferredSize(new java.awt.Dimension(23, 23));
