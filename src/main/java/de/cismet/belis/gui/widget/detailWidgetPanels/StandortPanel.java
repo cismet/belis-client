@@ -36,6 +36,7 @@ import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
 
 /**
@@ -969,13 +970,13 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     @Override
     final void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxStandortStrassenschluessel);
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortStrassenschluessel, TkeyStrassenschluesselCustomBean.TABLE);
         cbxStandortStrassenschluessel.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxStandortStrassenschluessel, new ObjectToKeyStringConverter());
 //        cbxStandortStrassenschluessel.setEditable(true);
 //        cbxStandortStrassenschluessel.setEditor(new AutoCompleteEditor(cbxStandortStrassenschluessel, false, new ObjectToKeyStringConverter()));
         cbxStandortStrassenschluesselNr.setSelectedItem(null);
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxStandortStrassenschluesselNr);
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortStrassenschluesselNr, TkeyStrassenschluesselCustomBean.TABLE);
         AutoCompleteDecorator.decorate(cbxStandortStrassenschluesselNr, new ObjectToPkConverter("pk"));
         try {
             final Collection<TkeyKennzifferCustomBean> kennziffern = CidsBroker.getInstance().getAllKennziffer();
@@ -1028,16 +1029,16 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cboStandortVerrechnungseinheitActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cboStandortVerrechnungseinheitActionPerformed
+    private void cboStandortVerrechnungseinheitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboStandortVerrechnungseinheitActionPerformed
 // TODO add your handling code here:
-    } //GEN-LAST:event_cboStandortVerrechnungseinheitActionPerformed
+    }//GEN-LAST:event_cboStandortVerrechnungseinheitActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxStandortStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStandortStrassenschluesselActionPerformed
+    private void cbxStandortStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStandortStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -1048,23 +1049,23 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                 //GEN-LAST:event_cbxStandortStrassenschluesselActionPerformed
+    }//GEN-LAST:event_cbxStandortStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txfStandortStandortAngabeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txfStandortStandortAngabeActionPerformed
+    private void txfStandortStandortAngabeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfStandortStandortAngabeActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_txfStandortStandortAngabeActionPerformed
+    }//GEN-LAST:event_txfStandortStandortAngabeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxStandortStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStandortStrassenschluesselNrActionPerformed
+    private void cbxStandortStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStandortStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -1075,7 +1076,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                   //GEN-LAST:event_cbxStandortStrassenschluesselNrActionPerformed
+    }//GEN-LAST:event_cbxStandortStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!

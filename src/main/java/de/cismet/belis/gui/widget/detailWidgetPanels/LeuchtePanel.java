@@ -38,6 +38,7 @@ import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
 
 /**
@@ -991,10 +992,10 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     @Override
     final void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxLeuchteStrassenschluessel);
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeuchteStrassenschluessel, TkeyStrassenschluesselCustomBean.TABLE);
         cbxLeuchteStrassenschluessel.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxLeuchteStrassenschluessel, new ObjectToKeyStringConverter());
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxLeuchteStrassenschluesselNr);
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeuchteStrassenschluesselNr, TkeyStrassenschluesselCustomBean.TABLE);
         cbxLeuchteStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxLeuchteStrassenschluesselNr, new ObjectToPkConverter("pk"));
 
@@ -1148,16 +1149,16 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txtLeuchteRundsteuerActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txtLeuchteRundsteuerActionPerformed
+    private void txtLeuchteRundsteuerActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLeuchteRundsteuerActionPerformed
 // TODO add your handling code here:
-    } //GEN-LAST:event_txtLeuchteRundsteuerActionPerformed
+    }//GEN-LAST:event_txtLeuchteRundsteuerActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxLeuchteStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxLeuchteStrassenschluesselNrActionPerformed
+    private void cbxLeuchteStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLeuchteStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -1168,14 +1169,14 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                  //GEN-LAST:event_cbxLeuchteStrassenschluesselNrActionPerformed
+    }//GEN-LAST:event_cbxLeuchteStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxLeuchteStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxLeuchteStrassenschluesselActionPerformed
+    private void cbxLeuchteStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLeuchteStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -1186,7 +1187,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                //GEN-LAST:event_cbxLeuchteStrassenschluesselActionPerformed
+    }//GEN-LAST:event_cbxLeuchteStrassenschluesselActionPerformed
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
