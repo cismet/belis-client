@@ -995,7 +995,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         AutoCompleteDecorator.decorate(cbxStandortMasttyp, new ObjectToKeyStringConverter());
         try {
-            final Collection<TkeyUnterhMastCustomBean> unterhaltMast = CidsBroker.getInstance().getAllUnterhaltMast();
+            final Collection<TkeyUnterhMastCustomBean> unterhaltMast = CidsBroker.getInstance().getAll(TkeyUnterhMastCustomBean.TABLE);
             try {
                 if ((unterhaltMast != null) && (unterhaltMast.size() > 0)) {
                     for (final TkeyUnterhMastCustomBean curUnterhaltMast : unterhaltMast) {

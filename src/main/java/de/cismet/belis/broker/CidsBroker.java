@@ -288,6 +288,7 @@ public class CidsBroker implements BelisServerRemote {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
+    @Override
     public Collection getAll(String className) throws ActionNotSuccessfulException {
         className = className.toLowerCase();
         if (keyTableCollections.containsKey(className)) {
@@ -295,86 +296,6 @@ public class CidsBroker implements BelisServerRemote {
         } else {
             return refreshAll(className);
         }
-    }
-
-    @Override
-    public Collection<TkeyStrassenschluesselCustomBean> getAllStrassenschluessel() throws ActionNotSuccessfulException {
-        return getAll(TkeyStrassenschluesselCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<TkeyEnergielieferantCustomBean> getAllEnergielieferanten() throws ActionNotSuccessfulException {
-        return getAll(TkeyEnergielieferantCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<TkeyKennzifferCustomBean> getAllKennziffer() throws ActionNotSuccessfulException {
-        return getAll(TkeyKennzifferCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<TkeyBezirkCustomBean> getAllStadtbezirke() throws ActionNotSuccessfulException {
-        return getAll(TkeyBezirkCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<TkeyMastartCustomBean> getAllMastarten() throws ActionNotSuccessfulException {
-        return getAll(TkeyMastartCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<TkeyMasttypCustomBean> getAllMasttypen() throws ActionNotSuccessfulException {
-        return getAll(TkeyMasttypCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<TkeyKlassifizierungCustomBean> getAllKlassifizierungen() throws ActionNotSuccessfulException {
-        return getAll(TkeyKlassifizierungCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<TkeyUnterhMastCustomBean> getAllUnterhaltMast() throws ActionNotSuccessfulException {
-        return getAll(TkeyUnterhMastCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<TkeyUnterhLeuchteCustomBean> getAllUnterhaltLeuchte() throws ActionNotSuccessfulException {
-        return getAll(TkeyUnterhLeuchteCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<MaterialLeitungCustomBean> getAllMaterialLeitung() throws ActionNotSuccessfulException {
-        return getAll(MaterialLeitungCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<LeitungstypCustomBean> getAllLeitungstypen() throws ActionNotSuccessfulException {
-        return getAll(LeitungstypCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<QuerschnittCustomBean> getAllQuerschnitte() throws ActionNotSuccessfulException {
-        return getAll(QuerschnittCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<MaterialMauerlascheCustomBean> getAllMaterialMauerlasche() throws ActionNotSuccessfulException {
-        return getAll(MaterialMauerlascheCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<BauartCustomBean> getAllBauarten() throws ActionNotSuccessfulException {
-        return getAll(BauartCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<TkeyLeuchtentypCustomBean> getAllLeuchtentypen() throws ActionNotSuccessfulException {
-        return getAll(TkeyLeuchtentypCustomBean.TABLE);
-    }
-
-    @Override
-    public Collection<TkeyDoppelkommandoCustomBean> getAllDoppelkommando() throws ActionNotSuccessfulException {
-        return getAll(TkeyDoppelkommandoCustomBean.TABLE);
     }
 
     @Override

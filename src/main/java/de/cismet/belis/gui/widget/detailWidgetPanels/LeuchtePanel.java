@@ -1005,7 +1005,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         fillComboBoxWithKeyTableValuesAndAddListener(cbxLeuchteEnergielieferant, TkeyEnergielieferantCustomBean.TABLE);
 
         try {
-            final Collection<TkeyUnterhLeuchteCustomBean> unterhalt = CidsBroker.getInstance().getAllUnterhaltLeuchte();
+            final Collection<TkeyUnterhLeuchteCustomBean> unterhalt = CidsBroker.getInstance().getAll(TkeyUnterhLeuchteCustomBean.TABLE);
             try {
                 if ((unterhalt != null) && (unterhalt.size() > 0)) {
                     for (final TkeyUnterhLeuchteCustomBean curUnterhaltLeuchte : unterhalt) {
@@ -1034,7 +1034,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         cbxLeuchteLeuchtentyp.setSelectedItem(null);
 
         try {
-            final Collection<TkeyDoppelkommandoCustomBean> dk1 = CidsBroker.getInstance().getAllDoppelkommando();
+            final Collection<TkeyDoppelkommandoCustomBean> dk1 = CidsBroker.getInstance().getAll(TkeyDoppelkommandoCustomBean.TABLE);
             try {
                 if ((dk1 != null) && (dk1.size() > 0)) {
                     for (final TkeyDoppelkommandoCustomBean curDoppelkommando : dk1) {
