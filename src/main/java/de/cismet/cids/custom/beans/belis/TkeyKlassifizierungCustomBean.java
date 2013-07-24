@@ -155,4 +155,14 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
             return "";
         }
     }
+    
+        @Override
+    public String getCompareCriteriaString() {
+        //Workaround: 'keine Angabe' is ordered on the first place
+        if (getPk().equals(0)) {
+            return "00000";
+        } else {
+            return getKeyString();
+        }
+    }
 }
