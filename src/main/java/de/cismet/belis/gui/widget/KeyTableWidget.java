@@ -25,6 +25,8 @@ import org.apache.log4j.Logger;
 
 import org.openide.util.Exceptions;
 
+import java.awt.CardLayout;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
@@ -51,16 +53,18 @@ public class KeyTableWidget extends DefaultWidget {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOG = Logger.getLogger(KeyTableWidget.class);
+    private static final String PAN_DESC_OR_EDIT = "panDescOrEdit";
 
     //~ Instance fields --------------------------------------------------------
 
     final JPanel panDescOrEdit;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JPanel pnlPureTreeNode;
+    private javax.swing.JPanel pnlValues;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -72,10 +76,13 @@ public class KeyTableWidget extends DefaultWidget {
      */
     public KeyTableWidget(final BelisBroker broker) {
         super(broker);
+        initComponents();
 
         panDescOrEdit = (PropertyManager.getManager().isEditable())
             ? ComponentRegistry.getRegistry().getAttributeEditor()
             : ComponentRegistry.getRegistry().getDescriptionPane();
+
+        pnlValues.add(panDescOrEdit, PAN_DESC_OR_EDIT);
 
         // ComponentRegistry.getRegistry().getAttributeEditor().setControlBarVisible(false);
         ComponentRegistry.getRegistry().getCatalogueTree().addTreeSelectionListener(new TreeSelectionListener() {
@@ -103,16 +110,18 @@ public class KeyTableWidget extends DefaultWidget {
                                 ComponentRegistry.getRegistry().getCatalogueTree().removeTreeSelectionListener(this);
                                 ComponentRegistry.getRegistry().getCatalogueTree().setSelectedNodes(coll, true);
                                 ComponentRegistry.getRegistry().getCatalogueTree().addTreeSelectionListener(this);
+                                final CardLayout cl = (CardLayout)(pnlValues.getLayout());
+                                cl.show(pnlValues, PAN_DESC_OR_EDIT);
                             } else {
                                 LOG.warn("insufficient permission to edit node " + selectedNode); // NOI18N
                             }
                         } else {
+                            final CardLayout cl = (CardLayout)(pnlValues.getLayout());
+                            cl.show(pnlValues, "PURE_TREE_NODE");
                         }
                     }
                 }
             });
-
-        initComponents();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -127,14 +136,19 @@ public class KeyTableWidget extends DefaultWidget {
         final java.awt.GridBagConstraints gridBagConstraints;
 
         jSplitPane1 = new javax.swing.JSplitPane();
-        jPanel2 = panDescOrEdit;
+        pnlValues = new javax.swing.JPanel();
+        pnlPureTreeNode = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = ComponentRegistry.getRegistry().getCatalogueTree();
 
         setLayout(new java.awt.GridBagLayout());
 
         jSplitPane1.setBorder(null);
-        jSplitPane1.setRightComponent(jPanel2);
+
+        pnlValues.setLayout(new java.awt.CardLayout());
+        pnlValues.add(pnlPureTreeNode, "PURE_TREE_NODE");
+
+        jSplitPane1.setRightComponent(pnlValues);
 
         jScrollPane1.setViewportView(jTree1);
 
