@@ -973,26 +973,25 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortStrassenschluessel, TkeyStrassenschluesselCustomBean.TABLE);
         cbxStandortStrassenschluessel.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxStandortStrassenschluessel, new ObjectToKeyStringConverter());
-//        cbxStandortStrassenschluessel.setEditable(true);
-//        cbxStandortStrassenschluessel.setEditor(new AutoCompleteEditor(cbxStandortStrassenschluessel, false, new ObjectToKeyStringConverter()));
+        
         cbxStandortStrassenschluesselNr.setSelectedItem(null);
         fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortStrassenschluesselNr, TkeyStrassenschluesselCustomBean.TABLE);
         AutoCompleteDecorator.decorate(cbxStandortStrassenschluesselNr, new ObjectToPkConverter("pk"));
-        try {
-            final Collection<TkeyKennzifferCustomBean> kennziffern = CidsBroker.getInstance().getAllKennziffer();
-            createSortedCBoxModelFromCollection(kennziffern, cbxStandortKennziffer);
-        } catch (ActionNotSuccessfulException ex) {
-            cbxStandortKennziffer.setModel(new DefaultComboBoxModel());
-        }
+        
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortKennziffer, TkeyKennzifferCustomBean.TABLE);
         cbxStandortKennziffer.setSelectedItem(null);
 
         fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortStadtbezirk, TkeyBezirkCustomBean.TABLE);
+        cbxStandortStadtbezirk.setSelectedItem(null);
 
         fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortKlassifizierung, TkeyKlassifizierungCustomBean.TABLE);
+        cbxStandortKlassifizierung.setSelectedItem(null);
 
         fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortMastart, TkeyMastartCustomBean.TABLE);
+        cbxStandortMastart.setSelectedItem(null);
 
         fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortMasttyp, TkeyMasttypCustomBean.TABLE);
+        cbxStandortMasttyp.setSelectedItem(null);
 
         AutoCompleteDecorator.decorate(cbxStandortMasttyp, new ObjectToKeyStringConverter());
         try {
@@ -1017,10 +1016,6 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         } catch (ActionNotSuccessfulException ex) {
             cbxStandortUnterhalt.setModel(new DefaultComboBoxModel());
         }
-        cbxStandortStadtbezirk.setSelectedItem(null);
-        cbxStandortKlassifizierung.setSelectedItem(null);
-        cbxStandortMastart.setSelectedItem(null);
-        cbxStandortMasttyp.setSelectedItem(null);
         cbxStandortUnterhalt.setSelectedItem(null);
     }
 
