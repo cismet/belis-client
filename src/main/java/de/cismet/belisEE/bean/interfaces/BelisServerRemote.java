@@ -35,8 +35,17 @@ public interface BelisServerRemote extends lockEnabled {
 
     //~ Methods ----------------------------------------------------------------
 
-    public Collection getAll(String className) throws ActionNotSuccessfulException;
-    
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   className  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
+    Collection getAll(String className) throws ActionNotSuccessfulException;
+
     /**
      * DOCUMENT ME!
      *
