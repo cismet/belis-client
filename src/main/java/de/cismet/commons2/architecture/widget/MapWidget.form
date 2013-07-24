@@ -321,7 +321,6 @@
                 <EmptyBorder bottom="1" left="3" right="3" top="1"/>
               </Border>
             </Property>
-            <Property name="selected" type="boolean" value="true"/>
             <Property name="selectedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/cismet/commons/architecture/resource/icon/toolbar/moveHandle_selected.png"/>
             </Property>

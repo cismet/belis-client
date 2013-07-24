@@ -55,14 +55,12 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.SimpleMoveListener;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.SplitPolygonListener;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
-import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
 import de.cismet.commons.architecture.geometrySlot.GeometrySlotInformation;
 import de.cismet.commons.architecture.interfaces.NoPermissionsWidget;
 
 import de.cismet.tools.CurrentStackTrace;
 
 import de.cismet.tools.configuration.ConfigurationManager;
-import de.cismet.tools.configuration.NoWriteError;
 
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.historybutton.JHistoryButton;
@@ -578,7 +576,6 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
                 getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/moveHandle.png"))); // NOI18N
         cmdMoveHandle.setToolTipText("Handle verschieben");
         cmdMoveHandle.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-        cmdMoveHandle.setSelected(true);
         cmdMoveHandle.setSelectedIcon(new javax.swing.ImageIcon(
                 getClass().getResource(
                     "/de/cismet/commons/architecture/resource/icon/toolbar/moveHandle_selected.png")));           // NOI18N
@@ -675,6 +672,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
      * @param  evt  DOCUMENT ME!
      */
     private void cmdMovePolygonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdMovePolygonActionPerformed
+        removeHandleGroupSelection();
         removeMainGroupSelection();
         cmdMovePolygon.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.MOVE_POLYGON);
@@ -699,8 +697,13 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
     private void cmdRemoveHandleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdRemoveHandleActionPerformed
         removeHandleGroupSelection();
         cmdRemoveHandle.setSelected(true);
+
+        removeMainGroupSelection();
+        cmdSelect.setSelected(true);
+        mappingComponent.setInteractionMode(MappingComponent.SELECT);
+
         mappingComponent.setHandleInteractionMode(MappingComponent.REMOVE_HANDLE);
-    }                                                                                   //GEN-LAST:event_cmdRemoveHandleActionPerformed
+    } //GEN-LAST:event_cmdRemoveHandleActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -710,8 +713,13 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
     private void cmdAddHandleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdAddHandleActionPerformed
         removeHandleGroupSelection();
         cmdAddHandle.setSelected(true);
+
+        removeMainGroupSelection();
+        cmdSelect.setSelected(true);
+        mappingComponent.setInteractionMode(MappingComponent.SELECT);
+
         mappingComponent.setHandleInteractionMode(MappingComponent.ADD_HANDLE);
-    }                                                                                //GEN-LAST:event_cmdAddHandleActionPerformed
+    } //GEN-LAST:event_cmdAddHandleActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -721,8 +729,13 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
     private void cmdMoveHandleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdMoveHandleActionPerformed
         removeHandleGroupSelection();
         cmdMoveHandle.setSelected(true);
+
+        removeMainGroupSelection();
+        cmdSelect.setSelected(true);
+        mappingComponent.setInteractionMode(MappingComponent.SELECT);
+
         mappingComponent.setHandleInteractionMode(MappingComponent.MOVE_HANDLE);
-    }                                                                                 //GEN-LAST:event_cmdMoveHandleActionPerformed
+    } //GEN-LAST:event_cmdMoveHandleActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -730,6 +743,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
      * @param  evt  DOCUMENT ME!
      */
     private void cmdRemovePolygonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdRemovePolygonActionPerformed
+        removeHandleGroupSelection();
         removeMainGroupSelection();
         cmdRemovePolygon.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.REMOVE_POLYGON);
@@ -766,6 +780,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
      * @param  evt  DOCUMENT ME!
      */
     private void cmdPanActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdPanActionPerformed
+        removeHandleGroupSelection();
         removeMainGroupSelection();
         cmdPan.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.PAN);
@@ -777,24 +792,12 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
      * DOCUMENT ME!
      */
     public void removeMainGroupSelection() {
-        cmdSelect.setSelected(false);
-        cmdPan.setSelected(false);
-//    cmdALB.setSelected(false);
         cmdZoom.setSelected(false);
+        cmdPan.setSelected(false);
+        cmdSelect.setSelected(false);
         cmdMovePolygon.setSelected(false);
-//    cmdNewPolygon.setSelected(false);
-        // cmdNewPoint.setSelected(false);
         cmdRemovePolygon.setSelected(false);
-        // cmdAttachPolyToAlphadata.setSelected(false);
-        // cmdSplitPoly.setSelected(false);
-        // cmdJoinPoly.setSelected(false);
-        // cmdRaisePolygon.setSelected(false);
 
-//        if (mappingComponent.isReadOnly()) {
-//            log.info("Ist Readonly snapping wird diseabled");
-//            mappingComponent.setSnappingEnabled(false);
-//            mappingComponent.setVisualizeSnappingEnabled(false);
-//        }
         for (final JButton curButton : customButtons) {
             curButton.setSelected(false);
         }
@@ -946,6 +949,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
      * @param  evt  DOCUMENT ME!
      */
     private void cmdZoomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdZoomActionPerformed
+        removeHandleGroupSelection();
         removeMainGroupSelection();
         cmdZoom.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.ZOOM);
