@@ -145,8 +145,12 @@ public class TkeyDoppelkommandoCustomBean extends BaseEntity {
 
     @Override
     public String getKeyString() {
-        if (getBeschreibung() != null) {
-            return getBeschreibung();
+        if ((getPk() != null) && (getBeschreibung() != null)) {
+            return getPk() + " - " + getBeschreibung();
+        } else if (getPk() != null) {
+            return getPk() + " - Keine Beschreibung vorhanden.";
+        } else if (getBeschreibung() != null) {
+            return "Keine PK - " + getBeschreibung();
         } else {
             return "";
         }
