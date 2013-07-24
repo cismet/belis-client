@@ -156,13 +156,4 @@ public class TkeyKennzifferCustomBean extends BaseEntity {
             return "";
         }
     }
-
-    @Override
-    public String getCompareCriteriaString() {
-        if (getBeschreibung() != null) {
-            return getBeschreibung();
-        } else {
-            return "";
-        }
-    }
 }
