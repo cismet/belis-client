@@ -30,6 +30,7 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -363,16 +364,16 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxMauerlascheMaterialActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheMaterialActionPerformed
+    private void cbxMauerlascheMaterialActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMauerlascheMaterialActionPerformed
 // TODO add your handling code here:
-    } //GEN-LAST:event_cbxMauerlascheMaterialActionPerformed
+    }//GEN-LAST:event_cbxMauerlascheMaterialActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxMauerlascheStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
+    private void cbxMauerlascheStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -383,14 +384,14 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                      //GEN-LAST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
+    }//GEN-LAST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxMauerlascheStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheStrassenschluesselActionPerformed
+    private void cbxMauerlascheStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMauerlascheStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -401,7 +402,7 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                    //GEN-LAST:event_cbxMauerlascheStrassenschluesselActionPerformed
+    }//GEN-LAST:event_cbxMauerlascheStrassenschluesselActionPerformed
 
     @Override
     BindingGroup getBindingGroup() {
@@ -411,10 +412,11 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     @Override
     void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxMauerlascheStrassenschluessel);
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxMauerlascheStrassenschluessel, TkeyStrassenschluesselCustomBean.TABLE);
         cbxMauerlascheStrassenschluessel.setSelectedItem(null);
+        
         AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluessel, new ObjectToKeyStringConverter());
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxMauerlascheStrassenschluesselNr);
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxMauerlascheStrassenschluesselNr, TkeyStrassenschluesselCustomBean.TABLE);
         cbxMauerlascheStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluesselNr, new ObjectToPkConverter("pk"));
 

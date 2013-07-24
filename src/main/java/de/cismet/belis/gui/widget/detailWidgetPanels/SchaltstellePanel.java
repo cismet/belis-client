@@ -30,6 +30,7 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.cids.custom.beans.belis.BauartCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -466,11 +467,12 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
     @Override
     final void initPanel() {
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxSchaltstelleStrassenschluessel);
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxSchaltstelleStrassenschluessel, TkeyStrassenschluesselCustomBean.TABLE);
         bindingGroup.addBindingListener(new PanelBindingListener());
         cbxSchaltstelleStrassenschluessel.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluessel, new ObjectToKeyStringConverter());
-        createSortedCBoxModelFromCollection(allStrassenschluessel, cbxSchaltstelleStrassenschluesselNr);
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxSchaltstelleStrassenschluesselNr, TkeyStrassenschluesselCustomBean.TABLE);
         cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluesselNr, new ObjectToPkConverter("pk"));
 
@@ -483,7 +485,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxSchaltstelleStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
+    private void cbxSchaltstelleStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -495,14 +497,14 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                       //GEN-LAST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
+    }//GEN-LAST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxSchaltstelleStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxSchaltstelleStrassenschluesselActionPerformed
+    private void cbxSchaltstelleStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSchaltstelleStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -514,7 +516,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                     //GEN-LAST:event_cbxSchaltstelleStrassenschluesselActionPerformed
+    }//GEN-LAST:event_cbxSchaltstelleStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
