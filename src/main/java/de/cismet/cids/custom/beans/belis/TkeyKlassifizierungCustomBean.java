@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
+import java.util.Locale;
+
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -148,7 +150,7 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
     @Override
     public String getKeyString() {
         if (getKlassifizierung() != null) {
-            return getKlassifizierung();
+            return getKlassifizierung().toLowerCase(Locale.GERMAN);
         } else {
             return "";
         }
