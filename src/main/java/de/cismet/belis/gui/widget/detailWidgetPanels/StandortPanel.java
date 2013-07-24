@@ -979,7 +979,8 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         cbxStandortStrassenschluesselNr.setSelectedItem(null);
         fillComboBoxWithKeyTableValuesAndAddListener(
             cbxStandortStrassenschluesselNr,
-            TkeyStrassenschluesselCustomBean.TABLE);
+            TkeyStrassenschluesselCustomBean.TABLE,
+            true);
         AutoCompleteDecorator.decorate(cbxStandortStrassenschluesselNr, new ObjectToPkConverter("pk"));
 
         fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortKennziffer, TkeyKennzifferCustomBean.TABLE);

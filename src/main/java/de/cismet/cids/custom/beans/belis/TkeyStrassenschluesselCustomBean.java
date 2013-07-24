@@ -17,12 +17,15 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
+import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;
+
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyStrassenschluesselCustomBean extends BaseEntity {
+public class TkeyStrassenschluesselCustomBean extends BaseEntity
+        implements Comparable<TkeyStrassenschluesselCustomBean> {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -170,5 +173,10 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity {
         } else {
             return "";
         }
+    }
+
+    @Override
+    public int compareTo(final TkeyStrassenschluesselCustomBean o) {
+        return AlphanumComparator.getInstance().compare(this.pk, o.pk);
     }
 }

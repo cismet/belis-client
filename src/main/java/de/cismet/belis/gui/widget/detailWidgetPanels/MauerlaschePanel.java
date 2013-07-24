@@ -420,7 +420,8 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluessel, new ObjectToKeyStringConverter());
         fillComboBoxWithKeyTableValuesAndAddListener(
             cbxMauerlascheStrassenschluesselNr,
-            TkeyStrassenschluesselCustomBean.TABLE);
+            TkeyStrassenschluesselCustomBean.TABLE,
+            true);
         cbxMauerlascheStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluesselNr, new ObjectToPkConverter("pk"));
 

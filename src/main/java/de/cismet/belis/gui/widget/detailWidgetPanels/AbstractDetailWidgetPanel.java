@@ -125,10 +125,14 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
     /**
      * DOCUMENT ME!
      *
-     * @param  col  DOCUMENT ME!
-     * @param  box  DOCUMENT ME!
+     * @param  col                 DOCUMENT ME!
+     * @param  box                 DOCUMENT ME!
+     * @param  sortByNaturalOrder  if true use compareTo() of the elements to sort them, otherwise use the
+     *                             CriteriaStringComparator
      */
-    void createSortedCBoxModelFromCollection(final Collection<? extends BaseEntity> col, final JComboBox box) {
+    void createSortedCBoxModelFromCollection(final Collection<? extends BaseEntity> col,
+            final JComboBox box,
+            final boolean sortByNaturalOrder) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("sorting collection: " + col);
         }
@@ -137,7 +141,11 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
             if (box != null) {
                 if (col != null) {
                     final Object[] objArr = col.toArray();
-                    Arrays.sort(objArr, CriteriaStringComparator.getInstance());
+                    if (sortByNaturalOrder) {
+                        Arrays.sort(objArr);
+                    } else {
+                        Arrays.sort(objArr, CriteriaStringComparator.getInstance());
+                    }
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("sorted Collection:" + objArr);
                     }
@@ -155,16 +163,41 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
     /**
      * DOCUMENT ME!
      *
-     * @param  comboBox           DOCUMENT ME!
-     * @param  keyTableClassname  DOCUMENT ME!
+     * @param  comboBox            DOCUMENT ME!
+     * @param  keyTableClassname   DOCUMENT ME!
+     * @param  sortByNaturalOrder  if true use compareTo() of the elements to sort them, otherwise use the
+     *                             CriteriaStringComparator
      */
-    public void fillComboBoxWithKeyTableValues(final JComboBox comboBox, final String keyTableClassname) {
+    public void fillComboBoxWithKeyTableValues(final JComboBox comboBox,
+            final String keyTableClassname,
+            final boolean sortByNaturalOrder) {
         try {
             final Collection<BaseEntity> keyTableValues = CidsBroker.getInstance().getAll(keyTableClassname);
-            createSortedCBoxModelFromCollection(keyTableValues, comboBox);
+            createSortedCBoxModelFromCollection(keyTableValues, comboBox, sortByNaturalOrder);
         } catch (ActionNotSuccessfulException ex) {
             comboBox.setModel(new DefaultComboBoxModel());
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  comboBox            DOCUMENT ME!
+     * @param  keyTableClassname   DOCUMENT ME!
+     * @param  sortByNaturalOrder  if true use compareTo() of the elements to sort them, otherwise use the
+     *                             CriteriaStringComparator
+     */
+    public void fillComboBoxWithKeyTableValuesAndAddListener(final JComboBox comboBox,
+            final String keyTableClassname,
+            final boolean sortByNaturalOrder) {
+        fillComboBoxWithKeyTableValues(comboBox, keyTableClassname, sortByNaturalOrder);
+        CidsBroker.getInstance().addListenerForKeyTableChange(keyTableClassname, new KeyTableListener() {
+
+                @Override
+                public void keyTableChanged() {
+                    fillComboBoxWithKeyTableValues(comboBox, keyTableClassname, sortByNaturalOrder);
+                }
+            });
     }
 
     /**
@@ -174,14 +207,7 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
      * @param  keyTableClassname  DOCUMENT ME!
      */
     public void fillComboBoxWithKeyTableValuesAndAddListener(final JComboBox comboBox, final String keyTableClassname) {
-        fillComboBoxWithKeyTableValues(comboBox, keyTableClassname);
-        CidsBroker.getInstance().addListenerForKeyTableChange(keyTableClassname, new KeyTableListener() {
-
-                @Override
-                public void keyTableChanged() {
-                    fillComboBoxWithKeyTableValues(comboBox, keyTableClassname);
-                }
-            });
+        fillComboBoxWithKeyTableValuesAndAddListener(comboBox, keyTableClassname, false);
     }
 
     //~ Inner Classes ----------------------------------------------------------

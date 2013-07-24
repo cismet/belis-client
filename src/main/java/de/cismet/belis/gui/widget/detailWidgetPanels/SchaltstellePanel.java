@@ -476,7 +476,8 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
         fillComboBoxWithKeyTableValuesAndAddListener(
             cbxSchaltstelleStrassenschluesselNr,
-            TkeyStrassenschluesselCustomBean.TABLE);
+            TkeyStrassenschluesselCustomBean.TABLE,
+            true);
         cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluesselNr, new ObjectToPkConverter("pk"));
 

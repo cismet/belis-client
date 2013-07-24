@@ -997,9 +997,11 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
             TkeyStrassenschluesselCustomBean.TABLE);
         cbxLeuchteStrassenschluessel.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxLeuchteStrassenschluessel, new ObjectToKeyStringConverter());
+
         fillComboBoxWithKeyTableValuesAndAddListener(
             cbxLeuchteStrassenschluesselNr,
-            TkeyStrassenschluesselCustomBean.TABLE);
+            TkeyStrassenschluesselCustomBean.TABLE,
+            true);
         cbxLeuchteStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxLeuchteStrassenschluesselNr, new ObjectToPkConverter("pk"));
 
