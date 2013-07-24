@@ -152,4 +152,14 @@ public class TkeyBezirkCustomBean extends BaseEntity {
             return "";
         }
     }
+
+    @Override
+    public String getCompareCriteriaString() {
+        //Workaround: 'BISHER NICHT ZUGEORDNET' is ordered on the first place
+        if (getPk().equals(10)) {
+            return "00000";
+        } else {
+            return getKeyString();
+        }
+    }
 }
