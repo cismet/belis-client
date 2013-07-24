@@ -104,6 +104,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
      * Creates new form StandortPanel.
      */
     private StandortPanel() {
+        super("STANDORT_PANEL");
         initComponents();
         initComponentToLabelMap();
         initPanel();

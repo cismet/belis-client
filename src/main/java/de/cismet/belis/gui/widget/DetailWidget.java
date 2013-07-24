@@ -15,6 +15,7 @@ package de.cismet.belis.gui.widget;
 import org.jdesktop.beansbinding.BindingGroup;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 
 import java.beans.PropertyChangeEvent;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.documentpanel.DocumentPanel;
+import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeitungPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeuchtePanel;
@@ -59,11 +61,21 @@ public class DetailWidget extends DefaultWidget {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailWidget.class);
 
+    private static final String DOCUMENT_PANEL = "document panel card";
+
     //~ Instance fields --------------------------------------------------------
 
     protected Object currentEntity = null;
+
+    private StandortPanel standortPanel = StandortPanel.getInstance();
+    private LeuchtePanel leuchtePanel = LeuchtePanel.getInstance();
+    private LeitungPanel leitungPanel = LeitungPanel.getInstance();
+    private AbzweigdosePanel abzweigdosePanel = AbzweigdosePanel.getInstance();
+    private MauerlaschePanel mauerlaschePanel = MauerlaschePanel.getInstance();
+    private SchaltstellePanel schaltstellePanel = SchaltstellePanel.getInstance();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.belis.gui.documentpanel.DocumentPanel panDokumente;
+    private javax.swing.JPanel panEmpty;
     private javax.swing.JPanel panMain;
     private javax.swing.JScrollPane scpMain;
     // End of variables declaration//GEN-END:variables
@@ -78,6 +90,8 @@ public class DetailWidget extends DefaultWidget {
     public DetailWidget(final BelisBroker broker) {
         super(broker);
         initComponents();
+        setPanelsToCardLayout();
+        panMain.add(panDokumente, DOCUMENT_PANEL);
         // binding
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -91,6 +105,27 @@ public class DetailWidget extends DefaultWidget {
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setPanelsToCardLayout() {
+        addDetailWidgetPanelToPanMain(standortPanel);
+        addDetailWidgetPanelToPanMain(leuchtePanel);
+        addDetailWidgetPanelToPanMain(leitungPanel);
+        addDetailWidgetPanelToPanMain(abzweigdosePanel);
+        addDetailWidgetPanelToPanMain(mauerlaschePanel);
+        addDetailWidgetPanelToPanMain(schaltstellePanel);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  panel  DOCUMENT ME!
+     */
+    private void addDetailWidgetPanelToPanMain(final AbstractDetailWidgetPanel panel) {
+        panMain.add(panel, panel.PANEL_CARD_NAME);
+    }
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
@@ -139,36 +174,27 @@ public class DetailWidget extends DefaultWidget {
         firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
         bindingGroup.unbind();
         bindingGroup.bind();
-        panMain.removeAll();
-
-        setAllPanelsVisible(false);
 
         if (currentEntity == null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("current Entity is null");
             }
-            StandortPanel.getInstance().setVisible(false);
-            LeuchtePanel.getInstance().setVisible(false);
-            this.repaint();
+            final CardLayout cl = (CardLayout)(panMain.getLayout());
+            cl.show(panMain, "EMPTY_PANEL");
             return;
         }
         if (currentEntity instanceof TdtaStandortMastCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Standort");
             }
-            final StandortPanel standortPanel = StandortPanel.getInstance();
             standortPanel.setCurrentEntity((TdtaStandortMastCustomBean)currentEntity);
             standortPanel.setElementsNull();
 
-            panMain.add(standortPanel, BorderLayout.CENTER);
-            standortPanel.setVisible(true);
+            showPanel(standortPanel);
         } else if (currentEntity instanceof TdtaLeuchtenCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Leuchte");
             }
-            final LeuchtePanel leuchtePanel = LeuchtePanel.getInstance();
-            panMain.add(leuchtePanel, BorderLayout.CENTER);
-
             LOG.info("ParentNode: " + ((TdtaLeuchtenCustomBean)currentEntity).getStandort());
             if (((BelisBroker)broker).getWorkbenchWidget().isParentNodeMast(
                             ((BelisBroker)broker).getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
@@ -183,110 +209,75 @@ public class DetailWidget extends DefaultWidget {
             }
 
             leuchtePanel.setCurrentEntity((TdtaLeuchtenCustomBean)currentEntity);
-            leuchtePanel.setVisible(true);
             leuchtePanel.setElementsNull();
+            showPanel(leuchtePanel);
         } else if (currentEntity instanceof LeitungCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Leitung");
             }
-            final LeitungPanel leitungPanel = LeitungPanel.getInstance();
 
             leitungPanel.setCurrentEntity((LeitungCustomBean)currentEntity);
             leitungPanel.setElementsNull();
 
-            panMain.add(leitungPanel, BorderLayout.CENTER);
-            leitungPanel.setVisible(true);
+            showPanel(leitungPanel);
         } else if (currentEntity instanceof AbzweigdoseCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Abzweigdose");
             }
-            panMain.add(AbzweigdosePanel.getInstance(), BorderLayout.CENTER);
-            AbzweigdosePanel.getInstance().setVisible(true);
+            showPanel(abzweigdosePanel);
         } else if (currentEntity instanceof MauerlascheCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Mauerlasche");
             }
 
-            final MauerlaschePanel mauerlaschePanel = MauerlaschePanel.getInstance();
-
             mauerlaschePanel.setCurrentEntity((MauerlascheCustomBean)currentEntity);
             mauerlaschePanel.setElementsNull();
 
-            panMain.add(mauerlaschePanel, BorderLayout.CENTER);
-            mauerlaschePanel.setVisible(true);
+            showPanel(mauerlaschePanel);
         } else if (currentEntity instanceof SchaltstelleCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Schaltstelle");
             }
 
-            final SchaltstellePanel schaltstellePanel = SchaltstellePanel.getInstance();
-
             schaltstellePanel.setCurrentEntity((SchaltstelleCustomBean)currentEntity);
             schaltstellePanel.setElementsNull();
 
-            panMain.add(schaltstellePanel, BorderLayout.CENTER);
-            schaltstellePanel.setVisible(true);
+            showPanel(schaltstellePanel);
         } else {
             LOG.warn("no panel for entity available");
         }
         if (currentEntity instanceof DocumentContainer) {
             final DocumentContainer dc = (DocumentContainer)currentEntity;
-            panMain.add(panDokumente, BorderLayout.SOUTH);
-            panDokumente.setVisible(true);
-        } else {
-            panDokumente.setVisible(false);
+            final CardLayout cl = (CardLayout)(panMain.getLayout());
+            cl.show(panMain, DOCUMENT_PANEL);
         }
         this.repaint();
     }
+
     /**
-     * private void validateTest() { for (Binding curBinding : bindingGroup.getBindings()) { if (currentEntity
-     * instanceof Standort && panStandort.isAncestorOf((Component) curBinding.getTargetObject())) { log.debug("checking
-     * binding"); if (curBinding.getValidator() != null) { try { log.debug("Validator available. Property to check: " +
-     * curBinding.getTargetProperty()); log.debug("Property value: " +
-     * curBinding.getTargetProperty().getValue(curBinding.getTargetObject())); final Result valResult =
-     * curBinding.getValidator().validate(curBinding.getTargetProperty().getValue(curBinding.getTargetObject()));
-     * log.debug("Validation result: " + valResult); if (valResult != null) { for (BindingListener bindingListener :
-     * bindingGroup.getBindingListeners()) { bindingListener.syncFailed(curBinding,
-     * SyncFailure.validationFailure(valResult)); } } } catch (Exception ex) { log.error("Error while validating: ",
-     * ex); } } } } }
+     * DOCUMENT ME!
      *
-     * @param  visible  DOCUMENT ME!
+     * @param  panel  DOCUMENT ME!
      */
-    private void setAllPanelsVisible(final boolean visible) {
-        StandortPanel.getInstance().setVisible(visible);
-        LeuchtePanel.getInstance().setVisible(visible);
-        LeitungPanel.getInstance().setVisible(visible);
-        MauerlaschePanel.getInstance().setVisible(visible);
-        SchaltstellePanel.getInstance().setVisible(visible);
-        AbzweigdosePanel.getInstance().setVisible(visible);
+    private void showPanel(final AbstractDetailWidgetPanel panel) {
+        final CardLayout cl = (CardLayout)(panMain.getLayout());
+        cl.show(panMain, panel.PANEL_CARD_NAME);
     }
 
     @Override
     public void clearComponent() {
         super.clearComponent();
         setCurrentEntity(null);
-        // setAllPanelsVisible(false);
     }
 
     @Override
     public void setWidgetEditable(final boolean isEditable) {
         super.setWidgetEditable(isEditable);
-        // Standort fields
-        StandortPanel.getInstance().setPanelEditable(isEditable);
-
-        // Leuchte fields
-        LeuchtePanel.getInstance().setPanelEditable(isEditable);
-
-        // Leitungs fields
-        LeitungPanel.getInstance().setPanelEditable(isEditable);
-
-        // Mauerlasche fields
-        MauerlaschePanel.getInstance().setPanelEditable(isEditable);
-
-        // Schaltstelle fields
-        SchaltstellePanel.getInstance().setPanelEditable(isEditable);
-
-        // doc panel
+        standortPanel.setPanelEditable(isEditable);
+        leuchtePanel.setPanelEditable(isEditable);
+        leitungPanel.setPanelEditable(isEditable);
+        mauerlaschePanel.setPanelEditable(isEditable);
+        schaltstellePanel.setPanelEditable(isEditable);
         panDokumente.setEditable(isEditable);
     }
 
@@ -296,13 +287,13 @@ public class DetailWidget extends DefaultWidget {
     private void commitEdits() {
         if (currentEntity != null) {
             if (currentEntity instanceof TdtaLeuchtenCustomBean) {
-                LeuchtePanel.getInstance().commitEdits();
+                leuchtePanel.commitEdits();
             } else if (currentEntity instanceof TdtaStandortMastCustomBean) {
-                StandortPanel.getInstance().commitEdits();
+                standortPanel.commitEdits();
             } else if (currentEntity instanceof SchaltstelleCustomBean) {
-                SchaltstellePanel.getInstance().commitEdits();
+                schaltstellePanel.commitEdits();
             } else if (currentEntity instanceof MauerlascheCustomBean) {
-                MauerlaschePanel.getInstance().commitEdits();
+                mauerlaschePanel.commitEdits();
             }
         }
     }
@@ -320,10 +311,13 @@ public class DetailWidget extends DefaultWidget {
         panDokumente = new de.cismet.belis.gui.documentpanel.DocumentPanel();
         scpMain = new javax.swing.JScrollPane();
         panMain = new javax.swing.JPanel();
+        panEmpty = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
-        panMain.setLayout(new java.awt.BorderLayout());
+        panMain.setLayout(new java.awt.CardLayout());
+        panMain.add(panEmpty, "EMPTY_PANEL");
+
         scpMain.setViewportView(panMain);
 
         add(scpMain, java.awt.BorderLayout.CENTER);
@@ -345,6 +339,7 @@ public class DetailWidget extends DefaultWidget {
      */
     public void setPanDokumente(final DocumentPanel panDokumente) {
         this.panDokumente = panDokumente;
+        panMain.add(panDokumente, DOCUMENT_PANEL);
     }
 
     @Override

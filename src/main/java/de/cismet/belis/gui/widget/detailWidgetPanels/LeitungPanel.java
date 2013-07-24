@@ -69,6 +69,7 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
      * Creates new form LeitungPanel.
      */
     private LeitungPanel() {
+        super("LEITUNG_PANEL");
         initComponents();
         initComponentToLabelMap();
         initPanel();

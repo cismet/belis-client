@@ -11,6 +11,8 @@
  */
 package de.cismet.belis.gui.widget.detailWidgetPanels;
 
+import org.jdesktop.beansbinding.BindingGroup;
+
 import javax.swing.JPanel;
 
 /**
@@ -19,7 +21,7 @@ import javax.swing.JPanel;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public final class AbzweigdosePanel extends JPanel {
+public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -39,6 +41,7 @@ public final class AbzweigdosePanel extends JPanel {
      * Creates new form AbzweigdosePanel.
      */
     private AbzweigdosePanel() {
+        super("ABZWEIGDOSE_PANEL");
         initComponents();
     }
 
@@ -117,4 +120,29 @@ public final class AbzweigdosePanel extends JPanel {
                     javax.swing.GroupLayout.DEFAULT_SIZE,
                     Short.MAX_VALUE).addContainerGap()));
     } // </editor-fold>//GEN-END:initComponents
+
+    @Override
+    BindingGroup getBindingGroup() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    void initPanel() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    void initComponentToLabelMap() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setElementsNull() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setPanelEditable(final boolean isEditable) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

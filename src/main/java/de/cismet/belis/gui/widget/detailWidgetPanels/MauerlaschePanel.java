@@ -66,6 +66,7 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
      * Creates new form MauerlaschePanel.
      */
     private MauerlaschePanel() {
+        super("MAUERLASCHE_PANEL");
         initComponents();
         initComponentToLabelMap();
         initPanel();

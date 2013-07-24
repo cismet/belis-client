@@ -59,6 +59,8 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
 
     //~ Instance fields --------------------------------------------------------
 
+    public final String PANEL_CARD_NAME;
+
     protected T currentEntity = null;
     final String comboBoxNullValue = "Wert auswählen...";
     boolean isTriggerd = false;
@@ -68,8 +70,11 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
 
     /**
      * Creates a new AbstractDetailWidgetPanel object.
+     *
+     * @param  panelCardName  DOCUMENT ME!
      */
-    public AbstractDetailWidgetPanel() {
+    public AbstractDetailWidgetPanel(final String panelCardName) {
+        PANEL_CARD_NAME = panelCardName;
     }
 
     //~ Methods ----------------------------------------------------------------
