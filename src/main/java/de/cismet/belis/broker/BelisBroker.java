@@ -27,6 +27,8 @@ import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
 
+import org.jfree.util.Log;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -276,6 +278,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     // more often throughout the application ToDo if there is need for more special binding generalize this with static
     // binding methods (e.g. Master/Slave or other mechanismn)
     private final ArrayList<GeoBaseEntity> currentFeatures = new ArrayList<GeoBaseEntity>();
+    // Todo outsource in panel, the advantage is that it is easier to edit --> you can use the gui builder
+    // And don't know if it is good to have fix item in the toolbar
+    private EditButtonsToolbar editButtonsToolbar;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -658,6 +663,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     }
                 }.execute();
         } else {
+            setTitleBarComponentpainter(BelisBroker.EDIT_MODE_COLOR);
+            editButtonsToolbar.enableSwitchToModeButtons(false);
             switchInEditMode(true);
             new SwingWorker<Void, Void>() {
 
@@ -669,6 +676,15 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                     @Override
                     protected void done() {
+                        try {
+                            get();
+                        } catch (Exception e) {
+                            LOG.error("Problem while switching to Edit Mode", e);
+                            switchInEditMode(false);
+                            setTitleBarComponentpainter(BelisBroker.DEFAULT_MODE_COLOR);
+                            editButtonsToolbar.enableSwitchToModeButtons(true);
+                            return;
+                        }
                         setInEditMode(true);
                         setComponentsEditable(true);
                         getMappingComponent().setReadOnly(false);
@@ -1427,9 +1443,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public void setCmdPrint(final JButton cmdPrint) {
         this.cmdPrint = cmdPrint;
     }
-    // Todo outsource in panel, the advantage is that it is easier to edit --> you can use the gui builder
-    // And don't know if it is good to have fix item in the toolbar
-
     /**
      * DOCUMENT ME!
      */
@@ -1440,9 +1453,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             toolbar.setMinimumSize(new java.awt.Dimension(496, 27));
             toolbar.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 27));
 
-            final JPanel editPan = new EditButtonsToolbar();
-            editPan.setOpaque(false);
-            getToolbar().add(editPan);
+            editButtonsToolbar = new EditButtonsToolbar();
+            editButtonsToolbar.setOpaque(false);
+            getToolbar().add(editButtonsToolbar);
             addSeparatorToToolbar();
 
             cmdPrint.setIcon(new javax.swing.ImageIcon(

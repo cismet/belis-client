@@ -177,7 +177,6 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
             LOG.debug("Versuche in Editiermodus zu wechseln: ");
         }
         try {
-            switchInEditMode();
             broker.switchEditMode();
         } catch (Exception ex) {
             if (LOG.isDebugEnabled()) {
@@ -201,7 +200,6 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
             LOG.debug("try to switch in createmode", new CurrentStackTrace());
         }
         try {
-            switchInEditMode();
             broker.isPendingForCreateMode.set(true);
             broker.switchEditMode();
             // ToDo CreateFlag
@@ -222,11 +220,12 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  enable  DOCUMENT ME!
      */
-    private void switchInEditMode() {
-        btnSwitchInEditmode.setEnabled(false);
-        btnSwitchInCreateMode.setEnabled(false);
-        broker.setTitleBarComponentpainter(BelisBroker.EDIT_MODE_COLOR);
+    public void enableSwitchToModeButtons(final boolean enable) {
+        btnSwitchInEditmode.setEnabled(enable);
+        btnSwitchInCreateMode.setEnabled(enable);
     }
 
     /**
