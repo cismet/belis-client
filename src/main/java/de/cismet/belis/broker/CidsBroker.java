@@ -1198,6 +1198,10 @@ public class CidsBroker implements BelisServerRemote {
                 }
                 throw new ActionNotSuccessfulException("The object to lock is null");
             }
+        } catch (ActionNotSuccessfulException e) {
+            throw e;
+        } catch (LockAlreadyExistsException e) {
+            throw e;
         } catch (final Exception ex) {
             LOG.error("Exception while creating lock", ex);
             throw new ActionNotSuccessfulException("Exception while creating lock", ex);
