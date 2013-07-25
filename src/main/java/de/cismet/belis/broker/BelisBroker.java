@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -131,6 +132,7 @@ import de.cismet.commons.architecture.interfaces.Widget;
 import de.cismet.commons.architecture.plugin.AbstractPlugin;
 import de.cismet.commons.architecture.validation.Validatable;
 
+import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.entity.GeoBaseEntity;
 
 import de.cismet.commons2.architecture.layout.LayoutManager;
@@ -259,7 +261,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         new ArrayList<FeatureSelectionChangedListener>();
     private AlreadyLockedObjectsPanel lockPanel = null;
     // Todo maybe deliver mapWidget by default so the derived broker has direct access and don't have to search
-    private Set currentSearchResults = new TreeSet(new ReverseComparator(
+    private Set<BaseEntity> currentSearchResults = new TreeSet(new ReverseComparator(
                 new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
 //    public static final String PROP_NEW_OBJECTS = "currentSearchResults";
     private boolean inCreateMode;
@@ -1882,7 +1884,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @return  DOCUMENT ME!
      */
-    public Set getCurrentSearchResults() {
+    public Set<BaseEntity> getCurrentSearchResults() {
         return currentSearchResults;
     }
 
@@ -1891,7 +1893,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @param  currentSearchResults  DOCUMENT ME!
      */
-    public void setCurrentSearchResults(final Set currentSearchResults) {
+    public void setCurrentSearchResults(final Set<BaseEntity> currentSearchResults) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("setSearchResults");
         }

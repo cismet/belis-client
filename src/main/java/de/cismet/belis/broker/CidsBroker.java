@@ -1344,13 +1344,17 @@ public class CidsBroker implements BelisServerRemote {
     }
 
     @Override
-    public Collection<Object> unlockEntity(final Collection<SperreCustomBean> objectsToUnlock)
+    public Collection<Object> unlockEntity(final Collection<? extends BaseEntity> objectsToUnlock)
             throws ActionNotSuccessfulException {
         final ArrayList unsuccessfulUnlocking = new ArrayList();
         if (objectsToUnlock != null) {
             for (final BaseEntity curObject : objectsToUnlock) {
                 try {
-                    unlockEntity(curObject);
+                    if (curObject instanceof SperreCustomBean) {
+                        unlockEntity((SperreCustomBean)curObject);
+                    } else {
+                        unlockEntity(curObject);
+                    }
                 } catch (ActionNotSuccessfulException ex) {
                     unsuccessfulUnlocking.add(curObject);
                 }

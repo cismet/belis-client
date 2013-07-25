@@ -98,7 +98,8 @@ public interface lockEnabled extends Serializable {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    Collection<Object> unlockEntity(Collection<SperreCustomBean> objectsToUnlock) throws ActionNotSuccessfulException;
+    Collection<Object> unlockEntity(Collection<? extends BaseEntity> objectsToUnlock)
+            throws ActionNotSuccessfulException;
     /**
      * DOCUMENT ME!
      *
