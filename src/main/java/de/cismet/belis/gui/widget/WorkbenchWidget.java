@@ -1033,7 +1033,6 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
         } finally {
             ((BelisBroker)broker).setVetoCheckEnabled(true);
             broker.removeFeatureSelectionChangeIgnore(this);
-            ignoreFeatureSelection = false;
             isSelectedOverMap = false;
         }
     }
@@ -1049,6 +1048,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 @Override
                 public void run() {
                     broker.getMappingComponent().getFeatureCollection().select(feature);
+                    ignoreFeatureSelection = false;
                 }
             };
         SwingUtilities.invokeLater(runnable);
