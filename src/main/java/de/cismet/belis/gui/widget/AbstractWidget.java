@@ -13,7 +13,7 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-package de.cismet.commons2.architecture.widget;
+package de.cismet.belis.gui.widget;
 
 import org.apache.log4j.Logger;
 
@@ -29,7 +29,6 @@ import javax.swing.SwingWorker;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
 import de.cismet.commons.architecture.interfaces.Widget;
 import de.cismet.commons.architecture.validation.ValidationStateChangedListener;
 
@@ -50,30 +49,9 @@ public abstract class AbstractWidget extends JPanel implements Widget {
 
     //~ Instance fields --------------------------------------------------------
 
-// protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-//
-// /**
-// * Add PropertyChangeListener.
-// *
-// * @param listener
-// */
-// public void addPropertyChangeListener(PropertyChangeListener listener) {
-//
-// propertyChangeSupport.addPropertyChangeListener(listener);
-// }
-//
-// /**
-// * Remove PropertyChangeListener.
-// *
-// * @param listener
-// */
-// public void removePropertyChangeListener(PropertyChangeListener listener) {
-// propertyChangeSupport.removePropertyChangeListener(listener);
-// }
-
-    protected BelisBroker broker;
-    protected String widgetName = "Fenstername";
-    protected Icon widgetIcon;
+    private BelisBroker broker;
+    private String widgetName = "Fenstername";
+    private Icon widgetIcon;
 
     private final Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private final ArrayList<ValidationStateChangedListener> validationListeners =
@@ -89,11 +67,8 @@ public abstract class AbstractWidget extends JPanel implements Widget {
 
     /**
      * Creates a new instance of AbstractWidget.
-     *
-     * @param  broker  DOCUMENT ME!
      */
-    public AbstractWidget(final BelisBroker broker) {
-        this.broker = broker;
+    public AbstractWidget() {
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -285,13 +260,4 @@ public abstract class AbstractWidget extends JPanel implements Widget {
             }
         }
     }
-
-//    public BasicPluginBroker getBasicBroker() {
-//        return broker;
-//    }
-
-//    public void setBasicBroker(BasicPluginBroker basicBroker) {
-//        this.broker = basicBroker;
-//    }
-
 }

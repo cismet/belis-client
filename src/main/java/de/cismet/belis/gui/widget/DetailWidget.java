@@ -14,14 +14,11 @@ package de.cismet.belis.gui.widget;
 
 import org.jdesktop.beansbinding.BindingGroup;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
 import java.beans.PropertyChangeEvent;
 
 import java.util.ArrayList;
-
-import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.documentpanel.DocumentPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
@@ -42,8 +39,6 @@ import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
-import de.cismet.commons2.architecture.widget.DefaultWidget;
-
 import de.cismet.tools.CurrentStackTrace;
 
 /**
@@ -52,7 +47,8 @@ import de.cismet.tools.CurrentStackTrace;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public class DetailWidget extends DefaultWidget {
+@org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
+public class DetailWidget extends BelisWidget {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -84,11 +80,9 @@ public class DetailWidget extends DefaultWidget {
 
     /**
      * Creates a new DetailWidget object.
-     *
-     * @param  broker  DOCUMENT ME!
      */
-    public DetailWidget(final BelisBroker broker) {
-        super(broker);
+    public DetailWidget() {
+        setWidgetName("Details");
         initComponents();
         setPanelsToCardLayout();
         panMain.add(panDokumente, DOCUMENT_PANEL);
@@ -196,14 +190,14 @@ public class DetailWidget extends DefaultWidget {
                 LOG.debug("CurrentEntity is Leuchte");
             }
             LOG.info("ParentNode: " + ((TdtaLeuchtenCustomBean)currentEntity).getStandort());
-            if (((BelisBroker)broker).getWorkbenchWidget().isParentNodeMast(
-                            ((BelisBroker)broker).getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
+            if (getBroker().getWorkbenchWidget().isParentNodeMast(
+                            getBroker().getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("ParentNode ist Mast");
                 }
                 leuchtePanel.setInheritedMastPropertiesEnabled(false);
             } else {
-                if (broker.isInEditMode()) {
+                if (getBroker().isInEditMode()) {
                     leuchtePanel.setInheritedMastPropertiesEnabled(true);
                 }
             }

@@ -10,7 +10,7 @@
  *
  * Created on 16. März 2007, 12:04
  */
-package de.cismet.commons2.architecture.widget;
+package de.cismet.belis.gui.widget;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
@@ -53,7 +53,6 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.JoinPolygonsListener;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.SelectionListener;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.SimpleMoveListener;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.SplitPolygonListener;
-import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.commons.architecture.geometrySlot.GeometrySlotInformation;
 import de.cismet.commons.architecture.interfaces.NoPermissionsWidget;
@@ -71,7 +70,8 @@ import de.cismet.tools.gui.historybutton.JHistoryButton;
  * @author   Puhl
  * @version  $Revision$, $Date$
  */
-public class MapWidget extends DefaultWidget implements FeatureCollectionListener, NoPermissionsWidget {
+@org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
+public class MapWidget extends BelisWidget implements FeatureCollectionListener, NoPermissionsWidget {
 
     //~ Enums ------------------------------------------------------------------
 
@@ -136,20 +136,19 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
 
     /**
      * Creates new form KartenPanel.
-     *
-     * @param  broker  DOCUMENT ME!
      */
-    public MapWidget(final BelisBroker broker) {
-        super(broker);
-        mappingComponent = new MappingComponent();
-        log.fatal("Problem if lagis runs together with cismap or belis");
-        CismapBroker.getInstance().setMappingComponent(mappingComponent);
-        broker.setMappingComponent(mappingComponent);
-        // ToDo set currentMapMode at startup
-        // TODO make enumartion for InteractionModes
+    public MapWidget() {
+        setWidgetName("Karte");
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public void setBroker(final BelisBroker broker) {
+        super.setBroker(broker);
+        mappingComponent = broker.getMappingComponent();
+        initComponents();
+    }
 
     /**
      * DOCUMENT ME!
@@ -810,7 +809,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
      * @return  DOCUMENT ME!
      */
     public boolean assertMappingComponentMode(final String modeToAssert) {
-        final String currentInteractionMode = broker.getMappingComponent().getInteractionMode();
+        final String currentInteractionMode = getBroker().getMappingComponent().getInteractionMode();
         if (currentInteractionMode != null) {
             if (currentInteractionMode.equals(modeToAssert)) {
                 return true;
@@ -878,7 +877,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
             }
             // ((DefaultFeatureCollection)mappingComponent.getFeatureCollection()).setAllFeaturesEditable(isEditable);
             // TODO TEST IT!!!!
-            broker.getMappingComponent().setReadOnly(!isEditable);
+            getBroker().getMappingComponent().setReadOnly(!isEditable);
             cmdMovePolygon.setVisible(isEditable);
             // this.cmdNewPolygon.setVisible(b);
             cmdRemovePolygon.setVisible(isEditable);
@@ -918,7 +917,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
                         }
                         // ((DefaultFeatureCollection)mappingComponent.getFeatureCollection()).setAllFeaturesEditable(isEditable);
                         // TODO TEST IT!!!!
-                        broker.getMappingComponent().setReadOnly(!isEditable);
+                        getBroker().getMappingComponent().setReadOnly(!isEditable);
                         cmdMovePolygon.setVisible(isEditable);
                         // this.cmdNewPolygon.setVisible(b);
                         cmdRemovePolygon.setVisible(isEditable);
@@ -1224,7 +1223,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
         final PFeature pf = afl.getFeatureToAttach();
         if (pf.getFeature() instanceof PureNewFeature) {
             final Geometry g = pf.getFeature().getGeometry();
-            final GeometrySlotInformation slotInfo = broker.assignGeometry(g);
+            final GeometrySlotInformation slotInfo = getBroker().assignGeometry(g);
             if (slotInfo != null) {
                 slotInfo.getRefreshable().refresh(null);
                 mappingComponent.getFeatureCollection().removeFeature(pf.getFeature());
@@ -1411,7 +1410,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
     @Override
     public void masterConfigure(final Element parent) {
         System.out.println("MapWidget masterConfigure");
-        final ConfigurationManager configManager = broker.getConfigManager();
+        final ConfigurationManager configManager = getBroker().getConfigManager();
         configManager.addConfigurable((ActiveLayerModel)mappingModel);
         configManager.configure(mappingModel);
         mappingComponent.preparationSetMappingModel(mappingModel);
@@ -1566,7 +1565,7 @@ public class MapWidget extends DefaultWidget implements FeatureCollectionListene
             log.debug("FeatureSelection Changed");
         }
         final Collection<Feature> features = fce.getEventFeatures();
-        broker.fireChangeEvent(features);
+        getBroker().fireChangeEvent(features);
     }
 
     @Override

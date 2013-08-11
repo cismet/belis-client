@@ -23,13 +23,10 @@ import Sirius.server.newuser.permission.PermissionHolder;
 
 import org.apache.log4j.Logger;
 
-import org.openide.util.Exceptions;
-
 import java.awt.CardLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
 
 import javax.swing.JPanel;
 import javax.swing.event.TreeSelectionEvent;
@@ -38,17 +35,14 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.commons2.architecture.widget.DefaultWidget;
-
 /**
  * DOCUMENT ME!
  *
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class KeyTableWidget extends DefaultWidget {
+@org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
+public class KeyTableWidget extends BelisWidget {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -57,7 +51,7 @@ public class KeyTableWidget extends DefaultWidget {
 
     //~ Instance fields --------------------------------------------------------
 
-    final JPanel panDescOrEdit;
+    private JPanel panDescOrEdit;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
@@ -71,11 +65,16 @@ public class KeyTableWidget extends DefaultWidget {
 
     /**
      * Creates new form MetaCatalogueTreeWidget.
-     *
-     * @param  broker  DOCUMENT ME!
      */
-    public KeyTableWidget(final BelisBroker broker) {
-        super(broker);
+    public KeyTableWidget() {
+        setWidgetName("Schlüsseltabellen");
+    }
+
+    //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public void setBroker(final BelisBroker broker) {
+        super.setBroker(broker);
         initComponents();
 
         panDescOrEdit = (PropertyManager.getManager().isEditable())
@@ -90,7 +89,7 @@ public class KeyTableWidget extends DefaultWidget {
                 @Override
                 public void valueChanged(final TreeSelectionEvent e) {
                     if (panDescOrEdit instanceof AttributeEditor) {
-                        final MetaCatalogueTree currentTree = ComponentRegistry.getRegistry().getCatalogueTree();
+                        final MetaCatalogueTree currentTree = broker.getComponentRegistry().getCatalogueTree();
                         final DefaultMetaTreeNode selectedNode = currentTree.getSelectedNode();
                         if ((selectedNode != null) && (selectedNode.getNode() instanceof MetaObjectNode)) {
                             final MetaObjectNode metaObjectNode = (MetaObjectNode)selectedNode.getNode();
@@ -98,18 +97,18 @@ public class KeyTableWidget extends DefaultWidget {
                             if (MethodManager.getManager().checkPermission(
                                             metaObjectNode,
                                             PermissionHolder.WRITEPERMISSION)) {
-                                ComponentRegistry.getRegistry()
+                                broker.getComponentRegistry()
                                         .getAttributeEditor()
                                         .setTreeNode(currentTree.getSelectionPath(), selectedNode);
 
                                 final Collection<DefaultMutableTreeNode> coll = new ArrayList<DefaultMutableTreeNode>();
                                 coll.add(
-                                    (DefaultMutableTreeNode)ComponentRegistry.getRegistry().getAttributeEditor()
+                                    (DefaultMutableTreeNode)broker.getComponentRegistry().getAttributeEditor()
                                                 .getTreeNode());
 
-                                ComponentRegistry.getRegistry().getCatalogueTree().removeTreeSelectionListener(this);
-                                ComponentRegistry.getRegistry().getCatalogueTree().setSelectedNodes(coll, true);
-                                ComponentRegistry.getRegistry().getCatalogueTree().addTreeSelectionListener(this);
+                                broker.getComponentRegistry().getCatalogueTree().removeTreeSelectionListener(this);
+                                broker.getComponentRegistry().getCatalogueTree().setSelectedNodes(coll, true);
+                                broker.getComponentRegistry().getCatalogueTree().addTreeSelectionListener(this);
                                 final CardLayout cl = (CardLayout)(pnlValues.getLayout());
                                 cl.show(pnlValues, PAN_DESC_OR_EDIT);
                             } else {
@@ -123,8 +122,6 @@ public class KeyTableWidget extends DefaultWidget {
                 }
             });
     }
-
-    //~ Methods ----------------------------------------------------------------
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The

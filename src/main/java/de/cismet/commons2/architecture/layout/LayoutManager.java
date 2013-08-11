@@ -39,7 +39,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.Collection;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -49,9 +49,8 @@ import javax.swing.filechooser.FileFilter;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.commons.architecture.interfaces.Widget;
-
-import de.cismet.commons2.architecture.widget.AbstractWidget;
+import de.cismet.belis.gui.widget.AbstractWidget;
+import de.cismet.belis.gui.widget.BelisWidget;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -157,12 +156,12 @@ public class LayoutManager implements Configurable {
         }
 
         // return createdViews;
-        final Vector<Widget> widgets = broker.getWidgets();
+        final Collection<BelisWidget> widgets = broker.getWidgets();
         if (widgets != null) {
             if (log.isDebugEnabled()) {
                 log.debug("Widgets count: " + widgets.size());
             }
-            for (final Widget curWidget : widgets) {
+            for (final BelisWidget curWidget : widgets) {
                 try {
                     // ToDo proper solution for cast should be in architecture that there are no widgets which are not
                     // derived from AbstractWidget
@@ -573,17 +572,22 @@ public class LayoutManager implements Configurable {
             log.warn("Error while retrieving broker instance", ex);
         }
         try {
-//            String lookAndFeelName = layoutConf.getChildText("DefaultLookAndFeel");
-//            log.debug("Try to set LookAndFeel: " + lookAndFeelName);
-//            Class lookAndFeelClass = Class.forName(lookAndFeelName);
-//            Constructor constructor = lookAndFeelClass.getConstructor();
-//            lookAndFeel = (LookAndFeel) constructor.newInstance();
-//            javax.swing.UIManager.setLookAndFeel(lookAndFeel);
-//            log.debug("broker: "+broker);
-//            log.debug("broker ParentComponent: "+broker.getParentComponent());
-//            log.debug("ParentFrame: "+StaticSwingTools.getParentFrame(broker.getParentComponent()));
-//            SwingUtilities.updateComponentTreeUI(StaticSwingTools.getParentFrame(broker.getParentComponent()));
-            throw new UnsupportedOperationException("Not implemented yet.");
+            final String lookAndFeelName = layoutConf.getChildText("DefaultLookAndFeel");
+            if (log.isDebugEnabled()) {
+                log.debug("Try to set LookAndFeel: " + lookAndFeelName);
+            }
+            final Class lookAndFeelClass = Class.forName(lookAndFeelName);
+            final Constructor constructor = lookAndFeelClass.getConstructor();
+            lookAndFeel = (LookAndFeel)constructor.newInstance();
+            javax.swing.UIManager.setLookAndFeel(lookAndFeel);
+            if (log.isDebugEnabled()) {
+                log.debug("broker: " + broker);
+                log.debug("broker ParentComponent: " + broker.getParentComponent());
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("ParentFrame: " + StaticSwingTools.getParentFrame(broker.getParentComponent()));
+            }
+            SwingUtilities.updateComponentTreeUI(StaticSwingTools.getParentFrame(broker.getParentComponent()));
         } catch (Exception ex) {
             log.warn("Error while setting LookAndFeel", ex);
         }

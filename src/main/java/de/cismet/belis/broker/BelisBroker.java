@@ -7,6 +7,24 @@
 ****************************************************/
 package de.cismet.belis.broker;
 
+import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.event.CatalogueActivationListener;
+import Sirius.navigator.event.CatalogueSelectionListener;
+import Sirius.navigator.resource.PropertyManager;
+import Sirius.navigator.search.dynamic.SearchDialog;
+import Sirius.navigator.types.treenode.RootTreeNode;
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.DescriptionPane;
+import Sirius.navigator.ui.DescriptionPaneFS;
+import Sirius.navigator.ui.LayoutedContainer;
+import Sirius.navigator.ui.MutableMenuBar;
+import Sirius.navigator.ui.MutablePopupMenu;
+import Sirius.navigator.ui.MutableToolBar;
+import Sirius.navigator.ui.attributes.AttributeViewer;
+import Sirius.navigator.ui.attributes.editor.AttributeEditor;
+import Sirius.navigator.ui.tree.MetaCatalogueTree;
+import Sirius.navigator.ui.tree.SearchResultsTree;
+
 import com.vividsolutions.jts.geom.Geometry;
 
 import net.infonode.docking.RootWindow;
@@ -27,7 +45,7 @@ import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
 
-import org.jfree.util.Log;
+import org.openide.util.Lookup;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -35,26 +53,18 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.GridBagLayout;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Vector;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -64,13 +74,13 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.border.EmptyBorder;
 import javax.swing.tree.TreePath;
 
 import de.cismet.belis.gui.search.AddressSearchControl;
@@ -78,7 +88,10 @@ import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
 import de.cismet.belis.gui.search.SearchControl;
 import de.cismet.belis.gui.search.SearchController;
+import de.cismet.belis.gui.widget.BelisWidget;
 import de.cismet.belis.gui.widget.DetailWidget;
+import de.cismet.belis.gui.widget.ExtendedNavigatorAttributeEditorGui;
+import de.cismet.belis.gui.widget.MapWidget;
 import de.cismet.belis.gui.widget.WorkbenchWidget;
 
 import de.cismet.belis.panels.AlreadyLockedObjectsPanel;
@@ -117,7 +130,10 @@ import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.statusbar.StatusBar;
+import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.tools.IconUtils;
+
+import de.cismet.cismap.navigatorplugin.MetaSearchComponentFactory;
 
 import de.cismet.commons.architecture.exception.LockingNotSuccessfulException;
 import de.cismet.commons.architecture.geometrySlot.GeometrySlot;
@@ -127,8 +143,6 @@ import de.cismet.commons.architecture.interfaces.Clearable;
 import de.cismet.commons.architecture.interfaces.Editable;
 import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
 import de.cismet.commons.architecture.interfaces.ObjectChangeListener;
-import de.cismet.commons.architecture.interfaces.Refreshable;
-import de.cismet.commons.architecture.interfaces.Widget;
 import de.cismet.commons.architecture.plugin.AbstractPlugin;
 import de.cismet.commons.architecture.validation.Validatable;
 
@@ -136,7 +150,6 @@ import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.entity.GeoBaseEntity;
 
 import de.cismet.commons2.architecture.layout.LayoutManager;
-import de.cismet.commons2.architecture.widget.MapWidget;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -144,6 +157,7 @@ import de.cismet.tools.configuration.Configurable;
 import de.cismet.tools.configuration.ConfigurationManager;
 import de.cismet.tools.configuration.NoWriteError;
 
+import de.cismet.tools.gui.DefaultPopupMenuListener;
 import de.cismet.tools.gui.StaticSwingTools;
 
 import de.cismet.veto.VetoException;
@@ -226,12 +240,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     protected JButton cmdPrint = new javax.swing.JButton();
     protected JButton btnReload = new javax.swing.JButton();
     protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-    protected final Vector<Clearable> clearAndDisableListeners = new Vector<Clearable>();
-    protected MappingComponent mappingComponent;
+    protected final Collection<Clearable> clearAndDisableListeners = new ArrayList<Clearable>();
     protected MapWidget mapWidget = null;
-    protected final Vector<Widget> widgets = new Vector<Widget>();
+    protected final Collection<BelisWidget> widgets = new ArrayList<BelisWidget>();
     // ToDo make proper --> syncron with widgets
-    protected final Vector<Editable> editables = new Vector<Editable>();
+    protected final Collection<Editable> editables = new ArrayList<Editable>();
     protected JComponent parentComponent;
     protected JFrame parentFrame;
     // Permissions
@@ -246,6 +259,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     final CreateToolBar panCreate = new CreateToolBar(this);
     WorkbenchWidget workbenchWidget = null;
     final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
+    private AddressSearchControl asPan;
     private final LayoutManager layoutManager = new LayoutManager();
     private ConfigurationManager configManager;
     private JToolBar toolbar;
@@ -283,6 +297,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     // Todo outsource in panel, the advantage is that it is easier to edit --> you can use the gui builder
     // And don't know if it is good to have fix item in the toolbar
     private EditButtonsToolbar editButtonsToolbar;
+    private MetaSearchComponentFactory metaSearchComponentFactory;
+    private ComponentRegistry componentRegistry;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -290,10 +306,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * ToDo FIX.
      */
     private BelisBroker() {
-        System.out.println("constructor: " + BelisBroker.class.getName());
         execService = Executors.newCachedThreadPool();
-
-        System.out.println("Constructor: " + BelisBroker.class.getName());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -313,23 +326,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      *
-     * @param  widget  DOCUMENT ME!
+     * @param  metaSearchComponentFactory  DOCUMENT ME!
      */
-    public void addWidget(final Widget widget) {
-        widgets.add(widget);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  widgets  DOCUMENT ME!
-     */
-    public void addWidgets(final Vector widgets) {
-        final Iterator<Widget> it = widgets.iterator();
-        while (it.hasNext()) {
-            this.widgets.add(it.next());
-        }
-        // widgets.;
+    public void setMetaSearchComponentFactory(final MetaSearchComponentFactory metaSearchComponentFactory) {
+        this.metaSearchComponentFactory = metaSearchComponentFactory;
     }
 
     /**
@@ -337,7 +337,25 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @return  DOCUMENT ME!
      */
-    public Vector<Widget> getWidgets() {
+    public MetaSearchComponentFactory getMetaSearchComponentFactory() {
+        return metaSearchComponentFactory;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  widget  DOCUMENT ME!
+     */
+    public void addWidget(final BelisWidget widget) {
+        widgets.add(widget);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<BelisWidget> getWidgets() {
         return widgets;
     }
 
@@ -353,9 +371,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("Lagis Broker : Reset widgets");
                         }
-                        final Iterator<Widget> it = widgets.iterator();
-                        while (it.hasNext()) {
-                            final Widget tmp = it.next();
+                        for (final BelisWidget tmp : widgets) {
                             tmp.clearComponent();
                             tmp.setWidgetEditable(false);
                         }
@@ -368,9 +384,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (LOG.isDebugEnabled()) {
             LOG.debug("Lagis Broker : Reset widgets");
         }
-        final Iterator<Widget> it = widgets.iterator();
-        while (it.hasNext()) {
-            final Widget tmp = it.next();
+        for (final BelisWidget tmp : widgets) {
             tmp.clearComponent();
             tmp.setWidgetEditable(false);
         }
@@ -437,7 +451,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                     @Override
                     public void run() {
-                        for (final Widget curWidget : widgets) {
+                        for (final BelisWidget curWidget : widgets) {
                             // ToDo locking
                             if (isEditable) {
                                 ((ColorHighlighter)
@@ -457,7 +471,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     }
                 });
         } else {
-            for (final Widget curWidget : widgets) {
+            for (final BelisWidget curWidget : widgets) {
                 // ToDo locking
                 if (isEditable) {
                     // ALTERNATE_ROW_HIGHLIGHTER = HighlighterFactory.createAlternateStriping(ODD_ROW_EDIT_COLOR,
@@ -491,14 +505,14 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         final GeometrySlotInformation[] openSlots = collectGeometrySlots();
         switch (openSlots.length) {
             case 0: {
-                JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(mappingComponent),
+                JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getMappingComponent()),
                     "Es ist kein Element vorhanden dem eine Fläche zugeordnet werden kann\noder die entsprechenden Rechte sind nicht ausreichend",
                     "Geometrie zuordnen",
                     JOptionPane.INFORMATION_MESSAGE);
                 return null;
             }
             case 1: {
-                final int anwser = JOptionPane.showConfirmDialog(StaticSwingTools.getParentFrame(mappingComponent),
+                final int anwser = JOptionPane.showConfirmDialog(StaticSwingTools.getParentFrame(getMappingComponent()),
                         "Es ist genau ein Element vorhanden, dem eine Fläche zugeordnet werden kann:\n\n"
                                 + "    "
                                 + openSlots[0]
@@ -522,7 +536,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             }
             default: {
                 final GeometrySlotInformation selectedSlot = (GeometrySlotInformation)JOptionPane.showInputDialog(
-                        StaticSwingTools.getParentFrame(mappingComponent),
+                        StaticSwingTools.getParentFrame(getMappingComponent()),
                         "Bitte wählen Sie das Element, dem Sie die Geometrie zuordnen möchten:\n",
                         "Geometrie zuordnen",
                         JOptionPane.PLAIN_MESSAGE,
@@ -553,10 +567,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @return  DOCUMENT ME!
      */
     protected GeometrySlotInformation[] collectGeometrySlots() {
-        final Vector<GeometrySlotInformation> openSlots = new Vector<GeometrySlotInformation>();
-        final Iterator<Widget> it = widgets.iterator();
-        while (it.hasNext()) {
-            final Widget curWidget = it.next();
+        final Collection<GeometrySlotInformation> openSlots = new ArrayList<GeometrySlotInformation>();
+        for (final BelisWidget curWidget : widgets) {
             if (curWidget instanceof GeometrySlotProvider) {
                 openSlots.addAll(((GeometrySlotProvider)curWidget).getSlotInformation());
             }
@@ -570,10 +582,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @param  event  DOCUMENT ME!
      */
     public void fireChangeEvent(final Object event) {
-        final Iterator<Widget> it = widgets.iterator();
-        while (it.hasNext()) {
-            final Widget curWidget = it.next();
-            // TODO HARDCORE UGLY
+        for (final BelisWidget curWidget : widgets) {
             if ((curWidget instanceof FeatureSelectionChangedListener) && (event instanceof Collection)) {
                 if (!featureSelectionChangedIgnoredWidgets.contains(curWidget)) {
                     ((FeatureSelectionChangedListener)curWidget).featureSelectionChanged((Collection<Feature>)event);
@@ -626,7 +635,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @return  DOCUMENT ME!
      */
     public MappingComponent getMappingComponent() {
-        return mappingComponent;
+        return CismapBroker.getInstance().getMappingComponent();
     }
 
     /**
@@ -635,7 +644,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @param  aMappingComponent  DOCUMENT ME!
      */
     public void setMappingComponent(final MappingComponent aMappingComponent) {
-        mappingComponent = aMappingComponent;
+        CismapBroker.getInstance().setMappingComponent(aMappingComponent);
     }
 
     /**
@@ -741,9 +750,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @return  DOCUMENT ME!
      */
     public boolean validateWidgets() {
-        final Iterator<Widget> it = widgets.iterator();
-        while (it.hasNext()) {
-            final Widget currentWidget = it.next();
+        for (final BelisWidget currentWidget : widgets) {
             if (currentWidget.getStatus() == Validatable.ERROR) {
                 currentValidationErrorMessage = currentWidget.getValidationMessage();
                 if (currentValidationErrorMessage == null) {
@@ -776,33 +783,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      *
-     * @param   refreshClass  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Refreshable getRefreshableByClass(final Class<?> refreshClass) {
-        final Iterator<Widget> it = widgets.iterator();
-        while (it.hasNext()) {
-            final Refreshable curRefreshable = it.next();
-            if (curRefreshable.getClass().equals(refreshClass)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("ein Refreshable gefunden");
-                }
-                return curRefreshable;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @param  refreshingObject  DOCUMENT ME!
      */
     public void refreshWidgets(final Object refreshingObject) {
-        final Iterator<Widget> it = widgets.iterator();
-        while (it.hasNext()) {
-            final Refreshable curRefreshable = it.next();
+        for (final BelisWidget curRefreshable : widgets) {
             curRefreshable.refresh(refreshingObject);
         }
     }
@@ -886,6 +870,132 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         return null;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ComponentRegistry getComponentRegistry() {
+        return componentRegistry;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  componentRegistry  DOCUMENT ME!
+     */
+    public void setComponentRegistry(final ComponentRegistry componentRegistry) {
+        this.componentRegistry = componentRegistry;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   frame  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public void initComponentRegistry(final JFrame frame) throws Exception {
+        final SearchResultsTree searchResultsTree = new SearchResultsTree();
+        final MutableToolBar toolBar = new MutableToolBar();
+        final MutableMenuBar menuBar = new MutableMenuBar();
+        final LayoutedContainer container = new LayoutedContainer(toolBar, menuBar, true);
+        final AttributeViewer attributeViewer = new AttributeViewer();
+        final AttributeEditor attributeEditor = new ExtendedNavigatorAttributeEditorGui();
+        final SearchDialog searchDialog = null;
+
+        final DescriptionPane descriptionPane = new DescriptionPaneFS();
+        final MutablePopupMenu popupMenu = new MutablePopupMenu();
+
+        final Collection<Component> toRemoveComponents = new ArrayList<Component>();
+        for (final Component component : popupMenu.getComponents()) {
+            if ((component instanceof JSeparator)
+                        || ((component instanceof JMenuItem)
+                            && (((JMenuItem)component).getActionCommand() != null)
+                            && (((JMenuItem)component).getActionCommand().equals("cmdSearch")
+                                || ((JMenuItem)component).getActionCommand().equals("treecommand")))) {
+                toRemoveComponents.add(component);
+            }
+        }
+        for (final Component toRemoveComponent : toRemoveComponents) {
+            popupMenu.remove(toRemoveComponent);
+        }
+
+        final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
+        final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
+        final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
+                rootTreeNode,
+                PropertyManager.getManager().isEditable(),
+                true,
+                5);
+        final CatalogueSelectionListener catalogueSelectionListener = new CatalogueSelectionListener(
+                attributeViewer,
+                descriptionPane);
+        final CatalogueActivationListener catalogueActivationListener = new CatalogueActivationListener(
+                metaCatalogueTree,
+                attributeViewer,
+                descriptionPane);
+
+        metaCatalogueTree.addMouseListener(cataloguePopupMenuListener);
+        metaCatalogueTree.addTreeSelectionListener(catalogueSelectionListener);
+        metaCatalogueTree.addComponentListener(catalogueActivationListener);
+
+        ComponentRegistry.registerComponents(
+            frame,
+            container,
+            menuBar,
+            toolBar,
+            popupMenu,
+            metaCatalogueTree,
+            searchResultsTree,
+            attributeViewer,
+            attributeEditor,
+            searchDialog,
+            descriptionPane);
+
+        setComponentRegistry(ComponentRegistry.getRegistry());
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void lookupWidgets() {
+        try {
+            for (final BelisWidget widget : Lookup.getDefault().lookupAll(BelisWidget.class)) {
+                try {
+                    widget.setBroker(this);
+                    if (widget instanceof MapWidget) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Mapwidget found");
+                        }
+                        mapWidget = (MapWidget)widget;
+                    }
+
+                    addWidget(widget);
+                } catch (Exception ex) {
+                    LOG.error("Error while initializing widget", ex);
+                }
+            }
+        } catch (Throwable ex) {
+            LOG.error("Error while lookup of widgets", ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void initMappingComponent() {
+        final MappingComponent mappingComponent = new MappingComponent();
+        final MetaSearchComponentFactory metaSearchComponentFactory = MetaSearchComponentFactory.createNewInstance(
+                true,
+                MappingComponent.CREATE_SEARCH_POLYGON,
+                mappingComponent,
+                null);
+
+        setMappingComponent(mappingComponent);
+        setMetaSearchComponentFactory(metaSearchComponentFactory);
+    }
+
     @Override
     public void masterConfigure(final Element parent) {
         initToolbar();
@@ -924,35 +1034,16 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 final Element loggingConf = parent.getChild("Logging");
                 loggingProperties = loggingConf.getChildText("LoggingProperties");
                 initLog4J();
-            } catch (Exception ex) {
-                System.out.println("Error while configuring logging");
-                ex.printStackTrace();
-            }
-
-            // Initialize Widgets
-            try {
-                final Element widgets = parent.getChild("Widgets");
-                if (widgets != null) {
-                    for (final Element curWidget : (List<Element>)widgets.getChildren()) {
-                        try {
-                            addWidget(createWidget(curWidget));
-                        } catch (Throwable ex) {
-                            // ToDo proper print out of Widget
-                            LOG.error("Error while initializing widget: " + curWidget, ex);
-                        }
-                    }
-                } else {
-                    LOG.warn("No widgets available (widgets=null)");
-                }
-            } catch (Exception ex) {
-                LOG.error("Error while initializing widgets", ex);
+            } catch (final Exception ex) {
+                LOG.error("Error while configuring logging", ex);
             }
 
             System.out.println("masterConfigure: " + BelisBroker.class.getName());
             configManager.addConfigurable(layoutManager);
             configManager.configure(layoutManager);
-
-            for (final Widget widget : getWidgets()) {
+            configManager.addConfigurable(metaSearchComponentFactory);
+            configManager.configure(metaSearchComponentFactory);
+            for (final BelisWidget widget : getWidgets()) {
                 configManager.addConfigurable(widget);
                 configManager.configure(widget);
             }
@@ -985,53 +1076,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
 
         showMainApplication();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   widgetElement  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ClassNotFoundException     DOCUMENT ME!
-     * @throws  NoSuchMethodException      DOCUMENT ME!
-     * @throws  InstantiationException     DOCUMENT ME!
-     * @throws  IllegalAccessException     DOCUMENT ME!
-     * @throws  IllegalArgumentException   DOCUMENT ME!
-     * @throws  InvocationTargetException  DOCUMENT ME!
-     */
-    private Widget createWidget(final Element widgetElement) throws ClassNotFoundException,
-        NoSuchMethodException,
-        InstantiationException,
-        IllegalAccessException,
-        IllegalArgumentException,
-        InvocationTargetException {
-        final String widgetName = widgetElement.getChildText("WidgetName");
-        final String widgetClassName = widgetElement.getChildText("WidgetClass");
-        final String widgetIconPath = widgetElement.getChildText("WidgetIcon");
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("WidgetName: " + widgetName);
-            LOG.debug("WidgetIcon: " + widgetIconPath);
-            LOG.debug("Try to find class: " + widgetClassName + " for Widget: " + widgetName);
-        }
-        final Class widgetClass = Class.forName(widgetClassName);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Try to create instance of Class: " + widgetClass.getName());
-        }
-        final Constructor constructor = widgetClass.getConstructor(BelisBroker.class);
-        final Widget createdWidget = (Widget)constructor.newInstance(this);
-        createdWidget.setWidgetName(widgetName);
-        createdWidget.setWidgetIcon(widgetIconPath);
-        // ToDo set attributes isCoreWidget etc
-        // ToDo flag and interface for MapWidget (Abstraction)
-        if (createdWidget instanceof MapWidget) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Mapwidget found");
-            }
-            mapWidget = (MapWidget)createdWidget;
-        }
-        return createdWidget;
     }
 
     /**
@@ -1600,23 +1644,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     }
 
     /**
-     * DOCUMENT ME!
-     */
-    private void cleanUp() {
-        workbenchWidget.objectsRemoved();
-        if (isInCreateMode()) {
-            workbenchWidget.clearNewObjects();
-            // ToDo search Map for Objects
-        } else {
-        }
-        // ToDo disabled Functionality 04.05.2009
-        // workbenchWidget.moveNewObjectsAfterSave();
-        if (isInCreateMode()) {
-            setCurrentSearchResults(new TreeSet());
-        }
-    }
-
-    /**
      * ToDo!!! use Backgroundworker
      *
      * @return  DOCUMENT ME!
@@ -1837,6 +1864,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         addCreateToolBar();
         addAddressSearch();
         addLocationSearch();
+        getToolbar().add(metaSearchComponentFactory.getCmdPluginSearch());
+        addSeparatorToToolbar();
         addMapSearchControl();
         btnAcceptChanges.setIcon(BelisIcons.icoAccept22);
         btnDiscardChanges.setIcon(BelisIcons.icoCancel22);
@@ -1918,39 +1947,43 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @param   kennziffer          DOCUMENT ME!
      * @param   laufendenummer      DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
-     *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    public Set search(final String strassenschluessel, final Integer kennziffer, final Integer laufendenummer)
+    public void search(final String strassenschluessel, final Integer kennziffer, final Integer laufendenummer)
             throws ActionNotSuccessfulException {
-        // ToDo remove method
-        clearMap();
         final Set result = CidsBroker.getInstance().getObjectsByKey(strassenschluessel, kennziffer, laufendenummer);
-        // ToDo should be checked if is in EDT
-        if (result != null) {
+        setSearchResult(result);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  set  DOCUMENT ME!
+     */
+    public void setSearchResult(final Set set) {
+        if (set != null) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Search results: " + result.size());
+                LOG.debug("Search results: " + set.size());
             }
         } else {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Search results delivered no result");
             }
         }
-        final Set tmp = result;
+
+        clearMap();
         EventQueue.invokeLater(new Runnable() {
 
                 @Override
                 public void run() {
-                    if ((tmp != null) && !IsGreaterMaxSearchResults(tmp.size())) {
-                        setCurrentSearchResults(tmp);
+                    if ((set != null) && !IsGreaterMaxSearchResults(set.size())) {
+                        setCurrentSearchResults(set);
                         // ToDo PropertyChangeListener;
                         refreshMap();
-                        mappingComponent.zoomToFullFeatureCollectionBounds();
+                        getMappingComponent().zoomToFullFeatureCollectionBounds();
                     }
                 }
             });
-        return result;
     }
 
     /**
@@ -2016,44 +2049,16 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @param   bb  DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
-     *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    public Set search(final BoundingBox bb) throws ActionNotSuccessfulException {
+    public void search(final BoundingBox bb) throws ActionNotSuccessfulException {
         Set result = null;
         try {
-            clearMap();
             result = CidsBroker.getInstance().getObjectsByBoundingBox(bb);
-            if (result != null) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Search results: " + result.size());
-                }
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Search results delivered no result");
-                }
-            }
-            final Set tmp = result;
-            EventQueue.invokeAndWait(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if ((tmp != null) && !IsGreaterMaxSearchResults(tmp.size())) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug(tmp);
-                            }
-                            setCurrentSearchResults(tmp);
-                            // ToDo PropertyChangeListener;
-                            refreshMap();
-                        }
-                    }
-                });
+            setSearchResult(result);
         } catch (Exception ex) {
             LOG.error("Exception while searching boundingbox: ", ex);
-            return new TreeSet();
         }
-        return result;
     }
 
     /**
@@ -2183,7 +2188,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
         WorkbenchWidget wWidget = null;
         DetailWidget dWidget = null;
-        for (final Widget curWidget : getWidgets()) {
+        for (final BelisWidget curWidget : getWidgets()) {
             if ((wWidget != null) && (dWidget != null)) {
                 break;
             } else if (curWidget instanceof WorkbenchWidget) {
@@ -2371,10 +2376,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (LOG.isDebugEnabled()) {
             LOG.debug("Customizing MapWidget");
         }
-        final Vector<Widget> widgets = getWidgets();
+        final Collection<BelisWidget> widgets = getWidgets();
         MapWidget mapWidget = null;
         if (widgets != null) {
-            for (final Widget curWidget : widgets) {
+            for (final BelisWidget curWidget : widgets) {
                 if ((curWidget != null) && (curWidget instanceof MapWidget)) {
                     mapWidget = (MapWidget)curWidget;
                 }
@@ -2416,9 +2421,18 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     /**
      * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public AddressSearchControl getAddressSearch() {
+        return asPan;
+    }
+
+    /**
+     * DOCUMENT ME!
      */
     private void addAddressSearch() {
-        final AddressSearchControl asPan = new AddressSearchControl(this);
+        asPan = new AddressSearchControl(this);
         // ToDo should haben in Panels itself;
         addSearchControl(asPan);
         asPan.setMappingComponent(getMappingComponent());

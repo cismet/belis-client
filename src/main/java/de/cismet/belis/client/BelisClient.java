@@ -13,27 +13,10 @@ import Sirius.navigator.connection.ConnectionInfo;
 import Sirius.navigator.connection.ConnectionSession;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.connection.proxy.ConnectionProxy;
-import Sirius.navigator.event.CatalogueActivationListener;
-import Sirius.navigator.event.CatalogueSelectionListener;
 import Sirius.navigator.plugin.interfaces.FloatingPluginUI;
 import Sirius.navigator.resource.PropertyManager;
-import Sirius.navigator.search.dynamic.SearchDialog;
-import Sirius.navigator.types.treenode.RootTreeNode;
-import Sirius.navigator.ui.ComponentRegistry;
-import Sirius.navigator.ui.DescriptionPane;
-import Sirius.navigator.ui.DescriptionPaneFS;
-import Sirius.navigator.ui.LayoutedContainer;
-import Sirius.navigator.ui.MutableMenuBar;
-import Sirius.navigator.ui.MutablePopupMenu;
-import Sirius.navigator.ui.MutableToolBar;
-import Sirius.navigator.ui.attributes.AttributeViewer;
-import Sirius.navigator.ui.attributes.editor.AttributeEditor;
-import Sirius.navigator.ui.tree.MetaCatalogueTree;
-import Sirius.navigator.ui.tree.SearchResultsTree;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
-
-import org.apache.log4j.PropertyConfigurator;
 
 import org.jdesktop.swingx.JXLoginPane;
 import org.jdesktop.swingx.JXPanel;
@@ -43,7 +26,6 @@ import org.jdesktop.swingx.auth.LoginService;
 import org.jdom.Element;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -74,14 +56,11 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.belis.gui.widget.ExtendedNavigatorAttributeEditorGui;
 
 import de.cismet.belis.util.BelisIcons;
 
@@ -100,7 +79,6 @@ import de.cismet.tools.configuration.Configurable;
 import de.cismet.tools.configuration.ConfigurationManager;
 import de.cismet.tools.configuration.NoWriteError;
 
-import de.cismet.tools.gui.DefaultPopupMenuListener;
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 import de.cismet.tools.gui.startup.StaticStartupTools;
 
@@ -161,6 +139,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     private javax.swing.JMenu menFile;
     private javax.swing.JMenu menHelp;
     private javax.swing.JMenu menHistory;
+    private javax.swing.JMenu menSearch;
     private javax.swing.JMenu menWindow;
     private javax.swing.JMenuItem mniAbout;
     private javax.swing.JMenuItem mniAddBookmark;
@@ -212,65 +191,13 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                 }
             });
         try {
-            initComponents();
-
-            final SearchResultsTree searchResultsTree = new SearchResultsTree();
-            final MutableToolBar toolBar = new MutableToolBar();
-            final MutableMenuBar menuBar = new MutableMenuBar();
-            final LayoutedContainer container = new LayoutedContainer(toolBar, menuBar, true);
-            final AttributeViewer attributeViewer = new AttributeViewer();
-            final AttributeEditor attributeEditor = new ExtendedNavigatorAttributeEditorGui();
-            final SearchDialog searchDialog = null;
-
-            final DescriptionPane descriptionPane = new DescriptionPaneFS();
-            final MutablePopupMenu popupMenu = new MutablePopupMenu();
-
-            final Collection<Component> toRemoveComponents = new ArrayList<Component>();
-            for (final Component component : popupMenu.getComponents()) {
-                if ((component instanceof JSeparator)
-                            || ((component instanceof JMenuItem)
-                                && (((JMenuItem)component).getActionCommand() != null)
-                                && (((JMenuItem)component).getActionCommand().equals("cmdSearch")
-                                    || ((JMenuItem)component).getActionCommand().equals("treecommand")))) {
-                    toRemoveComponents.add(component);
-                }
-            }
-            for (final Component toRemoveComponent : toRemoveComponents) {
-                popupMenu.remove(toRemoveComponent);
-            }
-
-            final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
-            final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
-            final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
-                    rootTreeNode,
-                    PropertyManager.getManager().isEditable(),
-                    true,
-                    5);
-            final CatalogueSelectionListener catalogueSelectionListener = new CatalogueSelectionListener(
-                    attributeViewer,
-                    descriptionPane);
-            final CatalogueActivationListener catalogueActivationListener = new CatalogueActivationListener(
-                    metaCatalogueTree,
-                    attributeViewer,
-                    descriptionPane);
-
-            metaCatalogueTree.addMouseListener(cataloguePopupMenuListener);
-            metaCatalogueTree.addTreeSelectionListener(catalogueSelectionListener);
-            metaCatalogueTree.addComponentListener(catalogueActivationListener);
-
-            ComponentRegistry.registerComponents((JFrame)this,
-                container,
-                menuBar,
-                toolBar,
-                popupMenu,
-                metaCatalogueTree,
-                searchResultsTree,
-                attributeViewer,
-                attributeEditor,
-                searchDialog,
-                descriptionPane);
-
             clipboarder = new ClipboardWaitDialog(this, true);
+
+            broker = BelisBroker.getInstance();
+            broker.initComponentRegistry(this);
+            broker.initMappingComponent();
+            broker.lookupWidgets();
+            initComponents();
 
             configurePlugin();
 
@@ -326,8 +253,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             }
         } catch (final Exception ex) {
             LOG.fatal("Fatal Error in Abstract Plugin Constructor.", ex);
-            System.out.println("Fatal Error in Abstract Plugin Constructor.");
-            ex.printStackTrace();
         }
 
         this.setIconImage(BelisIcons.applicationIcon.getImage());
@@ -472,7 +397,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         System.out.println("Master Configure: " + getClass().getName());
         try {
             try {
-                broker = BelisBroker.getInstance();
                 try {
                     final String applicationName = parent.getChild("Configuration").getChildText("ApplicationName");
                     this.setTitle(applicationName);
@@ -525,6 +449,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         mniClose = new javax.swing.JMenuItem();
         menEdit = new javax.swing.JMenu();
         mniRefresh = new javax.swing.JMenuItem();
+        menSearch = broker.getMetaSearchComponentFactory().getMenSearch();
         menHistory = new javax.swing.JMenu();
         mniBack = new javax.swing.JMenuItem();
         mniForward = new javax.swing.JMenuItem();
@@ -655,6 +580,9 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         menEdit.add(mniRefresh);
 
         mnuBar.add(menEdit);
+
+        menSearch.setText("Suche");
+        mnuBar.add(menSearch);
 
         menHistory.setMnemonic('C');
         menHistory.setText("Chronik");
@@ -1178,8 +1106,8 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         try {
             final Plastic3DLookAndFeel lf = new Plastic3DLookAndFeel();
             javax.swing.UIManager.setLookAndFeel(lf);
-        } catch (Exception ex) {
-            LOG.error("Fehler beim setzen des Look & Feels");
+        } catch (final Exception ex) {
+            LOG.error("Fehler beim setzen des Look & Feels", ex);
         }
         final Thread t = new Thread() {
 

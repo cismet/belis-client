@@ -27,7 +27,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
+public class RetrieveWorker extends SwingWorker<Void, Void> {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -88,15 +88,16 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    protected Set<BaseEntity> doInBackground() throws Exception {
+    protected Void doInBackground() throws Exception {
         if (boundingBox != null) {
-            return broker.search(boundingBox);
+            broker.search(boundingBox);
         } else {
             if (log.isDebugEnabled()) {
                 log.debug("Strassenschluessel: " + strassenschluessel);
             }
-            return broker.search(strassenschluessel, kennziffer, laufendenummer);
+            broker.search(strassenschluessel, kennziffer, laufendenummer);
         }
+        return null;
     }
 
     @Override
@@ -106,37 +107,6 @@ public class RetrieveWorker extends SwingWorker<Set<BaseEntity>, Void> {
             log.warn("retrieveWorker is canceled --> nothing to do in method done()");
             return;
         }
-//        try {
-//                      Set<ObjectKey> result = get();
-//                      if(result != null){
-//                          log.debug("result != null. result size: "+result.size());
-//                      } else {
-//                          log.debug("result ==  null");
-//                      }
-//                    if (entities.size() > 0) {
-//                        fireIntervalAdded(this, entities.size() - 1, entities.size() - 1);
-//                        setSelectedItem(entities.get(0));
-//                    }
-//                    if (Strassenschluessel.class.isAssignableFrom(modelType)) {
-//                        log.debug("StrassenschluesselComboBox");
-//
-//                    } else if (Kennziffer.class.isAssignableFrom(modelType)) {
-//                        log.debug("KennzifferComboBox");
-//                    } else {
-//                        log.debug("Unbekannte Klasse");
-        try {
-            if (log.isDebugEnabled()) {
-                log.debug("Ergebniss: " + get());
-            }
-        } catch (Exception ex) {
-            log.error("Failure during processing RetrieveWorker results", ex);
-            return;
-        }
-//                    }
-//        } catch (Exception ex) {
-//            log.error("Failure during processing RetrieveWorker results", ex);
-//            return;
-//        }
     }
 
     /**

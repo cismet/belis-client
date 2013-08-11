@@ -42,36 +42,18 @@ import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 import de.cismet.belisEE.util.StandortKey;
 
-import de.cismet.cids.custom.beans.belis.BauartCustomBean;
 import de.cismet.cids.custom.beans.belis.GeomCustomBean;
-import de.cismet.cids.custom.beans.belis.GeomToEntityIndexCustomBean;
-import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
-import de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean;
-import de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
-import de.cismet.cids.custom.beans.belis.QuerschnittCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.SperreCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.BoundingBox;
 
 import de.cismet.commons.server.entity.BaseEntity;
-import de.cismet.commons.server.entity.GeoBaseEntity;
 
 /**
  * DOCUMENT ME!
@@ -637,23 +619,12 @@ public class CidsBroker implements BelisServerRemote {
 //                                       }
 //                                   }
 //                                }
-                                if (curEntity instanceof GeoBaseEntity) {
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug("instance is GeoBaseEntity");
-                                    }
-                                    updateGeomIndex((GeoBaseEntity)curEntity, true);
-                                }
                                 savedEntities.add(curEntity);
                             } else {
                                 if (LOG.isDebugEnabled()) {
                                     LOG.debug("Entity Id is set --> merge entity (update).");
                                 }
                                 final BaseEntity refreshedEntity = (BaseEntity)curEntity.persist();
-                                if (refreshedEntity instanceof GeoBaseEntity) {
-                                    // ToDo
-                                    // updateGeomIndex((GeoBaseEntity) curEntity, false);
-                                    updateGeomIndex((GeoBaseEntity)refreshedEntity, false);
-                                }
                                 savedEntities.add(refreshedEntity);
                             }
                         } else {
@@ -824,95 +795,6 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   entity  DOCUMENT ME!
-     * @param   isNew   DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    private void updateGeomIndex(final GeoBaseEntity entity, final boolean isNew) throws ActionNotSuccessfulException {
-        try {
-            if (isNew) {
-                if (entity.getGeometrie() != null) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Persisted GeoBaseEntity has Geom object. Creating entry in index");
-                    }
-                    final GeomToEntityIndexCustomBean newIndex = GeomToEntityIndexCustomBean.createNew();
-                    newIndex.setGeometry(entity.getGeometrie());
-                    newIndex.setEntityClassId(entity.getMetaObject().getMetaClass().getId());
-                    final Integer entityID = entity.getId();
-                    if (entityID != null) {
-                        newIndex.setEntityID(entityID);
-                    } else {
-                        throw new ActionNotSuccessfulException("Entity has no id, can't create geom index");
-                    }
-                    newIndex.persist();
-                }
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Persisted GeoBaseEntity is saved checking Geom index");
-                }
-                if (entity.getGeometrie() != null) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Geometry is available.");
-                    }
-                    final GeomToEntityIndexCustomBean indexBean = getGeomIndexById(entity.getGeometrie().getId());
-                    if (indexBean != null) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("IndexAvailable.Updating Geometry");
-                        }
-                        indexBean.setGeometry(entity.getGeometrie());
-                        indexBean.persist();
-                    } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Warning no index available. Creating Index");
-                        }
-                        updateGeomIndex(entity, true);
-                    }
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Entity has no geometry set. Doing nothing");
-                    }
-                }
-            }
-        } catch (final Exception ex) {
-            LOG.error("error while persist geom index", ex);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   id  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    private GeomToEntityIndexCustomBean getGeomIndexById(final Integer id) throws ActionNotSuccessfulException {
-        if (id != null) {
-            final MetaClass mcGeomToEntityIndex = getMetaClass(GeomToEntityIndexCustomBean.TABLE, BELIS_DOMAIN);
-            final MetaClass mcGeom = getMetaClass(GeomCustomBean.TABLE, BELIS_DOMAIN);
-            final MetaObject[] mos = CidsBroker.getInstance()
-                        .getMetaObject("SELECT " + mcGeomToEntityIndex.getID() + ", "
-                            + "gtei." + mcGeomToEntityIndex.getPrimaryKey() + " "
-                            + "FROM "
-                            + mcGeomToEntityIndex.getTableName() + " AS gtei, "
-                            + mcGeom.getTableName() + " AS g "
-                            + "WHERE gtei.fk_geom = g.id "
-                            + "AND g.id = " + id + ";",
-                            BELIS_DOMAIN);
-
-            if ((mos != null) && (mos.length > 0)) {
-                final GeomToEntityIndexCustomBean geomIndex = (GeomToEntityIndexCustomBean)mos[0].getBean();
-                return geomIndex;
-            }
-        }
-        return null;
-    }
-
     @Override
     public Collection<BaseEntity> refreshObjects(final Collection<BaseEntity> objectsToRefresh)
             throws ActionNotSuccessfulException {
@@ -1081,60 +963,23 @@ public class CidsBroker implements BelisServerRemote {
     public TreeSet getObjectsByBoundingBox(final BoundingBox bb) throws ActionNotSuccessfulException {
         final TreeSet result = new TreeSet(new ReverseComparator(
                     new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-        try {
-            final MetaClass metaclass = getMetaClass(GeomToEntityIndexCustomBean.TABLE, BELIS_DOMAIN);
-            final Collection<GeomToEntityIndexCustomBean> geomToEntityIndices =
-                (Collection<GeomToEntityIndexCustomBean>)getBeanCollectionForQuery("SELECT " + metaclass.getID() + ", "
-                            + metaclass.getTableName() + "." + metaclass.getPrimaryKey() + " " + " FROM "
-                            + metaclass.getTableName() + ", "
-                            + " geom g WHERE g.id = " + metaclass.getTableName()
-                            + ".fk_geom AND envelope(geometryfromtext('"
-                            + bb.getGeometryFromTextLineString() + "', -1)) && g.geo_field",
-                    BELIS_DOMAIN);
-            if ((geomToEntityIndices == null) || (geomToEntityIndices.size() <= 0)) {
-                return result;
-            }
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Start searching for entities");
-            }
-            final HashMap<Integer, ArrayList> entityIDs = new HashMap();
-            for (final GeomToEntityIndexCustomBean currentIndex : geomToEntityIndices) {
-                if (entityIDs.containsKey(currentIndex.getEntityClassId())) {
-                    final ArrayList classIdList = entityIDs.get(currentIndex.getEntityClassId());
-                    classIdList.add(currentIndex.getEntityID());
-                } else {
-                    final ArrayList newClassIdList = new ArrayList();
-                    newClassIdList.add(currentIndex.getEntityID());
-                    entityIDs.put(currentIndex.getEntityClassId(), newClassIdList);
-                }
-            }
 
-            for (final Integer curClassId : entityIDs.keySet()) {
-                final MetaClass curMetaclass = getMetaClass(curClassId, BELIS_DOMAIN);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Class to search - id: " + curClassId + " ,entityIDs: " + entityIDs.get(curClassId));
-                }
-                final Collection<CidsBean> curClassResults = (Collection<CidsBean>)getBeanCollectionForQuery("SELECT "
-                                + curMetaclass.getID() + ", " + curMetaclass.getTableName() + "."
-                                + curMetaclass.getPrimaryKey() + " " + " FROM  " + curMetaclass.getTableName()
-                                + " WHERE id IN "
-                                + entityIDs.get(curClassId).toString().replace('[', '(').replace(']', ')') + "",
-                        BELIS_DOMAIN);
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("found: " + curClassResults);
-                }
-                addCollectionToSortedSet(result, curClassResults);
-            }
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Entities in result set: " + result.size());
-            }
-            return result;
-        } catch (Exception ex) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Failure during boundingBox querying: " + bb, ex);
-            }
-            throw new ActionNotSuccessfulException("Failure during boundingBox querying");
+        final Collection<CidsBean> curClassResults = (Collection<CidsBean>)getBeanCollectionForQuery(
+                "SELECT classid, objectid  FROM ("
+                        + " SELECT 5 as classid, id as objectid, fk_geom FROM abzweigdose "
+                        + " UNION SELECT 14, id, fk_geom FROM mauerlasche"
+                        + " UNION SELECT 11, id, fk_geom FROM leitung"
+                        + " UNION SELECT 15, id, fk_geom FROM schaltstelle"
+                        + " UNION SELECT 29, id, fk_geom FROM tdta_standort_mast) AS geom_objects, geom"
+                        + " WHERE geom.id = geom_objects.fk_geom AND envelope(geometryfromtext('"
+                        + bb.getGeometryFromTextLineString()
+                        + "', -1)) && geom.geo_field",
+                BELIS_DOMAIN);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("found: " + curClassResults);
         }
+        addCollectionToSortedSet(result, curClassResults);
+        return result;
     }
 
     /**

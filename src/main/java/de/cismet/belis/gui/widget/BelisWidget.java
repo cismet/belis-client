@@ -9,7 +9,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.commons2.architecture.widget;
+package de.cismet.belis.gui.widget;
 
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.Binding.ValueResult;
@@ -21,11 +21,9 @@ import java.awt.Component;
 
 import java.util.ArrayList;
 
+import javax.swing.Icon;
 import javax.swing.JComponent;
 
-import de.cismet.belis.broker.BelisBroker;
-
-import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
 import de.cismet.commons.architecture.validation.Validatable;
 
 import de.cismet.tools.configuration.NoWriteError;
@@ -36,7 +34,7 @@ import de.cismet.tools.configuration.NoWriteError;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public class DefaultWidget extends AbstractWidget {
+public class BelisWidget extends AbstractWidget {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -48,11 +46,10 @@ public class DefaultWidget extends AbstractWidget {
 
     /**
      * Creates a new DefaultWidget object.
-     *
-     * @param  broker  DOCUMENT ME!
      */
-    public DefaultWidget(final BelisBroker broker) {
-        super(broker);
+    public BelisWidget() {
+        setWidgetIcon((String)null);
+        setWidgetIcon((Icon)null);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -115,38 +112,17 @@ public class DefaultWidget extends AbstractWidget {
     public void backgroundObjectChanged(final Object changedObject) {
     }
 
-//    @Override
-//    public String getValidationMessage() {
-//        return validationMessage;
-//    }
-//
-//    @Override
-//    public int getStatus() {
-//        return Validatable.VALID;
-//    }
-
     // ToDo print the right messages from the validators
     @Override
     public String getValidationMessage() {
-//        return "Nicht alle Einträge sind korrekt.\nBitte korrigieren Sie die Fehlerhaften.";
         return validationMessage;
     }
-//
 
     @Override
     public int getStatus() {
-//        if (validationState.size() != 0) {
-//            log.info("There are bindings which are not valid. Errorcount: "+validationState.size());
-//            return Validatable.ERROR;
-//        }
         if (getBindingGroup() != null) {
             for (final Binding curBinding : getBindingGroup().getBindings()) {
                 if (this.isAncestorOf((Component)curBinding.getTargetObject())) {
-//            Validator currentValidator = curBinding.getValidator();
-//            if(currentValidator != null){
-//                log.debug("Validator of Binding != null. Validating Property: "+curBinding.getSourceProperty());
-//
-//            }
                     final ValueResult result = curBinding.getTargetValueForSource();
                     if ((result != null) && result.failed()
                                 && (result.getFailure().getType() == Binding.SyncFailureType.VALIDATION_FAILED)) {
