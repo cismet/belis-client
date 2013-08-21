@@ -25,6 +25,10 @@ import Sirius.navigator.ui.attributes.editor.AttributeEditor;
 import Sirius.navigator.ui.tree.MetaCatalogueTree;
 import Sirius.navigator.ui.tree.SearchResultsTree;
 
+import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
+import Sirius.server.middleware.types.Node;
+
 import com.vividsolutions.jts.geom.Geometry;
 
 import net.infonode.docking.RootWindow;
@@ -63,6 +67,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
@@ -81,6 +87,8 @@ import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 
 import de.cismet.belis.gui.search.AddressSearchControl;
@@ -123,6 +131,8 @@ import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
 
+import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.features.DefaultFeatureCollection;
 import de.cismet.cismap.commons.features.Feature;
@@ -133,7 +143,7 @@ import de.cismet.cismap.commons.gui.statusbar.StatusBar;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.tools.IconUtils;
 
-import de.cismet.cismap.navigatorplugin.MetaSearchComponentFactory;
+import de.cismet.cismap.navigatorplugin.MetaSearchHelper;
 
 import de.cismet.commons.architecture.exception.LockingNotSuccessfulException;
 import de.cismet.commons.architecture.geometrySlot.GeometrySlot;
@@ -297,7 +307,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     // Todo outsource in panel, the advantage is that it is easier to edit --> you can use the gui builder
     // And don't know if it is good to have fix item in the toolbar
     private EditButtonsToolbar editButtonsToolbar;
-    private MetaSearchComponentFactory metaSearchComponentFactory;
+    private MetaSearchHelper metaSearchComponentFactory;
     private ComponentRegistry componentRegistry;
 
     //~ Constructors -----------------------------------------------------------
@@ -328,7 +338,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @param  metaSearchComponentFactory  DOCUMENT ME!
      */
-    public void setMetaSearchComponentFactory(final MetaSearchComponentFactory metaSearchComponentFactory) {
+    public void setMetaSearchComponentFactory(final MetaSearchHelper metaSearchComponentFactory) {
         this.metaSearchComponentFactory = metaSearchComponentFactory;
     }
 
@@ -337,7 +347,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @return  DOCUMENT ME!
      */
-    public MetaSearchComponentFactory getMetaSearchComponentFactory() {
+    public MetaSearchHelper getMetaSearchComponentFactory() {
         return metaSearchComponentFactory;
     }
 
@@ -953,6 +963,45 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             searchDialog,
             descriptionPane);
 
+        searchResultsTree.getModel().addTreeModelListener(new TreeModelListener() {
+
+                @Override
+                public void treeNodesChanged(final TreeModelEvent e) {
+                    LOG.fatal("treeNodesChanged");
+                }
+
+                @Override
+                public void treeNodesInserted(final TreeModelEvent e) {
+                    LOG.fatal("treeNodesInserted");
+                }
+
+                @Override
+                public void treeNodesRemoved(final TreeModelEvent e) {
+                    LOG.fatal("treeNodesRemoved");
+                }
+
+                @Override
+                public void treeStructureChanged(final TreeModelEvent e) {
+                    final List<Node> nodes = searchResultsTree.getResultNodes();
+                    final Set<BaseEntity> entities = new HashSet<BaseEntity>();
+                    if ((nodes != null) && (nodes.size() > 0)) {
+                        for (final Node node : nodes) {
+                            if ((node != null) && (node instanceof MetaObjectNode)) {
+                                final MetaObjectNode moNode = (MetaObjectNode)node;
+                                final MetaObject mo = moNode.getObject();
+                                if (mo != null) {
+                                    final CidsBean bean = mo.getBean();
+                                    if (bean instanceof BaseEntity) {
+                                        entities.add((BaseEntity)bean);
+                                    }
+                                }
+                            }
+                        }
+                        setSearchResult(entities);
+                    }
+                }
+            });
+
         setComponentRegistry(ComponentRegistry.getRegistry());
     }
 
@@ -986,7 +1035,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public void initMappingComponent() {
         final MappingComponent mappingComponent = new MappingComponent();
-        final MetaSearchComponentFactory metaSearchComponentFactory = MetaSearchComponentFactory.createNewInstance(
+        final MetaSearchHelper metaSearchComponentFactory = MetaSearchHelper.createNewInstance(
                 true,
                 MappingComponent.CREATE_SEARCH_POLYGON,
                 mappingComponent,

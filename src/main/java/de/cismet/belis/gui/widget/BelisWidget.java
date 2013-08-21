@@ -48,7 +48,6 @@ public class BelisWidget extends AbstractWidget {
      * Creates a new DefaultWidget object.
      */
     public BelisWidget() {
-        setWidgetIcon((String)null);
         setWidgetIcon((Icon)null);
     }
 

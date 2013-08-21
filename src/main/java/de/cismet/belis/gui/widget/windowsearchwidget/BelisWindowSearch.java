@@ -18,6 +18,7 @@ import Sirius.server.middleware.types.MetaClass;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 
 import java.beans.PropertyChangeEvent;
@@ -41,6 +42,8 @@ import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+
+import de.cismet.cismap.navigatorplugin.GeoSearchButton;
 
 /**
  * DOCUMENT ME!
@@ -134,9 +137,6 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
         mappingComponent = BelisBroker.getInstance().getMappingComponent();
 
         if (mode != null) {
-            final BelisCreateSearchGeometryListener listener = new BelisCreateSearchGeometryListener(
-                    mappingComponent,
-                    this);
             switch (mode) {
                 case ABZEIGDOSE: {
                     searchListenerName = MappingComponent.CREATE_SEARCH_POLYGON + "_ABZEIGDOSE";
@@ -159,7 +159,12 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
                 }
                 break;
             }
+            final BelisCreateSearchGeometryListener listener = new BelisCreateSearchGeometryListener(
+                    mappingComponent,
+                    this,
+                    searchListenerName);
             mappingComponent.addInputListener(searchListenerName, listener);
+            mappingComponent.putCursor(searchListenerName, new Cursor(Cursor.CROSSHAIR_CURSOR));
         }
     }
 

@@ -38,7 +38,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-@org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
+//@org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
 public class SearchResultsWidget extends BelisWidget {
 
     //~ Static fields/initializers ---------------------------------------------
@@ -66,45 +66,6 @@ public class SearchResultsWidget extends BelisWidget {
         super.setBroker(broker); // To change body of generated methods, choose Tools | Templates.
 
         initComponents();
-
-        broker.getComponentRegistry().getSearchResultsTree().getModel().addTreeModelListener(new TreeModelListener() {
-
-                @Override
-                public void treeNodesChanged(final TreeModelEvent e) {
-                    LOG.fatal("treeNodesChanged");
-                }
-
-                @Override
-                public void treeNodesInserted(final TreeModelEvent e) {
-                    LOG.fatal("treeNodesInserted");
-                }
-
-                @Override
-                public void treeNodesRemoved(final TreeModelEvent e) {
-                    LOG.fatal("treeNodesRemoved");
-                }
-
-                @Override
-                public void treeStructureChanged(final TreeModelEvent e) {
-                    final List<Node> nodes = ComponentRegistry.getRegistry().getSearchResultsTree().getResultNodes();
-                    final Set<BaseEntity> entities = new HashSet<BaseEntity>();
-                    if ((nodes != null) && (nodes.size() > 0)) {
-                        for (final Node node : nodes) {
-                            if ((node != null) && (node instanceof MetaObjectNode)) {
-                                final MetaObjectNode moNode = (MetaObjectNode)node;
-                                final MetaObject mo = moNode.getObject();
-                                if (mo != null) {
-                                    final CidsBean bean = mo.getBean();
-                                    if (bean instanceof BaseEntity) {
-                                        entities.add((BaseEntity)bean);
-                                    }
-                                }
-                            }
-                        }
-                        getBroker().setSearchResult(entities);
-                    }
-                }
-            });
     }
 
     /**

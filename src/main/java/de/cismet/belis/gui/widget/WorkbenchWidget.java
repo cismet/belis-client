@@ -74,6 +74,7 @@ import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
+import de.cismet.cismap.commons.features.AbstractNewFeature;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.FeatureCollectionEvent;
@@ -2217,7 +2218,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         //~ Methods ------------------------------------------------------------
 
         @Override
-        protected void finishGeometry(final PureNewFeature newFeature) {
+        protected void finishGeometry(final AbstractNewFeature newFeature) {
             if (EventQueue.isDispatchThread()) {
                 if (log.isDebugEnabled()) {
                     log.debug("is in EDT");

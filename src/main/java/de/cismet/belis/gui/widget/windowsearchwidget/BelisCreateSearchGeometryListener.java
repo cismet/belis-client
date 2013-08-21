@@ -11,9 +11,9 @@ import edu.umd.cs.piccolo.PNode;
 
 import org.apache.log4j.Logger;
 
-import de.cismet.cismap.commons.features.PureNewFeature;
+import de.cismet.cismap.commons.features.SearchFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.AbstractCreateSearchGeometryListener;
+import de.cismet.cismap.commons.gui.piccolo.eventlistener.MetaSearchFollowingCreateSearchGeometryListener;
 
 /**
  * DOCUMENT ME!
@@ -21,7 +21,7 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.AbstractCreateSearchGe
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class BelisCreateSearchGeometryListener extends AbstractCreateSearchGeometryListener {
+public class BelisCreateSearchGeometryListener extends MetaSearchFollowingCreateSearchGeometryListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -36,11 +36,14 @@ public class BelisCreateSearchGeometryListener extends AbstractCreateSearchGeome
     /**
      * Creates a new MetaSearchCreateSearchGeometryListener object.
      *
-     * @param  mc  DOCUMENT ME!
-     * @param  ws  DOCUMENT ME!
+     * @param  mc                 DOCUMENT ME!
+     * @param  ws                 DOCUMENT ME!
+     * @param  inputListenerName  DOCUMENT ME!
      */
-    public BelisCreateSearchGeometryListener(final MappingComponent mc, final BelisWindowSearch ws) {
-        super(mc);
+    public BelisCreateSearchGeometryListener(final MappingComponent mc,
+            final BelisWindowSearch ws,
+            final String inputListenerName) {
+        super(mc, inputListenerName);
 
         this.ws = ws;
     }
@@ -48,9 +51,8 @@ public class BelisCreateSearchGeometryListener extends AbstractCreateSearchGeome
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    protected boolean performSearch(final PureNewFeature searchFeature) {
+    protected boolean performSearch(final SearchFeature searchFeature) {
         ws.searchWithThisGeometry(searchFeature.getGeometry());
-        getMappingComponent().setInteractionMode(MappingComponent.SELECT);
         return true;
     }
 
