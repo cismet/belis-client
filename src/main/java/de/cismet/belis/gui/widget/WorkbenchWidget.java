@@ -12,8 +12,6 @@
  */
 package de.cismet.belis.gui.widget;
 
-import edu.umd.cs.piccolox.event.PNotification;
-import edu.umd.cs.piccolox.event.PNotificationCenter;
 
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.log4j.Logger;
@@ -72,11 +70,10 @@ import de.cismet.belisEE.entity.Leuchte;
 import de.cismet.belisEE.entity.Mauerlasche;
 import de.cismet.belisEE.entity.Schaltstelle;
 import de.cismet.belisEE.entity.Standort;
-import de.cismet.belisEE.entity.UnterhaltLeuchte;
-import de.cismet.belisEE.entity.UnterhaltMast;
 
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
+import de.cismet.cismap.commons.features.AbstractNewFeature;
 
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
@@ -90,9 +87,6 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateGeometryListener
 import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
 import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
 import de.cismet.commons.architecture.validation.Validatable;
-import de.cismet.commons.architecture.widget.MapWidget.MapMode;
-
-import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.entity.GeoBaseEntity;
 
 import de.cismet.tools.CurrentStackTrace;
@@ -130,7 +124,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     public static final int REFRESH_ALL = 4;
     public static final int CLEAR_NEW_OBJECTS = 3;
     public static final int MOVE_NEW_TO_SAVED_OBJECTS = 5;
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTreeTable jttHitTable;
     private javax.swing.JPanel panMain;
@@ -920,7 +914,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
     private int currentMode = 0;
     private Feature newlyAddedFeature = null;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
     private boolean isSelectedOverMap = false;
     // ToDo Workaround because there will be exceptions if a selectedNode is moved. Should normaly not be done in the
     // model
@@ -2202,7 +2196,7 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
         //~ Methods ------------------------------------------------------------
 
         @Override
-        protected void finishGeometry(final PureNewFeature newFeature) {
+        protected void finishGeometry(final AbstractNewFeature newFeature) {
             if (EventQueue.isDispatchThread()) {
                 if (log.isDebugEnabled()) {
                     log.debug("is in EDT");
