@@ -14,13 +14,8 @@ package de.cismet.belis.gui.widget;
 
 import org.jdesktop.beansbinding.BindingGroup;
 
-import java.awt.CardLayout;
-
 import java.beans.PropertyChangeEvent;
 
-import java.util.ArrayList;
-
-import de.cismet.belis.gui.documentpanel.DocumentPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeitungPanel;
@@ -30,14 +25,12 @@ import de.cismet.belis.gui.widget.detailWidgetPanels.SchaltstellePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.StandortPanel;
 
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
-import de.cismet.cids.custom.beans.belis.DmsUrlCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
-import de.cismet.commons.server.interfaces.DocumentContainer;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -57,8 +50,6 @@ public class DetailWidget extends BelisWidget {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DetailWidget.class);
 
-    private static final String DOCUMENT_PANEL = "document panel card";
-
     //~ Instance fields --------------------------------------------------------
 
     protected Object currentEntity = null;
@@ -71,9 +62,9 @@ public class DetailWidget extends BelisWidget {
     private SchaltstellePanel schaltstellePanel = SchaltstellePanel.getInstance();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.belis.gui.documentpanel.DocumentPanel panDokumente;
-    private javax.swing.JPanel panEmpty;
-    private javax.swing.JPanel panMain;
+    private javax.swing.JTabbedPane panMain;
     private javax.swing.JScrollPane scpMain;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -84,42 +75,9 @@ public class DetailWidget extends BelisWidget {
     public DetailWidget() {
         setWidgetName("Details");
         initComponents();
-        setPanelsToCardLayout();
-        panMain.add(panDokumente, DOCUMENT_PANEL);
-        // binding
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dokumente}"),
-                panDokumente,
-                org.jdesktop.beansbinding.BeanProperty.create("dokumente"));
-        bindingGroup = new BindingGroup();
-        bindingGroup.addBinding(binding);
-        bindingGroup.bind();
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void setPanelsToCardLayout() {
-        addDetailWidgetPanelToPanMain(standortPanel);
-        addDetailWidgetPanelToPanMain(leuchtePanel);
-        addDetailWidgetPanelToPanMain(leitungPanel);
-        addDetailWidgetPanelToPanMain(abzweigdosePanel);
-        addDetailWidgetPanelToPanMain(mauerlaschePanel);
-        addDetailWidgetPanelToPanMain(schaltstellePanel);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  panel  DOCUMENT ME!
-     */
-    private void addDetailWidgetPanelToPanMain(final AbstractDetailWidgetPanel panel) {
-        panMain.add(panel, panel.PANEL_CARD_NAME);
-    }
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
@@ -155,15 +113,6 @@ public class DetailWidget extends BelisWidget {
         }
         final Object oldCurrentEntity = this.currentEntity;
         this.currentEntity = currentEntity;
-        // Attention there is another block for the visiblity of the document panel
-        // this must be here because the set must be created before it is set in the documentpanel
-        if ((currentEntity != null) && (currentEntity instanceof DocumentContainer)
-                    && (((DocumentContainer)currentEntity).getDokumente() == null)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Entity is DocumentContainer and Set == null. Creating Set");
-            }
-            ((DocumentContainer)currentEntity).setDokumente(new ArrayList<DmsUrlCustomBean>());
-        }
 
         firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
         bindingGroup.unbind();
@@ -173,8 +122,7 @@ public class DetailWidget extends BelisWidget {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("current Entity is null");
             }
-            final CardLayout cl = (CardLayout)(panMain.getLayout());
-            cl.show(panMain, "EMPTY_PANEL");
+            showPanel(null);
             return;
         }
         if (currentEntity instanceof TdtaStandortMastCustomBean) {
@@ -240,11 +188,6 @@ public class DetailWidget extends BelisWidget {
         } else {
             LOG.warn("no panel for entity available");
         }
-        if (currentEntity instanceof DocumentContainer) {
-            final DocumentContainer dc = (DocumentContainer)currentEntity;
-            final CardLayout cl = (CardLayout)(panMain.getLayout());
-            cl.show(panMain, DOCUMENT_PANEL);
-        }
         this.repaint();
     }
 
@@ -254,8 +197,13 @@ public class DetailWidget extends BelisWidget {
      * @param  panel  DOCUMENT ME!
      */
     private void showPanel(final AbstractDetailWidgetPanel panel) {
-        final CardLayout cl = (CardLayout)(panMain.getLayout());
-        cl.show(panMain, panel.PANEL_CARD_NAME);
+        super.clearComponent();
+        if (panel != null) {
+            panMain.setComponentAt(0, panel);
+            panMain.setTabComponentAt(0, panel.getTabLabel());
+            add(panMain, java.awt.BorderLayout.CENTER);
+            panMain.setSelectedComponent(panel);
+        }
     }
 
     @Override
@@ -302,39 +250,28 @@ public class DetailWidget extends BelisWidget {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        panDokumente = new de.cismet.belis.gui.documentpanel.DocumentPanel();
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+
+        panMain = new javax.swing.JTabbedPane();
         scpMain = new javax.swing.JScrollPane();
-        panMain = new javax.swing.JPanel();
-        panEmpty = new javax.swing.JPanel();
+        panDokumente = new de.cismet.belis.gui.documentpanel.DocumentPanel();
+
+        panMain.addTab("", scpMain);
+
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dokumente}"),
+                panDokumente,
+                org.jdesktop.beansbinding.BeanProperty.create("dokumente"));
+        bindingGroup.addBinding(binding);
+
+        panMain.addTab("Dokumente", panDokumente);
 
         setLayout(new java.awt.BorderLayout());
 
-        panMain.setLayout(new java.awt.CardLayout());
-        panMain.add(panEmpty, "EMPTY_PANEL");
-
-        scpMain.setViewportView(panMain);
-
-        add(scpMain, java.awt.BorderLayout.CENTER);
+        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public DocumentPanel getPanDokumente() {
-        return panDokumente;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  panDokumente  DOCUMENT ME!
-     */
-    public void setPanDokumente(final DocumentPanel panDokumente) {
-        this.panDokumente = panDokumente;
-        panMain.add(panDokumente, DOCUMENT_PANEL);
-    }
 
     @Override
     public BindingGroup getBindingGroup() {

@@ -11,6 +11,8 @@ import edu.umd.cs.piccolo.PNode;
 
 import org.apache.log4j.Logger;
 
+import de.cismet.belis.broker.BelisBroker;
+
 import de.cismet.cismap.commons.features.SearchFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.MetaSearchFollowingCreateSearchGeometryListener;
@@ -53,6 +55,7 @@ public class BelisCreateSearchGeometryListener extends MetaSearchFollowingCreate
     @Override
     protected boolean performSearch(final SearchFeature searchFeature) {
         ws.searchWithThisGeometry(searchFeature.getGeometry());
+        BelisBroker.getInstance().enableSearch();
         return true;
     }
 

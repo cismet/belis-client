@@ -23,6 +23,7 @@ import java.util.Collection;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.tree.TreePath;
 
@@ -72,6 +73,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     private javax.swing.JComboBox cbxLeuchteStrassenschluesselNr;
     private javax.swing.JComboBox cbxLeuchteUnterhalt;
     private org.jdesktop.swingx.JXDatePicker dapLeuchteInbetriebnahme;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblLeuchte;
     private javax.swing.JLabel lblLeuchteBemerkung;
     private javax.swing.JLabel lblLeuchteDoppelkommando1;
@@ -93,7 +95,6 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     private javax.swing.JLabel lblLeuchteZaehler;
     private javax.swing.JPanel panContent;
     private javax.swing.JScrollPane scpLeuchteBemerkung;
-    private javax.swing.JSeparator sprLeuchte;
     private javax.swing.JSpinner sprLeuchteDoppelkommando1Anzahl;
     private javax.swing.JSpinner sprLeuchteDoppelkommando2Anzahl;
     private javax.swing.JTextArea txaLeuchteBemerkung;
@@ -120,6 +121,11 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
     //~ Methods ----------------------------------------------------------------
 
+    @Override
+    public JLabel getTabLabel() {
+        return lblLeuchte;
+    }
+
     /**
      * DOCUMENT ME!
      *
@@ -143,8 +149,10 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        lblLeuchte = new javax.swing.JLabel();
         panContent = new javax.swing.JPanel();
         lblLeuchteLeuchtennummer = new javax.swing.JLabel();
         txtLeuchteLeuchtennummer = new javax.swing.JTextField();
@@ -186,10 +194,26 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         txfLeuchteStandortAngabe = new javax.swing.JTextField();
         lblLeuchteVerrechnungseinheit = new javax.swing.JLabel();
         cboLeuchteVerrechnungseinheit = new javax.swing.JCheckBox();
-        lblLeuchte = new javax.swing.JLabel();
-        sprLeuchte = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
+
+        lblLeuchte.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
+        lblLeuchte.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/leuchte.png"))); // NOI18N
+        lblLeuchte.setText("Leuchte");                                                     // NOI18N
+
+        setLayout(new java.awt.GridBagLayout());
+
+        panContent.setLayout(new java.awt.GridBagLayout());
 
         lblLeuchteLeuchtennummer.setText("Leuchtennummer:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 36;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
+        panContent.add(lblLeuchteLeuchtennummer, gridBagConstraints);
 
         txtLeuchteLeuchtennummer.setEnabled(false);
 
@@ -202,7 +226,26 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         binding.setValidator(new LeuchtennummerValidator());
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 241;
+        gridBagConstraints.ipady = -3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(txtLeuchteLeuchtennummer, gridBagConstraints);
+
         lblLeuchteEnergielieferant.setText("Energielieferant:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 44;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
+        panContent.add(lblLeuchteEnergielieferant, gridBagConstraints);
 
         cbxLeuchteEnergielieferant.setEnabled(false);
         cbxLeuchteEnergielieferant.setRenderer(new DefaultListCellRenderer() {
@@ -234,7 +277,26 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 210;
+        gridBagConstraints.ipady = -3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(cbxLeuchteEnergielieferant, gridBagConstraints);
+
         lblLeuchteSchaltstelle.setText("Schaltstelle:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 76;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
+        panContent.add(lblLeuchteSchaltstelle, gridBagConstraints);
 
         txtLeuchteSchaltstelle.setEnabled(false);
 
@@ -247,7 +309,25 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 241;
+        gridBagConstraints.ipady = -3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(txtLeuchteSchaltstelle, gridBagConstraints);
+
         lblLeuchteRundsteuer.setText("Rundsteuerempfänger:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
+        panContent.add(lblLeuchteRundsteuer, gridBagConstraints);
 
         txtLeuchteRundsteuer.setEnabled(false);
 
@@ -267,10 +347,36 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     txtLeuchteRundsteuerActionPerformed(evt);
                 }
             });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 241;
+        gridBagConstraints.ipady = -3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(txtLeuchteRundsteuer, gridBagConstraints);
 
         lblLeuchteLeuchtentyp.setText("Leuchtentyp:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 70;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(8, 12, 0, 0);
+        panContent.add(lblLeuchteLeuchtentyp, gridBagConstraints);
 
         lblLeuchteUnterhalt.setText("Unterhalt Leuchte:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 28;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
+        panContent.add(lblLeuchteUnterhalt, gridBagConstraints);
 
         cbxLeuchteUnterhalt.setEnabled(false);
         cbxLeuchteUnterhalt.setRenderer(new DefaultListCellRenderer() {
@@ -302,7 +408,26 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 210;
+        gridBagConstraints.ipady = -3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(cbxLeuchteUnterhalt, gridBagConstraints);
+
         lblLeuchteZaehler.setText("Zähler vorhanden:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 35;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(13, 12, 0, 0);
+        panContent.add(lblLeuchteZaehler, gridBagConstraints);
 
         cboLeuchteZaehler.setEnabled(false);
 
@@ -315,7 +440,24 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         binding.setSourceNullValue(false);
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 229;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(cboLeuchteZaehler, gridBagConstraints);
+
         lblLeuchteInbetriebnahme.setText("Inbetriebnahme:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 48;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(9, 12, 0, 0);
+        panContent.add(lblLeuchteInbetriebnahme, gridBagConstraints);
 
         dapLeuchteInbetriebnahme.setEnabled(false);
 
@@ -328,9 +470,36 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 121;
+        gridBagConstraints.ipady = -5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(dapLeuchteInbetriebnahme, gridBagConstraints);
+
         lblLeuchteStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 39;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 12, 0, 0);
+        panContent.add(lblLeuchteStrassenschluessel, gridBagConstraints);
 
         lblLeuchteLaufendenummer.setText("Laufende Nr.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 68;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
+        panContent.add(lblLeuchteLaufendenummer, gridBagConstraints);
 
         txfLeuchteLaufendenummer.setEnabled(false);
 
@@ -341,6 +510,17 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 txfLeuchteLaufendenummer,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 241;
+        gridBagConstraints.ipady = -3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(txfLeuchteLaufendenummer, gridBagConstraints);
 
         cbxLeuchteKennziffer.setEnabled(false);
         cbxLeuchteKennziffer.setRenderer(new DefaultListCellRenderer() {
@@ -375,7 +555,26 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         binding.setValidator(new NotNullValidator("de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 210;
+        gridBagConstraints.ipady = -3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(cbxLeuchteKennziffer, gridBagConstraints);
+
         lblLeuchteKenziffer.setText("Kennziffer:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 85;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
+        panContent.add(lblLeuchteKenziffer, gridBagConstraints);
 
         cbxLeuchteLeuchtentyp.setEnabled(false);
         cbxLeuchteLeuchtentyp.setRenderer(new DefaultListCellRenderer() {
@@ -407,9 +606,36 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 210;
+        gridBagConstraints.ipady = -6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(cbxLeuchteLeuchtentyp, gridBagConstraints);
+
         lblLeuchteDoppelkommando1.setText("Doppelkomando 1:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 32;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
+        panContent.add(lblLeuchteDoppelkommando1, gridBagConstraints);
 
         lblLeuchteDoppelkommando2.setText("Doppelkomando 2:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 32;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 12, 0, 0);
+        panContent.add(lblLeuchteDoppelkommando2, gridBagConstraints);
 
         sprLeuchteDoppelkommando1Anzahl.setEnabled(false);
 
@@ -422,6 +648,16 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         binding.setSourceNullValue(0);
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 7;
+        gridBagConstraints.ipady = -4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 12);
+        panContent.add(sprLeuchteDoppelkommando1Anzahl, gridBagConstraints);
+
         sprLeuchteDoppelkommando2Anzahl.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -432,6 +668,16 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 7;
+        gridBagConstraints.ipady = -4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 12);
+        panContent.add(sprLeuchteDoppelkommando2Anzahl, gridBagConstraints);
 
         cbxLeuchteDoppelkommando1.setEnabled(false);
         cbxLeuchteDoppelkommando1.setRenderer(new DefaultListCellRenderer() {
@@ -463,6 +709,17 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 157;
+        gridBagConstraints.ipady = -3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+        panContent.add(cbxLeuchteDoppelkommando1, gridBagConstraints);
+
         cbxLeuchteDoppelkommando2.setEnabled(false);
         cbxLeuchteDoppelkommando2.setRenderer(new DefaultListCellRenderer() {
 
@@ -493,7 +750,26 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 157;
+        gridBagConstraints.ipady = -3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+        panContent.add(cbxLeuchteDoppelkommando2, gridBagConstraints);
+
         lblLeuchteMontagefirma.setText("Montagefirma:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 26;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 61;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(9, 12, 0, 0);
+        panContent.add(lblLeuchteMontagefirma, gridBagConstraints);
 
         txfLeuchteMontagefirma.setEnabled(false);
 
@@ -506,7 +782,26 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 26;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 241;
+        gridBagConstraints.ipady = -5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 12);
+        panContent.add(txfLeuchteMontagefirma, gridBagConstraints);
+
         lblLeuchteBemerkung.setText("Bemerkung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 28;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 79;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 0);
+        panContent.add(lblLeuchteBemerkung, gridBagConstraints);
 
         txaLeuchteBemerkung.setColumns(20);
         txaLeuchteBemerkung.setRows(5);
@@ -523,6 +818,20 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         bindingGroup.addBinding(binding);
 
         scpLeuchteBemerkung.setViewportView(txaLeuchteBemerkung);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 28;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 232;
+        gridBagConstraints.ipady = 82;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(12, 12, 0, 12);
+        panContent.add(scpLeuchteBemerkung, gridBagConstraints);
 
         cbxLeuchteStrassenschluesselNr.setEnabled(false);
         cbxLeuchteStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
@@ -552,6 +861,15 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     cbxLeuchteStrassenschluesselNrActionPerformed(evt);
                 }
             });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 49;
+        gridBagConstraints.ipady = -8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(13, 12, 0, 0);
+        panContent.add(cbxLeuchteStrassenschluesselNr, gridBagConstraints);
 
         cbxLeuchteStrassenschluessel.setEnabled(false);
         cbxLeuchteStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
@@ -591,8 +909,25 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     cbxLeuchteStrassenschluesselActionPerformed(evt);
                 }
             });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.ipadx = 114;
+        gridBagConstraints.ipady = -6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 6, 0, 12);
+        panContent.add(cbxLeuchteStrassenschluessel, gridBagConstraints);
 
         lblLeuchteStadtbezirk.setText("Stadtbezik:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 32;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(11, 12, 0, 0);
+        panContent.add(lblLeuchteStadtbezirk, gridBagConstraints);
 
         cbxLeuchteStadtbezirk.setEnabled(false);
         cbxLeuchteStadtbezirk.setRenderer(new DefaultListCellRenderer() {
@@ -624,7 +959,24 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 32;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 217;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 5, 0, 12);
+        panContent.add(cbxLeuchteStadtbezirk, gridBagConstraints);
+
         lblLeuchteStandortangabe.setText("Standortangabe:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 30;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 12, 0, 0);
+        panContent.add(lblLeuchteStandortangabe, gridBagConstraints);
 
         txfLeuchteStandortAngabe.setEnabled(false);
 
@@ -636,8 +988,25 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 30;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 248;
+        gridBagConstraints.ipady = -5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 5, 0, 12);
+        panContent.add(txfLeuchteStandortAngabe, gridBagConstraints);
+
         lblLeuchteVerrechnungseinheit.setText("V-Einheit:");                 // NOI18N
         lblLeuchteVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 34;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 12, 0, 0);
+        panContent.add(lblLeuchteVerrechnungseinheit, gridBagConstraints);
 
         cboLeuchteVerrechnungseinheit.setEnabled(false);
 
@@ -650,337 +1019,44 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         binding.setSourceNullValue(false);
         bindingGroup.addBinding(binding);
 
-        final javax.swing.GroupLayout panContentLayout = new javax.swing.GroupLayout(panContent);
-        panContent.setLayout(panContentLayout);
-        panContentLayout.setHorizontalGroup(
-            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panContentLayout.createSequentialGroup().addContainerGap().addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                        panContentLayout.createSequentialGroup().addComponent(lblLeuchteUnterhalt).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                            cbxLeuchteUnterhalt,
-                            0,
-                            251,
-                            Short.MAX_VALUE)).addGroup(
-                        panContentLayout.createSequentialGroup().addGroup(
-                            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblLeuchteRundsteuer).addComponent(lblLeuchteLeuchtentyp)
-                                        .addComponent(lblLeuchteZaehler).addComponent(lblLeuchteInbetriebnahme)
-                                        .addComponent(lblLeuchteDoppelkommando1).addComponent(
-                                lblLeuchteDoppelkommando2).addComponent(lblLeuchteMontagefirma).addComponent(
-                                lblLeuchteSchaltstelle).addComponent(lblLeuchteStrassenschluessel).addComponent(
-                                lblLeuchteKenziffer).addComponent(lblLeuchteLaufendenummer).addComponent(
-                                lblLeuchteLeuchtennummer).addComponent(lblLeuchteEnergielieferant)).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                                panContentLayout.createSequentialGroup().addComponent(
-                                    cbxLeuchteStrassenschluesselNr,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                    90,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                                    cbxLeuchteStrassenschluessel,
-                                    0,
-                                    155,
-                                    Short.MAX_VALUE)).addComponent(cbxLeuchteKennziffer, 0, 251, Short.MAX_VALUE)
-                                        .addComponent(
-                                            txfLeuchteLaufendenummer,
-                                            javax.swing.GroupLayout.Alignment.TRAILING,
-                                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                                            251,
-                                            Short.MAX_VALUE).addComponent(
-                                txtLeuchteLeuchtennummer,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                251,
-                                Short.MAX_VALUE).addComponent(cbxLeuchteEnergielieferant, 0, 251, Short.MAX_VALUE)
-                                        .addComponent(
-                                            txtLeuchteSchaltstelle,
-                                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                                            251,
-                                            Short.MAX_VALUE).addComponent(
-                                txtLeuchteRundsteuer,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                251,
-                                Short.MAX_VALUE).addComponent(cbxLeuchteLeuchtentyp, 0, 251, Short.MAX_VALUE)
-                                        .addComponent(
-                                            cboLeuchteZaehler,
-                                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                                            251,
-                                            Short.MAX_VALUE).addComponent(
-                                dapLeuchteInbetriebnahme,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                175,
-                                Short.MAX_VALUE).addComponent(
-                                txfLeuchteMontagefirma,
-                                javax.swing.GroupLayout.Alignment.TRAILING,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                251,
-                                Short.MAX_VALUE).addGroup(
-                                javax.swing.GroupLayout.Alignment.TRAILING,
-                                panContentLayout.createSequentialGroup().addGroup(
-                                    panContentLayout.createParallelGroup(
-                                        javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                                        cbxLeuchteDoppelkommando2,
-                                        0,
-                                        198,
-                                        Short.MAX_VALUE).addComponent(
-                                        cbxLeuchteDoppelkommando1,
-                                        javax.swing.GroupLayout.Alignment.TRAILING,
-                                        0,
-                                        198,
-                                        Short.MAX_VALUE)).addPreferredGap(
-                                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                                    panContentLayout.createParallelGroup(
-                                        javax.swing.GroupLayout.Alignment.LEADING,
-                                        false).addComponent(
-                                        sprLeuchteDoppelkommando2Anzahl,
-                                        javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                                        sprLeuchteDoppelkommando1Anzahl,
-                                        javax.swing.GroupLayout.Alignment.TRAILING,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        47,
-                                        Short.MAX_VALUE))))).addGroup(
-                        javax.swing.GroupLayout.Alignment.TRAILING,
-                        panContentLayout.createSequentialGroup().addComponent(
-                            lblLeuchteBemerkung,
-                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                            147,
-                            Short.MAX_VALUE).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(
-                                        scpLeuchteBemerkung,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        251,
-                                        Short.MAX_VALUE)).addGroup(
-                        panContentLayout.createSequentialGroup().addComponent(lblLeuchteVerrechnungseinheit).addGap(
-                            98,
-                            98,
-                            98).addGroup(
-                            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(
-                                            txfLeuchteStandortAngabe,
-                                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                                            251,
-                                            Short.MAX_VALUE).addComponent(
-                                cbxLeuchteStadtbezirk,
-                                0,
-                                251,
-                                Short.MAX_VALUE).addComponent(
-                                cboLeuchteVerrechnungseinheit,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                251,
-                                Short.MAX_VALUE))).addComponent(lblLeuchteStandortangabe).addComponent(
-                        lblLeuchteStadtbezirk)).addContainerGap()));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 34;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 236;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 5, 12, 12);
+        panContent.add(cboLeuchteVerrechnungseinheit, gridBagConstraints);
 
-        panContentLayout.linkSize(
-            javax.swing.SwingConstants.HORIZONTAL,
-            new java.awt.Component[] {
-                lblLeuchteBemerkung,
-                lblLeuchteDoppelkommando1,
-                lblLeuchteDoppelkommando2,
-                lblLeuchteEnergielieferant,
-                lblLeuchteInbetriebnahme,
-                lblLeuchteKenziffer,
-                lblLeuchteLaufendenummer,
-                lblLeuchteLeuchtennummer,
-                lblLeuchteLeuchtentyp,
-                lblLeuchteMontagefirma,
-                lblLeuchteRundsteuer,
-                lblLeuchteSchaltstelle,
-                lblLeuchteStrassenschluessel,
-                lblLeuchteUnterhalt,
-                lblLeuchteZaehler
-            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(panContent, gridBagConstraints);
 
-        panContentLayout.setVerticalGroup(
-            panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                panContentLayout.createSequentialGroup().addContainerGap().addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteStrassenschluessel).addComponent(
-                        cbxLeuchteStrassenschluesselNr,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        19,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        cbxLeuchteStrassenschluessel,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteKenziffer).addComponent(
-                        cbxLeuchteKennziffer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteLaufendenummer).addComponent(
-                        txfLeuchteLaufendenummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteLeuchtennummer).addComponent(
-                        txtLeuchteLeuchtennummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteEnergielieferant).addComponent(
-                        cbxLeuchteEnergielieferant,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteSchaltstelle).addComponent(
-                        txtLeuchteSchaltstelle,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteRundsteuer).addComponent(
-                        txtLeuchteRundsteuer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteLeuchtentyp).addComponent(
-                        cbxLeuchteLeuchtentyp,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteUnterhalt).addComponent(
-                        cbxLeuchteUnterhalt,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        lblLeuchteZaehler).addComponent(cboLeuchteZaehler)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteInbetriebnahme).addComponent(
-                        dapLeuchteInbetriebnahme,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteDoppelkommando1).addComponent(
-                        sprLeuchteDoppelkommando1Anzahl,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        cbxLeuchteDoppelkommando1,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        20,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteDoppelkommando2).addComponent(
-                        sprLeuchteDoppelkommando2Anzahl,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        cbxLeuchteDoppelkommando2,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        19,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteMontagefirma).addComponent(
-                        txfLeuchteMontagefirma,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblLeuchteBemerkung).addComponent(
-                        scpLeuchteBemerkung,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        101,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteStandortangabe).addComponent(
-                        txfLeuchteStandortAngabe,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeuchteStadtbezirk).addComponent(
-                        cbxLeuchteStadtbezirk,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    panContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblLeuchteVerrechnungseinheit).addComponent(cboLeuchteVerrechnungseinheit)).addContainerGap(
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE)));
+        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                477,
+                Short.MAX_VALUE));
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                68,
+                Short.MAX_VALUE));
 
-        panContentLayout.linkSize(
-            javax.swing.SwingConstants.VERTICAL,
-            new java.awt.Component[] {
-                cboLeuchteZaehler,
-                cbxLeuchteDoppelkommando1,
-                cbxLeuchteDoppelkommando2,
-                cbxLeuchteEnergielieferant,
-                cbxLeuchteKennziffer,
-                cbxLeuchteUnterhalt,
-                sprLeuchteDoppelkommando1Anzahl,
-                sprLeuchteDoppelkommando2Anzahl,
-                txfLeuchteLaufendenummer,
-                txtLeuchteLeuchtennummer,
-                txtLeuchteRundsteuer,
-                txtLeuchteSchaltstelle
-            });
-
-        lblLeuchte.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
-        lblLeuchte.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/leuchte.png"))); // NOI18N
-        lblLeuchte.setText("Leuchte");                                                     // NOI18N
-
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                layout.createSequentialGroup().addContainerGap().addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        panContent,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addComponent(lblLeuchte, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(
-                                    sprLeuchte,
-                                    javax.swing.GroupLayout.Alignment.LEADING,
-                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                    434,
-                                    Short.MAX_VALUE)).addContainerGap()));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addComponent(lblLeuchte).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    sprLeuchte,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    panContent,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE)));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        add(jPanel2, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

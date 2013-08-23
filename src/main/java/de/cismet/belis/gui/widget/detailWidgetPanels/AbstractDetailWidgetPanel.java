@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import de.cismet.belis.broker.CidsBroker;
@@ -39,7 +39,6 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.util.CriteriaStringComparator;
 
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -78,6 +77,13 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public abstract JLabel getTabLabel();
 
     /**
      * DOCUMENT ME!

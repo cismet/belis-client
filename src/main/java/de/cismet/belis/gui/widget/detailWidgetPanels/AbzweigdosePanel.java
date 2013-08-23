@@ -13,6 +13,8 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 
 import org.jdesktop.beansbinding.BindingGroup;
 
+import javax.swing.Icon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -30,9 +32,9 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
     private static AbzweigdosePanel instance = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAbzweigdose;
     private javax.swing.JPanel panContent1;
-    private javax.swing.JSeparator sprLeuchte1;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -46,6 +48,11 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public JLabel getTabLabel() {
+        return lblAbzweigdose;
+    }
 
     /**
      * DOCUMENT ME!
@@ -70,9 +77,18 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        panContent1 = new javax.swing.JPanel();
+        java.awt.GridBagConstraints gridBagConstraints;
+
         lblAbzweigdose = new javax.swing.JLabel();
-        sprLeuchte1 = new javax.swing.JSeparator();
+        panContent1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+
+        lblAbzweigdose.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
+        lblAbzweigdose.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/abzweigdose.png"))); // NOI18N
+        lblAbzweigdose.setText("Abzweigdose/Zugkasten");                                       // NOI18N
+
+        setLayout(new java.awt.GridBagLayout());
 
         final javax.swing.GroupLayout panContent1Layout = new javax.swing.GroupLayout(panContent1);
         panContent1.setLayout(panContent1Layout);
@@ -87,38 +103,34 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
                 232,
                 Short.MAX_VALUE));
 
-        lblAbzweigdose.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
-        lblAbzweigdose.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/abzweigdose.png"))); // NOI18N
-        lblAbzweigdose.setText("Abzweigdose/Zugkasten");                                       // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(panContent1, gridBagConstraints);
 
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        panContent1,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addComponent(lblAbzweigdose).addComponent(
-                        sprLeuchte1,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        376,
-                        Short.MAX_VALUE)).addContainerGap()));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addComponent(lblAbzweigdose).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    sprLeuchte1,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    panContent1,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE).addContainerGap()));
+        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                431,
+                Short.MAX_VALUE));
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                80,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        add(jPanel2, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     @Override

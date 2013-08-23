@@ -18,15 +18,9 @@ import java.awt.Component;
 
 import java.text.ParseException;
 
-import java.util.Collection;
-
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JLabel;
 import javax.swing.JList;
-
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
@@ -50,12 +44,12 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     private javax.swing.JComboBox cbxMauerlascheStrassenschluesselNr;
     private org.jdesktop.swingx.JXDatePicker dapMauerlascheErstellungsjahr;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblMauerlascheErstellungsjahr;
     private javax.swing.JLabel lblMauerlascheLaufendenummer;
     private javax.swing.JLabel lblMauerlascheMaterial;
     private javax.swing.JLabel lblMauerlascheStrassenschluessel;
-    private javax.swing.JSeparator sprMauerlasche;
     private javax.swing.JTextField txfMauerlascheLaufendenummer;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -73,6 +67,11 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public JLabel getTabLabel() {
+        return jLabel2;
+    }
 
     /**
      * DOCUMENT ME!
@@ -97,6 +96,7 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jLabel2 = new javax.swing.JLabel();
@@ -110,12 +110,14 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         cbxMauerlascheMaterial = new javax.swing.JComboBox();
         cbxMauerlascheStrassenschluesselNr = new javax.swing.JComboBox();
         cbxMauerlascheStrassenschluessel = new javax.swing.JComboBox();
-        sprMauerlasche = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
 
         jLabel2.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                              // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/mauerlasche.png"))); // NOI18N
         jLabel2.setText("Mauerlasche");                                                        // NOI18N
+
+        setLayout(new java.awt.GridBagLayout());
 
         lblMauerlascheStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
 
@@ -264,12 +266,12 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
                     jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
                         dapMauerlascheErstellungsjahr,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        212,
-                        Short.MAX_VALUE).addComponent(
-                        txfMauerlascheLaufendenummer,
+                        236,
+                        Short.MAX_VALUE).addComponent(txfMauerlascheLaufendenummer).addComponent(
+                        cbxMauerlascheMaterial,
+                        0,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        166,
-                        Short.MAX_VALUE).addComponent(cbxMauerlascheMaterial, 0, 166, Short.MAX_VALUE).addGroup(
+                        Short.MAX_VALUE).addGroup(
                         jPanel3Layout.createSequentialGroup().addComponent(
                             cbxMauerlascheStrassenschluesselNr,
                             javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -278,7 +280,7 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
                             javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
                             cbxMauerlascheStrassenschluessel,
                             0,
-                            83,
+                            javax.swing.GroupLayout.DEFAULT_SIZE,
                             Short.MAX_VALUE))).addContainerGap()));
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
@@ -315,8 +317,8 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
                         Short.MAX_VALUE).addComponent(
                         lblMauerlascheMaterial,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        22,
-                        Short.MAX_VALUE)).addContainerGap(115, Short.MAX_VALUE)));
+                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                        Short.MAX_VALUE)).addContainerGap(97, Short.MAX_VALUE)));
 
         jPanel3Layout.linkSize(
             javax.swing.SwingConstants.VERTICAL,
@@ -326,36 +328,34 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
                 txfMauerlascheLaufendenummer
             });
 
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                layout.createSequentialGroup().addContainerGap().addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        jPanel3,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        sprMauerlasche,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        315,
-                        Short.MAX_VALUE)).addContainerGap()));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addComponent(jLabel2).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    sprMauerlasche,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    jPanel3,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE).addContainerGap()));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(jPanel3, gridBagConstraints);
+
+        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                399,
+                Short.MAX_VALUE));
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                85,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        add(jPanel2, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

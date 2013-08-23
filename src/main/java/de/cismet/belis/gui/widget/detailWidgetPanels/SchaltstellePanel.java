@@ -18,15 +18,9 @@ import java.awt.Component;
 
 import java.text.ParseException;
 
-import java.util.Collection;
-
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JLabel;
 import javax.swing.JList;
-
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.cids.custom.beans.belis.BauartCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
@@ -51,6 +45,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     private javax.swing.JComboBox cbxSchaltstelleStrassenschluesselNr;
     private org.jdesktop.swingx.JXDatePicker dapSchaltstelleErstellungsjahr;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblSchaltstelleBauart;
     private javax.swing.JLabel lblSchaltstelleBemerkung;
@@ -61,7 +56,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     private javax.swing.JLabel lblSchaltstelleStandortbezeichnung;
     private javax.swing.JLabel lblSchaltstelleStrassenschluessel;
     private javax.swing.JScrollPane scpSchaltstelleBemerkung;
-    private javax.swing.JSeparator sprSchaltstelle;
     private javax.swing.JTextArea txaSchaltstelleBemerkung;
     private javax.swing.JTextField txfSchaltstelleHausnummer;
     private javax.swing.JTextField txfSchaltstelleLaufendenummer;
@@ -82,6 +76,11 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public JLabel getTabLabel() {
+        return jLabel3;
+    }
 
     /**
      * DOCUMENT ME!
@@ -109,6 +108,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jLabel3 = new javax.swing.JLabel();
@@ -131,12 +131,14 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         txaSchaltstelleBemerkung = new javax.swing.JTextArea();
         cbxSchaltstelleStrassenschluesselNr = new javax.swing.JComboBox();
         cbxSchaltstelleStrassenschluessel = new javax.swing.JComboBox();
-        sprSchaltstelle = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
 
         jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                               // NOI18N
         jLabel3.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/schaltstelle.png"))); // NOI18N
         jLabel3.setText("Schaltstelle");                                                        // NOI18N
+
+        setLayout(new java.awt.GridBagLayout());
 
         lblSchaltstelleStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
 
@@ -334,20 +336,20 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                     jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
                         txfSchaltstelleStandortbezeichnung,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        262,
+                        286,
                         Short.MAX_VALUE).addComponent(
                         txfSchaltstelleHausnummer,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        262,
+                        286,
                         Short.MAX_VALUE).addComponent(
                         txfSchaltstelleNummer,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        262,
+                        286,
                         Short.MAX_VALUE).addComponent(
                         dapSchaltstelleErstellungsjahr,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        181,
-                        Short.MAX_VALUE).addComponent(cbxSchaltstelleBauart, 0, 262, Short.MAX_VALUE).addComponent(
+                        286,
+                        Short.MAX_VALUE).addComponent(cbxSchaltstelleBauart, 0, 286, Short.MAX_VALUE).addComponent(
                         scpSchaltstelleBemerkung,
                         javax.swing.GroupLayout.PREFERRED_SIZE,
                         0,
@@ -360,11 +362,11 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                             javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
                             cbxSchaltstelleStrassenschluessel,
                             0,
-                            154,
+                            178,
                             Short.MAX_VALUE)).addComponent(
                         txfSchaltstelleLaufendenummer,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        262,
+                        286,
                         Short.MAX_VALUE)).addContainerGap()));
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
@@ -427,41 +429,36 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                         scpSchaltstelleBemerkung,
                         javax.swing.GroupLayout.PREFERRED_SIZE,
                         javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE)));
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(46, Short.MAX_VALUE)));
 
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                layout.createSequentialGroup().addContainerGap().addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        jPanel4,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addComponent(
-                        sprSchaltstelle,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        439,
-                        Short.MAX_VALUE).addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addContainerGap()));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addComponent(jLabel3).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    sprSchaltstelle,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    jPanel4,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE).addContainerGap()));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(jPanel4, gridBagConstraints);
+
+        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                483,
+                Short.MAX_VALUE));
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                34,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        add(jPanel2, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

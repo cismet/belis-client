@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.6" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.JLabel" name="lblLeuchte">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="13" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/de/cismet/belis/resource/icon/22/leuchte.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Leuchte" noResource="true"/>
+      </Properties>
+    </Component>
+  </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -13,221 +26,26 @@
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
   </AuxValues>
 
-  <Layout>
-    <DimensionLayout dim="0">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="panContent" alignment="0" max="32767" attributes="0"/>
-                  <Component id="lblLeuchte" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="sprLeuchte" alignment="0" pref="434" max="32767" attributes="1"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-      </Group>
-    </DimensionLayout>
-    <DimensionLayout dim="1">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblLeuchte" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="sprLeuchte" min="-2" pref="10" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="panContent" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
-      </Group>
-    </DimensionLayout>
-  </Layout>
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="panContent">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+          <GridBagConstraints gridX="0" gridY="0" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="18" weightX="1.0" weightY="1.0"/>
+        </Constraint>
+      </Constraints>
 
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="lblLeuchteUnterhalt" linkSize="15" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cbxLeuchteUnterhalt" pref="251" max="32767" attributes="2"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblLeuchteRundsteuer" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteLeuchtentyp" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteZaehler" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteInbetriebnahme" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteDoppelkommando1" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteDoppelkommando2" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteMontagefirma" linkSize="15" alignment="0" min="-2" max="-2" attributes="1"/>
-                              <Component id="lblLeuchteSchaltstelle" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteStrassenschluessel" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteKenziffer" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteLaufendenummer" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteLeuchtennummer" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblLeuchteEnergielieferant" linkSize="15" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="cbxLeuchteStrassenschluesselNr" min="-2" pref="90" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cbxLeuchteStrassenschluessel" pref="155" max="32767" attributes="2"/>
-                              </Group>
-                              <Component id="cbxLeuchteKennziffer" alignment="0" pref="251" max="32767" attributes="0"/>
-                              <Component id="txfLeuchteLaufendenummer" alignment="1" pref="251" max="32767" attributes="0"/>
-                              <Component id="txtLeuchteLeuchtennummer" alignment="0" pref="251" max="32767" attributes="2"/>
-                              <Component id="cbxLeuchteEnergielieferant" alignment="0" pref="251" max="32767" attributes="2"/>
-                              <Component id="txtLeuchteSchaltstelle" alignment="0" pref="251" max="32767" attributes="2"/>
-                              <Component id="txtLeuchteRundsteuer" alignment="0" pref="251" max="32767" attributes="2"/>
-                              <Component id="cbxLeuchteLeuchtentyp" alignment="0" pref="251" max="32767" attributes="0"/>
-                              <Component id="cboLeuchteZaehler" alignment="0" pref="251" max="32767" attributes="0"/>
-                              <Component id="dapLeuchteInbetriebnahme" alignment="0" pref="175" max="32767" attributes="2"/>
-                              <Component id="txfLeuchteMontagefirma" alignment="1" pref="251" max="32767" attributes="3"/>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="cbxLeuchteDoppelkommando2" pref="198" max="32767" attributes="0"/>
-                                      <Component id="cbxLeuchteDoppelkommando1" alignment="1" pref="198" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="sprLeuchteDoppelkommando2Anzahl" alignment="1" max="32767" attributes="1"/>
-                                      <Component id="sprLeuchteDoppelkommando1Anzahl" alignment="1" pref="47" max="32767" attributes="1"/>
-                                  </Group>
-                              </Group>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="lblLeuchteBemerkung" linkSize="15" pref="147" max="32767" attributes="1"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="scpLeuchteBemerkung" pref="251" max="32767" attributes="2"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="lblLeuchteVerrechnungseinheit" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txfLeuchteStandortAngabe" alignment="0" pref="251" max="32767" attributes="0"/>
-                              <Component id="cbxLeuchteStadtbezirk" alignment="0" pref="251" max="32767" attributes="0"/>
-                              <Component id="cboLeuchteVerrechnungseinheit" alignment="0" pref="251" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Component id="lblLeuchteStandortangabe" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblLeuchteStadtbezirk" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteStrassenschluessel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbxLeuchteStrassenschluesselNr" alignment="3" min="-2" pref="19" max="-2" attributes="0"/>
-                      <Component id="cbxLeuchteStrassenschluessel" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteKenziffer" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbxLeuchteKennziffer" linkSize="13" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteLaufendenummer" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txfLeuchteLaufendenummer" linkSize="13" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteLeuchtennummer" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtLeuchteLeuchtennummer" linkSize="13" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteEnergielieferant" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbxLeuchteEnergielieferant" linkSize="13" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteSchaltstelle" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtLeuchteSchaltstelle" linkSize="13" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteRundsteuer" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtLeuchteRundsteuer" linkSize="13" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteLeuchtentyp" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbxLeuchteLeuchtentyp" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteUnterhalt" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbxLeuchteUnterhalt" linkSize="13" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="lblLeuchteZaehler" min="-2" max="-2" attributes="0"/>
-                      <Component id="cboLeuchteZaehler" linkSize="13" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteInbetriebnahme" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="dapLeuchteInbetriebnahme" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteDoppelkommando1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="sprLeuchteDoppelkommando1Anzahl" linkSize="13" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                      <Component id="cbxLeuchteDoppelkommando1" linkSize="13" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteDoppelkommando2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="sprLeuchteDoppelkommando2Anzahl" linkSize="13" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                      <Component id="cbxLeuchteDoppelkommando2" linkSize="13" alignment="3" min="-2" pref="19" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteMontagefirma" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txfLeuchteMontagefirma" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblLeuchteBemerkung" min="-2" max="-2" attributes="0"/>
-                      <Component id="scpLeuchteBemerkung" min="-2" pref="101" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteStandortangabe" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txfLeuchteStandortAngabe" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblLeuchteStadtbezirk" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbxLeuchteStadtbezirk" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblLeuchteVerrechnungseinheit" min="-2" max="-2" attributes="0"/>
-                      <Component id="cboLeuchteVerrechnungseinheit" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblLeuchteLeuchtennummer">
           <Properties>
             <Property name="text" type="java.lang.String" value="Leuchtennummer:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="7" gridWidth="4" gridHeight="1" fill="0" ipadX="36" ipadY="0" insetsTop="10" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtLeuchteLeuchtennummer">
           <Properties>
@@ -241,11 +59,21 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="7" gridWidth="4" gridHeight="2" fill="0" ipadX="241" ipadY="-3" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteEnergielieferant">
           <Properties>
             <Property name="text" type="java.lang.String" value="Energielieferant:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="9" gridWidth="4" gridHeight="1" fill="0" ipadX="44" ipadY="0" insetsTop="10" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbxLeuchteEnergielieferant">
           <Properties>
@@ -260,11 +88,21 @@
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.energielieferant}" target="cbxLeuchteEnergielieferant" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="9" gridWidth="4" gridHeight="2" fill="0" ipadX="210" ipadY="-3" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteSchaltstelle">
           <Properties>
             <Property name="text" type="java.lang.String" value="Schaltstelle:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="11" gridWidth="4" gridHeight="1" fill="0" ipadX="76" ipadY="0" insetsTop="10" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtLeuchteSchaltstelle">
           <Properties>
@@ -278,11 +116,21 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="11" gridWidth="4" gridHeight="2" fill="0" ipadX="241" ipadY="-3" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteRundsteuer">
           <Properties>
             <Property name="text" type="java.lang.String" value="Rundsteuerempf&#xe4;nger:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="13" gridWidth="4" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="10" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtLeuchteRundsteuer">
           <Properties>
@@ -299,16 +147,31 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtLeuchteRundsteuerActionPerformed"/>
           </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="13" gridWidth="4" gridHeight="2" fill="0" ipadX="241" ipadY="-3" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteLeuchtentyp">
           <Properties>
             <Property name="text" type="java.lang.String" value="Leuchtentyp:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="15" gridWidth="4" gridHeight="1" fill="0" ipadX="70" ipadY="0" insetsTop="8" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteUnterhalt">
           <Properties>
             <Property name="text" type="java.lang.String" value="Unterhalt Leuchte:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="17" gridWidth="4" gridHeight="1" fill="0" ipadX="28" ipadY="0" insetsTop="10" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbxLeuchteUnterhalt">
           <Properties>
@@ -323,11 +186,21 @@
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.unterhaltspflichtLeuchte}" target="cbxLeuchteUnterhalt" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="17" gridWidth="4" gridHeight="2" fill="0" ipadX="210" ipadY="-3" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteZaehler">
           <Properties>
             <Property name="text" type="java.lang.String" value="Z&#xe4;hler vorhanden:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="19" gridWidth="4" gridHeight="1" fill="0" ipadX="35" ipadY="0" insetsTop="13" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JCheckBox" name="cboLeuchteZaehler">
           <Properties>
@@ -338,11 +211,21 @@
               <Property name="nullValue" type="boolean" value="false"/>
             </BindingProperty>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="19" gridWidth="4" gridHeight="1" fill="0" ipadX="229" ipadY="0" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteInbetriebnahme">
           <Properties>
             <Property name="text" type="java.lang.String" value="Inbetriebnahme:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="20" gridWidth="4" gridHeight="1" fill="0" ipadX="48" ipadY="0" insetsTop="9" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="org.jdesktop.swingx.JXDatePicker" name="dapLeuchteInbetriebnahme">
           <Properties>
@@ -355,16 +238,31 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="20" gridWidth="4" gridHeight="2" fill="0" ipadX="121" ipadY="-5" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteStrassenschluessel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Stra&#xdf;enschl&#xfc;ssel:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="0" gridWidth="4" gridHeight="1" fill="0" ipadX="39" ipadY="0" insetsTop="14" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteLaufendenummer">
           <Properties>
             <Property name="text" type="java.lang.String" value="Laufende Nr.:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="5" gridWidth="4" gridHeight="1" fill="0" ipadX="68" ipadY="0" insetsTop="10" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txfLeuchteLaufendenummer">
           <Properties>
@@ -375,6 +273,11 @@
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
             </BindingProperty>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="5" gridWidth="4" gridHeight="2" fill="0" ipadX="241" ipadY="-3" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbxLeuchteKennziffer">
           <Properties>
@@ -394,11 +297,21 @@
               <Property name="name" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="3" gridWidth="4" gridHeight="2" fill="0" ipadX="210" ipadY="-3" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteKenziffer">
           <Properties>
             <Property name="text" type="java.lang.String" value="Kennziffer:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="3" gridWidth="4" gridHeight="1" fill="0" ipadX="85" ipadY="0" insetsTop="10" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbxLeuchteLeuchtentyp">
           <Properties>
@@ -413,16 +326,31 @@
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.leuchtentyp}" target="cbxLeuchteLeuchtentyp" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="15" gridWidth="4" gridHeight="2" fill="0" ipadX="210" ipadY="-6" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteDoppelkommando1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Doppelkomando 1:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="22" gridWidth="4" gridHeight="1" fill="0" ipadX="32" ipadY="0" insetsTop="10" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteDoppelkommando2">
           <Properties>
             <Property name="text" type="java.lang.String" value="Doppelkomando 2:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="24" gridWidth="4" gridHeight="1" fill="0" ipadX="32" ipadY="0" insetsTop="10" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JSpinner" name="sprLeuchteDoppelkommando1Anzahl">
           <Properties>
@@ -435,6 +363,11 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="7" gridY="22" gridWidth="1" gridHeight="2" fill="0" ipadX="7" ipadY="-4" insetsTop="6" insetsLeft="6" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JSpinner" name="sprLeuchteDoppelkommando2Anzahl">
           <Properties>
@@ -447,6 +380,11 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="7" gridY="24" gridWidth="1" gridHeight="2" fill="0" ipadX="7" ipadY="-4" insetsTop="6" insetsLeft="6" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbxLeuchteDoppelkommando1">
           <Properties>
@@ -461,6 +399,11 @@
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.dk1}" target="cbxLeuchteDoppelkommando1" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="22" gridWidth="2" gridHeight="2" fill="0" ipadX="157" ipadY="-3" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbxLeuchteDoppelkommando2">
           <Properties>
@@ -475,11 +418,21 @@
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.dk2}" target="cbxLeuchteDoppelkommando2" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="24" gridWidth="2" gridHeight="2" fill="0" ipadX="157" ipadY="-3" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteMontagefirma">
           <Properties>
             <Property name="text" type="java.lang.String" value="Montagefirma:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="26" gridWidth="4" gridHeight="1" fill="0" ipadX="61" ipadY="0" insetsTop="9" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txfLeuchteMontagefirma">
           <Properties>
@@ -493,16 +446,31 @@
               </Property>
             </BindingProperty>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="26" gridWidth="4" gridHeight="2" fill="0" ipadX="241" ipadY="-5" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteBemerkung">
           <Properties>
             <Property name="text" type="java.lang.String" value="Bemerkung:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="28" gridWidth="4" gridHeight="1" fill="0" ipadX="79" ipadY="0" insetsTop="12" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Container class="javax.swing.JScrollPane" name="scpLeuchteBemerkung">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="28" gridWidth="4" gridHeight="2" fill="1" ipadX="232" ipadY="82" insetsTop="12" insetsLeft="12" insetsBottom="0" insetsRight="12" anchor="18" weightX="1.0" weightY="1.0"/>
+            </Constraint>
+          </Constraints>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
@@ -539,6 +507,11 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxLeuchteStrassenschluesselNrActionPerformed"/>
           </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="0" gridWidth="1" gridHeight="2" fill="0" ipadX="49" ipadY="-8" insetsTop="13" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbxLeuchteStrassenschluessel">
           <Properties>
@@ -560,11 +533,21 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxLeuchteStrassenschluesselActionPerformed"/>
           </Events>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="5" gridY="0" gridWidth="3" gridHeight="3" fill="0" ipadX="114" ipadY="-6" insetsTop="12" insetsLeft="6" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteStadtbezirk">
           <Properties>
             <Property name="text" type="java.lang.String" value="Stadtbezik:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="32" gridWidth="2" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="11" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbxLeuchteStadtbezirk">
           <Properties>
@@ -579,11 +562,21 @@
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.standort.stadtbezirk}" target="cbxLeuchteStadtbezirk" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="32" gridWidth="4" gridHeight="2" fill="0" ipadX="217" ipadY="0" insetsTop="6" insetsLeft="5" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteStandortangabe">
           <Properties>
             <Property name="text" type="java.lang.String" value="Standortangabe:" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="30" gridWidth="3" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="15" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txfLeuchteStandortAngabe">
           <Properties>
@@ -592,12 +585,22 @@
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${currentEntity.standort.standortangabe}" target="txfLeuchteStandortAngabe" targetPath="text" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="30" gridWidth="4" gridHeight="2" fill="0" ipadX="248" ipadY="-5" insetsTop="12" insetsLeft="5" insetsBottom="0" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLeuchteVerrechnungseinheit">
           <Properties>
             <Property name="text" type="java.lang.String" value="V-Einheit:" noResource="true"/>
             <Property name="toolTipText" type="java.lang.String" value="Verrechnungseinheit" noResource="true"/>
           </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="0" gridY="34" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="6" insetsLeft="12" insetsBottom="0" insetsRight="0" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
         <Component class="javax.swing.JCheckBox" name="cboLeuchteVerrechnungseinheit">
           <Properties>
@@ -608,21 +611,33 @@
               <Property name="nullValue" type="boolean" value="false"/>
             </BindingProperty>
           </BindingProperties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="4" gridY="34" gridWidth="4" gridHeight="2" fill="0" ipadX="236" ipadY="0" insetsTop="6" insetsLeft="5" insetsBottom="12" insetsRight="12" anchor="18" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblLeuchte">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="DejaVu Sans" size="13" style="1"/>
-        </Property>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/de/cismet/belis/resource/icon/22/leuchte.png"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Leuchte" noResource="true"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JSeparator" name="sprLeuchte">
-    </Component>
+    <Container class="javax.swing.JPanel" name="jPanel2">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+          <GridBagConstraints gridX="0" gridY="1" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="1.0"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="477" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="68" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+    </Container>
   </SubComponents>
 </Form>
