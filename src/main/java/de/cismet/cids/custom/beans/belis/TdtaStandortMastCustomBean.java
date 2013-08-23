@@ -1163,7 +1163,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
      *
      * @return  DOCUMENT ME!
      */
-    public boolean isErdung() {
+    public Boolean getErdung() {
         return erdung;
     }
 
