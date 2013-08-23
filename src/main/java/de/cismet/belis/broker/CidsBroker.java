@@ -51,6 +51,8 @@ import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.server.search.CidsServerSearch;
+
 import de.cismet.cismap.commons.BoundingBox;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -677,6 +679,19 @@ public class CidsBroker implements BelisServerRemote {
     /**
      * DOCUMENT ME!
      *
+     * @param   search  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private Collection executeServerSearch(final CidsServerSearch search) throws Exception {
+        return proxy.customServerSearch(proxy.getSession().getUser(), search);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   standort       DOCUMENT ME!
      * @param   minimalNumber  DOCUMENT ME!
      *
@@ -708,9 +723,9 @@ public class CidsBroker implements BelisServerRemote {
             }
             if ((kennziffer != null) && (strassenschluessel != null)) {
                 try {
-                    final List<Integer> highestNumbers = (List<Integer>)proxy.customServerSearch(proxy.getSession()
-                                    .getUser(),
-                            new HighestLfdNummerSearch(strassenschluessel, kennziffer));
+                    final List<Integer> highestNumbers = (List<Integer>)executeServerSearch(new HighestLfdNummerSearch(
+                                strassenschluessel,
+                                kennziffer));
 
                     final Integer highestNumber = (highestNumbers.isEmpty()) ? null : highestNumbers.get(0);
                     if ((highestNumber == null)) {
