@@ -182,7 +182,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
     private Date naechstes_pruefdatum;
     private String anstrichfarbe;
     private Date revision;
-    private Integer anlagengruppe;
+    private AnlagengruppeCustomBean anlagengruppe;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -1326,7 +1326,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getAnlagengruppe() {
+    public AnlagengruppeCustomBean getAnlagengruppe() {
         return anlagengruppe;
     }
 
@@ -1335,8 +1335,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
      *
      * @param  anlagengruppe  DOCUMENT ME!
      */
-    public void setAnlagengruppe(final Integer anlagengruppe) {
-        final Integer old = this.anlagengruppe;
+    public void setAnlagengruppe(final AnlagengruppeCustomBean anlagengruppe) {
+        final AnlagengruppeCustomBean old = this.anlagengruppe;
         this.anlagengruppe = anlagengruppe;
         this.propertyChangeSupport.firePropertyChange(PROP__ANLAGENGRUPPE, old, this.anlagengruppe);
     }
