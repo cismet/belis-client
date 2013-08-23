@@ -11,20 +11,18 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
+import java.util.Collection;
 import java.util.Date;
 
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyLeuchtentypCustomBean extends BaseEntity {
+public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -39,8 +37,13 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity {
     private static final String PROP__LEISTUNG_BRUTTO = "leistung_brutto";
     private static final String PROP__FABRIKAT = "fabrikat";
     private static final String PROP__LAMPE = "lampe";
-    private static final String PROP__EINBAUDATUM = "einbaudatum";
     private static final String PROP__LEISTUNG2STUFE = "leistung2stufe";
+    private static final String PROP__VORSCHALTGERAET = "vorschaltgeraet";
+    private static final String PROP__EINBAU_VORSCHALTGERAET = "einbau_vorschaltgeraet";
+    private static final String PROP__LEISTUNG_REDUZIERT = "leistung_reduziert";
+    private static final String PROP__LEISTUNG_BRUTTO_REDUZIERT = "leistung_brutto_reduziert";
+    private static final String PROP__FOTO = "foto";
+    private static final String PROP__DOKUMENTE = "dokumente";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -50,8 +53,13 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity {
             PROP__LEISTUNG_BRUTTO,
             PROP__FABRIKAT,
             PROP__LAMPE,
-            PROP__EINBAUDATUM,
-            PROP__LEISTUNG2STUFE
+            PROP__LEISTUNG2STUFE,
+            PROP__VORSCHALTGERAET,
+            PROP__EINBAU_VORSCHALTGERAET,
+            PROP__LEISTUNG_REDUZIERT,
+            PROP__LEISTUNG_BRUTTO_REDUZIERT,
+            PROP__FOTO,
+            PROP__DOKUMENTE
         };
 
     //~ Instance fields --------------------------------------------------------
@@ -65,6 +73,11 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity {
     private Date einbaudatum;
     private Double leistung2stufe;
     private String vorschaltgeraet;
+    private Date einbau_vorschaltgeraet;
+    private Double leistung_reduziert;
+    private Double leistung_brutto_reduziert;
+    private DmsUrlCustomBean foto;
+    private Collection<DmsUrlCustomBean> dokumente;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -119,26 +132,6 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity {
         final Double old = this.leistung_brutto;
         this.leistung_brutto = Leistung_brutto;
         this.propertyChangeSupport.firePropertyChange(PROP__LEISTUNG_BRUTTO, old, this.leistung_brutto);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Date getEinbaudatum() {
-        return einbaudatum;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  einbaudatum  DOCUMENT ME!
-     */
-    public void setEinbaudatum(final Date einbaudatum) {
-        final Date old = this.einbaudatum;
-        this.einbaudatum = einbaudatum;
-        this.propertyChangeSupport.firePropertyChange(PROP__EINBAUDATUM, old, this.einbaudatum);
     }
 
     /**
@@ -335,5 +328,110 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity {
         } else {
             return "";
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getEinbau_vorschaltgeraet() {
+        return einbau_vorschaltgeraet;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  einbau_vorschaltgeraet  DOCUMENT ME!
+     */
+    public void setEinbau_vorschaltgeraet(final Date einbau_vorschaltgeraet) {
+        final Date old = this.einbau_vorschaltgeraet;
+        this.einbau_vorschaltgeraet = einbau_vorschaltgeraet;
+        this.propertyChangeSupport.firePropertyChange(PROP__EINBAU_VORSCHALTGERAET, old, this.einbau_vorschaltgeraet);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getLeistung_reduziert() {
+        return leistung_reduziert;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leistung_reduziert  DOCUMENT ME!
+     */
+    public void setLeistung_reduziert(final Double leistung_reduziert) {
+        final Double old = this.leistung_reduziert;
+        this.leistung_reduziert = leistung_reduziert;
+        this.propertyChangeSupport.firePropertyChange(PROP__LEISTUNG_REDUZIERT, old, this.leistung_reduziert);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getLeistung_brutto_reduziert() {
+        return leistung_brutto_reduziert;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leistung_brutto_reduziert  DOCUMENT ME!
+     */
+    public void setLeistung_brutto_reduziert(final Double leistung_brutto_reduziert) {
+        final Double old = this.leistung_brutto_reduziert;
+        this.leistung_brutto_reduziert = leistung_brutto_reduziert;
+        this.propertyChangeSupport.firePropertyChange(
+            PROP__LEISTUNG_BRUTTO_REDUZIERT,
+            old,
+            this.leistung_brutto_reduziert);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public DmsUrlCustomBean getFoto() {
+        return foto;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  foto  DOCUMENT ME!
+     */
+    public void setFoto(final DmsUrlCustomBean foto) {
+        final DmsUrlCustomBean old = this.foto;
+        this.foto = foto;
+        this.propertyChangeSupport.firePropertyChange(PROP__FOTO, old, this.foto);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public Collection<DmsUrlCustomBean> getDokumente() {
+        return dokumente;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  dokumente  DOCUMENT ME!
+     */
+    @Override
+    public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
+        final Collection<DmsUrlCustomBean> old = this.dokumente;
+        this.dokumente = dokumente;
+        this.propertyChangeSupport.firePropertyChange(PROP__DOKUMENTE, old, this.dokumente);
     }
 }

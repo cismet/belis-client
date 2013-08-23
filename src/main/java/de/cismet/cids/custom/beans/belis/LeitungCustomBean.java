@@ -23,13 +23,14 @@ import de.cismet.belis.broker.CidsBroker;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class LeitungCustomBean extends GeoBaseEntity {
+public class LeitungCustomBean extends GeoBaseEntity implements DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -171,6 +172,7 @@ public class LeitungCustomBean extends GeoBaseEntity {
      *
      * @return  DOCUMENT ME!
      */
+    @Override
     public Collection<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
@@ -180,6 +182,7 @@ public class LeitungCustomBean extends GeoBaseEntity {
      *
      * @param  dokumente  DOCUMENT ME!
      */
+    @Override
     public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
         final Collection<DmsUrlCustomBean> old = this.dokumente;
         this.dokumente = dokumente;

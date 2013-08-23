@@ -11,18 +11,17 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.cids.dynamics.CidsBean;
+import java.util.Collection;
 
 import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyMasttypCustomBean extends BaseEntity {
+public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -34,23 +33,27 @@ public class TkeyMasttypCustomBean extends BaseEntity {
     private static final String PROP__LPH = "lph";
     private static final String PROP__HERSTELLER = "hersteller";
     private static final String PROP__WANDSTAERKE = "wandstaerke";
-//    private static final String PROP__FOTO = "foto";
+    private static final String PROP__DOKUMENTE = "wandstaerke";
+    private static final String PROP__FOTO = "foto";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
             PROP__MASTTYP,
             PROP__LPH,
             PROP__HERSTELLER,
-            PROP__WANDSTAERKE /*, PROP__FOTO*/
+            PROP__WANDSTAERKE,
+            PROP__DOKUMENTE,
+            PROP__FOTO
         };
 
     //~ Instance fields --------------------------------------------------------
 
     private String masttyp;
-    private Integer lph;
+    private Double lph;
     private String hersteller;
     private Integer wandstaerke;
-//    private FotoCustomBean foto;
+    private Collection<DmsUrlCustomBean> dokumente;
+    private DmsUrlCustomBean foto;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -110,7 +113,7 @@ public class TkeyMasttypCustomBean extends BaseEntity {
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getLph() {
+    public Double getLph() {
         return lph;
     }
 
@@ -119,8 +122,8 @@ public class TkeyMasttypCustomBean extends BaseEntity {
      *
      * @param  lph  DOCUMENT ME!
      */
-    public void setLph(final Integer lph) {
-        final Integer old = this.lph;
+    public void setLph(final Double lph) {
+        final Double old = this.lph;
         this.lph = lph;
         this.propertyChangeSupport.firePropertyChange(PROP__LPH, old, this.lph);
     }
@@ -203,5 +206,47 @@ public class TkeyMasttypCustomBean extends BaseEntity {
         } else {
             return "";
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public Collection<DmsUrlCustomBean> getDokumente() {
+        return dokumente;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  dokumente  DOCUMENT ME!
+     */
+    @Override
+    public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
+        final Collection<DmsUrlCustomBean> old = this.dokumente;
+        this.dokumente = dokumente;
+        this.propertyChangeSupport.firePropertyChange(PROP__DOKUMENTE, old, this.dokumente);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public DmsUrlCustomBean getFoto() {
+        return foto;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  foto  DOCUMENT ME!
+     */
+    public void setFoto(final DmsUrlCustomBean foto) {
+        final DmsUrlCustomBean old = this.foto;
+        this.foto = foto;
+        this.propertyChangeSupport.firePropertyChange(PROP__FOTO, old, this.foto);
     }
 }

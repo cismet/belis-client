@@ -21,25 +21,22 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import de.cismet.belis.broker.CidsBroker;
-
 import de.cismet.belisEE.mapicons.MapIcons;
 
 import de.cismet.belisEE.util.StandortKey;
-
-import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 import de.cismet.cismap.commons.tools.IconUtils;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class TdtaStandortMastCustomBean extends GeoBaseEntity {
+public class TdtaStandortMastCustomBean extends GeoBaseEntity implements DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -101,6 +98,17 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity {
     private static final String PROP__HAUS_NR = "haus_nr";
     private static final String PROP__DOKUMENTE = "dokumente";
     private static final String PROP__LEUCHTEN = "leuchten";
+    private static final String PROP__GRUENDUNG = "gruendung";
+    private static final String PROP__ELEK_PRUEFUNG = "elek_pruefung";
+    private static final String PROP__ERDUNG = "erdung";
+    private static final String PROP__MONTEUR = "monteur";
+    private static final String PROP__STANDSICHERHEITSPRUEFUNG = "standsicherheitspruefung";
+    private static final String PROP__VERFAHREN = "verfahren";
+    private static final String PROP__FOTO = "foto";
+    private static final String PROP__NAECHSTES_PRUEFDATUM = "naechstes_pruefdatum";
+    private static final String PROP__ANSTRICHFARBE = "anstrichfarbe";
+    private static final String PROP__REVISION = "revision";
+    private static final String PROP__ANLAGENGRUPPE = "anlagengruppe";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -125,7 +133,18 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity {
             PROP__LFD_NUMMER,
             PROP__HAUS_NR,
             PROP__DOKUMENTE,
-            PROP__LEUCHTEN
+            PROP__LEUCHTEN,
+            PROP__GRUENDUNG,
+            PROP__ELEK_PRUEFUNG,
+            PROP__ERDUNG,
+            PROP__MONTEUR,
+            PROP__STANDSICHERHEITSPRUEFUNG,
+            PROP__VERFAHREN,
+            PROP__FOTO,
+            PROP__NAECHSTES_PRUEFDATUM,
+            PROP__ANSTRICHFARBE,
+            PROP__REVISION,
+            PROP__ANLAGENGRUPPE
         };
 
     //~ Instance fields --------------------------------------------------------
@@ -152,6 +171,18 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity {
     private String haus_nr;
     private Collection<DmsUrlCustomBean> dokumente;
     private Collection<TdtaLeuchtenCustomBean> leuchten;
+
+    private String gruendung;
+    private Date elek_pruefung;
+    private Boolean erdung;
+    private String monteur;
+    private Date standsicherheitspruefung;
+    private String verfahren;
+    private DmsUrlCustomBean foto;
+    private Date naechstes_pruefdatum;
+    private String anstrichfarbe;
+    private Date revision;
+    private Integer anlagengruppe;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -191,6 +222,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity {
      *
      * @return  DOCUMENT ME!
      */
+    @Override
     public Collection<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
@@ -200,6 +232,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity {
      *
      * @param  dokumente  DOCUMENT ME!
      */
+    @Override
     public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
         final Collection<DmsUrlCustomBean> old = this.dokumente;
         this.dokumente = dokumente;
@@ -1083,5 +1116,228 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity {
     @Override
     public void setGeometrie(final GeomCustomBean geometrie) {
         setFk_geom(geometrie);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getGruendung() {
+        return gruendung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  gruendung  DOCUMENT ME!
+     */
+    public void setGruendung(final String gruendung) {
+        final String old = this.gruendung;
+        this.gruendung = gruendung;
+        this.propertyChangeSupport.firePropertyChange(PROP__GRUENDUNG, old, this.gruendung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getElek_pruefung() {
+        return elek_pruefung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  elek_pruefung  DOCUMENT ME!
+     */
+    public void setElek_pruefung(final Date elek_pruefung) {
+        final Date old = this.elek_pruefung;
+        this.elek_pruefung = elek_pruefung;
+        this.propertyChangeSupport.firePropertyChange(PROP__ELEK_PRUEFUNG, old, this.elek_pruefung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isErdung() {
+        return erdung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  erdung  DOCUMENT ME!
+     */
+    public void setErdung(final Boolean erdung) {
+        final Boolean old = this.erdung;
+        this.erdung = erdung;
+        this.propertyChangeSupport.firePropertyChange(PROP__ERDUNG, old, this.erdung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getMonteur() {
+        return monteur;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  monteur  DOCUMENT ME!
+     */
+    public void setMonteur(final String monteur) {
+        final String old = this.monteur;
+        this.monteur = monteur;
+        this.propertyChangeSupport.firePropertyChange(PROP__MONTEUR, old, this.monteur);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getStandsicherheitspruefung() {
+        return standsicherheitspruefung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  standsicherheitspruefung  DOCUMENT ME!
+     */
+    public void setStandsicherheitspruefung(final Date standsicherheitspruefung) {
+        final Date old = this.standsicherheitspruefung;
+        this.standsicherheitspruefung = standsicherheitspruefung;
+        this.propertyChangeSupport.firePropertyChange(
+            PROP__STANDSICHERHEITSPRUEFUNG,
+            old,
+            this.standsicherheitspruefung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getVerfahren() {
+        return verfahren;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  verfahren  DOCUMENT ME!
+     */
+    public void setVerfahren(final String verfahren) {
+        final String old = this.verfahren;
+        this.verfahren = verfahren;
+        this.propertyChangeSupport.firePropertyChange(PROP__VERFAHREN, old, this.verfahren);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public DmsUrlCustomBean getFoto() {
+        return foto;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  foto  DOCUMENT ME!
+     */
+    public void setFoto(final DmsUrlCustomBean foto) {
+        final DmsUrlCustomBean old = this.foto;
+        this.foto = foto;
+        this.propertyChangeSupport.firePropertyChange(PROP__FOTO, old, this.foto);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getNaechstes_pruefdatum() {
+        return naechstes_pruefdatum;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  naechstes_pruefdatum  DOCUMENT ME!
+     */
+    public void setNaechstes_pruefdatum(final Date naechstes_pruefdatum) {
+        final Date old = this.naechstes_pruefdatum;
+        this.naechstes_pruefdatum = naechstes_pruefdatum;
+        this.propertyChangeSupport.firePropertyChange(PROP__NAECHSTES_PRUEFDATUM, old, this.naechstes_pruefdatum);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getAnstrichfarbe() {
+        return anstrichfarbe;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  anstrichfarbe  DOCUMENT ME!
+     */
+    public void setAnstrichfarbe(final String anstrichfarbe) {
+        final String old = this.anstrichfarbe;
+        this.anstrichfarbe = anstrichfarbe;
+        this.propertyChangeSupport.firePropertyChange(PROP__ANSTRICHFARBE, old, this.anstrichfarbe);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getRevision() {
+        return revision;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  revision  DOCUMENT ME!
+     */
+    public void setRevision(final Date revision) {
+        final Date old = this.revision;
+        this.revision = revision;
+        this.propertyChangeSupport.firePropertyChange(PROP__REVISION, old, this.revision);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getAnlagengruppe() {
+        return anlagengruppe;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  anlagengruppe  DOCUMENT ME!
+     */
+    public void setAnlagengruppe(final Integer anlagengruppe) {
+        final Integer old = this.anlagengruppe;
+        this.anlagengruppe = anlagengruppe;
+        this.propertyChangeSupport.firePropertyChange(PROP__ANLAGENGRUPPE, old, this.anlagengruppe);
     }
 }

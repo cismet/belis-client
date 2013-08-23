@@ -22,13 +22,14 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class AbzweigdoseCustomBean extends GeoBaseEntity {
+public class AbzweigdoseCustomBean extends GeoBaseEntity implements DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -75,6 +76,7 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity {
      *
      * @return  DOCUMENT ME!
      */
+    @Override
     public Collection<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
@@ -84,6 +86,7 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity {
      *
      * @param  dokumente  DOCUMENT ME!
      */
+    @Override
     public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
         final Collection<DmsUrlCustomBean> old = this.dokumente;
         this.dokumente = dokumente;

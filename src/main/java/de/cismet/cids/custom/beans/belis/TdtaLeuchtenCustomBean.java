@@ -16,18 +16,15 @@ import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 import java.util.Date;
 
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class TdtaLeuchtenCustomBean extends BaseEntity {
+public class TdtaLeuchtenCustomBean extends BaseEntity implements DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -73,6 +70,15 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
     private static final String PROP__STADTBEZIRK = "stadtbezirk";
     private static final String PROP__BEMERKUNGEN = "bemerkungen";
     private static final String PROP__DOKUMENTE = "dokumente";
+    private static final String PROP__ANSCHLUSSLEISTUNG_1DK = "anschlussleistung_1dk";
+    private static final String PROP__ANSCHLUSSLEISTUNG_2DK = "anschlussleistung_2dk";
+    private static final String PROP__KABELUEBERGANGSKASTEN_SK_II = "kabeluebergangskasten_sk_ii";
+    private static final String PROP__LEUCHTMITTEL = "leuchtmittel";
+    private static final String PROP__LEBENSDAUER = "lebensdauer";
+    private static final String PROP__WECHSELDATUM = "wechseldatum";
+    private static final String PROP__WARTUNGSZYKLUS = "wartungszyklus";
+    private static final String PROP__WECHSELVORSCHALTGERAET = "wechselvorschaltgeraet";
+    private static final String PROP__VORSCHALTGERAET = "vorschaltgeraet";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -96,7 +102,16 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
             PROP__ANZAHL_1DK,
             PROP__STADTBEZIRK,
             PROP__BEMERKUNGEN,
-            PROP__DOKUMENTE
+            PROP__DOKUMENTE,
+            PROP__ANSCHLUSSLEISTUNG_1DK,
+            PROP__ANSCHLUSSLEISTUNG_2DK,
+            PROP__KABELUEBERGANGSKASTEN_SK_II,
+            PROP__LEUCHTMITTEL,
+            PROP__LEBENSDAUER,
+            PROP__WECHSELDATUM,
+            PROP__WARTUNGSZYKLUS,
+            PROP__WECHSELVORSCHALTGERAET,
+            PROP__VORSCHALTGERAET
         };
 
     //~ Instance fields --------------------------------------------------------
@@ -122,6 +137,15 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
     private TkeyBezirkCustomBean fk_stadtbezirk;
     private String bemerkungen;
     private Collection<DmsUrlCustomBean> dokumente;
+    private Double anschlussleistung_1dk;
+    private Double anschlussleistung_2dk;
+    private Boolean kabeluebergangskasten_sk_ii;
+    private String leuchtmittel;
+    private Double lebensdauer;
+    private Date wechseldatum;
+    private Double wartungszyklus;
+    private Date wechselvorschaltgeraet;
+    private String vorschaltgeraet;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -161,6 +185,7 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
      *
      * @return  DOCUMENT ME!
      */
+    @Override
     public Collection<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
@@ -170,6 +195,7 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
      *
      * @param  dokumente  DOCUMENT ME!
      */
+    @Override
     public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
         final Collection<DmsUrlCustomBean> old = this.dokumente;
         this.dokumente = dokumente;
@@ -950,5 +976,188 @@ public class TdtaLeuchtenCustomBean extends BaseEntity {
      */
     private boolean isParentMast(final TdtaStandortMastCustomBean standort) {
         return (standort != null) && (standort.getLeuchten() != null) && standort.getLeuchten().contains(this);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getAnschlussleistung_1dk() {
+        return anschlussleistung_1dk;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  anschlussleistung_1dk  DOCUMENT ME!
+     */
+    public void setAnschlussleistung_1dk(final Double anschlussleistung_1dk) {
+        final Double old = this.anschlussleistung_1dk;
+        this.anschlussleistung_1dk = anschlussleistung_1dk;
+        this.propertyChangeSupport.firePropertyChange(PROP__ANSCHLUSSLEISTUNG_1DK, old, this.anschlussleistung_1dk);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getAnschlussleistung_2dk() {
+        return anschlussleistung_2dk;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  anschlussleistung_2dk  DOCUMENT ME!
+     */
+    public void setAnschlussleistung_2dk(final Double anschlussleistung_2dk) {
+        final Double old = this.anschlussleistung_2dk;
+        this.anschlussleistung_2dk = anschlussleistung_2dk;
+        this.propertyChangeSupport.firePropertyChange(PROP__ANSCHLUSSLEISTUNG_2DK, old, this.anschlussleistung_2dk);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Boolean getKabeluebergangskasten_sk_ii() {
+        return kabeluebergangskasten_sk_ii;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  kabeluebergangskasten_sk_ii  DOCUMENT ME!
+     */
+    public void setKabeluebergangskasten_sk_ii(final Boolean kabeluebergangskasten_sk_ii) {
+        final Boolean old = this.kabeluebergangskasten_sk_ii;
+        this.kabeluebergangskasten_sk_ii = kabeluebergangskasten_sk_ii;
+        this.propertyChangeSupport.firePropertyChange(
+            PROP__KABELUEBERGANGSKASTEN_SK_II,
+            old,
+            this.kabeluebergangskasten_sk_ii);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getLeuchtmittel() {
+        return leuchtmittel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  leuchtmittel  DOCUMENT ME!
+     */
+    public void setLeuchtmittel(final String leuchtmittel) {
+        final String old = this.leuchtmittel;
+        this.leuchtmittel = leuchtmittel;
+        this.propertyChangeSupport.firePropertyChange(PROP__LEUCHTMITTEL, old, this.leuchtmittel);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getLebensdauer() {
+        return lebensdauer;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  lebensdauer  DOCUMENT ME!
+     */
+    public void setLebensdauer(final Double lebensdauer) {
+        final Double old = this.lebensdauer;
+        this.lebensdauer = lebensdauer;
+        this.propertyChangeSupport.firePropertyChange(PROP__LEBENSDAUER, old, this.lebensdauer);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getWechseldatum() {
+        return wechseldatum;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wechseldatum  DOCUMENT ME!
+     */
+    public void setWechseldatum(final Date wechseldatum) {
+        final Date old = this.wechseldatum;
+        this.wechseldatum = wechseldatum;
+        this.propertyChangeSupport.firePropertyChange(PROP__WECHSELDATUM, old, this.wechseldatum);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getWartungszyklus() {
+        return wartungszyklus;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wartungszyklus  DOCUMENT ME!
+     */
+    public void setWartungszyklus(final Double wartungszyklus) {
+        final Double old = this.wartungszyklus;
+        this.wartungszyklus = wartungszyklus;
+        this.propertyChangeSupport.firePropertyChange(PROP__WARTUNGSZYKLUS, old, this.wartungszyklus);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getWechselvorschaltgeraet() {
+        return wechselvorschaltgeraet;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wechselvorschaltgeraet  DOCUMENT ME!
+     */
+    public void setWechselvorschaltgeraet(final Date wechselvorschaltgeraet) {
+        final Date old = this.wechselvorschaltgeraet;
+        this.wechselvorschaltgeraet = wechselvorschaltgeraet;
+        this.propertyChangeSupport.firePropertyChange(PROP__WECHSELVORSCHALTGERAET, old, this.wechselvorschaltgeraet);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getVorschaltgeraet() {
+        return vorschaltgeraet;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  vorschaltgeraet  DOCUMENT ME!
+     */
+    public void setVorschaltgeraet(final String vorschaltgeraet) {
+        final String old = this.vorschaltgeraet;
+        this.vorschaltgeraet = vorschaltgeraet;
+        this.propertyChangeSupport.firePropertyChange(PROP__VORSCHALTGERAET, old, this.vorschaltgeraet);
     }
 }

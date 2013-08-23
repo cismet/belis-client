@@ -11,27 +11,22 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import java.beans.PropertyChangeEvent;
-
 import java.util.Collection;
 import java.util.Date;
 
-import de.cismet.belis.broker.CidsBroker;
-
 import de.cismet.belisEE.mapicons.MapIcons;
-
-import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class MauerlascheCustomBean extends GeoBaseEntity {
+public class MauerlascheCustomBean extends GeoBaseEntity implements DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -108,6 +103,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity {
      *
      * @return  DOCUMENT ME!
      */
+    @Override
     public Collection<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
@@ -117,6 +113,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity {
      *
      * @param  dokumente  DOCUMENT ME!
      */
+    @Override
     public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
         final Collection<DmsUrlCustomBean> old = this.dokumente;
         this.dokumente = dokumente;
