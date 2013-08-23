@@ -54,6 +54,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     private static StandortPanel instance = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cboStandortErdung;
     private javax.swing.JCheckBox cboStandortVerrechnungseinheit;
     private javax.swing.JComboBox cbxStandortKennziffer;
     private javax.swing.JComboBox cbxStandortKlassifizierung;
@@ -63,13 +64,19 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     private javax.swing.JComboBox cbxStandortStrassenschluessel;
     private javax.swing.JComboBox cbxStandortStrassenschluesselNr;
     private javax.swing.JComboBox cbxStandortUnterhalt;
+    private org.jdesktop.swingx.JXDatePicker dapStandortElekPruefung;
     private org.jdesktop.swingx.JXDatePicker dapStandortInbetriebnahme;
     private org.jdesktop.swingx.JXDatePicker dapStandortLetzteAenderung;
     private org.jdesktop.swingx.JXDatePicker dapStandortMastanstrich;
     private org.jdesktop.swingx.JXDatePicker dapStandortMastschutz;
+    private org.jdesktop.swingx.JXDatePicker dapStandortStandsicherheitspruefung;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblStandort;
     private javax.swing.JLabel lblStandortBemerkung;
+    private javax.swing.JLabel lblStandortElekPruefung;
+    private javax.swing.JLabel lblStandortErdung;
+    private javax.swing.JLabel lblStandortGruendung;
     private javax.swing.JLabel lblStandortHausnummer;
     private javax.swing.JLabel lblStandortInbetriebnahme;
     private javax.swing.JLabel lblStandortKenziffer;
@@ -81,19 +88,25 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     private javax.swing.JLabel lblStandortMastschutz;
     private javax.swing.JLabel lblStandortMasttyp;
     private javax.swing.JLabel lblStandortMontagefirma;
+    private javax.swing.JLabel lblStandortMonteur;
     private javax.swing.JLabel lblStandortPLZ;
     private javax.swing.JLabel lblStandortStadtbezirk;
     private javax.swing.JLabel lblStandortStandortangabe;
+    private javax.swing.JLabel lblStandortStandsicherheitspruefung;
     private javax.swing.JLabel lblStandortStrassenschluessel;
     private javax.swing.JLabel lblStandortUnterhalt;
+    private javax.swing.JLabel lblStandortVerfahren;
     private javax.swing.JLabel lblStandortVerrechnungseinheit;
     private javax.swing.JScrollPane scpStandortBemerkung;
     private javax.swing.JSeparator sprStandort;
     private javax.swing.JTextArea txaStandortBemerkung;
+    private javax.swing.JTextField txfStandortGruendung;
     private javax.swing.JTextField txfStandortHausnummer;
     private javax.swing.JTextField txfStandortLaufendenummer;
     private javax.swing.JTextField txfStandortMontagefirma;
+    private javax.swing.JTextField txfStandortMonteur;
     private javax.swing.JTextField txfStandortStandortAngabe;
+    private javax.swing.JTextField txfStandortVerfahren;
     private javax.swing.JTextField txtStandortPLZ;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -134,6 +147,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         lblStandort = new javax.swing.JLabel();
@@ -176,16 +190,52 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         lblStandortStandortangabe = new javax.swing.JLabel();
         txfStandortStandortAngabe = new javax.swing.JTextField();
         cbxStandortStrassenschluesselNr = new javax.swing.JComboBox();
+        lblStandortElekPruefung = new javax.swing.JLabel();
+        dapStandortElekPruefung = new org.jdesktop.swingx.JXDatePicker();
+        txfStandortGruendung = new javax.swing.JTextField();
+        lblStandortGruendung = new javax.swing.JLabel();
+        lblStandortErdung = new javax.swing.JLabel();
+        cboStandortErdung = new javax.swing.JCheckBox();
+        lblStandortMonteur = new javax.swing.JLabel();
+        txfStandortMonteur = new javax.swing.JTextField();
+        lblStandortStandsicherheitspruefung = new javax.swing.JLabel();
+        dapStandortStandsicherheitspruefung = new org.jdesktop.swingx.JXDatePicker();
+        lblStandortVerfahren = new javax.swing.JLabel();
+        txfStandortVerfahren = new javax.swing.JTextField();
         sprStandort = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
+
+        setLayout(new java.awt.GridBagLayout());
 
         lblStandort.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
         lblStandort.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/standort.png"))); // NOI18N
         lblStandort.setText("Standort");                                                    // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(lblStandort, gridBagConstraints);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         lblStandortStadtbezirk.setText("Stadtbezirk:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortStadtbezirk, gridBagConstraints);
 
         lblStandortPLZ.setText("Postleitzahl:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortPLZ, gridBagConstraints);
 
         txtStandortPLZ.setEnabled(false);
 
@@ -197,6 +247,15 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new PLZValidator());
         bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txtStandortPLZ, gridBagConstraints);
 
         cbxStandortStadtbezirk.setEnabled(false);
         cbxStandortStadtbezirk.setRenderer(new DefaultListCellRenderer() {
@@ -228,7 +287,22 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cbxStandortStadtbezirk, gridBagConstraints);
+
         lblStandortHausnummer.setText("Hausnummer:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortHausnummer, gridBagConstraints);
 
         txfStandortHausnummer.setEnabled(false);
 
@@ -241,9 +315,30 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         binding.setValidator(new StringMaxLengthValidator(5));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txfStandortHausnummer, gridBagConstraints);
+
         lblStandortMastart.setText("Mastart:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortMastart, gridBagConstraints);
 
         lblStandortMasttyp.setText("Mast Typ:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortMasttyp, gridBagConstraints);
 
         cbxStandortMastart.setEnabled(false);
         cbxStandortMastart.setRenderer(new DefaultListCellRenderer() {
@@ -275,6 +370,15 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cbxStandortMastart, gridBagConstraints);
+
         cbxStandortMasttyp.setEnabled(false);
         cbxStandortMasttyp.setRenderer(new DefaultListCellRenderer() {
 
@@ -305,7 +409,22 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cbxStandortMasttyp, gridBagConstraints);
+
         lblStandortKlassifizierung.setText("Klassifizierung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortKlassifizierung, gridBagConstraints);
 
         cbxStandortKlassifizierung.setEnabled(false);
         cbxStandortKlassifizierung.setRenderer(new DefaultListCellRenderer() {
@@ -337,7 +456,22 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cbxStandortKlassifizierung, gridBagConstraints);
+
         lblStandortMastanstrich.setText("Mastanstrich:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortMastanstrich, gridBagConstraints);
 
         dapStandortMastanstrich.setEnabled(false);
 
@@ -350,7 +484,22 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(dapStandortMastanstrich, gridBagConstraints);
+
         lblStandortMastschutz.setText("Mastschutz:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortMastschutz, gridBagConstraints);
 
         dapStandortMastschutz.setEnabled(false);
 
@@ -363,7 +512,22 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(dapStandortMastschutz, gridBagConstraints);
+
         lblStandortInbetriebnahme.setText("Inbetriebnahme:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortInbetriebnahme, gridBagConstraints);
 
         dapStandortInbetriebnahme.setEnabled(false);
 
@@ -376,7 +540,22 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(dapStandortInbetriebnahme, gridBagConstraints);
+
         lblStandortLetzteAenderung.setText("Letze Änderung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortLetzteAenderung, gridBagConstraints);
 
         dapStandortLetzteAenderung.setEnabled(false);
 
@@ -389,7 +568,22 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(dapStandortLetzteAenderung, gridBagConstraints);
+
         lblStandortUnterhalt.setText("Unterhalt:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortUnterhalt, gridBagConstraints);
 
         cbxStandortUnterhalt.setEnabled(false);
         cbxStandortUnterhalt.setRenderer(new DefaultListCellRenderer() {
@@ -421,7 +615,22 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cbxStandortUnterhalt, gridBagConstraints);
+
         lblStandortMontagefirma.setText("Montagefirma:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortMontagefirma, gridBagConstraints);
 
         txfStandortMontagefirma.setEnabled(false);
 
@@ -434,7 +643,22 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txfStandortMontagefirma, gridBagConstraints);
+
         lblStandortBemerkung.setText("Bemerkung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 24;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortBemerkung, gridBagConstraints);
 
         cboStandortVerrechnungseinheit.setEnabled(false);
 
@@ -453,6 +677,14 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     cboStandortVerrechnungseinheitActionPerformed(evt);
                 }
             });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 23;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cboStandortVerrechnungseinheit, gridBagConstraints);
 
         txaStandortBemerkung.setColumns(20);
         txaStandortBemerkung.setRows(5);
@@ -469,6 +701,15 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         bindingGroup.addBinding(binding);
 
         scpStandortBemerkung.setViewportView(txaStandortBemerkung);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(scpStandortBemerkung, gridBagConstraints);
 
         cbxStandortStrassenschluessel.setEnabled(false);
         cbxStandortStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
@@ -508,10 +749,30 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     cbxStandortStrassenschluesselActionPerformed(evt);
                 }
             });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cbxStandortStrassenschluessel, gridBagConstraints);
 
         lblStandortStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortStrassenschluessel, gridBagConstraints);
 
         lblStandortKenziffer.setText("Kennziffer:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortKenziffer, gridBagConstraints);
 
         cbxStandortKennziffer.setEnabled(false);
         cbxStandortKennziffer.setRenderer(new DefaultListCellRenderer() {
@@ -544,6 +805,15 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         binding.setValidator(new NotNullValidator("de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cbxStandortKennziffer, gridBagConstraints);
+
         txfStandortLaufendenummer.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -554,12 +824,39 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txfStandortLaufendenummer, gridBagConstraints);
+
         lblStandortLaufendenummer.setText("Laufende Nr.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortLaufendenummer, gridBagConstraints);
 
         lblStandortVerrechnungseinheit.setText("V-Einheit:");                 // NOI18N
         lblStandortVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 23;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortVerrechnungseinheit, gridBagConstraints);
 
         lblStandortStandortangabe.setText("Standortangabe:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortStandortangabe, gridBagConstraints);
 
         txfStandortStandortAngabe.setEnabled(false);
 
@@ -579,6 +876,14 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     txfStandortStandortAngabeActionPerformed(evt);
                 }
             });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txfStandortStandortAngabe, gridBagConstraints);
 
         cbxStandortStrassenschluesselNr.setEnabled(false);
         cbxStandortStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
@@ -618,323 +923,206 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     cbxStandortStrassenschluesselNrActionPerformed(evt);
                 }
             });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cbxStandortStrassenschluesselNr, gridBagConstraints);
 
-        final javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel1Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblStandortLaufendenummer).addGroup(
-                        javax.swing.GroupLayout.Alignment.TRAILING,
-                        jPanel1Layout.createSequentialGroup().addGroup(
-                            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                                lblStandortStandortangabe).addComponent(lblStandortMastart).addComponent(
-                                lblStandortMasttyp).addComponent(
-                                lblStandortKlassifizierung,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                Short.MAX_VALUE).addComponent(lblStandortUnterhalt).addComponent(
-                                lblStandortMastschutz,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                Short.MAX_VALUE).addComponent(lblStandortInbetriebnahme).addComponent(
-                                lblStandortLetzteAenderung).addComponent(
-                                lblStandortMastanstrich,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                Short.MAX_VALUE).addComponent(lblStandortMontagefirma).addComponent(
-                                lblStandortHausnummer).addComponent(lblStandortVerrechnungseinheit).addComponent(
-                                lblStandortBemerkung,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                Short.MAX_VALUE).addComponent(lblStandortPLZ).addComponent(
-                                lblStandortStrassenschluessel).addComponent(lblStandortKenziffer).addComponent(
-                                lblStandortStadtbezirk)).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                                cbxStandortStadtbezirk,
-                                javax.swing.GroupLayout.Alignment.TRAILING,
-                                0,
-                                299,
-                                Short.MAX_VALUE).addComponent(cbxStandortKennziffer, 0, 299, Short.MAX_VALUE)
-                                        .addComponent(
-                                            txfStandortLaufendenummer,
-                                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                                            299,
-                                            Short.MAX_VALUE).addComponent(
-                                txtStandortPLZ,
-                                javax.swing.GroupLayout.Alignment.TRAILING,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                299,
-                                Short.MAX_VALUE).addComponent(
-                                scpStandortBemerkung,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                299,
-                                Short.MAX_VALUE).addComponent(cbxStandortMastart, 0, 299, Short.MAX_VALUE).addComponent(
-                                cbxStandortMasttyp,
-                                0,
-                                299,
-                                Short.MAX_VALUE).addComponent(cbxStandortKlassifizierung, 0, 299, Short.MAX_VALUE)
-                                        .addComponent(cbxStandortUnterhalt, 0, 299, Short.MAX_VALUE).addComponent(
-                                dapStandortMastschutz,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                212,
-                                Short.MAX_VALUE).addComponent(
-                                dapStandortInbetriebnahme,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                299,
-                                Short.MAX_VALUE).addComponent(
-                                dapStandortLetzteAenderung,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                299,
-                                Short.MAX_VALUE).addComponent(
-                                dapStandortMastanstrich,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                299,
-                                Short.MAX_VALUE).addComponent(
-                                txfStandortMontagefirma,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                299,
-                                Short.MAX_VALUE).addComponent(
-                                cboStandortVerrechnungseinheit,
-                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                163,
-                                javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                                txfStandortHausnummer,
-                                javax.swing.GroupLayout.Alignment.TRAILING,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                299,
-                                Short.MAX_VALUE).addComponent(
-                                txfStandortStandortAngabe,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                299,
-                                Short.MAX_VALUE).addGroup(
-                                jPanel1Layout.createSequentialGroup().addComponent(
-                                    cbxStandortStrassenschluesselNr,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                    102,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                                    cbxStandortStrassenschluessel,
-                                    0,
-                                    191,
-                                    Short.MAX_VALUE))))).addContainerGap()));
+        lblStandortElekPruefung.setText("Elektrische Prüfung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortElekPruefung, gridBagConstraints);
 
-        jPanel1Layout.linkSize(
-            javax.swing.SwingConstants.HORIZONTAL,
-            new java.awt.Component[] {
-                lblStandortBemerkung,
-                lblStandortHausnummer,
-                lblStandortInbetriebnahme,
-                lblStandortKlassifizierung,
-                lblStandortLetzteAenderung,
-                lblStandortMastanstrich,
-                lblStandortMastart,
-                lblStandortMastschutz,
-                lblStandortMasttyp,
-                lblStandortMontagefirma,
-                lblStandortPLZ,
-                lblStandortStadtbezirk,
-                lblStandortUnterhalt
-            });
+        dapStandortElekPruefung.setEnabled(false);
 
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel1Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortStrassenschluessel).addComponent(
-                        cbxStandortStrassenschluesselNr,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        19,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        cbxStandortStrassenschluessel,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortKenziffer).addComponent(
-                        cbxStandortKennziffer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortLaufendenummer).addComponent(
-                        txfStandortLaufendenummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortStadtbezirk).addComponent(
-                        cbxStandortStadtbezirk,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortPLZ).addComponent(
-                        txtStandortPLZ,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortStandortangabe).addComponent(
-                        txfStandortStandortAngabe,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortHausnummer).addComponent(
-                        txfStandortHausnummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortMastart).addComponent(
-                        cbxStandortMastart,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortMasttyp).addComponent(
-                        cbxStandortMasttyp,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortKlassifizierung).addComponent(cbxStandortKlassifizierung, 0, 22, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortUnterhalt).addComponent(
-                        cbxStandortUnterhalt,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortMastschutz).addComponent(
-                        dapStandortMastschutz,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortInbetriebnahme).addComponent(
-                        dapStandortInbetriebnahme,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortLetzteAenderung).addComponent(
-                        dapStandortLetzteAenderung,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortMastanstrich).addComponent(
-                        dapStandortMastanstrich,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblStandortMontagefirma).addComponent(
-                        txfStandortMontagefirma,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        cboStandortVerrechnungseinheit).addComponent(lblStandortVerrechnungseinheit)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        scpStandortBemerkung,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        151,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(lblStandortBemerkung)).addContainerGap()));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.elek_pruefung}"),
+                dapStandortElekPruefung,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
 
-        jPanel1Layout.linkSize(
-            javax.swing.SwingConstants.VERTICAL,
-            new java.awt.Component[] {
-                cboStandortVerrechnungseinheit,
-                cbxStandortKennziffer,
-                cbxStandortKlassifizierung,
-                cbxStandortMastart,
-                cbxStandortMasttyp,
-                cbxStandortStadtbezirk,
-                cbxStandortStrassenschluessel,
-                cbxStandortUnterhalt,
-                dapStandortInbetriebnahme,
-                dapStandortLetzteAenderung,
-                dapStandortMastanstrich,
-                dapStandortMastschutz,
-                txfStandortHausnummer,
-                txfStandortLaufendenummer,
-                txfStandortMontagefirma,
-                txtStandortPLZ
-            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(dapStandortElekPruefung, gridBagConstraints);
 
-        jPanel1Layout.linkSize(
-            javax.swing.SwingConstants.VERTICAL,
-            new java.awt.Component[] {
-                lblStandortBemerkung,
-                lblStandortHausnummer,
-                lblStandortInbetriebnahme,
-                lblStandortKlassifizierung,
-                lblStandortLetzteAenderung,
-                lblStandortMastanstrich,
-                lblStandortMastart,
-                lblStandortMastschutz,
-                lblStandortMasttyp,
-                lblStandortMontagefirma,
-                lblStandortPLZ,
-                lblStandortStadtbezirk,
-                lblStandortUnterhalt
-            });
+        txfStandortGruendung.setEnabled(false);
 
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                layout.createSequentialGroup().addContainerGap().addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(
-                        jPanel1,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        Short.MAX_VALUE).addComponent(
-                        sprStandort,
-                        javax.swing.GroupLayout.Alignment.LEADING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        448,
-                        Short.MAX_VALUE).addComponent(lblStandort, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addContainerGap()));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addComponent(lblStandort).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    sprStandort,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    10,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                    jPanel1,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap(
-                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                    Short.MAX_VALUE)));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.gruendung}"),
+                txfStandortGruendung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txfStandortGruendung, gridBagConstraints);
+
+        lblStandortGruendung.setText("Gründung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortGruendung, gridBagConstraints);
+
+        lblStandortErdung.setText("Erdung:");                    // NOI18N
+        lblStandortErdung.setToolTipText("Verrechnungseinheit"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortErdung, gridBagConstraints);
+
+        cboStandortErdung.setText("i.O.");
+        cboStandortErdung.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cboStandortErdung, gridBagConstraints);
+
+        lblStandortMonteur.setText("Monteur:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 19;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortMonteur, gridBagConstraints);
+
+        txfStandortMonteur.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.monteur}"),
+                txfStandortMonteur,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txfStandortMonteur, gridBagConstraints);
+
+        lblStandortStandsicherheitspruefung.setText("Standsicherheitsprüfung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortStandsicherheitspruefung, gridBagConstraints);
+
+        dapStandortStandsicherheitspruefung.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standsicherheitspruefung}"),
+                dapStandortStandsicherheitspruefung,
+                org.jdesktop.beansbinding.BeanProperty.create("UI"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(dapStandortStandsicherheitspruefung, gridBagConstraints);
+
+        lblStandortVerfahren.setText("Verfahren:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 21;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortVerfahren, gridBagConstraints);
+
+        txfStandortVerfahren.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.verfahren}"),
+                txfStandortVerfahren,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 21;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txfStandortVerfahren, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jPanel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(sprStandort, gridBagConstraints);
+
+        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                431,
+                Short.MAX_VALUE));
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                56,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        add(jPanel2, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
