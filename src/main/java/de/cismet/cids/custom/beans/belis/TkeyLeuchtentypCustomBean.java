@@ -318,7 +318,7 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.Leuchtentyp[leuchtentyp=" + leuchtentyp + "]";
+        return getKeyString();
     }
 
     @Override

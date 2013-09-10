@@ -196,7 +196,7 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.Masttyp[masttyp=" + masttyp + "]";
+        return getKeyString();
     }
 
     @Override

@@ -90,26 +90,13 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
 
         setLayout(new java.awt.GridBagLayout());
 
-        final javax.swing.GroupLayout panContent1Layout = new javax.swing.GroupLayout(panContent1);
-        panContent1.setLayout(panContent1Layout);
-        panContent1Layout.setHorizontalGroup(
-            panContent1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                411,
-                Short.MAX_VALUE));
-        panContent1Layout.setVerticalGroup(
-            panContent1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                232,
-                Short.MAX_VALUE));
-
+        panContent1.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         add(panContent1, gridBagConstraints);
 
         final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -117,12 +104,12 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                431,
+                400,
                 Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                80,
+                300,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();

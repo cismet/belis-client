@@ -31,6 +31,7 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
+import de.cismet.cids.custom.beans.belis.AnlagengruppeCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
@@ -57,6 +58,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox cboStandortErdung;
     private javax.swing.JCheckBox cboStandortVerrechnungseinheit;
+    private javax.swing.JComboBox cbxStandortAnlagengruppe;
     private javax.swing.JComboBox cbxStandortKennziffer;
     private javax.swing.JComboBox cbxStandortKlassifizierung;
     private javax.swing.JComboBox cbxStandortMastart;
@@ -76,6 +78,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblStandort;
+    private javax.swing.JLabel lblStandortAnlagengruppe;
     private javax.swing.JLabel lblStandortAnstrichfarbe;
     private javax.swing.JLabel lblStandortBemerkung;
     private javax.swing.JLabel lblStandortElekPruefung;
@@ -219,11 +222,14 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         dapStandortRevision = new org.jdesktop.swingx.JXDatePicker();
         lblStandortAnstrichfarbe = new javax.swing.JLabel();
         txfStandortAnstrichfarbe = new javax.swing.JTextField();
+        lblStandortAnlagengruppe = new javax.swing.JLabel();
+        cbxStandortAnlagengruppe = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
 
-        lblStandort.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        lblStandort.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/standort.png"))); // NOI18N
-        lblStandort.setText("Standort"); // NOI18N
+        lblStandort.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
+        lblStandort.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/standort.png"))); // NOI18N
+        lblStandort.setText("Standort");                                                    // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -247,7 +253,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         txtStandortPLZ.setEnabled(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.plz}"), txtStandortPLZ, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.plz}"),
+                txtStandortPLZ,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new PLZValidator());
         bindingGroup.addBinding(binding);
 
@@ -262,21 +273,32 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortStadtbezirk.setEnabled(false);
         cbxStandortStadtbezirk.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean sb = (de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean)value;
-                    setText(sb.getBezirk());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.stadtbezirk}"), cbxStandortStadtbezirk, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean sb =
+                            (de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean)value;
+                        setText(sb.getBezirk());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.stadtbezirk}"),
+                cbxStandortStadtbezirk,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -298,7 +320,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         txfStandortHausnummer.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.hausnummer}"), txfStandortHausnummer, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.hausnummer}"),
+                txfStandortHausnummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator(5));
         bindingGroup.addBinding(binding);
 
@@ -329,21 +356,32 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortMastart.setEnabled(false);
         cbxStandortMastart.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean ma = (de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean)value;
-                    setText(ma.getMastart());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastart}"), cbxStandortMastart, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean ma =
+                            (de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean)value;
+                        setText(ma.getMastart());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastart}"),
+                cbxStandortMastart,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -357,21 +395,32 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortMasttyp.setEnabled(false);
         cbxStandortMasttyp.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean mt = (de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean)value;
-                    setText(mt.getMasttyp());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.masttyp}"), cbxStandortMasttyp, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean mt =
+                            (de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean)value;
+                        setText(mt.getMasttyp());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.masttyp}"),
+                cbxStandortMasttyp,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -393,21 +442,32 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortKlassifizierung.setEnabled(false);
         cbxStandortKlassifizierung.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean kl = (de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean)value;
-                    setText(kl.getKlassifizierung());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.klassifizierung}"), cbxStandortKlassifizierung, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean kl =
+                            (de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean)value;
+                        setText(kl.getKlassifizierung());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.klassifizierung}"),
+                cbxStandortKlassifizierung,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -429,7 +489,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortMastanstrich.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastanstrich}"), dapStandortMastanstrich, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastanstrich}"),
+                dapStandortMastanstrich,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -452,7 +517,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortMastschutz.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastschutz}"), dapStandortMastschutz, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastschutz}"),
+                dapStandortMastschutz,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -475,7 +545,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortInbetriebnahme.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahmeMast}"), dapStandortInbetriebnahme, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahmeMast}"),
+                dapStandortInbetriebnahme,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -498,7 +573,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortLetzteAenderung.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.letzteAenderung}"), dapStandortLetzteAenderung, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.letzteAenderung}"),
+                dapStandortLetzteAenderung,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -521,21 +601,32 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortUnterhalt.setEnabled(false);
         cbxStandortUnterhalt.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean um = (de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean)value;
-                    setText(um.getUnterhaltMast());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtMast}"), cbxStandortUnterhalt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean um =
+                            (de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean)value;
+                        setText(um.getUnterhaltMast());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtMast}"),
+                cbxStandortUnterhalt,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -557,7 +648,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         txfStandortMontagefirma.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.montagefirma}"), txfStandortMontagefirma, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.montagefirma}"),
+                txfStandortMontagefirma,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
@@ -573,21 +669,21 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         lblStandortBemerkung.setText("Bemerkung:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 26;
+        gridBagConstraints.gridy = 27;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblStandortBemerkung, gridBagConstraints);
 
         cboStandortVerrechnungseinheit.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.verrechnungseinheit}"), cboStandortVerrechnungseinheit, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.verrechnungseinheit}"),
+                cboStandortVerrechnungseinheit,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
         bindingGroup.addBinding(binding);
 
-        cboStandortVerrechnungseinheit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboStandortVerrechnungseinheitActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 16;
@@ -597,12 +693,17 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(cboStandortVerrechnungseinheit, gridBagConstraints);
 
+        scpStandortBemerkung.setEnabled(false);
+
         txaStandortBemerkung.setColumns(20);
         txaStandortBemerkung.setRows(5);
-        txaStandortBemerkung.setEnabled(false);
-        txaStandortBemerkung.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkungen}"), txaStandortBemerkung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkungen}"),
+                txaStandortBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
@@ -610,7 +711,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 26;
+        gridBagConstraints.gridy = 27;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -619,29 +720,42 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortStrassenschluessel.setEnabled(false);
         cbxStandortStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
-                    setText(ss.getKeyString());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"), cbxStandortStrassenschluessel, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                        setText(ss.getKeyString());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
+                cbxStandortStrassenschluessel,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setValidator(new NotNullValidator("Straßenschlüssel"));
         bindingGroup.addBinding(binding);
 
         cbxStandortStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxStandortStrassenschluesselActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbxStandortStrassenschluesselActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -669,21 +783,32 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortKennziffer.setEnabled(false);
         cbxStandortKennziffer.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean kzf = (de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean)value;
-                    setText(kzf.getKeyString());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.kennziffer}"), cbxStandortKennziffer, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean kzf =
+                            (de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean)value;
+                        setText(kzf.getKeyString());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.kennziffer}"),
+                cbxStandortKennziffer,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setValidator(new NotNullValidator("de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean"));
         bindingGroup.addBinding(binding);
 
@@ -698,7 +823,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         txfStandortLaufendenummer.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"), txfStandortLaufendenummer, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
+                txfStandortLaufendenummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -718,7 +848,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblStandortLaufendenummer, gridBagConstraints);
 
-        lblStandortVerrechnungseinheit.setText("V-Einheit:"); // NOI18N
+        lblStandortVerrechnungseinheit.setText("V-Einheit:");                 // NOI18N
         lblStandortVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -737,15 +867,15 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         txfStandortStandortAngabe.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standortangabe}"), txfStandortStandortAngabe, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standortangabe}"),
+                txfStandortStandortAngabe,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
-        txfStandortStandortAngabe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txfStandortStandortAngabeActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -757,28 +887,42 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cbxStandortStrassenschluesselNr.setEnabled(false);
         cbxStandortStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                    final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
-                    setText(ss.getPk());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"), cbxStandortStrassenschluesselNr, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "strassenschluesselnr"); // NOI18N
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                        setText(ss.getPk());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
+                cbxStandortStrassenschluesselNr,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "strassenschluesselnr"); // NOI18N
         bindingGroup.addBinding(binding);
 
         cbxStandortStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxStandortStrassenschluesselNrActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbxStandortStrassenschluesselNrActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -798,7 +942,13 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortElekPruefung.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.elek_pruefung}"), dapStandortElekPruefung, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.elek_pruefung}"),
+                dapStandortElekPruefung,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -812,7 +962,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         txfStandortGruendung.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.gruendung}"), txfStandortGruendung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.gruendung}"),
+                txfStandortGruendung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -832,7 +987,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblStandortGruendung, gridBagConstraints);
 
-        lblStandortErdung.setText("Erdung:"); // NOI18N
+        lblStandortErdung.setText("Erdung:");                    // NOI18N
         lblStandortErdung.setToolTipText("Verrechnungseinheit"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -862,7 +1017,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         txfStandortMonteur.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.monteur}"), txfStandortMonteur, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.monteur}"),
+                txfStandortMonteur,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -884,7 +1044,14 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortStandsicherheitspruefung.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standsicherheitspruefung}"), dapStandortStandsicherheitspruefung, org.jdesktop.beansbinding.BeanProperty.create("UI"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standsicherheitspruefung}"),
+                dapStandortStandsicherheitspruefung,
+                org.jdesktop.beansbinding.BeanProperty.create("date"),
+                "");
+        binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -906,7 +1073,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         txfStandortVerfahren.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.verfahren}"), txfStandortVerfahren, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.verfahren}"),
+                txfStandortVerfahren,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -928,7 +1100,13 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortNaechstesPruefdatum.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.naechstes_pruefdatum}"), dapStandortNaechstesPruefdatum, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.naechstes_pruefdatum}"),
+                dapStandortNaechstesPruefdatum,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -950,7 +1128,13 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         dapStandortRevision.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.revision}"), dapStandortRevision, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.revision}"),
+                dapStandortRevision,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -972,7 +1156,12 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         txfStandortAnstrichfarbe.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anstrichfarbe}"), txfStandortAnstrichfarbe, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anstrichfarbe}"),
+                txfStandortAnstrichfarbe,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -984,26 +1173,74 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(txfStandortAnstrichfarbe, gridBagConstraints);
 
+        lblStandortAnlagengruppe.setText("Anlagengruppe:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 26;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(lblStandortAnlagengruppe, gridBagConstraints);
+
+        cbxStandortAnlagengruppe.setEnabled(false);
+        cbxStandortAnlagengruppe.setRenderer(new DefaultListCellRenderer() {
+
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.AnlagengruppeCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.AnlagengruppeCustomBean ag =
+                            (de.cismet.cids.custom.beans.belis.AnlagengruppeCustomBean)value;
+                        setText(ag.getNummer() + " - " + ag.getBezeichnung());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anlagengruppe}"),
+                cbxStandortAnlagengruppe,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 26;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(cbxStandortAnlagengruppe, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel1, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
-        );
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                479,
+                Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                204,
+                Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1013,7 +1250,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         add(jPanel2, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -1039,6 +1276,18 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         componentToLabelMap.put(txfStandortMontagefirma, lblStandortMontagefirma);
         componentToLabelMap.put(txtStandortPLZ, lblStandortPLZ);
         componentToLabelMap.put(txfStandortStandortAngabe, lblStandortStandortangabe);
+        componentToLabelMap.put(dapStandortElekPruefung, lblStandortElekPruefung);
+        componentToLabelMap.put(dapStandortNaechstesPruefdatum, lblStandortNaechstesPruefdatum);
+        componentToLabelMap.put(dapStandortRevision, lblStandortRevision);
+        componentToLabelMap.put(dapStandortStandsicherheitspruefung, lblStandortStandsicherheitspruefung);
+        componentToLabelMap.put(txfStandortAnstrichfarbe, lblStandortAnstrichfarbe);
+        componentToLabelMap.put(txfStandortGruendung, lblStandortGruendung);
+        componentToLabelMap.put(txfStandortLaufendenummer, lblStandortLaufendenummer);
+        componentToLabelMap.put(txfStandortMontagefirma, lblStandortMontagefirma);
+        componentToLabelMap.put(txfStandortMonteur, lblStandortMonteur);
+        componentToLabelMap.put(txfStandortVerfahren, lblStandortVerfahren);
+        componentToLabelMap.put(cboStandortErdung, lblStandortErdung);
+        componentToLabelMap.put(cbxStandortAnlagengruppe, lblStandortAnlagengruppe);
     }
 
     /**
@@ -1075,6 +1324,9 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortMasttyp, TkeyMasttypCustomBean.TABLE);
         cbxStandortMasttyp.setSelectedItem(null);
 
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxStandortAnlagengruppe, AnlagengruppeCustomBean.TABLE);
+        cbxStandortAnlagengruppe.setSelectedItem(null);
+
         AutoCompleteDecorator.decorate(cbxStandortMasttyp, new ObjectToKeyStringConverter());
         try {
             final Collection<TkeyUnterhMastCustomBean> unterhaltMast = CidsBroker.getInstance()
@@ -1107,16 +1359,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cboStandortVerrechnungseinheitActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboStandortVerrechnungseinheitActionPerformed
-// TODO add your handling code here:
-    }//GEN-LAST:event_cboStandortVerrechnungseinheitActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbxStandortStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStandortStrassenschluesselActionPerformed
+    private void cbxStandortStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStandortStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -1127,23 +1370,14 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         } finally {
             isTriggerd = false;
         }
-    }//GEN-LAST:event_cbxStandortStrassenschluesselActionPerformed
+    }                                                                                                 //GEN-LAST:event_cbxStandortStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void txfStandortStandortAngabeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfStandortStandortAngabeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txfStandortStandortAngabeActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void cbxStandortStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStandortStrassenschluesselNrActionPerformed
+    private void cbxStandortStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStandortStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -1154,7 +1388,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         } finally {
             isTriggerd = false;
         }
-    }//GEN-LAST:event_cbxStandortStrassenschluesselNrActionPerformed
+    }                                                                                                   //GEN-LAST:event_cbxStandortStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1181,6 +1415,18 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         txfStandortMontagefirma.setEnabled(isEditable);
         txaStandortBemerkung.setEnabled(isEditable);
         cboStandortVerrechnungseinheit.setEnabled(isEditable);
+        dapStandortElekPruefung.setEnabled(isEditable);
+        dapStandortNaechstesPruefdatum.setEnabled(isEditable);
+        dapStandortRevision.setEnabled(isEditable);
+        dapStandortStandsicherheitspruefung.setEnabled(isEditable);
+        txfStandortAnstrichfarbe.setEnabled(isEditable);
+        txfStandortGruendung.setEnabled(isEditable);
+        txfStandortLaufendenummer.setEnabled(isEditable);
+        txfStandortMontagefirma.setEnabled(isEditable);
+        txfStandortMonteur.setEnabled(isEditable);
+        txfStandortVerfahren.setEnabled(isEditable);
+        cboStandortErdung.setEnabled(isEditable);
+        cbxStandortAnlagengruppe.setEnabled(isEditable);
     }
 
     /**
@@ -1209,6 +1455,26 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         }
         try {
             dapStandortMastschutz.getEditor().commitEdit();
+        } catch (ParseException ex) {
+            LOG.warn("Error while commiting edits: " + ex);
+        }
+        try {
+            dapStandortElekPruefung.getEditor().commitEdit();
+        } catch (ParseException ex) {
+            LOG.warn("Error while commiting edits: " + ex);
+        }
+        try {
+            dapStandortStandsicherheitspruefung.getEditor().commitEdit();
+        } catch (ParseException ex) {
+            LOG.warn("Error while commiting edits: " + ex);
+        }
+        try {
+            dapStandortRevision.getEditor().commitEdit();
+        } catch (ParseException ex) {
+            LOG.warn("Error while commiting edits: " + ex);
+        }
+        try {
+            dapStandortNaechstesPruefdatum.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }

@@ -506,7 +506,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements DocumentCon
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.Schaltstelle[id=" + getId() + "]";
+        return getKeyString();
     }
 
     @Override

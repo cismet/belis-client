@@ -13,24 +13,9 @@ package de.cismet.belis.gui.widget;
 
 import Sirius.navigator.ui.ComponentRegistry;
 
-import Sirius.server.middleware.types.MetaObject;
-import Sirius.server.middleware.types.MetaObjectNode;
-import Sirius.server.middleware.types.Node;
-
 import org.apache.log4j.Logger;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
-
 import de.cismet.belis.broker.BelisBroker;
-
-import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.commons.server.entity.BaseEntity;
 
 /**
  * DOCUMENT ME!
@@ -38,7 +23,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-//@org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
+@org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
 public class SearchResultsWidget extends BelisWidget {
 
     //~ Static fields/initializers ---------------------------------------------

@@ -129,7 +129,7 @@ public class AnlagengruppeCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        return "de.cismet.belisEE.entity.MaterialLeitung[id=" + getId() + "]";
+        return getKeyString();
     }
 
     @Override

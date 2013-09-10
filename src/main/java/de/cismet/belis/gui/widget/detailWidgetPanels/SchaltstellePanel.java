@@ -140,21 +140,79 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
         setLayout(new java.awt.GridBagLayout());
 
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
         lblSchaltstelleStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleStrassenschluessel, gridBagConstraints);
 
         lblSchaltstelleLaufendenummer.setText("Laufende Nr.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleLaufendenummer, gridBagConstraints);
 
         lblSchaltstelleHausnummer.setText("Haus Nr.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleHausnummer, gridBagConstraints);
 
         lblSchaltstelleNummer.setText("Schaltstellen Nr.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleNummer, gridBagConstraints);
 
         lblSchaltstelleErstellungsjahr.setText("Erstellungsjahr:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleErstellungsjahr, gridBagConstraints);
 
         lblSchaltstelleStandortbezeichnung.setText("Standortbezeichnung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleStandortbezeichnung, gridBagConstraints);
 
         lblSchaltstelleBauart.setText("Bauart:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleBauart, gridBagConstraints);
 
         lblSchaltstelleBemerkung.setText("Bemerkung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleBemerkung, gridBagConstraints);
 
         txfSchaltstelleLaufendenummer.setEnabled(false);
 
@@ -165,6 +223,15 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                 txfSchaltstelleLaufendenummer,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(txfSchaltstelleLaufendenummer, gridBagConstraints);
 
         txfSchaltstelleHausnummer.setEnabled(false);
 
@@ -177,6 +244,15 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         binding.setValidator(new StringMaxLengthValidator(5));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(txfSchaltstelleHausnummer, gridBagConstraints);
+
         txfSchaltstelleNummer.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -186,6 +262,15 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                 txfSchaltstelleNummer,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(txfSchaltstelleNummer, gridBagConstraints);
 
         dapSchaltstelleErstellungsjahr.setEnabled(false);
 
@@ -198,6 +283,15 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(dapSchaltstelleErstellungsjahr, gridBagConstraints);
+
         txfSchaltstelleStandortbezeichnung.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -208,6 +302,15 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(txfSchaltstelleStandortbezeichnung, gridBagConstraints);
 
         cbxSchaltstelleBauart.setEnabled(false);
         cbxSchaltstelleBauart.setRenderer(new DefaultListCellRenderer() {
@@ -239,6 +342,15 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(cbxSchaltstelleBauart, gridBagConstraints);
+
         txaSchaltstelleBemerkung.setColumns(20);
         txaSchaltstelleBemerkung.setRows(5);
         txaSchaltstelleBemerkung.setEnabled(false);
@@ -253,6 +365,17 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         bindingGroup.addBinding(binding);
 
         scpSchaltstelleBemerkung.setViewportView(txaSchaltstelleBemerkung);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(scpSchaltstelleBemerkung, gridBagConstraints);
 
         cbxSchaltstelleStrassenschluesselNr.setEnabled(false);
         cbxSchaltstelleStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
@@ -282,6 +405,13 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                     cbxSchaltstelleStrassenschluesselNrActionPerformed(evt);
                 }
             });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(cbxSchaltstelleStrassenschluesselNr, gridBagConstraints);
 
         cbxSchaltstelleStrassenschluessel.setEnabled(false);
         cbxSchaltstelleStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
@@ -321,115 +451,13 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                     cbxSchaltstelleStrassenschluesselActionPerformed(evt);
                 }
             });
-
-        final javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel4Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblSchaltstelleStandortbezeichnung).addComponent(lblSchaltstelleBauart).addComponent(
-                        lblSchaltstelleErstellungsjahr).addComponent(lblSchaltstelleNummer).addComponent(
-                        lblSchaltstelleStrassenschluessel).addComponent(lblSchaltstelleLaufendenummer).addComponent(
-                        lblSchaltstelleHausnummer).addComponent(lblSchaltstelleBemerkung)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        txfSchaltstelleStandortbezeichnung,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        286,
-                        Short.MAX_VALUE).addComponent(
-                        txfSchaltstelleHausnummer,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        286,
-                        Short.MAX_VALUE).addComponent(
-                        txfSchaltstelleNummer,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        286,
-                        Short.MAX_VALUE).addComponent(
-                        dapSchaltstelleErstellungsjahr,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        286,
-                        Short.MAX_VALUE).addComponent(cbxSchaltstelleBauart, 0, 286, Short.MAX_VALUE).addComponent(
-                        scpSchaltstelleBemerkung,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        0,
-                        Short.MAX_VALUE).addGroup(
-                        jPanel4Layout.createSequentialGroup().addComponent(
-                            cbxSchaltstelleStrassenschluesselNr,
-                            javax.swing.GroupLayout.PREFERRED_SIZE,
-                            102,
-                            javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                            javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(
-                            cbxSchaltstelleStrassenschluessel,
-                            0,
-                            178,
-                            Short.MAX_VALUE)).addComponent(
-                        txfSchaltstelleLaufendenummer,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        286,
-                        Short.MAX_VALUE)).addContainerGap()));
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel4Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleStrassenschluessel).addComponent(
-                        cbxSchaltstelleStrassenschluesselNr,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        19,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        cbxSchaltstelleStrassenschluessel,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleLaufendenummer).addComponent(
-                        txfSchaltstelleLaufendenummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleHausnummer).addComponent(
-                        txfSchaltstelleHausnummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleNummer).addComponent(
-                        txfSchaltstelleNummer,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleErstellungsjahr).addComponent(
-                        dapSchaltstelleErstellungsjahr,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleStandortbezeichnung).addComponent(
-                        txfSchaltstelleStandortbezeichnung,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblSchaltstelleBauart).addComponent(
-                        cbxSchaltstelleBauart,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblSchaltstelleBemerkung).addComponent(
-                        scpSchaltstelleBemerkung,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(46, Short.MAX_VALUE)));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(cbxSchaltstelleStrassenschluessel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -437,7 +465,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         add(jPanel4, gridBagConstraints);
 
         final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -445,12 +472,12 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                483,
+                500,
                 Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                34,
+                143,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();

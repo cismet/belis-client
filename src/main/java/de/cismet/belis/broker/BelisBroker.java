@@ -11,6 +11,7 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.event.CatalogueActivationListener;
 import Sirius.navigator.event.CatalogueSelectionListener;
 import Sirius.navigator.resource.PropertyManager;
+import Sirius.navigator.search.CidsSearchExecutor;
 import Sirius.navigator.search.dynamic.SearchDialog;
 import Sirius.navigator.types.treenode.RootTreeNode;
 import Sirius.navigator.ui.ComponentRegistry;
@@ -108,7 +109,8 @@ import de.cismet.belis.panels.CreateToolBar;
 import de.cismet.belis.panels.EditButtonsToolbar;
 import de.cismet.belis.panels.SaveErrorDialogPanel;
 import de.cismet.belis.panels.SaveWaitDialog;
-import de.cismet.belis.panels.SearchWaitDialog;
+
+import de.cismet.belis.server.search.BelisSearchStatement;
 
 import de.cismet.belis.todo.RetrieveWorker;
 
@@ -291,7 +293,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     private boolean inCreateMode;
     private MapSearchControl mscPan = null;
     private int maxSearchResults = 50;
-    private SearchWaitDialog searchWaitDialog = null;
     private SaveWaitDialog saveWaitDialog = null;
     private CancelWaitDialog cancelWaitDialog = null;
     private RetrieveWorker lastSearch = null;
@@ -967,38 +968,43 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                 @Override
                 public void treeNodesChanged(final TreeModelEvent e) {
-                    LOG.fatal("treeNodesChanged");
                 }
 
                 @Override
                 public void treeNodesInserted(final TreeModelEvent e) {
-                    LOG.fatal("treeNodesInserted");
                 }
 
                 @Override
                 public void treeNodesRemoved(final TreeModelEvent e) {
-                    LOG.fatal("treeNodesRemoved");
                 }
 
                 @Override
                 public void treeStructureChanged(final TreeModelEvent e) {
-                    final List<Node> nodes = searchResultsTree.getResultNodes();
-                    final Set<BaseEntity> entities = new HashSet<BaseEntity>();
-                    if ((nodes != null) && (nodes.size() > 0)) {
-                        for (final Node node : nodes) {
-                            if ((node != null) && (node instanceof MetaObjectNode)) {
-                                final MetaObjectNode moNode = (MetaObjectNode)node;
-                                final MetaObject mo = moNode.getObject();
-                                if (mo != null) {
-                                    final CidsBean bean = mo.getBean();
-                                    if (bean instanceof BaseEntity) {
-                                        entities.add((BaseEntity)bean);
+                    SwingUtilities.invokeLater(new Thread() {
+
+                            @Override
+                            public void run() {
+                                final List<Node> nodes = searchResultsTree.getResultNodes();
+                                final Set<BaseEntity> entities = new HashSet<BaseEntity>();
+                                if ((nodes != null) && (nodes.size() > 0)) {
+                                    for (final Node node : nodes) {
+                                        if ((node != null) && (node instanceof MetaObjectNode)) {
+                                            final MetaObjectNode moNode = (MetaObjectNode)node;
+                                            final MetaObject mo = moNode.getObject();
+                                            if (mo != null) {
+                                                final CidsBean bean = mo.getBean();
+                                                if (bean instanceof BaseEntity) {
+                                                    entities.add((BaseEntity)bean);
+                                                }
+                                            }
+                                        }
                                     }
+                                    setSearchResult(entities);
+                                    enableSearch();
+                                    fireSearchFinished();
                                 }
                             }
-                        }
-                        setSearchResult(entities);
-                    }
+                        });
                 }
             });
 
@@ -1062,7 +1068,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             LOG.warn("Error while reading options");
         }
         try {
-            searchWaitDialog = new SearchWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
             saveWaitDialog = new SaveWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
             cancelWaitDialog = new CancelWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
         } catch (Exception ex) {
@@ -1751,11 +1756,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             if (LOG.isDebugEnabled()) {
                 LOG.debug("refreshing SearchResults. Doing mapsearch");
             }
-            try {
-                search(getMappingComponent().getCurrentBoundingBox());
-            } catch (ActionNotSuccessfulException ex) {
-                LOG.error("Error while doing mapsearch");
-            }
+            search(getMappingComponent().getCurrentBoundingBox());
         } else {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("not in createmode");
@@ -1782,52 +1783,52 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (LOG.isDebugEnabled()) {
             LOG.debug("cancel");
         }
-        try {
-            workbenchWidget.saveSelectedElementAndUnselectAll();
+//        try {
+        workbenchWidget.saveSelectedElementAndUnselectAll();
 //            Set tmpResults = null;
-            if (!isInCreateMode() && (lastSearch != null)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("is not in create mode. Refreshing search results with last search");
-                }
-                if (lastSearch.getBoundingBox() != null) {
-                    search(lastSearch.getBoundingBox());
-                } else {
-                    search(lastSearch.getStrassenschluessel(),
-                        lastSearch.getKennziffer(),
-                        lastSearch.getLaufendenummer());
-                }
+        if (!isInCreateMode() && (lastSearch != null)) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("is not in create mode. Refreshing search results with last search");
             }
+//                if (lastSearch.getBoundingBox() != null) {
+            search(lastSearch.getBoundingBox());
+//                } else {
+//                    search(lastSearch.getStrassenschluessel(),
+//                        lastSearch.getKennziffer(),
+//                        lastSearch.getLaufendenummer());
+//                }
+        }
 //            final Set refreshedSearchResults = tmpResults;
 
-            // ToDo Refresh the already persited new objects;
-            // result.add(new Standort((int)(10000*Math.random())));
-            final Runnable cancelEDTRun = new Runnable() {
+        // ToDo Refresh the already persited new objects;
+        // result.add(new Standort((int)(10000*Math.random())));
+        final Runnable cancelEDTRun = new Runnable() {
 
-                    @Override
-                    public void run() {
-                        if (!isInCreateMode()) {
-                            // ToDo After this statement there is a exception console (case there are search results and
-                            // the edit modus is cancled) setCurrentSearchResults(refreshedSearchResults);
-                            workbenchWidget.restoreRemovedObjects();
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("is in create mode");
-                            }
-                            workbenchWidget.clearNewObjects();
-                        }
-                        // refreshMap();
-                        workbenchWidget.restoreSelectedElementIfPossible();
+                @Override
+                public void run() {
+                    if (!isInCreateMode()) {
+                        // ToDo After this statement there is a exception console (case there are search results and
+                        // the edit modus is cancled) setCurrentSearchResults(refreshedSearchResults);
+                        workbenchWidget.restoreRemovedObjects();
+                    } else {
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("Objects are refreshed");
+                            LOG.debug("is in create mode");
                         }
+                        workbenchWidget.clearNewObjects();
                     }
-                };
-            // runOrEDTDispatch(cancelEDTRun);
-            return cancelEDTRun;
-        } catch (ActionNotSuccessfulException ex) {
-            LOG.error("Error while refreshing objects: " + ex);
-            return null;
-        }
+                    // refreshMap();
+                    workbenchWidget.restoreSelectedElementIfPossible();
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Objects are refreshed");
+                    }
+                }
+            };
+        // runOrEDTDispatch(cancelEDTRun);
+        return cancelEDTRun;
+//        } catch (ActionNotSuccessfulException ex) {
+//            LOG.error("Error while refreshing objects: " + ex);
+//            return null;
+//        }
     }
 
     /**
@@ -1977,7 +1978,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
         if ((this.currentSearchResults != null) && (currentSearchResults != null)
                     && this.currentSearchResults.equals(currentSearchResults)) {
-            LOG.fatal("Sets are equals no propertyChange doing manually refresh --> ToDo fix me");
+            LOG.warn("Sets are equals no propertyChange doing manually refresh --> ToDo fix me");
             this.currentSearchResults = currentSearchResults;
             refreshWidgets(getCurrentSearchResults());
         } else {
@@ -1992,17 +1993,13 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      *
-     * @param   strassenschluessel  DOCUMENT ME!
-     * @param   kennziffer          DOCUMENT ME!
-     * @param   laufendenummer      DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     * @param  set  strassenschluessel DOCUMENT ME!
      */
-    public void search(final String strassenschluessel, final Integer kennziffer, final Integer laufendenummer)
-            throws ActionNotSuccessfulException {
-        final Set result = CidsBroker.getInstance().getObjectsByKey(strassenschluessel, kennziffer, laufendenummer);
-        setSearchResult(result);
-    }
+// public void search(final String strassenschluessel, final Integer kennziffer, final Integer laufendenummer)
+// throws ActionNotSuccessfulException {
+// final Set result = CidsBroker.getInstance().getObjectsByKey(strassenschluessel, kennziffer, laufendenummer);
+// setSearchResult(result);
+// }
 
     /**
      * DOCUMENT ME!
@@ -2096,17 +2093,18 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      *
-     * @param   bb  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     * @param  bb  DOCUMENT ME!
      */
-    public void search(final BoundingBox bb) throws ActionNotSuccessfulException {
-        Set result = null;
+    public void search(final BoundingBox bb) {
         try {
-            result = CidsBroker.getInstance().getObjectsByBoundingBox(bb);
-            setSearchResult(result);
+            disableSearch();
+            final BelisSearchStatement belisSearchStatement = new BelisSearchStatement();
+            belisSearchStatement.setGeometry(bb.getGeometry(-1));
+            CidsSearchExecutor.searchAndDisplayResultsWithDialog(belisSearchStatement);
         } catch (Exception ex) {
             LOG.error("Exception while searching boundingbox: ", ex);
+            enableSearch();
+            fireSearchFinished();
         }
     }
 
@@ -2607,13 +2605,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (LOG.isDebugEnabled()) {
             LOG.debug("fireSearchFinished");
         }
-        EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    searchWaitDialog.setVisible(false);
-                }
-            });
         if (!isFullReadOnlyMode) {
             btnSwitchInEditmode.setEnabled(true);
             btnSwitchInCreateMode.setEnabled(true);
@@ -2630,14 +2621,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (LOG.isDebugEnabled()) {
             LOG.debug("fireSearchStarted");
         }
-        EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    searchWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
-                    searchWaitDialog.setVisible(true);
-                }
-            });
         btnSwitchInEditmode.setEnabled(false);
         btnSwitchInCreateMode.setEnabled(false);
 

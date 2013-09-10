@@ -71,7 +71,7 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
 
         //~ Enum constants -----------------------------------------------------
 
-        ABZEIGDOSE, LEITUNG, MAUERLASCHE, SCHALTESTELLE, STANDORT
+        ABZEIGDOSE, LEITUNG, MAUERLASCHE, SCHALTESTELLE, STANDORT, LEUCHTE
     }
 
     //~ Instance fields --------------------------------------------------------
@@ -156,6 +156,10 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
                 break;
                 case STANDORT: {
                     searchListenerName = MappingComponent.CREATE_SEARCH_POLYGON + "_STANDORT";
+                }
+                break;
+                case LEUCHTE: {
+                    searchListenerName = MappingComponent.CREATE_SEARCH_POLYGON + "_LEUCHTE";
                 }
                 break;
             }
@@ -346,12 +350,14 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
      * @return  DOCUMENT ME!
      */
     protected BelisSearchStatement createSearchStatement(final Geometry searchGeom) {
-        return new BelisSearchStatement(chkStandort.isSelected(),
+        final BelisSearchStatement belisSearchStatement = new BelisSearchStatement(chkStandort.isSelected(),
+                false,
                 chkSchaltstelle.isSelected(),
                 chkMauerlasche.isSelected(),
                 chkLeitung.isSelected(),
-                chkAbzweigdose.isSelected(),
-                searchGeom);
+                chkAbzweigdose.isSelected());
+        belisSearchStatement.setGeometry(searchGeom);
+        return belisSearchStatement;
     }
 
     @Override
@@ -476,6 +482,10 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
                 }
                 break;
                 case STANDORT: {
+                    chkStandort.setSelected(true);
+                }
+                break;
+                case LEUCHTE: {
                     chkStandort.setSelected(true);
                 }
                 break;

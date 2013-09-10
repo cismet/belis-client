@@ -13,10 +13,6 @@ package de.cismet.cids.custom.beans.belis;
 
 import java.util.Locale;
 
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -162,7 +158,7 @@ public class TkeyUnterhMastCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.UnterhaltMast[pk=" + pk + "]";
+        return getKeyString();
     }
 
     @Override

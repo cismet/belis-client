@@ -11,15 +11,11 @@
  */
 package de.cismet.belis.todo;
 
-import java.util.Set;
-
 import javax.swing.SwingWorker;
 
 import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.cismap.commons.BoundingBox;
-
-import de.cismet.commons.server.entity.BaseEntity;
 
 /**
  * DOCUMENT ME!
@@ -51,52 +47,49 @@ public class RetrieveWorker extends SwingWorker<Void, Void> {
         this.boundingBox = boundingBox;
     }
 
-    /**
-     * Creates a new RetrieveWorker object.
-     *
-     * @param  broker              DOCUMENT ME!
-     * @param  strassenschluessel  DOCUMENT ME!
-     * @param  kennziffer          DOCUMENT ME!
-     * @param  laufendenummer      DOCUMENT ME!
-     */
-    public RetrieveWorker(final BelisBroker broker,
-            final String strassenschluessel,
-            final String kennziffer,
-            final String laufendenummer) {
-        this.broker = broker;
-        this.strassenschluessel = strassenschluessel;
-        try {
-            if (log.isDebugEnabled()) {
-                log.debug("parsing String: " + kennziffer + " to Short");
-            }
-            this.kennziffer = Integer.parseInt(kennziffer);
-        } catch (NumberFormatException ex) {
-            log.info("Kennziffer is no Short: " + kennziffer, ex);
-            this.kennziffer = null;
-        }
-        try {
-            if (log.isDebugEnabled()) {
-                log.debug("parsing String: " + laufendenummer + " to Short");
-            }
-            this.laufendenummer = Integer.parseInt(laufendenummer);
-        } catch (NumberFormatException ex) {
-            log.info("Kennziffer is no Short: " + laufendenummer, ex);
-            this.laufendenummer = null;
-        }
-    }
-
     //~ Methods ----------------------------------------------------------------
+
+// /**
+// * Creates a new RetrieveWorker object.
+// *
+// * @param  broker              DOCUMENT ME!
+// * @param  strassenschluessel  DOCUMENT ME!
+// * @param  kennziffer          DOCUMENT ME!
+// * @param  laufendenummer      DOCUMENT ME!
+// */
+// public RetrieveWorker(final BelisBroker broker,
+// final String strassenschluessel,
+// final String kennziffer,
+// final String laufendenummer) {
+// this.broker = broker;
+// this.strassenschluessel = strassenschluessel;
+// try {
+// if (log.isDebugEnabled()) {
+// log.debug("parsing String: " + kennziffer + " to Short");
+// }
+// this.kennziffer = Integer.parseInt(kennziffer);
+// } catch (NumberFormatException ex) {
+// log.info("Kennziffer is no Short: " + kennziffer, ex);
+// this.kennziffer = null;
+// }
+// try {
+// if (log.isDebugEnabled()) {
+// log.debug("parsing String: " + laufendenummer + " to Short");
+// }
+// this.laufendenummer = Integer.parseInt(laufendenummer);
+// } catch (NumberFormatException ex) {
+// log.info("Kennziffer is no Short: " + laufendenummer, ex);
+// this.laufendenummer = null;
+// }
+// }
 
     @Override
     protected Void doInBackground() throws Exception {
-        if (boundingBox != null) {
-            broker.search(boundingBox);
-        } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Strassenschluessel: " + strassenschluessel);
-            }
-            broker.search(strassenschluessel, kennziffer, laufendenummer);
-        }
+//        if (boundingBox != null) {
+        broker.search(boundingBox);
+//        } else {
+//            broker.search(strassenschluessel, kennziffer, laufendenummer);
+//        }
         return null;
     }
 

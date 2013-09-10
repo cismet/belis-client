@@ -135,11 +135,34 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
 
         setLayout(new java.awt.GridBagLayout());
 
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
         lblLeitungMaterial.setText("Material:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblLeitungMaterial, gridBagConstraints);
 
         lblLeitungLeitungstyp.setText("Leitungstyp:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblLeitungLeitungstyp, gridBagConstraints);
 
         lblLeitungQuerschnitt.setText("Querschnitt:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(lblLeitungQuerschnitt, gridBagConstraints);
 
         cbxLeitungLeitungstyp.setEnabled(false);
         cbxLeitungLeitungstyp.setRenderer(new DefaultListCellRenderer() {
@@ -171,6 +194,15 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbxLeitungLeitungstyp, gridBagConstraints);
+
         cbxLeitungMaterial.setEnabled(false);
         cbxLeitungMaterial.setRenderer(new DefaultListCellRenderer() {
 
@@ -200,6 +232,15 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
                 cbxLeitungMaterial,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbxLeitungMaterial, gridBagConstraints);
 
         cbxLeitungQuerschnitt.setEnabled(false);
         cbxLeitungQuerschnitt.setRenderer(new DefaultListCellRenderer() {
@@ -235,51 +276,14 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel2Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        lblLeitungLeitungstyp).addComponent(lblLeitungMaterial).addComponent(lblLeitungQuerschnitt))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        cbxLeitungQuerschnitt,
-                        0,
-                        274,
-                        Short.MAX_VALUE).addComponent(cbxLeitungMaterial, 0, 1, Short.MAX_VALUE).addComponent(
-                        cbxLeitungLeitungstyp,
-                        javax.swing.GroupLayout.Alignment.TRAILING,
-                        0,
-                        1,
-                        Short.MAX_VALUE)).addContainerGap()));
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                jPanel2Layout.createSequentialGroup().addContainerGap().addGroup(
-                    jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeitungLeitungstyp).addComponent(
-                        cbxLeitungLeitungstyp,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        21,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeitungMaterial).addComponent(
-                        cbxLeitungMaterial,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                        lblLeitungQuerschnitt).addComponent(
-                        cbxLeitungQuerschnitt,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        22,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addContainerGap(111, Short.MAX_VALUE)));
-
-        jPanel2Layout.linkSize(
-            javax.swing.SwingConstants.VERTICAL,
-            new java.awt.Component[] { cbxLeitungLeitungstyp, cbxLeitungMaterial, cbxLeitungQuerschnitt });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(cbxLeitungQuerschnitt, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -287,7 +291,6 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         add(jPanel2, gridBagConstraints);
 
         final javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -295,12 +298,12 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                402,
+                400,
                 Short.MAX_VALUE));
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                99,
+                189,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();

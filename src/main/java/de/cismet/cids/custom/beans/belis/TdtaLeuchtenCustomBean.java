@@ -79,6 +79,8 @@ public class TdtaLeuchtenCustomBean extends BaseEntity implements DocumentContai
     private static final String PROP__WARTUNGSZYKLUS = "wartungszyklus";
     private static final String PROP__WECHSELVORSCHALTGERAET = "wechselvorschaltgeraet";
     private static final String PROP__VORSCHALTGERAET = "vorschaltgeraet";
+    private static final String PROP__MONTEUR = "monteur";
+    private static final String PROP__NAECHSTER_WECHSEL = "naechster_wechsel";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -111,6 +113,8 @@ public class TdtaLeuchtenCustomBean extends BaseEntity implements DocumentContai
             PROP__WECHSELDATUM,
             PROP__WARTUNGSZYKLUS,
             PROP__WECHSELVORSCHALTGERAET,
+            PROP__MONTEUR,
+            PROP__NAECHSTER_WECHSEL,
             PROP__VORSCHALTGERAET
         };
 
@@ -145,7 +149,9 @@ public class TdtaLeuchtenCustomBean extends BaseEntity implements DocumentContai
     private Date wechseldatum;
     private Double wartungszyklus;
     private Date wechselvorschaltgeraet;
+    private Date naechster_wechsel;
     private String vorschaltgeraet;
+    private String monteur;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -1159,5 +1165,45 @@ public class TdtaLeuchtenCustomBean extends BaseEntity implements DocumentContai
         final String old = this.vorschaltgeraet;
         this.vorschaltgeraet = vorschaltgeraet;
         this.propertyChangeSupport.firePropertyChange(PROP__VORSCHALTGERAET, old, this.vorschaltgeraet);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getNaechster_wechsel() {
+        return naechster_wechsel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  naechster_wechsel  DOCUMENT ME!
+     */
+    public void setNaechster_wechsel(final Date naechster_wechsel) {
+        final Date old = this.naechster_wechsel;
+        this.naechster_wechsel = naechster_wechsel;
+        this.propertyChangeSupport.firePropertyChange(PROP__NAECHSTER_WECHSEL, old, this.naechster_wechsel);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getMonteur() {
+        return monteur;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  monteur  DOCUMENT ME!
+     */
+    public void setMonteur(final String monteur) {
+        final String old = this.monteur;
+        this.monteur = monteur;
+        this.propertyChangeSupport.firePropertyChange(PROP__MONTEUR, old, this.monteur);
     }
 }

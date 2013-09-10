@@ -6,12 +6,12 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="panMastschutz">
+        <Container class="javax.swing.JPanel" name="panInbetriebnahmeLeuchte">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Mastschutz">
-                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.panMastschutz.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                <TitledBorder title="Inbetriebnahme Leuchte">
+                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.panInbetriebnahmeLeuchte.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -24,10 +24,10 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JCheckBox" name="cbMastschutzVon">
+            <Component class="javax.swing.JCheckBox" name="cbInbetriebnahmeLeuchteVon">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.cbMastschutzVon.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.cbInbetriebnahmeLeuchteVon.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -36,7 +36,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcMastschutzVon">
+            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcInbetriebnahmeLeuchteVon">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[132, 25]"/>
@@ -49,7 +49,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="enabled" source="cbMastschutzVon" sourcePath="${selected}" target="dcMastschutzVon" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="enabled" source="cbInbetriebnahmeLeuchteVon" sourcePath="${selected}" target="dcInbetriebnahmeLeuchteVon" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -57,7 +57,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcMastschutzBis">
+            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcInbetriebnahmeLeuchteBis">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[132, 25]"/>
@@ -70,7 +70,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="enabled" source="cbMastschutzBis" sourcePath="${selected}" target="dcMastschutzBis" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="enabled" source="cbInbetriebnahmeLeuchteBis" sourcePath="${selected}" target="dcInbetriebnahmeLeuchteBis" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -78,10 +78,10 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="cbMastschutzBis">
+            <Component class="javax.swing.JCheckBox" name="cbInbetriebnahmeLeuchteBis">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.cbMastschutzBis.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.cbInbetriebnahmeLeuchteBis.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -92,12 +92,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="panMastanstrich">
+        <Container class="javax.swing.JPanel" name="panWechseldatum">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Mastanstrich">
-                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.panMastanstrich.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                <TitledBorder title="Wechseldatum Leuchtmittel">
+                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.panWechseldatum.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -110,10 +110,10 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JCheckBox" name="cbMastanstrichVon">
+            <Component class="javax.swing.JCheckBox" name="cbWechseldatumVon">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.cbMastanstrichVon.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.cbWechseldatumVon.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -122,7 +122,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcMastanstrichVon">
+            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcWechseldatumVon">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[132, 25]"/>
@@ -135,7 +135,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="enabled" source="cbMastanstrichVon" sourcePath="${selected}" target="dcMastanstrichVon" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="enabled" source="cbWechseldatumVon" sourcePath="${selected}" target="dcWechseldatumVon" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -143,7 +143,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcMastanstrichBis">
+            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcWechseldatumBis">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[132, 25]"/>
@@ -156,7 +156,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="enabled" source="cbMastanstrichBis" sourcePath="${selected}" target="dcMastanstrichBis" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="enabled" source="cbWechseldatumBis" sourcePath="${selected}" target="dcWechseldatumBis" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -164,10 +164,10 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="cbMastanstrichBis">
+            <Component class="javax.swing.JCheckBox" name="cbWechseldatumBis">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.cbMastanstrichBis.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.cbWechseldatumBis.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -178,12 +178,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="panElekPruefung">
+        <Container class="javax.swing.JPanel" name="panNaechsterWechsel">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Elektrische Pr&#xfc;fung">
-                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.panElekPruefung.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                <TitledBorder title="N&#xe4;chster Leuchtmittelwechsel">
+                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.panNaechsterWechsel.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -196,10 +196,10 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JCheckBox" name="cbElekPruefungVon">
+            <Component class="javax.swing.JCheckBox" name="cbNaechsterWechselVon">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.cbElekPruefungVon.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.cbNaechsterWechselVon.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -208,7 +208,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcElekPruefungVon">
+            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcNaechsterWechselVon">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[132, 25]"/>
@@ -221,7 +221,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="enabled" source="cbElekPruefungVon" sourcePath="${selected}" target="dcElekPruefungVon" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="enabled" source="cbNaechsterWechselVon" sourcePath="${selected}" target="dcNaechsterWechselVon" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -229,7 +229,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcElekPruefungBis">
+            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcNaechsterWechselBis">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[132, 25]"/>
@@ -242,7 +242,7 @@
                 </Property>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="enabled" source="cbElekPruefungBis" sourcePath="${selected}" target="dcElekPruefungBis" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="enabled" source="cbNaechsterWechselBis" sourcePath="${selected}" target="dcNaechsterWechselBis" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -250,10 +250,10 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="cbElekPruefungBis">
+            <Component class="javax.swing.JCheckBox" name="cbNaechsterWechselBis">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.cbElekPruefungBis.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.cbNaechsterWechselBis.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -264,98 +264,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="panStandsicherheitspruefung">
+        <Container class="javax.swing.JPanel" name="panLeuchtentyp">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Standsicherheitspr&#xfc;fung">
-                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.panStandsicherheitspruefung.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </TitledBorder>
-              </Border>
-            </Property>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-              <GridBagConstraints gridX="0" gridY="3" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="5" insetsLeft="5" insetsBottom="5" insetsRight="5" anchor="10" weightX="1.0" weightY="0.0"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JCheckBox" name="cbStandsicherheitspruefungVon">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.cbStandsicherheitspruefungVon.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="0" gridY="0" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="21" weightX="0.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcStandsicherheitspruefungVon">
-              <Properties>
-                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[132, 25]"/>
-                </Property>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[132, 25]"/>
-                </Property>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[132, 25]"/>
-                </Property>
-              </Properties>
-              <BindingProperties>
-                <BindingProperty name="enabled" source="cbStandsicherheitspruefungVon" sourcePath="${selected}" target="dcStandsicherheitspruefungVon" targetPath="enabled" updateStrategy="0" immediately="false"/>
-              </BindingProperties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="5" insetsRight="0" anchor="21" weightX="1.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="de.cismet.cids.editors.DefaultBindableDateChooser" name="dcStandsicherheitspruefungBis">
-              <Properties>
-                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[132, 25]"/>
-                </Property>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[132, 25]"/>
-                </Property>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[132, 25]"/>
-                </Property>
-              </Properties>
-              <BindingProperties>
-                <BindingProperty name="enabled" source="cbStandsicherheitspruefungBis" sourcePath="${selected}" target="dcStandsicherheitspruefungBis" targetPath="enabled" updateStrategy="0" immediately="false"/>
-              </BindingProperties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="3" gridY="0" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="5" insetsRight="0" anchor="21" weightX="1.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="cbStandsicherheitspruefungBis">
-              <Properties>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.cbStandsicherheitspruefungBis.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
-                </Property>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="2" gridY="0" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="21" weightX="0.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Container class="javax.swing.JPanel" name="panMastart">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Mastart">
-                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.panMastart.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                <TitledBorder title="Leuchtentyp">
+                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.panLeuchtentyp.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -368,9 +282,9 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JComboBox" name="cbMastart">
+            <Component class="javax.swing.JComboBox" name="cbLeuchtentyp">
               <BindingProperties>
-                <BindingProperty name="enabled" source="chkMastart" sourcePath="${selected}" target="cbMastart" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="enabled" source="chkLeuchtentyp" sourcePath="${selected}" target="cbLeuchtentyp" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
@@ -381,10 +295,10 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="chkMastart">
+            <Component class="javax.swing.JCheckBox" name="chkLeuchtentyp">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.chkMastart.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.chkLeuchtentyp.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -395,12 +309,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="panMasttyp">
+        <Container class="javax.swing.JPanel" name="panRundsteuerempfaenger">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Masttyp">
-                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.panMasttyp.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                <TitledBorder title="Rundsteuerempf&#xe4;nger">
+                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.panRundsteuerempfaenger.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -413,23 +327,10 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JComboBox" name="cbMasttyp">
-              <BindingProperties>
-                <BindingProperty name="enabled" source="chkMasttyp" sourcePath="${selected}" target="cbMasttyp" targetPath="enabled" updateStrategy="0" immediately="false"/>
-              </BindingProperties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
-              </AuxValues>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="-1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="chkMasttyp">
+            <Component class="javax.swing.JCheckBox" name="chkRundsteuerempfaenger">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.chkMasttyp.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.chkRundsteuerempfaenger.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -438,14 +339,29 @@
                 </Constraint>
               </Constraints>
             </Component>
+            <Component class="javax.swing.JTextField" name="txtRundsteuerempfaenger">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.txtRundsteuerempfaenger.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="enabled" source="chkRundsteuerempfaenger" sourcePath="${selected}" target="txtRundsteuerempfaenger" targetPath="enabled" updateStrategy="0" immediately="false"/>
+              </BindingProperties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                  <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
+                </Constraint>
+              </Constraints>
+            </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="panKlassifizierung">
+        <Container class="javax.swing.JPanel" name="panSchaltstelle">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Klassifizierung">
-                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.panKlassifizierung.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                <TitledBorder title="Schaltstelle">
+                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.panSchaltstelle.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -458,23 +374,10 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JComboBox" name="cbKlassifizierung">
-              <BindingProperties>
-                <BindingProperty name="enabled" source="chkKlassifizierung" sourcePath="${selected}" target="cbKlassifizierung" targetPath="enabled" updateStrategy="0" immediately="false"/>
-              </BindingProperties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
-              </AuxValues>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-                  <GridBagConstraints gridX="1" gridY="-1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="chkKlassifizierung">
+            <Component class="javax.swing.JCheckBox" name="chkSchaltstelle">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.chkKlassifizierung.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.chkSchaltstelle.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -483,14 +386,29 @@
                 </Constraint>
               </Constraints>
             </Component>
+            <Component class="javax.swing.JTextField" name="txtSchaltstelle">
+              <Properties>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.txtSchaltstelle.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                </Property>
+              </Properties>
+              <BindingProperties>
+                <BindingProperty name="enabled" source="chkSchaltstelle" sourcePath="${selected}" target="txtSchaltstelle" targetPath="enabled" updateStrategy="0" immediately="false"/>
+              </BindingProperties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+                  <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
+                </Constraint>
+              </Constraints>
+            </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="panAnlagengruppe">
+        <Container class="javax.swing.JPanel" name="panAnschlussleistung1dk">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Anlagengruppe">
-                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.panAnlagengruppe.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                <TitledBorder title="1 DK">
+                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.panAnschlussleistung1dk.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -503,9 +421,9 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JComboBox" name="cbAnlagengruppe">
+            <Component class="javax.swing.JComboBox" name="cbAnschlussleistung1dk">
               <BindingProperties>
-                <BindingProperty name="enabled" source="chkAnlagengruppe" sourcePath="${selected}" target="cbAnlagengruppe" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="enabled" source="chkAnschlussleistung1dk" sourcePath="${selected}" target="cbAnschlussleistung1dk" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
@@ -516,10 +434,10 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="chkAnlagengruppe">
+            <Component class="javax.swing.JCheckBox" name="chkAnschlussleistung1dk">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.chkAnlagengruppe.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.chkAnschlussleistung1dk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -530,12 +448,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="panUnterhaltspflichtMast">
+        <Container class="javax.swing.JPanel" name="panAnschlussleistung2dk">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Unterhaltspfl. Mast">
-                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.panUnterhaltspflichtMast.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                <TitledBorder title="2DK">
+                  <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.panAnschlussleistung2dk.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -548,9 +466,9 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JComboBox" name="cbUnterhaltspflichtMast">
+            <Component class="javax.swing.JComboBox" name="cbAnschlussleistung2dk">
               <BindingProperties>
-                <BindingProperty name="enabled" source="chkUnterhaltspflichtMast" sourcePath="${selected}" target="cbUnterhaltspflichtMast" targetPath="enabled" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="enabled" source="chkAnschlussleistung2dk" sourcePath="${selected}" target="cbAnschlussleistung2dk" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
@@ -561,10 +479,10 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="chkUnterhaltspflichtMast">
+            <Component class="javax.swing.JCheckBox" name="chkAnschlussleistung2dk">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="StandortWindowSearch.chkUnterhaltspflichtMast.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="LeuchtenWindowSearch.chkAnschlussleistung2dk.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
               <Constraints>

@@ -18,8 +18,6 @@ package de.cismet.belis.gui.documentpanel;
 
 import org.apache.log4j.Logger;
 
-import org.jdesktop.beansbinding.Converter;
-import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
 import java.awt.Cursor;
@@ -37,9 +35,7 @@ import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -47,7 +43,6 @@ import java.util.concurrent.Executors;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
@@ -64,8 +59,6 @@ import javax.swing.TransferHandler.TransferSupport;
 import de.cismet.belis.gui.utils.UIUtils;
 
 import de.cismet.cids.custom.beans.belis.DmsUrlCustomBean;
-
-import de.cismet.tools.gui.documents.DocumentListModel;
 
 /**
  * DOCUMENT ME!
@@ -100,7 +93,6 @@ public final class DocumentPanel extends javax.swing.JPanel {
 
     //~ Instance fields --------------------------------------------------------
 
-    ObservableList model;
     // --
     // private final DefaultListModel docListModel;
     private final Timer busyIconTimer;
@@ -244,7 +236,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      */
     private void addURLtoList(final String urlString) {
         if (log.isDebugEnabled()) {
-            log.debug("addURLToList set: " + getDokumente() + "  observable: " + model);
+            log.debug("addURLToList set: " + getDokumente());
         }
         final String description = JOptionPane.showInputDialog(
                 DocumentPanel.this,
@@ -252,7 +244,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
                 urlString);
         if ((description != null) && (description.length() > 0)) {
             // docListModel.addElement(DmsUrl.createDmsURLFromLink(urlString, description));
-            model.add(DmsUrlCustomBean.createDmsURLFromLink(urlString, description));
+            dokumente.add(DmsUrlCustomBean.createDmsURLFromLink(urlString, description));
         } else {
             // cancel case
             return;
@@ -270,21 +262,16 @@ public final class DocumentPanel extends javax.swing.JPanel {
         if (log.isDebugEnabled()) {
             log.debug("deleteSelectedListItems: " + getDokumente());
         }
-        final int[] sel = lstDocList.getSelectedIndices();
-        if ((sel != null) && (sel.length > 0)) {
-            // iterate in inverted order for save delete!
-            for (int i = sel.length - 1; i > -1; --i) {
-                // docListModel.remove(sel[i]);
-                model.remove(sel[i]);
-            }
-            final SwingWorker<?, ?> sw = previewWorker;
-            if (sw != null) {
-                sw.cancel(true);
-            }
-            lblPreview.setIcon(null);
-            lblPreview.setText("");
-            lstDocList.setSelectedIndex(lstDocList.getFirstVisibleIndex());
+        for (final Object sel : lstDocList.getSelectedValuesList()) {
+            dokumente.remove(sel);
         }
+        final SwingWorker<?, ?> sw = previewWorker;
+        if (sw != null) {
+            sw.cancel(true);
+        }
+        lblPreview.setIcon(null);
+        lblPreview.setText("");
+        lstDocList.setSelectedIndex(lstDocList.getFirstVisibleIndex());
         if (log.isDebugEnabled()) {
             log.debug("deleteSelectedListItems: " + getDokumente());
         }
@@ -494,7 +481,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      * @param  evt  DOCUMENT ME!
      */
     private void lstDocListMousePressed(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMousePressed
-        if (evt.isPopupTrigger() && !model.isEmpty() && inEditMode) {
+        if (evt.isPopupTrigger() && !dokumente.isEmpty() && inEditMode) {
             popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
         }
     }                                                                          //GEN-LAST:event_lstDocListMousePressed
@@ -505,7 +492,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      * @param  evt  DOCUMENT ME!
      */
     private void lstDocListMouseReleased(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMouseReleased
-        if (evt.isPopupTrigger() && !model.isEmpty() && inEditMode) {
+        if (evt.isPopupTrigger() && !dokumente.isEmpty() && inEditMode) {
             popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
         }
     }                                                                           //GEN-LAST:event_lstDocListMouseReleased

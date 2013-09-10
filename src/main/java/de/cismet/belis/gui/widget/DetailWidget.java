@@ -31,6 +31,7 @@ import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
+import de.cismet.commons.server.interfaces.DocumentContainer;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -84,11 +85,7 @@ public class DetailWidget extends BelisWidget {
         if (LOG.isDebugEnabled()) {
             LOG.debug("PropertyChange: " + evt);
             LOG.debug("PropertyChange: " + evt.getPropertyName());
-        }
-        if (LOG.isDebugEnabled()) {
             LOG.debug("PropertyChange: " + evt.getOldValue());
-        }
-        if (LOG.isDebugEnabled()) {
             LOG.debug("PropertyChange: " + evt.getNewValue());
         }
     }
@@ -123,7 +120,11 @@ public class DetailWidget extends BelisWidget {
                 LOG.debug("current Entity is null");
             }
             showPanel(null);
+            panDokumente.setDokumente(null);
             return;
+        }
+        if (currentEntity instanceof DocumentContainer) {
+            panDokumente.setDokumente(((DocumentContainer)currentEntity).getDokumente());
         }
         if (currentEntity instanceof TdtaStandortMastCustomBean) {
             if (LOG.isDebugEnabled()) {
@@ -199,10 +200,10 @@ public class DetailWidget extends BelisWidget {
     private void showPanel(final AbstractDetailWidgetPanel panel) {
         super.clearComponent();
         if (panel != null) {
-            panMain.setComponentAt(0, panel);
-            panMain.setTabComponentAt(0, panel.getTabLabel());
+            scpMain.setViewportView(panel);
             add(panMain, java.awt.BorderLayout.CENTER);
-            panMain.setSelectedComponent(panel);
+            panMain.setTabComponentAt(0, panel.getTabLabel());
+            panMain.setSelectedComponent(scpMain);
         }
     }
 
@@ -256,6 +257,7 @@ public class DetailWidget extends BelisWidget {
         scpMain = new javax.swing.JScrollPane();
         panDokumente = new de.cismet.belis.gui.documentpanel.DocumentPanel();
 
+        scpMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         panMain.addTab("", scpMain);
 
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(

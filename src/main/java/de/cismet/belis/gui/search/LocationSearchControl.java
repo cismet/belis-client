@@ -12,18 +12,7 @@
  */
 package de.cismet.belis.gui.search;
 
-import org.apache.commons.collections.comparators.ReverseComparator;
-
-import java.util.TreeSet;
-
 import de.cismet.belis.broker.BelisBroker;
-
-import de.cismet.belis.todo.RetrieveWorker;
-
-import de.cismet.belis.util.BelisIcons;
-
-import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cismap.commons.wfsforms.WFSFormFeature;
 
@@ -181,33 +170,15 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
      * @param  evt  DOCUMENT ME!
      */
     private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
-        broker.fireSearchStarted();
-        broker.setCurrentSearchResults(new TreeSet(
-                new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))));
-        broker.setLastSearch(new RetrieveWorker(
-                broker,
-                txfStrassenschluessel.getText(),
-                txfKennziffer.getText(),
-                txfLaufendenummer.getText()));
-        broker.execute(new RetrieveWorker(
-                broker,
-                txfStrassenschluessel.getText(),
-                txfKennziffer.getText(),
-                txfLaufendenummer.getText()));
-        // boolean history = true; MappingComponent mc=getMappingComponent(); if (mc==null) {
-        // mc=CismapBroker.getInstance().getMappingComponent(); } boolean
-        // scaling=!(mc.isFixedMapScale())&&!(chkLockScale.isSelected()); BoundingBox bb=null; int
-        // animation=mc.getAnimationDuration(); if (nr!=null) { if (scaling) { bb=new BoundingBox(nr.getJTSGeometry());
-        // } else { bb=new BoundingBox(nr.getPosition().buffer(AbstractWFSForm.FEATURE_BORDER)); } } else if
-        // (strasse!=null) { if (scaling) { bb=new BoundingBox log.debug("requestRefresh(+" + component + "," + value +
-        // ")"); if (lastFeature == null || !(value.getIdentifier().equals(lastFeature.getIdentifier()))) { lastFeature
-        // = value;public String getBrokerName() { return brokerName; } WFSFormQuery q =
-        // queriesByComponentName.get(component); if (q != null) { HashMap<String, String> hm = new HashMap<String,
-        // String>(); hm.put(q.getQueryPlaceholder(), value.getIdentifier()); requestRefresh(component, hm); }
-        // }(strasse.getJTSGeometry()); } else { bb=new
-        // BoundingBox(strasse.getPosition().buffer(AbstractWFSForm.FEATURE_BORDER)); } } else { return; }
-        // mc.gotoBoundingBox(bb,history,scaling,animation); chkVisualizeActionPerformed(null);
-    }                                                                         //GEN-LAST:event_cmdOkActionPerformed
+//        broker.fireSearchStarted();
+//        broker.setCurrentSearchResults(new TreeSet(
+//                new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))));
+//        broker.execute(new RetrieveWorker(
+//                broker,
+//                txfStrassenschluessel.getText(),
+//                txfKennziffer.getText(),
+//                txfLaufendenummer.getText()));
+    } //GEN-LAST:event_cmdOkActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -234,35 +205,7 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
      * @param  value      DOCUMENT ME!
      */
     public void requestRefresh(final String component, final WFSFormFeature value) {
-//        log.debug("requestRefresh(+" + component + "," + value + ")");
-//        if (lastFeature == null || !(value.getIdentifier().equals(lastFeature.getIdentifier()))) {
-//            lastFeature = value;
-//            WFSFormQuery q = queriesByComponentName.get(component);
-//            if (q != null) {
-//                HashMap<String, String> hm = new HashMap<String, String>();
-//                hm.put(q.getQueryPlaceholder(), value.getIdentifier());
-//                requestRefresh(component, hm);
-//            }
-//        }
     }
-
-//    public class EJBComBoxModel extends AbstractListModel implements ComboBoxModel {
-//
-//        private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(EJBComBoxModel.class);
-//        private final ArrayList entities = new ArrayList();
-//        private Object selectedItem = null;
-//        private Class modelType;
-//
-//        public Object getElementAt(int index) {
-//            return entities.get(index);
-//        }
-//
-//        public EJBComBoxModel(Class modelType) {
-//            this.modelType = modelType;
-//            RetrieveWorker retrieveWorker = new RetrieveWorker();
-//            BrokerLookup.getInstance().getBrokerForName(brokerName).execute(retrieveWorker);
-//        }
-//
 
     @Override
     public void searchFinished() {
@@ -278,43 +221,4 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
     public void setSearchEnabled(final boolean isSearchEnabled) {
         ArchitectureUtils.enableContainerRecursivley(this, isSearchEnabled);
     }
-
-//
-//        public int getSize() {
-//            return entities.size();
-//        }
-//
-//        public Object getSelectedItem() {
-//            return selectedItem;
-//        }
-//
-//        public void setSelectedItem(Object anItem) {
-//            selectedItem = anItem;
-//        }
-//    }
-//
-//    public class EJBRenderer extends DefaultListCellRenderer {
-//
-//        /** Creates a new instance of ReBeCboRenderer */
-//        public EJBRenderer() {
-//            super();
-//            setHorizontalAlignment(SwingConstants.CENTER);
-//        }
-//
-//        @Override
-//        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-//            Component tmpComp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-//            if (value != null && value instanceof Strassenschluessel) {
-//                setText(((Strassenschluessel) value).getStrasse());
-//            } else if (value != null && value instanceof Kennziffer) {
-//                setText(((Kennziffer) value).getBeschreibung());
-//            } else if (value != null) {
-//                setText(value.toString());
-//            } else {
-//                setText("");
-//            }
-//            setHorizontalAlignment(SwingConstants.LEFT);
-//            return tmpComp;
-//        }
-//    }
 }
