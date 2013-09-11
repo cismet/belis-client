@@ -23,7 +23,7 @@ import de.cismet.belis.broker.BelisBroker;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-@org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
+//@org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
 public class SearchResultsWidget extends BelisWidget {
 
     //~ Static fields/initializers ---------------------------------------------
