@@ -100,6 +100,7 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel panArt;
     private javax.swing.JPanel panCommand;
@@ -191,11 +192,12 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
         chkMauerlasche = new javax.swing.JCheckBox();
         chkAbzweigdose = new javax.swing.JCheckBox();
         chkLeitung = new javax.swing.JCheckBox();
-        panSearch = new javax.swing.JPanel();
-        panPosition = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         chkStreetAndNumber = new javax.swing.JCheckBox();
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
+        panSearch = new javax.swing.JPanel();
+        panPosition = new javax.swing.JPanel();
         chkMap = new javax.swing.JCheckBox();
         panCommand = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -239,15 +241,7 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panArt.add(jPanel3, gridBagConstraints);
 
-        setLayout(new java.awt.BorderLayout());
-
-        panSearch.setLayout(new java.awt.GridBagLayout());
-
-        panPosition.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                org.openide.util.NbBundle.getMessage(
-                    BelisWindowSearch.class,
-                    "BelisWindowSearch.panPosition.border.title"))); // NOI18N
-        panPosition.setLayout(new java.awt.GridBagLayout());
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
             chkStreetAndNumber,
@@ -258,7 +252,7 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPosition.add(chkStreetAndNumber, gridBagConstraints);
+        jPanel2.add(chkStreetAndNumber, gridBagConstraints);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -270,7 +264,7 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPosition.add(jComboBox1, gridBagConstraints);
+        jPanel2.add(jComboBox1, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -282,7 +276,17 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panPosition.add(jComboBox2, gridBagConstraints);
+        jPanel2.add(jComboBox2, gridBagConstraints);
+
+        setLayout(new java.awt.BorderLayout());
+
+        panSearch.setLayout(new java.awt.GridBagLayout());
+
+        panPosition.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    BelisWindowSearch.class,
+                    "BelisWindowSearch.panPosition.border.title"))); // NOI18N
+        panPosition.setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
             chkMap,
@@ -291,7 +295,9 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panPosition.add(chkMap, gridBagConstraints);
 
