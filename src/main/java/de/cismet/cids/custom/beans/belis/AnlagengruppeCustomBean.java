@@ -135,7 +135,7 @@ public class AnlagengruppeCustomBean extends BaseEntity {
     @Override
     public String getKeyString() {
         if (getBezeichnung() != null) {
-            return getBezeichnung();
+            return getNummer() + " - " + getBezeichnung();
         } else {
             return "";
         }
