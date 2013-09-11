@@ -102,6 +102,8 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panArt;
     private javax.swing.JPanel panCommand;
     private javax.swing.JPanel panPosition;
@@ -196,6 +198,8 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
         chkStreetAndNumber = new javax.swing.JCheckBox();
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel4 = new javax.swing.JPanel();
         panSearch = new javax.swing.JPanel();
         panPosition = new javax.swing.JPanel();
         chkMap = new javax.swing.JCheckBox();
@@ -280,6 +284,10 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
 
         setLayout(new java.awt.BorderLayout());
 
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+        jPanel4.setLayout(new java.awt.BorderLayout());
+
         panSearch.setLayout(new java.awt.GridBagLayout());
 
         panPosition.setBorder(javax.swing.BorderFactory.createTitledBorder(
@@ -327,7 +335,11 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
         gridBagConstraints.weighty = 1.0;
         panSearch.add(jPanel1, gridBagConstraints);
 
-        add(panSearch, java.awt.BorderLayout.CENTER);
+        jPanel4.add(panSearch, java.awt.BorderLayout.CENTER);
+
+        jScrollPane1.setViewportView(jPanel4);
+
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -441,7 +453,7 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
         if (panel == null) {
             panel = panArt;
         }
-        add(panel, java.awt.BorderLayout.NORTH);
+        jPanel4.add(panel, java.awt.BorderLayout.NORTH);
 
         pnlSearchCancel = new SearchControlPanel(this);
         final Dimension max = pnlSearchCancel.getMaximumSize();
