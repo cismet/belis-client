@@ -74,6 +74,8 @@ import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
+import de.cismet.cids.dynamics.CidsBean;
+
 import de.cismet.cismap.commons.features.AbstractNewFeature;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
@@ -231,14 +233,15 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                             ((AbstractMutableTreeTableNode)jttHitTable.getPathForRow(componentAdapter.row)
                                         .getLastPathComponent()).getUserObject();
                         if (userObj != null) {
-                            TdtaStandortMastCustomBean virtualStandort = null;
-                            if (userObj instanceof GeoBaseEntity) {
+                            if (userObj instanceof TdtaLeuchtenCustomBean) {
+                                final TdtaStandortMastCustomBean virtualStandort = leuchteToVirtualStandortMap.get(
+                                        (TdtaLeuchtenCustomBean)userObj);
+
+                                if (virtualStandort != null) {
+                                    return virtualStandort.getGeometry() == null;
+                                }
+                            } else if (userObj instanceof GeoBaseEntity) {
                                 return ((GeoBaseEntity)userObj).getGeometry() == null;
-                            } else if ((userObj instanceof TdtaLeuchtenCustomBean)
-                                        && ((virtualStandort = leuchteToVirtualStandortMap.get(
-                                                        (TdtaLeuchtenCustomBean)userObj))
-                                            != null)) {
-                                return virtualStandort.getGeometry() == null;
                             }
                         }
                     } catch (Exception ex) {
@@ -627,22 +630,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                         if (log.isDebugEnabled()) {
                             log.debug("userObject != null");
                         }
-                        if (userObject instanceof GeoBaseEntity) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("UserObject is instance of GeoBaseEntity");
-                            }
-                            if (((GeoBaseEntity)userObject).getGeometry() == null) {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("Geometry is null swicht mode of Mapping Component");
-                                }
-                                return true;
-                                    // broker.get.removeMainGroupSelection();
-                            } else {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("Geometry != null nothing to do");
-                                }
-                            }
-                        } else if ((userObject instanceof TdtaLeuchtenCustomBean)
+                        if ((userObject instanceof TdtaLeuchtenCustomBean)
                                     && ((virtualStandort = leuchteToVirtualStandortMap.get(
                                                     (TdtaLeuchtenCustomBean)userObject))
                                         != null)
@@ -660,6 +648,21 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                             } else {
                                 if (log.isDebugEnabled()) {
                                     log.debug("Geometry of virtual standort != null nothing to do");
+                                }
+                            }
+                        } else if (userObject instanceof GeoBaseEntity) {
+                            if (log.isDebugEnabled()) {
+                                log.debug("UserObject is instance of GeoBaseEntity");
+                            }
+                            if (((GeoBaseEntity)userObject).getGeometry() == null) {
+                                if (log.isDebugEnabled()) {
+                                    log.debug("Geometry is null swicht mode of Mapping Component");
+                                }
+                                return true;
+                                    // broker.get.removeMainGroupSelection();
+                            } else {
+                                if (log.isDebugEnabled()) {
+                                    log.debug("Geometry != null nothing to do");
                                 }
                             }
                         } else {

@@ -13,8 +13,6 @@ package de.cismet.commons.server.entity;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import org.postgis.PGgeometry;
-
 import java.awt.Color;
 import java.awt.Paint;
 
@@ -25,7 +23,6 @@ import de.cismet.cids.custom.beans.belis.GeomCustomBean;
 import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 import de.cismet.cismap.commons.interaction.CismapBroker;
-import de.cismet.cismap.commons.jtsgeometryfactories.PostGisGeometryFactory;
 
 import de.cismet.commons.server.interfaces.GeometrySlot;
 

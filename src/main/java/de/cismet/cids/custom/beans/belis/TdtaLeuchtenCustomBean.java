@@ -16,7 +16,11 @@ import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 import java.util.Date;
 
-import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.belisEE.mapicons.MapIcons;
+
+import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
+
+import de.cismet.commons.server.entity.GeoBaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
@@ -24,7 +28,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class TdtaLeuchtenCustomBean extends BaseEntity implements DocumentContainer {
+public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -924,16 +928,17 @@ public class TdtaLeuchtenCustomBean extends BaseEntity implements DocumentContai
         }
     }
 
-//    @Override
-//    public FeatureAnnotationSymbol getPointAnnotationSymbol() {
-//        if (mapIcon != null) {
-//            return mapIcon;
-//        } else {
-//            mapIcon = FeatureAnnotationSymbol.newCenteredFeatureAnnotationSymbol(
-//                    MapIcons.icoLeuchte, MapIcons.icoLeuchteSelected);
-//            return mapIcon;
-//        }
-//    }
+    @Override
+    public FeatureAnnotationSymbol getPointAnnotationSymbol() {
+        if (mapIcon != null) {
+            return mapIcon;
+        } else {
+            mapIcon = FeatureAnnotationSymbol.newCenteredFeatureAnnotationSymbol(
+                    MapIcons.icoLeuchte,
+                    null);
+            return mapIcon;
+        }
+    }
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
@@ -1205,5 +1210,21 @@ public class TdtaLeuchtenCustomBean extends BaseEntity implements DocumentContai
         final String old = this.monteur;
         this.monteur = monteur;
         this.propertyChangeSupport.firePropertyChange(PROP__MONTEUR, old, this.monteur);
+    }
+
+    @Override
+    public GeomCustomBean getGeometrie() {
+        if (getFk_standort() == null) {
+            return null;
+        }
+        return getFk_standort().getGeometrie();
+    }
+
+    @Override
+    public void setGeometrie(final GeomCustomBean val) {
+        if (getFk_standort() == null) {
+            return;
+        }
+        getFk_standort().setGeometrie(val);
     }
 }
