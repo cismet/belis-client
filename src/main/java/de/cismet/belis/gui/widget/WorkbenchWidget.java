@@ -110,7 +110,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     public static final String PROP_SEARCH_RESULTS = "searchResults";
 
     // ToDo idea insert the results seperated --> user don't have to wait to long
-    private static final Logger log = org.apache.log4j.Logger.getLogger(WorkbenchWidget.class);
+    private static final Logger LOG = org.apache.log4j.Logger.getLogger(WorkbenchWidget.class);
     public static final String PROP_SELECTEDTREENODE = "selectedTreeNode";
     // private final DefaultMutableTreeTableNode root = new DefaultMutableTreeTableNode(null, true);
 // private final DefaultMutableTreeTableNode searchResults = new DefaultMutableTreeTableNode(null, true);
@@ -209,7 +209,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         if (collection != null) {
             collection.addFeatureCollectionListener(this);
         } else {
-            log.warn("No feature Collection to set Listener on.");
+            LOG.warn("No feature Collection to set Listener on.");
         }
         jttHitTable.getTreeSelectionModel().addTreeSelectionListener(this);
 
@@ -220,6 +220,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         jttHitTable.setTreeCellRenderer(new WorkbenchTreeTableRenderer());
         treeTableModel = new CustomTreeTableModel(getBroker(), rootNode, searchResultsNode, newObjectsNode);
         jttHitTable.setTreeTableModel(treeTableModel);
+
         broker.decorateWithAlternateHighlighting(jttHitTable);
         // broker.decorateWithNoGeometryHighlighter(jttHitTable);
         final HighlightPredicate noGeometryPredicate = new HighlightPredicate() {
@@ -245,7 +246,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                             }
                         }
                     } catch (Exception ex) {
-                        log.error("Exception in Highlighter: ", ex);
+                        LOG.error("Exception in Highlighter: ", ex);
                     }
                     return false;
                         // ReBe r = model.get//tableModel.getReBeAtRow(modelIndex);
@@ -270,40 +271,40 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                     || (((MouseEvent)event).getID() == MouseEvent.MOUSE_CLICKED)
                                     || (((MouseEvent)event).getID() == MouseEvent.MOUSE_RELEASED)
                                     || (((MouseEvent)event).getID() == MouseEvent.MOUSE_DRAGGED))) {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("eventDispatched: Mouse event intercepted from JXTreeTable in edit mode");
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("eventDispatched: Mouse event intercepted from JXTreeTable in edit mode");
                                 }
                                 final int clickedRow = jttHitTable.rowAtPoint(((MouseEvent)event).getPoint());
                                 final int selectedRow = jttHitTable.getSelectedRow();
-                                if (log.isDebugEnabled()) {
-                                    log.debug("eventDispatched: clickedRow: " + clickedRow);
-                                    log.debug("eventDispatched: selectedRow: " + selectedRow);
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("eventDispatched: clickedRow: " + clickedRow);
+                                    LOG.debug("eventDispatched: selectedRow: " + selectedRow);
                                 }
                                 if (clickedRow != selectedRow) {
                                     if (!broker.validateWidgets()) {
-                                        if (log.isDebugEnabled()) {
-                                            log.debug(
+                                        if (LOG.isDebugEnabled()) {
+                                            LOG.debug(
                                                 "eventDispatched: One or more widgets are invalid. Informing user.");
                                         }
                                         final int anwser = broker.askUser();
                                         if (anwser == JOptionPane.YES_OPTION) {
-                                            if (log.isDebugEnabled()) {
-                                                log.debug("User wants to cancel changes.");
+                                            if (LOG.isDebugEnabled()) {
+                                                LOG.debug("User wants to cancel changes.");
                                             }
                                         } else {
-                                            if (log.isDebugEnabled()) {
-                                                log.debug("User wants to correct validation, consuming event.");
+                                            if (LOG.isDebugEnabled()) {
+                                                LOG.debug("User wants to correct validation, consuming event.");
                                             }
                                             ((MouseEvent)event).consume();
                                         }
                                     } else {
-                                        if (log.isDebugEnabled()) {
-                                            log.debug("eventDispatched: Not consuming event. All Widgets are valid");
+                                        if (LOG.isDebugEnabled()) {
+                                            LOG.debug("eventDispatched: Not consuming event. All Widgets are valid");
                                         }
                                     }
                                 } else {
-                                    if (log.isDebugEnabled()) {
-                                        log.debug(
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug(
                                             "eventDispatched: Not consuming event. No Selection changed would be happen.");
                                     }
                                 }
@@ -322,37 +323,37 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                 && ((((KeyEvent)event).getID() == KeyEvent.KEY_PRESSED)
                                     || (((KeyEvent)event).getID() == KeyEvent.KEY_RELEASED)
                                     || (((KeyEvent)event).getID() == KeyEvent.KEY_TYPED))) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("eventDispatched: Key event intercepted from JXTreeTable in edit mode");
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("eventDispatched: Key event intercepted from JXTreeTable in edit mode");
                         }
                         final int keyCode = ((KeyEvent)event).getKeyCode();
-                        if (log.isDebugEnabled()) {
-                            log.debug("eventDispatched: keycode: " + keyCode);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("eventDispatched: keycode: " + keyCode);
                         }
                         if ((keyCode == KeyEvent.VK_DOWN) || (keyCode == KeyEvent.VK_UP)) {
                             if (!broker.validateWidgets()) {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("eventDispatched: One or more widgets are invalid. Informing user.");
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("eventDispatched: One or more widgets are invalid. Informing user.");
                                 }
                                 final int anwser = broker.askUser();
                                 if (anwser == JOptionPane.YES_OPTION) {
-                                    if (log.isDebugEnabled()) {
-                                        log.debug("User wants to cancel changes.");
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("User wants to cancel changes.");
                                     }
                                 } else {
-                                    if (log.isDebugEnabled()) {
-                                        log.debug("User wants to correct validation, consuming event.");
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("User wants to correct validation, consuming event.");
                                     }
                                     ((KeyEvent)event).consume();
                                 }
                             } else {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("eventDispatched: Not consuming event. All Widgets are valid");
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("eventDispatched: Not consuming event. All Widgets are valid");
                                 }
                             }
                         } else {
-                            if (log.isDebugEnabled()) {
-                                log.debug("eventDispatched: neither up nor down arrow key");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("eventDispatched: neither up nor down arrow key");
                             }
                         }
                     }
@@ -408,26 +409,26 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     public void setSelectedTreeNode(final TreePath selectedTreeNode) {
         final TreePath oldSelectedTreeNode = this.selectedTreeNode;
         if ((this.selectedTreeNode != null) && (selectedTreeNode != null)) {
-            if (log.isDebugEnabled()) {
-                log.debug("both treenodes != null");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("both treenodes != null");
             }
             if (this.selectedTreeNode.equals(selectedTreeNode)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("treebnodes equals");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("treebnodes equals");
                 }
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("treebnodes not equals");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("treebnodes not equals");
                 }
             }
         } else {
             if ((this.selectedTreeNode == null) && (selectedTreeNode == null)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("both treenodes are null");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("both treenodes are null");
                 }
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("one of the treenodes is null");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("one of the treenodes is null");
                 }
             }
         }
@@ -461,12 +462,10 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     public void selectNode(final CustomMutableTreeTableNode nodeToSelect) {
         if (nodeToSelect != null) {
             final TreePath pathToRoot = new TreePath(treeTableModel.getPathToRoot(nodeToSelect));
-            if (pathToRoot != null) {
-                if (log.isDebugEnabled()) {
-                    log.debug("selecting: " + pathToRoot);
-                }
-                jttHitTable.getTreeSelectionModel().setSelectionPath(pathToRoot);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("selecting: " + pathToRoot);
             }
+            jttHitTable.getTreeSelectionModel().setSelectionPath(pathToRoot);
         }
         // DefaultListSelectionModel
     }
@@ -475,41 +474,39 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     public void setWidgetEditable(final boolean isEditable) {
         super.setWidgetEditable(isEditable);
         if (isEditable) {
-            if (log.isDebugEnabled()) {
-                log.debug("Setting " + getWidgetName() + "editable");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Setting " + getWidgetName() + "editable");
             }
             configureMapModeAccordingToSelection();
             if (getBroker().isInCreateMode()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Configuring Workbench for CreateMode. Removing search hits.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Configuring Workbench for CreateMode. Removing search hits.");
                 }
                 setCurrentMode(CREATE_MODE);
-                if (log.isDebugEnabled()) {
-                    log.debug("removing node:" + searchResultsNode);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("removing node:" + searchResultsNode);
                 }
-                treeTableModel.removeNodeFromParent(searchResultsNode);
-                treeTableModel.insertNodeInto(newObjectsNode, rootNode, rootNode.getChildCount());
+                // treeTableModel.removeNodeFromParent(searchResultsNode);
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Configuring Workbench for EditMode");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Configuring Workbench for EditMode");
                 }
                 setCurrentMode(EDIT_MODE);
                 // treeTableModel.removeNodeFromParent(newObjectsNode);
             }
         } else {
             if (getCurrentMode() == CREATE_MODE) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Was in create mode switching to view mode.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Was in create mode switching to view mode.");
                 }
-                if (log.isDebugEnabled()) {
-                    log.debug("removing node:" + newObjectsNode);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("removing node:" + newObjectsNode);
                 }
-                treeTableModel.removeNodeFromParent(newObjectsNode);
-                treeTableModel.insertNodeInto(searchResultsNode, rootNode, rootNode.getChildCount());
+                // treeTableModel.removeNodeFromParent(newObjectsNode);
                 jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(searchResultsNode)));
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Was in edit mode switching to view mode.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Was in edit mode switching to view mode.");
                     // treeTableModel.insertNodeIntoAsLastChild(newObjectsNode, rootNode);
                 }
             }
@@ -525,12 +522,12 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         // Notification in piccolo works over callback methods simply declare a method and recieve the notification
         // no overwriding
         getBroker().getMappingComponent().addPropertyChangeListener(this);
-        if (log.isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
 //        PNotificationCenter.defaultCenter().addListener(this,
 //                null,
 //                CreateGeometryListener.GEOMETRY_CREATED_NOTIFICATION,
 //                null);
-            log.debug("Configure binding TreeTableModel <--> SearchResults");
+            LOG.debug("Configure binding TreeTableModel <--> SearchResults");
         }
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -616,19 +613,19 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         TdtaStandortMastCustomBean virtualStandort = null;
 
         if (getBroker().isInEditMode()) {
-            if (log.isDebugEnabled()) {
-                log.debug("Application is in Editmode");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Application is in Editmode");
             }
             if ((getSelectedTreeNode() != null) && (getSelectedTreeNode().getLastPathComponent() != null)) {
                 if (getSelectedTreeNode().getLastPathComponent() instanceof CustomMutableTreeTableNode) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Chosen object is CustomMutableTreeTableNode");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Chosen object is CustomMutableTreeTableNode");
                     }
                     final Object userObject = ((CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent())
                                 .getUserObject();
                     if (userObject != null) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("userObject != null");
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("userObject != null");
                         }
                         if ((userObject instanceof TdtaLeuchtenCustomBean)
                                     && ((virtualStandort = leuchteToVirtualStandortMap.get(
@@ -636,58 +633,58 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         != null)
                                     && (virtualStandort instanceof TdtaStandortMastCustomBean)
                                     && !virtualStandort.isStandortMast()) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("UserObject is Leuchte with virtual standort");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("UserObject is Leuchte with virtual standort");
                             }
                             if (virtualStandort.getGeometry() == null) {
-                                if (log.isDebugEnabled()) {
-                                    log.debug(
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug(
                                         "Geometry of virtual standort is null, swithcing mode of Mapping Compoenent");
                                 }
                                 return true;
                             } else {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("Geometry of virtual standort != null nothing to do");
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("Geometry of virtual standort != null nothing to do");
                                 }
                             }
                         } else if (userObject instanceof GeoBaseEntity) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("UserObject is instance of GeoBaseEntity");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("UserObject is instance of GeoBaseEntity");
                             }
                             if (((GeoBaseEntity)userObject).getGeometry() == null) {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("Geometry is null swicht mode of Mapping Component");
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("Geometry is null swicht mode of Mapping Component");
                                 }
                                 return true;
                                     // broker.get.removeMainGroupSelection();
                             } else {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("Geometry != null nothing to do");
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("Geometry != null nothing to do");
                                 }
                             }
                         } else {
-                            if (log.isDebugEnabled()) {
-                                log.debug("UserObject is not instance of GeoBaseEntity or Leuchte.");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("UserObject is not instance of GeoBaseEntity or Leuchte.");
                             }
                         }
                     } else {
-                        if (log.isDebugEnabled()) {
-                            log.debug("userObject == null");
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("userObject == null");
                         }
                     }
                 } else {
-                    if (log.isDebugEnabled()) {
-                        log.debug("No instance of CustomMutableTreeNode");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("No instance of CustomMutableTreeNode");
                     }
                 }
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("LastPathComponent == null");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("LastPathComponent == null");
                 }
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Application is not in Editmode");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Application is not in Editmode");
             }
         }
         return false;
@@ -704,7 +701,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         try {
             return ((DefaultMutableTreeTableNode)path.getLastPathComponent()).getUserObject();
         } catch (Exception ex) {
-            log.warn("Error while accessing user object. ", ex);
+            LOG.warn("Error while accessing user object. ", ex);
             return null;
         }
     }
@@ -720,7 +717,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         try {
             return ((CustomMutableTreeTableNode)node).getUserObject();
         } catch (Exception ex) {
-            log.warn("Error while accessing user object. ", ex);
+            LOG.warn("Error while accessing user object. ", ex);
             return null;
         }
     }
@@ -728,8 +725,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * ToDo setSelected dosen't work.
      */
     private void addButtonToMapWidget() {
-        if (log.isDebugEnabled()) {
-            log.debug("adding attachMode button to MapWidget");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("adding attachMode button to MapWidget");
         }
 
         btnAttachMode.setIcon(BelisIcons.icoAttachGeometry16); // NOI18N
@@ -758,8 +755,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 getBroker().setVetoCheckEnabled(false);
                 getBroker().addFeatureSelectionChangeIgnore(this);
                 ignoreFeatureSelection = true;
-                if (log.isDebugEnabled()) {
-                    log.debug("Constraints for ModeSwitch fullfied --> switching.", new CurrentStackTrace());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Constraints for ModeSwitch fullfied --> switching.", new CurrentStackTrace());
                 }
                 btnAttachMode.setEnabled(true);
                 getBroker().getMapWidget().setLastMapMode(getBroker().getMapWidget().getCurrentMapMode());
@@ -769,55 +766,55 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 final Object userObject = ((CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent())
                             .getUserObject();
                 if (userObject instanceof TdtaLeuchtenCustomBean) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Instance is Leuchte --> geometry == point");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Instance is Leuchte --> geometry == point");
                     }
                     ((CreateGeometryListener)getBroker().getMappingComponent().getInputListener(BELIS_CREATE_MODE))
                             .setMode(
                                 CreateGeometryListener.POINT);
                 } else if (userObject instanceof TdtaStandortMastCustomBean) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Instance is Standort --> geometry == point");
-                        log.debug(userObject);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Instance is Standort --> geometry == point");
+                        LOG.debug(userObject);
                     }
                     ((CreateGeometryListener)getBroker().getMappingComponent().getInputListener(BELIS_CREATE_MODE))
                             .setMode(
                                 CreateGeometryListener.POINT);
                 } else if (userObject instanceof MauerlascheCustomBean) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Instance is Mauerlasche --> geometry == point");
-                        log.debug(userObject);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Instance is Mauerlasche --> geometry == point");
+                        LOG.debug(userObject);
                     }
                     ((CreateGeometryListener)getBroker().getMappingComponent().getInputListener(BELIS_CREATE_MODE))
                             .setMode(
                                 CreateGeometryListener.POINT);
                 } else if (userObject instanceof SchaltstelleCustomBean) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Instance is Schaltstelle --> geometry == point");
-                        log.debug(userObject);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Instance is Schaltstelle --> geometry == point");
+                        LOG.debug(userObject);
                     }
                     ((CreateGeometryListener)getBroker().getMappingComponent().getInputListener(BELIS_CREATE_MODE))
                             .setMode(
                                 CreateGeometryListener.POINT);
                 } else if (userObject instanceof LeitungCustomBean) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Instance is Leitung --> geometry == line");
-                        log.debug(userObject);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Instance is Leitung --> geometry == line");
+                        LOG.debug(userObject);
                     }
                     ((CreateGeometryListener)getBroker().getMappingComponent().getInputListener(BELIS_CREATE_MODE))
                             .setMode(
                                 CreateGeometryListener.LINESTRING);
                 } else if (userObject instanceof AbzweigdoseCustomBean) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Instance is Abzweigdose --> geometry == point");
-                        log.debug(userObject);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Instance is Abzweigdose --> geometry == point");
+                        LOG.debug(userObject);
                     }
                     ((CreateGeometryListener)getBroker().getMappingComponent().getInputListener(BELIS_CREATE_MODE))
                             .setMode(
                                 CreateGeometryListener.POINT);
                 }
             } catch (Exception ex) {
-                log.error("Error while configuring map. Setting map back: ", ex);
+                LOG.error("Error while configuring map. Setting map back: ", ex);
                 getBroker().setVetoCheckEnabled(true);
             } finally {
                 getBroker().setVetoCheckEnabled(true);
@@ -827,20 +824,20 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         } else {
             try {
                 getBroker().setVetoCheckEnabled(false);
-                if (log.isDebugEnabled()) {
-                    log.debug("Constraints for ModeSwitch not fullfied");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Constraints for ModeSwitch not fullfied");
                 }
                 if (getBroker().getMappingComponent().getInteractionMode().equals(BELIS_CREATE_MODE)) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Is already in: " + BELIS_CREATE_MODE + " mode. Switching back");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Is already in: " + BELIS_CREATE_MODE + " mode. Switching back");
                     }
                     // ToDo save last mode; check if the map is in this mode --> switch to select TODO maybe an
                     // intelligent mode switching policy
                     btnAttachMode.setEnabled(false);
                     if ((getBroker().getMappingComponent().getInteractionMode() != null)
                                 && getBroker().getMappingComponent().getInteractionMode().equals(BELIS_CREATE_MODE)) {
-                        if (log.isDebugEnabled()) {
-                            log.debug(
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug(
                                 "False map mode setting is at the moment temp feature create. Mode will be set to lastmode: "
                                         + getBroker().getMapWidget().getLastMapMode());
                         }
@@ -904,53 +901,53 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     // switched
     @Override
     public void valueChanged(final TreeSelectionEvent e) {
-        if (log.isDebugEnabled()) {
-            log.debug("JTreeTable selection changend: " + e.getPaths());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("JTreeTable selection changend: " + e.getPaths());
         }
         try {
             try {
-                if (log.isDebugEnabled()) {
-                    log.debug("DetailWidget is valid: "
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("DetailWidget is valid: "
                                 + (Validatable.VALID == getBroker().getDetailWidget().getStatus()));
                 }
             } catch (Exception ex) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Error while checking validation state of detailWidget: ", ex);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error while checking validation state of detailWidget: ", ex);
                 }
             }
 
             if (e.isAddedPath()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Path is added");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Path is added");
                 }
                 setSelectedTreeNode(e.getPath());
                 configureMapModeAccordingToSelection();
                 // Set feature selection
 
                 if (isSelectedOverMap) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("feature was selected over map. No need to select it in map.");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("feature was selected over map. No need to select it in map.");
                     }
                 } else {
                     getBroker().setVetoCheckEnabled(false);
-                    if (log.isDebugEnabled()) {
-                        log.debug("feature was selected over table. Going to select feature in map.");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("feature was selected over table. Going to select feature in map.");
                     }
 
                     // ToDo method for extraction bad performance
                     final Object currentUserObject = getUserObjectForTreePath(e.getPath());
                     if ((currentUserObject != null) && (currentUserObject instanceof StyledFeature)
                                 && (((StyledFeature)currentUserObject).getGeometry() != null)) {
-                        if (log.isDebugEnabled()) {
-                            log.debug(
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug(
                                 "UserObject != null and instance of StyledFeature and geometry available --> select Feature");
                         }
                         ignoreFeatureSelection = true;
                         getBroker().addFeatureSelectionChangeIgnore(this);
                         selectFeature((StyledFeature)currentUserObject);
                     } else if (isParentNodeMast(e.getPath().getLastPathComponent())) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("Leuchte from mast is selected in table.");
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Leuchte from mast is selected in table.");
                         }
                         final TdtaStandortMastCustomBean parentMast = getParentMast(e.getPath().getLastPathComponent());
                         if ((getBroker().getMappingComponent().getFeatureCollection().getSelectedFeatures() != null)
@@ -958,26 +955,26 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         .size() == 1)
                                     && getBroker().getMappingComponent().getFeatureCollection().getSelectedFeatures()
                                     .iterator().next().equals(parentMast)) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("Doing nothing mast is already selected");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Doing nothing mast is already selected");
                             }
                         } else {
-                            if (log.isDebugEnabled()) {
-                                log.debug("Selecting Mast in map.");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Selecting Mast in map.");
                             }
                             ignoreFeatureSelection = true;
                             getBroker().addFeatureSelectionChangeIgnore(this);
                             selectFeature((StyledFeature)parentMast);
                         }
                     } else if (isNodeHaengeLeuchte(e.getPath().getLastPathComponent())) {
-                        if (log.isDebugEnabled()) {
-                            log.debug(
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug(
                                 "current selected node is haengeleuchte. Selecting corresponding standort in map: ");
                         }
                         selectFeature(leuchteToVirtualStandortMap.get(currentUserObject));
                     } else {
-                        if (log.isDebugEnabled()) {
-                            log.debug("no geometry to select --> unselect");
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("no geometry to select --> unselect");
                         }
                         getBroker().addFeatureSelectionChangeIgnore(this);
                         getBroker().getMappingComponent().getFeatureCollection().unselectAll();
@@ -985,8 +982,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 }
                 return;
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Path is removed");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Path is removed");
                     // ToDo if a current selected node is removed
                 }
             }
@@ -1062,8 +1059,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         try {
             return getParentMast(node).isStandortMast();
         } catch (Exception ex) {
-            if (log.isDebugEnabled()) {
-                log.debug("Exception why checking if node is mast, therefore is no mast", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Exception why checking if node is mast, therefore is no mast", ex);
             }
         }
         return false;
@@ -1078,12 +1075,12 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      */
     public boolean isNodeHaengeLeuchte(final Object node) {
         try {
-            if (log.isDebugEnabled()) {
-                log.debug("instance of Leuchte: "
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("instance of Leuchte: "
                             + (((CustomMutableTreeTableNode)node).getUserObject() instanceof TdtaLeuchtenCustomBean));
             }
-            if (log.isDebugEnabled()) {
-                log.debug("Parent is searchnode: "
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Parent is searchnode: "
                             + ((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent()).equals(
                                 searchResultsNode));
             }
@@ -1093,8 +1090,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                             || ((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent()).equals(
                                 newObjectsNode));
         } catch (Exception ex) {
-            if (log.isDebugEnabled()) {
-                log.debug("Exception why checking if node is haengeleuchte, therefore is no haengeleuchte", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Exception why checking if node is haengeleuchte, therefore is no haengeleuchte", ex);
             }
         }
         return false;
@@ -1112,8 +1109,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             return ((TdtaStandortMastCustomBean)
                     ((CustomMutableTreeTableNode)((CustomMutableTreeTableNode)node).getParent()).getUserObject());
         } catch (Exception ex) {
-            if (log.isDebugEnabled()) {
-                log.debug("Exception while getting parent mast. Does not exist", ex);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Exception while getting parent mast. Does not exist", ex);
             }
         }
         return null;
@@ -1140,8 +1137,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             try {
                 getBroker().setVetoCheckEnabled(false);
                 for (final Feature feature : features) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("currentFeature: " + feature);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("currentFeature: " + feature);
                     }
                     if ((feature instanceof GeoBaseEntity)
                                 && getBroker().getMappingComponent().getFeatureCollection().isSelected(feature)) {
@@ -1158,8 +1155,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                     && !((TdtaStandortMastCustomBean)feature).isStandortMast()
                                     && (((TdtaStandortMastCustomBean)feature).getLeuchten() != null)
                                     && (((TdtaStandortMastCustomBean)feature).getLeuchten().size() > 0)) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("virtual Standort selected, selecting depending leuchte");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("virtual Standort selected, selecting depending leuchte");
                             }
                             path = treeTableModel.getPathForUserObject(((TdtaStandortMastCustomBean)feature)
                                             .getLeuchten().iterator().next());
@@ -1168,20 +1165,20 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                         }
 
                         if (path != null) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("Path is available");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Path is available");
                             }
                             // jttHitTable.getSelectionMapper().setViewSelectionModel(arg0);
                             // jttHitTable.getTreeSelectionModel().removeTreeSelectionListener(this);
                             // ToDo dosen't work always
                             try {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("selected over map", new CurrentStackTrace());
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("selected over map", new CurrentStackTrace());
                                 }
                                 isSelectedOverMap = true;
                                 jttHitTable.getTreeSelectionModel().setSelectionPath(path);
                             } catch (Exception ex) {
-                                log.warn("couldn't set selection", ex);
+                                LOG.warn("couldn't set selection", ex);
                             }
                             // jttHitTable.getTreeSelectionModel().addTreeSelectionListener(this);
                             final Rectangle tmp = jttHitTable.getCellRect(jttHitTable.getSelectedRow(), 0, true);
@@ -1189,14 +1186,14 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                 jttHitTable.scrollRectToVisible(tmp);
                             }
                         } else {
-                            if (log.isDebugEnabled()) {
-                                log.debug("No Path for feature available");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("No Path for feature available");
                             }
                             jttHitTable.getSelectionMapper().getViewSelectionModel().clearSelection();
                         }
                     } else {
-                        if (log.isDebugEnabled()) {
-                            log.debug("No GeoBaseEntity or is already selected");
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("No GeoBaseEntity or is already selected");
                         }
                         jttHitTable.getSelectionMapper().getViewSelectionModel().clearSelection();
                     }
@@ -1205,8 +1202,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 getBroker().setVetoCheckEnabled(true);
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("FeatureSelection ignored", new CurrentStackTrace());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("FeatureSelection ignored", new CurrentStackTrace());
             }
         }
     }
@@ -1217,17 +1214,17 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @param  artifactType  DOCUMENT ME!
      */
     public void refreshTreeArtifacts(final int artifactType) {
-        if (log.isDebugEnabled()) {
-            log.debug("Is in EDT: " + EventQueue.isDispatchThread());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Is in EDT: " + EventQueue.isDispatchThread());
         }
-        if (log.isDebugEnabled()) {
-            log.debug("refreshTreeArtifacts");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("refreshTreeArtifacts");
         }
         saveSelectedElementAndUnselectAll();
         switch (artifactType) {
             case REFRESH_SEARCH_RESULTS: {
-                if (log.isDebugEnabled()) {
-                    log.debug("Refreshing searchResults");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Refreshing searchResults");
                 }
 //                Enumeration<MutableTreeTableNode> oldSearch = (Enumeration<MutableTreeTableNode>) searchResults.children();
 //                if (oldSearch != null) {
@@ -1241,8 +1238,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 // searchResultsNode.removeAllChildren();
                 // modelSupport.fireTreeStructureChanged(new TreePath(getPathToRoot(searchResultsNode)));
                 treeTableModel.removeAllChildrenFromNode(searchResultsNode, false);
-                if (log.isDebugEnabled()) {
-                    log.debug("adding new SearchResults");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("adding new SearchResults");
                 }
                 if (searchResultsNode != null) {
                     for (final Object curObject : currentSearchResults) {
@@ -1254,14 +1251,14 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         .getLeuchten();
                             if (searchResultsNode != null) {
                                 if (((TdtaStandortMastCustomBean)curObject).isStandortMast()) {
-                                    if (log.isDebugEnabled()) {
-                                        log.debug("Current Object is mast adding node to tree");
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("Current Object is mast adding node to tree");
                                     }
                                     treeTableModel.insertNodeIntoAsLastChild(standortNode, searchResultsNode);
                                     ((TdtaStandortMastCustomBean)curObject).addPropertyChangeListener(this);
                                 } else {
-                                    if (log.isDebugEnabled()) {
-                                        log.debug(
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug(
                                             "Current Object is standort for Hängeleuchte (virtual) not adding to tree");
                                     }
                                 }
@@ -1298,8 +1295,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     }
                     jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(searchResultsNode)));
                 } else {
-                    if (log.isDebugEnabled()) {
-                        log.debug("searchResults == null");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("searchResults == null");
                     }
                 }
 //                } else {
@@ -1309,8 +1306,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 break;
             }
             case REFRESH_NEW_OBJECTS: {
-                if (log.isDebugEnabled()) {
-                    log.debug("Refreshing newObjects (newly created & newly saved)");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Refreshing newObjects (newly created & newly saved)");
 //                Enumeration<MutableTreeTableNode> oldSearch = (Enumeration<MutableTreeTableNode>) searchResults.children();
 //                if (oldSearch != null) {
 //                    while (oldSearch.hasMoreElements()) {
@@ -1322,11 +1319,11 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
 //                    }
                     // searchResultsNode.removeAllChildren();
                     // modelSupport.fireTreeStructureChanged(new TreePath(getPathToRoot(searchResultsNode)));
-                    log.debug("remove all children of new objects");
+                    LOG.debug("remove all children of new objects");
                 }
                 treeTableModel.removeAllChildrenFromNode(newObjectsNode, false);
-                if (log.isDebugEnabled()) {
-                    log.debug("adding new Objects to node");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("adding new Objects to node");
                 }
                 if (newObjects != null) {
                     for (final Object curObject : newObjects) {
@@ -1361,8 +1358,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                         }
                     }
                 } else {
-                    if (log.isDebugEnabled()) {
-                        log.debug("new objects == null");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("new objects == null");
                     }
                 }
 //                log.debug("adding aldready saved objects to node");
@@ -1400,8 +1397,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 break;
             }
             case REFRESH_ALL: {
-                if (log.isDebugEnabled()) {
-                    log.debug("refresh all");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("refresh all");
                 }
                 refreshTreeArtifacts(REFRESH_NEW_OBJECTS);
                 refreshTreeArtifacts(REFRESH_SEARCH_RESULTS);
@@ -1426,8 +1423,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             //
             // return;
             case CLEAR_NEW_OBJECTS: {
-                if (log.isDebugEnabled()) {
-                    log.debug("Clear new objects");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Clear new objects");
                 }
 //                    int childCount = newObjectsNode.getChildCount();
 //                    for (int i = 0; i < childCount; i++) {
@@ -1464,8 +1461,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
 //                }
 //                return;
             default: {
-                if (log.isDebugEnabled()) {
-                    log.debug("Type is unkown, nothing to refresh.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Type is unkown, nothing to refresh.");
                 }
 
                 break;
@@ -1479,8 +1476,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @param  entity  DOCUMENT ME!
      */
     public void removeEntity(final Object entity) {
-        if (log.isDebugEnabled()) {
-            log.debug("remove Entity");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("remove Entity");
         }
         if (entity != null) {
             final TreePath pathToNodeToRemove = treeTableModel.getPathForUserObject(entity);
@@ -1489,21 +1486,21 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 final CustomMutableTreeTableNode nodeToRemove = (CustomMutableTreeTableNode)
                     pathToNodeToRemove.getLastPathComponent();
                 saveSelectedElementAndUnselectAll();
-                if (log.isDebugEnabled()) {
-                    log.debug("removing node:" + nodeToRemove);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("removing node:" + nodeToRemove);
                 }
-                if (log.isDebugEnabled()) {
-                    log.debug("instance leuchte: " + (nodeToRemove.getUserObject() instanceof TdtaLeuchtenCustomBean));
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("instance leuchte: " + (nodeToRemove.getUserObject() instanceof TdtaLeuchtenCustomBean));
                 }
-                if (log.isDebugEnabled()) {
-                    log.debug("parent != null: " + (nodeToRemove.getParent() != null));
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("parent != null: " + (nodeToRemove.getParent() != null));
                 }
-                if (log.isDebugEnabled()) {
-                    log.debug("parent instance standort: "
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("parent instance standort: "
                                 + (nodeToRemove.getParent() instanceof TdtaStandortMastCustomBean));
                 }
-                if (log.isDebugEnabled()) {
-                    log.debug("parent childcoutn" + nodeToRemove.getParent().getChildCount());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("parent childcoutn" + nodeToRemove.getParent().getChildCount());
                 }
                 // ToDo getParentMast for Leuchte Method
                 if ((nodeToRemove.getUserObject() != null)
@@ -1514,21 +1511,21 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                             && (((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject() != null)
                             && (((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject()
                                 instanceof TdtaStandortMastCustomBean)) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Leuchte is removed from Mast");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Leuchte is removed from Mast");
                     }
                     final TdtaStandortMastCustomBean mast = (TdtaStandortMastCustomBean)
                         ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject();
-                    if (log.isDebugEnabled()) {
-                        log.debug("Leuchte: " + (TdtaLeuchtenCustomBean)nodeToRemove.getUserObject() + " from Mast: "
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Leuchte: " + (TdtaLeuchtenCustomBean)nodeToRemove.getUserObject() + " from Mast: "
                                     + mast);
                     }
                     mast.getLeuchten().remove((TdtaLeuchtenCustomBean)nodeToRemove.getUserObject());
-                    if (log.isDebugEnabled()) {
-                        log.debug("Leuchten of Mast: " + mast.getLeuchten());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Leuchten of Mast: " + mast.getLeuchten());
                     }
-                    if (log.isDebugEnabled()) {
-                        log.debug("other mast leuchten ref: "
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("other mast leuchten ref: "
                                     + ((TdtaStandortMastCustomBean)
                                         ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject())
                                     .getLeuchten());
@@ -1539,9 +1536,9 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                         leuchtenRemovedFromMastMap.put(mast, alreadyRemovedLeuchten);
                     }
                     alreadyRemovedLeuchten.add((TdtaLeuchtenCustomBean)nodeToRemove.getUserObject());
-                    if (mast.getLeuchten().size() == 0) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("The leucht was the last leuchte of the mast refreshing icon");
+                    if (mast.getLeuchten().isEmpty()) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("The leucht was the last leuchte of the mast refreshing icon");
                         }
                         getBroker().getMappingComponent()
                                 .getFeatureCollection()
@@ -1549,8 +1546,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject()));
                     }
                 } else if (isNodeHaengeLeuchte(nodeToRemove)) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Node which will be removed is a haengeleuchte. Removing also virtual Standort");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Node which will be removed is a haengeleuchte. Removing also virtual Standort");
                     }
                     final TdtaStandortMastCustomBean virtualStandort = leuchteToVirtualStandortMap.get(
                             (TdtaLeuchtenCustomBean)nodeToRemove.getUserObject());
@@ -1558,18 +1555,18 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                         getBroker().getMappingComponent().getFeatureCollection().removeFeature(virtualStandort);
                         removedObjects.add(virtualStandort);
                     } else {
-                        log.warn("No virtual standort found for leuchte");
+                        LOG.warn("No virtual standort found for leuchte");
                     }
                 } else {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Neither Mast Leuchte nor Hängeleuchte.");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Neither Mast Leuchte nor Hängeleuchte.");
                     }
                 }
                 treeTableModel.removeNodeFromParent(nodeToRemove);
                 // removedNodes.add(nodeToRemove);
                 if ((entity instanceof GeoBaseEntity) && (((GeoBaseEntity)entity).getGeometrie() != null)) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Entity has a geometry. Removing geometry from map");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Entity has a geometry. Removing geometry from map");
                     }
                     getBroker().getMappingComponent().getFeatureCollection().removeFeature((GeoBaseEntity)entity);
                 }
@@ -1587,14 +1584,14 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     removedObjects.add(entity);
                 }
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Can't remove object from Tree, because there is no path to the node.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Can't remove object from Tree, because there is no path to the node.");
                 }
             }
             newObjects.remove(entity);
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Can't remove object. The userobject == null.");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Can't remove object. The userobject == null.");
             }
         }
     }
@@ -1614,18 +1611,18 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @param  currentSearchResults  DOCUMENT ME!
      */
     public void setCurrentSearchResults(final Collection currentSearchResults) {
-        if (log.isDebugEnabled()) {
-            log.debug("setSearchResults");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("setSearchResults");
         }
         this.currentSearchResults = currentSearchResults;
         if (getBroker().isInCreateMode()) {
-            if (log.isDebugEnabled()) {
-                log.debug("nothing to refresh because is in Create Mode");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("nothing to refresh because is in Create Mode");
             }
         } else {
             if ((currentSearchResults != null) && (currentSearchResults.isEmpty())) {
-                if (log.isDebugEnabled()) {
-                    log.debug("0 Search results selecting search node");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("0 Search results selecting search node");
                 }
                 selectNode(searchResultsNode);
             }
@@ -1649,8 +1646,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @param  newObjects  DOCUMENT ME!
      */
     public void setNewObjects(final Set newObjects) {
-        if (log.isDebugEnabled()) {
-            log.debug("setNewObjects");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("setNewObjects");
         }
         this.newObjects = newObjects;
         // refreshTreeArtifacts(REFRESH_PROCESSED_OBJECTS);
@@ -1675,14 +1672,14 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * refreshTreeArtifacts(REFRESH_NEW_OBJECTS); }
      */
     public void restoreRemovedObjects() {
-        if (log.isDebugEnabled()) {
-            log.debug("restoreRemovedObjects");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("restoreRemovedObjects");
         }
         // ToDo I think this is no longer needed because if the search result modification is canceld --> refresh
         // And new objects dosen't matter because they will be eraesd
         if (leuchtenRemovedFromMastMap.keySet().size() > 0) {
-            if (log.isDebugEnabled()) {
-                log.debug("restoring removed leuchten");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("restoring removed leuchten");
             }
             for (final TdtaStandortMastCustomBean curMast : leuchtenRemovedFromMastMap.keySet()) {
                 curMast.getLeuchten().addAll(leuchtenRemovedFromMastMap.get(curMast));
@@ -1698,8 +1695,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * ToDo find a better name.
      */
     public void objectsRemoved() {
-        if (log.isDebugEnabled()) {
-            log.debug("objectsRemoved");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("objectsRemoved");
         }
         if (!getBroker().isInCreateMode()) {
             if (removedObjects.size() > 0) {
@@ -1785,15 +1782,15 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                             .getUserObject();
                 nodeToAddLeuchte = ((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath()
                                 .getLastPathComponent());
-                if (log.isDebugEnabled()) {
-                    log.debug("Related object is Leuchte (sibling)");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Related object is Leuchte (sibling)");
                 }
             } else if ((pathToRelatedObejct != null) && (pathToRelatedObejct.getLastPathComponent() != null)
                         && (pathToRelatedObejct.getLastPathComponent() instanceof CustomMutableTreeTableNode)
                         && (((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent()).getUserObject()
                             instanceof TdtaStandortMastCustomBean)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Related object is Standort (parent)");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Related object is Standort (parent)");
                 }
                 parent = (TdtaStandortMastCustomBean)
                     ((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent()).getUserObject();
@@ -1803,33 +1800,33 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                             && ((((TdtaStandortMastCustomBean)relatedObject).isVirtuellerStandort() != null)
                                 && ((TdtaStandortMastCustomBean)relatedObject).isVirtuellerStandort()))
                         || !((TdtaStandortMastCustomBean)relatedObject).isStandortMast()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Leuchte has virtual standort will be added directly to tree");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Leuchte has virtual standort will be added directly to tree");
                 }
                 nodeToAddLeuchte = newObjectsNode;
                 parent = (TdtaStandortMastCustomBean)relatedObject;
             } else {
-                log.warn("Can't add Leuchte relatedObject is neither Leuchte nor Standort.");
+                LOG.warn("Can't add Leuchte relatedObject is neither Leuchte nor Standort.");
             }
         } catch (Exception ex) {
-            log.error("Error while trying to get node for related object", ex);
+            LOG.error("Error while trying to get node for related object", ex);
         }
         if ((nodeToAddLeuchte == null) || (parent == null)) {
-            log.warn("Can't add Leuchte no node or standort found. Returning.");
+            LOG.warn("Can't add Leuchte no node or standort found. Returning.");
             return null;
         }
         final TdtaLeuchtenCustomBean newLeuchte = TdtaLeuchtenCustomBean.createNew();
-        if (getBroker().getDefaultUnterhaltLeuchte() != null) {
-            newLeuchte.setUnterhaltspflichtLeuchte(getBroker().getDefaultUnterhaltLeuchte());
+        if (BelisBroker.getDefaultUnterhaltLeuchte() != null) {
+            newLeuchte.setUnterhaltspflichtLeuchte(BelisBroker.getDefaultUnterhaltLeuchte());
         }
-        if (getBroker().getDefaultDoppelkommando1() != null) {
-            newLeuchte.setDk1(getBroker().getDefaultDoppelkommando1());
+        if (BelisBroker.getDefaultDoppelkommando1() != null) {
+            newLeuchte.setDk1(BelisBroker.getDefaultDoppelkommando1());
         }
         newLeuchte.addPropertyChangeListener(this);
         newLeuchte.addPropertyChangeListener(getBroker());
         if (!parent.isStandortMast()) {
-            if (log.isDebugEnabled()) {
-                log.debug("Adding propterychange listener for virtual standort");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Adding propterychange listener for virtual standort");
             }
             newLeuchte.addPropertyChangeListener(parent);
             leuchteToVirtualStandortMap.put(newLeuchte, parent);
@@ -1851,8 +1848,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         Collection<TdtaLeuchtenCustomBean> tmpLeuchten = parent.getLeuchten();
         boolean reconsiderFeature = false;
         if (tmpLeuchten == null) {
-            if (log.isDebugEnabled()) {
-                log.debug("standort hatte vorher noch keine leuchten");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("standort hatte vorher noch keine leuchten");
             }
             reconsiderFeature = true;
             tmpLeuchten = new TreeSet(new LeuchteComparator());
@@ -1860,8 +1857,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         }
         tmpLeuchten.add(newLeuchte);
         if (parent.getGeometry() != null) {
-            if (log.isDebugEnabled()) {
-                log.debug(
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(
                     "standort has geometry. Reconsidering feature because the icon must be switched from standort without leuchte to standort with leuchte.");
             }
             getBroker().getMappingComponent().getFeatureCollection().reconsiderFeature(parent);
@@ -1964,15 +1961,15 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * DOCUMENT ME!
      */
     public void saveSelectedElementAndUnselectAll() {
-        if (log.isDebugEnabled()) {
-            log.debug("storing selection");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("storing selection");
         }
         try {
             final TreePath tmpSelectedElement = jttHitTable.getTreeSelectionModel().getSelectionPath();
             jttHitTable.getTreeSelectionModel().clearSelection();
             selectedElement = tmpSelectedElement;
         } catch (Exception ex) {
-            log.warn("Error while clearing selection");
+            LOG.warn("Error while clearing selection");
         }
     }
 
@@ -1981,22 +1978,22 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      */
     public void restoreSelectedElementIfPossible() {
         if (selectedElement != null) {
-            if (log.isDebugEnabled()) {
-                log.debug("restoring selection");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("restoring selection");
             }
             try {
                 jttHitTable.getTreeSelectionModel().setSelectionPath(selectedElement);
             } catch (Exception ex) {
-                log.warn("Error while restoring selection (Maybe The objects doesn't exist anymore)", ex);
+                LOG.warn("Error while restoring selection (Maybe The objects doesn't exist anymore)", ex);
                 try {
                     jttHitTable.getTreeSelectionModel().clearSelection();
                 } catch (Exception ex2) {
-                    log.warn("Error while clearing selection", ex2);
+                    LOG.warn("Error while clearing selection", ex2);
                 }
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("no selection to restore");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("no selection to restore");
             }
         }
     }
@@ -2019,8 +2016,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-        if (log.isDebugEnabled()) {
-            log.debug("property of userobject changed refreshing table");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("property of userobject changed refreshing table");
         }
         jttHitTable.repaint();
     }
@@ -2190,8 +2187,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @param  searchResult  DOCUMENT ME!
      */
     public void setSearchResults(final Set searchResult) {
-        if (log.isDebugEnabled()) {
-            log.debug("Search Results set");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Search Results set");
         }
         this.searchResults = searchResult;
         firePropertyChange(PROP_SEARCH_RESULTS, null, searchResult);
@@ -2223,19 +2220,19 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         @Override
         protected void finishGeometry(final AbstractNewFeature newFeature) {
             if (EventQueue.isDispatchThread()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("is in EDT");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("is in EDT");
                 }
             } else {
-                log.fatal("is not in edt");
+                LOG.fatal("is not in edt");
             }
-            if (log.isDebugEnabled()) {
-                log.debug("Pure new feature created for attachement: " + newFeature);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Pure new feature created for attachement: " + newFeature);
             }
 
             if ((newFeature != null) && (newFeature instanceof PureNewFeature) && checkConstraintForMapModeSwitch()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("all prequisites fulfied for adding newly created geometry");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("all prequisites fulfied for adding newly created geometry");
                 }
                 try {
                     tmpProcessStarted = true;
@@ -2252,7 +2249,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     } else if (tmpObject instanceof TdtaLeuchtenCustomBean) {
                         currentSelectedFeature = leuchteToVirtualStandortMap.get((TdtaLeuchtenCustomBean)tmpObject);
                         if (currentSelectedFeature == null) {
-                            log.warn("Leuchte has no virtual standort.");
+                            LOG.warn("Leuchte has no virtual standort.");
                         }
                     }
                     currentSelectedFeature.setGeometry(newFeature.getGeometry());
@@ -2277,8 +2274,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
 //                }
                 }
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Not all prequisites fulfied for adding newly created geometry");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Not all prequisites fulfied for adding newly created geometry");
                 }
             }
         }

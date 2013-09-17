@@ -36,8 +36,6 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.features.Feature;
 
-import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
-
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -57,14 +55,12 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
 
     // ToDo disabled Functionality 04.05.2009
     // public static String PROCESSED_NODE = "CustomTreeTableModel.Processed";
-    protected final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomTreeTableModel.class);
     // ToDo disabled Functionality 04.05.2009
     // private final CustomMutableTreeTableNode processedObjectsNode = new CustomMutableTreeTableNode(null, true);
     BelisBroker broker = null;
     // private final ArrayList<CustomMutableTreeTableNode> removedNodes = new ArrayList();
     private CustomMutableTreeTableNode rootNode = null;
-    private CustomMutableTreeTableNode searchResultsNode = null;
-    private CustomMutableTreeTableNode newObjectsNode = null;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -83,39 +79,15 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
         super(rootNode);
         this.broker = broker;
         this.rootNode = rootNode;
-        this.searchResultsNode = searchResultsNode;
-        this.newObjectsNode = newObjectsNode;
         searchResultsNode.setUserObject(HIT_NODE);
         newObjectsNode.setUserObject(NEW_OBJECT_NODE);
         // ToDo disabled Functionality 04.05.2009
         // processedObjectsNode.setUserObject(PROCESSED_NODE);
 
         setRoot(rootNode);
+        insertNodeIntoAsLastChild(newObjectsNode, rootNode);
         insertNodeIntoAsLastChild(searchResultsNode, rootNode);
-        // insertNodeIntoAsLastChild(newObjectsNode, rootNode); ToDo disabled Functionality 04.05.2009
-        // insertNodeInto(processedObjectsNode, rootNode, rootNode.getChildCount());
     }
-//
-//    public void restoreRemovedObjects(){
-////        if(removedNodes.size() >0){
-////            for(CustomMutableTreeTableNode curNode:removedNodes){
-////                final TreePath pathToParent = nodeToParentPath.get(curNode);
-////                if(pathToParent != null && pathToParent.getLastPathComponent() != null && pathToParent.getLastPathComponent() instanceof CustomMutableTreeTableNode){
-////                    final CustomMutableTreeTableNode parentNode = (CustomMutableTreeTableNode) pathToParent.getLastPathComponent();
-////                    insertNodeInto(curNode, parentNode , parentNode.getChildCount());
-////                } else {
-////                    log.warn("Can't insert node either path to parent = null or no customMutableTreeNode.");
-////                }
-////            }
-////        } else {
-////            log.debug("There are no nodes to restore");
-////        }
-//        refreshTreeArtifacts(REFRESH_NEW_OBJECTS);
-//        refreshTreeArtifacts(REFRESH_SEARCH_RESULTS);
-//        //ToDo what to do when error occurs
-//        removedNodes.clear();
-//        objectsToRemove.clear();
-//    }
 
     //~ Methods ----------------------------------------------------------------
 
@@ -203,9 +175,6 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
 
     @Override
     public Object getValueAt(final Object aObject, final int aColumn) {
-//                (TreeNode) vTreeNode = (TreeNode)aObject;
-//              Component vComponent = vTreeNode.getComponent();
-
         switch (aColumn) {
             case 1: {
                 if (aObject instanceof TreeTableNode) {
@@ -262,32 +231,32 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
      * @param  onlyWihtoutID  DOCUMENT ME!
      */
     public void removeAllChildrenFromNode(final CustomMutableTreeTableNode node, final boolean onlyWihtoutID) {
-        if (log.isDebugEnabled()) {
-            log.debug("removeAllChildrenFromNode");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("removeAllChildrenFromNode");
         }
         final ArrayList<CustomMutableTreeTableNode> nodesToRemove = new ArrayList<CustomMutableTreeTableNode>();
         final int childCount = node.getChildCount();
-        if (log.isDebugEnabled()) {
-            log.debug("Childcount of node: " + childCount);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Childcount of node: " + childCount);
         }
-        if ((node != null) && (childCount > 0)) {
+        if (childCount > 0) {
             for (int i = 0; i < childCount; i++) {
                 final CustomMutableTreeTableNode curNode = (CustomMutableTreeTableNode)node.getChildAt(i);
                 if (onlyWihtoutID && (curNode.getUserObject() != null)) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("checking id");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("checking id");
                     }
                     try {
                         if (((CidsBean)curNode.getUserObject()).getProperty("id") == null) {
                             try {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("ID of entity is null. Will be removed.");
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("ID of entity is null. Will be removed.");
                                 }
                                 nodesToRemove.add(curNode);
                                 if ((curNode.getUserObject() instanceof Feature)
                                             && (((Feature)curNode.getUserObject()).getGeometry() != null)) {
-                                    if (log.isDebugEnabled()) {
-                                        log.debug(
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug(
                                             "Current object is feature and has a geometry, will be removed from map.");
                                     }
                                     broker.getMappingComponent()
@@ -296,8 +265,8 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
                                 } else if ((curNode.getUserObject() instanceof TdtaLeuchtenCustomBean)
                                             && ((BelisBroker)broker).getWorkbenchWidget().isNodeHaengeLeuchte(
                                                 curNode)) {
-                                    if (log.isDebugEnabled()) {
-                                        log.debug("node is haengeleuchte removing parent from map");
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("node is haengeleuchte removing parent from map");
                                     }
                                     broker.getMappingComponent()
                                             .getFeatureCollection()
@@ -306,19 +275,19 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
                                                     (TdtaLeuchtenCustomBean)curNode.getUserObject()));
                                 }
                             } catch (Exception ex) {
-                                log.warn("error while removing geometry from Map", ex);
+                                LOG.warn("error while removing geometry from Map", ex);
                                 nodesToRemove.add(curNode);
                             }
                         }
                     } catch (Exception ex) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("Object has no id field. Will be removed", ex);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Object has no id field. Will be removed", ex);
                         }
                         nodesToRemove.add(curNode);
                     }
                 } else {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Either no id check or userObject is null");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Either no id check or userObject is null");
                     }
                     nodesToRemove.add(curNode);
                 }
@@ -326,13 +295,13 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
             for (final CustomMutableTreeTableNode curNode : nodesToRemove) {
                 // ToDo why can this be null ??
                 if (curNode != null) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("removing node:" + curNode);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("removing node:" + curNode);
                     }
                     removeNodeFromParent(curNode);
                 }
-                if (log.isDebugEnabled()) {
-                    log.debug("node is removed from tree");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("node is removed from tree");
                 }
             }
         }
@@ -344,15 +313,11 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
      * @param  newChild  DOCUMENT ME!
      * @param  parent    DOCUMENT ME!
      */
-    public void insertNodeIntoAsLastChild(final MutableTreeTableNode newChild, final MutableTreeTableNode parent) {
+    public final void insertNodeIntoAsLastChild(final MutableTreeTableNode newChild, final MutableTreeTableNode parent) {
         if (parent != null) {
             super.insertNodeInto(newChild, parent, parent.getChildCount());
         } else {
-            log.warn("node not inserted, because parent is null");
+            LOG.warn("node not inserted, because parent is null");
         }
     }
-    // ToDo disabled Functionality 04.05.2009
-// public void moveNewObjectsAfterSave() {
-// refreshTreeArtifacts(REFRESH_PROCESSED_OBJECTS);
-// }
 }
