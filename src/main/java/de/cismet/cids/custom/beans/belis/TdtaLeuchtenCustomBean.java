@@ -35,10 +35,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
     public static final TkeyUnterhLeuchteCustomBean DEFAULT_UNTERHALT;
     public static final TkeyDoppelkommandoCustomBean DEFAULT_DOPPELKOMMANDO;
 
-    public static final String PROP_STRASSENSCHLUESSEL = "Leuchte.strassenschluessel";
-    public static final String PROP_KENNZIFFER = "Leuchte.Kennziffer";
-    public static final String PROP_LEUCHTENNUMMER = "Leuchte.leuchtennummer";
-
     static {
         DEFAULT_UNTERHALT = TkeyUnterhLeuchteCustomBean.createNew();
         DEFAULT_UNTERHALT.setPk((Integer)0);
@@ -53,38 +49,38 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
 
     public static final String TABLE = "tdta_leuchten";
 
-    private static final String PROP__PLZ = "plz";
-    private static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
-    private static final String PROP__FK_ENERGIELIEFERANT = "fk_energielieferant";
-    private static final String PROP__RUNDSTEUEREMPFAENGER = "rundsteuerempfaenger";
-    private static final String PROP__FK_LEUCHTTYP = "fk_leuchttyp";
-    private static final String PROP__FK_UNTERHALTSPFLICHT_LEUCHTE = "fk_unterhaltspflicht_leuchte";
-    private static final String PROP__ZAEHLER = "zaehler";
-    private static final String PROP__FK_DK1 = "fk_dk1";
-    private static final String PROP__FK_DK2 = "fk_dk2";
-    private static final String PROP__INBETRIEBNAHME_LEUCHTE = "inbetriebnahme_leuchte";
-    private static final String PROP__FK_STANDORT = "fk_standort";
-    private static final String PROP__LFD_NUMMER = "lfd_nummer";
-    private static final String PROP__ANZAHL_2DK = "anzahl_2dk";
-    private static final String PROP__FK_KENNZIFFER = "fk_kennziffer";
-    private static final String PROP__LEUCHTENNUMMER = "leuchtennummer";
-    private static final String PROP__MONTAGEFIRMA_LEUCHTE = "montagefirma_leuchte";
-    private static final String PROP__SCHALTSTELLE = "schaltstelle";
-    private static final String PROP__ANZAHL_1DK = "anzahl_1dk";
-    private static final String PROP__STADTBEZIRK = "stadtbezirk";
-    private static final String PROP__BEMERKUNGEN = "bemerkungen";
-    private static final String PROP__DOKUMENTE = "dokumente";
-    private static final String PROP__ANSCHLUSSLEISTUNG_1DK = "anschlussleistung_1dk";
-    private static final String PROP__ANSCHLUSSLEISTUNG_2DK = "anschlussleistung_2dk";
-    private static final String PROP__KABELUEBERGANGSKASTEN_SK_II = "kabeluebergangskasten_sk_ii";
-    private static final String PROP__LEUCHTMITTEL = "leuchtmittel";
-    private static final String PROP__LEBENSDAUER = "lebensdauer";
-    private static final String PROP__WECHSELDATUM = "wechseldatum";
-    private static final String PROP__WARTUNGSZYKLUS = "wartungszyklus";
-    private static final String PROP__WECHSELVORSCHALTGERAET = "wechselvorschaltgeraet";
-    private static final String PROP__VORSCHALTGERAET = "vorschaltgeraet";
-    private static final String PROP__MONTEUR = "monteur";
-    private static final String PROP__NAECHSTER_WECHSEL = "naechster_wechsel";
+    public static final String PROP__PLZ = "plz";
+    public static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
+    public static final String PROP__FK_ENERGIELIEFERANT = "fk_energielieferant";
+    public static final String PROP__RUNDSTEUEREMPFAENGER = "rundsteuerempfaenger";
+    public static final String PROP__FK_LEUCHTTYP = "fk_leuchttyp";
+    public static final String PROP__FK_UNTERHALTSPFLICHT_LEUCHTE = "fk_unterhaltspflicht_leuchte";
+    public static final String PROP__ZAEHLER = "zaehler";
+    public static final String PROP__FK_DK1 = "fk_dk1";
+    public static final String PROP__FK_DK2 = "fk_dk2";
+    public static final String PROP__INBETRIEBNAHME_LEUCHTE = "inbetriebnahme_leuchte";
+    public static final String PROP__FK_STANDORT = "fk_standort";
+    public static final String PROP__LFD_NUMMER = "lfd_nummer";
+    public static final String PROP__ANZAHL_2DK = "anzahl_2dk";
+    public static final String PROP__FK_KENNZIFFER = "fk_kennziffer";
+    public static final String PROP__LEUCHTENNUMMER = "leuchtennummer";
+    public static final String PROP__MONTAGEFIRMA_LEUCHTE = "montagefirma_leuchte";
+    public static final String PROP__SCHALTSTELLE = "schaltstelle";
+    public static final String PROP__ANZAHL_1DK = "anzahl_1dk";
+    public static final String PROP__STADTBEZIRK = "stadtbezirk";
+    public static final String PROP__BEMERKUNGEN = "bemerkungen";
+    public static final String PROP__DOKUMENTE = "dokumente";
+    public static final String PROP__ANSCHLUSSLEISTUNG_1DK = "anschlussleistung_1dk";
+    public static final String PROP__ANSCHLUSSLEISTUNG_2DK = "anschlussleistung_2dk";
+    public static final String PROP__KABELUEBERGANGSKASTEN_SK_II = "kabeluebergangskasten_sk_ii";
+    public static final String PROP__LEUCHTMITTEL = "leuchtmittel";
+    public static final String PROP__LEBENSDAUER = "lebensdauer";
+    public static final String PROP__WECHSELDATUM = "wechseldatum";
+    public static final String PROP__WARTUNGSZYKLUS = "wartungszyklus";
+    public static final String PROP__WECHSELVORSCHALTGERAET = "wechselvorschaltgeraet";
+    public static final String PROP__VORSCHALTGERAET = "vorschaltgeraet";
+    public static final String PROP__MONTEUR = "monteur";
+    public static final String PROP__NAECHSTER_WECHSEL = "naechster_wechsel";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -948,19 +944,19 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
                 LOG.debug("Property of parent Mast has changed. Changing this leuchte property");
             }
             if ((evt.getPropertyName() != null)
-                        && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP_STRASSENSCHLUESSEL)) {
+                        && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP__FK_STRASSENSCHLUESSEL)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Strassenschluessel changed");
                 }
                 setFk_strassenschluessel((TkeyStrassenschluesselCustomBean)evt.getNewValue());
             } else if ((evt.getPropertyName() != null)
-                        && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP_KENNZIFFER)) {
+                        && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP__FK_KENNZIFFER)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Kennziffer changed");
                 }
                 setKennziffer((TkeyKennzifferCustomBean)evt.getNewValue());
             } else if ((evt.getPropertyName() != null)
-                        && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP_LAUFENDENUMMER)) {
+                        && evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP__LFD_NUMMER)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Laufende Nummer changed");
                 }

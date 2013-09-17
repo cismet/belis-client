@@ -48,67 +48,44 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
 //        DEFAULT_UNTERHALT.setUnterhaltMast("öffentl. Beleuchtung");
     }
 
-    public static final String PROP_PLZ = "Standort.plz";
-    public static final String PROP_STRASSENSCHLUESSEL = "Standort.strassenschluessel";
-    public static final String PROP_KENNZIFFER = "Standort.Kennziffer";
-    public static final String PROP_LAUFENDENUMMER = "Standort.laufendeNummer";
-    public static final String PROP_STANDORTANGABE = "Standort.standortangabe";
-    public static final String PROP_HAUSNUMMER = "Standort.hausnummer";
-    public static final String PROP_STADTBEZIRK = "Standort.stadtbezirk";
-    public static final String PROP_MASTART = "Standort.mastart";
-    public static final String PROP_KLASSIFIZIERUNG = "Standort.klassifizierung";
-    public static final String PROP_MASTANSTRICH = "Standort.mastanstrich";
-    public static final String PROP_MASTSCHUTZ = "Standort.mastschutz";
-    public static final String PROP_UNTERHALTSPFLICHT = "Standort.unterhaltspflichtMast";
-    public static final String PROP_MASTTYP = "Standort.masttyp";
-    public static final String PROP_MONTAGEFIRMA = "Standort.montagefirma";
-    public static final String PROP_INBETRIEBNAHME_MAST = "Standort.inbetriebnahmeMast";
-    public static final String PROP_VERRECHNUNGSEINHEIT = "Standort.verrechnungseinheit";
-    public static final String PROP_BEMERKUNG = "Standort.bemerkungen";
-    public static final String PROP_LETZTE_AENDERUNG = "Standort.letzteAenderung";
-
-    public static final String PROP_ID = "Standort.id"; // ToDo document limitations
-    public static final String PROP_LEUCHTEN = "Standort.leuchten";
-    public static final String PROP_VIRTUELLER_STANDORT = "Standort.virtuellerStandort";
-
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             TdtaStandortMastCustomBean.class);
 
     public static final String TABLE = "tdta_standort_mast";
 
-    private static final String PROP__PLZ = "plz";
-    private static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
-    private static final String PROP__FK_STADTBEZIRK = "fk_stadtbezirk";
-    private static final String PROP__FK_MASTART = "fk_mastart";
-    private static final String PROP__FK_KLASSIFIZIERUNG = "fk_klassifizierung";
-    private static final String PROP__MASTANSTRICH = "mastanstrich";
-    private static final String PROP__MASTSCHUTZ = "mastschutz";
-    private static final String PROP__FK_UNTERHALTSPFLICHT_MAST = "fk_unterhaltspflicht_mast";
-    private static final String PROP__FK_MASTTYP = "fk_masttyp";
-    private static final String PROP__INBETRIEBNAHME_MAST = "inbetriebnahme_Mast";
-    private static final String PROP__VERRECHNUNGSEINHEIT = "verrechnungseinheit";
-    private static final String PROP__LETZTE_AENDERUNG = "letzte_aenderung";
-    private static final String PROP__FK_GEOM = "fk_geom";
-    private static final String PROP__IST_VIRTUELLER_STANDORT = "ist_virtueller_standort";
-    private static final String PROP__BEMERKUNGEN = "bemerkungen";
-    private static final String PROP__MONTAGEFIRMA = "montagefirma";
-    private static final String PROP__STANDORTANGABE = "standortangabe";
-    private static final String PROP__FK_KENNZIFFER = "fk_kennziffer";
-    private static final String PROP__LFD_NUMMER = "lfd_nummer";
-    private static final String PROP__HAUS_NR = "haus_nr";
-    private static final String PROP__DOKUMENTE = "dokumente";
-    private static final String PROP__LEUCHTEN = "leuchten";
-    private static final String PROP__GRUENDUNG = "gruendung";
-    private static final String PROP__ELEK_PRUEFUNG = "elek_pruefung";
-    private static final String PROP__ERDUNG = "erdung";
-    private static final String PROP__MONTEUR = "monteur";
-    private static final String PROP__STANDSICHERHEITSPRUEFUNG = "standsicherheitspruefung";
-    private static final String PROP__VERFAHREN = "verfahren";
-    private static final String PROP__FOTO = "foto";
-    private static final String PROP__NAECHSTES_PRUEFDATUM = "naechstes_pruefdatum";
-    private static final String PROP__ANSTRICHFARBE = "anstrichfarbe";
-    private static final String PROP__REVISION = "revision";
-    private static final String PROP__ANLAGENGRUPPE = "anlagengruppe";
+    public static final String PROP__PLZ = "plz";
+    public static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
+    public static final String PROP__FK_STADTBEZIRK = "fk_stadtbezirk";
+    public static final String PROP__FK_MASTART = "fk_mastart";
+    public static final String PROP__FK_KLASSIFIZIERUNG = "fk_klassifizierung";
+    public static final String PROP__MASTANSTRICH = "mastanstrich";
+    public static final String PROP__MASTSCHUTZ = "mastschutz";
+    public static final String PROP__FK_UNTERHALTSPFLICHT_MAST = "fk_unterhaltspflicht_mast";
+    public static final String PROP__FK_MASTTYP = "fk_masttyp";
+    public static final String PROP__INBETRIEBNAHME_MAST = "inbetriebnahme_Mast";
+    public static final String PROP__VERRECHNUNGSEINHEIT = "verrechnungseinheit";
+    public static final String PROP__LETZTE_AENDERUNG = "letzte_aenderung";
+    public static final String PROP__FK_GEOM = "fk_geom";
+    public static final String PROP__IST_VIRTUELLER_STANDORT = "ist_virtueller_standort";
+    public static final String PROP__BEMERKUNGEN = "bemerkungen";
+    public static final String PROP__MONTAGEFIRMA = "montagefirma";
+    public static final String PROP__STANDORTANGABE = "standortangabe";
+    public static final String PROP__FK_KENNZIFFER = "fk_kennziffer";
+    public static final String PROP__LFD_NUMMER = "lfd_nummer";
+    public static final String PROP__HAUS_NR = "haus_nr";
+    public static final String PROP__DOKUMENTE = "dokumente";
+    public static final String PROP__LEUCHTEN = "leuchten";
+    public static final String PROP__GRUENDUNG = "gruendung";
+    public static final String PROP__ELEK_PRUEFUNG = "elek_pruefung";
+    public static final String PROP__ERDUNG = "erdung";
+    public static final String PROP__MONTEUR = "monteur";
+    public static final String PROP__STANDSICHERHEITSPRUEFUNG = "standsicherheitspruefung";
+    public static final String PROP__VERFAHREN = "verfahren";
+    public static final String PROP__FOTO = "foto";
+    public static final String PROP__NAECHSTES_PRUEFDATUM = "naechstes_pruefdatum";
+    public static final String PROP__ANSTRICHFARBE = "anstrichfarbe";
+    public static final String PROP__REVISION = "revision";
+    public static final String PROP__ANLAGENGRUPPE = "anlagengruppe";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -1087,13 +1064,13 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
                 LOG.debug("Property of Leuchte has changed. Changing Standort property");
             }
             if ((evt.getPropertyName() != null)
-                        && evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP_STRASSENSCHLUESSEL)) {
+                        && evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP__FK_STRASSENSCHLUESSEL)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Strassenschluessel changed");
                 }
                 setStrassenschluessel((TkeyStrassenschluesselCustomBean)evt.getNewValue());
             } else if ((evt.getPropertyName() != null)
-                        && evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP_KENNZIFFER)) {
+                        && evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP__FK_KENNZIFFER)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Kennziffer changed");
                 }

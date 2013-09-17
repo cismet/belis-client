@@ -201,7 +201,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public static final int alphaValue = 255;
     // TODO Perhaps a bit (blasser) brighter public static Color ODD_ROW_DEFAULT_COLOR = new
     // Color(blue.getRed()+119,blue.getGreen()+88,blue.getBlue()+33,alphaValue);
-    public static Color ODD_ROW_DEFAULT_COLOR = new Color(blue.getRed() + 113,
+    public static final Color ODD_ROW_DEFAULT_COLOR = new Color(blue.getRed() + 113,
             blue.getGreen()
                     + 79,
             blue.getBlue()
@@ -210,13 +210,13 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     // public static final Color ODD_ROW_DEFAULT_COLOR = new Color(,,,alphaValue); public static final Color
     // ODD_ROW_DEFAULT_COLOR = new Color(blue.getRed()+119,blue.getGreen()+82,blue.getBlue()+34,alphaValue); public
     // static Color ODD_ROW_EDIT_COLOR = new Color(red.getRed()+36,red.getGreen()+146,red.getBlue()+152,alphaValue);
-    public static Color ODD_ROW_EDIT_COLOR = new Color(red.getRed() + 25,
+    public static final Color ODD_ROW_EDIT_COLOR = new Color(red.getRed() + 25,
             red.getGreen()
                     + 143,
             red.getBlue()
                     + 143,
             alphaValue);
-    public static Color ODD_ROW_LOCK_COLOR = new Color(yellow.getRed() + 23,
+    public static final Color ODD_ROW_LOCK_COLOR = new Color(yellow.getRed() + 23,
             yellow.getGreen()
                     + 31,
             yellow.getBlue()
@@ -595,7 +595,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public void fireChangeEvent(final Object event) {
         for (final BelisWidget curWidget : widgets) {
             if ((curWidget instanceof FeatureSelectionChangedListener) && (event instanceof Collection)) {
-                if (!featureSelectionChangedIgnoredWidgets.contains(curWidget)) {
+                if (!featureSelectionChangedIgnoredWidgets.contains((FeatureSelectionChangedListener)curWidget)) {
                     ((FeatureSelectionChangedListener)curWidget).featureSelectionChanged((Collection<Feature>)event);
                 } else {
                     if (LOG.isDebugEnabled()) {
@@ -1235,7 +1235,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             LOG.info("Log4J System erfolgreich konfiguriert");
         } catch (Exception ex) {
             System.err.println("Fehler bei Log4J Initialisierung");
-            ex.printStackTrace();
         }
     }
 
@@ -1598,7 +1597,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             addSeparatorToToolbar();
         } catch (Exception ex) {
             System.out.println("Exception while initializing toolbar");
-            ex.printStackTrace();
             LOG.error("Exception while initializing toolbar.", ex);
         }
     }
@@ -1880,7 +1878,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 }
             };
 
-        final Highlighter noGeometryHighlighter = new ColorHighlighter(noGeometryPredicate, this.gray, null);
+        final Highlighter noGeometryHighlighter = new ColorHighlighter(noGeometryPredicate, BelisBroker.gray, null);
         // ((JXTable) tReBe).setHighlighters(LagisBroker.ALTERNATE_ROW_HIGHLIGHTER,noGeometryHighlighter);
         ttable.addHighlighter(noGeometryHighlighter);
         return ttable;
@@ -2331,7 +2329,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 LOG.error("Error while unlocking locked objects:", ex);
                 throw new Exception("Angelegte sperren konnten nicht gelöst werden.");
             }
-            if ((unsuccessfulObjects != null) && (unsuccessfulObjects.size() != 0)) {
+            if ((unsuccessfulObjects != null) && !unsuccessfulObjects.isEmpty()) {
                 // ToDo what to do ? Error to the user and go
                 LOG.error("Some of the objects couldn't be unlocked posting to the user");
             }
@@ -2441,7 +2439,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Can't customize MapWidget not found");
                 }
-                return;
             }
         } else {
             LOG.warn("There are no widgets");
@@ -2675,7 +2672,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 }
                 lastLeitungstyp = (LeitungstypCustomBean)evt.getNewValue();
                 getMappingComponent().getFeatureCollection().reconsiderFeature((LeitungCustomBean)evt.getSource());
-            } else if (evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP_LEUCHTENNUMMER)
+            } else if (evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP__LEUCHTENNUMMER)
                         && (evt.getSource() != null)
                         && (evt.getSource() instanceof TdtaLeuchtenCustomBean)) {
                 if (LOG.isDebugEnabled()) {
@@ -2978,7 +2975,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     cancelFailed();
                     fireCancelFinished();
                 }
-                return;
             }
         }
     }
