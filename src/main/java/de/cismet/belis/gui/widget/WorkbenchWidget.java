@@ -219,7 +219,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         // DefaultTreeTableModel vModel = new DefaultTreeTableModel(root);
         // jttHitTable.setTreeTableModel(vModel);
         jttHitTable.setEditable(false); //
-        jttHitTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jttHitTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jttHitTable.setTreeCellRenderer(new WorkbenchTreeTableRenderer());
         treeTableModel = new CustomTreeTableModel(getBroker(), rootNode, searchResultsNode, newObjectsNode);
         jttHitTable.setTreeTableModel(treeTableModel);
@@ -1134,26 +1134,20 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     @Override
     public void featureSelectionChanged(final Collection<Feature> features) {
         if (!ignoreFeatureSelection) {
-            if (features.size() == 0) {
+            if (features.isEmpty()) {
                 return;
             }
             try {
                 getBroker().setVetoCheckEnabled(false);
+                final Collection<TreePath> paths = new ArrayList<TreePath>();
+
                 for (final Feature feature : features) {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("currentFeature: " + feature);
                     }
                     if ((feature instanceof GeoBaseEntity)
                                 && getBroker().getMappingComponent().getFeatureCollection().isSelected(feature)) {
-                        // TODO Refactor Name int index = tableModel.getIndexOfReBe((ReBe) feature); int displayedIndex
-                        // = ((JXTable) tReBe).getFilters().convertRowIndexToView(index); if (index != -1 &&
-                        // LagisBroker.getInstance().getMappingComponent().getFeatureCollection().isSelected(feature)) {
-                        // //tReBe.changeSelection(((JXTable)tReBe).getFilters().convertRowIndexToView(index),0,false,false);
-                        // tReBe.getSelectionModel().addSelectionInterval(displayedIndex, displayedIndex); Rectangle tmp
-                        // = tReBe.getCellRect(displayedIndex, 0, true); if (tmp != null) {
-                        // tReBe.scrollRectToVisible(tmp); } } else {
-                        // tReBe.getSelectionModel().removeSelectionInterval(displayedIndex, displayedIndex); }
-                        TreePath path = null;
+                        final TreePath path;
                         if ((feature instanceof TdtaStandortMastCustomBean)
                                     && !((TdtaStandortMastCustomBean)feature).isStandortMast()
                                     && (((TdtaStandortMastCustomBean)feature).getLeuchten() != null)
@@ -1170,35 +1164,29 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                         if (path != null) {
                             if (LOG.isDebugEnabled()) {
                                 LOG.debug("Path is available");
+                                LOG.debug("selected over map", new CurrentStackTrace());
                             }
-                            // jttHitTable.getSelectionMapper().setViewSelectionModel(arg0);
-                            // jttHitTable.getTreeSelectionModel().removeTreeSelectionListener(this);
-                            // ToDo dosen't work always
-                            try {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("selected over map", new CurrentStackTrace());
-                                }
-                                isSelectedOverMap = true;
-                                jttHitTable.getTreeSelectionModel().setSelectionPath(path);
-                            } catch (Exception ex) {
-                                LOG.warn("couldn't set selection", ex);
-                            }
-                            // jttHitTable.getTreeSelectionModel().addTreeSelectionListener(this);
-                            final Rectangle tmp = jttHitTable.getCellRect(jttHitTable.getSelectedRow(), 0, true);
-                            if (tmp != null) {
-                                jttHitTable.scrollRectToVisible(tmp);
-                            }
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("No Path for feature available");
-                            }
-                            jttHitTable.getSelectionMapper().getViewSelectionModel().clearSelection();
+                            isSelectedOverMap = true;
+                            paths.add(path);
                         }
-                    } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("No GeoBaseEntity or is already selected");
+                    }
+                }
+
+                final TreePath[] patharr = paths.toArray(new TreePath[0]);
+                if (paths.isEmpty()) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("No Path for feature available");
+                    }
+                    jttHitTable.getSelectionMapper().getViewSelectionModel().clearSelection();
+                } else {
+                    try {
+                        jttHitTable.getTreeSelectionModel().setSelectionPaths(patharr);
+                        final Rectangle tmp = jttHitTable.getCellRect(jttHitTable.getSelectedRow(), 0, true);
+                        if (tmp != null) {
+                            jttHitTable.scrollRectToVisible(tmp);
                         }
-                        jttHitTable.getSelectionMapper().getViewSelectionModel().clearSelection();
+                    } catch (Exception ex) {
+                        LOG.warn("couldn't set selection", ex);
                     }
                 }
             } finally {
