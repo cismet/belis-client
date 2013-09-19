@@ -128,6 +128,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     private String brokerName;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
@@ -168,6 +169,8 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     private javax.swing.JPanel panMain;
     private javax.swing.JSeparator sepAfterPos;
     private javax.swing.JSeparator sepBeforePos;
+    private javax.swing.JPanel toolbarPanel;
+    private javax.swing.JPanel toolbarWrapperPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -225,7 +228,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(configLoggerKeyStroke, "CONFIGLOGGING");
             getRootPane().getActionMap().put("CONFIGLOGGING", configAction);
             constructionDone();
-            add(broker.getToolbar(), BorderLayout.NORTH);
+            toolbarPanel.add(broker.getToolbar());
             setWindowSize();
 
             if (SPLASH != null) {
@@ -437,6 +440,9 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         panMain = new javax.swing.JPanel();
+        toolbarWrapperPanel = new javax.swing.JPanel();
+        toolbarPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         mnuBar = new javax.swing.JMenuBar();
         menFile = new javax.swing.JMenu();
         mniSaveLayout = new javax.swing.JMenuItem();
@@ -480,7 +486,23 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
 
+        panMain.setBorder(null);
         panMain.setLayout(new java.awt.BorderLayout());
+
+        toolbarWrapperPanel.setBorder(null);
+        toolbarWrapperPanel.setLayout(new java.awt.BorderLayout());
+
+        toolbarPanel.setBorder(null);
+        toolbarPanel.setOpaque(false);
+        toolbarPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
+        toolbarWrapperPanel.add(toolbarPanel, java.awt.BorderLayout.WEST);
+
+        jPanel1.setBorder(null);
+        jPanel1.setOpaque(false);
+        toolbarWrapperPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        panMain.add(toolbarWrapperPanel, java.awt.BorderLayout.NORTH);
+
         getContentPane().add(panMain, java.awt.BorderLayout.CENTER);
 
         menFile.setMnemonic('D');

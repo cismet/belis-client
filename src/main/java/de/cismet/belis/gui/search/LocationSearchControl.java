@@ -85,10 +85,7 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
                 25,
                 Short.MAX_VALUE));
 
-        setMaximumSize(new java.awt.Dimension(310, 27));
-        setMinimumSize(new java.awt.Dimension(310, 27));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(310, 27));
         setLayout(new java.awt.GridBagLayout());
 
         txfLaufendenummer.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -110,9 +107,6 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         cmdOk.setFocusable(false);
-        cmdOk.setMaximumSize(new java.awt.Dimension(2000, 23));
-        cmdOk.setMinimumSize(new java.awt.Dimension(145, 23));
-        cmdOk.setPreferredSize(new java.awt.Dimension(145, 23));
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override

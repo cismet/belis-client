@@ -11,7 +11,6 @@
  */
 package de.cismet.belis.panels;
 
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import de.cismet.belis.broker.BelisBroker;
@@ -66,14 +65,16 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         btnAcceptChanges = new javax.swing.JButton();
         btnDiscardChanges = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(110, 27));
-        setMinimumSize(new java.awt.Dimension(110, 27));
-        setPreferredSize(new java.awt.Dimension(110, 27));
+        setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
 
         btnSwitchInEditmode.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/editMode.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(btnSwitchInEditmode, "");
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnSwitchInEditmode,
+            org.openide.util.NbBundle.getMessage(
+                EditButtonsToolbar.class,
+                "EditButtonsToolbar.btnSwitchInEditmode.text_2"));                          // NOI18N
         btnSwitchInEditmode.setToolTipText("Editormodus");
         btnSwitchInEditmode.setBorderPainted(false);
         btnSwitchInEditmode.setFocusable(false);
@@ -88,13 +89,17 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 2);
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnSwitchInEditmode, gridBagConstraints);
         broker.setBtnSwitchInEditmode(btnSwitchInEditmode);
 
         btnSwitchInCreateMode.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/createMode.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(btnSwitchInCreateMode, "");
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnSwitchInCreateMode,
+            org.openide.util.NbBundle.getMessage(
+                EditButtonsToolbar.class,
+                "EditButtonsToolbar.btnSwitchInCreateMode.text_1"));                          // NOI18N
         btnSwitchInCreateMode.setToolTipText("Anlegenmodus");
         btnSwitchInCreateMode.setBorderPainted(false);
         btnSwitchInCreateMode.setFocusable(false);
@@ -118,7 +123,11 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
 
         btnAcceptChanges.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/accept.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(btnAcceptChanges, "");
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnAcceptChanges,
+            org.openide.util.NbBundle.getMessage(
+                EditButtonsToolbar.class,
+                "EditButtonsToolbar.btnAcceptChanges.text_1"));                           // NOI18N
         btnAcceptChanges.setToolTipText("Änderungen annehmen");
         btnAcceptChanges.setBorderPainted(false);
         btnAcceptChanges.setEnabled(false);
@@ -143,7 +152,11 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
 
         btnDiscardChanges.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/cancel.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(btnDiscardChanges, "");
+        org.openide.awt.Mnemonics.setLocalizedText(
+            btnDiscardChanges,
+            org.openide.util.NbBundle.getMessage(
+                EditButtonsToolbar.class,
+                "EditButtonsToolbar.btnDiscardChanges.text_1"));                          // NOI18N
         btnDiscardChanges.setToolTipText("Änderungen Abbrechen");
         btnDiscardChanges.setBorderPainted(false);
         btnDiscardChanges.setEnabled(false);
@@ -162,7 +175,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 3);
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnDiscardChanges, gridBagConstraints);
         broker.setBtnDiscardChanges(btnDiscardChanges);
     } // </editor-fold>//GEN-END:initComponents

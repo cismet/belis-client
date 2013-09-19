@@ -18,6 +18,8 @@ import java.awt.Component;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import de.cismet.belis.commons.constants.BelisMetaClassConstants;
+
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
 import de.cismet.belis.todo.CustomTreeTableModel;
 
@@ -29,6 +31,8 @@ import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -59,54 +63,53 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
                 if (userObject instanceof TdtaStandortMastCustomBean) {
                     if (((TdtaStandortMastCustomBean)userObject).isStandortMast()) {
                         setText("Mast");
-                        // setToolTipText("Mast");
                     } else {
                         setText("Standort");
-                        // setToolTipText("Standort");
                     }
                     setIcon(BelisIcons.icoStandort16);
                 } else if (userObject instanceof TdtaLeuchtenCustomBean) {
                     setText("Leuchte");
-                    // setToolTipText("Leuchte");
                     setIcon(BelisIcons.icoLeuchte16);
                 } else if (userObject instanceof MauerlascheCustomBean) {
                     setText("Mauerlasche");
-                    // setToolTipText("Mauerlasche");
                     setIcon(BelisIcons.icoMauerlasche16);
                 } else if (userObject instanceof SchaltstelleCustomBean) {
                     setText("Schaltstelle");
-                    // setToolTipText("Schaltstelle");
                     setIcon(BelisIcons.icoSchaltstelle16);
                 } else if (userObject instanceof LeitungCustomBean) {
                     setText("Leitung");
-                    // setToolTipText("Leitung");
-                    // ToDo Leitung icon
                     setIcon(BelisIcons.icoLeitung16);
                 } else if (userObject instanceof AbzweigdoseCustomBean) {
                     setText("Abzweigdose/Zugkasten");
-                    // setToolTipText("Leitung");
-                    // ToDo Leitung icon
                     setIcon(BelisIcons.icoAbzweigdose16);
+                } else if (userObject instanceof CidsBean) {
+                    final String tableName = ((CidsBean)userObject).getMetaObject().getMetaClass().getTableName();
+                    if (BelisMetaClassConstants.MC_VERANLASSUNG.toLowerCase().equals(tableName.toLowerCase())) {
+                        setText("Veranlassung");
+                        setIcon(null);
+                    } else if (BelisMetaClassConstants.MC_ARBEITSAUFTRAG.toLowerCase().equals(
+                                    tableName.toLowerCase())) {
+                        setText("Arbeitsauftrag");
+                        setIcon(null);
+                    } else {
+                        setText("Unbekannter Typ");
+                    }
                 } else if (userObject instanceof String) {
-                    if (userObject != null) {
-                        if (userObject.equals(CustomTreeTableModel.HIT_NODE)) {
-                            setText(((CustomMutableTreeTableNode)value).getChildCount() + " Suchergebnisse");
-                            // setToolTipText("Suchergebnisse");
-                            setIcon(BelisIcons.icoSuchergebnisse16);
+                    if (userObject.equals(CustomTreeTableModel.HIT_NODE)) {
+                        setText(((CustomMutableTreeTableNode)value).getChildCount() + " Suchergebnisse");
+                        // setToolTipText("Suchergebnisse");
+                        setIcon(BelisIcons.icoSuchergebnisse16);
 //ToDo disabled Functionality 04.05.2009
-                            // } else if(userObject.equals(CustomTreeTableModel.PROCESSED_NODE)){
+                        // } else if(userObject.equals(CustomTreeTableModel.PROCESSED_NODE)){
 //                            setText(((CustomMutableTreeTableNode)value).getChildCount()+" Bearbeitete Objekte");
 //                            setIcon(BelisIcons.icoBearbeiteteObjekte16);
-                        } else if (userObject.equals(CustomTreeTableModel.NEW_OBJECT_NODE)) {
-                            setText(((CustomMutableTreeTableNode)value).getChildCount() + " Neue Objekte");
-                            // setToolTipText("Neue Objekte");
-                            setIcon(BelisIcons.icoNewObjects16);
-                        } else {
-                            setText("Unbekannter Typ");
-                            setToolTipText("Unbekannter Typ");
-                        }
+                    } else if (userObject.equals(CustomTreeTableModel.NEW_OBJECT_NODE)) {
+                        setText(((CustomMutableTreeTableNode)value).getChildCount() + " Neue Objekte");
+                        // setToolTipText("Neue Objekte");
+                        setIcon(BelisIcons.icoNewObjects16);
                     } else {
-                        setText("");
+                        setText("Unbekannter Typ");
+                        setToolTipText("Unbekannter Typ");
                     }
                 } else {
                     setText("Unbekannter Typ");

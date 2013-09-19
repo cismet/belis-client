@@ -51,11 +51,12 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
     public static String HIT_NODE = "CustomTreeTableModel.Hits";
     public static String NEW_OBJECT_NODE = "CustomTreeTableModel.newObject";
 
-    //~ Instance fields --------------------------------------------------------
-
     // ToDo disabled Functionality 04.05.2009
     // public static String PROCESSED_NODE = "CustomTreeTableModel.Processed";
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomTreeTableModel.class);
+
+    //~ Instance fields --------------------------------------------------------
+
     // ToDo disabled Functionality 04.05.2009
     // private final CustomMutableTreeTableNode processedObjectsNode = new CustomMutableTreeTableNode(null, true);
     BelisBroker broker = null;
@@ -313,7 +314,8 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
      * @param  newChild  DOCUMENT ME!
      * @param  parent    DOCUMENT ME!
      */
-    public final void insertNodeIntoAsLastChild(final MutableTreeTableNode newChild, final MutableTreeTableNode parent) {
+    public final void insertNodeIntoAsLastChild(final MutableTreeTableNode newChild,
+            final MutableTreeTableNode parent) {
         if (parent != null) {
             super.insertNodeInto(newChild, parent, parent.getChildCount());
         } else {

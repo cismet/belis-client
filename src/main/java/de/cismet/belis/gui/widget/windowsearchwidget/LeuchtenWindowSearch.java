@@ -18,7 +18,6 @@ import de.cismet.belis.broker.CidsBroker;
 import de.cismet.belis.server.search.BelisSearchStatement;
 import de.cismet.belis.server.search.LeuchteSearchStatement;
 
-import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean;
 

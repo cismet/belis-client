@@ -76,7 +76,6 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
      */
     public AddressSearchControl(final BelisBroker broker) {
         super();
-        this.setPreferredSize(new Dimension(498, 27));
         this.broker = broker;
         this.setOpaque(false);
         panEmpty.setOpaque(false);
@@ -92,7 +91,6 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         // cmdOk.setSize(23, 23);
-        cmdOk.setPreferredSize(new Dimension(200, 23));
         cmdOk.setFocusable(false);
         cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
         cmdOk.setText("Straße, Hausnummer");

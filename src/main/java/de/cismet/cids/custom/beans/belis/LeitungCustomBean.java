@@ -14,13 +14,7 @@ package de.cismet.cids.custom.beans.belis;
 import java.awt.Color;
 import java.awt.Paint;
 
-import java.beans.PropertyChangeEvent;
-
 import java.util.Collection;
-
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;

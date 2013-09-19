@@ -7,10 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.beans.belis;
 
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**

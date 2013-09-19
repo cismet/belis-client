@@ -56,6 +56,9 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.belis.gui.renderer.WorkbenchTreeTableRenderer;
 
@@ -1942,6 +1945,40 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         newObjects.add(newLeitungNode.getUserObject());
         treeTableModel.insertNodeIntoAsLastChild(newLeitungNode, newObjectsNode);
         return newLeitungNode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CustomMutableTreeTableNode addNewVeranlassung() {
+        final CidsBean newVeranlassung = CidsBroker.getInstance()
+                    .getBelisMetaClass(BelisMetaClassConstants.MC_VERANLASSUNG)
+                    .getEmptyInstance()
+                    .getBean();
+        final CustomMutableTreeTableNode newVeranlassungNode = new CustomMutableTreeTableNode(newVeranlassung, true);
+        newObjects.add(newVeranlassungNode.getUserObject());
+        treeTableModel.insertNodeIntoAsLastChild(newVeranlassungNode, newObjectsNode);
+        return newVeranlassungNode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CustomMutableTreeTableNode addNewArbeitsauftrag() {
+        final CidsBean newArbeitsauftrag = CidsBroker.getInstance()
+                    .getBelisMetaClass(BelisMetaClassConstants.MC_ARBEITSAUFTRAG)
+                    .getEmptyInstance()
+                    .getBean();
+        final CustomMutableTreeTableNode newArbeitsauftragNode = new CustomMutableTreeTableNode(
+                newArbeitsauftrag,
+                true);
+        newObjects.add(newArbeitsauftragNode.getUserObject());
+        treeTableModel.insertNodeIntoAsLastChild(newArbeitsauftragNode, newObjectsNode);
+        return newArbeitsauftragNode;
     }
 
     /**

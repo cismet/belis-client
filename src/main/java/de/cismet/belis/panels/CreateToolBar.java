@@ -18,16 +18,12 @@ import javax.swing.JOptionPane;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.belis.util.BelisIcons;
-
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
 import de.cismet.commons.architecture.interfaces.Editable;
 
 import de.cismet.commons.server.entity.BaseEntity;
-
-import de.cismet.veto.VetoException;
 
 /**
  * DOCUMENT ME!
@@ -41,21 +37,22 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
 
     public static final String PROP_CURRENT_ENTITY = "currentEntity";
 
+    private static final Logger LOG = org.apache.log4j.Logger.getLogger(CreateToolBar.class);
+
     //~ Instance fields --------------------------------------------------------
 
     protected Object currentEntity = null;
-
-    private final Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
-    private boolean isEditable = false;
     private BelisBroker broker;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNewAbzweigdose;
+    private javax.swing.JButton btnNewArbeitsauftrag;
     private javax.swing.JButton btnNewLeitung;
     private javax.swing.JButton btnNewLeuchte;
     private javax.swing.JButton btnNewMauerlasche;
     private javax.swing.JButton btnNewSchaltstelle;
     private javax.swing.JButton btnNewStandort;
+    private javax.swing.JButton btnNewVeranlassung;
     private javax.swing.JButton btnRemove;
     // End of variables declaration//GEN-END:variables
 
@@ -70,14 +67,12 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         this.broker = broker;
         initComponents();
         setWidgetEditable(false);
-        setOpaque(false);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public void setWidgetEditable(final boolean isEditable) {
-        this.isEditable = false;
         if (!isEditable) {
             setAllButtonsEnabled(isEditable);
         } else {
@@ -98,6 +93,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewStandort.setEnabled(isEnabled);
         btnNewAbzweigdose.setEnabled(isEnabled);
         btnRemove.setEnabled(isEnabled);
+        btnNewVeranlassung.setEnabled(isEnabled);
+        btnNewArbeitsauftrag.setEnabled(isEnabled);
     }
 
     /**
@@ -115,15 +112,15 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
      * @param  currentEntity  new value of currentEntity
      */
     public void setCurrentEntity(final Object currentEntity) {
-        if (log.isDebugEnabled()) {
-            log.debug("setCurrentEntity");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("setCurrentEntity");
         }
         final Object oldCurrentEntity = this.currentEntity;
         this.currentEntity = currentEntity;
         firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
         if (!broker.isInEditMode()) {
-            if (log.isDebugEnabled()) {
-                log.debug("not in edit mode");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("not in edit mode");
             }
         } else {
             checkSetButtonState();
@@ -136,24 +133,24 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
     private void checkSetButtonState() {
         if (broker.isInCreateMode()) {
             if (currentEntity == null) {
-                if (log.isDebugEnabled()) {
-                    log.debug("current entity is null. No Entity is selected");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("current entity is null. No Entity is selected");
                 }
                 setAllButtonsEnabled(true);
                 // btnNewLeuchte.setEnabled(false);
                 btnRemove.setEnabled(false);
             } else if (currentEntity instanceof TdtaStandortMastCustomBean) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Current entity is Standort");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Current entity is Standort");
                 }
                 setAllButtonsEnabled(true);
             } else if (currentEntity instanceof TdtaLeuchtenCustomBean) {
-                if (log.isDebugEnabled()) {
-                    log.debug("CurrentEntity is Leuchte");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("CurrentEntity is Leuchte");
                 }
                 setAllButtonsEnabled(true);
             } else {
-                log.warn("Current Entity is: " + currentEntity);
+                LOG.warn("Current Entity is: " + currentEntity);
                 setAllButtonsEnabled(true);
                 if (!(currentEntity instanceof BaseEntity)) {
                     btnRemove.setEnabled(false);
@@ -173,8 +170,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                             || ((currentEntity instanceof TdtaLeuchtenCustomBean)
                                 && broker.getWorkbenchWidget().isParentNodeMast(
                                     broker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))) {
-                    if (log.isDebugEnabled()) {
-                        log.debug(
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug(
                             "current selected entity is either mast or leuchte of mast.Enabling adding of new leuchten.");
                     }
                     btnNewLeuchte.setEnabled(true);
@@ -202,10 +199,11 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewLeitung = new javax.swing.JButton();
         btnNewAbzweigdose = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
+        btnNewVeranlassung = new javax.swing.JButton();
+        btnNewArbeitsauftrag = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(191, 27));
-        setMinimumSize(new java.awt.Dimension(191, 27));
-        setPreferredSize(new java.awt.Dimension(191, 27));
+        setFocusable(false);
+        setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
 
         btnNewStandort.setIcon(new javax.swing.ImageIcon(
@@ -226,7 +224,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(2, 3, 2, 3);
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnNewStandort, gridBagConstraints);
 
         btnNewLeuchte.setIcon(new javax.swing.ImageIcon(
@@ -246,7 +244,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewLeuchte, gridBagConstraints);
 
         btnNewSchaltstelle.setIcon(new javax.swing.ImageIcon(
@@ -266,7 +264,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewSchaltstelle, gridBagConstraints);
 
         btnNewMauerlasche.setIcon(new javax.swing.ImageIcon(
@@ -286,7 +284,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewMauerlasche, gridBagConstraints);
 
         btnNewLeitung.setIcon(new javax.swing.ImageIcon(
@@ -306,7 +304,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewLeitung, gridBagConstraints);
 
         btnNewAbzweigdose.setIcon(new javax.swing.ImageIcon(
@@ -326,7 +324,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewAbzweigdose, gridBagConstraints);
 
         btnRemove.setIcon(new javax.swing.ImageIcon(
@@ -347,8 +345,46 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(2, 0, 2, 3);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnRemove, gridBagConstraints);
+
+        btnNewVeranlassung.setText("V");
+        btnNewVeranlassung.setToolTipText("Neue Veranlassung hinzufügen");
+        btnNewVeranlassung.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnNewVeranlassung.setBorderPainted(false);
+        btnNewVeranlassung.setFocusPainted(false);
+        btnNewVeranlassung.setMaximumSize(new java.awt.Dimension(23, 23));
+        btnNewVeranlassung.setMinimumSize(new java.awt.Dimension(23, 23));
+        btnNewVeranlassung.setPreferredSize(new java.awt.Dimension(23, 23));
+        btnNewVeranlassung.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnNewVeranlassungActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
+        add(btnNewVeranlassung, gridBagConstraints);
+
+        btnNewArbeitsauftrag.setText("A");
+        btnNewArbeitsauftrag.setToolTipText("Neuen Arbeitsauftrag hinzufügen");
+        btnNewArbeitsauftrag.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnNewArbeitsauftrag.setBorderPainted(false);
+        btnNewArbeitsauftrag.setFocusPainted(false);
+        btnNewArbeitsauftrag.setMaximumSize(new java.awt.Dimension(23, 23));
+        btnNewArbeitsauftrag.setMinimumSize(new java.awt.Dimension(23, 23));
+        btnNewArbeitsauftrag.setPreferredSize(new java.awt.Dimension(23, 23));
+        btnNewArbeitsauftrag.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnNewArbeitsauftragActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
+        add(btnNewArbeitsauftrag, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -385,19 +421,19 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                                 broker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))
                         || !((currentEntity instanceof TdtaStandortMastCustomBean)
                             || (currentEntity instanceof TdtaLeuchtenCustomBean))) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Leuchte will be created without Mast");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Leuchte will be created without Mast");
                 }
                 broker.addNewLeuchte();
             } else if (((currentEntity instanceof TdtaStandortMastCustomBean)
                             && ((TdtaStandortMastCustomBean)currentEntity).isStandortMast())
                         || (currentEntity instanceof TdtaLeuchtenCustomBean)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Leuchte will be appended to Standort");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Leuchte will be appended to Standort");
                 }
                 broker.addNewLeuchte(currentEntity);
             } else {
-                log.warn(
+                LOG.warn(
                     "Creation of Leuchte not possible selected object must either be of Standort or Leuchte or non entity: "
                             + currentEntity);
             }
@@ -490,6 +526,40 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
             broker.setVetoCheckEnabled(true);
         }
     }                                                                                     //GEN-LAST:event_btnNewAbzweigdoseActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnNewVeranlassungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewVeranlassungActionPerformed
+        if (!checkIfCreationPossible()) {
+            return;
+        }
+        try {
+            broker.setVetoCheckEnabled(false);
+            broker.addNewVeranlassung();
+        } finally {
+            broker.setVetoCheckEnabled(true);
+        }
+    }                                                                                      //GEN-LAST:event_btnNewVeranlassungActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnNewArbeitsauftragActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewArbeitsauftragActionPerformed
+        if (!checkIfCreationPossible()) {
+            return;
+        }
+        try {
+            broker.setVetoCheckEnabled(false);
+            broker.addNewArbeitsauftrag();
+        } finally {
+            broker.setVetoCheckEnabled(true);
+        }
+    }                                                                                        //GEN-LAST:event_btnNewArbeitsauftragActionPerformed
     /**
      * could directly be placed in broker.
      *
@@ -497,23 +567,23 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
      */
     private boolean checkIfCreationPossible() {
         if (broker.isVetoCheckEnabled() && !broker.validateWidgets()) {
-            if (log.isDebugEnabled()) {
-                log.debug("creationCheck: One or more widgets are invalid. Informing user.");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("creationCheck: One or more widgets are invalid. Informing user.");
             }
             final int anwser = broker.askUser();
             if (anwser == JOptionPane.YES_OPTION) {
-                if (log.isDebugEnabled()) {
-                    log.debug("creationCheck: User wants to cancel changes and create new Objekt.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("creationCheck: User wants to cancel changes and create new Objekt.");
                 }
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("creationCheck: User wants to correct validation, not creating new objekt.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("creationCheck: User wants to correct validation, not creating new objekt.");
                 }
                 return false;
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("creationCheck: No problem all Widgets are valid.");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("creationCheck: No problem all Widgets are valid.");
             }
         }
         return true;

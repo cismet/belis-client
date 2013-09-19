@@ -18,18 +18,22 @@ import java.beans.PropertyChangeEvent;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
+import de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsauftragPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeitungPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeuchtePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.MauerlaschePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.SchaltstellePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.StandortPanel;
+import de.cismet.belis.gui.widget.detailWidgetPanels.VeranlassungPanel;
 
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
 
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
@@ -61,6 +65,9 @@ public class DetailWidget extends BelisWidget {
     private AbzweigdosePanel abzweigdosePanel = AbzweigdosePanel.getInstance();
     private MauerlaschePanel mauerlaschePanel = MauerlaschePanel.getInstance();
     private SchaltstellePanel schaltstellePanel = SchaltstellePanel.getInstance();
+    private VeranlassungPanel veranlassungPanel = VeranlassungPanel.getInstance();
+    private ArbeitsauftragPanel arbeitsauftragPanel = ArbeitsauftragPanel.getInstance();
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.belis.gui.documentpanel.DocumentPanel panDokumente;
     private javax.swing.JTabbedPane panMain;
@@ -186,6 +193,24 @@ public class DetailWidget extends BelisWidget {
             schaltstellePanel.setElementsNull();
 
             showPanel(schaltstellePanel);
+        } else if (currentEntity instanceof VeranlassungCustomBean) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("CurrentEntity is Veranlassung");
+            }
+
+            veranlassungPanel.setCurrentEntity((VeranlassungCustomBean)currentEntity);
+            veranlassungPanel.setElementsNull();
+
+            showPanel(veranlassungPanel);
+        } else if (currentEntity instanceof ArbeitsauftragPanel) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("CurrentEntity is Arbeitsauftrag");
+            }
+
+            arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)currentEntity);
+            arbeitsauftragPanel.setElementsNull();
+
+            showPanel(arbeitsauftragPanel);
         } else {
             LOG.warn("no panel for entity available");
         }

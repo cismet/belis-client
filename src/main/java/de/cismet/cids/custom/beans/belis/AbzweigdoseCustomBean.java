@@ -13,11 +13,7 @@ package de.cismet.cids.custom.beans.belis;
 
 import java.util.Collection;
 
-import de.cismet.belis.broker.CidsBroker;
-
 import de.cismet.belisEE.mapicons.MapIcons;
-
-import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 

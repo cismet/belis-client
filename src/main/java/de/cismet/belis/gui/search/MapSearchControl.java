@@ -69,10 +69,7 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
         cmdOk = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 3, 0, 0));
-        setMaximumSize(new java.awt.Dimension(120, 25));
-        setMinimumSize(new java.awt.Dimension(120, 25));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(120, 27));
         setLayout(new java.awt.GridBagLayout());
 
         cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                           // NOI18N
@@ -83,9 +80,6 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         cmdOk.setFocusable(false);
-        cmdOk.setMaximumSize(new java.awt.Dimension(117, 23));
-        cmdOk.setMinimumSize(new java.awt.Dimension(117, 23));
-        cmdOk.setPreferredSize(new java.awt.Dimension(117, 23));
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
