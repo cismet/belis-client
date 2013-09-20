@@ -226,9 +226,11 @@ public class DetailWidget extends BelisWidget {
         super.clearComponent();
         if (panel != null) {
             scpMain.setViewportView(panel);
-            add(panMain, java.awt.BorderLayout.CENTER);
             panMain.setTabComponentAt(0, panel.getTabLabel());
             panMain.setSelectedComponent(scpMain);
+            panMain.setVisible(true);
+        } else {
+            panMain.setVisible(false);
         }
     }
 
@@ -282,6 +284,8 @@ public class DetailWidget extends BelisWidget {
         scpMain = new javax.swing.JScrollPane();
         panDokumente = new de.cismet.belis.gui.documentpanel.DocumentPanel();
 
+        setLayout(new java.awt.BorderLayout());
+
         scpMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         panMain.addTab("", scpMain);
 
@@ -295,7 +299,7 @@ public class DetailWidget extends BelisWidget {
 
         panMain.addTab("Dokumente", panDokumente);
 
-        setLayout(new java.awt.BorderLayout());
+        add(panMain, java.awt.BorderLayout.CENTER);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
