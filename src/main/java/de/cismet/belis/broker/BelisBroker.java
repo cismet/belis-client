@@ -38,7 +38,6 @@ import net.infonode.gui.componentpainter.GradientComponentPainter;
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.log4j.PropertyConfigurator;
 
-import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
@@ -76,7 +75,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -106,6 +104,7 @@ import de.cismet.belis.gui.widget.WorkbenchWidget;
 
 import de.cismet.belis.panels.AlreadyLockedObjectsPanel;
 import de.cismet.belis.panels.CancelWaitDialog;
+import de.cismet.belis.panels.CopyPasteToolbar;
 import de.cismet.belis.panels.CreateToolBar;
 import de.cismet.belis.panels.EditButtonsToolbar;
 import de.cismet.belis.panels.SaveErrorDialogPanel;
@@ -113,6 +112,7 @@ import de.cismet.belis.panels.SaveWaitDialog;
 
 import de.cismet.belis.server.search.BelisSearchStatement;
 
+import de.cismet.belis.todo.CustomMutableTreeTableNode;
 import de.cismet.belis.todo.RetrieveWorker;
 
 import de.cismet.belis.util.BelisIcons;
@@ -126,6 +126,7 @@ import de.cismet.belisEE.util.LeuchteComparator;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.SperreCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
@@ -272,6 +273,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     final CreateToolBar panCreate = new CreateToolBar(this);
     WorkbenchWidget workbenchWidget = null;
     final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
+    private final EntityClipboard entityClipboard = new EntityClipboard(this);
+    private final CopyPasteToolbar copyPasteToolbar = new CopyPasteToolbar(this);
     private AddressSearchControl asPan;
     private final LayoutManager layoutManager = new LayoutManager();
     private ConfigurationManager configManager;
@@ -986,7 +989,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                             @Override
                             public void run() {
                                 final List<Node> nodes = searchResultsTree.getResultNodes();
-                                final Set<BaseEntity> entities = new HashSet<BaseEntity>();
+                                final Collection<BaseEntity> entities = new ArrayList<BaseEntity>();
                                 if ((nodes != null) && (nodes.size() > 0)) {
                                     for (final Node node : nodes) {
                                         if ((node != null) && (node instanceof MetaObjectNode)) {
@@ -1000,7 +1003,13 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                                             }
                                         }
                                     }
-                                    setSearchResult(entities);
+
+                                    final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(
+                                            new ReverseComparator(
+                                                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+                                    CidsBroker.getInstance().addCollectionToSortedSet(results, entities);
+
+                                    setSearchResult(results);
                                     enableSearch();
                                     fireSearchFinished();
                                 }
@@ -1909,6 +1918,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public void customizeApplicationToolbar() {
         addCreateToolBar();
+        addCopyPasteToolBar();
         addAddressSearch();
         addLocationSearch();
         getToolbar().add(metaSearchComponentFactory.getCmdPluginSearch());
@@ -2216,64 +2226,55 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     /**
      * DOCUMENT ME!
-     *
-     * @param  workbenchWidget  DOCUMENT ME!
-     */
-    public void setWorkbenchWidget(final WorkbenchWidget workbenchWidget) {
-        this.workbenchWidget = workbenchWidget;
-    }
-
-    /**
-     * DOCUMENT ME!
      */
     private void doBelisBinding() {
         if (LOG.isDebugEnabled()) {
             LOG.debug("DoBelisBinding()");
         }
-        WorkbenchWidget wWidget = null;
-        DetailWidget dWidget = null;
         for (final BelisWidget curWidget : getWidgets()) {
-            if ((wWidget != null) && (dWidget != null)) {
+            if ((workbenchWidget != null) && (detailWidget != null)) {
                 break;
             } else if (curWidget instanceof WorkbenchWidget) {
                 workbenchWidget = (WorkbenchWidget)curWidget;
-                wWidget = (WorkbenchWidget)curWidget;
+                workbenchWidget.addPropertyChangeListener(new PropertyChangeListener() {
+
+                        @Override
+                        public void propertyChange(final PropertyChangeEvent evt) {
+                            if (evt.getPropertyName().equals(WorkbenchWidget.PROP_SELECTEDTREENODES)) {
+                                copyPasteToolbar.clipboardChanged();
+                            }
+                        }
+                    });
             } else if (curWidget instanceof DetailWidget) {
-                dWidget = (DetailWidget)curWidget;
                 detailWidget = (DetailWidget)curWidget;
             }
         }
-        if ((wWidget == null) || (dWidget == null)) {
+        if ((workbenchWidget == null) || (detailWidget == null)) {
             LOG.warn("Workbench Widget could not be bound to Detail Widget because one of them == null");
         }
 
-        final BindingGroup bindingGroup = new BindingGroup();
+        final PropertyChangeListener listener = new PropertyChangeListener() {
 
-        // ToDo should only be read
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                wWidget,
-                org.jdesktop.beansbinding.ELProperty.create("${selectedTreeNode.lastPathComponent.userObject}"),
-                dWidget,
-                org.jdesktop.beansbinding.BeanProperty.create("currentEntity"));
-//        org.jdesktop.beansbinding.Binding binding2 = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, wWidget, org.jdesktop.beansbinding.ELProperty.create("${selectedTreeNode.lastPathComponent.userObject.class}"),mappingComponent, org.jdesktop.beansbinding.BeanProperty.create("inputEventListener["+getMappingComponent().NEW_POLYGON+"].geometryFeatureClass"));
-//        getMappingComponent().getInputEventListener();
-        binding.setSourceUnreadableValue(null);
-//        binding2.setSourceUnreadableValue(null);
-        wWidget.addPropertyChangeListener("selectedTreeNode", dWidget);
-//        bindingGroup.addBinding(binding2);
-        bindingGroup.addBinding(binding);
-        // CreateToolbar binding
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                wWidget,
-                org.jdesktop.beansbinding.ELProperty.create("${selectedTreeNode.lastPathComponent.userObject}"),
-                panCreate,
-                org.jdesktop.beansbinding.BeanProperty.create("currentEntity"));
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-        bindingGroup.bind();
-//        bindingGroup2.bind();
+                @Override
+                public void propertyChange(final PropertyChangeEvent evt) {
+                    if (evt.getPropertyName().equals(WorkbenchWidget.PROP_SELECTEDTREENODES)) {
+                        Object currentEntity = null;
+                        final TreePath treePath = ((WorkbenchWidget)evt.getSource()).getSelectedTreeNode();
+                        if (treePath != null) {
+                            final CustomMutableTreeTableNode customMutableTreeTableNode = (CustomMutableTreeTableNode)
+                                treePath.getLastPathComponent();
+                            if (customMutableTreeTableNode != null) {
+                                currentEntity = (customMutableTreeTableNode).getUserObject();
+                            }
+                        }
+                        detailWidget.setCurrentEntity(currentEntity);
+                        panCreate.setCurrentEntity(currentEntity);
+                    }
+                }
+            };
+        if (workbenchWidget != null) {
+            workbenchWidget.addPropertyChangeListener(listener);
+        }
     }
 
     /**
@@ -2525,6 +2526,15 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      */
+    private void addCopyPasteToolBar() {
+        addEditable(copyPasteToolbar);
+        getToolbar().add(copyPasteToolbar);
+        getToolbar().add(createToolBarSeperator());
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     public void addNewStandort() {
         workbenchWidget.selectNode(workbenchWidget.addNewStandort());
     }
@@ -2589,11 +2599,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     /**
      * DOCUMENT ME!
-     *
-     * @param  entity  DOCUMENT ME!
      */
-    public void removeEntity(final Object entity) {
-        workbenchWidget.removeEntity(entity);
+    public void removeSelectedEntity() {
+        workbenchWidget.removeSelectedEntity();
     }
 
     @Override
@@ -2893,6 +2901,15 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public static void setDefaultDoppelkommando1(final TkeyDoppelkommandoCustomBean defaultDoppelkommando1) {
         BelisBroker.defaultDoppelkommando1 = defaultDoppelkommando1;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public EntityClipboard getEntityClipboard() {
+        return entityClipboard;
     }
 
     //~ Inner Classes ----------------------------------------------------------

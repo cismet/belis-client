@@ -1226,7 +1226,6 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jPanel1, gridBagConstraints);
 
         final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -1239,7 +1238,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                204,
+                214,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();

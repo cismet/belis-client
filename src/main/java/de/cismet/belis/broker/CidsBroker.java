@@ -1003,7 +1003,7 @@ public class CidsBroker implements BelisServerRemote {
      * @param  sortedSet   DOCUMENT ME!
      * @param  collection  DOCUMENT ME!
      */
-    private static void addCollectionToSortedSet(final SortedSet sortedSet, final Collection collection) {
+    public static void addCollectionToSortedSet(final SortedSet sortedSet, final Collection collection) {
         if ((sortedSet != null) && (collection != null) && (collection.size() > 0)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("adding Collection: " + collection + "to sorted set: " + sortedSet);

@@ -198,9 +198,9 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewMauerlasche = new javax.swing.JButton();
         btnNewLeitung = new javax.swing.JButton();
         btnNewAbzweigdose = new javax.swing.JButton();
-        btnRemove = new javax.swing.JButton();
         btnNewVeranlassung = new javax.swing.JButton();
         btnNewArbeitsauftrag = new javax.swing.JButton();
+        btnRemove = new javax.swing.JButton();
 
         setFocusable(false);
         setOpaque(false);
@@ -327,27 +327,6 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewAbzweigdose, gridBagConstraints);
 
-        btnRemove.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/trash.png"))); // NOI18N
-        btnRemove.setToolTipText("Ausgewähltes Objekt entfernen");
-        btnRemove.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnRemove.setBorderPainted(false);
-        btnRemove.setEnabled(false);
-        btnRemove.setFocusPainted(false);
-        btnRemove.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnRemove.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnRemove.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnRemove.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnRemoveActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
-        add(btnRemove, gridBagConstraints);
-
         btnNewVeranlassung.setText("V");
         btnNewVeranlassung.setToolTipText("Neue Veranlassung hinzufügen");
         btnNewVeranlassung.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -363,9 +342,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                     btnNewVeranlassungActionPerformed(evt);
                 }
             });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
-        add(btnNewVeranlassung, gridBagConstraints);
+        add(btnNewVeranlassung, new java.awt.GridBagConstraints());
 
         btnNewArbeitsauftrag.setText("A");
         btnNewArbeitsauftrag.setToolTipText("Neuen Arbeitsauftrag hinzufügen");
@@ -385,6 +362,25 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewArbeitsauftrag, gridBagConstraints);
+
+        btnRemove.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/trash.png"))); // NOI18N
+        btnRemove.setToolTipText("Ausgewähltes Objekt entfernen");
+        btnRemove.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnRemove.setBorderPainted(false);
+        btnRemove.setEnabled(false);
+        btnRemove.setFocusPainted(false);
+        btnRemove.setMaximumSize(new java.awt.Dimension(23, 23));
+        btnRemove.setMinimumSize(new java.awt.Dimension(23, 23));
+        btnRemove.setPreferredSize(new java.awt.Dimension(23, 23));
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemoveActionPerformed(evt);
+                }
+            });
+        add(btnRemove, new java.awt.GridBagConstraints());
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -504,7 +500,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         }
         try {
             broker.setVetoCheckEnabled(false);
-            broker.removeEntity(currentEntity);
+//            broker.removeEntity(currentEntity);
+            broker.removeSelectedEntity();
         } finally {
             broker.setVetoCheckEnabled(true);
         }
