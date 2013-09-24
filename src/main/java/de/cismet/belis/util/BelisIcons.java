@@ -46,6 +46,8 @@ public class BelisIcons {
                 "/de/cismet/belis/resource/icon/16/veranlassung.png"));
     public static Icon icoArbeitsauftrag16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/16/arbeitsauftrag.png"));
+    public static Icon icoArbeitsprotokoll16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/16/arbeitsprotokoll.png"));
 
     public static Icon icoStandort22 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/22/standort.png"));
@@ -75,6 +77,8 @@ public class BelisIcons {
                 "/de/cismet/belis/resource/icon/22/veranlassung.png"));
     public static Icon icoArbeitsauftrag22 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/22/arbeitsauftrag.png"));
+    public static Icon icoArbeitsprotokoll22 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/22/arbeitsprotokoll.png"));
 
     public static Icon icoError48 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/48/error.png"));

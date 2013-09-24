@@ -71,6 +71,7 @@ import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
@@ -2111,6 +2112,33 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         newObjects.add(newArbeitsauftragNode.getUserObject());
         treeTableModel.insertNodeIntoAsLastChild(newArbeitsauftragNode, newObjectsNode);
         return newArbeitsauftragNode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   relatedObject  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CustomMutableTreeTableNode addNewArbeitsprotokoll(final Object relatedObject) {
+        final CidsBean newArbeitsauftrag = CidsBroker.getInstance()
+                    .getBelisMetaClass(BelisMetaClassConstants.MC_ARBEITSPROTOKOLL)
+                    .getEmptyInstance()
+                    .getBean();
+        final CustomMutableTreeTableNode newArbeitsprotokollNode = new CustomMutableTreeTableNode(
+                newArbeitsauftrag,
+                true);
+
+        final TreePath pathToRelatedObejct = treeTableModel.getPathForUserObject(relatedObject);
+        final CustomMutableTreeTableNode nodeToAddProtokoll = ((CustomMutableTreeTableNode)
+                pathToRelatedObejct.getLastPathComponent());
+//        final ArbeitsauftragCustomBean parent = (ArbeitsauftragCustomBean)
+//            ((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath().getLastPathComponent()).getUserObject();
+
+        newObjects.add(newArbeitsprotokollNode.getUserObject());
+        treeTableModel.insertNodeIntoAsLastChild(newArbeitsprotokollNode, nodeToAddProtokoll);
+        return newArbeitsprotokollNode;
     }
 
     /**

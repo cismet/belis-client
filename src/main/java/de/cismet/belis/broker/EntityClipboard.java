@@ -27,7 +27,7 @@ import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import static de.cismet.belis.gui.widget.WorkbenchWidget.REFRESH_NEW_OBJECTS;
+import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -105,7 +105,7 @@ public class EntityClipboard {
     public void paste() {
         if (isPastable()) {
             try {
-                final VeranlassungCustomBean veranlassungCustomBean = getSelectedVeranlassungBean();
+                final VeranlassungCustomBean veranlassungCustomBean = getSelectedVeranlassungBeanForPaste();
                 for (final CidsBean clipboardBean : clipboardBeans) {
                     if (clipboardBean instanceof TdtaStandortMastCustomBean) {
                         final Collection<TdtaStandortMastCustomBean> standorte =
@@ -182,7 +182,7 @@ public class EntityClipboard {
     public boolean isPastable() {
         return (broker.isInCreateMode() || broker.isInEditMode())
                     && !clipboardBeans.isEmpty()
-                    && (getSelectedVeranlassungBean() != null);
+                    && (getSelectedVeranlassungBeanForPaste() != null);
     }
 
     /**
@@ -200,7 +200,7 @@ public class EntityClipboard {
      * @return  DOCUMENT ME!
      */
     private boolean isBasicSelectionEmpty() {
-        return getSelectedBasicBeans().isEmpty();
+        return getSelectedBeansForCopy().isEmpty();
     }
 
     /**
@@ -208,7 +208,7 @@ public class EntityClipboard {
      *
      * @return  DOCUMENT ME!
      */
-    private Collection<CidsBean> getSelectedBasicBeans() {
+    private Collection<CidsBean> getSelectedBeansForCopy() {
         final Collection<CidsBean> beans = new ArrayList<CidsBean>();
         final Collection<TreePath> paths = broker.getWorkbenchWidget().getSelectedTreeNodes();
         if (paths != null) {
@@ -216,7 +216,8 @@ public class EntityClipboard {
                 final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)path.getLastPathComponent();
                 if (node != null) {
                     final Object object = node.getUserObject();
-                    if ((object instanceof TdtaLeuchtenCustomBean)
+                    if ((object instanceof VeranlassungCustomBean)
+                                || (object instanceof TdtaLeuchtenCustomBean)
                                 || (object instanceof TdtaStandortMastCustomBean)
                                 || (object instanceof AbzweigdoseCustomBean)
                                 || (object instanceof MauerlascheCustomBean)
@@ -235,7 +236,28 @@ public class EntityClipboard {
      *
      * @return  DOCUMENT ME!
      */
-    private VeranlassungCustomBean getSelectedVeranlassungBean() {
+    private ArbeitsauftragCustomBean getSelectedArbeitsauftragBeanForPaste() {
+        ArbeitsauftragCustomBean arbeitsauftragCustomBean = null;
+        final Collection<TreePath> paths = broker.getWorkbenchWidget().getSelectedTreeNodes();
+        if ((paths != null) && (paths.size() == 1)) {
+            final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)paths.iterator().next()
+                        .getLastPathComponent();
+            if (node != null) {
+                final Object object = node.getUserObject();
+                if (object instanceof ArbeitsauftragCustomBean) {
+                    arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)object;
+                }
+            }
+        }
+        return arbeitsauftragCustomBean;
+    }
+    
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private VeranlassungCustomBean getSelectedVeranlassungBeanForPaste() {
         VeranlassungCustomBean veranlassungCustomBean = null;
         final Collection<TreePath> paths = broker.getWorkbenchWidget().getSelectedTreeNodes();
         if ((paths != null) && (paths.size() == 1)) {
@@ -258,7 +280,7 @@ public class EntityClipboard {
      */
     public boolean copy() {
         if (isCopyable()) {
-            final Collection<CidsBean> selectedBeans = getSelectedBasicBeans();
+            final Collection<CidsBean> selectedBeans = getSelectedBeansForCopy();
             if ((selectedBeans != null) && !selectedBeans.isEmpty()) {
                 try {
                     clipboardBeans.clear();

@@ -2599,6 +2599,15 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  relatedObject  DOCUMENT ME!
+     */
+    public void addNewArbeitsprotokoll(final Object relatedObject) {
+        workbenchWidget.selectNode(workbenchWidget.addNewArbeitsprotokoll(relatedObject));
+    }
+
+    /**
+     * DOCUMENT ME!
      */
     public void removeSelectedEntity() {
         workbenchWidget.removeSelectedEntity();

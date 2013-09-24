@@ -12,7 +12,6 @@
 package de.cismet.belis.gui.widget.detailWidgetPanels;
 
 import org.jdesktop.beansbinding.BindingGroup;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import java.awt.Component;
 
@@ -24,11 +23,8 @@ import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.DateToStringConverter;
 
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
 import de.cismet.cids.custom.beans.belis.VeranlassungsartCustomBean;
-
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 /**
  * DOCUMENT ME!

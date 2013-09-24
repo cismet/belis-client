@@ -18,21 +18,20 @@ import java.awt.Component;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-import de.cismet.belis.commons.constants.BelisMetaClassConstants;
-
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
 import de.cismet.belis.todo.CustomTreeTableModel;
 
 import de.cismet.belis.util.BelisIcons;
 
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
-
-import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -82,18 +81,15 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
                 } else if (userObject instanceof AbzweigdoseCustomBean) {
                     setText("Abzweigdose/Zugkasten");
                     setIcon(BelisIcons.icoAbzweigdose16);
-                } else if (userObject instanceof CidsBean) {
-                    final String tableName = ((CidsBean)userObject).getMetaObject().getMetaClass().getTableName();
-                    if (BelisMetaClassConstants.MC_VERANLASSUNG.toLowerCase().equals(tableName.toLowerCase())) {
-                        setText("Veranlassung");
-                        setIcon(BelisIcons.icoVeranlassung16);
-                    } else if (BelisMetaClassConstants.MC_ARBEITSAUFTRAG.toLowerCase().equals(
-                                    tableName.toLowerCase())) {
-                        setText("Arbeitsauftrag");
-                        setIcon(BelisIcons.icoArbeitsauftrag16);
-                    } else {
-                        setText("Unbekannter Typ");
-                    }
+                } else if (userObject instanceof VeranlassungCustomBean) {
+                    setText("Veranlassung");
+                    setIcon(BelisIcons.icoVeranlassung16);
+                } else if (userObject instanceof ArbeitsauftragCustomBean) {
+                    setText("Arbeitsauftrag");
+                    setIcon(BelisIcons.icoArbeitsauftrag16);
+                } else if (userObject instanceof ArbeitsprotokollCustomBean) {
+                    setText("Arbeitsprotokoll");
+                    setIcon(BelisIcons.icoArbeitsprotokoll16);
                 } else if (userObject instanceof String) {
                     if (userObject.equals(CustomTreeTableModel.HIT_NODE)) {
                         setText(((CustomMutableTreeTableNode)value).getChildCount() + " Suchergebnisse");

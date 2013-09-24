@@ -23,6 +23,7 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsauftragPanel;
+import de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsprotokollPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeitungPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeuchtePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.MauerlaschePanel;
@@ -32,6 +33,7 @@ import de.cismet.belis.gui.widget.detailWidgetPanels.VeranlassungPanel;
 
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
@@ -73,6 +75,7 @@ public class DetailWidget extends BelisWidget {
     private SchaltstellePanel schaltstellePanel = SchaltstellePanel.getInstance();
     private VeranlassungPanel veranlassungPanel = VeranlassungPanel.getInstance();
     private ArbeitsauftragPanel arbeitsauftragPanel = ArbeitsauftragPanel.getInstance();
+    private ArbeitsprotokollPanel arbeitsprotokollPanel = ArbeitsprotokollPanel.getInstance();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.belis.gui.documentpanel.DocumentPanel panDokumente;
@@ -219,7 +222,7 @@ public class DetailWidget extends BelisWidget {
             veranlassungPanel.setElementsNull();
 
             showPanel(veranlassungPanel);
-        } else if (currentEntity instanceof ArbeitsauftragPanel) {
+        } else if (currentEntity instanceof ArbeitsauftragCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Arbeitsauftrag");
             }
@@ -228,6 +231,15 @@ public class DetailWidget extends BelisWidget {
             arbeitsauftragPanel.setElementsNull();
 
             showPanel(arbeitsauftragPanel);
+        } else if (currentEntity instanceof ArbeitsprotokollCustomBean) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("CurrentEntity is Arbeitsprotokoll");
+            }
+
+            arbeitsprotokollPanel.setCurrentEntity((ArbeitsprotokollCustomBean)currentEntity);
+            arbeitsprotokollPanel.setElementsNull();
+
+            showPanel(arbeitsprotokollPanel);
         } else {
             LOG.info("no panel for entity available");
             showPanel(null);

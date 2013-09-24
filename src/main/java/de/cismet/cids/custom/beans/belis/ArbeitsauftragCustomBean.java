@@ -11,12 +11,14 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
+import Sirius.navigator.connection.SessionManager;
 import java.util.Collection;
 import java.util.Date;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.commons.server.entity.BaseEntity;
+import java.util.Calendar;
 
 /**
  * DOCUMENT ME!
@@ -71,7 +73,10 @@ public class ArbeitsauftragCustomBean extends BaseEntity {
      * @return  DOCUMENT ME!
      */
     public static ArbeitsauftragCustomBean createNew() {
-        return (ArbeitsauftragCustomBean)createNew(TABLE);
+        final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)createNew(TABLE);
+        arbeitsauftragCustomBean.setAngelegt_am(new Date(Calendar.getInstance().getTime().getTime()));
+        arbeitsauftragCustomBean.setAngelegt_von(SessionManager.getSession().getUser().getName());
+        return arbeitsauftragCustomBean;
     }
 
     @Override
