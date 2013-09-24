@@ -198,7 +198,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         lblLeuchte.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
         lblLeuchte.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/leuchte.png"))); // NOI18N
+                getClass().getResource("/de/cismet/belis/resource/icon/16/leuchte.png"))); // NOI18N
         lblLeuchte.setText("Leuchte");                                                     // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
@@ -1236,7 +1236,8 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         sprLeuchteDoppelkommando2Anzahl.setEnabled(isEditable);
         txfLeuchteMontagefirma.setEnabled(isEditable);
         txaLeuchteBemerkung.setEnabled(isEditable);
-        if (!((belisBroker.getWorkbenchWidget().getSelectedTreeNode() != null)
+        if ((belisBroker.getWorkbenchWidget() != null)
+                    && !((belisBroker.getWorkbenchWidget().getSelectedTreeNode() != null)
                         && belisBroker.getWorkbenchWidget().isParentNodeMast(
                             belisBroker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))) {
             cbxLeuchteKennziffer.setEnabled(isEditable);

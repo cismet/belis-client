@@ -215,7 +215,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnNewVeranlassung">
       <Properties>
-        <Property name="text" type="java.lang.String" value="V"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/de/cismet/belis/resource/icon/22/veranlassung.png"/>
+        </Property>
         <Property name="toolTipText" type="java.lang.String" value="Neue Veranlassung hinzuf&#xfc;gen"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -245,7 +247,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnNewArbeitsauftrag">
       <Properties>
-        <Property name="text" type="java.lang.String" value="A"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/de/cismet/belis/resource/icon/22/arbeitsauftrag.png"/>
+        </Property>
         <Property name="toolTipText" type="java.lang.String" value="Neuen Arbeitsauftrag hinzuf&#xfc;gen"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">

@@ -11,12 +11,14 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
+import Sirius.navigator.connection.SessionManager;
+
+import java.sql.Date;
+
+import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
-
-import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
@@ -91,7 +93,7 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
     private String bemerkungen;
     private String beschreibung;
     private Date datum;
-    private VeranlassungsArtCustomBean fk_art;
+    private VeranlassungsartCustomBean fk_art;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -109,7 +111,10 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
      * @return  DOCUMENT ME!
      */
     public static VeranlassungCustomBean createNew() {
-        return (VeranlassungCustomBean)createNew(TABLE);
+        final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)createNew(TABLE);
+        veranlassungCustomBean.setDatum(new Date(Calendar.getInstance().getTime().getTime()));
+        veranlassungCustomBean.setUsername(SessionManager.getSession().getUser().getName());
+        return veranlassungCustomBean;
     }
 
     @Override
@@ -393,7 +398,7 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
      *
      * @return  DOCUMENT ME!
      */
-    public CidsBean getFk_auftrag() {
+    public ArbeitsauftragCustomBean getFk_auftrag() {
         return fk_auftrag;
     }
 
@@ -493,7 +498,7 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
      *
      * @return  DOCUMENT ME!
      */
-    public VeranlassungsArtCustomBean getFk_art() {
+    public VeranlassungsartCustomBean getFk_art() {
         return fk_art;
     }
 
@@ -502,8 +507,8 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
      *
      * @param  fk_art  DOCUMENT ME!
      */
-    public void setFk_art(final VeranlassungsArtCustomBean fk_art) {
-        final VeranlassungsArtCustomBean old = this.fk_art;
+    public void setFk_art(final VeranlassungsartCustomBean fk_art) {
+        final VeranlassungsartCustomBean old = this.fk_art;
         this.fk_art = fk_art;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_ART, old, this.fk_art);
     }

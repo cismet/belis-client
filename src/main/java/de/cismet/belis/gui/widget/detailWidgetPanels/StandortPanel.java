@@ -228,7 +228,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         lblStandort.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
         lblStandort.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/standort.png"))); // NOI18N
+                getClass().getResource("/de/cismet/belis/resource/icon/16/standort.png"))); // NOI18N
         lblStandort.setText("Standort");                                                    // NOI18N
 
         setLayout(new java.awt.GridBagLayout());

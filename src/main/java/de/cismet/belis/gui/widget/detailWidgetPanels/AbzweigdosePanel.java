@@ -85,7 +85,7 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
 
         lblAbzweigdose.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
         lblAbzweigdose.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/abzweigdose.png"))); // NOI18N
+                getClass().getResource("/de/cismet/belis/resource/icon/16/abzweigdose.png"))); // NOI18N
         lblAbzweigdose.setText("Abzweigdose/Zugkasten");                                       // NOI18N
 
         setLayout(new java.awt.GridBagLayout());

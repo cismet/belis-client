@@ -130,7 +130,7 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
 
         jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                          // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/leitung.png"))); // NOI18N
+                getClass().getResource("/de/cismet/belis/resource/icon/16/leuchte.png"))); // NOI18N
         jLabel1.setText("Leitung");                                                        // NOI18N
 
         setLayout(new java.awt.GridBagLayout());

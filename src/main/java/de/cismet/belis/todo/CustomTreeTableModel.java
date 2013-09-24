@@ -86,7 +86,6 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
         // processedObjectsNode.setUserObject(PROCESSED_NODE);
 
         setRoot(rootNode);
-        insertNodeIntoAsLastChild(newObjectsNode, rootNode);
         insertNodeIntoAsLastChild(searchResultsNode, rootNode);
     }
 

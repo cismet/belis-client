@@ -114,7 +114,7 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
 
         jLabel2.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                              // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/mauerlasche.png"))); // NOI18N
+                getClass().getResource("/de/cismet/belis/resource/icon/16/mauerlasche.png"))); // NOI18N
         jLabel2.setText("Mauerlasche");                                                        // NOI18N
 
         setLayout(new java.awt.GridBagLayout());

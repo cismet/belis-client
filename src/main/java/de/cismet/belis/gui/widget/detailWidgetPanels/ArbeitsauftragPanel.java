@@ -91,9 +91,10 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         panContent = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
 
-        lblArbeitsauftrag.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        lblArbeitsauftrag.setIcon(null);
-        lblArbeitsauftrag.setText("Arbeitsauftrag");                        // NOI18N
+        lblArbeitsauftrag.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
+        lblArbeitsauftrag.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/arbeitsauftrag.png"))); // NOI18N
+        lblArbeitsauftrag.setText("Arbeitsauftrag");                                              // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 

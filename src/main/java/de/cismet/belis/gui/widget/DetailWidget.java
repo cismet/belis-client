@@ -12,9 +12,13 @@
  */
 package de.cismet.belis.gui.widget;
 
+import Sirius.server.middleware.types.MetaObject;
+
 import org.jdesktop.beansbinding.BindingGroup;
 
 import java.beans.PropertyChangeEvent;
+
+import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
@@ -34,6 +38,8 @@ import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
@@ -121,6 +127,17 @@ public class DetailWidget extends BelisWidget {
         firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
         bindingGroup.unbind();
         bindingGroup.bind();
+
+        boolean isEditable = false;
+        if ((currentEntity != null) && (currentEntity instanceof CidsBean)) {
+            final CidsBean currentBean = (CidsBean)currentEntity;
+            if (BelisBroker.getInstance().isInCreateMode()) {
+                isEditable = currentBean.getMetaObject().getStatus() == MetaObject.NEW;
+            } else if (BelisBroker.getInstance().isInEditMode()) {
+                isEditable = currentBean.getMetaObject().getStatus() != MetaObject.NEW;
+            }
+        }
+        setWidgetEditable(isEditable);
 
         if (currentEntity == null) {
             if (LOG.isDebugEnabled()) {
@@ -212,7 +229,9 @@ public class DetailWidget extends BelisWidget {
 
             showPanel(arbeitsauftragPanel);
         } else {
-            LOG.warn("no panel for entity available");
+            LOG.info("no panel for entity available");
+            showPanel(null);
+            panDokumente.setDokumente(null);
         }
         this.repaint();
     }
@@ -248,6 +267,8 @@ public class DetailWidget extends BelisWidget {
         leitungPanel.setPanelEditable(isEditable);
         mauerlaschePanel.setPanelEditable(isEditable);
         schaltstellePanel.setPanelEditable(isEditable);
+        veranlassungPanel.setPanelEditable(isEditable);
+        arbeitsauftragPanel.setPanelEditable(isEditable);
         panDokumente.setEditable(isEditable);
     }
 

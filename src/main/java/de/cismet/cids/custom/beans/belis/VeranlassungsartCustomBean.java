@@ -20,12 +20,12 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class VeranlassungsArtCustomBean extends BaseEntity {
+public class VeranlassungsartCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
-            VeranlassungsArtCustomBean.class);
+            VeranlassungsartCustomBean.class);
 
     public static final String TABLE = BelisMetaClassConstants.MC_VERANLASSUNGSART;
 
@@ -48,7 +48,7 @@ public class VeranlassungsArtCustomBean extends BaseEntity {
     /**
      * Creates a new VeranlassungCustomBean object.
      */
-    public VeranlassungsArtCustomBean() {
+    public VeranlassungsartCustomBean() {
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -58,8 +58,8 @@ public class VeranlassungsArtCustomBean extends BaseEntity {
      *
      * @return  DOCUMENT ME!
      */
-    public static VeranlassungsArtCustomBean createNew() {
-        return (VeranlassungsArtCustomBean)createNew(TABLE);
+    public static VeranlassungsartCustomBean createNew() {
+        return (VeranlassungsartCustomBean)createNew(TABLE);
     }
 
     @Override
@@ -77,8 +77,8 @@ public class VeranlassungsArtCustomBean extends BaseEntity {
 
     @Override
     public boolean equals(final Object other) {
-        if (other instanceof VeranlassungsArtCustomBean) {
-            final VeranlassungsArtCustomBean anEntity = (VeranlassungsArtCustomBean)other;
+        if (other instanceof VeranlassungsartCustomBean) {
+            final VeranlassungsartCustomBean anEntity = (VeranlassungsartCustomBean)other;
             if (this == other) {
                 return true;
             } else if (!this.getClass().isAssignableFrom(other.getClass())) {
@@ -136,5 +136,15 @@ public class VeranlassungsArtCustomBean extends BaseEntity {
         final String old = this.schluessel;
         this.schluessel = schluessel;
         this.propertyChangeSupport.firePropertyChange(PROP__SCHLUESSEL, old, this.schluessel);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public String getKeyString() {
+        return getBezeichnung();
     }
 }

@@ -86,11 +86,11 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
                     final String tableName = ((CidsBean)userObject).getMetaObject().getMetaClass().getTableName();
                     if (BelisMetaClassConstants.MC_VERANLASSUNG.toLowerCase().equals(tableName.toLowerCase())) {
                         setText("Veranlassung");
-                        setIcon(null);
+                        setIcon(BelisIcons.icoVeranlassung16);
                     } else if (BelisMetaClassConstants.MC_ARBEITSAUFTRAG.toLowerCase().equals(
                                     tableName.toLowerCase())) {
                         setText("Arbeitsauftrag");
-                        setIcon(null);
+                        setIcon(BelisIcons.icoArbeitsauftrag16);
                     } else {
                         setText("Unbekannter Typ");
                     }

@@ -135,7 +135,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
         jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                               // NOI18N
         jLabel3.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/schaltstelle.png"))); // NOI18N
+                getClass().getResource("/de/cismet/belis/resource/icon/16/schaltstelle.png"))); // NOI18N
         jLabel3.setText("Schaltstelle");                                                        // NOI18N
 
         setLayout(new java.awt.GridBagLayout());

@@ -8,7 +8,7 @@
           <Font name="DejaVu Sans" size="13" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/de/cismet/belis/resource/icon/22/abzweigdose.png"/>
+          <Image iconType="3" name="/de/cismet/belis/resource/icon/16/abzweigdose.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Abzweigdose/Zugkasten" noResource="true"/>
       </Properties>
