@@ -18,6 +18,7 @@ import de.cismet.belis.gui.widget.WorkbenchWidget;
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
 
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
@@ -26,8 +27,6 @@ import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -251,7 +250,7 @@ public class EntityClipboard {
         }
         return arbeitsauftragCustomBean;
     }
-    
+
     /**
      * DOCUMENT ME!
      *

@@ -134,6 +134,7 @@ import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
+import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -1007,7 +1008,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                                     final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(
                                             new ReverseComparator(
                                                 new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-                                    CidsBroker.getInstance().addCollectionToSortedSet(results, entities);
+                                    CidsBroker.addCollectionToSortedSet(results, entities);
 
                                     setSearchResult(results);
                                     enableSearch();
@@ -2118,13 +2119,26 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      *
-     * @param  searchResults  DOCUMENT ME!
+     * @param   searchResults  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
      */
-    private void addEntityRecursiveToMap(final Collection searchResults) {
-        final ArrayList<Feature> featuresToAdd = new ArrayList<Feature>();
+    private Collection<Feature> addEntityRecursiveToMap(final Collection searchResults) {
+        final Collection<Feature> featuresToAdd = new HashSet<Feature>();
         if (searchResults != null) {
             for (final Object currentResult : searchResults) {
-                if ((currentResult instanceof StyledFeature)
+                if ((currentResult instanceof VeranlassungCustomBean)) {
+                    final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)currentResult;
+                    if (veranlassungCustomBean.getGeometry() != null) {
+                        featuresToAdd.add((StyledFeature)currentResult);
+                    }
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_abzweigdosen()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_leitungen()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_leuchten()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_mauerlaschen()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_schaltstellen()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_standorte()));
+                } else if ((currentResult instanceof StyledFeature)
                             && (((StyledFeature)currentResult).getGeometry() != null)) {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("SearchResult is Styled Feature and geometry != null --> adding feature to map.");
@@ -2137,7 +2151,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                             LOG.debug(
                                 "SearchResult is instance of Standort and owns Leuchte objects --> also adding to Map");
                         }
-                        addEntityRecursiveToMap(((TdtaStandortMastCustomBean)currentResult).getLeuchten());
+                        featuresToAdd.addAll(addEntityRecursiveToMap(
+                                ((TdtaStandortMastCustomBean)currentResult).getLeuchten()));
                     }
                     if (currentResult instanceof LeitungCustomBean) {
                         if (LOG.isDebugEnabled()) {
@@ -2153,10 +2168,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     }
                 }
             }
-            if (featuresToAdd.size() > 0) {
-                getMappingComponent().getFeatureCollection().substituteFeatures(featuresToAdd);
-            }
         }
+        return featuresToAdd;
     }
 
     /**
@@ -2200,7 +2213,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         try {
             if (EventQueue.isDispatchThread()) {
                 getMappingComponent().getFeatureCollection().removeAllFeatures();
-                addEntityRecursiveToMap(getCurrentSearchResults());
+                getMappingComponent().getFeatureCollection()
+                        .substituteFeatures(addEntityRecursiveToMap(getCurrentSearchResults()));
             } else {
                 EventQueue.invokeAndWait(new Runnable() {
 

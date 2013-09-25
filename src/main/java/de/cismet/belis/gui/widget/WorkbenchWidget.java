@@ -123,7 +123,6 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     public static final String PROP_TREE_TABLE_MODEL = "treeTableModel";
     private static final String TEMP_FEATURE_CREATED_MODE = "temporayFeatureInMapCreated";
     public static final String BELIS_CREATE_MODE = "BELIS_CREATE_MODE";
-    public static final String PROP_CURRENT_SEARCH_RESULTS = "currentSearchResults";
     public static final int VIEW_MODE = 0;
     public static final int CREATE_MODE = 1;
     public static final int EDIT_MODE = 2;
@@ -997,7 +996,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                 }
 
                                 // ToDo method for extraction bad performance
-                                final Collection<Feature> currentUserObjects = new ArrayList();
+                                final Collection<Feature> featuresToSelect = new ArrayList();
                                 for (final TreePath path : paths) {
                                     final Object currentUserObject = getUserObjectForTreePath(path);
                                     if ((currentUserObject != null) && (currentUserObject instanceof StyledFeature)
@@ -1006,7 +1005,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                             LOG.debug(
                                                 "UserObject != null and instance of StyledFeature and geometry available --> select Feature");
                                         }
-                                        currentUserObjects.add((StyledFeature)currentUserObject);
+                                        featuresToSelect.add((StyledFeature)currentUserObject);
                                     } else if (isParentNodeMast(path.getLastPathComponent())) {
                                         if (LOG.isDebugEnabled()) {
                                             LOG.debug("Leuchte from mast is selected in table.");
@@ -1026,17 +1025,26 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                             if (LOG.isDebugEnabled()) {
                                                 LOG.debug("Selecting Mast in map.");
                                             }
-                                            currentUserObjects.add((StyledFeature)parentMast);
+                                            featuresToSelect.add((StyledFeature)parentMast);
                                         }
                                     } else if (isNodeHaengeLeuchte(path.getLastPathComponent())) {
                                         if (LOG.isDebugEnabled()) {
                                             LOG.debug(
                                                 "current selected node is haengeleuchte. Selecting corresponding standort in map: ");
                                         }
-                                        currentUserObjects.add(leuchteToVirtualStandortMap.get(currentUserObject));
+                                        featuresToSelect.add(leuchteToVirtualStandortMap.get(currentUserObject));
+                                    } else if (currentUserObject instanceof VeranlassungCustomBean) {
+                                        final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)
+                                            currentUserObject;
+                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_abzweigdosen());
+                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_leitungen());
+                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_leuchten());
+                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_mauerlaschen());
+                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_schaltstellen());
+                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_standorte());
                                     }
                                 }
-                                if (currentUserObjects.isEmpty()) {
+                                if (featuresToSelect.isEmpty()) {
                                     if (LOG.isDebugEnabled()) {
                                         LOG.debug("no geometry to select --> unselect");
                                     }
@@ -1051,7 +1059,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                                 ignoreFeatureSelection = true;
                                                 getBroker().getMappingComponent()
                                                         .getFeatureCollection()
-                                                        .select(currentUserObjects);
+                                                        .select(featuresToSelect);
                                                 ignoreFeatureSelection = false;
                                             }
                                         };

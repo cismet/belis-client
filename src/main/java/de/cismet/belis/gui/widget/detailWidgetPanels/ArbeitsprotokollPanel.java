@@ -93,9 +93,10 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         panContent = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
 
-        lblArbeitsauftrag.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        lblArbeitsauftrag.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/16/arbeitsprotokoll.png"))); // NOI18N
-        lblArbeitsauftrag.setText("Arbeitsprotokoll"); // NOI18N
+        lblArbeitsauftrag.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                         // NOI18N
+        lblArbeitsauftrag.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/arbeitsprotokoll.png"))); // NOI18N
+        lblArbeitsauftrag.setText("Arbeitsprotokoll");                                              // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -108,16 +109,18 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         gridBagConstraints.weightx = 1.0;
         add(panContent, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
-        );
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                450,
+                Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
-        );
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                660,
+                Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -126,7 +129,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
         add(jPanel2, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     BindingGroup getBindingGroup() {
