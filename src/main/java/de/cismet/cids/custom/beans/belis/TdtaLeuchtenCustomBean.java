@@ -966,7 +966,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
                     LOG.debug("Unkown property. Nothing to change");
                 }
             }
-        } else {
+        } else if ((evt.getSource() != null) && (evt.getSource() instanceof TdtaLeuchtenCustomBean)) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Property not from parent mast");
             }
