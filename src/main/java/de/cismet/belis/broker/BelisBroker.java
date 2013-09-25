@@ -123,10 +123,11 @@ import de.cismet.belisEE.exception.LockAlreadyExistsException;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 
+import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
-import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.SperreCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
@@ -2138,6 +2139,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_mauerlaschen()));
                     featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_schaltstellen()));
                     featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_standorte()));
+                } else if ((currentResult instanceof ArbeitsauftragCustomBean)) {
+                    final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)currentResult;
+                    for (final ArbeitsprotokollCustomBean protokoll : arbeitsauftragCustomBean.getN_protokolle()) {
+                        featuresToAdd.add(protokoll.getFk_abzweigdose());
+                    }
                 } else if ((currentResult instanceof StyledFeature)
                             && (((StyledFeature)currentResult).getGeometry() != null)) {
                     if (LOG.isDebugEnabled()) {

@@ -72,6 +72,7 @@ import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
@@ -1389,6 +1390,57 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         false);
                                 treeTableModel.insertNodeIntoAsLastChild(abzweigdoseNode, veranlassungNode);
                             }
+                        } else if (curObject instanceof ArbeitsauftragCustomBean) {
+                            final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)
+                                curObject;
+                            final CustomMutableTreeTableNode arbeitsauftragNode = new CustomMutableTreeTableNode(
+                                    arbeitsauftragCustomBean,
+                                    true);
+                            treeTableModel.insertNodeIntoAsLastChild(arbeitsauftragNode, searchResultsNode);
+                            for (final ArbeitsprotokollCustomBean protokoll
+                                        : arbeitsauftragCustomBean.getN_protokolle()) {
+                                final CustomMutableTreeTableNode protokollNode = new CustomMutableTreeTableNode(
+                                        protokoll,
+                                        true);
+                                treeTableModel.insertNodeIntoAsLastChild(protokollNode, arbeitsauftragNode);
+                                final AbzweigdoseCustomBean abzweigdose = protokoll.getFk_abzweigdose();
+                                final LeitungCustomBean leitung = protokoll.getFk_leitung();
+                                final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
+                                final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
+                                final MauerlascheCustomBean mauerlasche = protokoll.getFk_mauerlasche();
+                                final SchaltstelleCustomBean schaltstelle = protokoll.getFk_schaltstelle();
+                                if (abzweigdose != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            abzweigdose,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (leitung != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            leitung,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (leuchte != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            leuchte,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (standort != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            standort,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (mauerlasche != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            mauerlasche,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (schaltstelle != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            schaltstelle,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                }
+                            }
                         } else {
                             final CustomMutableTreeTableNode foundObject = new CustomMutableTreeTableNode(
                                     curObject,
@@ -1451,6 +1503,57 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
 //                                    searchResultsNode.add(standortNode);
 //                                    final int index = searchResultsNode.getIndex(standortNode);
 //                                    modelSupport.fireChildAdded(new TreePath(getPathToRoot(searchResultsNode)), index, standortNode);
+                                }
+                            }
+                        } else if (curObject instanceof ArbeitsauftragCustomBean) {
+                            final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)
+                                curObject;
+                            final CustomMutableTreeTableNode arbeitsauftragNode = new CustomMutableTreeTableNode(
+                                    arbeitsauftragCustomBean,
+                                    true);
+                            treeTableModel.insertNodeIntoAsLastChild(arbeitsauftragNode, newObjectsNode);
+                            for (final ArbeitsprotokollCustomBean protokoll
+                                        : arbeitsauftragCustomBean.getN_protokolle()) {
+                                final CustomMutableTreeTableNode protokollNode = new CustomMutableTreeTableNode(
+                                        protokoll,
+                                        true);
+                                treeTableModel.insertNodeIntoAsLastChild(protokollNode, arbeitsauftragNode);
+                                final AbzweigdoseCustomBean abzweigdose = protokoll.getFk_abzweigdose();
+                                final LeitungCustomBean leitung = protokoll.getFk_leitung();
+                                final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
+                                final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
+                                final MauerlascheCustomBean mauerlasche = protokoll.getFk_mauerlasche();
+                                final SchaltstelleCustomBean schaltstelle = protokoll.getFk_schaltstelle();
+                                if (abzweigdose != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            abzweigdose,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (leitung != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            leitung,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (leuchte != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            leuchte,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (standort != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            standort,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (mauerlasche != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            mauerlasche,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (schaltstelle != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            schaltstelle,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
                                 }
                             }
                         } else if (curObject instanceof VeranlassungCustomBean) {

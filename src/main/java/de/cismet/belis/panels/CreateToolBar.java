@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
 
@@ -48,7 +47,6 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNewAbzweigdose;
     private javax.swing.JButton btnNewArbeitsauftrag;
-    private javax.swing.JButton btnNewArbeitsprotokoll;
     private javax.swing.JButton btnNewLeitung;
     private javax.swing.JButton btnNewLeuchte;
     private javax.swing.JButton btnNewMauerlasche;
@@ -202,15 +200,13 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewAbzweigdose = new javax.swing.JButton();
         btnNewVeranlassung = new javax.swing.JButton();
         btnNewArbeitsauftrag = new javax.swing.JButton();
-        btnNewArbeitsprotokoll = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
 
         setFocusable(false);
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
 
-        btnNewStandort.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/standort.png"))); // NOI18N
+        btnNewStandort.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/standort.png"))); // NOI18N
         btnNewStandort.setToolTipText("Neuer Mast hinzufügen");
         btnNewStandort.setBorder(null);
         btnNewStandort.setBorderPainted(false);
@@ -220,18 +216,15 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewStandort.setMinimumSize(new java.awt.Dimension(23, 23));
         btnNewStandort.setPreferredSize(new java.awt.Dimension(23, 23));
         btnNewStandort.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnNewStandortActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewStandortActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnNewStandort, gridBagConstraints);
 
-        btnNewLeuchte.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/leuchte.png"))); // NOI18N
+        btnNewLeuchte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/leuchte.png"))); // NOI18N
         btnNewLeuchte.setToolTipText("Neue Leuchte hinzufügen");
         btnNewLeuchte.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewLeuchte.setBorderPainted(false);
@@ -240,18 +233,15 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewLeuchte.setMinimumSize(new java.awt.Dimension(23, 23));
         btnNewLeuchte.setPreferredSize(new java.awt.Dimension(23, 23));
         btnNewLeuchte.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnNewLeuchteActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewLeuchteActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewLeuchte, gridBagConstraints);
 
-        btnNewSchaltstelle.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/schaltstelle.png"))); // NOI18N
+        btnNewSchaltstelle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/schaltstelle.png"))); // NOI18N
         btnNewSchaltstelle.setToolTipText("Neue Schaltstelle hinzufügen");
         btnNewSchaltstelle.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewSchaltstelle.setBorderPainted(false);
@@ -260,18 +250,15 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewSchaltstelle.setMinimumSize(new java.awt.Dimension(23, 23));
         btnNewSchaltstelle.setPreferredSize(new java.awt.Dimension(23, 23));
         btnNewSchaltstelle.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnNewSchaltstelleActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewSchaltstelleActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewSchaltstelle, gridBagConstraints);
 
-        btnNewMauerlasche.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/mauerlasche.png"))); // NOI18N
+        btnNewMauerlasche.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/mauerlasche.png"))); // NOI18N
         btnNewMauerlasche.setToolTipText("Neue Mauerlasche hinzufügen");
         btnNewMauerlasche.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewMauerlasche.setBorderPainted(false);
@@ -280,18 +267,15 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewMauerlasche.setMinimumSize(new java.awt.Dimension(23, 23));
         btnNewMauerlasche.setPreferredSize(new java.awt.Dimension(23, 23));
         btnNewMauerlasche.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnNewMauerlascheActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewMauerlascheActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewMauerlasche, gridBagConstraints);
 
-        btnNewLeitung.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/leitung.png"))); // NOI18N
+        btnNewLeitung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/leitung.png"))); // NOI18N
         btnNewLeitung.setToolTipText("Neue Leitung hinzufügen");
         btnNewLeitung.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewLeitung.setBorderPainted(false);
@@ -300,18 +284,15 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewLeitung.setMinimumSize(new java.awt.Dimension(23, 23));
         btnNewLeitung.setPreferredSize(new java.awt.Dimension(23, 23));
         btnNewLeitung.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnNewLeitungActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewLeitungActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewLeitung, gridBagConstraints);
 
-        btnNewAbzweigdose.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/abzweigdose.png"))); // NOI18N
+        btnNewAbzweigdose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/abzweigdose.png"))); // NOI18N
         btnNewAbzweigdose.setToolTipText("Neue Abzweigdose/Zugkasten hinzufügen");
         btnNewAbzweigdose.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewAbzweigdose.setBorderPainted(false);
@@ -320,18 +301,15 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewAbzweigdose.setMinimumSize(new java.awt.Dimension(23, 23));
         btnNewAbzweigdose.setPreferredSize(new java.awt.Dimension(23, 23));
         btnNewAbzweigdose.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnNewAbzweigdoseActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewAbzweigdoseActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewAbzweigdose, gridBagConstraints);
 
-        btnNewVeranlassung.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/veranlassung.png"))); // NOI18N
+        btnNewVeranlassung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/veranlassung.png"))); // NOI18N
         btnNewVeranlassung.setToolTipText("Neue Veranlassung hinzufügen");
         btnNewVeranlassung.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewVeranlassung.setBorderPainted(false);
@@ -340,16 +318,13 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewVeranlassung.setMinimumSize(new java.awt.Dimension(23, 23));
         btnNewVeranlassung.setPreferredSize(new java.awt.Dimension(23, 23));
         btnNewVeranlassung.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnNewVeranlassungActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewVeranlassungActionPerformed(evt);
+            }
+        });
         add(btnNewVeranlassung, new java.awt.GridBagConstraints());
 
-        btnNewArbeitsauftrag.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/arbeitsauftrag.png"))); // NOI18N
+        btnNewArbeitsauftrag.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/arbeitsauftrag.png"))); // NOI18N
         btnNewArbeitsauftrag.setToolTipText("Neuen Arbeitsauftrag hinzufügen");
         btnNewArbeitsauftrag.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewArbeitsauftrag.setBorderPainted(false);
@@ -358,36 +333,15 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewArbeitsauftrag.setMinimumSize(new java.awt.Dimension(23, 23));
         btnNewArbeitsauftrag.setPreferredSize(new java.awt.Dimension(23, 23));
         btnNewArbeitsauftrag.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnNewArbeitsauftragActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewArbeitsauftragActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 2);
         add(btnNewArbeitsauftrag, gridBagConstraints);
 
-        btnNewArbeitsprotokoll.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/arbeitsprotokoll.png"))); // NOI18N
-        btnNewArbeitsprotokoll.setToolTipText("Neues Arbeitsprotokoll hinzufügen");
-        btnNewArbeitsprotokoll.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnNewArbeitsprotokoll.setBorderPainted(false);
-        btnNewArbeitsprotokoll.setFocusPainted(false);
-        btnNewArbeitsprotokoll.setMaximumSize(new java.awt.Dimension(23, 23));
-        btnNewArbeitsprotokoll.setMinimumSize(new java.awt.Dimension(23, 23));
-        btnNewArbeitsprotokoll.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnNewArbeitsprotokoll.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnNewArbeitsprotokollActionPerformed(evt);
-                }
-            });
-        add(btnNewArbeitsprotokoll, new java.awt.GridBagConstraints());
-
-        btnRemove.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/trash.png"))); // NOI18N
+        btnRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/22/trash.png"))); // NOI18N
         btnRemove.setToolTipText("Ausgewähltes Objekt entfernen");
         btnRemove.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnRemove.setBorderPainted(false);
@@ -397,21 +351,19 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnRemove.setMinimumSize(new java.awt.Dimension(23, 23));
         btnRemove.setPreferredSize(new java.awt.Dimension(23, 23));
         btnRemove.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnRemoveActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
         add(btnRemove, new java.awt.GridBagConstraints());
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnNewStandortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewStandortActionPerformed
+    private void btnNewStandortActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewStandortActionPerformed
         try {
             if (!checkIfCreationPossible()) {
                 return;
@@ -421,14 +373,14 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         } finally {
             broker.setVetoCheckEnabled(true);
         }
-    }                                                                                  //GEN-LAST:event_btnNewStandortActionPerformed
+    }//GEN-LAST:event_btnNewStandortActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnNewLeuchteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewLeuchteActionPerformed
+    private void btnNewLeuchteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewLeuchteActionPerformed
         if (!checkIfCreationPossible()) {
             return;
         }
@@ -459,14 +411,14 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         } finally {
             broker.setVetoCheckEnabled(true);
         }
-    }                                                                                 //GEN-LAST:event_btnNewLeuchteActionPerformed
+    }//GEN-LAST:event_btnNewLeuchteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnNewSchaltstelleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewSchaltstelleActionPerformed
+    private void btnNewSchaltstelleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewSchaltstelleActionPerformed
         if (!checkIfCreationPossible()) {
             return;
         }
@@ -476,14 +428,14 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         } finally {
             broker.setVetoCheckEnabled(true);
         }
-    }                                                                                      //GEN-LAST:event_btnNewSchaltstelleActionPerformed
+    }//GEN-LAST:event_btnNewSchaltstelleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnNewMauerlascheActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewMauerlascheActionPerformed
+    private void btnNewMauerlascheActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewMauerlascheActionPerformed
         if (!checkIfCreationPossible()) {
             return;
         }
@@ -493,14 +445,14 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         } finally {
             broker.setVetoCheckEnabled(true);
         }
-    }                                                                                     //GEN-LAST:event_btnNewMauerlascheActionPerformed
+    }//GEN-LAST:event_btnNewMauerlascheActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnNewLeitungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewLeitungActionPerformed
+    private void btnNewLeitungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewLeitungActionPerformed
         if (!checkIfCreationPossible()) {
             return;
         }
@@ -510,14 +462,14 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         } finally {
             broker.setVetoCheckEnabled(true);
         }
-    }                                                                                 //GEN-LAST:event_btnNewLeitungActionPerformed
+    }//GEN-LAST:event_btnNewLeitungActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemoveActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemoveActionPerformed
+    private void btnRemoveActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         if (!checkIfCreationPossible()) {
             return;
         }
@@ -528,14 +480,14 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         } finally {
             broker.setVetoCheckEnabled(true);
         }
-    }                                                                             //GEN-LAST:event_btnRemoveActionPerformed
+    }//GEN-LAST:event_btnRemoveActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnNewAbzweigdoseActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewAbzweigdoseActionPerformed
+    private void btnNewAbzweigdoseActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewAbzweigdoseActionPerformed
         if (!checkIfCreationPossible()) {
             return;
         }
@@ -545,14 +497,14 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         } finally {
             broker.setVetoCheckEnabled(true);
         }
-    }                                                                                     //GEN-LAST:event_btnNewAbzweigdoseActionPerformed
+    }//GEN-LAST:event_btnNewAbzweigdoseActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnNewVeranlassungActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewVeranlassungActionPerformed
+    private void btnNewVeranlassungActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewVeranlassungActionPerformed
         if (!checkIfCreationPossible()) {
             return;
         }
@@ -562,14 +514,14 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         } finally {
             broker.setVetoCheckEnabled(true);
         }
-    }                                                                                      //GEN-LAST:event_btnNewVeranlassungActionPerformed
+    }//GEN-LAST:event_btnNewVeranlassungActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnNewArbeitsauftragActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewArbeitsauftragActionPerformed
+    private void btnNewArbeitsauftragActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewArbeitsauftragActionPerformed
         if (!checkIfCreationPossible()) {
             return;
         }
@@ -579,32 +531,9 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         } finally {
             broker.setVetoCheckEnabled(true);
         }
-    }                                                                                        //GEN-LAST:event_btnNewArbeitsauftragActionPerformed
+    }//GEN-LAST:event_btnNewArbeitsauftragActionPerformed
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void btnNewArbeitsprotokollActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewArbeitsprotokollActionPerformed
-        if (!checkIfCreationPossible()) {
-            return;
-        }
-
-        try {
-            broker.setVetoCheckEnabled(false);
-            if (currentEntity instanceof ArbeitsauftragCustomBean) {
-                broker.addNewArbeitsprotokoll(currentEntity);
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("No Arbeitsprotokoll without Arbeitsauftrag");
-                }
-            }
-        } finally {
-            broker.setVetoCheckEnabled(true);
-        }
-    } //GEN-LAST:event_btnNewArbeitsprotokollActionPerformed
-    /**
+   /**
      * could directly be placed in broker.
      *
      * @return  DOCUMENT ME!
