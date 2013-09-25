@@ -512,4 +512,13 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
         this.fk_art = fk_art;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_ART, old, this.fk_art);
     }
+
+    @Override
+    public String getKeyString() {
+        if (getBezeichnung() != null) {
+            return getNummer() + " - " + getBezeichnung();
+        } else {
+            return "";
+        }
+    }
 }
