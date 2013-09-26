@@ -47,10 +47,6 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
 
     private static LeitungPanel instance = null;
 
-    //~ Instance fields --------------------------------------------------------
-
-    private Collection<LeitungstypCustomBean> leitungstypen = new HashSet<LeitungstypCustomBean>();
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbxLeitungLeitungstyp;
     private javax.swing.JComboBox cbxLeitungMaterial;
@@ -75,13 +71,19 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
         initComponentToLabelMap();
         initPanel();
 
-        // ToDo ugly workaround
-        if ((leitungstypen != null) && (leitungstypen.size() > 0)) {
-            for (final LeitungstypCustomBean curLeitungstyp : leitungstypen) {
-                if (curLeitungstyp.getId().equals(1L)) {
-                    BelisBroker.getInstance().setLastLeitungstyp(curLeitungstyp);
+        // ToDo ugly !!! workaround
+        try {
+            final Collection<LeitungstypCustomBean> leitungstypen = CidsBroker.getInstance()
+                        .getAll(LeitungstypCustomBean.TABLE);
+            if ((leitungstypen != null) && (leitungstypen.size() > 0)) {
+                for (final LeitungstypCustomBean curLeitungstyp : leitungstypen) {
+                    if (curLeitungstyp.getId().equals(1)) {
+                        BelisBroker.getInstance().setLastLeitungstyp(curLeitungstyp);
+                    }
                 }
             }
+        } catch (final Exception ex) {
+            LOG.error("could not find leitungstypen");
         }
     }
 
