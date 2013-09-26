@@ -196,9 +196,7 @@ public class EntityClipboard {
                 }
                 clear();
 
-                final TreePath pathToExpand = broker.getWorkbenchWidget().getSelectedTreeNode();
                 broker.getWorkbenchWidget().refreshTreeArtifacts(WorkbenchWidget.REFRESH_NEW_OBJECTS);
-                broker.getWorkbenchWidget().expandPath(pathToExpand);
             } catch (Exception ex) {
                 LOG.error("error while pasting bean", ex);
             }

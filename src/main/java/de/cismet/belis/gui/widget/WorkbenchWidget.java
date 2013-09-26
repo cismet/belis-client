@@ -91,6 +91,7 @@ import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateGeometryListener;
+import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateNewGeometryListener;
 
 import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
 import de.cismet.commons.architecture.validation.Validatable;
@@ -2547,6 +2548,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 LOG.debug("Pure new feature created for attachement: " + newFeature);
             }
 
+            super.finishGeometry(newFeature);
             if ((newFeature != null) && (newFeature instanceof PureNewFeature) && checkConstraintForMapModeSwitch()) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("all prequisites fulfied for adding newly created geometry");
@@ -2570,9 +2572,9 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                         }
                     }
                     currentSelectedFeature.setGeometry(newFeature.getGeometry());
-                    // broker.getMappingComponent().getFeatureCollection().removeFeature(newFeature);
                     newlyAddedFeature = currentSelectedFeature;
                     getBroker().getMappingComponent().getFeatureCollection().addFeature(currentSelectedFeature);
+                    currentSelectedFeature.setEditable(true);
                     btnAttachMode.setEnabled(false);
                     getBroker().getMapWidget().setToLastInteractionMode();
                     getBroker().getMappingComponent().getFeatureCollection().select(currentSelectedFeature);
