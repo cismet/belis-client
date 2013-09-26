@@ -509,20 +509,6 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     @Override
     public void setWidgetEditable(final boolean isEditable) {
         super.setWidgetEditable(isEditable);
-        try {
-            treeTableModel.removeNodeFromParent(newObjectsNode);
-        } catch (final Exception exception) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("treeTableModel.removeNodeFromParent(newObjectsNode);", exception);
-            }
-        }
-        try {
-            treeTableModel.removeNodeFromParent(searchResultsNode);
-        } catch (final Exception exception) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("treeTableModel.removeNodeFromParent(searchResultsNode);", exception);
-            }
-        }
 
         if (isEditable) {
             if (LOG.isDebugEnabled()) {
@@ -531,24 +517,30 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             configureMapModeAccordingToSelection();
             if (getBroker().isInCreateMode()) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Configuring Workbench for CreateMode. Removing search hits.");
+                    LOG.debug("Configuring Workbench for CreateMode. ");
                 }
                 setCurrentMode(CREATE_MODE);
+
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("removing node:" + searchResultsNode);
                 }
+                treeTableModel.removeNodeFromParent(searchResultsNode);
                 treeTableModel.insertNodeIntoAsLastChild(newObjectsNode, rootNode);
+                treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
+
                 jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(newObjectsNode)));
             } else {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Configuring Workbench for EditMode");
                 }
                 setCurrentMode(EDIT_MODE);
+
+                if (treeTableModel.getPathForUserObject(searchResultsNode.getUserObject()) == null) {
+                    treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
+                }
             }
-            treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
             jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(searchResultsNode)));
         } else {
-            treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
             if (getCurrentMode() == CREATE_MODE) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Was in create mode switching to view mode.");
@@ -556,11 +548,18 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("removing node:" + newObjectsNode);
                 }
+                treeTableModel.removeNodeFromParent(newObjectsNode);
+                treeTableModel.removeNodeFromParent(searchResultsNode);
+                treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
+
                 jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(searchResultsNode)));
             } else {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Was in edit mode switching to view mode.");
-                    // treeTableModel.insertNodeIntoAsLastChild(newObjectsNode, rootNode);
+                }
+
+                if (treeTableModel.getPathForUserObject(searchResultsNode.getUserObject()) == null) {
+                    treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
                 }
             }
 
