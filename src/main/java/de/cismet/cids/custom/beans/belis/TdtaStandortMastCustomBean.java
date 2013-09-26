@@ -1080,7 +1080,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
                     LOG.debug("Unkown property. Nothing to change");
                 }
             }
-        } else {
+        } else if ((evt.getSource() != null) && (evt.getSource() instanceof TdtaStandortMastCustomBean)) {
             super.propertyChange(evt);
         }
     }

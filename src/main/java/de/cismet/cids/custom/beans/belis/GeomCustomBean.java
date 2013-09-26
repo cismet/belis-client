@@ -24,7 +24,7 @@ public class GeomCustomBean extends BaseEntity {
 
     public static final String TABLE = "geom";
 
-    private static final String PROP__GEO_FIELD = "geo_field";
+    public static final String PROP__GEO_FIELD = "geo_field";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__GEO_FIELD };
 

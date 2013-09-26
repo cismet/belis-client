@@ -25,8 +25,8 @@ public class UrlCustomBean extends BaseEntity {
 
     public static final String TABLE = "url";
 
-    private static final String PROP__URL_BASE_ID = "url_base_id";
-    private static final String PROP__OBJECT_NAME = "object_name";
+    public static final String PROP__URL_BASE_ID = "url_base_id";
+    public static final String PROP__OBJECT_NAME = "object_name";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__URL_BASE_ID, PROP__OBJECT_NAME };
 

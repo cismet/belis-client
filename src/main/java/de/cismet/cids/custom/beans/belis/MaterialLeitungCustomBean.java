@@ -27,7 +27,7 @@ public class MaterialLeitungCustomBean extends BaseEntity {
 
     public static final String TABLE = "material_leitung";
 
-    private static final String PROP__BEZEICHNUNG = "bezeichnung";
+    public static final String PROP__BEZEICHNUNG = "bezeichnung";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZEICHNUNG };
 

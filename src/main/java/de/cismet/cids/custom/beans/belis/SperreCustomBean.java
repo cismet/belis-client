@@ -28,11 +28,11 @@ public class SperreCustomBean extends BaseEntity {
 
     public static final String TABLE = "sperre";
 
-    private static final String PROP__LOCK_TIMESTAMP = "lock_timestamp";
-    private static final String PROP__USER_STRING = "user_string";
-    private static final String PROP__ADDITIONAL_INFO = "additional_info";
-    private static final String PROP__OBJECT_ID = "object_id";
-    private static final String PROP__CLASS_ID = "class_id";
+    public static final String PROP__LOCK_TIMESTAMP = "lock_timestamp";
+    public static final String PROP__USER_STRING = "user_string";
+    public static final String PROP__ADDITIONAL_INFO = "additional_info";
+    public static final String PROP__OBJECT_ID = "object_id";
+    public static final String PROP__CLASS_ID = "class_id";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,

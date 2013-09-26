@@ -32,13 +32,11 @@ public class LeitungCustomBean extends GeoBaseEntity implements DocumentContaine
 
     public static final String TABLE = "leitung";
 
-    public static final String PROP_LEITUNGSTYP = "Leitung.Leitungstyp";
-
-    private static final String PROP__FK_GEOM = "fk_geom";
-    private static final String PROP__FK_MATERIAL = "fk_material";
-    private static final String PROP__FK_QUERSCHNITT = "fk_querschnitt";
-    private static final String PROP__FK_LEITUNGSTYP = "fk_leitungstyp";
-    private static final String PROP__DOKUMENTE = "dokumente";
+    public static final String PROP__FK_GEOM = "fk_geom";
+    public static final String PROP__FK_MATERIAL = "fk_material";
+    public static final String PROP__FK_QUERSCHNITT = "fk_querschnitt";
+    public static final String PROP__FK_LEITUNGSTYP = "fk_leitungstyp";
+    public static final String PROP__DOKUMENTE = "dokumente";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,

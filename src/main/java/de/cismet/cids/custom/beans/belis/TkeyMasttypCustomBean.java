@@ -29,12 +29,12 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
 
     public static final String TABLE = "tkey_masttyp";
 
-    private static final String PROP__MASTTYP = "masttyp";
-    private static final String PROP__LPH = "lph";
-    private static final String PROP__HERSTELLER = "hersteller";
-    private static final String PROP__WANDSTAERKE = "wandstaerke";
-    private static final String PROP__DOKUMENTE = "wandstaerke";
-    private static final String PROP__FOTO = "foto";
+    public static final String PROP__MASTTYP = "masttyp";
+    public static final String PROP__LPH = "lph";
+    public static final String PROP__HERSTELLER = "hersteller";
+    public static final String PROP__WANDSTAERKE = "wandstaerke";
+    public static final String PROP__DOKUMENTE = "wandstaerke";
+    public static final String PROP__FOTO = "foto";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,

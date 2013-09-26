@@ -29,8 +29,8 @@ public class TkeyUnterhMastCustomBean extends BaseEntity {
 
     public static final String TABLE = "tkey_unterh_mast";
 
-    private static final String PROP__UNTERHALT_MAST = "unterhalt_mast";
-    private static final String PROP__PK = "pk";
+    public static final String PROP__UNTERHALT_MAST = "unterhalt_mast";
+    public static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__UNTERHALT_MAST, PROP__PK };
 

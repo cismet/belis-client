@@ -34,19 +34,19 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements DocumentCon
 
     public static final String TABLE = "schaltstelle";
 
-    private static final String PROP__ERSTELLUNGSJAHR = "erstellungsjahr";
-    private static final String PROP__LAUFENDE_NUMMER = "laufende_nummer";
-    private static final String PROP__FK_GEOM = "fk_geom";
-    private static final String PROP__FK_BAUART = "fk_bauart";
-    private static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
-    private static final String PROP__BEMERKUNG = "bemerkung";
-    private static final String PROP__SCHALTSTELLEN_NUMMER = "schaltstellen_nummer";
-    private static final String PROP__ZUSAETZLICHE_STANDORTBEZEICHNUNG = "zusaetzliche_standortbezeichnung";
-    private static final String PROP__HAUS_NUMMER = "haus_nummer";
-    private static final String PROP__DOKUMENTE = "dokumente";
-    private static final String PROP__PRUEFDATUM = "pruefdatum";
-    private static final String PROP__FOTO = "foto";
-    private static final String PROP__MONTEUR = "monteur";
+    public static final String PROP__ERSTELLUNGSJAHR = "erstellungsjahr";
+    public static final String PROP__LAUFENDE_NUMMER = "laufende_nummer";
+    public static final String PROP__FK_GEOM = "fk_geom";
+    public static final String PROP__FK_BAUART = "fk_bauart";
+    public static final String PROP__FK_STRASSENSCHLUESSEL = "fk_strassenschluessel";
+    public static final String PROP__BEMERKUNG = "bemerkung";
+    public static final String PROP__SCHALTSTELLEN_NUMMER = "schaltstellen_nummer";
+    public static final String PROP__ZUSAETZLICHE_STANDORTBEZEICHNUNG = "zusaetzliche_standortbezeichnung";
+    public static final String PROP__HAUS_NUMMER = "haus_nummer";
+    public static final String PROP__DOKUMENTE = "dokumente";
+    public static final String PROP__PRUEFDATUM = "pruefdatum";
+    public static final String PROP__FOTO = "foto";
+    public static final String PROP__MONTEUR = "monteur";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,

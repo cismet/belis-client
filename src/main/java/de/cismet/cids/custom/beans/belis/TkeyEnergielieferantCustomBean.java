@@ -27,8 +27,8 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity {
 
     public static final String TABLE = "tkey_energielieferant";
 
-    private static final String PROP__ENERGIELIEFERANT = "energielieferant";
-    private static final String PROP__PK = "pk";
+    public static final String PROP__ENERGIELIEFERANT = "energielieferant";
+    public static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__ENERGIELIEFERANT, PROP__PK };
 

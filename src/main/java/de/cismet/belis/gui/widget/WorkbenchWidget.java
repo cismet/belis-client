@@ -2096,16 +2096,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         final CustomMutableTreeTableNode newLeuchteNode = new CustomMutableTreeTableNode(newLeuchte, false);
         // nodeToAddLeuchte.add(newLeuchteNode);
         // newLeuchteNode.setParent(nodeToAddLeuchte);
-        Collection<TdtaLeuchtenCustomBean> tmpLeuchten = parent.getLeuchten();
-        boolean reconsiderFeature = false;
-        if (tmpLeuchten == null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("standort hatte vorher noch keine leuchten");
-            }
-            reconsiderFeature = true;
-            tmpLeuchten = new TreeSet(new LeuchteComparator());
-            parent.setLeuchten(tmpLeuchten);
-        }
+        final Collection<TdtaLeuchtenCustomBean> tmpLeuchten = parent.getLeuchten();
         tmpLeuchten.add(newLeuchte);
         if (parent.getGeometry() != null) {
             if (LOG.isDebugEnabled()) {

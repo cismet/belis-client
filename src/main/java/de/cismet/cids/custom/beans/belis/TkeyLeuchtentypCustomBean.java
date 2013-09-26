@@ -31,19 +31,19 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
 
     public static final String TABLE = "tkey_leuchtentyp";
 
-    private static final String PROP__LEUCHTENTYP = "leuchtentyp";
-    private static final String PROP__BESTUECKUNG = "bestueckung";
-    private static final String PROP__LEISTUNG = "leistung";
-    private static final String PROP__LEISTUNG_BRUTTO = "leistung_brutto";
-    private static final String PROP__FABRIKAT = "fabrikat";
-    private static final String PROP__LAMPE = "lampe";
-    private static final String PROP__LEISTUNG2STUFE = "leistung2stufe";
-    private static final String PROP__VORSCHALTGERAET = "vorschaltgeraet";
-    private static final String PROP__EINBAU_VORSCHALTGERAET = "einbau_vorschaltgeraet";
-    private static final String PROP__LEISTUNG_REDUZIERT = "leistung_reduziert";
-    private static final String PROP__LEISTUNG_BRUTTO_REDUZIERT = "leistung_brutto_reduziert";
-    private static final String PROP__FOTO = "foto";
-    private static final String PROP__DOKUMENTE = "dokumente";
+    public static final String PROP__LEUCHTENTYP = "leuchtentyp";
+    public static final String PROP__BESTUECKUNG = "bestueckung";
+    public static final String PROP__LEISTUNG = "leistung";
+    public static final String PROP__LEISTUNG_BRUTTO = "leistung_brutto";
+    public static final String PROP__FABRIKAT = "fabrikat";
+    public static final String PROP__LAMPE = "lampe";
+    public static final String PROP__LEISTUNG2STUFE = "leistung2stufe";
+    public static final String PROP__VORSCHALTGERAET = "vorschaltgeraet";
+    public static final String PROP__EINBAU_VORSCHALTGERAET = "einbau_vorschaltgeraet";
+    public static final String PROP__LEISTUNG_REDUZIERT = "leistung_reduziert";
+    public static final String PROP__LEISTUNG_BRUTTO_REDUZIERT = "leistung_brutto_reduziert";
+    public static final String PROP__FOTO = "foto";
+    public static final String PROP__DOKUMENTE = "dokumente";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,

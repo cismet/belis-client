@@ -28,8 +28,8 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity {
 
     public static final String TABLE = "tkey_unterh_leuchte";
 
-    private static final String PROP__UNTERHALTSPFLICHTIGER_LEUCHTE = "unterhaltspflichtiger_leuchte";
-    private static final String PROP__PK = "pk";
+    public static final String PROP__UNTERHALTSPFLICHTIGER_LEUCHTE = "unterhaltspflichtiger_leuchte";
+    public static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,

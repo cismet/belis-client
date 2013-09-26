@@ -29,10 +29,10 @@ public class DmsUrlCustomBean extends BaseEntity {
 
     public static final String TABLE = "dms_url";
 
-    private static final String PROP__TYP = "typ";
-    private static final String PROP__URL_ID = "url_id";
-    private static final String PROP__DESCRIPTION = "description";
-    private static final String PROP__NAME = "name";
+    public static final String PROP__TYP = "typ";
+    public static final String PROP__URL_ID = "url_id";
+    public static final String PROP__DESCRIPTION = "description";
+    public static final String PROP__NAME = "name";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,

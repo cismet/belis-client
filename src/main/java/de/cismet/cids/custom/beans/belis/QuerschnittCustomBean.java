@@ -26,7 +26,7 @@ public class QuerschnittCustomBean extends BaseEntity {
 
     public static final String TABLE = "querschnitt";
 
-    private static final String PROP__GROESSE = "groesse";
+    public static final String PROP__GROESSE = "groesse";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__GROESSE };
 

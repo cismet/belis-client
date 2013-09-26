@@ -27,8 +27,8 @@ public class AnlagengruppeCustomBean extends BaseEntity {
 
     public static final String TABLE = "anlagengruppe";
 
-    private static final String PROP__NUMMER = "nummer";
-    private static final String PROP__BEZEICHNUNG = "bezeichnung";
+    public static final String PROP__NUMMER = "nummer";
+    public static final String PROP__BEZEICHNUNG = "bezeichnung";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,

@@ -30,8 +30,8 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity
 
     public static final String TABLE = "tkey_strassenschluessel";
 
-    private static final String PROP__STRASSE = "strasse";
-    private static final String PROP__PK = "pk";
+    public static final String PROP__STRASSE = "strasse";
+    public static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__STRASSE, PROP__PK };
 

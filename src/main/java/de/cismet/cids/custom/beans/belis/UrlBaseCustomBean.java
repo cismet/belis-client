@@ -22,9 +22,9 @@ public class UrlBaseCustomBean extends BaseEntity {
 
     public static final String TABLE = "url_base";
 
-    private static final String PROP__PROT_PREFIX = "prot_prefix";
-    private static final String PROP__PATH = "path";
-    private static final String PROP__SERVER = "server";
+    public static final String PROP__PROT_PREFIX = "prot_prefix";
+    public static final String PROP__PATH = "path";
+    public static final String PROP__SERVER = "server";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,

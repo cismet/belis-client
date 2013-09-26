@@ -33,8 +33,8 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements DocumentCont
 
     public static final String TABLE = "abzweigdose";
 
-    private static final String PROP__DOKUMENTE = "dokumente";
-    private static final String PROP__FK_GEOM = "fk_geom";
+    public static final String PROP__DOKUMENTE = "dokumente";
+    public static final String PROP__FK_GEOM = "fk_geom";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__DOKUMENTE, PROP__FK_GEOM };
 

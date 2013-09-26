@@ -2720,7 +2720,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             LOG.debug("PropertyChangeEvent");
         }
         if ((evt != null) && (evt.getPropertyName() != null)) {
-            if (evt.getPropertyName().equals(LeitungCustomBean.PROP_LEITUNGSTYP) && (evt.getSource() != null)
+            if (evt.getPropertyName().equals(LeitungCustomBean.PROP__FK_LEITUNGSTYP) && (evt.getSource() != null)
                         && (evt.getSource() instanceof LeitungCustomBean)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("LeitungsTyp Changed");
@@ -2750,7 +2750,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         LOG.warn("Leuchte is neither Hängeleuchte nor attached to a mast. Can't update label in map");
                     }
                 }
-            } else if (evt.getPropertyName().equals(MauerlascheCustomBean.PROP_STRASSENSCHLUESSEL)
+            } else if (evt.getPropertyName().equals(MauerlascheCustomBean.PROP__FK_STRASSENSCHLUESSEL)
                         && (evt.getSource() != null)
                         && (evt.getSource() instanceof MauerlascheCustomBean)) {
                 if (LOG.isDebugEnabled()) {

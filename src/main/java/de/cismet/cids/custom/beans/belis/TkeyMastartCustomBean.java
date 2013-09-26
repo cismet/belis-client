@@ -26,8 +26,8 @@ public class TkeyMastartCustomBean extends BaseEntity {
 
     public static final String TABLE = "tkey_mastart";
 
-    private static final String PROP__MASTART = "mastart";
-    private static final String PROP__PK = "pk";
+    public static final String PROP__MASTART = "mastart";
+    public static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__MASTART, PROP__PK };
 

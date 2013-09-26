@@ -27,8 +27,8 @@ public class TkeyKennzifferCustomBean extends BaseEntity {
 
     public static final String TABLE = "tkey_kennziffer";
 
-    private static final String PROP__BESCHREIBUNG = "Beschreibung";
-    private static final String PROP__KENNZIFFER = "Kennziffer";
+    public static final String PROP__BESCHREIBUNG = "Beschreibung";
+    public static final String PROP__KENNZIFFER = "Kennziffer";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BESCHREIBUNG, PROP__KENNZIFFER };
 

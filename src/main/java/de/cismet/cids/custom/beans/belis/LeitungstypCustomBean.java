@@ -26,7 +26,7 @@ public class LeitungstypCustomBean extends BaseEntity {
 
     public static final String TABLE = "leitungstyp";
 
-    private static final String PROP__BEZEICHNUNG = "bezeichnung";
+    public static final String PROP__BEZEICHNUNG = "bezeichnung";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZEICHNUNG };
 

@@ -26,8 +26,8 @@ public class TkeyBezirkCustomBean extends BaseEntity {
 
     public static final String TABLE = "tkey_bezirk";
 
-    private static final String PROP__BEZIRK = "bezirk";
-    private static final String PROP__PK = "pk";
+    public static final String PROP__BEZIRK = "bezirk";
+    public static final String PROP__PK = "pk";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZIRK, PROP__PK };
 
