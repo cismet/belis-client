@@ -2502,6 +2502,15 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         firePropertyChange(PROP_SEARCH_RESULTS, null, searchResult);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  path  DOCUMENT ME!
+     */
+    public void expandPath(final TreePath path) {
+        jttHitTable.expandPath(path);
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**

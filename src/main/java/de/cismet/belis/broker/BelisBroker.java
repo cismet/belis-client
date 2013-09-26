@@ -107,6 +107,7 @@ import de.cismet.belis.panels.CancelWaitDialog;
 import de.cismet.belis.panels.CopyPasteToolbar;
 import de.cismet.belis.panels.CreateToolBar;
 import de.cismet.belis.panels.EditButtonsToolbar;
+import de.cismet.belis.panels.FilterToolBar;
 import de.cismet.belis.panels.SaveErrorDialogPanel;
 import de.cismet.belis.panels.SaveWaitDialog;
 
@@ -199,6 +200,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public static final Color red = new Color(219, 96, 96);
     public static final Color blue = new Color(124, 160, 221);
     public static final String PROP_IN_EDIT_MODE = "inEditMode";
+    public static final String PROP_FILTER_NORMAL = "filterNormal";
+    public static final String PROP_FILTER_VERANLASSUNG = "filterVeranlassung";
+    public static final String PROP_FILTER_ARBEITSAUFTRAG = "filterArbeitsauftrag";
+
     // ToDo check
     public static final Color gray = Color.LIGHT_GRAY;
     // JXTable
@@ -273,6 +278,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     protected ExecutorService execService = null;
     protected String currentValidationErrorMessage = null;
     final CreateToolBar panCreate = new CreateToolBar(this);
+    final FilterToolBar panFilter = new FilterToolBar(this);
     WorkbenchWidget workbenchWidget = null;
     final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
     private final EntityClipboard entityClipboard = new EntityClipboard(this);
@@ -316,6 +322,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     private EditButtonsToolbar editButtonsToolbar;
     private MetaSearchHelper metaSearchComponentFactory;
     private ComponentRegistry componentRegistry;
+
+    private boolean filterNormal = true;
+    private boolean filterVeranlassung = false;
+    private boolean filterArbeitsauftrag = false;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -746,8 +756,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @param  inEditMode  DOCUMENT ME!
      */
     public void setInEditMode(final boolean inEditMode) {
+        final boolean old = this.inEditMode;
         this.inEditMode = inEditMode;
-        propertyChangeSupport.firePropertyChange(PROP_IN_EDIT_MODE, null, inEditMode);
+        propertyChangeSupport.firePropertyChange(PROP_IN_EDIT_MODE, old, inEditMode);
     }
     // ToDo to specific I think
 
@@ -1889,7 +1900,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             };
 
         final Highlighter noGeometryHighlighter = new ColorHighlighter(noGeometryPredicate, BelisBroker.gray, null);
-        // ((JXTable) tReBe).setHighlighters(LagisBroker.ALTERNATE_ROW_HIGHLIGHTER,noGeometryHighlighter);
         ttable.addHighlighter(noGeometryHighlighter);
         return ttable;
     }
@@ -1920,6 +1930,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public void customizeApplicationToolbar() {
         addCreateToolBar();
+        addFilterToolbar();
         addCopyPasteToolBar();
         addAddressSearch();
         addLocationSearch();
@@ -1985,6 +1996,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (LOG.isDebugEnabled()) {
             LOG.debug("setSearchResults");
         }
+        final Set<BaseEntity> old = this.currentSearchResults;
         if ((this.currentSearchResults != null) && (currentSearchResults != null)
                     && this.currentSearchResults.equals(currentSearchResults)) {
             LOG.warn("Sets are equals no propertyChange doing manually refresh --> ToDo fix me");
@@ -1994,21 +2006,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             this.currentSearchResults = currentSearchResults;
         }
         // ToDo why is it not working if I use null there is no equals check ???
-        propertyChangeSupport.firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, null, currentSearchResults);
+        propertyChangeSupport.firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, old, currentSearchResults);
     }
-    // ToDo refactor
-    // ToDo Backgroundthtread;
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  set  strassenschluessel DOCUMENT ME!
-     */
-// public void search(final String strassenschluessel, final Integer kennziffer, final Integer laufendenummer)
-// throws ActionNotSuccessfulException {
-// final Set result = CidsBroker.getInstance().getObjectsByKey(strassenschluessel, kennziffer, laufendenummer);
-// setSearchResult(result);
-// }
 
     /**
      * DOCUMENT ME!
@@ -2541,6 +2540,15 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         getToolbar().add(panCreate);
         getToolbar().add(createToolBarSeperator());
     }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void addFilterToolbar() {
+        getToolbar().add(panFilter);
+        getToolbar().add(createToolBarSeperator());
+    }
+
     // ToDo mayby better to operate on the
 
     /**
@@ -2939,6 +2947,66 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public EntityClipboard getEntityClipboard() {
         return entityClipboard;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isFilterNormal() {
+        return filterNormal;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  filterNormal  DOCUMENT ME!
+     */
+    public void setFilterNormal(final boolean filterNormal) {
+        final boolean old = this.filterNormal;
+        this.filterNormal = filterNormal;
+        propertyChangeSupport.firePropertyChange(PROP_FILTER_NORMAL, old, filterNormal);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isFilterVeranlassung() {
+        return filterVeranlassung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  filterVeranlassung  DOCUMENT ME!
+     */
+    public void setFilterVeranlassung(final boolean filterVeranlassung) {
+        final boolean old = this.filterVeranlassung;
+        this.filterVeranlassung = filterVeranlassung;
+        propertyChangeSupport.firePropertyChange(PROP_FILTER_VERANLASSUNG, old, filterVeranlassung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isFilterArbeitsauftrag() {
+        return filterArbeitsauftrag;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  filterArbeitsauftrag  DOCUMENT ME!
+     */
+    public void setFilterArbeitsauftrag(final boolean filterArbeitsauftrag) {
+        final boolean old = this.filterArbeitsauftrag;
+        this.filterArbeitsauftrag = filterArbeitsauftrag;
+        propertyChangeSupport.firePropertyChange(PROP_FILTER_ARBEITSAUFTRAG, old, filterArbeitsauftrag);
     }
 
     //~ Inner Classes ----------------------------------------------------------
