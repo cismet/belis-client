@@ -114,9 +114,9 @@ public class KeyTableWidget extends BelisWidget {
                             } else {
                                 LOG.warn("insufficient permission to edit node " + selectedNode); // NOI18N
                             }
-                        } else {
-                            final CardLayout cl = (CardLayout)(pnlValues.getLayout());
-                            cl.show(pnlValues, "PURE_TREE_NODE");
+//                        } else {
+//                            final CardLayout cl = (CardLayout)(pnlValues.getLayout());
+//                            cl.show(pnlValues, "PURE_TREE_NODE");
                         }
                     }
                 }
