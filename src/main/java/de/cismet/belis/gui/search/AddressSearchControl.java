@@ -15,10 +15,7 @@ import org.apache.commons.collections.comparators.ReverseComparator;
 
 import org.jdom.Element;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -214,12 +211,12 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
 
     @Override
     public void searchFinished() {
-        setSearchEnabled(true);
+//        setSearchEnabled(true);
     }
 
     @Override
     public void searchStarted() {
-        setSearchEnabled(false);
+//        setSearchEnabled(false);
     }
 
     // ToDo Inferface Enablelable or something
@@ -270,8 +267,6 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
             log.debug("AddressSearch started --> searching db for geometries boundingbox: " + addressBB);
         }
         broker.fireSearchStarted();
-        broker.setCurrentSearchResults(new TreeSet(
-                new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))));
         broker.setLastSearch(new RetrieveWorker(broker, addressBB));
         broker.execute(new RetrieveWorker(broker, addressBB));
     }

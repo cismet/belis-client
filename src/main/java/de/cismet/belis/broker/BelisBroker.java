@@ -111,6 +111,7 @@ import de.cismet.belis.panels.FilterToolBar;
 import de.cismet.belis.panels.SaveErrorDialogPanel;
 import de.cismet.belis.panels.SaveWaitDialog;
 
+import de.cismet.belis.server.search.BelisLocationSearchStatement;
 import de.cismet.belis.server.search.BelisSearchStatement;
 
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
@@ -2119,6 +2120,28 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      *
+     * @param  strassenschluessel  DOCUMENT ME!
+     * @param  kennziffer          DOCUMENT ME!
+     * @param  laufendeNummer      DOCUMENT ME!
+     */
+    public void search(final String strassenschluessel, final Integer kennziffer, final Integer laufendeNummer) {
+        try {
+            disableSearch();
+            final BelisLocationSearchStatement searchStatement = new BelisLocationSearchStatement(
+                    strassenschluessel,
+                    kennziffer,
+                    laufendeNummer);
+            CidsSearchExecutor.searchAndDisplayResultsWithDialog(searchStatement);
+        } catch (Exception ex) {
+            LOG.error("Exception while searching by location: ", ex);
+            enableSearch();
+            fireSearchFinished();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   searchResults  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
@@ -2709,9 +2732,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (LOG.isDebugEnabled()) {
             LOG.debug("setSearchEnabled " + isSearchEnabled);
         }
-        for (final SearchControl curSearchControl : searchControls) {
-            curSearchControl.setSearchEnabled(isSearchEnabled);
-        }
+//        for (final SearchControl curSearchControl : searchControls) {
+//            curSearchControl.setSearchEnabled(isSearchEnabled);
+//        }
     } // public Set getNewObjects() {
 
     @Override

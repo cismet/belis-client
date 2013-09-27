@@ -12,11 +12,22 @@
  */
 package de.cismet.belis.gui.search;
 
+import org.apache.commons.collections.comparators.ReverseComparator;
+
+import java.text.ParseException;
+
+import java.util.TreeSet;
+
 import de.cismet.belis.broker.BelisBroker;
+
+import de.cismet.belisEE.util.EntityComparator;
+import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cismap.commons.wfsforms.WFSFormFeature;
 
 import de.cismet.commons.architecture.util.ArchitectureUtils;
+
+import de.cismet.commons.server.entity.BaseEntity;
 
 //ToDo visualisation of working Progressbar --> cooler if there were something central for such events
 /**
@@ -27,9 +38,12 @@ import de.cismet.commons.architecture.util.ArchitectureUtils;
  */
 public class LocationSearchControl extends javax.swing.JPanel implements SearchControl {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LocationSearchControl.class);
+
     //~ Instance fields --------------------------------------------------------
 
-    private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(LocationSearchControl.class);
     private BelisBroker broker;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -125,13 +139,6 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         txfStrassenschluessel.setMaximumSize(new java.awt.Dimension(2147483647, 18));
         txfStrassenschluessel.setMinimumSize(new java.awt.Dimension(50, 18));
         txfStrassenschluessel.setPreferredSize(new java.awt.Dimension(65, 18));
-        txfStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    txfStrassenschluesselActionPerformed(evt);
-                }
-            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -143,13 +150,6 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         txfKennziffer.setMaximumSize(new java.awt.Dimension(2147483647, 18));
         txfKennziffer.setMinimumSize(new java.awt.Dimension(25, 18));
         txfKennziffer.setPreferredSize(new java.awt.Dimension(30, 18));
-        txfKennziffer.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    txfKennzifferActionPerformed(evt);
-                }
-            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -164,33 +164,25 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
      * @param  evt  DOCUMENT ME!
      */
     private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
-//        broker.fireSearchStarted();
-//        broker.setCurrentSearchResults(new TreeSet(
-//                new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))));
-//        broker.execute(new RetrieveWorker(
-//                broker,
-//                txfStrassenschluessel.getText(),
-//                txfKennziffer.getText(),
-//                txfLaufendenummer.getText()));
+        broker.fireSearchStarted();
+
+        final String strassenschluessel = (txfStrassenschluessel.getText().isEmpty()) ? null
+                                                                                      : txfStrassenschluessel.getText();
+        Integer kennziffer = null;
+        try {
+            kennziffer = (txfKennziffer.getText().isEmpty()) ? null : Integer.parseInt(txfKennziffer.getText());
+        } catch (final Exception ex) {
+            LOG.info("error while parsing kennziffer", ex);
+        }
+        Integer laufendeNummer = null;
+        try {
+            laufendeNummer = (txfLaufendenummer.getText().isEmpty()) ? null
+                                                                     : Integer.parseInt(txfLaufendenummer.getText());
+        } catch (final Exception ex) {
+            LOG.info("error while parsing laufende Nummer", ex);
+        }
+        broker.search(strassenschluessel, kennziffer, laufendeNummer);
     } //GEN-LAST:event_cmdOkActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void txfKennzifferActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txfKennzifferActionPerformed
-// TODO add your handling code here:
-    } //GEN-LAST:event_txfKennzifferActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void txfStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txfStrassenschluesselActionPerformed
-// TODO add your handling code here:
-    } //GEN-LAST:event_txfStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -203,12 +195,12 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
 
     @Override
     public void searchFinished() {
-        setSearchEnabled(true);
+//        setSearchEnabled(true);
     }
 
     @Override
     public void searchStarted() {
-        setSearchEnabled(false);
+//        setSearchEnabled(false);
     }
 
     @Override

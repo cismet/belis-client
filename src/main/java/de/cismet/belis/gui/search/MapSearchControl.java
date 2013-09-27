@@ -111,19 +111,17 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
             log.debug("Search with boundingBox");
         }
         broker.fireSearchStarted();
-        broker.setCurrentSearchResults(new TreeSet(
-                new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))));
         broker.search(broker.getMappingComponent().getCurrentBoundingBox());
     }                                                                         //GEN-LAST:event_cmdOkActionPerformed
 
     @Override
     public void searchFinished() {
-        setSearchEnabled(true);
+//        setSearchEnabled(true);
     }
 
     @Override
     public void searchStarted() {
-        setSearchEnabled(false);
+//        setSearchEnabled(false);
     }
 
     @Override
