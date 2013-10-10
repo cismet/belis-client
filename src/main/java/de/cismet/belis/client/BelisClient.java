@@ -1195,7 +1195,18 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             if (u != null) {
                 login.setUserName(u);
             }
+
             final JXLoginPane.JXLoginDialog d = new JXLoginPane.JXLoginDialog((JFrame)null, login);
+            try {
+                final String loginTitle = System.getProperty("login.title");
+                if (loginTitle != null) {
+                    d.setTitle(loginTitle);
+                }
+            } catch (final Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("no login title set", ex);
+                }
+            }
 
             d.setIconImage(applicationIcon);
             login.setPassword("".toCharArray());
