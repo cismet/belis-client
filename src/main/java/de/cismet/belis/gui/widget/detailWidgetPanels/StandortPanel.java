@@ -97,7 +97,6 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     private javax.swing.JLabel lblStandortMontagefirma;
     private javax.swing.JLabel lblStandortMonteur;
     private javax.swing.JLabel lblStandortNaechstesPruefdatum;
-    private javax.swing.JLabel lblStandortPLZ;
     private javax.swing.JLabel lblStandortRevision;
     private javax.swing.JLabel lblStandortStadtbezirk;
     private javax.swing.JLabel lblStandortStandortangabe;
@@ -116,7 +115,6 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     private javax.swing.JTextField txfStandortMonteur;
     private javax.swing.JTextField txfStandortStandortAngabe;
     private javax.swing.JTextField txfStandortVerfahren;
-    private javax.swing.JTextField txtStandortPLZ;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -167,8 +165,6 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         lblStandort = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         lblStandortStadtbezirk = new javax.swing.JLabel();
-        lblStandortPLZ = new javax.swing.JLabel();
-        txtStandortPLZ = new javax.swing.JTextField();
         cbxStandortStadtbezirk = new javax.swing.JComboBox();
         lblStandortHausnummer = new javax.swing.JLabel();
         txfStandortHausnummer = new javax.swing.JTextField();
@@ -243,34 +239,6 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(lblStandortStadtbezirk, gridBagConstraints);
 
-        lblStandortPLZ.setText("Postleitzahl:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortPLZ, gridBagConstraints);
-
-        txtStandortPLZ.setEnabled(false);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.plz}"),
-                txtStandortPLZ,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new PLZValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtStandortPLZ, gridBagConstraints);
-
         cbxStandortStadtbezirk.setEnabled(false);
         cbxStandortStadtbezirk.setRenderer(new DefaultListCellRenderer() {
 
@@ -293,7 +261,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 }
             });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.stadtbezirk}"),
@@ -1238,7 +1206,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                214,
+                251,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1273,7 +1241,6 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         componentToLabelMap.put(txfStandortHausnummer, lblStandortHausnummer);
         componentToLabelMap.put(txfStandortLaufendenummer, lblStandortLaufendenummer);
         componentToLabelMap.put(txfStandortMontagefirma, lblStandortMontagefirma);
-        componentToLabelMap.put(txtStandortPLZ, lblStandortPLZ);
         componentToLabelMap.put(txfStandortStandortAngabe, lblStandortStandortangabe);
         componentToLabelMap.put(dapStandortElekPruefung, lblStandortElekPruefung);
         componentToLabelMap.put(dapStandortNaechstesPruefdatum, lblStandortNaechstesPruefdatum);
@@ -1401,7 +1368,6 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         cbxStandortKennziffer.setEnabled(isEditable);
         cbxStandortStadtbezirk.setEnabled(isEditable);
         txfStandortStandortAngabe.setEnabled(isEditable);
-        txtStandortPLZ.setEnabled(isEditable);
         txfStandortHausnummer.setEnabled(isEditable);
         cbxStandortMastart.setEnabled(isEditable);
         cbxStandortMasttyp.setEnabled(isEditable);

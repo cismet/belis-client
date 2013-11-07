@@ -23,6 +23,7 @@ import java.util.Collection;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.tree.TreePath;
@@ -73,7 +74,14 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     private javax.swing.JComboBox cbxLeuchteStrassenschluesselNr;
     private javax.swing.JComboBox cbxLeuchteUnterhalt;
     private org.jdesktop.swingx.JXDatePicker dapLeuchteInbetriebnahme;
+    private org.jdesktop.swingx.JXDatePicker dapLeuchtmittelwechsel;
+    private org.jdesktop.swingx.JXDatePicker dapNaechsterWechsel;
+    private org.jdesktop.swingx.JXDatePicker dapSonderturnus;
+    private org.jdesktop.swingx.JXDatePicker dapWechselVorschaltgeraet;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblAnschlussleistung1DK;
+    private javax.swing.JLabel lblAnschlussleistung2DK;
+    private javax.swing.JLabel lblLebensdauer;
     private javax.swing.JLabel lblLeuchte;
     private javax.swing.JLabel lblLeuchteBemerkung;
     private javax.swing.JLabel lblLeuchteDoppelkommando1;
@@ -93,6 +101,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     private javax.swing.JLabel lblLeuchteUnterhalt;
     private javax.swing.JLabel lblLeuchteVerrechnungseinheit;
     private javax.swing.JLabel lblLeuchteZaehler;
+    private javax.swing.JLabel lblLeuchtmittel;
+    private javax.swing.JLabel lblLeuchtmittelwechsel;
+    private javax.swing.JLabel lblNaechsterWechsel;
+    private javax.swing.JLabel lblSonderturnus;
+    private javax.swing.JLabel lblVorschaltgeraet;
+    private javax.swing.JLabel lblWechselVorschaltgeraet;
     private javax.swing.JPanel panContent;
     private javax.swing.JScrollPane scpLeuchteBemerkung;
     private javax.swing.JSpinner sprLeuchteDoppelkommando1Anzahl;
@@ -101,9 +115,14 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     private javax.swing.JTextField txfLeuchteLaufendenummer;
     private javax.swing.JTextField txfLeuchteMontagefirma;
     private javax.swing.JTextField txfLeuchteStandortAngabe;
+    private javax.swing.JTextField txfVorschaltgeraet;
+    private javax.swing.JFormattedTextField txtAnschlussleistung1DK;
+    private javax.swing.JFormattedTextField txtAnschlussleistung2DK;
+    private javax.swing.JTextField txtLebensdauer;
     private javax.swing.JTextField txtLeuchteLeuchtennummer;
     private javax.swing.JTextField txtLeuchteRundsteuer;
     private javax.swing.JTextField txtLeuchteSchaltstelle;
+    private javax.swing.JTextField txtLeuchtmittel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -194,6 +213,24 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         txfLeuchteStandortAngabe = new javax.swing.JTextField();
         lblLeuchteVerrechnungseinheit = new javax.swing.JLabel();
         cboLeuchteVerrechnungseinheit = new javax.swing.JCheckBox();
+        lblAnschlussleistung1DK = new javax.swing.JLabel();
+        lblAnschlussleistung2DK = new javax.swing.JLabel();
+        lblLebensdauer = new javax.swing.JLabel();
+        txtLebensdauer = new javax.swing.JTextField();
+        lblLeuchtmittelwechsel = new javax.swing.JLabel();
+        dapLeuchtmittelwechsel = new org.jdesktop.swingx.JXDatePicker();
+        lblSonderturnus = new javax.swing.JLabel();
+        dapSonderturnus = new org.jdesktop.swingx.JXDatePicker();
+        lblWechselVorschaltgeraet = new javax.swing.JLabel();
+        dapWechselVorschaltgeraet = new org.jdesktop.swingx.JXDatePicker();
+        lblVorschaltgeraet = new javax.swing.JLabel();
+        txfVorschaltgeraet = new javax.swing.JTextField();
+        lblNaechsterWechsel = new javax.swing.JLabel();
+        dapNaechsterWechsel = new org.jdesktop.swingx.JXDatePicker();
+        lblLeuchtmittel = new javax.swing.JLabel();
+        txtLeuchtmittel = new javax.swing.JTextField();
+        txtAnschlussleistung1DK = new javax.swing.JFormattedTextField();
+        txtAnschlussleistung2DK = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
 
         lblLeuchte.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
@@ -726,7 +763,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         lblLeuchteMontagefirma.setText("Montagefirma:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 22;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -745,7 +782,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 22;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -755,7 +792,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         lblLeuchteBemerkung.setText("Bemerkung:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 23;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -778,7 +815,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 23;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -873,7 +910,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         lblLeuchteStadtbezirk.setText("Stadtbezik:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 25;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -911,7 +948,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 25;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -921,7 +958,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         lblLeuchteStandortangabe.setText("Standortangabe:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -939,7 +976,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridy = 24;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -950,7 +987,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         lblLeuchteVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -969,12 +1006,257 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridy = 26;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(cboLeuchteVerrechnungseinheit, gridBagConstraints);
+
+        lblAnschlussleistung1DK.setText("Anschlussleistung 1DK:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblAnschlussleistung1DK, gridBagConstraints);
+
+        lblAnschlussleistung2DK.setText("Anschlussleistung 2DK:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblAnschlussleistung2DK, gridBagConstraints);
+
+        lblLebensdauer.setText("Lebensdauer:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblLebensdauer, gridBagConstraints);
+
+        txtLebensdauer.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.lebensdauer}"),
+                txtLebensdauer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txtLebensdauer, gridBagConstraints);
+
+        lblLeuchtmittelwechsel.setText("Leuchtmittelwechsel:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblLeuchtmittelwechsel, gridBagConstraints);
+
+        dapLeuchtmittelwechsel.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wechseldatum}"),
+                dapLeuchtmittelwechsel,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(dapLeuchtmittelwechsel, gridBagConstraints);
+
+        lblSonderturnus.setText("Sonderturnus:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 19;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblSonderturnus, gridBagConstraints);
+
+        dapSonderturnus.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wartungszyklus}"),
+                dapSonderturnus,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 19;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(dapSonderturnus, gridBagConstraints);
+
+        lblWechselVorschaltgeraet.setText("Erneuerung Vorschaltgerät:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblWechselVorschaltgeraet, gridBagConstraints);
+
+        dapWechselVorschaltgeraet.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wechselvorschaltgeraet}"),
+                dapWechselVorschaltgeraet,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(dapWechselVorschaltgeraet, gridBagConstraints);
+
+        lblVorschaltgeraet.setText("Vorschaltgeraet:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 21;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblVorschaltgeraet, gridBagConstraints);
+
+        txfVorschaltgeraet.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.vorschaltgeraet}"),
+                txfVorschaltgeraet,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 21;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txfVorschaltgeraet, gridBagConstraints);
+
+        lblNaechsterWechsel.setText("nächster Wechsel:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblNaechsterWechsel, gridBagConstraints);
+
+        dapNaechsterWechsel.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.naechster_wechsel}"),
+                dapNaechsterWechsel,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(dapNaechsterWechsel, gridBagConstraints);
+
+        lblLeuchtmittel.setText("Leuchtmittel:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblLeuchtmittel, gridBagConstraints);
+
+        txtLeuchtmittel.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.leuchtmittel}"),
+                txtLeuchtmittel,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txtLeuchtmittel, gridBagConstraints);
+
+        txtAnschlussleistung1DK.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtAnschlussleistung1DK.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anschlussleistung_1dk}"),
+                txtAnschlussleistung1DK,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txtAnschlussleistung1DK, gridBagConstraints);
+
+        txtAnschlussleistung2DK.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtAnschlussleistung2DK.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txtAnschlussleistung2DK, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -989,12 +1271,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                415,
+                492,
                 Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                157,
+                145,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1121,6 +1403,26 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
+        try {
+            dapNaechsterWechsel.commitEdit();
+        } catch (ParseException ex) {
+            LOG.warn("Error while commiting edits: " + ex);
+        }
+        try {
+            dapLeuchtmittelwechsel.commitEdit();
+        } catch (ParseException ex) {
+            LOG.warn("Error while commiting edits: " + ex);
+        }
+        try {
+            dapSonderturnus.commitEdit();
+        } catch (ParseException ex) {
+            LOG.warn("Error while commiting edits: " + ex);
+        }
+        try {
+            dapWechselVorschaltgeraet.commitEdit();
+        } catch (ParseException ex) {
+            LOG.warn("Error while commiting edits: " + ex);
+        }
     }
 
     @Override
@@ -1143,6 +1445,15 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         componentToLabelMap.put(txtLeuchteLeuchtennummer, lblLeuchteLeuchtennummer);
         componentToLabelMap.put(txtLeuchteRundsteuer, lblLeuchteRundsteuer);
         componentToLabelMap.put(txtLeuchteSchaltstelle, lblLeuchteSchaltstelle);
+        componentToLabelMap.put(txtAnschlussleistung1DK, lblAnschlussleistung1DK);
+        componentToLabelMap.put(txtAnschlussleistung2DK, lblAnschlussleistung2DK);
+        componentToLabelMap.put(txtLeuchtmittel, lblLeuchtmittel);
+        componentToLabelMap.put(txtLebensdauer, lblLebensdauer);
+        componentToLabelMap.put(dapLeuchtmittelwechsel, lblLeuchtmittelwechsel);
+        componentToLabelMap.put(dapNaechsterWechsel, lblNaechsterWechsel);
+        componentToLabelMap.put(dapSonderturnus, lblSonderturnus);
+        componentToLabelMap.put(dapWechselVorschaltgeraet, lblWechselVorschaltgeraet);
+        componentToLabelMap.put(txfVorschaltgeraet, lblVorschaltgeraet);
     }
 
     @Override
@@ -1173,6 +1484,15 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         cbxLeuchteStadtbezirk.setEnabled(isEditable);
         txfLeuchteStandortAngabe.setEnabled(isEditable);
         cboLeuchteVerrechnungseinheit.setEnabled(isEditable);
+        txtAnschlussleistung1DK.setEnabled(isEditable);
+        txtAnschlussleistung2DK.setEnabled(isEditable);
+        txtLeuchtmittel.setEnabled(isEditable);
+        txtLebensdauer.setEnabled(isEditable);
+        dapLeuchtmittelwechsel.setEnabled(isEditable);
+        dapNaechsterWechsel.setEnabled(isEditable);
+        dapSonderturnus.setEnabled(isEditable);
+        dapWechselVorschaltgeraet.setEnabled(isEditable);
+        txfVorschaltgeraet.setEnabled(isEditable);
     }
 
     /**
@@ -1243,10 +1563,19 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
             cbxLeuchteKennziffer.setEnabled(isEditable);
             cbxLeuchteStrassenschluessel.setEnabled(isEditable);
             cbxLeuchteStrassenschluesselNr.setEnabled(isEditable);
-            cbxLeuchteStadtbezirk.setEnabled(isEditable);
-            txfLeuchteStandortAngabe.setEnabled(isEditable);
-            cboLeuchteVerrechnungseinheit.setEnabled(isEditable);
         }
+        cbxLeuchteStadtbezirk.setEnabled(isEditable);
+        txfLeuchteStandortAngabe.setEnabled(isEditable);
+        cboLeuchteVerrechnungseinheit.setEnabled(isEditable);
+        txtAnschlussleistung1DK.setEnabled(isEditable);
+        txtAnschlussleistung2DK.setEnabled(isEditable);
+        txtLeuchtmittel.setEnabled(isEditable);
+        txtLebensdauer.setEnabled(isEditable);
+        dapLeuchtmittelwechsel.setEnabled(isEditable);
+        dapNaechsterWechsel.setEnabled(isEditable);
+        dapSonderturnus.setEnabled(isEditable);
+        dapWechselVorschaltgeraet.setEnabled(isEditable);
+        txfVorschaltgeraet.setEnabled(isEditable);
     }
 
     //~ Inner Classes ----------------------------------------------------------

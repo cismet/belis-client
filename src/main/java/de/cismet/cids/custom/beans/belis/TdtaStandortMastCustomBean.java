@@ -1082,6 +1082,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
             }
         } else if ((evt.getSource() != null) && (evt.getSource() instanceof TdtaStandortMastCustomBean)) {
             super.propertyChange(evt);
+            setLetzteAenderung(new Date());
         }
     }
 

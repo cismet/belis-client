@@ -40,13 +40,17 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     private static SchaltstellePanel instance = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cbxRundsteuerempfaenger;
     private javax.swing.JComboBox cbxSchaltstelleBauart;
     private javax.swing.JComboBox cbxSchaltstelleStrassenschluessel;
     private javax.swing.JComboBox cbxSchaltstelleStrassenschluesselNr;
+    private org.jdesktop.swingx.JXDatePicker dapPruefdatum;
     private org.jdesktop.swingx.JXDatePicker dapSchaltstelleErstellungsjahr;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel lblPruefdatum;
+    private javax.swing.JLabel lblRundsteuerempfaenger;
     private javax.swing.JLabel lblSchaltstelleBauart;
     private javax.swing.JLabel lblSchaltstelleBemerkung;
     private javax.swing.JLabel lblSchaltstelleErstellungsjahr;
@@ -131,6 +135,10 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         txaSchaltstelleBemerkung = new javax.swing.JTextArea();
         cbxSchaltstelleStrassenschluesselNr = new javax.swing.JComboBox();
         cbxSchaltstelleStrassenschluessel = new javax.swing.JComboBox();
+        dapPruefdatum = new org.jdesktop.swingx.JXDatePicker();
+        lblPruefdatum = new javax.swing.JLabel();
+        lblRundsteuerempfaenger = new javax.swing.JLabel();
+        cbxRundsteuerempfaenger = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
 
         jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                               // NOI18N
@@ -208,7 +216,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         lblSchaltstelleBemerkung.setText("Bemerkung:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -368,7 +376,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -459,6 +467,73 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(cbxSchaltstelleStrassenschluessel, gridBagConstraints);
 
+        dapPruefdatum.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.pruefdatum}"),
+                dapPruefdatum,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(dapPruefdatum, gridBagConstraints);
+
+        lblPruefdatum.setText("Prüfung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblPruefdatum, gridBagConstraints);
+
+        lblRundsteuerempfaenger.setText("Rundsteuerempfänger:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblRundsteuerempfaenger, gridBagConstraints);
+
+        cbxRundsteuerempfaenger.setEnabled(false);
+        cbxRundsteuerempfaenger.setRenderer(new DefaultListCellRenderer() {
+
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.BauartCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.BauartCustomBean ba =
+                            (de.cismet.cids.custom.beans.belis.BauartCustomBean)value;
+                        setText(ba.getBezeichnung());
+                    }
+                    return this;
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(cbxRundsteuerempfaenger, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -477,7 +552,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                143,
+                137,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -557,6 +632,11 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
+        try {
+            dapPruefdatum.getEditor().commitEdit();
+        } catch (ParseException ex) {
+            LOG.warn("Error while commiting edits: " + ex);
+        }
     }
 
     @Override
@@ -578,6 +658,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         txfSchaltstelleStandortbezeichnung.setEnabled(isEditable);
         dapSchaltstelleErstellungsjahr.setEnabled(isEditable);
         txaSchaltstelleBemerkung.setEnabled(isEditable);
+        dapPruefdatum.setEnabled(isEditable);
     }
 
     @Override
@@ -596,5 +677,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         componentToLabelMap.put(txfSchaltstelleLaufendenummer, lblSchaltstelleLaufendenummer);
         componentToLabelMap.put(txfSchaltstelleNummer, lblSchaltstelleNummer);
         componentToLabelMap.put(txfSchaltstelleStandortbezeichnung, lblSchaltstelleStandortbezeichnung);
+        componentToLabelMap.put(dapPruefdatum, lblPruefdatum);
+        componentToLabelMap.put(cbxRundsteuerempfaenger, lblRundsteuerempfaenger);
     }
 }

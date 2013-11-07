@@ -43,13 +43,18 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     private javax.swing.JComboBox cbxMauerlascheStrassenschluessel;
     private javax.swing.JComboBox cbxMauerlascheStrassenschluesselNr;
     private org.jdesktop.swingx.JXDatePicker dapMauerlascheErstellungsjahr;
+    private org.jdesktop.swingx.JXDatePicker dapPruefdatum;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblMauerlascheBemerkung;
     private javax.swing.JLabel lblMauerlascheErstellungsjahr;
     private javax.swing.JLabel lblMauerlascheLaufendenummer;
     private javax.swing.JLabel lblMauerlascheMaterial;
     private javax.swing.JLabel lblMauerlascheStrassenschluessel;
+    private javax.swing.JLabel lblPruefdatum;
+    private javax.swing.JScrollPane scpSchaltstelleBemerkung;
+    private javax.swing.JTextArea txaMauerlascheBemerkung;
     private javax.swing.JTextField txfMauerlascheLaufendenummer;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -110,6 +115,11 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         cbxMauerlascheMaterial = new javax.swing.JComboBox();
         cbxMauerlascheStrassenschluesselNr = new javax.swing.JComboBox();
         cbxMauerlascheStrassenschluessel = new javax.swing.JComboBox();
+        lblPruefdatum = new javax.swing.JLabel();
+        dapPruefdatum = new org.jdesktop.swingx.JXDatePicker();
+        lblMauerlascheBemerkung = new javax.swing.JLabel();
+        scpSchaltstelleBemerkung = new javax.swing.JScrollPane();
+        txaMauerlascheBemerkung = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
 
         jLabel2.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                              // NOI18N
@@ -325,6 +335,68 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(cbxMauerlascheStrassenschluessel, gridBagConstraints);
 
+        lblPruefdatum.setText("Prüfung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(lblPruefdatum, gridBagConstraints);
+
+        dapPruefdatum.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.pruefdatum}"),
+                dapPruefdatum,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(dapPruefdatum, gridBagConstraints);
+
+        lblMauerlascheBemerkung.setText("Bemerkung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(lblMauerlascheBemerkung, gridBagConstraints);
+
+        txaMauerlascheBemerkung.setColumns(20);
+        txaMauerlascheBemerkung.setRows(5);
+        txaMauerlascheBemerkung.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkung}"),
+                txaMauerlascheBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        scpSchaltstelleBemerkung.setViewportView(txaMauerlascheBemerkung);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel3.add(scpSchaltstelleBemerkung, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -343,7 +415,7 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                152,
+                86,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -361,16 +433,16 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxMauerlascheMaterialActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheMaterialActionPerformed
+    private void cbxMauerlascheMaterialActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMauerlascheMaterialActionPerformed
 // TODO add your handling code here:
-    } //GEN-LAST:event_cbxMauerlascheMaterialActionPerformed
+    }//GEN-LAST:event_cbxMauerlascheMaterialActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxMauerlascheStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
+    private void cbxMauerlascheStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -381,14 +453,14 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                      //GEN-LAST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
+    }//GEN-LAST:event_cbxMauerlascheStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxMauerlascheStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxMauerlascheStrassenschluesselActionPerformed
+    private void cbxMauerlascheStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMauerlascheStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -399,7 +471,7 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                    //GEN-LAST:event_cbxMauerlascheStrassenschluesselActionPerformed
+    }//GEN-LAST:event_cbxMauerlascheStrassenschluesselActionPerformed
 
     @Override
     BindingGroup getBindingGroup() {
@@ -433,6 +505,8 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         componentToLabelMap.put(cbxMauerlascheStrassenschluesselNr, lblMauerlascheStrassenschluessel);
         componentToLabelMap.put(dapMauerlascheErstellungsjahr, lblMauerlascheErstellungsjahr);
         componentToLabelMap.put(txfMauerlascheLaufendenummer, lblMauerlascheLaufendenummer);
+        componentToLabelMap.put(dapPruefdatum, lblPruefdatum);
+        componentToLabelMap.put(txaMauerlascheBemerkung, lblMauerlascheBemerkung);
     }
 
     @Override
@@ -450,6 +524,8 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         cbxMauerlascheMaterial.setEnabled(isEditable);
         dapMauerlascheErstellungsjahr.setEnabled(isEditable);
         txfMauerlascheLaufendenummer.setEnabled(isEditable);
+        dapPruefdatum.setEnabled(isEditable);
+        txaMauerlascheBemerkung.setEnabled(isEditable);
     }
 
     /**
@@ -458,6 +534,11 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     public void commitEdits() {
         try {
             dapMauerlascheErstellungsjahr.getEditor().commitEdit();
+        } catch (ParseException ex) {
+            LOG.warn("Error while commiting edits: " + ex);
+        }
+        try {
+            dapPruefdatum.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
