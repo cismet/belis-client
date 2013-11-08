@@ -2102,7 +2102,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 LOG.debug(
                     "standort has geometry. Reconsidering feature because the icon must be switched from standort without leuchte to standort with leuchte.");
             }
-            getBroker().getMappingComponent().getFeatureCollection().reconsiderFeature(parent);
+            getBroker().getMappingComponent().getFeatureCollection().removeFeature(parent);
+            getBroker().getMappingComponent().getFeatureCollection().addFeature(parent);
         }
         // final int index = nodeToAddLeuchte.getIndex(newLeuchteNode);
         // modelSupport.fireChildChanged(, index, root);
