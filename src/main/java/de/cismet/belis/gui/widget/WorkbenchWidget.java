@@ -12,6 +12,7 @@
  */
 package de.cismet.belis.gui.widget;
 
+import com.vividsolutions.jts.geom.Geometry;
 
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.log4j.Logger;
@@ -73,8 +74,8 @@ import de.cismet.belisEE.entity.Standort;
 
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
-import de.cismet.cismap.commons.features.AbstractNewFeature;
 
+import de.cismet.cismap.commons.features.AbstractNewFeature;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.FeatureCollectionEvent;
@@ -87,6 +88,7 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateGeometryListener
 import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
 import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
 import de.cismet.commons.architecture.validation.Validatable;
+
 import de.cismet.commons.server.entity.GeoBaseEntity;
 
 import de.cismet.tools.CurrentStackTrace;
@@ -124,10 +126,57 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
     public static final int REFRESH_ALL = 4;
     public static final int CLEAR_NEW_OBJECTS = 3;
     public static final int MOVE_NEW_TO_SAVED_OBJECTS = 5;
-    // Variables declaration - do not modify                     
+
+    //~ Instance fields --------------------------------------------------------
+
+    BindingGroup bindingGroup2 = new BindingGroup();
+    // Variables declaration - do not modify
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTreeTable jttHitTable;
     private javax.swing.JPanel panMain;
+
+    private boolean ignoreFeatureSelection = false;
+//    protected TreePath[] selectedTreeNodes = null;
+//    public static final String PROP_SELECTEDTREENODE = "selectedTreeNodes";
+    private TreePath selectedTreeNode = null;
+    private final CustomMutableTreeTableNode rootNode = new CustomMutableTreeTableNode(null, true);
+    private final CustomMutableTreeTableNode searchResultsNode = new CustomMutableTreeTableNode(null, true);
+    private final CustomMutableTreeTableNode newObjectsNode = new CustomMutableTreeTableNode(null, true);
+    private CustomTreeTableModel treeTableModel = null;
+    private HashMap<Leuchte, Standort> leuchteToVirtualStandortMap = new HashMap();
+    private HashMap<Standort, ArrayList<Leuchte>> leuchtenRemovedFromMastMap =
+        new HashMap<Standort, ArrayList<Leuchte>>();
+    private JButton btnAttachMode = new JButton();
+    private boolean isAlreadyDisabled = false;
+    private boolean tmpProcessStarted = false;
+    private boolean isSwitchTriggerEnabled = false;
+    private Set currentSearchResults = new TreeSet(new ReverseComparator(
+                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+//    public Set getCurrentSearchResults() {
+//        return currentSearchResults;
+//    }
+//
+//    public void setCurrentSearchResults(Set currentSearchResults) {
+//        this.currentSearchResults = currentSearchResults;
+//        firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, null, currentSearchResults);
+//    }
+    // There is no need to hold the objects in an extra set only convenience
+    private Set newObjects = new TreeSet(new ReverseComparator(
+                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+    // private Set savedObjects = new HashSet();
+    // private Set processedObjects = new HashSet();
+    private final Set removedObjects = new TreeSet(new ReverseComparator(
+                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+    private int currentMode = 0;
+    private Feature newlyAddedFeature = null;
+    // End of variables declaration
+    private boolean isSelectedOverMap = false;
+    // ToDo Workaround because there will be exceptions if a selectedNode is moved. Should normaly not be done in the
+    // model
+    private TreePath selectedElement = null;
+    private Feature selectedFeature = null;
+
+    //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form HitWidget.
@@ -345,6 +394,8 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 }
             }, AWTEvent.KEY_EVENT_MASK);
     }
+
+    //~ Methods ----------------------------------------------------------------
 
     /**
      * ToDo not necessary.
@@ -875,53 +926,6 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                 javax.swing.GroupLayout.DEFAULT_SIZE,
                 Short.MAX_VALUE));
     } // </editor-fold>//GEN-END:initComponents
-
-    //~ Instance fields --------------------------------------------------------
-
-    BindingGroup bindingGroup2 = new BindingGroup();
-
-    private boolean ignoreFeatureSelection = false;
-//    protected TreePath[] selectedTreeNodes = null;
-//    public static final String PROP_SELECTEDTREENODE = "selectedTreeNodes";
-    private TreePath selectedTreeNode = null;
-    private final CustomMutableTreeTableNode rootNode = new CustomMutableTreeTableNode(null, true);
-    private final CustomMutableTreeTableNode searchResultsNode = new CustomMutableTreeTableNode(null, true);
-    private final CustomMutableTreeTableNode newObjectsNode = new CustomMutableTreeTableNode(null, true);
-    private CustomTreeTableModel treeTableModel = null;
-    private HashMap<Leuchte, Standort> leuchteToVirtualStandortMap = new HashMap();
-    private HashMap<Standort, ArrayList<Leuchte>> leuchtenRemovedFromMastMap =
-        new HashMap<Standort, ArrayList<Leuchte>>();
-    private JButton btnAttachMode = new JButton();
-    private boolean isAlreadyDisabled = false;
-    private boolean tmpProcessStarted = false;
-    private boolean isSwitchTriggerEnabled = false;
-    private Set currentSearchResults = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-//    public Set getCurrentSearchResults() {
-//        return currentSearchResults;
-//    }
-//
-//    public void setCurrentSearchResults(Set currentSearchResults) {
-//        this.currentSearchResults = currentSearchResults;
-//        firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, null, currentSearchResults);
-//    }
-    // There is no need to hold the objects in an extra set only convenience
-    private Set newObjects = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-    // private Set savedObjects = new HashSet();
-    // private Set processedObjects = new HashSet();
-    private final Set removedObjects = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-    private int currentMode = 0;
-    private Feature newlyAddedFeature = null;
-    // End of variables declaration                   
-    private boolean isSelectedOverMap = false;
-    // ToDo Workaround because there will be exceptions if a selectedNode is moved. Should normaly not be done in the
-    // model
-    private TreePath selectedElement = null;
-    private Feature selectedFeature = null;
-
-    //~ Methods ----------------------------------------------------------------
 
     // ToDo if application switches in Edit Mode it must be checked if there is a entry selected and the mode must be
     // switched
@@ -2230,7 +2234,9 @@ public class WorkbenchWidget extends SearchResultWidget implements TreeSelection
                             log.warn("Leuchte has no virtual standort.");
                         }
                     }
-                    currentSelectedFeature.setGeometry(newFeature.getGeometry());
+                    final Geometry geom = newFeature.getGeometry();
+                    geom.setSRID(-1);
+                    currentSelectedFeature.setGeometry(geom);
                     // broker.getMappingComponent().getFeatureCollection().removeFeature(newFeature);
                     newlyAddedFeature = currentSelectedFeature;
                     broker.getMappingComponent().getFeatureCollection().addFeature(currentSelectedFeature);
