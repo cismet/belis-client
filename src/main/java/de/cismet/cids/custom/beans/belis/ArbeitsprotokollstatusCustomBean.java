@@ -93,11 +93,6 @@ public class ArbeitsprotokollstatusCustomBean extends BaseEntity {
         }
     }
 
-    @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Arbeitsprotokollstatus[id=" + getId() + "]";
-    }
-
     /**
      * DOCUMENT ME!
      *

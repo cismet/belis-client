@@ -25,6 +25,10 @@ import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
  */
 public class LeuchteComparator implements Comparator<TdtaLeuchtenCustomBean>, Serializable {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LeuchteComparator.class);
+
     //~ Methods ----------------------------------------------------------------
 
     @Override
@@ -34,18 +38,26 @@ public class LeuchteComparator implements Comparator<TdtaLeuchtenCustomBean>, Se
                 return 0;
             } else if ((((TdtaLeuchtenCustomBean)l1).getLeuchtennummer() != null)
                         && (((TdtaLeuchtenCustomBean)l2).getLeuchtennummer() != null)) {
-                System.out.println("l1: " + ((TdtaLeuchtenCustomBean)l1).getLeuchtennummer() + " l2: "
-                            + ((TdtaLeuchtenCustomBean)l2).getLeuchtennummer());
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("l1: " + ((TdtaLeuchtenCustomBean)l1).getLeuchtennummer() + " l2: "
+                                + ((TdtaLeuchtenCustomBean)l2).getLeuchtennummer());
+                }
                 if (((TdtaLeuchtenCustomBean)l1).getLeuchtennummer()
                             == ((TdtaLeuchtenCustomBean)l2).getLeuchtennummer()) {
-                    System.out.println("Leuchtennummer are equal");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Leuchtennummer are equal");
+                    }
                     return 1;
                 } else if (((TdtaLeuchtenCustomBean)l1).getLeuchtennummer()
                             > ((TdtaLeuchtenCustomBean)l2).getLeuchtennummer()) {
-                    System.out.println("l1 Leuchtennummer greater l2 leuchtennummer");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("l1 Leuchtennummer greater l2 leuchtennummer");
+                    }
                     return 1;
                 } else {
-                    System.out.println("l2 Leuchtennummer greater l1 Leuchtennummer");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("l2 Leuchtennummer greater l1 Leuchtennummer");
+                    }
                     return -1;
                 }
             } else if (((TdtaLeuchtenCustomBean)l1).getLeuchtennummer() != null) {

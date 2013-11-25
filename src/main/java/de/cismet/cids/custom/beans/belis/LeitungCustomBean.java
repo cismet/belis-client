@@ -293,11 +293,6 @@ public class LeitungCustomBean extends GeoBaseEntity implements DocumentContaine
     }
 
     @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Leitung[id=" + getId() + "]";
-    }
-
-    @Override
     public GeomCustomBean getGeometrie() {
         return getFk_geom();
     }

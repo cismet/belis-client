@@ -32,6 +32,10 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class EntityComparator implements Comparator<BaseEntity>, Serializable {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntityComparator.class);
+
     //~ Instance fields --------------------------------------------------------
 
     private Comparator<TdtaLeuchtenCustomBean> leuchteComparator;
@@ -59,17 +63,7 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
     // if equals is true -> return 0
     @Override
     public int compare(final BaseEntity o1, final BaseEntity o2) {
-//        System.out.println("compare called: o1: "+o1+" o2: "+o2);
-//        if(o1 != null && o1 instanceof TdtaStandortMastCustomBean){
-//            System.out.println(("o1 istStandortMast: ")+((TdtaStandortMastCustomBean)o1).isStandortMast());
-//            System.out.println("o1 has leuchten"+(((TdtaStandortMastCustomBean)o1).getLeuchten() != null && ((TdtaStandortMastCustomBean)o1).getLeuchten().size() > 0));
-//        }
-//        if(o2 != null && o2 instanceof TdtaStandortMastCustomBean){
-//            System.out.println(("o2 istStandortMast: ")+((TdtaStandortMastCustomBean)o2).isStandortMast());
-//            System.out.println("o2 has leuchten"+(((TdtaStandortMastCustomBean)o2).getLeuchten() != null && ((TdtaStandortMastCustomBean)o2).getLeuchten().size() > 0));
-//        }
         final int result = compareImpl(o1, o2);
-        // System.out.println("result: "+result);
         return result;
     }
 
@@ -111,24 +105,32 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
                         // ((TdtaStandortMastCustomBean)
                         // o1).getLaufendeNummer().compareTo(((TdtaStandortMastCustomBean) o2).getLaufendeNummer());
                         if (result == 0) {
-                            System.out.println("Strassen sind gleich");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Strassen sind gleich");
+                            }
                             if ((((TdtaStandortMastCustomBean)o1).getKennziffer() != null)
                                         && (((TdtaStandortMastCustomBean)o2).getKennziffer() != null)) {
                                 result = CriteriaStringComparator.getInstance()
                                             .compare(((TdtaStandortMastCustomBean)o1).getKennziffer(),
                                                     ((TdtaStandortMastCustomBean)o2).getKennziffer());
                                 if (result == 0) {
-                                    System.out.println("Kennziffern sind gleich");
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("Kennziffern sind gleich");
+                                    }
                                     if ((((TdtaStandortMastCustomBean)o1).getLaufendeNummer() != null)
                                                 && (((TdtaStandortMastCustomBean)o2).getLaufendeNummer() != null)) {
                                         result = ((TdtaStandortMastCustomBean)o1).getLaufendeNummer()
                                                     .compareTo(((TdtaStandortMastCustomBean)o2).getLaufendeNummer());
                                         if (result == 0) {
-                                            System.out.println("laufende Nummern sind gleich");
-                                            System.out.println("the entity fields are equals odering dosen't matter");
+                                            if (LOG.isDebugEnabled()) {
+                                                LOG.debug("laufende Nummern sind gleich");
+                                                LOG.debug("the entity fields are equals odering dosen't matter");
+                                            }
                                             return 1;
                                         } else {
-                                            System.out.println("laufende Nummern sind ungleich");
+                                            if (LOG.isDebugEnabled()) {
+                                                LOG.debug("laufende Nummern sind ungleich");
+                                            }
                                             return result;
                                         }
                                     } else if (((TdtaStandortMastCustomBean)o1).getLaufendeNummer() != null) {
@@ -139,7 +141,9 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
                                         return -1;
                                     }
                                 } else {
-                                    System.out.println("Kennziffern sind ungleich");
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("Kennziffern sind ungleich");
+                                    }
                                     return result;
                                 }
                             } else if (((TdtaStandortMastCustomBean)o1).getKennziffer() != null) {
@@ -150,7 +154,9 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
                                 return -1;
                             }
                         } else {
-                            System.out.println("Strassen sind ungleich");
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Strassen sind ungleich");
+                            }
                             return result;
                         }
                     } else if (((TdtaStandortMastCustomBean)o1).getStrassenschluessel() != null) {

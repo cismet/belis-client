@@ -23,7 +23,7 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis;
 
-import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
+import de.cismet.cids.custom.beans.belis.RundsteuerempfaengerCustomBean;
 
 import de.cismet.cids.tools.CustomToStringConverter;
 
@@ -33,12 +33,12 @@ import de.cismet.cids.tools.CustomToStringConverter;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class TkeyMasttypToStringConverter extends CustomToStringConverter {
+public class RundsteuerempfaengerToStringConverter extends CustomToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public String createString() {
-        return ((TkeyMasttypCustomBean)cidsBean).getKeyString();
+        return ((RundsteuerempfaengerCustomBean)cidsBean).getRs_typ();
     }
 }

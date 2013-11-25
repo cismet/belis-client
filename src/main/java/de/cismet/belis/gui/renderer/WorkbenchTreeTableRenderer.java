@@ -61,7 +61,7 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
                 final Object userObject = ((CustomMutableTreeTableNode)value).getUserObject();
                 if (userObject instanceof TdtaStandortMastCustomBean) {
                     if (((TdtaStandortMastCustomBean)userObject).isStandortMast()) {
-                        setText("Mast");
+                        setText("");
                     } else {
                         setText("Standort");
                     }

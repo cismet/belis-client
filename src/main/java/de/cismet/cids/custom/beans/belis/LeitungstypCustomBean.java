@@ -101,11 +101,6 @@ public class LeitungstypCustomBean extends BaseEntity {
     }
 
     @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Leitungstyp[id=" + getId() + "]";
-    }
-
-    @Override
     public String getKeyString() {
         if (getBezeichnung() != null) {
             return getBezeichnung();

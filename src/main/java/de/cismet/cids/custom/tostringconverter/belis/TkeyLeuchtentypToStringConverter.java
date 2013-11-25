@@ -39,6 +39,9 @@ public class TkeyLeuchtentypToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return ((TkeyLeuchtentypCustomBean)cidsBean).getLeuchtentyp();
+        if (cidsBean == null) {
+            return null;
+        }
+        return ((TkeyLeuchtentypCustomBean)cidsBean).getKeyString();
     }
 }

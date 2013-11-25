@@ -149,11 +149,6 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
     }
 
     @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Veranlassung[id=" + getId() + "]";
-    }
-
-    @Override
     public GeomCustomBean getGeometrie() {
         return getFk_geometrie();
     }

@@ -102,11 +102,6 @@ public class MaterialLeitungCustomBean extends BaseEntity {
     }
 
     @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.MaterialLeitung[id=" + getId() + "]";
-    }
-
-    @Override
     public String getKeyString() {
         if (getBezeichnung() != null) {
             return getBezeichnung();

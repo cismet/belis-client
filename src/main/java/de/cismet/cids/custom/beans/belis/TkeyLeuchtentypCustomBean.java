@@ -44,6 +44,7 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
     public static final String PROP__LEISTUNG_BRUTTO_REDUZIERT = "leistung_brutto_reduziert";
     public static final String PROP__FOTO = "foto";
     public static final String PROP__DOKUMENTE = "dokumente";
+    public static final String PROP__TYPENBEZEICHNUNG = "typenbezeichnung";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -59,7 +60,8 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
             PROP__LEISTUNG_REDUZIERT,
             PROP__LEISTUNG_BRUTTO_REDUZIERT,
             PROP__FOTO,
-            PROP__DOKUMENTE
+            PROP__DOKUMENTE,
+            PROP__TYPENBEZEICHNUNG
         };
 
     //~ Instance fields --------------------------------------------------------
@@ -78,6 +80,7 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
     private Double leistung_brutto_reduziert;
     private DmsUrlCustomBean foto;
     private Collection<DmsUrlCustomBean> dokumente;
+    private String typenbezeichnung;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -324,7 +327,7 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
     @Override
     public String getKeyString() {
         if (getLeuchtentyp() != null) {
-            return getLeuchtentyp();
+            return getLeuchtentyp() + ((getFabrikat() != null) ? (" " + getFabrikat()) : "");
         } else {
             return "";
         }
@@ -433,5 +436,25 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
         final Collection<DmsUrlCustomBean> old = this.dokumente;
         this.dokumente = dokumente;
         this.propertyChangeSupport.firePropertyChange(PROP__DOKUMENTE, old, this.dokumente);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getTypenbezeichnung() {
+        return typenbezeichnung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  typenbezeichnung  bemerkung DOCUMENT ME!
+     */
+    public void setTypenbezeichnung(final String typenbezeichnung) {
+        final String old = this.typenbezeichnung;
+        this.typenbezeichnung = typenbezeichnung;
+        this.propertyChangeSupport.firePropertyChange(PROP__TYPENBEZEICHNUNG, old, this.typenbezeichnung);
     }
 }

@@ -86,6 +86,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
     public static final String PROP__ANSTRICHFARBE = "anstrichfarbe";
     public static final String PROP__REVISION = "revision";
     public static final String PROP__ANLAGENGRUPPE = "anlagengruppe";
+    public static final String PROP__ANBAUTEN = "anbauten";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -121,7 +122,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
             PROP__NAECHSTES_PRUEFDATUM,
             PROP__ANSTRICHFARBE,
             PROP__REVISION,
-            PROP__ANLAGENGRUPPE
+            PROP__ANLAGENGRUPPE,
+            PROP__ANBAUTEN
         };
 
     //~ Instance fields --------------------------------------------------------
@@ -160,6 +162,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
     private String anstrichfarbe;
     private Date revision;
     private AnlagengruppeCustomBean anlagengruppe;
+    private String anbauten;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -707,6 +710,26 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
      *
      * @return  DOCUMENT ME!
      */
+    public String getAnbauten() {
+        return anbauten;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  anbauten  DOCUMENT ME!
+     */
+    public void setAnbauten(final String anbauten) {
+        final String old = this.anbauten;
+        this.anbauten = anbauten;
+        this.propertyChangeSupport.firePropertyChange(PROP__ANBAUTEN, old, this.anbauten);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Boolean isVirtuellerStandort() {
         return getIst_virtueller_standort();
     }
@@ -955,22 +978,38 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
 
     @Override
     public String getKeyString() {
-        String masttyp = "";
-        String mastart = "";
+        final Collection<String> strings = new ArrayList<String>();
         if ((getMasttyp() != null) && (getMasttyp().getMasttyp() != null)) {
-            masttyp = getMasttyp().getMasttyp();
+            strings.add(getMasttyp().getMasttyp());
         }
         if ((getMastart() != null) && (getMastart().getMastart() != null)) {
-            mastart = getMastart().getMastart();
+            strings.add(getMastart().getMastart());
         }
-        if ((mastart.length() > 0) && (masttyp.length() > 0)) {
-            return mastart + ", " + masttyp;
-        } else if (mastart.length() > 0) {
-            return mastart;
-        } else if (masttyp.length() > 0) {
-            return masttyp;
-        } else {
+        if (getLaufendeNummer() != null) {
+            strings.add(String.valueOf(getLaufendeNummer()));
+        }
+        return implode(strings.toArray(new String[0]), ", ");
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   stringArray  DOCUMENT ME!
+     * @param   delimiter    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private static String implode(final String[] stringArray, final String delimiter) {
+        if (stringArray.length == 0) {
             return "";
+        } else {
+            final StringBuilder sb = new StringBuilder();
+            sb.append(stringArray[0]);
+            for (int index = 1; index < stringArray.length; index++) {
+                sb.append(delimiter);
+                sb.append(stringArray[index]);
+            }
+            return sb.toString();
         }
     }
 

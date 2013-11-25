@@ -30,6 +30,7 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
     public static final String TABLE = "tkey_masttyp";
 
     public static final String PROP__MASTTYP = "masttyp";
+    public static final String PROP__BEZEICHNUNG = "bezeichnung";
     public static final String PROP__LPH = "lph";
     public static final String PROP__HERSTELLER = "hersteller";
     public static final String PROP__WANDSTAERKE = "wandstaerke";
@@ -39,6 +40,7 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
             PROP__MASTTYP,
+            PROP__BEZEICHNUNG,
             PROP__LPH,
             PROP__HERSTELLER,
             PROP__WANDSTAERKE,
@@ -49,6 +51,7 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
     //~ Instance fields --------------------------------------------------------
 
     private String masttyp;
+    private String bezeichnung;
     private Double lph;
     private String hersteller;
     private Integer wandstaerke;
@@ -202,7 +205,7 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
     @Override
     public String getKeyString() {
         if (getMasttyp() != null) {
-            return getMasttyp();
+            return getMasttyp() + ((getBezeichnung() != null) ? (" " + getBezeichnung()) : "");
         } else {
             return "";
         }
@@ -248,5 +251,25 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
         final DmsUrlCustomBean old = this.foto;
         this.foto = foto;
         this.propertyChangeSupport.firePropertyChange(PROP__FOTO, old, this.foto);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getBezeichnung() {
+        return bezeichnung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  bezeichnung  foto DOCUMENT ME!
+     */
+    public void setBezeichnung(final String bezeichnung) {
+        final String old = this.bezeichnung;
+        this.bezeichnung = bezeichnung;
+        this.propertyChangeSupport.firePropertyChange(PROP__BEZEICHNUNG, old, this.bezeichnung);
     }
 }

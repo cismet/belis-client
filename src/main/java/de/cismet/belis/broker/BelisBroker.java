@@ -1097,8 +1097,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         } catch (Exception ex) {
             LOG.warn("Error while creating search and wait dialog");
         }
-
-        System.out.println("masterConfigure: " + BelisBroker.class.getName());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("masterConfigure: " + BelisBroker.class.getName());
+        }
 
         /*
          * <emailConfiguration username="" password="" senderAddress="sebastian.puhl@cismet.de"
@@ -1115,8 +1116,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             } catch (final Exception ex) {
                 LOG.error("Error while configuring logging", ex);
             }
-
-            System.out.println("masterConfigure: " + BelisBroker.class.getName());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("masterConfigure: " + BelisBroker.class.getName());
+            }
             configManager.addConfigurable(layoutManager);
             configManager.configure(layoutManager);
             configManager.addConfigurable(metaSearchComponentFactory);
@@ -1618,7 +1620,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
             addSeparatorToToolbar();
         } catch (Exception ex) {
-            System.out.println("Exception while initializing toolbar");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Exception while initializing toolbar");
+            }
             LOG.error("Exception while initializing toolbar.", ex);
         }
     }

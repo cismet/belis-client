@@ -11,7 +11,7 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import java.util.Date;
+import java.sql.Date;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -285,15 +285,5 @@ public class SperreCustomBean extends BaseEntity {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Lock[id=" + getId() + "]";
-    }
-
-    @Override
-    public String getKeyString() {
-        return "de.cismet.belisEE.entity.Lock[id=" + getId() + "]";
     }
 }

@@ -23,7 +23,7 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis;
 
-import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
+import de.cismet.cids.custom.beans.belis.LeuchtmittelCustomBean;
 
 import de.cismet.cids.tools.CustomToStringConverter;
 
@@ -33,12 +33,15 @@ import de.cismet.cids.tools.CustomToStringConverter;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class TkeyMasttypToStringConverter extends CustomToStringConverter {
+public class LeuchtmittelToStringConverter extends CustomToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public String createString() {
-        return ((TkeyMasttypCustomBean)cidsBean).getKeyString();
+        if (cidsBean == null) {
+            return null;
+        }
+        return ((LeuchtmittelCustomBean)cidsBean).getKeyString();
     }
 }

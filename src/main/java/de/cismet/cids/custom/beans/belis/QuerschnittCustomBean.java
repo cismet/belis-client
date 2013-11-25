@@ -101,11 +101,6 @@ public class QuerschnittCustomBean extends BaseEntity {
     }
 
     @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Querschnitt[id=" + getId() + "]";
-    }
-
-    @Override
     public String getKeyString() {
         if (getGroesse() != null) {
             return getGroesse().toString();

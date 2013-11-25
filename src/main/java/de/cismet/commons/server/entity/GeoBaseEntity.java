@@ -35,6 +35,10 @@ import de.cismet.commons.server.interfaces.GeometrySlot;
 //ToDo!!! why is the supperclass not working in the testeeapplication the field are inherited right
 public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeoBaseEntity.class);
+
     //~ Instance fields --------------------------------------------------------
 
     protected transient FeatureAnnotationSymbol mapIcon = null;
@@ -188,8 +192,7 @@ public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
         try {
             getGeometrie().setGeomField(geom);
         } catch (Exception ex) {
-            System.out.println("Fehler beim setzend er Geometrie");
-            ex.printStackTrace();
+            LOG.warn("Fehler beim setzend er Geometrie", ex);
         }
     }
 //

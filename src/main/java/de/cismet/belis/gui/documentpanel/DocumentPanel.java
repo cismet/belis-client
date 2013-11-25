@@ -252,7 +252,6 @@ public final class DocumentPanel extends javax.swing.JPanel {
         if (log.isDebugEnabled()) {
             log.debug("addURLToList: " + getDokumente());
         }
-        // System.out.println(currentEntity.getDokumente());
     }
 
     /**
@@ -522,6 +521,23 @@ public final class DocumentPanel extends javax.swing.JPanel {
      */
     public void setEditable(final boolean editable) {
         inEditMode = editable;
+    }
+
+    @Override
+    public void setOpaque(final boolean isOpaque) {
+        super.setOpaque(isOpaque);
+        if (panList != null) {
+            panList.setOpaque(isOpaque);
+        }
+        if (panStatus != null) {
+            panStatus.setOpaque(isOpaque);
+        }
+        if (panPreviewIntern != null) {
+            panPreviewIntern.setOpaque(isOpaque);
+        }
+        if (panPreviewScp != null) {
+            panPreviewScp.setOpaque(isOpaque);
+        }
     }
 
     //~ Inner Classes ----------------------------------------------------------

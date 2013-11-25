@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 
 import de.cismet.cids.custom.beans.belis.BauartCustomBean;
+import de.cismet.cids.custom.beans.belis.RundsteuerempfaengerCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
 
@@ -44,11 +45,13 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     private javax.swing.JComboBox cbxSchaltstelleBauart;
     private javax.swing.JComboBox cbxSchaltstelleStrassenschluessel;
     private javax.swing.JComboBox cbxSchaltstelleStrassenschluesselNr;
+    private org.jdesktop.swingx.JXDatePicker dapEinbaudatum;
     private org.jdesktop.swingx.JXDatePicker dapPruefdatum;
     private org.jdesktop.swingx.JXDatePicker dapSchaltstelleErstellungsjahr;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel lblEinbaudatum;
     private javax.swing.JLabel lblPruefdatum;
     private javax.swing.JLabel lblRundsteuerempfaenger;
     private javax.swing.JLabel lblSchaltstelleBauart;
@@ -118,27 +121,29 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         lblSchaltstelleStrassenschluessel = new javax.swing.JLabel();
-        lblSchaltstelleLaufendenummer = new javax.swing.JLabel();
-        lblSchaltstelleHausnummer = new javax.swing.JLabel();
-        lblSchaltstelleNummer = new javax.swing.JLabel();
-        lblSchaltstelleErstellungsjahr = new javax.swing.JLabel();
-        lblSchaltstelleStandortbezeichnung = new javax.swing.JLabel();
-        lblSchaltstelleBauart = new javax.swing.JLabel();
-        lblSchaltstelleBemerkung = new javax.swing.JLabel();
-        txfSchaltstelleLaufendenummer = new javax.swing.JTextField();
-        txfSchaltstelleHausnummer = new javax.swing.JTextField();
-        txfSchaltstelleNummer = new javax.swing.JTextField();
-        dapSchaltstelleErstellungsjahr = new org.jdesktop.swingx.JXDatePicker();
-        txfSchaltstelleStandortbezeichnung = new javax.swing.JTextField();
-        cbxSchaltstelleBauart = new javax.swing.JComboBox();
-        scpSchaltstelleBemerkung = new javax.swing.JScrollPane();
-        txaSchaltstelleBemerkung = new javax.swing.JTextArea();
         cbxSchaltstelleStrassenschluesselNr = new javax.swing.JComboBox();
         cbxSchaltstelleStrassenschluessel = new javax.swing.JComboBox();
-        dapPruefdatum = new org.jdesktop.swingx.JXDatePicker();
+        lblSchaltstelleLaufendenummer = new javax.swing.JLabel();
+        txfSchaltstelleLaufendenummer = new javax.swing.JTextField();
+        lblSchaltstelleHausnummer = new javax.swing.JLabel();
+        txfSchaltstelleHausnummer = new javax.swing.JTextField();
+        lblSchaltstelleNummer = new javax.swing.JLabel();
+        txfSchaltstelleNummer = new javax.swing.JTextField();
+        lblSchaltstelleErstellungsjahr = new javax.swing.JLabel();
+        dapSchaltstelleErstellungsjahr = new org.jdesktop.swingx.JXDatePicker();
+        lblSchaltstelleStandortbezeichnung = new javax.swing.JLabel();
+        txfSchaltstelleStandortbezeichnung = new javax.swing.JTextField();
+        lblSchaltstelleBauart = new javax.swing.JLabel();
+        cbxSchaltstelleBauart = new javax.swing.JComboBox();
         lblPruefdatum = new javax.swing.JLabel();
+        dapPruefdatum = new org.jdesktop.swingx.JXDatePicker();
         lblRundsteuerempfaenger = new javax.swing.JLabel();
         cbxRundsteuerempfaenger = new javax.swing.JComboBox();
+        lblEinbaudatum = new javax.swing.JLabel();
+        dapEinbaudatum = new org.jdesktop.swingx.JXDatePicker();
+        lblSchaltstelleBemerkung = new javax.swing.JLabel();
+        scpSchaltstelleBemerkung = new javax.swing.JScrollPane();
+        txaSchaltstelleBemerkung = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
 
         jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                               // NOI18N
@@ -153,237 +158,10 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         lblSchaltstelleStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblSchaltstelleStrassenschluessel, gridBagConstraints);
-
-        lblSchaltstelleLaufendenummer.setText("Laufende Nr.:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleLaufendenummer, gridBagConstraints);
-
-        lblSchaltstelleHausnummer.setText("Haus Nr.:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleHausnummer, gridBagConstraints);
-
-        lblSchaltstelleNummer.setText("Schaltstellen Nr.:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleNummer, gridBagConstraints);
-
-        lblSchaltstelleErstellungsjahr.setText("Erstellungsjahr:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleErstellungsjahr, gridBagConstraints);
-
-        lblSchaltstelleStandortbezeichnung.setText("Standortbezeichnung:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleStandortbezeichnung, gridBagConstraints);
-
-        lblSchaltstelleBauart.setText("Bauart:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleBauart, gridBagConstraints);
-
-        lblSchaltstelleBemerkung.setText("Bemerkung:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleBemerkung, gridBagConstraints);
-
-        txfSchaltstelleLaufendenummer.setEnabled(false);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
-                txfSchaltstelleLaufendenummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(txfSchaltstelleLaufendenummer, gridBagConstraints);
-
-        txfSchaltstelleHausnummer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.hausnummer}"),
-                txfSchaltstelleHausnummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator(5));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(txfSchaltstelleHausnummer, gridBagConstraints);
-
-        txfSchaltstelleNummer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.schaltstellenNummer}"),
-                txfSchaltstelleNummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(txfSchaltstelleNummer, gridBagConstraints);
-
-        dapSchaltstelleErstellungsjahr.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erstellungsjahr}"),
-                dapSchaltstelleErstellungsjahr,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(dapSchaltstelleErstellungsjahr, gridBagConstraints);
-
-        txfSchaltstelleStandortbezeichnung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zusaetzlicheStandortbezeichnung}"),
-                txfSchaltstelleStandortbezeichnung,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(txfSchaltstelleStandortbezeichnung, gridBagConstraints);
-
-        cbxSchaltstelleBauart.setEnabled(false);
-        cbxSchaltstelleBauart.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.BauartCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.BauartCustomBean ba =
-                            (de.cismet.cids.custom.beans.belis.BauartCustomBean)value;
-                        setText(ba.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bauart}"),
-                cbxSchaltstelleBauart,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(cbxSchaltstelleBauart, gridBagConstraints);
-
-        txaSchaltstelleBemerkung.setColumns(20);
-        txaSchaltstelleBemerkung.setRows(5);
-        txaSchaltstelleBemerkung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkung}"),
-                txaSchaltstelleBemerkung,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator());
-        bindingGroup.addBinding(binding);
-
-        scpSchaltstelleBemerkung.setViewportView(txaSchaltstelleBemerkung);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(scpSchaltstelleBemerkung, gridBagConstraints);
 
         cbxSchaltstelleStrassenschluesselNr.setEnabled(false);
         cbxSchaltstelleStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
@@ -415,7 +193,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -443,7 +220,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                 }
             });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
@@ -462,10 +239,205 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(cbxSchaltstelleStrassenschluessel, gridBagConstraints);
+
+        lblSchaltstelleLaufendenummer.setText("Laufende Nr.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleLaufendenummer, gridBagConstraints);
+
+        txfSchaltstelleLaufendenummer.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
+                txfSchaltstelleLaufendenummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(txfSchaltstelleLaufendenummer, gridBagConstraints);
+
+        lblSchaltstelleHausnummer.setText("Haus Nr.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleHausnummer, gridBagConstraints);
+
+        txfSchaltstelleHausnummer.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.hausnummer}"),
+                txfSchaltstelleHausnummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setValidator(new StringMaxLengthValidator(5));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(txfSchaltstelleHausnummer, gridBagConstraints);
+
+        lblSchaltstelleNummer.setText("Schaltstellen Nr.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleNummer, gridBagConstraints);
+
+        txfSchaltstelleNummer.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.schaltstellenNummer}"),
+                txfSchaltstelleNummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(txfSchaltstelleNummer, gridBagConstraints);
+
+        lblSchaltstelleErstellungsjahr.setText("Erstellungsjahr:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleErstellungsjahr, gridBagConstraints);
+
+        dapSchaltstelleErstellungsjahr.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erstellungsjahr}"),
+                dapSchaltstelleErstellungsjahr,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setValidator(new DateValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(dapSchaltstelleErstellungsjahr, gridBagConstraints);
+
+        lblSchaltstelleStandortbezeichnung.setText("Standortbezeichnung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleStandortbezeichnung, gridBagConstraints);
+
+        txfSchaltstelleStandortbezeichnung.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zusaetzlicheStandortbezeichnung}"),
+                txfSchaltstelleStandortbezeichnung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setValidator(new StringMaxLengthValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(txfSchaltstelleStandortbezeichnung, gridBagConstraints);
+
+        lblSchaltstelleBauart.setText("Bauart:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleBauart, gridBagConstraints);
+
+        cbxSchaltstelleBauart.setEnabled(false);
+        cbxSchaltstelleBauart.setRenderer(new DefaultListCellRenderer() {
+
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis.BauartCustomBean) {
+                        final de.cismet.cids.custom.beans.belis.BauartCustomBean ba =
+                            (de.cismet.cids.custom.beans.belis.BauartCustomBean)value;
+                        setText(ba.getBezeichnung());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bauart}"),
+                cbxSchaltstelleBauart,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(cbxSchaltstelleBauart, gridBagConstraints);
+
+        lblPruefdatum.setText("Prüfung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblPruefdatum, gridBagConstraints);
 
         dapPruefdatum.setEnabled(false);
 
@@ -480,25 +452,15 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(dapPruefdatum, gridBagConstraints);
 
-        lblPruefdatum.setText("Prüfung:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblPruefdatum, gridBagConstraints);
-
         lblRundsteuerempfaenger.setText("Rundsteuerempfänger:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -525,14 +487,81 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                     return this;
                 }
             });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.rundsteuerempfaenger}"),
+                cbxRundsteuerempfaenger,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(cbxRundsteuerempfaenger, gridBagConstraints);
+
+        lblEinbaudatum.setText("Einbaudatum:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblEinbaudatum, gridBagConstraints);
+
+        dapEinbaudatum.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.einbaudatum_rs}"),
+                dapEinbaudatum,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(dapEinbaudatum, gridBagConstraints);
+
+        lblSchaltstelleBemerkung.setText("Bemerkung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblSchaltstelleBemerkung, gridBagConstraints);
+
+        txaSchaltstelleBemerkung.setColumns(20);
+        txaSchaltstelleBemerkung.setRows(5);
+        txaSchaltstelleBemerkung.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkung}"),
+                txaSchaltstelleBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setValidator(new StringMaxLengthValidator());
+        bindingGroup.addBinding(binding);
+
+        scpSchaltstelleBemerkung.setViewportView(txaSchaltstelleBemerkung);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(scpSchaltstelleBemerkung, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -547,7 +576,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                500,
+                475,
                 Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
@@ -567,22 +596,26 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
     @Override
     final void initPanel() {
+        bindingGroup.addBindingListener(new PanelBindingListener());
+
         fillComboBoxWithKeyTableValuesAndAddListener(
             cbxSchaltstelleStrassenschluessel,
             TkeyStrassenschluesselCustomBean.TABLE);
-        bindingGroup.addBindingListener(new PanelBindingListener());
-        cbxSchaltstelleStrassenschluessel.setSelectedItem(null);
-        AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluessel, new ObjectToKeyStringConverter());
-
         fillComboBoxWithKeyTableValuesAndAddListener(
             cbxSchaltstelleStrassenschluesselNr,
             TkeyStrassenschluesselCustomBean.TABLE,
             true);
-        cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
-        AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluesselNr, new ObjectToPkConverter("pk"));
-
         fillComboBoxWithKeyTableValuesAndAddListener(cbxSchaltstelleBauart, BauartCustomBean.TABLE);
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxRundsteuerempfaenger, RundsteuerempfaengerCustomBean.TABLE);
+
+        cbxSchaltstelleStrassenschluessel.setSelectedItem(null);
+        cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
         cbxSchaltstelleBauart.setSelectedItem(null);
+        cbxRundsteuerempfaenger.setSelectedItem(null);
+
+        AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluessel, new ObjectToKeyStringConverter());
+        AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluesselNr, new ObjectToPkConverter("pk"));
+        AutoCompleteDecorator.decorate(cbxRundsteuerempfaenger, new ObjectToPkConverter("rs_typ"));
     }
 
     /**
@@ -652,6 +685,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         cbxSchaltstelleStrassenschluessel.setEnabled(isEditable);
         cbxSchaltstelleStrassenschluesselNr.setEnabled(isEditable);
         cbxSchaltstelleBauart.setEnabled(isEditable);
+        cbxRundsteuerempfaenger.setEnabled(isEditable);
         txfSchaltstelleHausnummer.setEnabled(isEditable);
         txfSchaltstelleLaufendenummer.setEnabled(isEditable);
         txfSchaltstelleNummer.setEnabled(isEditable);

@@ -81,6 +81,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
     public static final String PROP__VORSCHALTGERAET = "vorschaltgeraet";
     public static final String PROP__MONTEUR = "monteur";
     public static final String PROP__NAECHSTER_WECHSEL = "naechster_wechsel";
+    public static final String PROP__EINBAUDATUM = "einbaudatum";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -115,7 +116,8 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
             PROP__WECHSELVORSCHALTGERAET,
             PROP__MONTEUR,
             PROP__NAECHSTER_WECHSEL,
-            PROP__VORSCHALTGERAET
+            PROP__VORSCHALTGERAET,
+            PROP__EINBAUDATUM
         };
 
     //~ Instance fields --------------------------------------------------------
@@ -123,7 +125,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
     private String plz;
     private TkeyStrassenschluesselCustomBean fk_strassenschluessel;
     private TkeyEnergielieferantCustomBean fk_energielieferant;
-    private String rundsteuerempfaenger;
+    private RundsteuerempfaengerCustomBean rundsteuerempfaenger;
     private TkeyLeuchtentypCustomBean fk_leuchttyp;
     private TkeyUnterhLeuchteCustomBean fk_unterhaltspflicht_leuchte;
     private Boolean zaehler;
@@ -144,7 +146,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
     private Double anschlussleistung_1dk;
     private Double anschlussleistung_2dk;
     private Boolean kabeluebergangskasten_sk_ii;
-    private String leuchtmittel;
+    private LeuchtmittelCustomBean leuchtmittel;
     private Double lebensdauer;
     private Date wechseldatum;
     private Double wartungszyklus;
@@ -152,6 +154,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
     private Date naechster_wechsel;
     private String vorschaltgeraet;
     private String monteur;
+    private Date einbaudatum;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -387,7 +390,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
      *
      * @return  DOCUMENT ME!
      */
-    public String getRundsteuerempfaenger() {
+    public RundsteuerempfaengerCustomBean getRundsteuerempfaenger() {
         return rundsteuerempfaenger;
     }
 
@@ -396,8 +399,8 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
      *
      * @param  rundsteuerempfaenger  DOCUMENT ME!
      */
-    public void setRundsteuerempfaenger(final String rundsteuerempfaenger) {
-        final String old = this.rundsteuerempfaenger;
+    public void setRundsteuerempfaenger(final RundsteuerempfaengerCustomBean rundsteuerempfaenger) {
+        final RundsteuerempfaengerCustomBean old = this.rundsteuerempfaenger;
         this.rundsteuerempfaenger = rundsteuerempfaenger;
         this.propertyChangeSupport.firePropertyChange(PROP__RUNDSTEUEREMPFAENGER, old, this.rundsteuerempfaenger);
     }
@@ -1053,7 +1056,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
      *
      * @return  DOCUMENT ME!
      */
-    public String getLeuchtmittel() {
+    public LeuchtmittelCustomBean getLeuchtmittel() {
         return leuchtmittel;
     }
 
@@ -1062,8 +1065,8 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
      *
      * @param  leuchtmittel  DOCUMENT ME!
      */
-    public void setLeuchtmittel(final String leuchtmittel) {
-        final String old = this.leuchtmittel;
+    public void setLeuchtmittel(final LeuchtmittelCustomBean leuchtmittel) {
+        final LeuchtmittelCustomBean old = this.leuchtmittel;
         this.leuchtmittel = leuchtmittel;
         this.propertyChangeSupport.firePropertyChange(PROP__LEUCHTMITTEL, old, this.leuchtmittel);
     }
@@ -1206,6 +1209,26 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
         final String old = this.monteur;
         this.monteur = monteur;
         this.propertyChangeSupport.firePropertyChange(PROP__MONTEUR, old, this.monteur);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getEinbaudatum() {
+        return einbaudatum;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  einbaudatum  monteur DOCUMENT ME!
+     */
+    public void setEinbaudatum(final Date einbaudatum) {
+        final Date old = this.einbaudatum;
+        this.einbaudatum = einbaudatum;
+        this.propertyChangeSupport.firePropertyChange(PROP__EINBAUDATUM, old, this.einbaudatum);
     }
 
     @Override

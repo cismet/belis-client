@@ -136,11 +136,6 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements DocumentCont
     }
 
     @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Abzweigdose[id=" + getId() + "]";
-    }
-
-    @Override
     public FeatureAnnotationSymbol getPointAnnotationSymbol() {
         if (mapIcon != null) {
             return mapIcon;

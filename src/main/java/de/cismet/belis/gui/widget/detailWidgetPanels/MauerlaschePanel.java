@@ -149,7 +149,7 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel3.add(lblMauerlascheLaufendenummer, gridBagConstraints);
 
-        lblMauerlascheErstellungsjahr.setText("Erstellungsjahr:"); // NOI18N
+        lblMauerlascheErstellungsjahr.setText("Montage:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;

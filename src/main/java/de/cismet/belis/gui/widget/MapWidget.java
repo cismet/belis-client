@@ -47,6 +47,7 @@ import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.layerwidget.ActiveLayerModel;
 import de.cismet.cismap.commons.gui.piccolo.PFeature;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.AttachFeatureListener;
+import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateGeometryListener;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.DeleteFeatureListener;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.FeatureMoveListener;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.JoinPolygonsListener;
@@ -113,6 +114,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
     private javax.swing.JButton cmdFullPoly1;
     private javax.swing.JButton cmdMoveHandle;
     private javax.swing.JButton cmdMovePolygon;
+    private javax.swing.JToggleButton cmdNewLinestring;
     private javax.swing.JButton cmdPan;
     private javax.swing.JButton cmdRemoveHandle;
     private javax.swing.JButton cmdRemovePolygon;
@@ -362,6 +364,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         cmdAddHandle = new javax.swing.JButton();
         cmdRemoveHandle = new javax.swing.JButton();
         jSeparator7 = new javax.swing.JSeparator();
+        cmdNewLinestring = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
         cmdAdd = new javax.swing.JButton();
 
@@ -624,6 +627,24 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         jSeparator7.setMinimumSize(new java.awt.Dimension(2, 10));
         jSeparator7.setPreferredSize(new java.awt.Dimension(2, 10));
         mapWidgetToolbar.add(jSeparator7);
+
+        cmdNewLinestring.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/newLine.png"))); // NOI18N
+        cmdNewLinestring.setToolTipText("neue Linie");
+        cmdNewLinestring.setBorderPainted(false);
+        cmdNewLinestring.setContentAreaFilled(false);
+        cmdNewLinestring.setFocusPainted(false);
+        cmdNewLinestring.setFocusable(false);
+        cmdNewLinestring.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdNewLinestring.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cmdNewLinestring.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cmdNewLinestringActionPerformed(evt);
+                }
+            });
+        mapWidgetToolbar.add(cmdNewLinestring);
 
         add(mapWidgetToolbar, java.awt.BorderLayout.NORTH);
 
@@ -1043,6 +1064,17 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
     /**
      * DOCUMENT ME!
      *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void cmdNewLinestringActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdNewLinestringActionPerformed
+        mappingComponent.setInteractionMode(MappingComponent.NEW_POLYGON);
+        ((CreateGeometryListener)mappingComponent.getInputListener(MappingComponent.NEW_POLYGON)).setMode(
+            CreateGeometryListener.LINESTRING);
+    }                                                                                    //GEN-LAST:event_cmdNewLinestringActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  notfication  DOCUMENT ME!
      */
     public void featureDeleteRequested(final PNotification notfication) {
@@ -1409,7 +1441,9 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 
     @Override
     public void masterConfigure(final Element parent) {
-        System.out.println("MapWidget masterConfigure");
+        if (log.isDebugEnabled()) {
+            log.debug("MapWidget masterConfigure");
+        }
         final ConfigurationManager configManager = getBroker().getConfigManager();
         configManager.addConfigurable((ActiveLayerModel)mappingModel);
         configManager.configure(mappingModel);

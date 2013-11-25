@@ -11,7 +11,7 @@
  */
 package de.cismet.cids.custom.beans.belis;
 
-import java.util.Date;
+import java.sql.Date;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
@@ -126,11 +126,6 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Arbeitsprotokoll[id=" + getId() + "]";
     }
 
     /**

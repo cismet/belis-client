@@ -1013,21 +1013,10 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         }
                                         final TdtaStandortMastCustomBean parentMast = getParentMast(
                                                 path.getLastPathComponent());
-                                        if ((getBroker().getMappingComponent().getFeatureCollection()
-                                                        .getSelectedFeatures() != null)
-                                                    && (getBroker().getMappingComponent().getFeatureCollection()
-                                                        .getSelectedFeatures().size() == 1)
-                                                    && getBroker().getMappingComponent().getFeatureCollection()
-                                                    .getSelectedFeatures().contains(parentMast)) {
-                                            if (LOG.isDebugEnabled()) {
-                                                LOG.debug("Doing nothing mast is already selected");
-                                            }
-                                        } else {
-                                            if (LOG.isDebugEnabled()) {
-                                                LOG.debug("Selecting Mast in map.");
-                                            }
-                                            featuresToSelect.add((StyledFeature)parentMast);
+                                        if (LOG.isDebugEnabled()) {
+                                            LOG.debug("Selecting Mast in map.");
                                         }
+                                        featuresToSelect.add((StyledFeature)parentMast);
                                     } else if (isNodeHaengeLeuchte(path.getLastPathComponent())) {
                                         if (LOG.isDebugEnabled()) {
                                             LOG.debug(

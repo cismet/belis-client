@@ -397,7 +397,9 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 
     @Override
     public void masterConfigure(final Element parent) {
-        System.out.println("Master Configure: " + getClass().getName());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Master Configure: " + getClass().getName());
+        }
         try {
             try {
                 try {

@@ -13,9 +13,10 @@ package de.cismet.cids.custom.beans.belis;
 
 import Sirius.navigator.connection.SessionManager;
 
+import java.sql.Date;
+
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
@@ -109,11 +110,6 @@ public class ArbeitsauftragCustomBean extends BaseEntity {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Arbeitsauftrag[id=" + getId() + "]";
     }
 
     /**

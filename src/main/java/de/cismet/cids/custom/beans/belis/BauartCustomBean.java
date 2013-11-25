@@ -101,11 +101,6 @@ public class BauartCustomBean extends BaseEntity {
     }
 
     @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Bauart[id=" + getId() + "]";
-    }
-
-    @Override
     public String getKeyString() {
         if (getBezeichnung() != null) {
             return getBezeichnung();

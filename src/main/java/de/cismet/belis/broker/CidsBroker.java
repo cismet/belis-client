@@ -20,9 +20,10 @@ import Sirius.server.middleware.types.MetaObject;
 
 import org.apache.commons.collections.comparators.ReverseComparator;
 
+import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -1047,7 +1048,7 @@ public class CidsBroker implements BelisServerRemote {
                     }
                     final SperreCustomBean newLock = SperreCustomBean.createNew();
                     newLock.setClassId(objectToLock.getMetaObject().getMetaClass().getId());
-                    newLock.setTimestamp(new Date());
+                    newLock.setTimestamp(new Date(new java.util.Date().getTime()));
                     newLock.setUserString(userString);
                     newLock.setObjectId(objectToLock.getId());
                     return (SperreCustomBean)newLock.persist();

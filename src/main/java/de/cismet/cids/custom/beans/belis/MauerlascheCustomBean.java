@@ -387,11 +387,6 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements DocumentCont
     }
 
     @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Mauerlasche[id=" + getId() + "]";
-    }
-
-    @Override
     public FeatureAnnotationSymbol getPointAnnotationSymbol() {
         if (mapIcon != null) {
             return mapIcon;

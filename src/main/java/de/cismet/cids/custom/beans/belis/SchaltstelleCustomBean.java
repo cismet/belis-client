@@ -47,6 +47,8 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements DocumentCon
     public static final String PROP__PRUEFDATUM = "pruefdatum";
     public static final String PROP__FOTO = "foto";
     public static final String PROP__MONTEUR = "monteur";
+    public static final String PROP__RUNDSTEUEREMPFAENGER = "rundsteuerempfaenger";
+    public static final String PROP__EINBAUDATUM_RS = "einbaudatum_rs";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -62,7 +64,9 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements DocumentCon
             PROP__DOKUMENTE,
             PROP__PRUEFDATUM,
             PROP__FOTO,
-            PROP__MONTEUR
+            PROP__MONTEUR,
+            PROP__RUNDSTEUEREMPFAENGER,
+            PROP__EINBAUDATUM_RS
         };
 
     //~ Instance fields --------------------------------------------------------
@@ -80,6 +84,8 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements DocumentCon
     private Date pruefdatum;
     private DmsUrlCustomBean foto;
     private String monteur;
+    private RundsteuerempfaengerCustomBean rundsteuerempfaenger;
+    private Date einbaudatum_rs;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -368,6 +374,46 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements DocumentCon
         final DmsUrlCustomBean old = this.foto;
         this.foto = foto;
         this.propertyChangeSupport.firePropertyChange(PROP__FOTO, old, this.foto);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public RundsteuerempfaengerCustomBean getRundsteuerempfaenger() {
+        return rundsteuerempfaenger;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  rundsteuerempfaenger  zusaetzlicheStandortbeschreibung DOCUMENT ME!
+     */
+    public void setRundsteuerempfaenger(final RundsteuerempfaengerCustomBean rundsteuerempfaenger) {
+        final RundsteuerempfaengerCustomBean old = this.rundsteuerempfaenger;
+        this.rundsteuerempfaenger = rundsteuerempfaenger;
+        this.propertyChangeSupport.firePropertyChange(PROP__RUNDSTEUEREMPFAENGER, old, this.rundsteuerempfaenger);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getEinbaudatum_rs() {
+        return einbaudatum_rs;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  einbaudatum_rs  rundsteuerempfaenger zusaetzlicheStandortbeschreibung DOCUMENT ME!
+     */
+    public void setEinbaudatum_rs(final Date einbaudatum_rs) {
+        final Date old = this.einbaudatum_rs;
+        this.einbaudatum_rs = einbaudatum_rs;
+        this.propertyChangeSupport.firePropertyChange(PROP__EINBAUDATUM_RS, old, this.einbaudatum_rs);
     }
 
     /**

@@ -78,6 +78,9 @@ public class DetailWidget extends BelisWidget {
     private ArbeitsprotokollPanel arbeitsprotokollPanel = ArbeitsprotokollPanel.getInstance();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel labDokumente;
     private de.cismet.belis.gui.documentpanel.DocumentPanel panDokumente;
     private javax.swing.JTabbedPane panMain;
     private javax.swing.JScrollPane scpMain;
@@ -152,6 +155,7 @@ public class DetailWidget extends BelisWidget {
         }
         if (currentEntity instanceof DocumentContainer) {
             panDokumente.setDokumente(((DocumentContainer)currentEntity).getDokumente());
+            panMain.setTabComponentAt(1, labDokumente);
         }
         if (currentEntity instanceof TdtaStandortMastCustomBean) {
             if (LOG.isDebugEnabled()) {
@@ -311,16 +315,26 @@ public class DetailWidget extends BelisWidget {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        labDokumente = new javax.swing.JLabel();
         panMain = new javax.swing.JTabbedPane();
         scpMain = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
         panDokumente = new de.cismet.belis.gui.documentpanel.DocumentPanel();
+        jPanel3 = new javax.swing.JPanel();
+
+        labDokumente.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/copy.png"))); // NOI18N
+        labDokumente.setText("Dokumente");
 
         setLayout(new java.awt.BorderLayout());
 
         scpMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         panMain.addTab("", scpMain);
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -330,7 +344,16 @@ public class DetailWidget extends BelisWidget {
                 org.jdesktop.beansbinding.BeanProperty.create("dokumente"));
         bindingGroup.addBinding(binding);
 
-        panMain.addTab("Dokumente", panDokumente);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        jPanel2.add(panDokumente, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel2.add(jPanel3, gridBagConstraints);
+
+        panMain.addTab("", jPanel2);
 
         add(panMain, java.awt.BorderLayout.CENTER);
 

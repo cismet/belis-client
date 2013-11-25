@@ -60,7 +60,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblMauerlascheErstellungsjahr">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Erstellungsjahr:" noResource="true"/>
+            <Property name="text" type="java.lang.String" value="Montage:" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

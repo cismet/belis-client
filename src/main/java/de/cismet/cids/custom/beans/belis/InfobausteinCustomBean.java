@@ -99,11 +99,6 @@ public class InfobausteinCustomBean extends BaseEntity {
         }
     }
 
-    @Override
-    public String toString() {
-        return "de.cismet.belisEE.entity.Veranlassungsart[id=" + getId() + "]";
-    }
-
     /**
      * DOCUMENT ME!
      *
