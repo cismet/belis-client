@@ -1229,7 +1229,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     }
                 }
 
-                jttHitTable.getSelectionMapper().getViewSelectionModel().clearSelection();
+                jttHitTable.getSelectionModel().clearSelection();
                 final TreePath[] patharr = paths.toArray(new TreePath[0]);
                 if (paths.isEmpty()) {
                     if (LOG.isDebugEnabled()) {

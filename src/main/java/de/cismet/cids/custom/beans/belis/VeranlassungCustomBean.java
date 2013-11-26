@@ -53,6 +53,7 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
     public static final String PROP__BESCHREIBUNG = "beschreibung";
     public static final String PROP__DATUM = "datum";
     public static final String PROP__FK_ART = "fk_art";
+    public static final String PROP__FK_INFOBAUSTEIN_TEMPLATE = "fk_infobaustein_template";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -72,7 +73,8 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
             PROP__BEMERKUNGEN,
             PROP__BESCHREIBUNG,
             PROP__DATUM,
-            PROP__FK_ART
+            PROP__FK_ART,
+            PROP__FK_INFOBAUSTEIN_TEMPLATE
         };
 
     //~ Instance fields --------------------------------------------------------
@@ -94,6 +96,7 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
     private String beschreibung;
     private Date datum;
     private VeranlassungsartCustomBean fk_art;
+    private InfobausteinTemplateCustomBean fk_infobaustein_template;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -506,6 +509,29 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
         final VeranlassungsartCustomBean old = this.fk_art;
         this.fk_art = fk_art;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_ART, old, this.fk_art);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public InfobausteinTemplateCustomBean getFk_infobaustein_template() {
+        return fk_infobaustein_template;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_infobaustein_template  fk_art DOCUMENT ME!
+     */
+    public void setFk_infobaustein_template(final InfobausteinTemplateCustomBean fk_infobaustein_template) {
+        final InfobausteinTemplateCustomBean old = this.fk_infobaustein_template;
+        this.fk_infobaustein_template = fk_infobaustein_template;
+        this.propertyChangeSupport.firePropertyChange(
+            PROP__FK_INFOBAUSTEIN_TEMPLATE,
+            old,
+            this.fk_infobaustein_template);
     }
 
     @Override

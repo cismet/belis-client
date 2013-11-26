@@ -2,7 +2,7 @@
 
 <Form version="1.5" maxVersion="1.6" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.JLabel" name="lblArbeitsauftrag">
+    <Component class="javax.swing.JLabel" name="lblArbeitsprotokoll">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="DejaVu Sans" size="13" style="1"/>

@@ -15,16 +15,25 @@ import org.jdesktop.beansbinding.BindingGroup;
 
 import java.awt.Component;
 
+import java.util.Collection;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.table.AbstractTableModel;
 
 import de.cismet.belis.broker.BelisBroker;
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.DateToStringConverter;
 
+import de.cismet.cids.custom.beans.belis.InfobausteinCustomBean;
+import de.cismet.cids.custom.beans.belis.InfobausteinTemplateCustomBean;
+import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
 import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
 import de.cismet.cids.custom.beans.belis.VeranlassungsartCustomBean;
+
+import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 /**
  * DOCUMENT ME!
@@ -40,15 +49,25 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
     private static VeranlassungPanel instance = null;
 
+    private static final Class[] COLUMN_CLASSES = {
+            String.class,
+            String.class
+        };
+    private static final String[] COLUMN_NAMES = { "Bezeichnung", "Wert" };
+
     //~ Instance fields --------------------------------------------------------
 
     private BelisBroker belisBroker = BelisBroker.getInstance();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddInfo;
+    private javax.swing.JButton btnRemInfo;
+    private javax.swing.JButton btnTemplate;
     private javax.swing.JComboBox cbxArt;
+    private javax.swing.JComboBox cbxInfobausteineTemplate;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblArt;
     private javax.swing.JLabel lblBemerkungen;
     private javax.swing.JLabel lblBeschreibung;
@@ -63,6 +82,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     private javax.swing.JPanel panContent;
     private javax.swing.JScrollPane scrBemerkungen;
     private javax.swing.JScrollPane scrBeschreibung;
+    private javax.swing.JTable tblInfobausteine;
     private javax.swing.JTextArea txaBemerkungen;
     private javax.swing.JTextArea txaBeschreibung;
     private javax.swing.JTextField txtBezeichnung;
@@ -80,6 +100,38 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         initComponents();
         initComponentToLabelMap();
         initPanel();
+
+        ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setMetaClass(CidsBroker.getInstance()
+                    .getBelisMetaClass(InfobausteinTemplateCustomBean.TABLE));
+        ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setNullable(true);
+        ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setRenderer(new DefaultListCellRenderer() {
+
+                @Override
+                public Component getListCellRendererComponent(final JList<? extends Object> list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    final Component comp = super.getListCellRendererComponent(
+                            list,
+                            value,
+                            index,
+                            isSelected,
+                            cellHasFocus);
+                    if (value instanceof InfobausteinTemplateCustomBean) {
+                        return comp;
+                    } else {
+                        ((JLabel)comp).setText("[keine] - freie Auswahl der Informationsbausteine");
+                        return comp;
+                    }
+                }
+            });
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxArt, VeranlassungsartCustomBean.TABLE);
+        cbxArt.setSelectedItem(null);
+
+        fillComboBoxWithKeyTableValuesAndAddListener(cbxInfobausteineTemplate, InfobausteinTemplateCustomBean.TABLE);
+        cbxInfobausteineTemplate.setSelectedItem(null);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -135,7 +187,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         lblUserValue = new javax.swing.JLabel();
         lblDatumValue = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblInfobausteine = new javax.swing.JTable();
+        cbxInfobausteineTemplate = new DefaultBindableReferenceCombo();
+        jPanel1 = new javax.swing.JPanel();
+        btnAddInfo = new javax.swing.JButton();
+        btnRemInfo = new javax.swing.JButton();
+        btnTemplate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
         lblVeranlassung.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
@@ -207,7 +264,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblInformationsbausteine, gridBagConstraints);
 
@@ -224,6 +281,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
@@ -263,6 +321,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
@@ -282,6 +341,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
@@ -308,6 +368,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
@@ -334,6 +395,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
@@ -351,6 +413,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
@@ -369,6 +432,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
@@ -377,34 +441,86 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(100, 200));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                    { null, null },
-                    { null, null },
-                    { null, null },
-                    { null, null }
-                },
-                new String[] { "Schlüssel", "Wert" }) {
-
-                Class[] types = new Class[] { java.lang.String.class, java.lang.String.class };
-
-                @Override
-                public Class getColumnClass(final int columnIndex) {
-                    return types[columnIndex];
-                }
-            });
-        jTable1.setMinimumSize(new java.awt.Dimension(60, 200));
-        jTable1.setPreferredSize(new java.awt.Dimension(60, 200));
-        jScrollPane1.setViewportView(jTable1);
+        tblInfobausteine.setModel(new IBTableModel());
+        tblInfobausteine.setMinimumSize(new java.awt.Dimension(60, 200));
+        tblInfobausteine.setPreferredSize(new java.awt.Dimension(60, 200));
+        jScrollPane1.setViewportView(tblInfobausteine);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(jScrollPane1, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_infobaustein_template}"),
+                cbxInfobausteineTemplate,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(cbxInfobausteineTemplate, gridBagConstraints);
+
+        jPanel1.setOpaque(false);
+
+        btnAddInfo.setText("+");
+        btnAddInfo.setMaximumSize(new java.awt.Dimension(29, 29));
+        btnAddInfo.setMinimumSize(new java.awt.Dimension(29, 29));
+        btnAddInfo.setPreferredSize(new java.awt.Dimension(29, 29));
+        btnAddInfo.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddInfoActionPerformed(evt);
+                }
+            });
+        jPanel1.add(btnAddInfo);
+
+        btnRemInfo.setText("-");
+        btnRemInfo.setMaximumSize(new java.awt.Dimension(29, 29));
+        btnRemInfo.setMinimumSize(new java.awt.Dimension(29, 29));
+        btnRemInfo.setPreferredSize(new java.awt.Dimension(29, 29));
+        btnRemInfo.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemInfoActionPerformed(evt);
+                }
+            });
+        jPanel1.add(btnRemInfo);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
+        panContent.add(jPanel1, gridBagConstraints);
+
+        btnTemplate.setText("Vorlage übernehmen");
+        btnTemplate.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnTemplateActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(btnTemplate, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -419,12 +535,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                450,
+                459,
                 Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                404,
+                228,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -438,6 +554,56 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnAddInfoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddInfoActionPerformed
+        final VeranlassungCustomBean template = (VeranlassungCustomBean)currentEntity;
+        final Collection<InfobausteinCustomBean> ar_bausteine = template.getAr_infobausteine();
+        ar_bausteine.add(InfobausteinCustomBean.createNew());
+        ((AbstractTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
+    }                                                                              //GEN-LAST:event_btnAddInfoActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnRemInfoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemInfoActionPerformed
+        final VeranlassungCustomBean template = (VeranlassungCustomBean)currentEntity;
+        final Collection<InfobausteinCustomBean> ar_bausteine = template.getAr_infobausteine();
+        final int rowIndex = tblInfobausteine.getSelectedRow();
+        final InfobausteinCustomBean baustein = ar_bausteine.toArray(new InfobausteinCustomBean[0])[rowIndex];
+        ar_bausteine.remove(baustein);
+        ((AbstractTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
+    }                                                                              //GEN-LAST:event_btnRemInfoActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnTemplateActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnTemplateActionPerformed
+        final Object selectedItem = cbxInfobausteineTemplate.getSelectedItem();
+        currentEntity.getAr_infobausteine().clear();
+        if (selectedItem instanceof InfobausteinTemplateCustomBean) {
+            final InfobausteinTemplateCustomBean template = (InfobausteinTemplateCustomBean)selectedItem;
+            currentEntity.setFk_infobaustein_template(template);
+            final Collection<InfobausteinCustomBean> ar_bausteine = template.getAr_bausteine();
+            for (final InfobausteinCustomBean infobausteinFromTemplate : ar_bausteine) {
+                final InfobausteinCustomBean infobaustein = InfobausteinCustomBean.createNew();
+                infobaustein.setSchluessel(infobausteinFromTemplate.getSchluessel());
+                infobaustein.setBezeichnung(infobausteinFromTemplate.getBezeichnung());
+                infobaustein.setPflichtfeld(infobausteinFromTemplate.getPflichtfeld());
+                infobaustein.setWert(infobausteinFromTemplate.getWert());
+                currentEntity.getAr_infobausteine().add(infobaustein);
+            }
+        }
+        ((AbstractTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
+    }                                                                               //GEN-LAST:event_btnTemplateActionPerformed
+
     @Override
     BindingGroup getBindingGroup() {
         return bindingGroup;
@@ -445,10 +611,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
     @Override
     final void initPanel() {
-        fillComboBoxWithKeyTableValuesAndAddListener(
-            cbxArt,
-            VeranlassungsartCustomBean.TABLE);
-        cbxArt.setSelectedItem(null);
     }
 
     /**
@@ -466,6 +628,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         componentToLabelMap.put(txaBemerkungen, lblBemerkungen);
         componentToLabelMap.put(lblUserValue, lblUser);
         componentToLabelMap.put(lblDatumValue, lblDatum);
+        componentToLabelMap.put(lblInformationsbausteine, cbxInfobausteineTemplate);
     }
 
     @Override
@@ -479,5 +642,103 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         txtBezeichnung.setEnabled(isEditable);
         txaBeschreibung.setEnabled(isEditable);
         txaBemerkungen.setEnabled(isEditable);
+        btnAddInfo.setEnabled(isEditable);
+        btnRemInfo.setEnabled(isEditable);
+        btnTemplate.setEnabled(isEditable);
+        cbxInfobausteineTemplate.setEnabled(isEditable);
+        tblInfobausteine.setEnabled(isEditable);
+    }
+
+    @Override
+    public void setCurrentEntity(final VeranlassungCustomBean currentEntity) {
+        super.setCurrentEntity(currentEntity);
+        ((AbstractTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    class IBTableModel extends AbstractTableModel {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int getRowCount() {
+            if (currentEntity != null) {
+                return ((VeranlassungCustomBean)currentEntity).getAr_infobausteine().size();
+            } else {
+                return 0;
+            }
+        }
+
+        @Override
+        public int getColumnCount() {
+            return COLUMN_NAMES.length;
+        }
+
+        @Override
+        public Object getValueAt(final int rowIndex, final int columnIndex) {
+            if (currentEntity != null) {
+                final InfobausteinCustomBean baustein = getRowObject(rowIndex);
+                if (columnIndex == 0) {
+                    return baustein.getBezeichnung();
+                } else if (columnIndex == 1) {
+                    return baustein.getWert();
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
+            if (currentEntity != null) {
+                final InfobausteinCustomBean baustein = getRowObject(rowIndex);
+                if (columnIndex == 0) {
+                    baustein.setBezeichnung((String)aValue);
+                } else if (columnIndex == 1) {
+                    baustein.setWert((String)aValue);
+                }
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   rowIndex  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private InfobausteinCustomBean getRowObject(final int rowIndex) {
+            final VeranlassungCustomBean template = (VeranlassungCustomBean)currentEntity;
+            final Collection<InfobausteinCustomBean> ar_bausteine = template.getAr_infobausteine();
+            final InfobausteinCustomBean baustein = ar_bausteine.toArray(new InfobausteinCustomBean[0])[rowIndex];
+            return baustein;
+        }
+
+        @Override
+        public Class<?> getColumnClass(final int columnIndex) {
+            return COLUMN_CLASSES[columnIndex];
+        }
+
+        @Override
+        public String getColumnName(final int columnIndex) {
+            return COLUMN_NAMES[columnIndex];
+        }
+
+        @Override
+        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
+            if (columnIndex == 0) {
+                return btnAddInfo.isEnabled();
+            } else {
+                return true;
+            }
+        }
     }
 }

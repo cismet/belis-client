@@ -1935,8 +1935,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public void customizeApplicationToolbar() {
         addCreateToolBar();
-        addFilterToolbar();
         addCopyPasteToolBar();
+        addFilterToolbar();
         addAddressSearch();
         addLocationSearch();
         getToolbar().add(metaSearchComponentFactory.getCmdPluginSearch());

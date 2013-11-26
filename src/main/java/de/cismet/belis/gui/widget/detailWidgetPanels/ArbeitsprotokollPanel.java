@@ -41,7 +41,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblArbeitsauftrag;
+    private javax.swing.JLabel lblArbeitsprotokoll;
     private javax.swing.JPanel panContent;
     // End of variables declaration//GEN-END:variables
 
@@ -51,7 +51,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
      * Creates new form LeuchtePanel.
      */
     private ArbeitsprotokollPanel() {
-        super("ARBEITSAUFTRAG_PANEL");
+        super("ARBEITSROTOKOLL_PANEL");
         initComponents();
         initComponentToLabelMap();
         initPanel();
@@ -61,7 +61,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
     @Override
     public JLabel getTabLabel() {
-        return lblArbeitsauftrag;
+        return lblArbeitsprotokoll;
     }
 
     /**
@@ -89,14 +89,14 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        lblArbeitsauftrag = new javax.swing.JLabel();
+        lblArbeitsprotokoll = new javax.swing.JLabel();
         panContent = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
 
-        lblArbeitsauftrag.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                         // NOI18N
-        lblArbeitsauftrag.setIcon(new javax.swing.ImageIcon(
+        lblArbeitsprotokoll.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
+        lblArbeitsprotokoll.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/16/arbeitsprotokoll.png"))); // NOI18N
-        lblArbeitsauftrag.setText("Arbeitsprotokoll");                                              // NOI18N
+        lblArbeitsprotokoll.setText("Arbeitsprotokoll");                                            // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
