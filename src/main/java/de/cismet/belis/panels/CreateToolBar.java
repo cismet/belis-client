@@ -150,7 +150,9 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                 }
                 setAllButtonsEnabled(true);
             } else {
-                LOG.warn("Current Entity is: " + currentEntity);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Current Entity is: " + currentEntity);
+                }
                 setAllButtonsEnabled(true);
                 if (!(currentEntity instanceof BaseEntity)) {
                     btnRemove.setEnabled(false);

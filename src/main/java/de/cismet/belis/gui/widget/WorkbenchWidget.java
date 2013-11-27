@@ -1854,19 +1854,13 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             LOG.debug("setSearchResults");
         }
         this.currentSearchResults = currentSearchResults;
-        if (getBroker().isInCreateMode()) {
+        if ((currentSearchResults != null) && (currentSearchResults.isEmpty())) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("nothing to refresh because is in Create Mode");
+                LOG.debug("0 Search results selecting search node");
             }
-        } else {
-            if ((currentSearchResults != null) && (currentSearchResults.isEmpty())) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("0 Search results selecting search node");
-                }
-                selectNode(searchResultsNode);
-            }
-            refreshTreeArtifacts(REFRESH_SEARCH_RESULTS);
+            selectNode(searchResultsNode);
         }
+        refreshTreeArtifacts(REFRESH_SEARCH_RESULTS);
         // propertyChangeSupport.firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, null, currentSearchResults);
     }
     /**

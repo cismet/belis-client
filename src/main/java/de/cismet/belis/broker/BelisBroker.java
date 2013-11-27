@@ -2035,12 +2035,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                 @Override
                 public void run() {
-                    if ((set != null) && !IsGreaterMaxSearchResults(set.size())) {
-                        setCurrentSearchResults(set);
-                        // ToDo PropertyChangeListener;
-                        refreshMap();
-                        getMappingComponent().zoomToFullFeatureCollectionBounds();
-                    }
+//                    if ((set != null) && !IsGreaterMaxSearchResults(set.size())) {
+                    setCurrentSearchResults(set);
+                    // ToDo PropertyChangeListener;
+                    refreshMap();
+                    getMappingComponent().zoomToFullFeatureCollectionBounds();
+//                    }
                 }
             });
     }
