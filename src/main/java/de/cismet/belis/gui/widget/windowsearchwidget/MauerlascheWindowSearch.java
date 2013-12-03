@@ -49,7 +49,9 @@ public class MauerlascheWindowSearch extends BelisWindowSearch {
 
     @Override
     protected BelisSearchStatement createSearchStatement(final Geometry searchGeom) {
-        return new MauerlascheSearchStatement("2013-07-17", searchGeom);
+        final MauerlascheSearchStatement mauerlascheSearchStatement = new MauerlascheSearchStatement("2013-07-17");
+        mauerlascheSearchStatement.setGeometry(searchGeom);
+        return mauerlascheSearchStatement;
     }
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The

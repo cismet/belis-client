@@ -31,6 +31,8 @@ import javax.swing.tree.TreePath;
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
+import de.cismet.belis.gui.widget.DetailWidget;
+
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.cids.custom.beans.belis.LeuchtmittelCustomBean;
@@ -56,8 +58,6 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LeuchtePanel.class);
-
-    private static LeuchtePanel instance = null;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -134,9 +134,11 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
     /**
      * Creates new form LeuchtePanel.
+     *
+     * @param  detailWidget  DOCUMENT ME!
      */
-    private LeuchtePanel() {
-        super("LEUCHTE_PANEL");
+    public LeuchtePanel(final DetailWidget detailWidget) {
+        super("LEUCHTE_PANEL", detailWidget);
         initComponents();
         initComponentToLabelMap();
         initPanel();
@@ -147,22 +149,6 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     @Override
     public JLabel getTabLabel() {
         return lblLeuchte;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static LeuchtePanel getInstance() {
-        if (instance == null) {
-            synchronized (LeuchtePanel.class) {
-                if (instance == null) {
-                    instance = new LeuchtePanel();
-                }
-            }
-        }
-        return instance;
     }
 
     /**
@@ -1255,11 +1241,6 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
-    BindingGroup getBindingGroup() {
-        return bindingGroup;
-    }
-
-    @Override
     final void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
 
@@ -1364,6 +1345,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     /**
      * DOCUMENT ME!
      */
+    @Override
     public void commitEdits() {
         try {
             dapLeuchteInbetriebnahme.getEditor().commitEdit();
@@ -1551,6 +1533,11 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         dapWechselVorschaltgeraet.setEnabled(isEditable);
         txfVorschaltgeraet.setEnabled(isEditable);
         dapEinbaudatum.setEnabled(isEditable);
+    }
+
+    @Override
+    protected BindingGroup getBindingGroup() {
+        return bindingGroup;
     }
 
     //~ Inner Classes ----------------------------------------------------------

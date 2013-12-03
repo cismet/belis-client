@@ -26,10 +26,10 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.DateToStringConverter;
+import de.cismet.belis.gui.widget.DetailWidget;
 
 import de.cismet.cids.custom.beans.belis.InfobausteinCustomBean;
 import de.cismet.cids.custom.beans.belis.InfobausteinTemplateCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
 import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
 import de.cismet.cids.custom.beans.belis.VeranlassungsartCustomBean;
 
@@ -46,8 +46,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VeranlassungPanel.class);
-
-    private static VeranlassungPanel instance = null;
 
     private static final Class[] COLUMN_CLASSES = {
             String.class,
@@ -94,38 +92,40 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
     /**
      * Creates new form LeuchtePanel.
+     *
+     * @param  detailWidget  DOCUMENT ME!
      */
-    private VeranlassungPanel() {
-        super("VERANLASSUNG_PANEL");
+    public VeranlassungPanel(final DetailWidget detailWidget) {
+        super("VERANLASSUNG_PANEL", detailWidget);
         initComponents();
         initComponentToLabelMap();
         initPanel();
 
         ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setMetaClass(CidsBroker.getInstance()
                     .getBelisMetaClass(InfobausteinTemplateCustomBean.TABLE));
-        ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setNullable(true);
-        ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(final JList<? extends Object> list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    final Component comp = super.getListCellRendererComponent(
-                            list,
-                            value,
-                            index,
-                            isSelected,
-                            cellHasFocus);
-                    if (value instanceof InfobausteinTemplateCustomBean) {
-                        return comp;
-                    } else {
-                        ((JLabel)comp).setText("[keine] - freie Auswahl der Informationsbausteine");
-                        return comp;
-                    }
-                }
-            });
+//        ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setNullable(true);
+//        ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setRenderer(new DefaultListCellRenderer() {
+//
+//                @Override
+//                public Component getListCellRendererComponent(final JList<? extends Object> list,
+//                        final Object value,
+//                        final int index,
+//                        final boolean isSelected,
+//                        final boolean cellHasFocus) {
+//                    final Component comp = super.getListCellRendererComponent(
+//                            list,
+//                            value,
+//                            index,
+//                            isSelected,
+//                            cellHasFocus);
+//                    if (value instanceof InfobausteinTemplateCustomBean) {
+//                        return comp;
+//                    } else {
+//                        ((JLabel)comp).setText("[keine] - freie Auswahl der Informationsbausteine");
+//                        return comp;
+//                    }
+//                }
+//            });
 
         fillComboBoxWithKeyTableValuesAndAddListener(cbxArt, VeranlassungsartCustomBean.TABLE);
         cbxArt.setSelectedItem(null);
@@ -139,22 +139,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     @Override
     public JLabel getTabLabel() {
         return lblVeranlassung;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static VeranlassungPanel getInstance() {
-        if (instance == null) {
-            synchronized (VeranlassungPanel.class) {
-                if (instance == null) {
-                    instance = new VeranlassungPanel();
-                }
-            }
-        }
-        return instance;
     }
 
     /**
@@ -508,7 +492,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         panContent.add(jPanel1, gridBagConstraints);
 
-        btnTemplate.setText("Vorlage übernehmen");
+        btnTemplate.setText("Vorlage hinzufügen");
         btnTemplate.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -587,7 +571,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
      */
     private void btnTemplateActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnTemplateActionPerformed
         final Object selectedItem = cbxInfobausteineTemplate.getSelectedItem();
-        currentEntity.getAr_infobausteine().clear();
+//        currentEntity.getAr_infobausteine().clear();
         if (selectedItem instanceof InfobausteinTemplateCustomBean) {
             final InfobausteinTemplateCustomBean template = (InfobausteinTemplateCustomBean)selectedItem;
             currentEntity.setFk_infobaustein_template(template);
@@ -605,17 +589,13 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     }                                                                               //GEN-LAST:event_btnTemplateActionPerformed
 
     @Override
-    BindingGroup getBindingGroup() {
-        return bindingGroup;
-    }
-
-    @Override
     final void initPanel() {
     }
 
     /**
      * DOCUMENT ME!
      */
+    @Override
     public void commitEdits() {
     }
 
@@ -653,6 +633,11 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     public void setCurrentEntity(final VeranlassungCustomBean currentEntity) {
         super.setCurrentEntity(currentEntity);
         ((AbstractTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
+    }
+
+    @Override
+    protected BindingGroup getBindingGroup() {
+        return bindingGroup;
     }
 
     //~ Inner Classes ----------------------------------------------------------

@@ -13,9 +13,9 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 
 import org.jdesktop.beansbinding.BindingGroup;
 
-import javax.swing.Icon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
+import de.cismet.belis.gui.widget.DetailWidget;
 
 /**
  * DOCUMENT ME!
@@ -29,8 +29,6 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbzweigdosePanel.class);
 
-    private static AbzweigdosePanel instance = null;
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblAbzweigdose;
@@ -41,10 +39,13 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
 
     /**
      * Creates new form AbzweigdosePanel.
+     *
+     * @param  detailWidget  DOCUMENT ME!
      */
-    private AbzweigdosePanel() {
-        super("ABZWEIGDOSE_PANEL");
+    public AbzweigdosePanel(final DetailWidget detailWidget) {
+        super("ABZWEIGDOSE_PANEL", detailWidget);
         initComponents();
+        initPanel();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -52,22 +53,6 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
     @Override
     public JLabel getTabLabel() {
         return lblAbzweigdose;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static AbzweigdosePanel getInstance() {
-        if (instance == null) {
-            synchronized (AbzweigdosePanel.class) {
-                if (instance == null) {
-                    instance = new AbzweigdosePanel();
-                }
-            }
-        }
-        return instance;
     }
 
     /**
@@ -121,27 +106,27 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
-    BindingGroup getBindingGroup() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     void initPanel() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     void initComponentToLabelMap() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void setElementsNull() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    protected void commitEdits() {
+    }
+
+    @Override
+    protected BindingGroup getBindingGroup() {
+        return null;
     }
 }

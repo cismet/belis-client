@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.DateToStringConverter;
+import de.cismet.belis.gui.widget.DetailWidget;
 
 import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
 
@@ -33,8 +34,6 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ArbeitsprotokollPanel.class);
 
-    private static ArbeitsprotokollPanel instance = null;
-
     //~ Instance fields --------------------------------------------------------
 
     private BelisBroker belisBroker = BelisBroker.getInstance();
@@ -48,10 +47,12 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form LeuchtePanel.
+     * Creates new form ArbeitsprotokollPanel.
+     *
+     * @param  detailWidget  DOCUMENT ME!
      */
-    private ArbeitsprotokollPanel() {
-        super("ARBEITSROTOKOLL_PANEL");
+    public ArbeitsprotokollPanel(final DetailWidget detailWidget) {
+        super("ARBEITSROTOKOLL_PANEL", detailWidget);
         initComponents();
         initComponentToLabelMap();
         initPanel();
@@ -62,22 +63,6 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     @Override
     public JLabel getTabLabel() {
         return lblArbeitsprotokoll;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static ArbeitsprotokollPanel getInstance() {
-        if (instance == null) {
-            synchronized (ArbeitsprotokollPanel.class) {
-                if (instance == null) {
-                    instance = new ArbeitsprotokollPanel();
-                }
-            }
-        }
-        return instance;
     }
 
     /**
@@ -132,17 +117,13 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
-    BindingGroup getBindingGroup() {
-        return null;
-    }
-
-    @Override
     final void initPanel() {
     }
 
     /**
      * DOCUMENT ME!
      */
+    @Override
     public void commitEdits() {
     }
 
@@ -157,5 +138,10 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     @Override
     public void setPanelEditable(final boolean isEditable) {
 //        txtNummer.setEnabled(isEditable);
+    }
+
+    @Override
+    protected BindingGroup getBindingGroup() {
+        return null;
     }
 }

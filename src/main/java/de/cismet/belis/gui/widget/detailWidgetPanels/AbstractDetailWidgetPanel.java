@@ -30,8 +30,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
+import de.cismet.belis.gui.widget.DetailWidget;
 import de.cismet.belis.gui.widget.KeyTableListener;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
@@ -39,6 +41,8 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.util.CriteriaStringComparator;
 
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+
+import de.cismet.commons.architecture.validation.Validatable;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -64,6 +68,8 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
     final String comboBoxNullValue = "Wert auswählen...";
     boolean isTriggerd = false;
     final HashMap<JComponent, JComponent> componentToLabelMap = new HashMap<JComponent, JComponent>();
+    private final DetailWidget detailWidget;
+    private String validationMessage;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -71,9 +77,11 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
      * Creates a new AbstractDetailWidgetPanel object.
      *
      * @param  panelCardName  DOCUMENT ME!
+     * @param  detailWidget   DOCUMENT ME!
      */
-    public AbstractDetailWidgetPanel(final String panelCardName) {
+    public AbstractDetailWidgetPanel(final String panelCardName, final DetailWidget detailWidget) {
         PANEL_CARD_NAME = panelCardName;
+        this.detailWidget = detailWidget;
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -84,13 +92,6 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
      * @return  DOCUMENT ME!
      */
     public abstract JLabel getTabLabel();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    abstract BindingGroup getBindingGroup();
 
     /**
      * DOCUMENT ME!
@@ -221,6 +222,82 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
         fillComboBoxWithKeyTableValuesAndAddListener(comboBox, keyTableClassname, false);
     }
 
+    /**
+     * DOCUMENT ME!
+     */
+    protected abstract void commitEdits();
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected abstract BindingGroup getBindingGroup();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public int getStatus() {
+//        if (validationState.size() != 0) {
+//            log.info("There are bindings which are not valid. Errorcount: "+validationState.size());
+//            return Validatable.ERROR;
+//        }
+        if (getBindingGroup() != null) {
+            commitEdits();
+
+            for (final Binding curBinding : getBindingGroup().getBindings()) {
+                if (this.isAncestorOf((Component)curBinding.getTargetObject())) {
+//            Validator currentValidator = curBinding.getValidator();
+//            if(currentValidator != null){
+//                log.debug("Validator of Binding != null. Validating Property: "+curBinding.getSourceProperty());
+//
+//            }
+                    final Binding.ValueResult result = curBinding.getTargetValueForSource();
+                    if ((result != null) && result.failed()
+                                && (result.getFailure().getType() == Binding.SyncFailureType.VALIDATION_FAILED)) {
+                        LOG.info("Validation of property " + curBinding.getSourceProperty() + "has failed: " + result);
+                        LOG.info("Description: " + result.getFailure().getValidationResult().getDescription());
+                        validationMessage = result.getFailure().getValidationResult().getDescription();
+                        return Validatable.ERROR;
+                    } else {
+                        LOG.info("Validation of property " + curBinding.getSourceProperty() + "is valid: " + result);
+                        try {
+                            LOG.info("Check has failure: " + result.failed());
+                            if (result.failed()) {
+                                LOG.info("failure " + result.getFailure());
+                                LOG.info("manual check: "
+                                            + curBinding.getValidator().validate(
+                                                curBinding.getTargetProperty().getValue(curBinding.getTargetObject())));
+                            } else {
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("value: " + result.getValue());
+                                }
+                            }
+                        } catch (Exception ex) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("manual check failed");
+                            }
+                        }
+                    }
+                } else {
+                    // log.debug("Validation is skipped because binding does not belong to currentPanel.");
+                }
+            }
+        }
+        validationMessage = "";
+        return Validatable.VALID;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getValidationMessage() {
+        return validationMessage;
+    }
+
     //~ Inner Classes ----------------------------------------------------------
 
     /**
@@ -274,7 +351,8 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
                 LOG.error("keine JCOmponent");
             }
             if ((currentEntity instanceof TdtaStandortMastCustomBean)
-                        && StandortPanel.getInstance().isAncestorOf((Component)binding.getTargetObject())) {
+                        && BelisBroker.getInstance().getDetailWidget().getStandortPanel().isAncestorOf(
+                            (Component)binding.getTargetObject())) {
                 validationState.add(binding);
                 // log.debug("Validation state changed. Errorcount: "+validationState.size());
             }
@@ -301,7 +379,8 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
                 LOG.error("keine JCOmponent");
             }
             if ((currentEntity instanceof TdtaStandortMastCustomBean)
-                        && StandortPanel.getInstance().isAncestorOf((Component)binding.getTargetObject())) {
+                        && BelisBroker.getInstance().getDetailWidget().getStandortPanel().isAncestorOf(
+                            (Component)binding.getTargetObject())) {
                 validationState.remove(binding);
                 // log.debug("Validation state changed. Errorcount: "+validationState.size());
             }

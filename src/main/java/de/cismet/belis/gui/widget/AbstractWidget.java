@@ -17,8 +17,6 @@ package de.cismet.belis.gui.widget;
 
 import org.apache.log4j.Logger;
 
-import org.jdesktop.beansbinding.BindingGroup;
-
 import java.beans.PropertyChangeEvent;
 
 import java.util.ArrayList;
@@ -72,20 +70,6 @@ public abstract class AbstractWidget extends JPanel implements Widget {
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public abstract BindingGroup getBindingGroup();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  bindingGroup  DOCUMENT ME!
-     */
-    public abstract void setBindingGroup(BindingGroup bindingGroup);
 
     // Idea isEditable property
 

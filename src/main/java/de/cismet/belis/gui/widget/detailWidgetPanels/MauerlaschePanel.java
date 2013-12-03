@@ -22,6 +22,8 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
+import de.cismet.belis.gui.widget.DetailWidget;
+
 import de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
@@ -37,7 +39,7 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MauerlaschePanel.class);
-    private static MauerlaschePanel instance = null;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbxMauerlascheMaterial;
     private javax.swing.JComboBox cbxMauerlascheStrassenschluessel;
@@ -63,9 +65,11 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
 
     /**
      * Creates new form MauerlaschePanel.
+     *
+     * @param  detailWidget  DOCUMENT ME!
      */
-    private MauerlaschePanel() {
-        super("MAUERLASCHE_PANEL");
+    public MauerlaschePanel(final DetailWidget detailWidget) {
+        super("MAUERLASCHE_PANEL", detailWidget);
         initComponents();
         initComponentToLabelMap();
         initPanel();
@@ -76,22 +80,6 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     @Override
     public JLabel getTabLabel() {
         return jLabel2;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static MauerlaschePanel getInstance() {
-        if (instance == null) {
-            synchronized (MauerlaschePanel.class) {
-                if (instance == null) {
-                    instance = new MauerlaschePanel();
-                }
-            }
-        }
-        return instance;
     }
 
     /**
@@ -474,11 +462,6 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     }                                                                                                    //GEN-LAST:event_cbxMauerlascheStrassenschluesselActionPerformed
 
     @Override
-    BindingGroup getBindingGroup() {
-        return bindingGroup;
-    }
-
-    @Override
     void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
         fillComboBoxWithKeyTableValuesAndAddListener(
@@ -531,6 +514,7 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     /**
      * DOCUMENT ME!
      */
+    @Override
     public void commitEdits() {
         try {
             dapMauerlascheErstellungsjahr.getEditor().commitEdit();
@@ -542,5 +526,10 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
+    }
+
+    @Override
+    protected BindingGroup getBindingGroup() {
+        return bindingGroup;
     }
 }

@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -915,6 +916,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         jScrollPane1 = new javax.swing.JScrollPane();
         jttHitTable = new org.jdesktop.swingx.JXTreeTable();
 
+        jttHitTable.setDragEnabled(true);
         jScrollPane1.setViewportView(jttHitTable);
 
         final javax.swing.GroupLayout panMainLayout = new javax.swing.GroupLayout(panMain);

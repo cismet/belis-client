@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.DateToStringConverter;
+import de.cismet.belis.gui.widget.DetailWidget;
 
 import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 
@@ -32,8 +33,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ArbeitsauftragPanel.class);
-
-    private static ArbeitsauftragPanel instance = null;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -56,9 +55,11 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
     /**
      * Creates new form LeuchtePanel.
+     *
+     * @param  detailWidget  DOCUMENT ME!
      */
-    private ArbeitsauftragPanel() {
-        super("ARBEITSAUFTRAG_PANEL");
+    public ArbeitsauftragPanel(final DetailWidget detailWidget) {
+        super("ARBEITSAUFTRAG_PANEL", detailWidget);
         initComponents();
         initComponentToLabelMap();
         initPanel();
@@ -69,22 +70,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     @Override
     public JLabel getTabLabel() {
         return lblArbeitsauftrag;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static ArbeitsauftragPanel getInstance() {
-        if (instance == null) {
-            synchronized (ArbeitsauftragPanel.class) {
-                if (instance == null) {
-                    instance = new ArbeitsauftragPanel();
-                }
-            }
-        }
-        return instance;
     }
 
     /**
@@ -227,17 +212,13 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
-    BindingGroup getBindingGroup() {
-        return bindingGroup;
-    }
-
-    @Override
     final void initPanel() {
     }
 
     /**
      * DOCUMENT ME!
      */
+    @Override
     public void commitEdits() {
     }
 
@@ -255,5 +236,10 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     @Override
     public void setPanelEditable(final boolean isEditable) {
 //        txtNummer.setEnabled(isEditable);
+    }
+
+    @Override
+    protected BindingGroup getBindingGroup() {
+        return bindingGroup;
     }
 }

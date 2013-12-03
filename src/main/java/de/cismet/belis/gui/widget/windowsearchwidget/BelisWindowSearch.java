@@ -373,7 +373,9 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
                 chkSchaltstelle.isSelected(),
                 chkMauerlasche.isSelected(),
                 chkLeitung.isSelected(),
-                chkAbzweigdose.isSelected());
+                chkAbzweigdose.isSelected(),
+                false,
+                false);
         belisSearchStatement.setGeometry(searchGeom);
         return belisSearchStatement;
     }

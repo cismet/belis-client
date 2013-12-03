@@ -22,6 +22,8 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
+import de.cismet.belis.gui.widget.DetailWidget;
+
 import de.cismet.cids.custom.beans.belis.BauartCustomBean;
 import de.cismet.cids.custom.beans.belis.RundsteuerempfaengerCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
@@ -38,7 +40,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SchaltstellePanel.class);
-    private static SchaltstellePanel instance = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbxRundsteuerempfaenger;
@@ -75,9 +76,11 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
     /**
      * Creates new form SchaltstellePanel.
+     *
+     * @param  detailWidget  DOCUMENT ME!
      */
-    private SchaltstellePanel() {
-        super("SCHALTSTELLE_PANEL");
+    public SchaltstellePanel(final DetailWidget detailWidget) {
+        super("SCHALTSTELLE_PANEL", detailWidget);
         initComponents();
         initPanel();
     }
@@ -87,22 +90,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     @Override
     public JLabel getTabLabel() {
         return jLabel3;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static SchaltstellePanel getInstance() {
-        if (instance == null) {
-            synchronized (StandortPanel.class) {
-                if (instance == null) {
-                    instance = new SchaltstellePanel();
-                }
-            }
-        }
-        return instance;
     }
 
     /**
@@ -659,6 +646,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     /**
      * DOCUMENT ME!
      */
+    @Override
     public void commitEdits() {
         try {
             dapSchaltstelleErstellungsjahr.getEditor().commitEdit();
@@ -696,11 +684,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     }
 
     @Override
-    BindingGroup getBindingGroup() {
-        return bindingGroup;
-    }
-
-    @Override
     void initComponentToLabelMap() {
         componentToLabelMap.put(cbxSchaltstelleBauart, lblSchaltstelleBauart);
         componentToLabelMap.put(cbxSchaltstelleStrassenschluessel, lblSchaltstelleStrassenschluessel);
@@ -713,5 +696,10 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         componentToLabelMap.put(txfSchaltstelleStandortbezeichnung, lblSchaltstelleStandortbezeichnung);
         componentToLabelMap.put(dapPruefdatum, lblPruefdatum);
         componentToLabelMap.put(cbxRundsteuerempfaenger, lblRundsteuerempfaenger);
+    }
+
+    @Override
+    protected BindingGroup getBindingGroup() {
+        return bindingGroup;
     }
 }

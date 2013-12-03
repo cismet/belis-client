@@ -11,10 +11,6 @@
  */
 package de.cismet.belis.gui.widget;
 
-import org.jdesktop.beansbinding.Binding;
-import org.jdesktop.beansbinding.Binding.ValueResult;
-import org.jdesktop.beansbinding.BindingGroup;
-
 import org.jdom.Element;
 
 import java.awt.Component;
@@ -40,7 +36,6 @@ public class BelisWidget extends AbstractWidget {
 
     protected final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     protected String validationMessage = "";
-    protected org.jdesktop.beansbinding.BindingGroup bindingGroup;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -119,53 +114,7 @@ public class BelisWidget extends AbstractWidget {
 
     @Override
     public int getStatus() {
-        if (getBindingGroup() != null) {
-            for (final Binding curBinding : getBindingGroup().getBindings()) {
-                if (this.isAncestorOf((Component)curBinding.getTargetObject())) {
-                    final ValueResult result = curBinding.getTargetValueForSource();
-                    if ((result != null) && result.failed()
-                                && (result.getFailure().getType() == Binding.SyncFailureType.VALIDATION_FAILED)) {
-                        log.info("Validation of property " + curBinding.getSourceProperty() + "has failed: " + result);
-                        log.info("Description: " + result.getFailure().getValidationResult().getDescription());
-                        validationMessage = result.getFailure().getValidationResult().getDescription();
-                        return Validatable.ERROR;
-                    } else {
-                        log.info("Validation of property " + curBinding.getSourceProperty() + "is valid: " + result);
-                        try {
-                            log.info("Check has failure: " + result.failed());
-                            if (result.failed()) {
-                                log.info("failure " + result.getFailure());
-                                log.info("manual check: "
-                                            + curBinding.getValidator().validate(
-                                                curBinding.getTargetProperty().getValue(curBinding.getTargetObject())));
-                            } else {
-                                if (log.isDebugEnabled()) {
-                                    log.debug("value: " + result.getValue());
-                                }
-                            }
-                        } catch (Exception ex) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("manual check failed");
-                            }
-                        }
-                    }
-                } else {
-                    // log.debug("Validation is skipped because binding does not belong to currentPanel.");
-                }
-            }
-        }
-        validationMessage = "";
         return Validatable.VALID;
-    }
-
-    @Override
-    public BindingGroup getBindingGroup() {
-        return bindingGroup;
-    }
-
-    @Override
-    public void setBindingGroup(final BindingGroup bindingGroup) {
-        this.bindingGroup = bindingGroup;
     }
 
     @Override

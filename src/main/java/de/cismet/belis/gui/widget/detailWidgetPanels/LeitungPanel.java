@@ -16,9 +16,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 import java.awt.Component;
 
 import java.util.Collection;
-import java.util.HashSet;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -26,7 +24,7 @@ import javax.swing.JList;
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
+import de.cismet.belis.gui.widget.DetailWidget;
 
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
@@ -45,8 +43,6 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LeitungPanel.class);
 
-    private static LeitungPanel instance = null;
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbxLeitungLeitungstyp;
     private javax.swing.JComboBox cbxLeitungMaterial;
@@ -64,9 +60,11 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
 
     /**
      * Creates new form LeitungPanel.
+     *
+     * @param  detailWidget  DOCUMENT ME!
      */
-    private LeitungPanel() {
-        super("LEITUNG_PANEL");
+    public LeitungPanel(final DetailWidget detailWidget) {
+        super("LEITUNG_PANEL", detailWidget);
         initComponents();
         initComponentToLabelMap();
         initPanel();
@@ -92,22 +90,6 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
     @Override
     public JLabel getTabLabel() {
         return jLabel1;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static LeitungPanel getInstance() {
-        if (instance == null) {
-            synchronized (LeitungPanel.class) {
-                if (instance == null) {
-                    instance = new LeitungPanel();
-                }
-            }
-        }
-        return instance;
     }
 
     /**
@@ -319,11 +301,6 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
-    BindingGroup getBindingGroup() {
-        return bindingGroup;
-    }
-
-    @Override
     void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
 
@@ -354,5 +331,16 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
         cbxLeitungLeitungstyp.setEnabled(isEditable);
         cbxLeitungMaterial.setEnabled(isEditable);
         cbxLeitungQuerschnitt.setEnabled(isEditable);
+    }
+
+    @Override
+    protected BindingGroup getBindingGroup() {
+        return null;
+    }
+
+    @Override
+    protected void commitEdits() {
+        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
+                                                                          // Tools | Templates.
     }
 }

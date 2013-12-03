@@ -349,7 +349,7 @@
         </Container>
         <Component class="javax.swing.JButton" name="btnTemplate">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Vorlage &#xfc;bernehmen"/>
+            <Property name="text" type="java.lang.String" value="Vorlage hinzuf&#xfc;gen"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTemplateActionPerformed"/>

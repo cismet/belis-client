@@ -14,8 +14,6 @@ package de.cismet.belis.gui.widget;
 
 import Sirius.server.middleware.types.MetaObject;
 
-import org.jdesktop.beansbinding.BindingGroup;
-
 import java.beans.PropertyChangeEvent;
 
 import de.cismet.belis.broker.BelisBroker;
@@ -43,6 +41,8 @@ import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.commons.architecture.validation.Validatable;
+
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
 import de.cismet.tools.CurrentStackTrace;
@@ -67,15 +67,15 @@ public class DetailWidget extends BelisWidget {
 
     protected Object currentEntity = null;
 
-    private StandortPanel standortPanel = StandortPanel.getInstance();
-    private LeuchtePanel leuchtePanel = LeuchtePanel.getInstance();
-    private LeitungPanel leitungPanel = LeitungPanel.getInstance();
-    private AbzweigdosePanel abzweigdosePanel = AbzweigdosePanel.getInstance();
-    private MauerlaschePanel mauerlaschePanel = MauerlaschePanel.getInstance();
-    private SchaltstellePanel schaltstellePanel = SchaltstellePanel.getInstance();
-    private VeranlassungPanel veranlassungPanel = VeranlassungPanel.getInstance();
-    private ArbeitsauftragPanel arbeitsauftragPanel = ArbeitsauftragPanel.getInstance();
-    private ArbeitsprotokollPanel arbeitsprotokollPanel = ArbeitsprotokollPanel.getInstance();
+    private final StandortPanel standortPanel;
+    private final LeuchtePanel leuchtePanel;
+    private final LeitungPanel leitungPanel;
+    private final AbzweigdosePanel abzweigdosePanel;
+    private final MauerlaschePanel mauerlaschePanel;
+    private final SchaltstellePanel schaltstellePanel;
+    private final VeranlassungPanel veranlassungPanel;
+    private final ArbeitsauftragPanel arbeitsauftragPanel;
+    private final ArbeitsprotokollPanel arbeitsprotokollPanel;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
@@ -95,6 +95,16 @@ public class DetailWidget extends BelisWidget {
     public DetailWidget() {
         setWidgetName("Details");
         initComponents();
+
+        standortPanel = new StandortPanel(this);
+        leuchtePanel = new LeuchtePanel(this);
+        leitungPanel = new LeitungPanel(this);
+        abzweigdosePanel = new AbzweigdosePanel(this);
+        mauerlaschePanel = new MauerlaschePanel(this);
+        schaltstellePanel = new SchaltstellePanel(this);
+        veranlassungPanel = new VeranlassungPanel(this);
+        arbeitsauftragPanel = new ArbeitsauftragPanel(this);
+        arbeitsprotokollPanel = new ArbeitsprotokollPanel(this);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -361,18 +371,118 @@ public class DetailWidget extends BelisWidget {
     } // </editor-fold>//GEN-END:initComponents
 
     @Override
-    public BindingGroup getBindingGroup() {
-        return bindingGroup;
-    }
-
-    @Override
-    public void setBindingGroup(final BindingGroup bindingGroup) {
-        this.bindingGroup = bindingGroup;
-    }
-
-    @Override
     public int getStatus() {
-        commitEdits();
-        return super.getStatus();
+        if (standortPanel.getStatus() != Validatable.VALID) {
+            validationMessage = standortPanel.getValidationMessage();
+            return standortPanel.getStatus();
+        } else if (leuchtePanel.getStatus() != Validatable.VALID) {
+            validationMessage = leuchtePanel.getValidationMessage();
+            return leuchtePanel.getStatus();
+        } else if (leitungPanel.getStatus() != Validatable.VALID) {
+            validationMessage = leitungPanel.getValidationMessage();
+            return leitungPanel.getStatus();
+        } else if (mauerlaschePanel.getStatus() != Validatable.VALID) {
+            validationMessage = mauerlaschePanel.getValidationMessage();
+            return mauerlaschePanel.getStatus();
+        } else if (schaltstellePanel.getStatus() != Validatable.VALID) {
+            validationMessage = schaltstellePanel.getValidationMessage();
+            return schaltstellePanel.getStatus();
+        } else if (abzweigdosePanel.getStatus() != Validatable.VALID) {
+            validationMessage = abzweigdosePanel.getValidationMessage();
+            return abzweigdosePanel.getStatus();
+        } else if (veranlassungPanel.getStatus() != Validatable.VALID) {
+            validationMessage = veranlassungPanel.getValidationMessage();
+            return veranlassungPanel.getStatus();
+        } else if (arbeitsauftragPanel.getStatus() != Validatable.VALID) {
+            validationMessage = arbeitsauftragPanel.getValidationMessage();
+            return arbeitsauftragPanel.getStatus();
+        } else if (arbeitsprotokollPanel.getStatus() != Validatable.VALID) {
+            validationMessage = arbeitsprotokollPanel.getValidationMessage();
+            return arbeitsprotokollPanel.getStatus();
+        } else {
+            validationMessage = "";
+            return Validatable.VALID;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public StandortPanel getStandortPanel() {
+        return standortPanel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public LeuchtePanel getLeuchtePanel() {
+        return leuchtePanel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public LeitungPanel getLeitungPanel() {
+        return leitungPanel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public AbzweigdosePanel getAbzweigdosePanel() {
+        return abzweigdosePanel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MauerlaschePanel getMauerlaschePanel() {
+        return mauerlaschePanel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public SchaltstellePanel getSchaltstellePanel() {
+        return schaltstellePanel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public VeranlassungPanel getVeranlassungPanel() {
+        return veranlassungPanel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ArbeitsauftragPanel getArbeitsauftragPanel() {
+        return arbeitsauftragPanel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ArbeitsprotokollPanel getArbeitsprotokollPanel() {
+        return arbeitsprotokollPanel;
     }
 }
