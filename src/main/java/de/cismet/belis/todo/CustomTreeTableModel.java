@@ -50,6 +50,7 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
 
     public static String HIT_NODE = "CustomTreeTableModel.Hits";
     public static String NEW_OBJECT_NODE = "CustomTreeTableModel.newObject";
+    public static String EDIT_OBJECT_NODE = "CustomTreeTableModel.editObject";
 
     // ToDo disabled Functionality 04.05.2009
     // public static String PROCESSED_NODE = "CustomTreeTableModel.Processed";
@@ -68,25 +69,16 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
     /**
      * Creates a new CustomTreeTableModel object.
      *
-     * @param  broker             DOCUMENT ME!
-     * @param  rootNode           DOCUMENT ME!
-     * @param  searchResultsNode  DOCUMENT ME!
-     * @param  newObjectsNode     DOCUMENT ME!
+     * @param  broker    DOCUMENT ME!
+     * @param  rootNode  DOCUMENT ME!
      */
     public CustomTreeTableModel(final BelisBroker broker,
-            final CustomMutableTreeTableNode rootNode,
-            final CustomMutableTreeTableNode searchResultsNode,
-            final CustomMutableTreeTableNode newObjectsNode) {
+            final CustomMutableTreeTableNode rootNode) {
         super(rootNode);
         this.broker = broker;
         this.rootNode = rootNode;
-        searchResultsNode.setUserObject(HIT_NODE);
-        newObjectsNode.setUserObject(NEW_OBJECT_NODE);
-        // ToDo disabled Functionality 04.05.2009
-        // processedObjectsNode.setUserObject(PROCESSED_NODE);
 
         setRoot(rootNode);
-        insertNodeIntoAsLastChild(searchResultsNode, rootNode);
     }
 
     //~ Methods ----------------------------------------------------------------

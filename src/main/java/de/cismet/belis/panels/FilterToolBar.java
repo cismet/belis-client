@@ -67,6 +67,10 @@ public class FilterToolBar extends javax.swing.JPanel {
                     }
                 }
             });
+
+        tglFilterNormal.setSelected(broker.isFilterNormal());
+        tglFilterVeranlassung.setSelected(broker.isFilterVeranlassung());
+        tglFilterArbeitsauftrag.setSelected(broker.isFilterArbeitsauftrag());
     }
 
     //~ Methods ----------------------------------------------------------------

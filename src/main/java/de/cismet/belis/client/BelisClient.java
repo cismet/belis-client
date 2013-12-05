@@ -197,6 +197,9 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             clipboarder = new ClipboardWaitDialog(this, true);
 
             broker = BelisBroker.getInstance();
+            broker.setFilterNormal(true);
+            broker.setFilterVeranlassung(false);
+            broker.setFilterArbeitsauftrag(false);
             broker.initComponentRegistry(this);
             broker.initMappingComponent();
             broker.lookupWidgets();

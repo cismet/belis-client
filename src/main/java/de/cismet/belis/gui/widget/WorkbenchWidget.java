@@ -23,6 +23,8 @@ import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
+import org.jdesktop.swingx.treetable.MutableTreeTableNode;
+import org.jdesktop.swingx.treetable.TreeTableNode;
 
 import org.jdom.Element;
 
@@ -46,7 +48,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.swing.DefaultListSelectionModel;
+import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -92,7 +94,6 @@ import de.cismet.cismap.commons.features.PureNewFeature;
 import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateGeometryListener;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateNewGeometryListener;
 
 import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
 import de.cismet.commons.architecture.validation.Validatable;
@@ -148,6 +149,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     private final CustomMutableTreeTableNode rootNode = new CustomMutableTreeTableNode(null, true);
     private final CustomMutableTreeTableNode searchResultsNode = new CustomMutableTreeTableNode(null, true);
     private final CustomMutableTreeTableNode newObjectsNode = new CustomMutableTreeTableNode(null, true);
+    private final CustomMutableTreeTableNode editObjectsNode = new CustomMutableTreeTableNode(null, true);
     private CustomTreeTableModel treeTableModel = null;
     private HashMap<TdtaLeuchtenCustomBean, TdtaStandortMastCustomBean> leuchteToVirtualStandortMap = new HashMap();
     private HashMap<TdtaStandortMastCustomBean, ArrayList<TdtaLeuchtenCustomBean>> leuchtenRemovedFromMastMap =
@@ -199,11 +201,40 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CustomMutableTreeTableNode getSearchResultsNode() {
+        return searchResultsNode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CustomMutableTreeTableNode getNewObjectsNode() {
+        return newObjectsNode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CustomMutableTreeTableNode getEditObjectsNode() {
+        return editObjectsNode;
+    }
+
     @Override
     public void setBroker(final BelisBroker broker) {
         super.setBroker(broker);
 
         initComponents();
+        jttHitTable.setDragEnabled(true);
+
         broker.getMappingComponent()
                 .getInputEventListener()
                 .put(
@@ -218,13 +249,20 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             LOG.warn("No feature Collection to set Listener on.");
         }
         jttHitTable.getTreeSelectionModel().addTreeSelectionListener(this);
-
         // DefaultTreeTableModel vModel = new DefaultTreeTableModel(root);
         // jttHitTable.setTreeTableModel(vModel);
         jttHitTable.setEditable(false); //
         jttHitTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jttHitTable.setTreeCellRenderer(new WorkbenchTreeTableRenderer());
-        treeTableModel = new CustomTreeTableModel(getBroker(), rootNode, searchResultsNode, newObjectsNode);
+
+        treeTableModel = new CustomTreeTableModel(getBroker(), rootNode);
+
+        searchResultsNode.setUserObject(CustomTreeTableModel.HIT_NODE);
+        newObjectsNode.setUserObject(CustomTreeTableModel.NEW_OBJECT_NODE);
+        editObjectsNode.setUserObject(CustomTreeTableModel.EDIT_OBJECT_NODE);
+
+        treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
+
         jttHitTable.setTreeTableModel(treeTableModel);
 
         broker.decorateWithAlternateHighlighting(jttHitTable);
@@ -379,7 +417,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     }
                 }
             }, AWTEvent.KEY_EVENT_MASK);
-        // jttHitTable.setTransferHandler(new WorkbenchTransferHandler());
+        jttHitTable.setTransferHandler(new WorkbenchTransferHandler());
+        jttHitTable.setDropMode(DropMode.ON);
     }
 
     /**
@@ -536,9 +575,18 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 }
                 setCurrentMode(EDIT_MODE);
 
-                if (treeTableModel.getPathForUserObject(searchResultsNode.getUserObject()) == null) {
-                    treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
+                treeTableModel.removeNodeFromParent(searchResultsNode);
+                treeTableModel.insertNodeIntoAsLastChild(editObjectsNode, rootNode);
+                treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
+                final Collection<MutableTreeTableNode> nodes = new ArrayList<MutableTreeTableNode>();
+                for (int i = 0; i < searchResultsNode.getChildCount(); i++) {
+                    final MutableTreeTableNode node = (MutableTreeTableNode)searchResultsNode.getChildAt(i);
+                    nodes.add(node);
                 }
+                for (final MutableTreeTableNode node : nodes) {
+                    treeTableModel.insertNodeIntoAsLastChild(node, editObjectsNode);
+                }
+                jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(editObjectsNode)));
             }
             jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(searchResultsNode)));
         } else {
@@ -559,6 +607,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     LOG.debug("Was in edit mode switching to view mode.");
                 }
 
+                treeTableModel.removeAllChildrenFromNode(editObjectsNode, false);
+                treeTableModel.removeNodeFromParent(editObjectsNode);
                 if (treeTableModel.getPathForUserObject(searchResultsNode.getUserObject()) == null) {
                     treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
                 }

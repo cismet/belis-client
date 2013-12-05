@@ -103,6 +103,10 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
                         setText(((CustomMutableTreeTableNode)value).getChildCount() + " Neue Objekte");
                         // setToolTipText("Neue Objekte");
                         setIcon(BelisIcons.icoNewObjects16);
+                    } else if (userObject.equals(CustomTreeTableModel.EDIT_OBJECT_NODE)) {
+                        setText(((CustomMutableTreeTableNode)value).getChildCount() + " Objekte zum Bearbeiten");
+                        // setToolTipText("Neue Objekte");
+                        setIcon(BelisIcons.icoEditObjects16);
                     } else {
                         setText("Unbekannter Typ");
                         setToolTipText("Unbekannter Typ");

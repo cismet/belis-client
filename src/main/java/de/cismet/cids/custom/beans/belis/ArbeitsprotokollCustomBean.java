@@ -31,51 +31,51 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
 
     public static final String TABLE = BelisMetaClassConstants.MC_ARBEITSPROTOKOLL;
 
-    public static final String PROP__FK_MAUERLASCHE = "fk_mauerlasche";
     public static final String PROP__MATERIAL = "material";
-    public static final String PROP__FK_LEUCHTE = "fk_leuchte";
     public static final String PROP__MONTEUR = "monteur";
-    public static final String PROP__FK_LEITUNG = "fk_leitung";
     public static final String PROP__BEMERKUNG = "bemerkung";
     public static final String PROP__DEFEKT = "defekt";
-    public static final String PROP__FK_STANDORT = "fk_standort";
-    public static final String PROP__FK_ABZWEIGDOSE = "fk_abzweigdose";
-    public static final String PROP__FK_SCHALTSTELLE = "fk_schaltstelle";
     public static final String PROP__DATUM = "datum";
     public static final String PROP__FK_STATUS = "fk_status";
     public static final String PROP__FK_ARBEITSAUFTRAG = "fk_arbeitsauftrag";
+    public static final String PROP__FK_MAUERLASCHE = "fk_mauerlasche";
+    public static final String PROP__FK_LEUCHTE = "fk_leuchte";
+    public static final String PROP__FK_LEITUNG = "fk_leitung";
+    public static final String PROP__FK_STANDORT = "fk_standort";
+    public static final String PROP__FK_ABZWEIGDOSE = "fk_abzweigdose";
+    public static final String PROP__FK_SCHALTSTELLE = "fk_schaltstelle";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
-            PROP__FK_MAUERLASCHE,
             PROP__MATERIAL,
-            PROP__FK_LEUCHTE,
             PROP__MONTEUR,
-            PROP__FK_LEITUNG,
             PROP__BEMERKUNG,
             PROP__DEFEKT,
-            PROP__FK_STANDORT,
-            PROP__FK_ABZWEIGDOSE,
-            PROP__FK_SCHALTSTELLE,
             PROP__DATUM,
             PROP__FK_STATUS,
+            PROP__FK_STANDORT,
+            PROP__FK_MAUERLASCHE,
+            PROP__FK_LEUCHTE,
+            PROP__FK_LEITUNG,
+            PROP__FK_ABZWEIGDOSE,
+            PROP__FK_SCHALTSTELLE,
             PROP__FK_ARBEITSAUFTRAG
         };
 
     //~ Instance fields --------------------------------------------------------
 
-    private MauerlascheCustomBean fk_mauerlasche;
     private String material;
-    private TdtaLeuchtenCustomBean fk_leuchte;
     private String monteur;
-    private LeitungCustomBean fk_leitung;
     private String bemerkung;
     private String defekt;
+    private Date datum;
+    private ArbeitsprotokollstatusCustomBean fk_status;
+    private MauerlascheCustomBean fk_mauerlasche;
+    private TdtaLeuchtenCustomBean fk_leuchte;
+    private LeitungCustomBean fk_leitung;
     private TdtaStandortMastCustomBean fk_standort;
     private AbzweigdoseCustomBean fk_abzweigdose;
     private SchaltstelleCustomBean fk_schaltstelle;
-    private Date datum;
-    private ArbeitsprotokollstatusCustomBean fk_status;
     private ArbeitsauftragCustomBean fk_arbeitsauftrag;
 
     //~ Constructors -----------------------------------------------------------
@@ -223,7 +223,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      * @param  fk_leitung  DOCUMENT ME!
      */
     public void setFk_leitung(final LeitungCustomBean fk_leitung) {
-        final LeitungCustomBean old = fk_leitung;
+        final LeitungCustomBean old = this.fk_leitung;
         this.fk_leitung = fk_leitung;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_LEITUNG, old, this.fk_leitung);
     }
@@ -243,7 +243,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      * @param  bemerkung  DOCUMENT ME!
      */
     public void setBemerkung(final String bemerkung) {
-        final String old = bemerkung;
+        final String old = this.bemerkung;
         this.bemerkung = bemerkung;
         this.propertyChangeSupport.firePropertyChange(PROP__BEMERKUNG, old, this.bemerkung);
     }
@@ -263,7 +263,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      * @param  defekt  DOCUMENT ME!
      */
     public void setDefekt(final String defekt) {
-        final String old = defekt;
+        final String old = this.defekt;
         this.defekt = defekt;
         this.propertyChangeSupport.firePropertyChange(PROP__DEFEKT, old, this.defekt);
     }
@@ -283,7 +283,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      * @param  fk_standort  DOCUMENT ME!
      */
     public void setFk_standort(final TdtaStandortMastCustomBean fk_standort) {
-        final TdtaStandortMastCustomBean old = fk_standort;
+        final TdtaStandortMastCustomBean old = this.fk_standort;
         this.fk_standort = fk_standort;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_STANDORT, old, this.fk_standort);
     }
@@ -303,7 +303,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      * @param  fk_abzweigdose  DOCUMENT ME!
      */
     public void setFk_abzweigdose(final AbzweigdoseCustomBean fk_abzweigdose) {
-        final AbzweigdoseCustomBean old = fk_abzweigdose;
+        final AbzweigdoseCustomBean old = this.fk_abzweigdose;
         this.fk_abzweigdose = fk_abzweigdose;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_ABZWEIGDOSE, old, this.fk_abzweigdose);
     }
@@ -323,7 +323,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      * @param  fk_schaltstelle  DOCUMENT ME!
      */
     public void setFk_schaltstelle(final SchaltstelleCustomBean fk_schaltstelle) {
-        final SchaltstelleCustomBean old = fk_schaltstelle;
+        final SchaltstelleCustomBean old = this.fk_schaltstelle;
         this.fk_schaltstelle = fk_schaltstelle;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_SCHALTSTELLE, old, this.fk_schaltstelle);
     }
@@ -343,7 +343,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      * @param  datum  DOCUMENT ME!
      */
     public void setDatum(final Date datum) {
-        final Date old = datum;
+        final Date old = this.datum;
         this.datum = datum;
         this.propertyChangeSupport.firePropertyChange(PROP__DATUM, old, this.datum);
     }
@@ -363,7 +363,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      * @param  fk_status  DOCUMENT ME!
      */
     public void setFk_status(final ArbeitsprotokollstatusCustomBean fk_status) {
-        final ArbeitsprotokollstatusCustomBean old = fk_status;
+        final ArbeitsprotokollstatusCustomBean old = this.fk_status;
         this.fk_status = fk_status;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_STATUS, old, this.fk_status);
     }
@@ -383,7 +383,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      * @param  fk_arbeitsauftrag  DOCUMENT ME!
      */
     public void setFk_arbeitsauftrag(final ArbeitsauftragCustomBean fk_arbeitsauftrag) {
-        final ArbeitsauftragCustomBean old = fk_arbeitsauftrag;
+        final ArbeitsauftragCustomBean old = this.fk_arbeitsauftrag;
         this.fk_arbeitsauftrag = fk_arbeitsauftrag;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_ARBEITSAUFTRAG, old, this.fk_arbeitsauftrag);
     }

@@ -108,6 +108,8 @@ import de.cismet.belis.panels.CopyPasteToolbar;
 import de.cismet.belis.panels.CreateToolBar;
 import de.cismet.belis.panels.EditButtonsToolbar;
 import de.cismet.belis.panels.FilterToolBar;
+import de.cismet.belis.panels.LockWaitDialog;
+import de.cismet.belis.panels.ReleaseWaitDialog;
 import de.cismet.belis.panels.SaveErrorDialogPanel;
 import de.cismet.belis.panels.SaveWaitDialog;
 
@@ -278,14 +280,14 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     protected StatusBar statusBar;
     protected ExecutorService execService = null;
     protected String currentValidationErrorMessage = null;
-    final CreateToolBar panCreate = new CreateToolBar(this);
-    final FilterToolBar panFilter = new FilterToolBar(this);
-    WorkbenchWidget workbenchWidget = null;
-    final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
-    private final EntityClipboard entityClipboard = new EntityClipboard(this);
-    private final CopyPasteToolbar copyPasteToolbar = new CopyPasteToolbar(this);
-    private AddressSearchControl asPan;
+    private WorkbenchWidget workbenchWidget = null;
+    private final CreateToolBar panCreate;
+    private final FilterToolBar panFilter;
+    private final CopyPasteToolbar copyPasteToolbar;
+    private final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
+    private final EntityClipboard entityClipboard;
     private final LayoutManager layoutManager = new LayoutManager();
+    private AddressSearchControl asPan;
     private ConfigurationManager configManager;
     private JToolBar toolbar;
     private String applicationName;
@@ -308,6 +310,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     private int maxSearchResults = 50;
     private SaveWaitDialog saveWaitDialog = null;
     private CancelWaitDialog cancelWaitDialog = null;
+    private LockWaitDialog lockWaitDialog = null;
+    private ReleaseWaitDialog releaseWaitDialog = null;
     private RetrieveWorker lastSearch = null;
     private DetailWidget detailWidget;
     private LeitungstypCustomBean lastLeitungstyp = null;
@@ -335,6 +339,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     private BelisBroker() {
         execService = Executors.newCachedThreadPool();
+
+        entityClipboard = new EntityClipboard(this);
+
+        panCreate = new CreateToolBar(this);
+        panFilter = new FilterToolBar(this);
+        copyPasteToolbar = new CopyPasteToolbar(this);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -691,6 +701,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                     @Override
                     protected Void doInBackground() throws Exception {
+                        fireReleaseStarted();
                         releaseLock();
                         return null;
                     }
@@ -699,6 +710,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     protected void done() {
                         setInEditMode(false);
                         getMappingComponent().setReadOnly(true);
+                        fireReleaseFinished();
                     }
                 }.execute();
         } else {
@@ -709,6 +721,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                     @Override
                     protected Void doInBackground() throws Exception {
+                        fireLockStarted();
                         acquireLock();
                         return null;
                     }
@@ -729,6 +742,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         getMappingComponent().setReadOnly(false);
                         btnAcceptChanges.setEnabled(true);
                         btnDiscardChanges.setEnabled(true);
+                        fireLockFinished();
                     }
                 }.execute();
         }
@@ -1022,6 +1036,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                                             new ReverseComparator(
                                                 new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
                                     CidsBroker.addCollectionToSortedSet(results, entities);
+                                    if (results.contains(null)) {
+                                        LOG.fatal("!!!");
+                                    }
 
                                     setSearchResult(results);
                                     enableSearch();
@@ -1094,6 +1111,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         try {
             saveWaitDialog = new SaveWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
             cancelWaitDialog = new CancelWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
+            lockWaitDialog = new LockWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
+            releaseWaitDialog = new ReleaseWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
         } catch (Exception ex) {
             LOG.warn("Error while creating search and wait dialog");
         }
@@ -1680,6 +1699,60 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      */
+    protected void fireLockFinished() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    lockWaitDialog.setVisible(false);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireLockStarted() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    lockWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
+                    lockWaitDialog.setVisible(true);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireReleaseFinished() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    releaseWaitDialog.setVisible(false);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireReleaseStarted() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    releaseWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
+                    releaseWaitDialog.setVisible(true);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     protected void fireSaveStarted() {
         EventQueue.invokeLater(new Runnable() {
 
@@ -2002,13 +2075,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             LOG.debug("setSearchResults");
         }
         final Set<BaseEntity> old = this.currentSearchResults;
+        this.currentSearchResults = currentSearchResults;
         if ((this.currentSearchResults != null) && (currentSearchResults != null)
                     && this.currentSearchResults.equals(currentSearchResults)) {
             LOG.warn("Sets are equals no propertyChange doing manually refresh --> ToDo fix me");
-            this.currentSearchResults = currentSearchResults;
-            refreshWidgets(getCurrentSearchResults());
-        } else {
-            this.currentSearchResults = currentSearchResults;
+            refreshWidgets(currentSearchResults);
         }
         // ToDo why is it not working if I use null there is no equals check ???
         propertyChangeSupport.firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, old, currentSearchResults);
@@ -2111,7 +2182,15 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public void search(final BoundingBox bb) {
         try {
             disableSearch();
-            final BelisSearchStatement belisSearchStatement = new BelisSearchStatement();
+            final BelisSearchStatement belisSearchStatement = new BelisSearchStatement(
+                    isFilterNormal(),
+                    isFilterNormal(),
+                    isFilterNormal(),
+                    isFilterNormal(),
+                    isFilterNormal(),
+                    isFilterNormal(),
+                    isFilterVeranlassung(),
+                    isFilterArbeitsauftrag());
             belisSearchStatement.setGeometry(bb.getGeometry(-1));
             CidsSearchExecutor.searchAndDisplayResultsWithDialog(belisSearchStatement);
         } catch (Exception ex) {
@@ -2168,7 +2247,24 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 } else if ((currentResult instanceof ArbeitsauftragCustomBean)) {
                     final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)currentResult;
                     for (final ArbeitsprotokollCustomBean protokoll : arbeitsauftragCustomBean.getN_protokolle()) {
-                        featuresToAdd.add(protokoll.getFk_abzweigdose());
+                        if (protokoll.getFk_abzweigdose() != null) {
+                            featuresToAdd.add(protokoll.getFk_abzweigdose());
+                        }
+                        if (protokoll.getFk_leitung() != null) {
+                            featuresToAdd.add(protokoll.getFk_leitung());
+                        }
+                        if (protokoll.getFk_leuchte() != null) {
+                            featuresToAdd.add(protokoll.getFk_leuchte());
+                        }
+                        if (protokoll.getFk_mauerlasche() != null) {
+                            featuresToAdd.add(protokoll.getFk_mauerlasche());
+                        }
+                        if (protokoll.getFk_schaltstelle() != null) {
+                            featuresToAdd.add(protokoll.getFk_schaltstelle());
+                        }
+                        if (protokoll.getFk_standort() != null) {
+                            featuresToAdd.add(protokoll.getFk_standort());
+                        }
                     }
                 } else if ((currentResult instanceof StyledFeature)
                             && (((StyledFeature)currentResult).getGeometry() != null)) {

@@ -27,6 +27,23 @@ import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 
+import de.cismet.belis.broker.BelisBroker;
+
+import de.cismet.belis.todo.CustomMutableTreeTableNode;
+import de.cismet.belis.todo.CustomTreeTableModel;
+
+import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
+
+import de.cismet.cids.dynamics.CidsBean;
+
 /**
  * DOCUMENT ME!
  *
@@ -39,125 +56,100 @@ class WorkbenchTransferHandler extends TransferHandler {
 
     private static final Logger LOG = Logger.getLogger(WorkbenchTransferHandler.class);
 
-    //~ Constructors -----------------------------------------------------------
+    //~ Instance fields --------------------------------------------------------
 
-// private DataFlavor nodesFlavor;
-// private DataFlavor[] flavors = new DataFlavor[1];
-// private List<TreePath> nodesToRemove;
-// private DataFlavor fromCapabilityWidget = new DataFlavor(
-// DataFlavor.javaJVMLocalObjectMimeType,
-// "SelectionAndCapabilities"); // NOI18N
+    private DataFlavor nodesFlavor;
+    private DataFlavor[] flavors = new DataFlavor[1];
+
+    //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new TreeTransferHandler object.
      */
     public WorkbenchTransferHandler() {
-//        try {
-//            final String mimeType = DataFlavor.javaJVMLocalObjectMimeType
-//                        + ";class=\"" + javax.swing.tree.TreePath[].class.getName()
-//                        + "\"";
-//            nodesFlavor = new DataFlavor(mimeType);
-//            flavors[0] = nodesFlavor;
-//        } catch (ClassNotFoundException e) {
-//            System.out.println("ClassNotFound: " + e.getMessage());
-//        }
+        try {
+            final String mimeType = DataFlavor.javaJVMLocalObjectMimeType
+                        + ";class=\"" + javax.swing.tree.TreePath[].class.getName()
+                        + "\"";
+            nodesFlavor = new DataFlavor(mimeType);
+            flavors[0] = nodesFlavor;
+        } catch (ClassNotFoundException e) {
+            System.out.println("ClassNotFound: " + e.getMessage());
+        }
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public boolean canImport(final TransferHandler.TransferSupport support) {
-//        if (!support.isDrop()) {
-//            return false;
-//        }
-//        support.setShowDropLocation(true);
-//        if (!support.isDataFlavorSupported(nodesFlavor)) {
-//            return true;
-//        }
-//        // Do not allow a drop on the drag source selections
-//        final JXTreeTable.DropLocation dl = (JXTreeTable.DropLocation)support.getDropLocation();
-//        final JXTreeTable tree = (JXTreeTable)support.getComponent();
-//        final int dropRow = dl.getRow();
-//        final int[] selRows = tree.getSelectedRows();
-//        for (int i = 0; i < selRows.length; i++) {
-//            if (selRows[i] == dropRow) {
-//                return false;
-//            }
-//
-//            if (selRows[i] == 0) {
-//                return false;
-//            }
-//        }
-//
-//        // Do not allow a drop on a layer that is not a collection
-//        final Object targetNode = tree.getPathForRow(dl.getRow()).getLastPathComponent();
-//
-////        if (!(targetNode instanceof LayerCollection) && !targetNode.equals("Layer")) {
-////            return false;
-////        }
-
-        return true;
+        if (!support.isDrop() || !support.isDataFlavorSupported(nodesFlavor)) {
+            return false;
+        }
+        support.setShowDropLocation(true);
+        final JXTreeTable.DropLocation dl = (JXTreeTable.DropLocation)support.getDropLocation();
+        final JXTreeTable tree = (JXTreeTable)support.getComponent();
+        final int dropRow = dl.getRow();
+        final TreePath targetPath = tree.getPathForRow(dropRow);
+        final TreePath newObjectsPath = ((CustomTreeTableModel)tree.getTreeTableModel()).getPathForUserObject(
+                BelisBroker.getInstance().getWorkbenchWidget().getNewObjectsNode().getUserObject());
+        final Object userObject = ((CustomMutableTreeTableNode)targetPath.getLastPathComponent()).getUserObject();
+        if (targetPath.getParentPath().equals(newObjectsPath)) {
+            if (userObject instanceof VeranlassungCustomBean) {
+                return true;
+            } else if (userObject instanceof ArbeitsauftragCustomBean) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     @Override
     protected Transferable createTransferable(final JComponent c) {
-//        final JXTreeTable tree = (JXTreeTable)c;
-//        final Collection<TreePath> paths = new ArrayList<TreePath>();
-//        for (int i = 0; i < tree.getSelectedRowCount(); i++) {
-//            paths.add(tree.getPathForRow(tree.getSelectedRows()[i]));
-//        }
-//
-//        if (!paths.isEmpty()) {
-//            // Make up a node array for transfer and
-//            // another for the nodes that will be removed in
-//            // exportDone after a successful drop.
-//            final List<TreePath> toTransfer = new ArrayList<TreePath>();
-//            final List<TreePath> toRemove = new ArrayList<TreePath>();
-//            for (final TreePath path : paths) {
-//                toTransfer.add(copy(path));
-//                toRemove.add(path);
-//            }
-//            final TreePath[] nodes = toTransfer.toArray(new TreePath[toTransfer.size()]);
-//            nodesToRemove = toRemove;
-//            return new NodesTransferable(nodes);
-//        }
-        return null;
+        final JXTreeTable tree = (JXTreeTable)c;
+        final Collection<TreePath> paths = new ArrayList<TreePath>();
+        for (int i = 0; i < tree.getSelectedRowCount(); i++) {
+            paths.add(tree.getPathForRow(tree.getSelectedRows()[i]));
+        }
+
+        if (!paths.isEmpty()) {
+            final List<TreePath> toTransfer = new ArrayList<TreePath>();
+            for (final TreePath path : paths) {
+                final Object object = ((CustomMutableTreeTableNode)path.getLastPathComponent()).getUserObject();
+                if (!((object instanceof AbzweigdoseCustomBean)
+                                || (object instanceof MauerlascheCustomBean)
+                                || (object instanceof LeitungCustomBean)
+                                || (object instanceof TdtaLeuchtenCustomBean)
+                                || (object instanceof TdtaStandortMastCustomBean)
+                                || (object instanceof SchaltstelleCustomBean)
+                                || (object instanceof VeranlassungCustomBean))) {
+                    return null;
+                }
+                toTransfer.add(copy(path));
+            }
+            final TreePath[] nodes = toTransfer.toArray(new TreePath[toTransfer.size()]);
+            return new NodesTransferable(nodes);
+        } else {
+            return null;
+        }
     }
 
-//    /**
-//     * Copy used in createTransferable.
-//     *
-//     * @param   path  path the path to copy
-//     *
-//     * @return  A copy of the given TreePath
-//     */
-//    private TreePath copy(final TreePath path) {
-//        return new TreePath(path.getPath());
-//    }
-
-    @Override
-    protected void exportDone(final JComponent source, final Transferable data, final int action) {
-//        if ((action & MOVE) == MOVE) {
-//            final JTree tree = (JTree)source;
-//            final ActiveLayerModel model = (ActiveLayerModel)tree.getModel();
-//            // Remove nodes saved in nodesToRemove in createTransferable.
-//            for (int i = 0; i < nodesToRemove.size(); i++) {
-//                final Object parent = nodesToRemove.get(i).getParentPath().getLastPathComponent();
-//
-//                if (parent.equals(model.getRoot())) {
-//                    model.removeLayer(nodesToRemove.get(i));
-//                } else if (parent instanceof LayerCollection) {
-//                    ((LayerCollection)parent).remove(nodesToRemove.get(i).getLastPathComponent());
-//                }
-//            }
-//
-//            model.fireTreeStructureChanged(this, new Object[] { model.getRoot() }, null, null);
-//        }
+    /**
+     * Copy used in createTransferable.
+     *
+     * @param   path  path the path to copy
+     *
+     * @return  A copy of the given TreePath
+     */
+    private TreePath copy(final TreePath path) {
+        return new TreePath(path.getPath());
     }
 
     @Override
     public int getSourceActions(final JComponent c) {
-        return COPY_OR_MOVE;
+        return COPY;
     }
 
     @Override
@@ -165,209 +157,167 @@ class WorkbenchTransferHandler extends TransferHandler {
         if (!canImport(support)) {
             return false;
         }
-//
-//        // Get drop location info.
-//        final JXTreeTable.DropLocation dl = (JXTreeTable.DropLocation)support.getDropLocation();
-//        final JXTreeTable tree = (JXTreeTable)support.getComponent();
-//        final int dropRow = dl.getRow();
-//        final int[] selRows = tree.getSelectedRows();
+        final JXTreeTable.DropLocation dl = (JXTreeTable.DropLocation)support.getDropLocation();
+        final JXTreeTable tree = (JXTreeTable)support.getComponent();
+        final int dropRow = dl.getRow();
+        final int[] selRows = tree.getSelectedRows();
 
-        return true;
-//        final ActiveLayerModel model = (ActiveLayerModel)tree.getModel();
-//        // Configure for drop mode.
-//        int index = childIndex; // DropMode.INSERT
-//        if (childIndex == -1) { // DropMode.ON
-//            index = model.getChildCount(parent);
-//        }
-//
-//        if (support.isDataFlavorSupported(nodesFlavor)) {
-//            // Es handelt sich um eine MOVE Aktion --> Die Drag Operation wurde aus dem Themenbaum gestartet
-//            TreePath[] nodes = null;
-//            try {
-//                final Transferable t = support.getTransferable();
-//                nodes = (TreePath[])t.getTransferData(nodesFlavor);
-//            } catch (UnsupportedFlavorException ufe) {
-//                System.out.println("UnsupportedFlavor: " + ufe.getMessage());
-//            } catch (java.io.IOException ioe) {
-//                System.out.println("I/O error: " + ioe.getMessage());
-//            }
-//
-//            for (int i = 0; i < nodes.length; i++) {
-//                final TreePath parentPath = nodes[i].getParentPath();
-//                final Object layer = nodes[i].getLastPathComponent();
-//
-//                // The index must be decreased, if the layer is moved to a higher row number in the same folder
-//                if (parentPath.getLastPathComponent().equals(model.getRoot())) {
-//                    if (model.getIndexOfChild(model.getRoot(), layer) > -1) {
-//                        if (model.getIndexOfChild(model.getRoot(), layer) < index) {
-//                            --index;
-//                        }
-//                    }
-//                } else if (parentPath.getLastPathComponent() instanceof LayerCollection) {
-//                    final LayerCollection parentCollection = (LayerCollection)parentPath.getLastPathComponent();
-//                    if (parentCollection.indexOf(layer) > -1) {
-//                        if (parentCollection.indexOf(layer) < index) {
-//                            --index;
-//                        }
-//                    }
-//                }
-//
-//                model.moveLayer(parentPath, dest, index, layer);
-//            }
-//            return true;
-//        } else {
-//            return dropPerformed(support, model, index);
-//        }
+        try {
+            final TreePath path = tree.getPathForRow(dropRow);
+            final Object userObject = ((CustomMutableTreeTableNode)path.getLastPathComponent()).getUserObject();
+            if (userObject instanceof VeranlassungCustomBean) {
+                final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)userObject;
+                for (final int selRow : selRows) {
+                    final CidsBean clipboardBean = (CidsBean)
+                        ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
+                    if (clipboardBean instanceof TdtaStandortMastCustomBean) {
+                        final Collection<TdtaStandortMastCustomBean> standorte =
+                            veranlassungCustomBean.getAr_standorte();
+                        if (!standorte.contains((TdtaStandortMastCustomBean)clipboardBean)) {
+                            standorte.add((TdtaStandortMastCustomBean)clipboardBean);
+                        }
+                    } else if (clipboardBean instanceof TdtaLeuchtenCustomBean) {
+                        final Collection<TdtaLeuchtenCustomBean> leuchten = veranlassungCustomBean.getAr_leuchten();
+                        if (!leuchten.contains((TdtaLeuchtenCustomBean)clipboardBean)) {
+                            leuchten.add((TdtaLeuchtenCustomBean)clipboardBean);
+                        }
+                    } else if (clipboardBean instanceof LeitungCustomBean) {
+                        final Collection<LeitungCustomBean> leitungen = veranlassungCustomBean.getAr_leitungen();
+                        if (!leitungen.contains((LeitungCustomBean)clipboardBean)) {
+                            leitungen.add((LeitungCustomBean)clipboardBean);
+                        }
+                    } else if (clipboardBean instanceof MauerlascheCustomBean) {
+                        final Collection<MauerlascheCustomBean> mauerlaschen =
+                            veranlassungCustomBean.getAr_mauerlaschen();
+                        if (!mauerlaschen.contains((MauerlascheCustomBean)clipboardBean)) {
+                            mauerlaschen.add((MauerlascheCustomBean)clipboardBean);
+                        }
+                    } else if (clipboardBean instanceof AbzweigdoseCustomBean) {
+                        final Collection<AbzweigdoseCustomBean> abzweigdosen =
+                            veranlassungCustomBean.getAr_abzweigdosen();
+                        if (!abzweigdosen.contains((AbzweigdoseCustomBean)clipboardBean)) {
+                            abzweigdosen.add((AbzweigdoseCustomBean)clipboardBean);
+                        }
+                    } else if (clipboardBean instanceof SchaltstelleCustomBean) {
+                        final Collection<SchaltstelleCustomBean> schaltstellen =
+                            veranlassungCustomBean.getAr_schaltstellen();
+                        if (!schaltstellen.contains((SchaltstelleCustomBean)clipboardBean)) {
+                            schaltstellen.add((SchaltstelleCustomBean)clipboardBean);
+                        }
+                    }
+                }
+            } else {
+                final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)userObject;
+                for (final int selRow : selRows) {
+                    final CidsBean clipboardBean = (CidsBean)
+                        ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
+                    if ((clipboardBean instanceof TdtaStandortMastCustomBean)
+                                || (clipboardBean instanceof TdtaLeuchtenCustomBean)
+                                || (clipboardBean instanceof LeitungCustomBean)
+                                || (clipboardBean instanceof MauerlascheCustomBean)
+                                || (clipboardBean instanceof AbzweigdoseCustomBean)
+                                || (clipboardBean instanceof SchaltstelleCustomBean)) {
+                        final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
+                        if (clipboardBean instanceof TdtaStandortMastCustomBean) {
+                            protokoll.setFk_standort((TdtaStandortMastCustomBean)clipboardBean);
+                        } else if (clipboardBean instanceof TdtaLeuchtenCustomBean) {
+                            protokoll.setFk_leuchte((TdtaLeuchtenCustomBean)clipboardBean);
+                        } else if (clipboardBean instanceof LeitungCustomBean) {
+                            protokoll.setFk_leitung((LeitungCustomBean)clipboardBean);
+                        } else if (clipboardBean instanceof MauerlascheCustomBean) {
+                            protokoll.setFk_mauerlasche((MauerlascheCustomBean)clipboardBean);
+                        } else if (clipboardBean instanceof AbzweigdoseCustomBean) {
+                            protokoll.setFk_abzweigdose((AbzweigdoseCustomBean)clipboardBean);
+                        } else if (clipboardBean instanceof SchaltstelleCustomBean) {
+                            protokoll.setFk_schaltstelle((SchaltstelleCustomBean)clipboardBean);
+                        }
+                        arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
+                    } else if (clipboardBean instanceof VeranlassungCustomBean) {
+                        final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)clipboardBean;
+                        final Collection<CidsBean> allBasics = new ArrayList<CidsBean>();
+                        allBasics.addAll(veranlassungCustomBean.getAr_abzweigdosen());
+                        allBasics.addAll(veranlassungCustomBean.getAr_leitungen());
+                        allBasics.addAll(veranlassungCustomBean.getAr_leuchten());
+                        allBasics.addAll(veranlassungCustomBean.getAr_mauerlaschen());
+                        allBasics.addAll(veranlassungCustomBean.getAr_schaltstellen());
+                        allBasics.addAll(veranlassungCustomBean.getAr_standorte());
+
+                        for (final CidsBean basic : allBasics) {
+                            final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
+                            if (basic instanceof TdtaStandortMastCustomBean) {
+                                protokoll.setFk_standort((TdtaStandortMastCustomBean)basic);
+                            } else if (basic instanceof TdtaLeuchtenCustomBean) {
+                                protokoll.setFk_leuchte((TdtaLeuchtenCustomBean)basic);
+                            } else if (basic instanceof LeitungCustomBean) {
+                                protokoll.setFk_leitung((LeitungCustomBean)basic);
+                            } else if (basic instanceof MauerlascheCustomBean) {
+                                protokoll.setFk_mauerlasche((MauerlascheCustomBean)basic);
+                            } else if (basic instanceof AbzweigdoseCustomBean) {
+                                protokoll.setFk_abzweigdose((AbzweigdoseCustomBean)basic);
+                            } else if (basic instanceof SchaltstelleCustomBean) {
+                                protokoll.setFk_schaltstelle((SchaltstelleCustomBean)basic);
+                            }
+                            arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
+                        }
+                    }
+                }
+            }
+            BelisBroker.getInstance().getWorkbenchWidget().refreshTreeArtifacts(WorkbenchWidget.REFRESH_NEW_OBJECTS);
+            tree.expandPath(path.getParentPath());
+            return true;
+        } catch (Exception ex) {
+            LOG.error("error while pasting bean", ex);
+            return false;
+        }
     }
-
-//    /**
-//     * DOCUMENT ME!
-//     *
-//     * @param   support           DOCUMENT ME!
-//     * @param   activeLayerModel  DOCUMENT ME!
-//     * @param   index             DOCUMENT ME!
-//     *
-//     * @return  DOCUMENT ME!
-//     */
-//    private boolean dropPerformed(final TransferHandler.TransferSupport support,
-//            final ActiveLayerModel activeLayerModel,
-//            final int index) {
-//        if (LOG.isDebugEnabled()) {
-//            LOG.debug("Drop with this flavors:" + support.getDataFlavors()); // NOI18N
-//        }
-//        if (support.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
-//                    || support.isDataFlavorSupported(DnDUtils.URI_LIST_FLAVOR)) {
-//            try {
-//                List<File> data = null;
-//                final Transferable transferable = support.getTransferable();
-//                if (support.isDataFlavorSupported(DnDUtils.URI_LIST_FLAVOR)) {
-//                    if (LOG.isDebugEnabled()) {
-//                        LOG.debug("Drop is unix drop");                      // NOI18N
-//                    }
-//
-//                    try {
-//                        if (LOG.isDebugEnabled()) {
-//                            LOG.debug("Drop is Mac drop xxx"
-//                                        + transferable.getTransferData(DataFlavor.javaFileListFlavor)); // NOI18N
-//                        }
-//
-//                        data = (java.util.List)transferable.getTransferData(DataFlavor.javaFileListFlavor);
-//                    } catch (UnsupportedFlavorException e) {
-//                        // transferable.getTransferData(DataFlavor.javaFileListFlavor) will throw an
-//                        // UnsupportedFlavorException on Linux
-//                        if (data == null) {
-//                            if (LOG.isDebugEnabled()) {
-//                                LOG.debug("Drop is Linux drop"); // NOI18N
-//                            }
-//                            data = DnDUtils.textURIListToFileList((String)transferable.getTransferData(
-//                                        DnDUtils.URI_LIST_FLAVOR));
-//                        }
-//                    }
-//                } else {
-//                    if (LOG.isDebugEnabled()) {
-//                        LOG.debug("Drop is windows drop");       // NOI18N
-//                    }
-//                    data = (java.util.List)transferable.getTransferData(DataFlavor.javaFileListFlavor);
-//                }
-//
-//                if (LOG.isDebugEnabled()) {
-//                    LOG.debug("Drag&Drop File List: " + data); // NOI18N
-//                }
-//                if (data != null) {
-//                    for (final File currentFile : data) {
-//                        // NO HARDCODING
-//                        try {
-//                            LOG.info("DocumentUri: " + currentFile.toURI()); // NOI18N
-//
-//                            final DocumentFeatureService dfs = DocumentFeatureServiceFactory
-//                                        .createDocumentFeatureService(currentFile);
-//                            activeLayerModel.addLayer(dfs, index);
-//
-//                            if (dfs instanceof ShapeFileFeatureService) {
-//                                new Thread(new Runnable() {
-//
-//                                        @Override
-//                                        public void run() {
-//                                            do {
-//                                                try {
-//                                                    Thread.sleep(500);
-//                                                } catch (final InterruptedException e) {
-//                                                    // nothing to do
-//                                                }
-//                                            } while (!dfs.isInitialized());
-//
-//                                            if (((ShapeFileFeatureService)dfs).isErrorInGeometryFound()) {
-//                                                LOG.error("Error in shape geometry found.");
-//                                            } else if (((ShapeFileFeatureService)dfs).isNoGeometryRecognised()) {
-//                                                LOG.error("No geometry in shape recognised.");
-//                                            }
-//                                        }
-//                                    }).start();
-//
-//                                return true;
-//                            }
-//                        } catch (final Exception ex) {
-//                            LOG.error("Error during creation of a FeatureServices", ex); // NOI18N
-//                        }
-//                    }
-//                } else {
-//                    LOG.warn("No files available");                                      // NOI18N
-//                }
-//            } catch (final Exception ex) {
-//                LOG.error("Failure during drag & drop opertation", ex);                  // NOI18N
-//            }
-//        }
-//
-//        return false;
-//    }
 
     @Override
     public String toString() {
         return getClass().getName();
     }
 
-//    /**
-//     * DOCUMENT ME!
-//     *
-//     * @version  $Revision$, $Date$
-//     */
-//    public class NodesTransferable implements Transferable {
-//
-//        //~ Instance fields ----------------------------------------------------
-//
-//        TreePath[] nodes;
-//
-//        //~ Constructors -------------------------------------------------------
-//
-//        /**
-//         * Creates a new NodesTransferable object.
-//         *
-//         * @param  nodes  DOCUMENT ME!
-//         */
-//        public NodesTransferable(final TreePath[] nodes) {
-//            this.nodes = nodes;
-//        }
-//
-//        //~ Methods ------------------------------------------------------------
-//
-//        @Override
-//        public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
-////            if (!isDataFlavorSupported(flavor)) {
-////                throw new UnsupportedFlavorException(flavor);
-////            }
-//            return nodes;
-//        }
-//
-//        @Override
-//        public DataFlavor[] getTransferDataFlavors() {
-////            return flavors;
-//            return new DataFlavor[0];
-//        }
-//
-//        @Override
-//        public boolean isDataFlavorSupported(final DataFlavor flavor) {
-////            return nodesFlavor.equals(flavor);
-//            return true;
-//        }
-//    }
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    public class NodesTransferable implements Transferable {
+
+        //~ Instance fields ----------------------------------------------------
+
+        TreePath[] nodes;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new NodesTransferable object.
+         *
+         * @param  nodes  DOCUMENT ME!
+         */
+        public NodesTransferable(final TreePath[] nodes) {
+            this.nodes = nodes;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
+            if (!isDataFlavorSupported(flavor)) {
+                throw new UnsupportedFlavorException(flavor);
+            }
+            return nodes;
+        }
+
+        @Override
+        public DataFlavor[] getTransferDataFlavors() {
+            return flavors;
+        }
+
+        @Override
+        public boolean isDataFlavorSupported(final DataFlavor flavor) {
+            return nodesFlavor.equals(flavor);
+        }
+    }
 }

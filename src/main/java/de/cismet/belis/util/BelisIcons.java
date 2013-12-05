@@ -40,6 +40,8 @@ public class BelisIcons {
                 "/de/cismet/belis/resource/icon/16/mauerlasche.png"));
     public static Icon icoNewObjects16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/16/new.png"));
+    public static Icon icoEditObjects16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/16/edit.png"));
     public static Icon icoAbzweigdose16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/16/abzweigdose.png"));
     public static Icon icoVeranlassung16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
