@@ -85,7 +85,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 
         //~ Enum constants -----------------------------------------------------
 
-        SELECT, PAN, ZOOM, MOVE_POLYGON, REMOVE_POLYGON, CUSTOM
+        SELECT, PAN, ZOOM, MOVE_POLYGON, REMOVE_POLYGON, CUSTOM, MEASUREMENT
     }
 
     //~ Instance fields --------------------------------------------------------
@@ -194,6 +194,13 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                         log.debug("Remove handle");
                     }
                     cmdRemovePolygonActionPerformed(null);
+                    break;
+                }
+                case MEASUREMENT: {
+                    if (log.isDebugEnabled()) {
+                        log.debug("New LineString");
+                    }
+                    cmdNewLinestringActionPerformed(null);
                     break;
                 }
                 case CUSTOM: {
@@ -629,13 +636,15 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         mapWidgetToolbar.add(jSeparator7);
 
         cmdNewLinestring.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/16/newLine.png"))); // NOI18N
+                getClass().getResource("/de/cismet/belis/resource/icon/16/newLine.png")));          // NOI18N
         cmdNewLinestring.setToolTipText("neue Linie");
         cmdNewLinestring.setBorderPainted(false);
         cmdNewLinestring.setContentAreaFilled(false);
         cmdNewLinestring.setFocusPainted(false);
         cmdNewLinestring.setFocusable(false);
         cmdNewLinestring.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cmdNewLinestring.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/newLine_selected.png"))); // NOI18N
         cmdNewLinestring.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         cmdNewLinestring.addActionListener(new java.awt.event.ActionListener() {
 
@@ -817,6 +826,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         cmdSelect.setSelected(false);
         cmdMovePolygon.setSelected(false);
         cmdRemovePolygon.setSelected(false);
+        cmdNewLinestring.setSelected(false);
 
         for (final JButton curButton : customButtons) {
             curButton.setSelected(false);
@@ -1067,9 +1077,13 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
      * @param  evt  DOCUMENT ME!
      */
     private void cmdNewLinestringActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdNewLinestringActionPerformed
+        removeMainGroupSelection();
+        cmdNewLinestring.setSelected(true);
+        setLastMapMode(getCurrentMapMode());
         mappingComponent.setInteractionMode(MappingComponent.NEW_POLYGON);
         ((CreateGeometryListener)mappingComponent.getInputListener(MappingComponent.NEW_POLYGON)).setMode(
             CreateGeometryListener.LINESTRING);
+        setCurrentMapMode(MapMode.MEASUREMENT);
     }                                                                                    //GEN-LAST:event_cmdNewLinestringActionPerformed
 
     /**
