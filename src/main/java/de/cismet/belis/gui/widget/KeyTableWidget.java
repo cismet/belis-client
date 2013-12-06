@@ -14,6 +14,7 @@ package de.cismet.belis.gui.widget;
 import Sirius.navigator.method.MethodManager;
 import Sirius.navigator.resource.PropertyManager;
 import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
+import Sirius.navigator.types.treenode.ObjectTreeNode;
 import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.navigator.ui.attributes.editor.AttributeEditor;
 import Sirius.navigator.ui.tree.MetaCatalogueTree;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -42,7 +44,7 @@ import de.cismet.belis.broker.BelisBroker;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
-public class KeyTableWidget extends BelisWidget {
+public class KeyTableWidget extends BelisWidget implements TreeSelectionListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -84,43 +86,7 @@ public class KeyTableWidget extends BelisWidget {
         pnlValues.add(panDescOrEdit, PAN_DESC_OR_EDIT);
 
         // ComponentRegistry.getRegistry().getAttributeEditor().setControlBarVisible(false);
-        ComponentRegistry.getRegistry().getCatalogueTree().addTreeSelectionListener(new TreeSelectionListener() {
-
-                @Override
-                public void valueChanged(final TreeSelectionEvent e) {
-                    if (panDescOrEdit instanceof AttributeEditor) {
-                        final MetaCatalogueTree currentTree = broker.getComponentRegistry().getCatalogueTree();
-                        final DefaultMetaTreeNode selectedNode = currentTree.getSelectedNode();
-                        if ((selectedNode != null) && (selectedNode.getNode() instanceof MetaObjectNode)) {
-                            final MetaObjectNode metaObjectNode = (MetaObjectNode)selectedNode.getNode();
-
-                            if (MethodManager.getManager().checkPermission(
-                                            metaObjectNode,
-                                            PermissionHolder.WRITEPERMISSION)) {
-                                broker.getComponentRegistry()
-                                        .getAttributeEditor()
-                                        .setTreeNode(currentTree.getSelectionPath(), selectedNode);
-
-                                final Collection<DefaultMutableTreeNode> coll = new ArrayList<DefaultMutableTreeNode>();
-                                coll.add(
-                                    (DefaultMutableTreeNode)broker.getComponentRegistry().getAttributeEditor()
-                                                .getTreeNode());
-
-                                broker.getComponentRegistry().getCatalogueTree().removeTreeSelectionListener(this);
-                                broker.getComponentRegistry().getCatalogueTree().setSelectedNodes(coll, true);
-                                broker.getComponentRegistry().getCatalogueTree().addTreeSelectionListener(this);
-                                final CardLayout cl = (CardLayout)(pnlValues.getLayout());
-                                cl.show(pnlValues, PAN_DESC_OR_EDIT);
-                            } else {
-                                LOG.warn("insufficient permission to edit node " + selectedNode); // NOI18N
-                            }
-//                        } else {
-//                            final CardLayout cl = (CardLayout)(pnlValues.getLayout());
-//                            cl.show(pnlValues, "PURE_TREE_NODE");
-                        }
-                    }
-                }
-            });
+        ComponentRegistry.getRegistry().getCatalogueTree().addTreeSelectionListener(this);
     }
 
     /**
@@ -157,4 +123,30 @@ public class KeyTableWidget extends BelisWidget {
         gridBagConstraints.weighty = 1.0;
         add(jSplitPane1, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
+
+    @Override
+    public void valueChanged(final TreeSelectionEvent e) {
+        if (panDescOrEdit instanceof AttributeEditor) {
+            final MetaCatalogueTree currentTree = getBroker().getComponentRegistry().getCatalogueTree();
+            final DefaultMetaTreeNode selectedNode = currentTree.getSelectedNode();
+            if ((selectedNode != null) && (selectedNode.getNode() instanceof MetaObjectNode)) {
+                final MetaObjectNode metaObjectNode = (MetaObjectNode)selectedNode.getNode();
+
+                getBroker().getComponentRegistry()
+                        .getAttributeEditor()
+                        .setTreeNode(currentTree.getSelectionPath(), selectedNode);
+
+                final Collection<DefaultMutableTreeNode> coll = new ArrayList<DefaultMutableTreeNode>();
+                coll.add((DefaultMutableTreeNode)getBroker().getComponentRegistry().getAttributeEditor().getTreeNode());
+
+                getBroker().getComponentRegistry().getCatalogueTree().removeTreeSelectionListener(KeyTableWidget.this);
+                getBroker().getComponentRegistry().getCatalogueTree().setSelectedNodes(coll, true);
+                getBroker().getComponentRegistry().getCatalogueTree().addTreeSelectionListener(KeyTableWidget.this);
+                final CardLayout cl = (CardLayout)(pnlValues.getLayout());
+                cl.show(pnlValues, PAN_DESC_OR_EDIT);
+            } else {
+                LOG.warn("insufficient permission to edit node " + selectedNode); // NOI18N
+            }
+        }
+    }
 }
