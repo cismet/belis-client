@@ -273,7 +273,7 @@ public class InfobausteinTemplateEditor extends javax.swing.JPanel implements Re
 
     @Override
     public String getTitle() {
-        return "Rundsteuerempfänger";
+        return "Infobaustein Template";
     }
 
     @Override
