@@ -203,6 +203,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             broker.initComponentRegistry(this);
             broker.initMappingComponent();
             broker.lookupWidgets();
+            broker.lookupProtokollWizards();
             initComponents();
 
             configurePlugin();

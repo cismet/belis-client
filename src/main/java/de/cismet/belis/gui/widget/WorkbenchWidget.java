@@ -2240,10 +2240,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewArbeitsauftrag() {
-        final CidsBean newArbeitsauftrag = CidsBroker.getInstance()
-                    .getBelisMetaClass(BelisMetaClassConstants.MC_ARBEITSAUFTRAG)
-                    .getEmptyInstance()
-                    .getBean();
+        final ArbeitsauftragCustomBean newArbeitsauftrag = ArbeitsauftragCustomBean.createNew();
         final CustomMutableTreeTableNode newArbeitsauftragNode = new CustomMutableTreeTableNode(
                 newArbeitsauftrag,
                 true);
@@ -2260,10 +2257,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @return  DOCUMENT ME!
      */
     public CustomMutableTreeTableNode addNewArbeitsprotokoll(final Object relatedObject) {
-        final CidsBean newArbeitsauftrag = CidsBroker.getInstance()
-                    .getBelisMetaClass(BelisMetaClassConstants.MC_ARBEITSPROTOKOLL)
-                    .getEmptyInstance()
-                    .getBean();
+        final ArbeitsprotokollCustomBean newArbeitsauftrag = ArbeitsprotokollCustomBean.createNew();
         final CustomMutableTreeTableNode newArbeitsprotokollNode = new CustomMutableTreeTableNode(
                 newArbeitsauftrag,
                 true);

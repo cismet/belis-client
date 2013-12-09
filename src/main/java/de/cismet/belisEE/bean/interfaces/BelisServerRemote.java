@@ -139,16 +139,4 @@ public interface BelisServerRemote extends lockEnabled {
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
     boolean checkIfStandortExists(TdtaStandortMastCustomBean standort) throws ActionNotSuccessfulException;
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   standort       DOCUMENT ME!
-     * @param   minimalNumber  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    TdtaStandortMastCustomBean determineNextLaufendenummer(TdtaStandortMastCustomBean standort, Integer minimalNumber)
-            throws ActionNotSuccessfulException;
 }

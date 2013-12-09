@@ -33,7 +33,6 @@ import javax.swing.JPanel;
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis.gui.widget.DetailWidget;
 import de.cismet.belis.gui.widget.KeyTableListener;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
@@ -52,7 +51,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
+public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -68,7 +67,6 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
     final String comboBoxNullValue = "Wert auswählen...";
     boolean isTriggerd = false;
     final HashMap<JComponent, JComponent> componentToLabelMap = new HashMap<JComponent, JComponent>();
-    private final DetailWidget detailWidget;
     private String validationMessage;
 
     //~ Constructors -----------------------------------------------------------
@@ -77,11 +75,9 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
      * Creates a new AbstractDetailWidgetPanel object.
      *
      * @param  panelCardName  DOCUMENT ME!
-     * @param  detailWidget   DOCUMENT ME!
      */
-    public AbstractDetailWidgetPanel(final String panelCardName, final DetailWidget detailWidget) {
+    public AbstractDetailWidgetPanel(final String panelCardName) {
         PANEL_CARD_NAME = panelCardName;
-        this.detailWidget = detailWidget;
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -120,7 +116,7 @@ public abstract class AbstractDetailWidgetPanel<T> extends JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public Object getCurrentEntity() {
+    public T getCurrentEntity() {
         return currentEntity;
     }
     /**

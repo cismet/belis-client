@@ -592,47 +592,19 @@ public class CidsBroker implements BelisServerRemote {
         final ArrayList<BaseEntity> errornousEntities = new ArrayList<BaseEntity>();
         try {
             if (objectsToSave != null) {
-                for (BaseEntity curEntity : objectsToSave) {
+                for (final BaseEntity curEntity : objectsToSave) {
                     try {
                         if (curEntity != null) {
                             if (curEntity.getId() == null) {
                                 if (LOG.isDebugEnabled()) {
                                     LOG.debug("Entity Id is not set --> persisting entity (create).");
                                 }
-                                if ((curEntity instanceof TdtaStandortMastCustomBean)
-                                            && (((TdtaStandortMastCustomBean)curEntity).getLaufendeNummer() == null)) {
-                                    if (LOG.isDebugEnabled()) {
-                                        // ToDo maybe is already set
-                                        LOG.debug("There is no laufende Nummer set, getting automaticly next one");
-                                    }
-                                    determineNextLaufendenummer((TdtaStandortMastCustomBean)curEntity);
-                                } else {
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug("Laufende Nummer already set no need to determine next one");
-                                    }
-                                }
-                                curEntity = (BaseEntity)curEntity.persist();
-//                                if (curEntity instanceof Standort) {
-//                                   final Set<Leuchte> leuchten =((Standort)curEntity).getLeuchten();
-//                                   if(leuchten != null && leuchten.size() > 0){
-//                                       LOG.debug("Standort has leuchten, setting backrefs from Leuchte to Standort");
-//                                       for(Leuchte curLeuchte:leuchten){
-//                                           curLeuchte.setStandort((Standort)curEntity);
-//                                           em.persist(curLeuchte);
-//                                       }
-//                                   }
-//                                }
-                                savedEntities.add(curEntity);
+                                savedEntities.add((BaseEntity)curEntity.persist());
                             } else {
                                 if (LOG.isDebugEnabled()) {
                                     LOG.debug("Entity Id is set --> merge entity (update).");
                                 }
-                                final BaseEntity refreshedEntity = (BaseEntity)curEntity.persist();
-                                savedEntities.add(refreshedEntity);
-                            }
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Entity is null --> skipping Entity");
+                                savedEntities.add((BaseEntity)curEntity.persist());
                             }
                         }
                     } catch (Exception ex) {
@@ -650,11 +622,7 @@ public class CidsBroker implements BelisServerRemote {
             LOG.error("Error while saving entities", ex);
             throw new ActionNotSuccessfulException("Error while saving entities", ex);
         }
-        if (errornousEntities.isEmpty()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Saving of entities successful");
-            }
-        } else {
+        if (!errornousEntities.isEmpty()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("There were problems during saving the entities errorCount: " + errornousEntities.size());
             }
@@ -666,149 +634,14 @@ public class CidsBroker implements BelisServerRemote {
     /**
      * DOCUMENT ME!
      *
-     * @param   standort  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    public TdtaStandortMastCustomBean determineNextLaufendenummer(final TdtaStandortMastCustomBean standort)
-            throws ActionNotSuccessfulException {
-        return determineNextLaufendenummer(standort, -1);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @param   search  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    private Collection executeServerSearch(final CidsServerSearch search) throws Exception {
+    public Collection executeServerSearch(final CidsServerSearch search) throws Exception {
         return proxy.customServerSearch(proxy.getSession().getUser(), search);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   standort       DOCUMENT ME!
-     * @param   minimalNumber  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    @Override
-    public TdtaStandortMastCustomBean determineNextLaufendenummer(final TdtaStandortMastCustomBean standort,
-            final Integer minimalNumber) throws ActionNotSuccessfulException {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("determine next laufendenummer");
-        }
-        if (standort != null) {
-            // ToDo would be cooler to use the objects itself as parameter;
-            String strassenschluessel = null;
-            if ((standort.getStrassenschluessel() == null)
-                        || ((strassenschluessel = standort.getStrassenschluessel().getPk()) == null)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("strassenschluessel must be != null");
-                }
-            }
-            Integer kennziffer = null;
-            if ((standort.getKennziffer() == null)
-                        || ((kennziffer = standort.getKennziffer().getKennziffer()) == null)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("kennziffer must be != null");
-                }
-            }
-            if ((kennziffer != null) && (strassenschluessel != null)) {
-                try {
-                    final List<Integer> highestNumbers = (List<Integer>)executeServerSearch(new HighestLfdNummerSearch(
-                                strassenschluessel,
-                                kennziffer));
-
-                    final Integer highestNumber = (highestNumbers.isEmpty()) ? null : highestNumbers.get(0);
-                    if ((highestNumber == null)) {
-                        if (minimalNumber > -1) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("there is no highest laufende nummer using minimal: " + minimalNumber);
-                            }
-                            standort.setLaufendeNummer(minimalNumber);
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("there is no highest laufende nummer and no minimalNumber using 0.");
-                            }
-                            standort.setLaufendeNummer(0);
-                        }
-                    } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("the highest laufende nummer is: " + highestNumber);
-                        }
-                        if ((minimalNumber > -1) && (minimalNumber > highestNumber)) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Minimal " + minimalNumber
-                                            + " is greater than highest number using minimal number");
-                            }
-                            standort.setLaufendeNummer(minimalNumber);
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Minimal is -1 or smaller than highest number: " + minimalNumber);
-                                LOG.debug("using highestnumber +1 ");
-                            }
-                            // ToDo best way to add Short ?
-                            standort.setLaufendeNummer(highestNumber + ((short)1));
-                        }
-                    }
-                    setLeuchtenPropertiesDependingOnStandort(standort);
-                    return standort;
-                } catch (Exception ex) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Error while querying entity", ex);
-                    }
-                    throw new ActionNotSuccessfulException("Error while querying highest laufendenummer", ex);
-                }
-            }
-        }
-        throw new ActionNotSuccessfulException(
-            "Not possible to determine laufendenummer kennziffer and strassenschlüssel of standort must be set.");
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  standort  DOCUMENT ME!
-     */
-    private void setLeuchtenPropertiesDependingOnStandort(final TdtaStandortMastCustomBean standort) {
-        if (standort != null) {
-            final Collection<TdtaLeuchtenCustomBean> leuchten = standort.getLeuchten();
-            if (leuchten != null) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Setting properties of Leuchte.");
-                }
-                if (standort.isStandortMast()) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Standort is Mast.");
-                    }
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Standort is no Mast.");
-                    }
-                }
-                // ToDo check if there is only one Leuchte per no mast standort
-                for (final TdtaLeuchtenCustomBean curLeuchte : leuchten) {
-                    if (standort.isStandortMast()) {
-                        curLeuchte.setStrassenschluessel(standort.getStrassenschluessel());
-                        curLeuchte.setKennziffer(standort.getKennziffer());
-                    }
-                    curLeuchte.setLaufendeNummer(standort.getLaufendeNummer());
-                }
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("No leuchten to set properties.");
-                }
-            }
-        }
     }
 
     @Override

@@ -240,7 +240,7 @@ public class DmsUrlCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.DmsUrl[id=" + getId() + "]";
+        return "DmsUrl[id=" + getId() + "]";
     }
 
     /**

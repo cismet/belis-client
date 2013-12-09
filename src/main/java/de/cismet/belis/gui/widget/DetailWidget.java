@@ -96,15 +96,15 @@ public class DetailWidget extends BelisWidget {
         setWidgetName("Details");
         initComponents();
 
-        standortPanel = new StandortPanel(this);
-        leuchtePanel = new LeuchtePanel(this);
-        leitungPanel = new LeitungPanel(this);
-        abzweigdosePanel = new AbzweigdosePanel(this);
-        mauerlaschePanel = new MauerlaschePanel(this);
-        schaltstellePanel = new SchaltstellePanel(this);
-        veranlassungPanel = new VeranlassungPanel(this);
-        arbeitsauftragPanel = new ArbeitsauftragPanel(this);
-        arbeitsprotokollPanel = new ArbeitsprotokollPanel(this);
+        standortPanel = new StandortPanel();
+        leuchtePanel = new LeuchtePanel();
+        leitungPanel = new LeitungPanel();
+        abzweigdosePanel = new AbzweigdosePanel();
+        mauerlaschePanel = new MauerlaschePanel();
+        schaltstellePanel = new SchaltstellePanel();
+        veranlassungPanel = new VeranlassungPanel();
+        arbeitsauftragPanel = new ArbeitsauftragPanel();
+        arbeitsprotokollPanel = new ArbeitsprotokollPanel();
     }
 
     //~ Methods ----------------------------------------------------------------

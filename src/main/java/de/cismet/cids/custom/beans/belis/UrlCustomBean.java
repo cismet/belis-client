@@ -177,6 +177,6 @@ public class UrlCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.Url[id=" + getId() + "]";
+        return "Url[id=" + getId() + "]";
     }
 }

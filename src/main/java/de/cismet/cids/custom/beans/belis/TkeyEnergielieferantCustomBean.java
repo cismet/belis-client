@@ -138,7 +138,7 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.Energielieferant[pk=" + pk + "]";
+        return "Energielieferant[pk=" + pk + "]";
     }
 
     @Override

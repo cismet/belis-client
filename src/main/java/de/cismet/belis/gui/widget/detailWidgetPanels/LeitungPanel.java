@@ -60,11 +60,9 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
 
     /**
      * Creates new form LeitungPanel.
-     *
-     * @param  detailWidget  DOCUMENT ME!
      */
-    public LeitungPanel(final DetailWidget detailWidget) {
-        super("LEITUNG_PANEL", detailWidget);
+    public LeitungPanel() {
+        super("LEITUNG_PANEL");
         initComponents();
         initComponentToLabelMap();
         initPanel();
@@ -340,7 +338,7 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
 
     @Override
     protected void commitEdits() {
-        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
-                                                                          // Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
+                                                                       // Tools | Templates.
     }
 }

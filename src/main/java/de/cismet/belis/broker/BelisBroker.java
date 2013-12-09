@@ -91,6 +91,8 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 
+import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
+
 import de.cismet.belis.gui.search.AddressSearchControl;
 import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
@@ -127,11 +129,13 @@ import de.cismet.belisEE.exception.LockAlreadyExistsException;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 
+import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis.SperreCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
@@ -327,6 +331,18 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     private EditButtonsToolbar editButtonsToolbar;
     private MetaSearchHelper metaSearchComponentFactory;
     private ComponentRegistry componentRegistry;
+    private Collection<AbstractArbeitsprotokollWizard<TdtaLeuchtenCustomBean>> leuchtenWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard<TdtaLeuchtenCustomBean>>();
+    private Collection<AbstractArbeitsprotokollWizard<TdtaStandortMastCustomBean>> standorteWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard<TdtaStandortMastCustomBean>>();
+    private Collection<AbstractArbeitsprotokollWizard<MauerlascheCustomBean>> mauerlascheWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard<MauerlascheCustomBean>>();
+    private Collection<AbstractArbeitsprotokollWizard<LeitungCustomBean>> leitungWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard<LeitungCustomBean>>();
+    private Collection<AbstractArbeitsprotokollWizard<AbzweigdoseCustomBean>> abzweigdoseWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard<AbzweigdoseCustomBean>>();
+    private Collection<AbstractArbeitsprotokollWizard<SchaltstelleCustomBean>> schaltstelleWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard<SchaltstelleCustomBean>>();
 
     private boolean filterNormal = true;
     private boolean filterVeranlassung = false;
@@ -1080,6 +1096,36 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      */
+    public void lookupProtokollWizards() {
+        try {
+            for (final AbstractArbeitsprotokollWizard wizard
+                        : Lookup.getDefault().lookupAll(AbstractArbeitsprotokollWizard.class)) {
+                try {
+                    if (TdtaLeuchtenCustomBean.class.isAssignableFrom(wizard.getClass())) {
+                        leuchtenWizards.add(wizard);
+                    } else if (TdtaStandortMastCustomBean.class.isAssignableFrom(wizard.getClass())) {
+                        standorteWizards.add(wizard);
+                    } else if (AbzweigdoseCustomBean.class.isAssignableFrom(wizard.getClass())) {
+                        abzweigdoseWizards.add(wizard);
+                    } else if (MauerlascheCustomBean.class.isAssignableFrom(wizard.getClass())) {
+                        mauerlascheWizards.add(wizard);
+                    } else if (SchaltstelleCustomBean.class.isAssignableFrom(wizard.getClass())) {
+                        schaltstelleWizards.add(wizard);
+                    } else if (LeitungCustomBean.class.isAssignableFrom(wizard.getClass())) {
+                        leitungWizards.add(wizard);
+                    }
+                } catch (Exception ex) {
+                    LOG.error("Error while initializing wizard", ex);
+                }
+            }
+        } catch (Throwable ex) {
+            LOG.error("Error while lookup of widgets", ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     public void initMappingComponent() {
         final MappingComponent mappingComponent = new MappingComponent();
         final MetaSearchHelper metaSearchComponentFactory = MetaSearchHelper.createNewInstance(
@@ -1113,8 +1159,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             cancelWaitDialog = new CancelWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
             lockWaitDialog = new LockWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
             releaseWaitDialog = new ReleaseWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
-        } catch (Exception ex) {
-            LOG.warn("Error while creating search and wait dialog");
+        } catch (final Exception ex) {
+            LOG.warn("Error while creating search and wait dialog", ex);
         }
         if (LOG.isDebugEnabled()) {
             LOG.debug("masterConfigure: " + BelisBroker.class.getName());

@@ -17,8 +17,17 @@ import java.sql.Date;
 
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
+
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
+
+import de.cismet.belis.server.search.HighestLfdNummerSearch;
+
+import de.cismet.belisEE.exception.ActionNotSuccessfulException;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -211,4 +220,41 @@ public class ArbeitsauftragCustomBean extends BaseEntity {
         this.n_veranlassungen = n_veranlassungen;
         this.propertyChangeSupport.firePropertyChange(PROP__N_VERANLASSUNGEN, old, this.n_veranlassungen);
     }
+
+    @Override
+    public CidsBean persist() throws Exception {
+//        determineNextNummer();
+        return super.persist();
+    }
+
+//    /**
+//     * DOCUMENT ME!
+//     *
+//     * @param   minimalNumber  DOCUMENT ME!
+//     *
+//     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+//     */
+//    private void determineNextNummer() throws ActionNotSuccessfulException {
+//        if (LOG.isDebugEnabled()) {
+//            LOG.debug("determine next laufendenummer");
+//        }
+//        try {
+//            final List<Integer> highestNumbers = (List<Integer>)CidsBroker.getInstance()
+//                        .executeServerSearch(new HighestLfdNummerSearch(
+//                                    strassenschluessel,
+//                                    kennziffer));
+//
+//            final Integer highestNumber = (highestNumbers.isEmpty()) ? null : highestNumbers.get(0);
+//            if ((highestNumber == null)) {
+//                setNummer(0);
+//            } else {
+//                setNummer(highestNumber + 1);
+//            }
+//        } catch (Exception ex) {
+//            if (LOG.isDebugEnabled()) {
+//                LOG.debug("Error while querying entity", ex);
+//            }
+//            throw new ActionNotSuccessfulException("Error while querying highest nummer", ex);
+//        }
+//    }
 }

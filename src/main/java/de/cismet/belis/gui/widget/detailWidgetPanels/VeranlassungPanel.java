@@ -92,11 +92,9 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
     /**
      * Creates new form LeuchtePanel.
-     *
-     * @param  detailWidget  DOCUMENT ME!
      */
-    public VeranlassungPanel(final DetailWidget detailWidget) {
-        super("VERANLASSUNG_PANEL", detailWidget);
+    public VeranlassungPanel() {
+        super("VERANLASSUNG_PANEL");
         initComponents();
         initComponentToLabelMap();
         initPanel();

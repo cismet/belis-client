@@ -76,11 +76,9 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
     /**
      * Creates new form SchaltstellePanel.
-     *
-     * @param  detailWidget  DOCUMENT ME!
      */
-    public SchaltstellePanel(final DetailWidget detailWidget) {
-        super("SCHALTSTELLE_PANEL", detailWidget);
+    public SchaltstellePanel() {
+        super("SCHALTSTELLE_PANEL");
         initComponents();
         initPanel();
     }

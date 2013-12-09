@@ -137,7 +137,7 @@ public class TkeyBezirkCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.Stadtbezirk[pk=" + pk + "]";
+        return "Stadtbezirk[pk=" + pk + "]";
     }
 
     @Override

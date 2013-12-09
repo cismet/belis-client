@@ -141,7 +141,7 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.Strassenschlüssel[pk=" + pk + "]";
+        return "Strassenschlüssel[pk=" + pk + "]";
     }
 
     @Override

@@ -65,11 +65,9 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
 
     /**
      * Creates new form MauerlaschePanel.
-     *
-     * @param  detailWidget  DOCUMENT ME!
      */
-    public MauerlaschePanel(final DetailWidget detailWidget) {
-        super("MAUERLASCHE_PANEL", detailWidget);
+    public MauerlaschePanel() {
+        super("MAUERLASCHE_PANEL");
         initComponents();
         initComponentToLabelMap();
         initPanel();

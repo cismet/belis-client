@@ -21,9 +21,17 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis.server.search.HighestLfdNummerSearch;
+
+import de.cismet.belisEE.exception.ActionNotSuccessfulException;
+
 import de.cismet.belisEE.mapicons.MapIcons;
 
 import de.cismet.belisEE.util.StandortKey;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 import de.cismet.cismap.commons.tools.IconUtils;
@@ -930,7 +938,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.Standort[id=" + getId() + "]";
+        return "Standort[id=" + getId() + "]";
     }
 
     /**
@@ -941,40 +949,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
     public StandortKey getStandortKey() {
         return new StandortKey(getStrassenschluessel(), getKennziffer(), getLaufendeNummer());
     }
-
-    // new version
-// @Override
-// public String getKeyString() {
-// String masttyp = "";
-// String mastart = "";
-// String lfd="";
-// if (getMasttyp() != null && getMasttyp().getMasttyp() != null) {
-// masttyp = getMasttyp().getMasttyp();
-// }
-// if (getMastart() != null && getMastart().getMastart() != null) {
-// mastart = getMastart().getMastart();
-// }
-// if (getLaufendeNummer() != null) {
-// lfd = getLaufendeNummer().toString();
-// }
-// if (mastart.length() > 0 && masttyp.length() > 0 && lfd.length() > 0) {
-// return lfd+", "+mastart + ", " + masttyp;
-// } else if (mastart.length() > 0 && lfd.length() > 0) {
-// return lfd+", "+mastart;
-// } else if (masttyp.length() > 0 && lfd.length() > 0) {
-// return lfd+", "+masttyp;
-// } else if (masttyp.length() > 0 && mastart.length() > 0) {
-// return mastart+", "+masttyp;
-// } else if (masttyp.length() > 0) {
-// return masttyp;
-// } else if (mastart.length() > 0) {
-// return mastart;
-// } else if (lfd.length() > 0) {
-// return lfd;
-// } else {
-// return "";
-// }
-// }
 
     @Override
     public String getKeyString() {
@@ -1358,5 +1332,109 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Documen
         final AnlagengruppeCustomBean old = this.anlagengruppe;
         this.anlagengruppe = anlagengruppe;
         this.propertyChangeSupport.firePropertyChange(PROP__ANLAGENGRUPPE, old, this.anlagengruppe);
+    }
+
+    @Override
+    public CidsBean persist() throws Exception {
+        determineNextLaufendenummer(-1);
+        setLeuchtenPropertiesDependingOnStandort();
+        return super.persist();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   minimalNumber  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
+    private void determineNextLaufendenummer(final Integer minimalNumber) throws ActionNotSuccessfulException {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("determine next laufendenummer");
+        }
+        // ToDo would be cooler to use the objects itself as parameter;
+        String strassenschluessel = null;
+        if ((getStrassenschluessel() == null)
+                    || ((strassenschluessel = getStrassenschluessel().getPk()) == null)) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("strassenschluessel must be != null");
+            }
+        }
+        Integer kennziffer = null;
+        if ((getKennziffer() == null)
+                    || ((kennziffer = getKennziffer().getKennziffer()) == null)) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("kennziffer must be != null");
+            }
+        }
+        if ((kennziffer != null) && (strassenschluessel != null)) {
+            try {
+                final List<Integer> highestNumbers = (List<Integer>)CidsBroker.getInstance()
+                            .executeServerSearch(new HighestLfdNummerSearch(
+                                        strassenschluessel,
+                                        kennziffer));
+
+                final Integer highestNumber = (highestNumbers.isEmpty()) ? null : highestNumbers.get(0);
+                if ((highestNumber == null)) {
+                    if (minimalNumber > -1) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("there is no highest laufende nummer using minimal: " + minimalNumber);
+                        }
+                        setLaufendeNummer(minimalNumber);
+                    } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("there is no highest laufende nummer and no minimalNumber using 0.");
+                        }
+                        setLaufendeNummer(0);
+                    }
+                } else {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("the highest laufende nummer is: " + highestNumber);
+                    }
+                    if ((minimalNumber > -1) && (minimalNumber > highestNumber)) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Minimal " + minimalNumber
+                                        + " is greater than highest number using minimal number");
+                        }
+                        setLaufendeNummer(minimalNumber);
+                    } else {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Minimal is -1 or smaller than highest number: " + minimalNumber);
+                            LOG.debug("using highestnumber +1 ");
+                        }
+                        // ToDo best way to add Short ?
+                        setLaufendeNummer(highestNumber + ((short)1));
+                    }
+                }
+                return;
+            } catch (Exception ex) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Error while querying entity", ex);
+                }
+                throw new ActionNotSuccessfulException("Error while querying highest laufendenummer", ex);
+            }
+        }
+        throw new ActionNotSuccessfulException(
+            "Not possible to determine laufendenummer kennziffer and strassenschlüssel of standort must be set.");
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setLeuchtenPropertiesDependingOnStandort() {
+        final Collection<TdtaLeuchtenCustomBean> leuchten = getLeuchten();
+        if (leuchten != null) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Setting properties of Leuchte.");
+            }
+            // ToDo check if there is only one Leuchte per no mast standort
+            for (final TdtaLeuchtenCustomBean curLeuchte : leuchten) {
+                if (isStandortMast()) {
+                    curLeuchte.setStrassenschluessel(getStrassenschluessel());
+                    curLeuchte.setKennziffer(getKennziffer());
+                }
+                curLeuchte.setLaufendeNummer(getLaufendeNummer());
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 
 import javax.swing.JLabel;
 
-import de.cismet.belis.gui.widget.DetailWidget;
+import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -23,7 +23,7 @@ import de.cismet.belis.gui.widget.DetailWidget;
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
-public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
+public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<AbzweigdoseCustomBean> {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -39,11 +39,9 @@ public final class AbzweigdosePanel extends AbstractDetailWidgetPanel<Object> {
 
     /**
      * Creates new form AbzweigdosePanel.
-     *
-     * @param  detailWidget  DOCUMENT ME!
      */
-    public AbzweigdosePanel(final DetailWidget detailWidget) {
-        super("ABZWEIGDOSE_PANEL", detailWidget);
+    public AbzweigdosePanel() {
+        super("ABZWEIGDOSE_PANEL");
         initComponents();
         initPanel();
     }

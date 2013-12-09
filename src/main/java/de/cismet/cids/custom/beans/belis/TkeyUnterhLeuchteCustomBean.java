@@ -165,7 +165,7 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.UnterhaltLeuchte[pk=" + pk + "]";
+        return "UnterhaltLeuchte[pk=" + pk + "]";
     }
 
     @Override

@@ -9,8 +9,6 @@
 import Sirius.navigator.connection.*;
 import Sirius.navigator.connection.proxy.ConnectionProxy;
 
-import Sirius.server.middleware.types.MetaClass;
-
 import java.sql.Date;
 
 import java.util.Collection;
@@ -19,10 +17,14 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.commons.constants.ArbeitsauftragPropertyConstants;
 import de.cismet.belis.commons.constants.ArbeitsprotokollPropertyConstants;
-import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 import de.cismet.belis.commons.constants.VeranlassungPropertyConstants;
 
-import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsprotokollstatusCustomBean;
+import de.cismet.cids.custom.beans.belis.InfobausteinCustomBean;
+import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
+import de.cismet.cids.custom.beans.belis.VeranlassungsartCustomBean;
 
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 
@@ -90,23 +92,13 @@ public class BrokerTester {
     private void runTest() {
         final CidsBroker broker = CidsBroker.getInstance();
 
-        final MetaClass mcVeranlassung = broker.getBelisMetaClass(BelisMetaClassConstants.MC_VERANLASSUNG);
-        final MetaClass mcVeranlassungsart = broker.getBelisMetaClass(BelisMetaClassConstants.MC_VERANLASSUNGSART);
-        final MetaClass mcArbeitsauftrag = broker.getBelisMetaClass(BelisMetaClassConstants.MC_ARBEITSAUFTRAG);
-        final MetaClass mcArbeitsprotokoll = broker.getBelisMetaClass(BelisMetaClassConstants.MC_ARBEITSPROTOKOLL);
-        final MetaClass mcArbeitsprotokollstatus = broker.getBelisMetaClass(
-                BelisMetaClassConstants.MC_ARBEITSPROTOKOLLSTATUS);
-        final MetaClass mcInfobaustein = broker.getBelisMetaClass(BelisMetaClassConstants.MC_INFOBAUSTEIN);
-        final MetaClass mcInfobausteinTemplate = broker.getBelisMetaClass(
-                BelisMetaClassConstants.MC_INFOBAUSTEIN_TEMPLATE);
-
-        final CidsBean veranlassungBean = mcVeranlassung.getEmptyInstance().getBean();
-        final CidsBean veranlassungsartBean = mcVeranlassungsart.getEmptyInstance().getBean();
-        final CidsBean arbeitsauftragBean = mcArbeitsauftrag.getEmptyInstance().getBean();
-        final CidsBean arbeitsprotokollBean = mcArbeitsprotokoll.getEmptyInstance().getBean();
-        final CidsBean arbeitsprotokollstatusBean = mcArbeitsprotokollstatus.getEmptyInstance().getBean();
-        final CidsBean infobausteinBean = mcInfobaustein.getEmptyInstance().getBean();
-        final CidsBean infobausteinTemplateBean = mcInfobausteinTemplate.getEmptyInstance().getBean();
+        final VeranlassungCustomBean veranlassungBean = VeranlassungCustomBean.createNew();
+        final VeranlassungsartCustomBean veranlassungsartBean = VeranlassungsartCustomBean.createNew();
+        final ArbeitsauftragCustomBean arbeitsauftragBean = ArbeitsauftragCustomBean.createNew();
+        final ArbeitsprotokollCustomBean arbeitsprotokollBean = ArbeitsprotokollCustomBean.createNew();
+        final ArbeitsprotokollstatusCustomBean arbeitsprotokollstatusBean = ArbeitsprotokollstatusCustomBean
+                    .createNew();
+        final InfobausteinCustomBean infobausteinBean = InfobausteinCustomBean.createNew();
 
         try {
             veranlassungBean.setProperty(VeranlassungPropertyConstants.PROP__FK_ART, veranlassungsartBean);
@@ -126,12 +118,6 @@ public class BrokerTester {
         }
 
         LOG.fatal(veranlassungBean.getMOString());
-//        LOG.fatal(veranlassungsartBean.getMOString());
-//        LOG.fatal(arbeitsauftragBean.getMOString());
-//        LOG.fatal(arbeitsprotokollBean.getMOString());
-//        LOG.fatal(arbeitsprotokollstatusBean.getMOString());
-//        LOG.fatal(infobausteinBean.getMOString());
-//        LOG.fatal(infobausteinTemplateBean.getMOString());
     }
 
     /**

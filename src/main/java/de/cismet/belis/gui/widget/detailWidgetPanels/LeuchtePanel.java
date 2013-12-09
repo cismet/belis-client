@@ -134,11 +134,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
     /**
      * Creates new form LeuchtePanel.
-     *
-     * @param  detailWidget  DOCUMENT ME!
      */
-    public LeuchtePanel(final DetailWidget detailWidget) {
-        super("LEUCHTE_PANEL", detailWidget);
+    public LeuchtePanel() {
+        super("LEUCHTE_PANEL");
         initComponents();
         initComponentToLabelMap();
         initPanel();

@@ -13,6 +13,8 @@ package de.cismet.cids.custom.beans.belis;
 
 import java.sql.Date;
 
+import java.util.Collection;
+
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -44,6 +46,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     public static final String PROP__FK_STANDORT = "fk_standort";
     public static final String PROP__FK_ABZWEIGDOSE = "fk_abzweigdose";
     public static final String PROP__FK_SCHALTSTELLE = "fk_schaltstelle";
+    public static final String PROP__N_AKTIONEN = "n_aktionen";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -59,7 +62,8 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
             PROP__FK_LEITUNG,
             PROP__FK_ABZWEIGDOSE,
             PROP__FK_SCHALTSTELLE,
-            PROP__FK_ARBEITSAUFTRAG
+            PROP__FK_ARBEITSAUFTRAG,
+            PROP__N_AKTIONEN
         };
 
     //~ Instance fields --------------------------------------------------------
@@ -77,6 +81,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     private AbzweigdoseCustomBean fk_abzweigdose;
     private SchaltstelleCustomBean fk_schaltstelle;
     private ArbeitsauftragCustomBean fk_arbeitsauftrag;
+    private Collection<ArbeitsprotokollaktionCustomBean> n_aktionen;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -386,5 +391,68 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
         final ArbeitsauftragCustomBean old = this.fk_arbeitsauftrag;
         this.fk_arbeitsauftrag = fk_arbeitsauftrag;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_ARBEITSAUFTRAG, old, this.fk_arbeitsauftrag);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<ArbeitsprotokollaktionCustomBean> getN_aktionen() {
+        return n_aktionen;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  n_aktionen  fk_arbeitsauftrag DOCUMENT ME!
+     */
+    public void setN_aktionen(final Collection<ArbeitsprotokollaktionCustomBean> n_aktionen) {
+        final Collection<ArbeitsprotokollaktionCustomBean> old = this.n_aktionen;
+        this.n_aktionen = n_aktionen;
+        this.propertyChangeSupport.firePropertyChange(PROP__N_AKTIONEN, old, this.n_aktionen);
+    }
+
+    @Override
+    public String getKeyString() {
+        if (getFk_abzweigdose() != null) {
+            return "Abzweigdose";
+        } else if (getFk_leitung() != null) {
+            return "Leitung";
+        } else if (getFk_leuchte() != null) {
+            return "Leuchte";
+        } else if (getFk_mauerlasche() != null) {
+            return "Mauerlasche";
+        } else if (getFk_schaltstelle() != null) {
+            return "Schaltstelle";
+        } else if (getFk_standort() != null) {
+            final TdtaStandortMastCustomBean standort = getFk_standort();
+            if (standort.isStandortMast()) {
+                return "Mast";
+            } else {
+                return "Standort";
+            }
+        } else {
+            return super.getKeyString();
+        }
+    }
+
+    @Override
+    public String getHumanReadablePosition() {
+        if (getFk_abzweigdose() != null) {
+            return getFk_abzweigdose().getHumanReadablePosition();
+        } else if (getFk_leitung() != null) {
+            return getFk_leitung().getHumanReadablePosition();
+        } else if (getFk_leuchte() != null) {
+            return getFk_leuchte().getHumanReadablePosition();
+        } else if (getFk_mauerlasche() != null) {
+            return getFk_mauerlasche().getHumanReadablePosition();
+        } else if (getFk_schaltstelle() != null) {
+            return getFk_schaltstelle().getHumanReadablePosition();
+        } else if (getFk_standort() != null) {
+            return getFk_standort().getHumanReadablePosition();
+        } else {
+            return super.getHumanReadablePosition();
+        }
     }
 }

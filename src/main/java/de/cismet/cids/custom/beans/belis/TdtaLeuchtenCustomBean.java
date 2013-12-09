@@ -894,7 +894,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentCon
 
     @Override
     public String toString() {
-        return "de.cismet.belis.entity.Leuchte[id=" + getId() + "]";
+        return "Leuchte[id=" + getId() + "]";
     }
 
     @Override
