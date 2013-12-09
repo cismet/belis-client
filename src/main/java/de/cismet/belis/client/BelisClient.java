@@ -1333,7 +1333,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         //~ Static fields/initializers -----------------------------------------
 
         // TODO steht auch so in VERDIS schlecht für ÄNDERUNGEN !!!!!
-        public static final String CONNECTION_CLASS = "Sirius.navigator.connection.RMIConnection";
+        public static final String CONNECTION_CLASS = "Sirius.navigator.connection.RESTfulConnection";
 //        public static final String CONNECTION_PROXY_CLASS =
 //            "Sirius.navigator.connection.proxy.DefaultConnectionProxyHandler";
         public static final String CONNECTION_PROXY_CLASS = "de.cismet.belis.broker.ConnectionProxyHandler";
@@ -1371,7 +1371,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                 final String group = name.split("@")[1];
 
                 broker.setAccountName(name);
-                final String callServerURL = "rmi://" + callserverhost + "/callServer";
+                final String callServerURL = callserverhost;
                 if (log.isDebugEnabled()) {
                     log.debug("callServerUrl:" + callServerURL);
                 }
