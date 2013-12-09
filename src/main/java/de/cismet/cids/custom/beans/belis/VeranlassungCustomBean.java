@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
+import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.entity.GeoBaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
@@ -28,7 +29,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentContainer {
+public class VeranlassungCustomBean extends BaseEntity implements DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -44,7 +45,7 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
     public static final String PROP__AR_LEUCHTEN = "ar_leuchten";
     public static final String PROP__AR_ABZWEIGDOSEN = "ar_abzweigdosen";
     public static final String PROP__AR_DOKUMENTE = "ar_dokumente";
-    public static final String PROP__FK_GEOMETRIE = "fk_geometrie";
+    public static final String PROP__AR_GEOMETRIEN = "ar_geometrien";
     public static final String PROP__USERNAME = "username";
     public static final String PROP__NUMMER = "nummer";
     public static final String PROP__FK_AUFTRAG = "fk_auftrag";
@@ -65,7 +66,7 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
             PROP__AR_LEUCHTEN,
             PROP__AR_ABZWEIGDOSEN,
             PROP__AR_DOKUMENTE,
-            PROP__FK_GEOMETRIE,
+            PROP__AR_GEOMETRIEN,
             PROP__USERNAME,
             PROP__NUMMER,
             PROP__FK_AUFTRAG,
@@ -87,6 +88,7 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
     private Collection<TdtaLeuchtenCustomBean> ar_leuchten;
     private Collection<AbzweigdoseCustomBean> ar_abzweigdosen;
     private Collection<DmsUrlCustomBean> ar_dokumente;
+    private Collection<GeometrieCustomBean> ar_geometrien;
     private GeomCustomBean fk_geometrie;
     private String username;
     private String nummer;
@@ -149,16 +151,6 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
         } else {
             return false;
         }
-    }
-
-    @Override
-    public GeomCustomBean getGeometrie() {
-        return getFk_geometrie();
-    }
-
-    @Override
-    public void setGeometrie(final GeomCustomBean val) {
-        setFk_geometrie(val);
     }
 
     @Override
@@ -336,19 +328,19 @@ public class VeranlassungCustomBean extends GeoBaseEntity implements DocumentCon
      *
      * @return  DOCUMENT ME!
      */
-    public GeomCustomBean getFk_geometrie() {
-        return fk_geometrie;
+    public Collection<GeometrieCustomBean> getAr_geometrien() {
+        return ar_geometrien;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  fk_geometrie  DOCUMENT ME!
+     * @param  ar_geometrien  DOCUMENT ME!
      */
-    public void setFk_geometrie(final GeomCustomBean fk_geometrie) {
-        final GeomCustomBean old = this.fk_geometrie;
-        this.fk_geometrie = fk_geometrie;
-        this.propertyChangeSupport.firePropertyChange(PROP__FK_GEOMETRIE, old, this.fk_geometrie);
+    public void setAr_geometrien(final Collection<GeometrieCustomBean> ar_geometrien) {
+        final Collection<GeometrieCustomBean> old = this.ar_geometrien;
+        this.ar_geometrien = ar_geometrien;
+        this.propertyChangeSupport.firePropertyChange(PROP__AR_GEOMETRIEN, old, this.ar_geometrien);
     }
 
     /**

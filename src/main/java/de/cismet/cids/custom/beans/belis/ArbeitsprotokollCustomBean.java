@@ -46,6 +46,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     public static final String PROP__FK_STANDORT = "fk_standort";
     public static final String PROP__FK_ABZWEIGDOSE = "fk_abzweigdose";
     public static final String PROP__FK_SCHALTSTELLE = "fk_schaltstelle";
+    public static final String PROP__FK_GEOMETRIE = "fk_geometrie";
     public static final String PROP__N_AKTIONEN = "n_aktionen";
 
     private static final String[] PROPERTY_NAMES = new String[] {
@@ -63,6 +64,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
             PROP__FK_ABZWEIGDOSE,
             PROP__FK_SCHALTSTELLE,
             PROP__FK_ARBEITSAUFTRAG,
+            PROP__FK_GEOMETRIE,
             PROP__N_AKTIONEN
         };
 
@@ -81,6 +83,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     private AbzweigdoseCustomBean fk_abzweigdose;
     private SchaltstelleCustomBean fk_schaltstelle;
     private ArbeitsauftragCustomBean fk_arbeitsauftrag;
+    private GeometrieCustomBean fk_geometrie;
     private Collection<ArbeitsprotokollaktionCustomBean> n_aktionen;
 
     //~ Constructors -----------------------------------------------------------
@@ -398,6 +401,26 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      *
      * @return  DOCUMENT ME!
      */
+    public GeometrieCustomBean getFk_geometrie() {
+        return fk_geometrie;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_geometrie  fk_arbeitsauftrag DOCUMENT ME!
+     */
+    public void setFk_geometrie(final GeometrieCustomBean fk_geometrie) {
+        final GeometrieCustomBean old = this.fk_geometrie;
+        this.fk_geometrie = fk_geometrie;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_GEOMETRIE, old, this.fk_geometrie);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public Collection<ArbeitsprotokollaktionCustomBean> getN_aktionen() {
         return n_aktionen;
     }
@@ -425,6 +448,8 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
             return "Mauerlasche";
         } else if (getFk_schaltstelle() != null) {
             return "Schaltstelle";
+        } else if (getFk_geometrie() != null) {
+            return "Geometrie";
         } else if (getFk_standort() != null) {
             final TdtaStandortMastCustomBean standort = getFk_standort();
             if (standort.isStandortMast()) {

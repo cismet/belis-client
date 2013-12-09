@@ -26,6 +26,7 @@ import de.cismet.belis.util.BelisIcons;
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis.GeometrieCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
@@ -90,6 +91,9 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
                 } else if (userObject instanceof ArbeitsprotokollCustomBean) {
                     setText("Arbeitsprotokoll");
                     setIcon(BelisIcons.icoArbeitsprotokoll16);
+                } else if (userObject instanceof GeometrieCustomBean) {
+                    setText("Geometrie");
+                    setIcon(BelisIcons.icoGeometrie16);
                 } else if (userObject instanceof String) {
                     if (userObject.equals(CustomTreeTableModel.HIT_NODE)) {
                         setText(((CustomMutableTreeTableNode)value).getChildCount() + " Suchergebnisse");

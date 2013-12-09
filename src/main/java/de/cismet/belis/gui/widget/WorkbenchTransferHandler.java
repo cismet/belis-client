@@ -35,6 +35,7 @@ import de.cismet.belis.todo.CustomTreeTableModel;
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis.GeometrieCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
@@ -124,7 +125,8 @@ class WorkbenchTransferHandler extends TransferHandler {
                                 || (object instanceof TdtaLeuchtenCustomBean)
                                 || (object instanceof TdtaStandortMastCustomBean)
                                 || (object instanceof SchaltstelleCustomBean)
-                                || (object instanceof VeranlassungCustomBean))) {
+                                || (object instanceof VeranlassungCustomBean)
+                                || (object instanceof GeometrieCustomBean))) {
                     return null;
                 }
                 toTransfer.add(copy(path));
@@ -204,6 +206,11 @@ class WorkbenchTransferHandler extends TransferHandler {
                         if (!schaltstellen.contains((SchaltstelleCustomBean)clipboardBean)) {
                             schaltstellen.add((SchaltstelleCustomBean)clipboardBean);
                         }
+                    } else if (clipboardBean instanceof GeometrieCustomBean) {
+                        final Collection<GeometrieCustomBean> geometrien = veranlassungCustomBean.getAr_geometrien();
+                        if (!geometrien.contains((GeometrieCustomBean)clipboardBean)) {
+                            geometrien.add((GeometrieCustomBean)clipboardBean);
+                        }
                     }
                 }
             } else {
@@ -216,7 +223,8 @@ class WorkbenchTransferHandler extends TransferHandler {
                                 || (clipboardBean instanceof LeitungCustomBean)
                                 || (clipboardBean instanceof MauerlascheCustomBean)
                                 || (clipboardBean instanceof AbzweigdoseCustomBean)
-                                || (clipboardBean instanceof SchaltstelleCustomBean)) {
+                                || (clipboardBean instanceof SchaltstelleCustomBean)
+                                || (clipboardBean instanceof GeometrieCustomBean)) {
                         final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
                         if (clipboardBean instanceof TdtaStandortMastCustomBean) {
                             protokoll.setFk_standort((TdtaStandortMastCustomBean)clipboardBean);
@@ -230,6 +238,8 @@ class WorkbenchTransferHandler extends TransferHandler {
                             protokoll.setFk_abzweigdose((AbzweigdoseCustomBean)clipboardBean);
                         } else if (clipboardBean instanceof SchaltstelleCustomBean) {
                             protokoll.setFk_schaltstelle((SchaltstelleCustomBean)clipboardBean);
+                        } else if (clipboardBean instanceof GeometrieCustomBean) {
+                            protokoll.setFk_geometrie((GeometrieCustomBean)clipboardBean);
                         }
                         arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
                     } else if (clipboardBean instanceof VeranlassungCustomBean) {
@@ -241,6 +251,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                         allBasics.addAll(veranlassungCustomBean.getAr_mauerlaschen());
                         allBasics.addAll(veranlassungCustomBean.getAr_schaltstellen());
                         allBasics.addAll(veranlassungCustomBean.getAr_standorte());
+                        allBasics.addAll(veranlassungCustomBean.getAr_geometrien());
 
                         for (final CidsBean basic : allBasics) {
                             final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
@@ -256,6 +267,8 @@ class WorkbenchTransferHandler extends TransferHandler {
                                 protokoll.setFk_abzweigdose((AbzweigdoseCustomBean)basic);
                             } else if (basic instanceof SchaltstelleCustomBean) {
                                 protokoll.setFk_schaltstelle((SchaltstelleCustomBean)basic);
+                            } else if (basic instanceof GeometrieCustomBean) {
+                                protokoll.setFk_geometrie((GeometrieCustomBean)basic);
                             }
                             arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
                         }

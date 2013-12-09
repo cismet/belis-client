@@ -21,6 +21,7 @@ import de.cismet.belis.todo.CustomMutableTreeTableNode;
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis.GeometrieCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
@@ -119,6 +120,7 @@ public class EntityClipboard {
                             allBasics.addAll(veranlassungCustomBean.getAr_leuchten());
                             allBasics.addAll(veranlassungCustomBean.getAr_mauerlaschen());
                             allBasics.addAll(veranlassungCustomBean.getAr_schaltstellen());
+                            allBasics.addAll(veranlassungCustomBean.getAr_geometrien());
                             allBasics.addAll(veranlassungCustomBean.getAr_standorte());
                             allVeranlassungen.add(veranlassungCustomBean);
                         } else if ((clipboardBean instanceof AbzweigdoseCustomBean)
@@ -126,7 +128,8 @@ public class EntityClipboard {
                                     || (clipboardBean instanceof LeitungCustomBean)
                                     || (clipboardBean instanceof SchaltstelleCustomBean)
                                     || (clipboardBean instanceof TdtaLeuchtenCustomBean)
-                                    || (clipboardBean instanceof TdtaStandortMastCustomBean)) {
+                                    || (clipboardBean instanceof TdtaStandortMastCustomBean)
+                                    || (clipboardBean instanceof GeometrieCustomBean)) {
                             allBasics.add(clipboardBean);
                         }
                     }
@@ -151,6 +154,8 @@ public class EntityClipboard {
                             protokoll.setFk_leuchte((TdtaLeuchtenCustomBean)basic);
                         } else if (basic instanceof TdtaStandortMastCustomBean) {
                             protokoll.setFk_standort((TdtaStandortMastCustomBean)basic);
+                        } else if (basic instanceof GeometrieCustomBean) {
+                            protokoll.setFk_geometrie((GeometrieCustomBean)basic);
                         }
                         arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
                     }
@@ -190,6 +195,12 @@ public class EntityClipboard {
                                 veranlassungCustomBean.getAr_schaltstellen();
                             if (!schaltstellen.contains((SchaltstelleCustomBean)clipboardBean)) {
                                 schaltstellen.add((SchaltstelleCustomBean)clipboardBean);
+                            }
+                        } else if (clipboardBean instanceof GeometrieCustomBean) {
+                            final Collection<GeometrieCustomBean> geometrien =
+                                veranlassungCustomBean.getAr_geometrien();
+                            if (!geometrien.contains((GeometrieCustomBean)clipboardBean)) {
+                                geometrien.add((GeometrieCustomBean)clipboardBean);
                             }
                         }
                     }
@@ -262,7 +273,8 @@ public class EntityClipboard {
                                     || (object instanceof AbzweigdoseCustomBean)
                                     || (object instanceof MauerlascheCustomBean)
                                     || (object instanceof LeitungCustomBean)
-                                    || (object instanceof SchaltstelleCustomBean))) {
+                                    || (object instanceof SchaltstelleCustomBean)
+                                    || (object instanceof GeometrieCustomBean))) {
                         beans.add((CidsBean)object);
                     }
                 }

@@ -24,7 +24,6 @@ import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
 import org.jdesktop.swingx.treetable.MutableTreeTableNode;
-import org.jdesktop.swingx.treetable.TreeTableNode;
 
 import org.jdom.Element;
 
@@ -59,9 +58,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.belis.gui.renderer.WorkbenchTreeTableRenderer;
 
@@ -76,6 +72,7 @@ import de.cismet.belisEE.util.LeuchteComparator;
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis.GeometrieCustomBean;
 import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
@@ -298,7 +295,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                             .isEmpty()
                                             && veranlassungCustomBean.getAr_standorte()
                                             .isEmpty()
-                                            && (veranlassungCustomBean.getGeometrie() == null);
+                                            && veranlassungCustomBean.getAr_geometrien()
+                                            .isEmpty();
                             } else if (userObj instanceof GeoBaseEntity) {
                                 return ((GeoBaseEntity)userObj).getGeometry() == null;
                             }
@@ -916,6 +914,14 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     ((CreateGeometryListener)getBroker().getMappingComponent().getInputListener(BELIS_CREATE_MODE))
                             .setMode(
                                 CreateGeometryListener.POINT);
+                } else if (userObject instanceof GeometrieCustomBean) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Instance is Geometrie --> geometry == polygon");
+                        LOG.debug(userObject);
+                    }
+                    ((CreateGeometryListener)getBroker().getMappingComponent().getInputListener(BELIS_CREATE_MODE))
+                            .setMode(
+                                CreateGeometryListener.POLYGON);
                 }
             } catch (Exception ex) {
                 LOG.error("Error while configuring map. Setting map back: ", ex);
@@ -1431,6 +1437,12 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         false);
                                 treeTableModel.insertNodeIntoAsLastChild(abzweigdoseNode, veranlassungNode);
                             }
+                            for (final GeometrieCustomBean geometrie : veranlassungCustomBean.getAr_geometrien()) {
+                                final CustomMutableTreeTableNode geometrieNode = new CustomMutableTreeTableNode(
+                                        geometrie,
+                                        false);
+                                treeTableModel.insertNodeIntoAsLastChild(geometrieNode, veranlassungNode);
+                            }
                         } else if (curObject instanceof ArbeitsauftragCustomBean) {
                             final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)
                                 curObject;
@@ -1565,6 +1577,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                 final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
                                 final MauerlascheCustomBean mauerlasche = protokoll.getFk_mauerlasche();
                                 final SchaltstelleCustomBean schaltstelle = protokoll.getFk_schaltstelle();
+                                final GeometrieCustomBean geometrie = protokoll.getFk_geometrie();
                                 if (abzweigdose != null) {
                                     final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
                                             abzweigdose,
@@ -1593,6 +1606,11 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                 } else if (schaltstelle != null) {
                                     final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
                                             schaltstelle,
+                                            false);
+                                    treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
+                                } else if (geometrie != null) {
+                                    final CustomMutableTreeTableNode node = new CustomMutableTreeTableNode(
+                                            geometrie,
                                             false);
                                     treeTableModel.insertNodeIntoAsLastChild(node, protokollNode);
                                 }
@@ -1640,6 +1658,12 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         abzweigdose,
                                         false);
                                 treeTableModel.insertNodeIntoAsLastChild(abzweigdoseNode, veranlassungNode);
+                            }
+                            for (final GeometrieCustomBean geometrie : veranlassungCustomBean.getAr_geometrien()) {
+                                final CustomMutableTreeTableNode geometrieNode = new CustomMutableTreeTableNode(
+                                        geometrie,
+                                        false);
+                                treeTableModel.insertNodeIntoAsLastChild(geometrieNode, veranlassungNode);
                             }
                         } else {
                             final CustomMutableTreeTableNode foundObject = new CustomMutableTreeTableNode(
@@ -2219,6 +2243,38 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         newObjects.add(newLeitungNode.getUserObject());
         treeTableModel.insertNodeIntoAsLastChild(newLeitungNode, newObjectsNode);
         return newLeitungNode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public CustomMutableTreeTableNode addNewGeometrie() {
+        final Object tmpObject = ((CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent())
+                    .getUserObject();
+        if ((tmpObject instanceof VeranlassungCustomBean) || (tmpObject instanceof ArbeitsauftragCustomBean)) {
+            final GeometrieCustomBean newGeometrie = GeometrieCustomBean.createNew();
+            newGeometrie.addPropertyChangeListener(getBroker());
+            newGeometrie.addPropertyChangeListener(this);
+            final CustomMutableTreeTableNode newGeometrieNode = new CustomMutableTreeTableNode(newGeometrie, true);
+            if (tmpObject instanceof VeranlassungCustomBean) {
+                final VeranlassungCustomBean selVeranlassung = ((VeranlassungCustomBean)tmpObject);
+                selVeranlassung.getAr_geometrien().add(newGeometrie);
+            } else if (tmpObject instanceof ArbeitsauftragCustomBean) {
+                final ArbeitsauftragCustomBean selAuftrag = ((ArbeitsauftragCustomBean)tmpObject);
+                final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
+                protokoll.setFk_geometrie(newGeometrie);
+                selAuftrag.getN_protokolle().add(protokoll);
+            }
+            newObjects.add(newGeometrieNode.getUserObject());
+            treeTableModel.insertNodeIntoAsLastChild(
+                newGeometrieNode,
+                (CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent());
+            return newGeometrieNode;
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -2281,9 +2281,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             for (final Object currentResult : searchResults) {
                 if ((currentResult instanceof VeranlassungCustomBean)) {
                     final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)currentResult;
-                    if (veranlassungCustomBean.getGeometry() != null) {
-                        featuresToAdd.add((StyledFeature)currentResult);
-                    }
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_geometrien()));
                     featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_abzweigdosen()));
                     featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_leitungen()));
                     featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_leuchten()));
@@ -2785,6 +2783,13 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public void addNewVeranlassung() {
         workbenchWidget.selectNode(workbenchWidget.addNewVeranlassung());
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void addNewGeometrie() {
+        workbenchWidget.selectNode(workbenchWidget.addNewGeometrie());
     }
 
     /**

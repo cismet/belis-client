@@ -47,6 +47,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNewAbzweigdose;
     private javax.swing.JButton btnNewArbeitsauftrag;
+    private javax.swing.JButton btnNewGeometrie;
     private javax.swing.JButton btnNewLeitung;
     private javax.swing.JButton btnNewLeuchte;
     private javax.swing.JButton btnNewMauerlasche;
@@ -200,6 +201,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         btnNewMauerlasche = new javax.swing.JButton();
         btnNewLeitung = new javax.swing.JButton();
         btnNewAbzweigdose = new javax.swing.JButton();
+        btnNewGeometrie = new javax.swing.JButton();
         btnNewVeranlassung = new javax.swing.JButton();
         btnNewArbeitsauftrag = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
@@ -329,6 +331,24 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 1);
         add(btnNewAbzweigdose, gridBagConstraints);
 
+        btnNewGeometrie.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/createMode.png"))); // NOI18N
+        btnNewGeometrie.setToolTipText("Neue Geometrie hinzufügen");
+        btnNewGeometrie.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnNewGeometrie.setBorderPainted(false);
+        btnNewGeometrie.setFocusPainted(false);
+        btnNewGeometrie.setMaximumSize(new java.awt.Dimension(23, 23));
+        btnNewGeometrie.setMinimumSize(new java.awt.Dimension(23, 23));
+        btnNewGeometrie.setPreferredSize(new java.awt.Dimension(23, 23));
+        btnNewGeometrie.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnNewGeometrieActionPerformed(evt);
+                }
+            });
+        add(btnNewGeometrie, new java.awt.GridBagConstraints());
+
         btnNewVeranlassung.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/veranlassung.png"))); // NOI18N
         btnNewVeranlassung.setToolTipText("Neue Veranlassung hinzufügen");
@@ -386,9 +406,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
                     btnRemoveActionPerformed(evt);
                 }
             });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 2);
-        add(btnRemove, gridBagConstraints);
+        add(btnRemove, new java.awt.GridBagConstraints());
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -565,6 +583,23 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
             broker.setVetoCheckEnabled(true);
         }
     }                                                                                        //GEN-LAST:event_btnNewArbeitsauftragActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnNewGeometrieActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewGeometrieActionPerformed
+        if (!checkIfCreationPossible()) {
+            return;
+        }
+        try {
+            broker.setVetoCheckEnabled(false);
+            broker.addNewGeometrie();
+        } finally {
+            broker.setVetoCheckEnabled(true);
+        }
+    }                                                                                   //GEN-LAST:event_btnNewGeometrieActionPerformed
 
     /**
      * could directly be placed in broker.
