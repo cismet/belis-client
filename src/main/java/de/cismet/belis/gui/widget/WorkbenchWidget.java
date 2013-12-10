@@ -44,6 +44,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -181,6 +182,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     private TreePath selectedElement = null;
     private Feature selectedFeature = null;
     private Set searchResults = null;
+    private List<TreeSelectionListener> treeSelectionListener = new ArrayList<TreeSelectionListener>();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTreeTable jttHitTable;
@@ -1090,6 +1092,17 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         featuresToSelect.addAll(veranlassungCustomBean.getAr_mauerlaschen());
                                         featuresToSelect.addAll(veranlassungCustomBean.getAr_schaltstellen());
                                         featuresToSelect.addAll(veranlassungCustomBean.getAr_standorte());
+                                    } else if (currentUserObject instanceof ArbeitsauftragCustomBean) {
+                                        final ArbeitsauftragCustomBean arbeitsauftragCustomBean =
+                                            (ArbeitsauftragCustomBean)currentUserObject;
+                                        for (final ArbeitsprotokollCustomBean ap
+                                                    : arbeitsauftragCustomBean.getN_protokolle()) {
+                                            selectArbeitsprotokollCustomBean(featuresToSelect, ap);
+                                        }
+                                    } else if (currentUserObject instanceof ArbeitsprotokollCustomBean) {
+                                        final ArbeitsprotokollCustomBean apCustomBean = (ArbeitsprotokollCustomBean)
+                                            currentUserObject;
+                                        selectArbeitsprotokollCustomBean(featuresToSelect, apCustomBean);
                                     }
                                 }
                                 if (featuresToSelect.isEmpty()) {
@@ -1127,9 +1140,64 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                         getBroker().setVetoCheckEnabled(true);
                         getBroker().removeFeatureSelectionChangeIgnore(WorkbenchWidget.this);
                         isSelectedOverMap = false;
+                        fireTreeSelectionChangedEvent(e);
+                    }
+                }
+
+                private void selectArbeitsprotokollCustomBean(final Collection<Feature> featuresToSelect,
+                        final ArbeitsprotokollCustomBean ap) {
+                    if (ap.getFk_abzweigdose() != null) {
+                        featuresToSelect.add(ap.getFk_abzweigdose());
+                    }
+                    if (ap.getFk_geometrie() != null) {
+                        featuresToSelect.add(ap.getFk_geometrie());
+                    }
+                    if (ap.getFk_leitung() != null) {
+                        featuresToSelect.add(ap.getFk_leitung());
+                    }
+                    if (ap.getFk_leuchte() != null) {
+                        featuresToSelect.add(ap.getFk_leuchte());
+                    }
+                    if (ap.getFk_mauerlasche() != null) {
+                        featuresToSelect.add(ap.getFk_mauerlasche());
+                    }
+                    if (ap.getFk_schaltstelle() != null) {
+                        featuresToSelect.add(ap.getFk_schaltstelle());
+                    }
+                    if (ap.getFk_standort() != null) {
+                        featuresToSelect.add(ap.getFk_standort());
                     }
                 }
             });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
+    private void fireTreeSelectionChangedEvent(final TreeSelectionEvent e) {
+        for (final TreeSelectionListener listener : treeSelectionListener) {
+            listener.valueChanged(e);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void addTreeSeleletionListener(final TreeSelectionListener listener) {
+        treeSelectionListener.add(listener);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void removeTreeSeleletionListener(final TreeSelectionListener listener) {
+        treeSelectionListener.remove(listener);
     }
 
     /**

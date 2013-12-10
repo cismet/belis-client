@@ -820,6 +820,16 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
     /**
      * DOCUMENT ME!
      */
+    public void setCustomMapMode() {
+        removeHandleGroupSelection();
+        removeMainGroupSelection();
+        setLastMapMode(getCurrentMapMode());
+        setCurrentMapMode(MapMode.CUSTOM);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     public void removeMainGroupSelection() {
         cmdZoom.setSelected(false);
         cmdPan.setSelected(false);

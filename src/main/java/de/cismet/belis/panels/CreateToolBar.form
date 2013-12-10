@@ -216,7 +216,7 @@
     <Component class="javax.swing.JButton" name="btnNewGeometrie">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/de/cismet/belis/resource/icon/22/createMode.png"/>
+          <Image iconType="3" name="/de/cismet/belis/resource/icon/22/newPolygonMode.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Neue Geometrie hinzuf&#xfc;gen"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
