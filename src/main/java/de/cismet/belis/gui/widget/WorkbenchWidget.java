@@ -1090,6 +1090,16 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         featuresToSelect.addAll(veranlassungCustomBean.getAr_mauerlaschen());
                                         featuresToSelect.addAll(veranlassungCustomBean.getAr_schaltstellen());
                                         featuresToSelect.addAll(veranlassungCustomBean.getAr_standorte());
+                                    } else if (currentUserObject instanceof ArbeitsauftragCustomBean) {
+                                        final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)
+                                            currentUserObject;
+                                        for (ArbeitsprotokollCustomBean ap : arbeitsauftragCustomBean.getN_protokolle()) {
+                                            selectArbeitsprotokollCustomBean(featuresToSelect, ap);
+                                        }
+                                    } else if (currentUserObject instanceof ArbeitsprotokollCustomBean) {
+                                        final ArbeitsprotokollCustomBean apCustomBean = (ArbeitsprotokollCustomBean)
+                                            currentUserObject;
+                                        selectArbeitsprotokollCustomBean(featuresToSelect, apCustomBean);
                                     }
                                 }
                                 if (featuresToSelect.isEmpty()) {
@@ -1127,6 +1137,30 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                         getBroker().setVetoCheckEnabled(true);
                         getBroker().removeFeatureSelectionChangeIgnore(WorkbenchWidget.this);
                         isSelectedOverMap = false;
+                    }
+                }
+                
+                private void selectArbeitsprotokollCustomBean(final Collection<Feature> featuresToSelect, final ArbeitsprotokollCustomBean ap) {
+                    if (ap.getFk_abzweigdose() != null) {
+                        featuresToSelect.add(ap.getFk_abzweigdose());
+                    }
+                    if (ap.getFk_geometrie() != null) {
+                        featuresToSelect.add(ap.getFk_geometrie());
+                    }
+                    if (ap.getFk_leitung() != null) {
+                        featuresToSelect.add(ap.getFk_leitung());
+                    }
+                    if (ap.getFk_leuchte() != null) {
+                        featuresToSelect.add(ap.getFk_leuchte());
+                    }
+                    if (ap.getFk_mauerlasche() != null) {
+                        featuresToSelect.add(ap.getFk_mauerlasche());
+                    }
+                    if (ap.getFk_schaltstelle() != null) {
+                        featuresToSelect.add(ap.getFk_schaltstelle());
+                    }
+                    if (ap.getFk_standort() != null) {
+                        featuresToSelect.add(ap.getFk_standort());
                     }
                 }
             });
