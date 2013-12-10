@@ -14,12 +14,24 @@ package de.cismet.belis.panels;
 
 import org.apache.log4j.Logger;
 
+import java.util.Collection;
+
 import javax.swing.JOptionPane;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.gui.widget.WorkbenchWidget;
+
+import de.cismet.belis.todo.CustomMutableTreeTableNode;
+
+import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
 
 import de.cismet.commons.architecture.interfaces.Editable;
 
@@ -31,7 +43,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public class CreateToolBar extends javax.swing.JPanel implements Editable {
+public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeSelectionListener {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -332,7 +344,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         add(btnNewAbzweigdose, gridBagConstraints);
 
         btnNewGeometrie.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/22/createMode.png"))); // NOI18N
+                getClass().getResource("/de/cismet/belis/resource/icon/22/newPolygonMode.png"))); // NOI18N
         btnNewGeometrie.setToolTipText("Neue Geometrie hinzufügen");
         btnNewGeometrie.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewGeometrie.setBorderPainted(false);
@@ -628,5 +640,28 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
             }
         }
         return true;
+    }
+
+    @Override
+    public void valueChanged(final TreeSelectionEvent e) {
+        boolean isCreationPossible = false;
+        final WorkbenchWidget workbench = BelisBroker.getInstance().getWorkbenchWidget();
+        final Collection<TreePath> paths = workbench.getSelectedTreeNodes();
+
+        if (paths.size() == 1) {
+            final TreePath path = paths.toArray(new TreePath[1])[0];
+            if (path.getLastPathComponent() instanceof CustomMutableTreeTableNode) {
+                final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)path.getLastPathComponent();
+                if ((node.getUserObject() instanceof ArbeitsauftragCustomBean)
+                            || (node.getUserObject() instanceof VeranlassungCustomBean)) {
+                    if ((workbench.getCurrentMode() == WorkbenchWidget.CREATE_MODE)
+                                || (workbench.getCurrentMode() == WorkbenchWidget.EDIT_MODE)) {
+                        isCreationPossible = true;
+                    }
+                }
+            }
+        }
+
+        btnNewGeometrie.setEnabled(isCreationPossible);
     }
 }

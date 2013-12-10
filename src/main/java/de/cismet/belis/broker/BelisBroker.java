@@ -75,6 +75,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -188,7 +189,6 @@ import de.cismet.tools.gui.StaticSwingTools;
 
 import de.cismet.veto.VetoException;
 import de.cismet.veto.VetoListener;
-import javax.swing.Action;
 
 /**
  * DOCUMENT ME!
@@ -765,7 +765,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                             getMappingComponent().setReadOnly(false);
                             btnAcceptChanges.setEnabled(true);
                             btnDiscardChanges.setEnabled(true);
-                        } finally  {
+                        } finally {
                             fireLockFinished();
                         }
                     }
@@ -1145,21 +1145,21 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
         setMappingComponent(mappingComponent);
         setMetaSearchComponentFactory(metaSearchComponentFactory);
-        
+
         CismapBroker.getInstance().addStatusListener(new StatusListener() {
 
-            @Override
-            public void statusValueChanged(StatusEvent e) {
-                if (e.getName().equals(StatusEvent.MAPPING_MODE)) {
-                    if (e.getValue().equals(MappingComponent.CREATE_SEARCH_POLYGON)) {
-                        metaSearchComponentFactory.getCmdPluginSearch().setSelected(true);
-                        getMapWidget().setCustomMapMode();
-                    } else {
-                        metaSearchComponentFactory.getCmdPluginSearch().setSelected(false);
+                @Override
+                public void statusValueChanged(final StatusEvent e) {
+                    if (e.getName().equals(StatusEvent.MAPPING_MODE)) {
+                        if (e.getValue().equals(MappingComponent.CREATE_SEARCH_POLYGON)) {
+                            metaSearchComponentFactory.getCmdPluginSearch().setSelected(true);
+                            getMapWidget().setCustomMapMode();
+                        } else {
+                            metaSearchComponentFactory.getCmdPluginSearch().setSelected(false);
+                        }
                     }
                 }
-            }
-        });
+            });
     }
 
     @Override
@@ -2446,6 +2446,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 break;
             } else if (curWidget instanceof WorkbenchWidget) {
                 workbenchWidget = (WorkbenchWidget)curWidget;
+                workbenchWidget.addTreeSeleletionListener(panCreate);
                 workbenchWidget.addPropertyChangeListener(new PropertyChangeListener() {
 
                         @Override
@@ -3300,7 +3301,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     fireSaveFinished();
                 } else if (mode == CANCEL_MODE) {
                     fireCancelFinished();
-                }            
+                }
             }
         }
     }
