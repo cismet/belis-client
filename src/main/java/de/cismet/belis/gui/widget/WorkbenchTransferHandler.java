@@ -165,11 +165,11 @@ class WorkbenchTransferHandler extends TransferHandler {
             final Object userObject = ((CustomMutableTreeTableNode)path.getLastPathComponent()).getUserObject();
             if (userObject instanceof VeranlassungCustomBean) {
                 final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)userObject;
+                final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)path.getLastPathComponent();
                 for (final int selRow : selRows) {
                     final CidsBean clipboardBean = (CidsBean)
                         ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
 
-                    final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)path.getLastPathComponent();
                     final CustomMutableTreeTableNode newNode = new CustomMutableTreeTableNode(clipboardBean, true);
                     if (clipboardBean instanceof TdtaStandortMastCustomBean) {
                         final Collection<TdtaStandortMastCustomBean> standorte =

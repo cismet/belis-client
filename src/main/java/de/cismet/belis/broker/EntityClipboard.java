@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.belis.broker;
 
+import org.jdesktop.swingx.JXTree;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,6 +19,7 @@ import javax.swing.tree.TreePath;
 import de.cismet.belis.gui.widget.WorkbenchWidget;
 
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
+import de.cismet.belis.todo.CustomTreeTableModel;
 
 import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
@@ -107,6 +110,9 @@ public class EntityClipboard {
     public void paste() {
         if (isPastable()) {
             try {
+                final CustomTreeTableModel treeModel = BelisBroker.getInstance()
+                            .getWorkbenchWidget()
+                            .getTreeTableModel();
                 final CidsBean selectedBean = getSelectedBeanForPaste();
                 if (selectedBean instanceof ArbeitsauftragCustomBean) {
                     final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)selectedBean;
@@ -140,8 +146,22 @@ public class EntityClipboard {
                             arbeitsauftragCustomBean.getN_veranlassungen().add(veranlassung);
                         }
                     }
+                    final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)
+                        treeModel.getPathForUserObject(selectedBean).getLastPathComponent();
+
                     for (final CidsBean basic : allBasics) {
                         final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
+                        final CustomMutableTreeTableNode newProtokollNode = new CustomMutableTreeTableNode(
+                                protokoll,
+                                true);
+                        final CustomMutableTreeTableNode newBasicNode = new CustomMutableTreeTableNode(basic, true);
+                        treeModel.insertNodeIntoAsLastChild(
+                            newProtokollNode,
+                            dropNode);
+                        treeModel.insertNodeIntoAsLastChild(
+                            newBasicNode,
+                            newProtokollNode);
+
                         if (basic instanceof AbzweigdoseCustomBean) {
                             protokoll.setFk_abzweigdose((AbzweigdoseCustomBean)basic);
                         } else if (basic instanceof MauerlascheCustomBean) {
@@ -161,46 +181,57 @@ public class EntityClipboard {
                     }
                 } else if (selectedBean instanceof VeranlassungCustomBean) {
                     final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)selectedBean;
+                    final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)
+                        treeModel.getPathForUserObject(veranlassungCustomBean).getLastPathComponent();
+
                     for (final CidsBean clipboardBean : clipboardBeans) {
+                        final CustomMutableTreeTableNode newNode = new CustomMutableTreeTableNode(clipboardBean, true);
                         if (clipboardBean instanceof TdtaStandortMastCustomBean) {
                             final Collection<TdtaStandortMastCustomBean> standorte =
                                 veranlassungCustomBean.getAr_standorte();
                             if (!standorte.contains((TdtaStandortMastCustomBean)clipboardBean)) {
                                 standorte.add((TdtaStandortMastCustomBean)clipboardBean);
+                                treeModel.insertNodeIntoAsLastChild(newNode, dropNode);
                             }
                         } else if (clipboardBean instanceof TdtaLeuchtenCustomBean) {
                             final Collection<TdtaLeuchtenCustomBean> leuchten = veranlassungCustomBean.getAr_leuchten();
                             if (!leuchten.contains((TdtaLeuchtenCustomBean)clipboardBean)) {
                                 leuchten.add((TdtaLeuchtenCustomBean)clipboardBean);
+                                treeModel.insertNodeIntoAsLastChild(newNode, dropNode);
                             }
                         } else if (clipboardBean instanceof LeitungCustomBean) {
                             final Collection<LeitungCustomBean> leitungen = veranlassungCustomBean.getAr_leitungen();
                             if (!leitungen.contains((LeitungCustomBean)clipboardBean)) {
                                 leitungen.add((LeitungCustomBean)clipboardBean);
+                                treeModel.insertNodeIntoAsLastChild(newNode, dropNode);
                             }
                         } else if (clipboardBean instanceof MauerlascheCustomBean) {
                             final Collection<MauerlascheCustomBean> mauerlaschen =
                                 veranlassungCustomBean.getAr_mauerlaschen();
                             if (!mauerlaschen.contains((MauerlascheCustomBean)clipboardBean)) {
                                 mauerlaschen.add((MauerlascheCustomBean)clipboardBean);
+                                treeModel.insertNodeIntoAsLastChild(newNode, dropNode);
                             }
                         } else if (clipboardBean instanceof AbzweigdoseCustomBean) {
                             final Collection<AbzweigdoseCustomBean> abzweigdosen =
                                 veranlassungCustomBean.getAr_abzweigdosen();
                             if (!abzweigdosen.contains((AbzweigdoseCustomBean)clipboardBean)) {
                                 abzweigdosen.add((AbzweigdoseCustomBean)clipboardBean);
+                                treeModel.insertNodeIntoAsLastChild(newNode, dropNode);
                             }
                         } else if (clipboardBean instanceof SchaltstelleCustomBean) {
                             final Collection<SchaltstelleCustomBean> schaltstellen =
                                 veranlassungCustomBean.getAr_schaltstellen();
                             if (!schaltstellen.contains((SchaltstelleCustomBean)clipboardBean)) {
                                 schaltstellen.add((SchaltstelleCustomBean)clipboardBean);
+                                treeModel.insertNodeIntoAsLastChild(newNode, dropNode);
                             }
                         } else if (clipboardBean instanceof GeometrieCustomBean) {
                             final Collection<GeometrieCustomBean> geometrien =
                                 veranlassungCustomBean.getAr_geometrien();
                             if (!geometrien.contains((GeometrieCustomBean)clipboardBean)) {
                                 geometrien.add((GeometrieCustomBean)clipboardBean);
+                                treeModel.insertNodeIntoAsLastChild(newNode, dropNode);
                             }
                         }
                     }
