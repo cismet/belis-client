@@ -29,6 +29,8 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.client.BelisClient;
+
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
 import de.cismet.belis.todo.CustomTreeTableModel;
 
@@ -91,17 +93,11 @@ class WorkbenchTransferHandler extends TransferHandler {
         final JXTreeTable tree = (JXTreeTable)support.getComponent();
         final int dropRow = dl.getRow();
         final TreePath targetPath = tree.getPathForRow(dropRow);
-        final TreePath newObjectsPath = ((CustomTreeTableModel)tree.getTreeTableModel()).getPathForUserObject(
-                BelisBroker.getInstance().getWorkbenchWidget().getNewObjectsNode().getUserObject());
         final Object userObject = ((CustomMutableTreeTableNode)targetPath.getLastPathComponent()).getUserObject();
-        if (targetPath.getParentPath().equals(newObjectsPath)) {
-            if (userObject instanceof VeranlassungCustomBean) {
-                return true;
-            } else if (userObject instanceof ArbeitsauftragCustomBean) {
-                return true;
-            } else {
-                return false;
-            }
+        if (userObject instanceof VeranlassungCustomBean) {
+            return true;
+        } else if (userObject instanceof ArbeitsauftragCustomBean) {
+            return true;
         } else {
             return false;
         }
@@ -172,44 +168,68 @@ class WorkbenchTransferHandler extends TransferHandler {
                 for (final int selRow : selRows) {
                     final CidsBean clipboardBean = (CidsBean)
                         ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
+
+                    final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)path.getLastPathComponent();
+                    final CustomMutableTreeTableNode newNode = new CustomMutableTreeTableNode(clipboardBean, true);
                     if (clipboardBean instanceof TdtaStandortMastCustomBean) {
                         final Collection<TdtaStandortMastCustomBean> standorte =
                             veranlassungCustomBean.getAr_standorte();
                         if (!standorte.contains((TdtaStandortMastCustomBean)clipboardBean)) {
                             standorte.add((TdtaStandortMastCustomBean)clipboardBean);
+                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                                newNode,
+                                dropNode);
                         }
                     } else if (clipboardBean instanceof TdtaLeuchtenCustomBean) {
                         final Collection<TdtaLeuchtenCustomBean> leuchten = veranlassungCustomBean.getAr_leuchten();
                         if (!leuchten.contains((TdtaLeuchtenCustomBean)clipboardBean)) {
                             leuchten.add((TdtaLeuchtenCustomBean)clipboardBean);
+                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                                newNode,
+                                dropNode);
                         }
                     } else if (clipboardBean instanceof LeitungCustomBean) {
                         final Collection<LeitungCustomBean> leitungen = veranlassungCustomBean.getAr_leitungen();
                         if (!leitungen.contains((LeitungCustomBean)clipboardBean)) {
                             leitungen.add((LeitungCustomBean)clipboardBean);
+                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                                newNode,
+                                dropNode);
                         }
                     } else if (clipboardBean instanceof MauerlascheCustomBean) {
                         final Collection<MauerlascheCustomBean> mauerlaschen =
                             veranlassungCustomBean.getAr_mauerlaschen();
                         if (!mauerlaschen.contains((MauerlascheCustomBean)clipboardBean)) {
                             mauerlaschen.add((MauerlascheCustomBean)clipboardBean);
+                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                                newNode,
+                                dropNode);
                         }
                     } else if (clipboardBean instanceof AbzweigdoseCustomBean) {
                         final Collection<AbzweigdoseCustomBean> abzweigdosen =
                             veranlassungCustomBean.getAr_abzweigdosen();
                         if (!abzweigdosen.contains((AbzweigdoseCustomBean)clipboardBean)) {
                             abzweigdosen.add((AbzweigdoseCustomBean)clipboardBean);
+                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                                newNode,
+                                dropNode);
                         }
                     } else if (clipboardBean instanceof SchaltstelleCustomBean) {
                         final Collection<SchaltstelleCustomBean> schaltstellen =
                             veranlassungCustomBean.getAr_schaltstellen();
                         if (!schaltstellen.contains((SchaltstelleCustomBean)clipboardBean)) {
                             schaltstellen.add((SchaltstelleCustomBean)clipboardBean);
+                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                                newNode,
+                                dropNode);
                         }
                     } else if (clipboardBean instanceof GeometrieCustomBean) {
                         final Collection<GeometrieCustomBean> geometrien = veranlassungCustomBean.getAr_geometrien();
                         if (!geometrien.contains((GeometrieCustomBean)clipboardBean)) {
                             geometrien.add((GeometrieCustomBean)clipboardBean);
+                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                                newNode,
+                                dropNode);
                         }
                     }
                 }
@@ -242,6 +262,21 @@ class WorkbenchTransferHandler extends TransferHandler {
                             protokoll.setFk_geometrie((GeometrieCustomBean)clipboardBean);
                         }
                         arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
+
+                        final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)
+                            path.getLastPathComponent();
+                        final CustomMutableTreeTableNode newProtokollNode = new CustomMutableTreeTableNode(
+                                protokoll,
+                                true);
+                        final CustomMutableTreeTableNode newBasicNode = new CustomMutableTreeTableNode(
+                                clipboardBean,
+                                true);
+                        ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                            newProtokollNode,
+                            dropNode);
+                        ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                            newBasicNode,
+                            newProtokollNode);
                     } else if (clipboardBean instanceof VeranlassungCustomBean) {
                         final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)clipboardBean;
                         final Collection<CidsBean> allBasics = new ArrayList<CidsBean>();
@@ -253,8 +288,21 @@ class WorkbenchTransferHandler extends TransferHandler {
                         allBasics.addAll(veranlassungCustomBean.getAr_standorte());
                         allBasics.addAll(veranlassungCustomBean.getAr_geometrien());
 
+                        final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)
+                            path.getLastPathComponent();
+
                         for (final CidsBean basic : allBasics) {
                             final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
+                            final CustomMutableTreeTableNode newProtokollNode = new CustomMutableTreeTableNode(
+                                    protokoll,
+                                    true);
+                            final CustomMutableTreeTableNode newBasicNode = new CustomMutableTreeTableNode(basic, true);
+                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                                newProtokollNode,
+                                dropNode);
+                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
+                                newBasicNode,
+                                newProtokollNode);
                             if (basic instanceof TdtaStandortMastCustomBean) {
                                 protokoll.setFk_standort((TdtaStandortMastCustomBean)basic);
                             } else if (basic instanceof TdtaLeuchtenCustomBean) {
@@ -275,7 +323,6 @@ class WorkbenchTransferHandler extends TransferHandler {
                     }
                 }
             }
-            BelisBroker.getInstance().getWorkbenchWidget().refreshTreeArtifacts(WorkbenchWidget.REFRESH_NEW_OBJECTS);
             tree.expandPath(path.getParentPath());
             return true;
         } catch (Exception ex) {

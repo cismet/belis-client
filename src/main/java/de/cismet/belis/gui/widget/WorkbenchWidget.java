@@ -1804,22 +1804,56 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             saveSelectedElementAndUnselectAll();
             if (LOG.isDebugEnabled()) {
                 LOG.debug("removing node:" + nodeToRemove);
-            }
-            if (LOG.isDebugEnabled()) {
                 LOG.debug("instance leuchte: " + (nodeToRemove.getUserObject() instanceof TdtaLeuchtenCustomBean));
-            }
-            if (LOG.isDebugEnabled()) {
                 LOG.debug("parent != null: " + (nodeToRemove.getParent() != null));
-            }
-            if (LOG.isDebugEnabled()) {
                 LOG.debug("parent instance standort: "
                             + (nodeToRemove.getParent() instanceof TdtaStandortMastCustomBean));
-            }
-            if (LOG.isDebugEnabled()) {
                 LOG.debug("parent childcoutn" + nodeToRemove.getParent().getChildCount());
             }
-            // ToDo getParentMast for Leuchte Method
-            if ((nodeToRemove.getUserObject() != null)
+
+            if ((nodeToRemove.getUserObject() != null) && (nodeToRemove.getParent() != null)
+                        && (nodeToRemove.getParent() instanceof CustomMutableTreeTableNode)
+                        && (((CustomMutableTreeTableNode)nodeToRemove.getParent()) != null)
+                        && (((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject() != null)
+                        && (((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject()
+                            instanceof VeranlassungCustomBean)) {
+                final VeranlassungCustomBean veranlassung = (VeranlassungCustomBean)
+                    ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject();
+                if (nodeToRemove.getUserObject() instanceof TdtaLeuchtenCustomBean) {
+                    veranlassung.getAr_leuchten().remove((TdtaLeuchtenCustomBean)nodeToRemove.getUserObject());
+                    removedObjects.add(nodeToRemove.getUserObject());
+                } else if (nodeToRemove.getUserObject() instanceof TdtaStandortMastCustomBean) {
+                    veranlassung.getAr_standorte().remove((TdtaStandortMastCustomBean)nodeToRemove.getUserObject());
+                    removedObjects.add(nodeToRemove.getUserObject());
+                } else if (nodeToRemove.getUserObject() instanceof MauerlascheCustomBean) {
+                    veranlassung.getAr_mauerlaschen().remove((MauerlascheCustomBean)nodeToRemove.getUserObject());
+                    removedObjects.add(nodeToRemove.getUserObject());
+                } else if (nodeToRemove.getUserObject() instanceof LeitungCustomBean) {
+                    veranlassung.getAr_leitungen().remove((LeitungCustomBean)nodeToRemove.getUserObject());
+                    removedObjects.add(nodeToRemove.getUserObject());
+                } else if (nodeToRemove.getUserObject() instanceof AbzweigdoseCustomBean) {
+                    veranlassung.getAr_abzweigdosen().remove((AbzweigdoseCustomBean)nodeToRemove.getUserObject());
+                    removedObjects.add(nodeToRemove.getUserObject());
+                } else if (nodeToRemove.getUserObject() instanceof SchaltstelleCustomBean) {
+                    veranlassung.getAr_schaltstellen().remove((SchaltstelleCustomBean)nodeToRemove.getUserObject());
+                    removedObjects.add(nodeToRemove.getUserObject());
+                } else if (nodeToRemove.getUserObject() instanceof GeometrieCustomBean) {
+                    veranlassung.getAr_geometrien().remove((GeometrieCustomBean)nodeToRemove.getUserObject());
+                    removedObjects.add(nodeToRemove.getUserObject());
+                }
+            } else if ((nodeToRemove.getUserObject() != null) && (nodeToRemove.getParent() != null)
+                        && (nodeToRemove.getParent() instanceof CustomMutableTreeTableNode)
+                        && (((CustomMutableTreeTableNode)nodeToRemove.getParent()) != null)
+                        && (((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject() != null)
+                        && (((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject()
+                            instanceof ArbeitsprotokollCustomBean)) {
+                final ArbeitsauftragCustomBean auftrag = (ArbeitsauftragCustomBean)
+                    ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject();
+                final ArbeitsprotokollCustomBean protokoll = (ArbeitsprotokollCustomBean)
+                    ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject();
+                auftrag.getN_protokolle().remove(protokoll);
+                removedObjects.add(protokoll);
+            } else if ((nodeToRemove.getUserObject() != null)
                         && (nodeToRemove.getUserObject() instanceof TdtaLeuchtenCustomBean)
                         && (nodeToRemove.getParent() != null)
                         && (nodeToRemove.getParent() instanceof CustomMutableTreeTableNode)
@@ -2257,21 +2291,34 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             final GeometrieCustomBean newGeometrie = GeometrieCustomBean.createNew();
             newGeometrie.addPropertyChangeListener(getBroker());
             newGeometrie.addPropertyChangeListener(this);
-            final CustomMutableTreeTableNode newGeometrieNode = new CustomMutableTreeTableNode(newGeometrie, true);
             if (tmpObject instanceof VeranlassungCustomBean) {
+                final CustomMutableTreeTableNode newGeometrieNode = new CustomMutableTreeTableNode(newGeometrie, true);
                 final VeranlassungCustomBean selVeranlassung = ((VeranlassungCustomBean)tmpObject);
                 selVeranlassung.getAr_geometrien().add(newGeometrie);
+                newObjects.add(newGeometrieNode.getUserObject());
+                treeTableModel.insertNodeIntoAsLastChild(
+                    newGeometrieNode,
+                    (CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent());
+                return newGeometrieNode;
             } else if (tmpObject instanceof ArbeitsauftragCustomBean) {
+                final ArbeitsprotokollCustomBean newProtokoll = ArbeitsprotokollCustomBean.createNew();
+                final CustomMutableTreeTableNode newProtokollNode = new CustomMutableTreeTableNode(newProtokoll, true);
+                final CustomMutableTreeTableNode newGeometrieNode = new CustomMutableTreeTableNode(newGeometrie, true);
                 final ArbeitsauftragCustomBean selAuftrag = ((ArbeitsauftragCustomBean)tmpObject);
-                final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
-                protokoll.setFk_geometrie(newGeometrie);
-                selAuftrag.getN_protokolle().add(protokoll);
+                newProtokoll.setFk_geometrie(newGeometrie);
+                selAuftrag.getN_protokolle().add(newProtokoll);
+                newObjects.add(newProtokollNode.getUserObject());
+                newObjects.add(newGeometrieNode.getUserObject());
+                treeTableModel.insertNodeIntoAsLastChild(
+                    newProtokollNode,
+                    (CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent());
+                treeTableModel.insertNodeIntoAsLastChild(
+                    newGeometrieNode,
+                    newProtokollNode);
+                return newProtokollNode;
+            } else {
+                return null;
             }
-            newObjects.add(newGeometrieNode.getUserObject());
-            treeTableModel.insertNodeIntoAsLastChild(
-                newGeometrieNode,
-                (CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent());
-            return newGeometrieNode;
         } else {
             return null;
         }

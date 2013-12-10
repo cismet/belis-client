@@ -224,6 +224,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity {
     @Override
     public CidsBean persist() throws Exception {
 //        determineNextNummer();
+        LOG.fatal(this.getMOString());
         return super.persist();
     }
 
