@@ -724,9 +724,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                     @Override
                     protected void done() {
-                        setInEditMode(false);
-                        getMappingComponent().setReadOnly(true);
-                        fireReleaseFinished();
+                        try {
+                            setInEditMode(false);
+                            getMappingComponent().setReadOnly(true);
+                        } finally {
+                            fireReleaseFinished();
+                        }
                     }
                 }.execute();
         } else {
@@ -745,20 +748,23 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     @Override
                     protected void done() {
                         try {
-                            get();
-                        } catch (Exception e) {
-                            LOG.error("Problem while switching to Edit Mode", e);
-                            switchInEditMode(false);
-                            setTitleBarComponentpainter(BelisBroker.DEFAULT_MODE_COLOR);
-                            editButtonsToolbar.enableSwitchToModeButtons(true);
-                            return;
+                            try {
+                                get();
+                            } catch (Exception e) {
+                                LOG.error("Problem while switching to Edit Mode", e);
+                                switchInEditMode(false);
+                                setTitleBarComponentpainter(BelisBroker.DEFAULT_MODE_COLOR);
+                                editButtonsToolbar.enableSwitchToModeButtons(true);
+                                return;
+                            }
+                            setInEditMode(true);
+                            setComponentsEditable(true);
+                            getMappingComponent().setReadOnly(false);
+                            btnAcceptChanges.setEnabled(true);
+                            btnDiscardChanges.setEnabled(true);
+                        } finally  {
+                            fireLockFinished();
                         }
-                        setInEditMode(true);
-                        setComponentsEditable(true);
-                        getMappingComponent().setReadOnly(false);
-                        btnAcceptChanges.setEnabled(true);
-                        btnDiscardChanges.setEnabled(true);
-                        fireLockFinished();
                     }
                 }.execute();
         }
@@ -3268,11 +3274,15 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 LOG.error("Failure during saving/refresh results", ex);
                 if (mode == SAVE_MODE) {
                     saveFailed();
-                    fireSaveFinished();
                 } else if (mode == CANCEL_MODE) {
                     cancelFailed();
-                    fireCancelFinished();
                 }
+            } finally {
+                if (mode == SAVE_MODE) {
+                    fireSaveFinished();
+                } else if (mode == CANCEL_MODE) {
+                    fireCancelFinished();
+                }            
             }
         }
     }
