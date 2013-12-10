@@ -155,6 +155,8 @@ import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.statusbar.StatusBar;
 import de.cismet.cismap.commons.interaction.CismapBroker;
+import de.cismet.cismap.commons.interaction.StatusListener;
+import de.cismet.cismap.commons.interaction.events.StatusEvent;
 import de.cismet.cismap.commons.tools.IconUtils;
 
 import de.cismet.cismap.navigatorplugin.MetaSearchHelper;
@@ -186,6 +188,7 @@ import de.cismet.tools.gui.StaticSwingTools;
 
 import de.cismet.veto.VetoException;
 import de.cismet.veto.VetoListener;
+import javax.swing.Action;
 
 /**
  * DOCUMENT ME!
@@ -1142,6 +1145,21 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
         setMappingComponent(mappingComponent);
         setMetaSearchComponentFactory(metaSearchComponentFactory);
+        
+        CismapBroker.getInstance().addStatusListener(new StatusListener() {
+
+            @Override
+            public void statusValueChanged(StatusEvent e) {
+                if (e.getName().equals(StatusEvent.MAPPING_MODE)) {
+                    if (e.getValue().equals(MappingComponent.CREATE_SEARCH_POLYGON)) {
+                        metaSearchComponentFactory.getCmdPluginSearch().setSelected(true);
+                        getMapWidget().setCustomMapMode();
+                    } else {
+                        metaSearchComponentFactory.getCmdPluginSearch().setSelected(false);
+                    }
+                }
+            }
+        });
     }
 
     @Override
