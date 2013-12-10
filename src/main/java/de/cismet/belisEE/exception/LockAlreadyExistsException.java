@@ -13,7 +13,7 @@ package de.cismet.belisEE.exception;
 
 import java.util.ArrayList;
 
-import de.cismet.cids.custom.beans.belis.SperreCustomBean;
+import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
 
 /**
  * DOCUMENT ME!

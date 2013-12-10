@@ -32,15 +32,15 @@ import de.cismet.belis.gui.widget.DetailWidget;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
-import de.cismet.cids.custom.beans.belis.AnlagengruppeCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyKlassifizierungCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyMastartCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyMasttypCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -240,9 +240,9 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean sb =
-                            (de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean sb =
+                            (de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean)value;
                         setText(sb.getBezirk());
                     }
                     return this;
@@ -323,9 +323,9 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean ma =
-                            (de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyMastartCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyMastartCustomBean ma =
+                            (de.cismet.cids.custom.beans.belis2.TkeyMastartCustomBean)value;
                         setText(ma.getMastart());
                     }
                     return this;
@@ -389,9 +389,9 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean kl =
-                            (de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyKlassifizierungCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyKlassifizierungCustomBean kl =
+                            (de.cismet.cids.custom.beans.belis2.TkeyKlassifizierungCustomBean)value;
                         setText(kl.getKlassifizierung());
                     }
                     return this;
@@ -548,9 +548,9 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean um =
-                            (de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean um =
+                            (de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean)value;
                         setText(um.getUnterhaltMast());
                     }
                     return this;
@@ -667,9 +667,9 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getKeyString());
                     }
                     return this;
@@ -730,9 +730,9 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean kzf =
-                            (de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean kzf =
+                            (de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean)value;
                         setText(kzf.getKeyString());
                     }
                     return this;
@@ -834,9 +834,9 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getPk());
                     }
                     return this;
@@ -987,9 +987,9 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.AnlagengruppeCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.AnlagengruppeCustomBean ag =
-                            (de.cismet.cids.custom.beans.belis.AnlagengruppeCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean ag =
+                            (de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean)value;
                         setText(ag.getNummer() + " - " + ag.getBezeichnung());
                     }
                     return this;

@@ -13,7 +13,7 @@ package de.cismet.commons.server.interfaces;
 
 import java.util.Collection;
 
-import de.cismet.cids.custom.beans.belis.DmsUrlCustomBean;
+import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
 
 /**
  * DOCUMENT ME!

@@ -15,14 +15,14 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis.server.search.BelisSearchStatement;
-import de.cismet.belis.server.search.StandortSearchStatement;
+import de.cismet.belis2.server.search.BelisSearchStatement;
+import de.cismet.belis2.server.search.StandortSearchStatement;
 
-import de.cismet.cids.custom.beans.belis.AnlagengruppeCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyKlassifizierungCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyMastartCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyMasttypCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyKlassifizierungCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyMastartCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyMasttypCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 

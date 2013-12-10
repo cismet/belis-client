@@ -18,7 +18,7 @@ import java.awt.Paint;
 
 import javax.swing.JOptionPane;
 
-import de.cismet.cids.custom.beans.belis.GeomCustomBean;
+import de.cismet.cids.custom.beans.belis2.GeomCustomBean;
 
 import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;

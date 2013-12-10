@@ -24,10 +24,10 @@ import javax.swing.JList;
 
 import de.cismet.belis.gui.widget.DetailWidget;
 
-import de.cismet.cids.custom.beans.belis.BauartCustomBean;
-import de.cismet.cids.custom.beans.belis.RundsteuerempfaengerCustomBean;
-import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
+import de.cismet.cids.custom.beans.belis2.BauartCustomBean;
+import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
+import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -161,9 +161,9 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getPk());
                     }
                     return this;
@@ -196,9 +196,9 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getKeyString());
                     }
                     return this;
@@ -389,9 +389,9 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.BauartCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.BauartCustomBean ba =
-                            (de.cismet.cids.custom.beans.belis.BauartCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.BauartCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.BauartCustomBean ba =
+                            (de.cismet.cids.custom.beans.belis2.BauartCustomBean)value;
                         setText(ba.getBezeichnung());
                     }
                     return this;
@@ -464,9 +464,9 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.BauartCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.BauartCustomBean ba =
-                            (de.cismet.cids.custom.beans.belis.BauartCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.BauartCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.BauartCustomBean ba =
+                            (de.cismet.cids.custom.beans.belis2.BauartCustomBean)value;
                         setText(ba.getBezeichnung());
                     }
                     return this;

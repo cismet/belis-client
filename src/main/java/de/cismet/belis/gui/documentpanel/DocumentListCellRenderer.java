@@ -23,7 +23,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 
-import de.cismet.cids.custom.beans.belis.DmsUrlCustomBean;
+import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
 
 /**
  * DOCUMENT ME!

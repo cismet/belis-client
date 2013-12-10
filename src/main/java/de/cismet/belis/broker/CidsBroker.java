@@ -30,9 +30,11 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import de.cismet.belis.commons.constants.BelisMetaClassConstants;
+
 import de.cismet.belis.gui.widget.KeyTableListener;
 
-import de.cismet.belis.server.search.HighestLfdNummerSearch;
+import de.cismet.belis2.server.search.HighestLfdNummerSearch;
 
 import de.cismet.belisEE.bean.interfaces.BelisServerRemote;
 
@@ -43,12 +45,12 @@ import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 import de.cismet.belisEE.util.StandortKey;
 
-import de.cismet.cids.custom.beans.belis.GeomCustomBean;
-import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
-import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
-import de.cismet.cids.custom.beans.belis.SperreCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.GeomCustomBean;
+import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -69,7 +71,7 @@ public class CidsBroker implements BelisServerRemote {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CidsBroker.class);
-    public static final String BELIS_DOMAIN = "BELIS";
+    public static final String BELIS_DOMAIN = BelisMetaClassConstants.DOMAIN;
     private static CidsBroker brokerInstance = null;
 
     //~ Instance fields --------------------------------------------------------

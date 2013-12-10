@@ -13,9 +13,9 @@ package de.cismet.belisEE.util;
 
 import java.io.Serializable;
 
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
 
 /**
  * DOCUMENT ME!

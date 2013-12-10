@@ -26,10 +26,10 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.widget.DetailWidget;
 
-import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
-import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
-import de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean;
-import de.cismet.cids.custom.beans.belis.QuerschnittCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean;
+import de.cismet.cids.custom.beans.belis2.MaterialLeitungCustomBean;
+import de.cismet.cids.custom.beans.belis2.QuerschnittCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -159,9 +159,9 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.LeitungstypCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.LeitungstypCustomBean lt =
-                            (de.cismet.cids.custom.beans.belis.LeitungstypCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean lt =
+                            (de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean)value;
                         setText(lt.getBezeichnung());
                     }
                     return this;
@@ -198,9 +198,9 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean mt =
-                            (de.cismet.cids.custom.beans.belis.MaterialLeitungCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.MaterialLeitungCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.MaterialLeitungCustomBean mt =
+                            (de.cismet.cids.custom.beans.belis2.MaterialLeitungCustomBean)value;
                         setText(mt.getBezeichnung());
                     }
                     return this;
@@ -237,9 +237,9 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.QuerschnittCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.QuerschnittCustomBean qt =
-                            (de.cismet.cids.custom.beans.belis.QuerschnittCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.QuerschnittCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.QuerschnittCustomBean qt =
+                            (de.cismet.cids.custom.beans.belis2.QuerschnittCustomBean)value;
                         if (qt.getGroesse() != null) {
                             setText(qt.getGroesse().toString());
                         } else {

@@ -24,9 +24,9 @@ import javax.swing.JList;
 
 import de.cismet.belis.gui.widget.DetailWidget;
 
-import de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean;
-import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
+import de.cismet.cids.custom.beans.belis2.MaterialMauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -205,9 +205,9 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean mm =
-                            (de.cismet.cids.custom.beans.belis.MaterialMauerlascheCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.MaterialMauerlascheCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.MaterialMauerlascheCustomBean mm =
+                            (de.cismet.cids.custom.beans.belis2.MaterialMauerlascheCustomBean)value;
                         setText(mm.getBezeichnung());
                     }
                     return this;
@@ -252,9 +252,9 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getPk());
                     }
                     return this;
@@ -288,9 +288,9 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getKeyString());
                     }
                     return this;

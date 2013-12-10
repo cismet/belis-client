@@ -18,8 +18,8 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.belisEE.util.StandortKey;
 
-import de.cismet.cids.custom.beans.belis.GeomCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.GeomCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 import de.cismet.cismap.commons.BoundingBox;
 

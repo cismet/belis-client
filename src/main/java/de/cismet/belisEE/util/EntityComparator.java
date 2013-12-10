@@ -15,12 +15,12 @@ import java.io.Serializable;
 
 import java.util.Comparator;
 
-import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
-import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
-import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
-import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 

@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.belis.server.search.BelisSearchStatement;
+import de.cismet.belis2.server.search.BelisSearchStatement;
 
 import de.cismet.cids.server.search.MetaObjectNodeServerSearch;
 

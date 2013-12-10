@@ -17,8 +17,8 @@ import javax.swing.JLabel;
 
 import de.cismet.belis.gui.DateToStringConverter;
 
-import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
-import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
 /**
  * DOCUMENT ME!

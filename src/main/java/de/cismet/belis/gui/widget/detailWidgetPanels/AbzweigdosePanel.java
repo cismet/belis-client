@@ -15,7 +15,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 
 import javax.swing.JLabel;
 
-import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 
 /**
  * DOCUMENT ME!

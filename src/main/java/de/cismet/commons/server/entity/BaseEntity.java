@@ -13,11 +13,11 @@ package de.cismet.commons.server.entity;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.cids.custom.beans.belis.BauartCustomBean;
+import de.cismet.cids.custom.beans.belis2.BauartCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import static de.cismet.cids.custom.beans.belis.BauartCustomBean.TABLE;
+import static de.cismet.cids.custom.beans.belis2.BauartCustomBean.TABLE;
 
 /**
  * DOCUMENT ME!

@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 import java.util.Comparator;
 
-import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 
 /**
  * DOCUMENT ME!

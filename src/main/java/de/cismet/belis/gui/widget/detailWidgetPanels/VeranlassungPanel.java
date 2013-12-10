@@ -28,10 +28,10 @@ import de.cismet.belis.broker.CidsBroker;
 import de.cismet.belis.gui.DateToStringConverter;
 import de.cismet.belis.gui.widget.DetailWidget;
 
-import de.cismet.cids.custom.beans.belis.InfobausteinCustomBean;
-import de.cismet.cids.custom.beans.belis.InfobausteinTemplateCustomBean;
-import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
-import de.cismet.cids.custom.beans.belis.VeranlassungsartCustomBean;
+import de.cismet.cids.custom.beans.belis2.InfobausteinCustomBean;
+import de.cismet.cids.custom.beans.belis2.InfobausteinTemplateCustomBean;
+import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
+import de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean;
 
 import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
@@ -283,9 +283,9 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.VeranlassungsartCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.VeranlassungsartCustomBean el =
-                            (de.cismet.cids.custom.beans.belis.VeranlassungsartCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean el =
+                            (de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean)value;
                         setText(el.getBezeichnung());
                     }
                     return this;

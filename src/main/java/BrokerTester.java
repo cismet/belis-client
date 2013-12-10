@@ -19,12 +19,12 @@ import de.cismet.belis.commons.constants.ArbeitsauftragPropertyConstants;
 import de.cismet.belis.commons.constants.ArbeitsprotokollPropertyConstants;
 import de.cismet.belis.commons.constants.VeranlassungPropertyConstants;
 
-import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
-import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis.ArbeitsprotokollstatusCustomBean;
-import de.cismet.cids.custom.beans.belis.InfobausteinCustomBean;
-import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
-import de.cismet.cids.custom.beans.belis.VeranlassungsartCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
+import de.cismet.cids.custom.beans.belis2.InfobausteinCustomBean;
+import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
+import de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean;
 
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 

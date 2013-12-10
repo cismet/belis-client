@@ -18,7 +18,7 @@ import java.util.Collection;
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
 
-import de.cismet.cids.custom.beans.belis.SperreCustomBean;
+import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 

@@ -35,17 +35,17 @@ import de.cismet.belis.gui.widget.DetailWidget;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
-import de.cismet.cids.custom.beans.belis.LeuchtmittelCustomBean;
-import de.cismet.cids.custom.beans.belis.RundsteuerempfaengerCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeuchtmittelCustomBean;
+import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -253,9 +253,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getPk());
                     }
                     return this;
@@ -288,9 +288,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
                         setText(ss.getKeyString());
                     }
                     return this;
@@ -343,9 +343,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean kzf =
-                            (de.cismet.cids.custom.beans.belis.TkeyKennzifferCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean kzf =
+                            (de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean)value;
                         setText(kzf.getKeyString());
                     }
                     return this;
@@ -444,9 +444,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean el =
-                            (de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean el =
+                            (de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean)value;
                         setText(el.getEnergielieferant());
                     }
                     return this;
@@ -517,9 +517,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean el =
-                            (de.cismet.cids.custom.beans.belis.TkeyEnergielieferantCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean el =
+                            (de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean)value;
                         setText(el.getEnergielieferant());
                     }
                     return this;
@@ -613,9 +613,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean ul =
-                            (de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean ul =
+                            (de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean)value;
                         setText(ul.getUnterhaltspflichtigeLeuchte());
                     }
                     return this;
@@ -713,9 +713,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean dk =
-                            (de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean dk =
+                            (de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean)value;
                         setText(dk.getPk() + " - " + dk.getBeschreibung());
                     }
                     return this;
@@ -777,9 +777,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean dk =
-                            (de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean dk =
+                            (de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean)value;
                         setText(dk.getPk() + " - " + dk.getBeschreibung());
                     }
                     return this;
@@ -1154,9 +1154,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                     if (value == null) {
                         setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean) {
-                        final de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean sb =
-                            (de.cismet.cids.custom.beans.belis.TkeyBezirkCustomBean)value;
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean sb =
+                            (de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean)value;
                         setText(sb.getBezirk());
                     }
                     return this;

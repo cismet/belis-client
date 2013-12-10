@@ -30,7 +30,7 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 
-import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 

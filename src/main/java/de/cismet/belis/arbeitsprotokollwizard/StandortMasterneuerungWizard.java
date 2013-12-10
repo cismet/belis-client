@@ -13,8 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.util.Collection;
 
-import de.cismet.cids.custom.beans.belis.ArbeitsprotokollaktionCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 /**
  * DOCUMENT ME!

@@ -58,7 +58,7 @@ import javax.swing.TransferHandler.TransferSupport;
 
 import de.cismet.belis.gui.utils.UIUtils;
 
-import de.cismet.cids.custom.beans.belis.DmsUrlCustomBean;
+import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
 
 /**
  * DOCUMENT ME!

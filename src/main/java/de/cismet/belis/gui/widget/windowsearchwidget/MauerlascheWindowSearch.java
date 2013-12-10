@@ -13,8 +13,8 @@ package de.cismet.belis.gui.widget.windowsearchwidget;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import de.cismet.belis.server.search.BelisSearchStatement;
-import de.cismet.belis.server.search.MauerlascheSearchStatement;
+import de.cismet.belis2.server.search.BelisSearchStatement;
+import de.cismet.belis2.server.search.MauerlascheSearchStatement;
 
 /**
  * DOCUMENT ME!

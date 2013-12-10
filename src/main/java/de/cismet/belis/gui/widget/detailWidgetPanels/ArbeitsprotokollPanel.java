@@ -19,7 +19,7 @@ import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.widget.DetailWidget;
 
-import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
 /**
  * DOCUMENT ME!

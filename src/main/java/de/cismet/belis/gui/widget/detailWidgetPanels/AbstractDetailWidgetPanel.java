@@ -39,7 +39,7 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.belisEE.util.CriteriaStringComparator;
 
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 import de.cismet.commons.architecture.validation.Validatable;
 

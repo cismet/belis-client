@@ -15,11 +15,11 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis.server.search.BelisSearchStatement;
-import de.cismet.belis.server.search.LeuchteSearchStatement;
+import de.cismet.belis2.server.search.BelisSearchStatement;
+import de.cismet.belis2.server.search.LeuchteSearchStatement;
 
-import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyLeuchtentypCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 

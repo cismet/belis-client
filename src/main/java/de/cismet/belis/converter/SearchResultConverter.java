@@ -21,8 +21,8 @@ import java.util.Set;
 
 import de.cismet.belis.todo.CustomTreeTableModel;
 
-import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 /**
  * DOCUMENT ME!

@@ -27,11 +27,10 @@ import de.cismet.belis.gui.widget.WorkbenchWidget;
 
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
 
-import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
-import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
-import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
 
 import de.cismet.commons.architecture.interfaces.Editable;
 

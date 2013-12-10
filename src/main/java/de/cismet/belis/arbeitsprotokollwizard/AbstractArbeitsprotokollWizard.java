@@ -15,8 +15,8 @@ import java.util.Collection;
 
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis.ArbeitsprotokollaktionCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 

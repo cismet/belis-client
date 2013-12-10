@@ -24,7 +24,7 @@ import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
 
-import de.cismet.cids.custom.beans.belis.SperreCustomBean;
+import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
 
 /**
  * DOCUMENT ME!

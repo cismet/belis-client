@@ -94,6 +94,8 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
+import de.cismet.belis.commons.constants.BelisMetaClassConstants;
+
 import de.cismet.belis.gui.search.AddressSearchControl;
 import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
@@ -116,13 +118,13 @@ import de.cismet.belis.panels.ReleaseWaitDialog;
 import de.cismet.belis.panels.SaveErrorDialogPanel;
 import de.cismet.belis.panels.SaveWaitDialog;
 
-import de.cismet.belis.server.search.BelisLocationSearchStatement;
-import de.cismet.belis.server.search.BelisSearchStatement;
-
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
 import de.cismet.belis.todo.RetrieveWorker;
 
 import de.cismet.belis.util.BelisIcons;
+
+import de.cismet.belis2.server.search.BelisLocationSearchStatement;
+import de.cismet.belis2.server.search.BelisSearchStatement;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
@@ -130,21 +132,21 @@ import de.cismet.belisEE.exception.LockAlreadyExistsException;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 
-import de.cismet.cids.custom.beans.belis.AbzweigdoseCustomBean;
-import de.cismet.cids.custom.beans.belis.ArbeitsauftragCustomBean;
-import de.cismet.cids.custom.beans.belis.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis.LeitungCustomBean;
-import de.cismet.cids.custom.beans.belis.LeitungstypCustomBean;
-import de.cismet.cids.custom.beans.belis.MauerlascheCustomBean;
-import de.cismet.cids.custom.beans.belis.SchaltstelleCustomBean;
-import de.cismet.cids.custom.beans.belis.SperreCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaLeuchtenCustomBean;
-import de.cismet.cids.custom.beans.belis.TdtaStandortMastCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyDoppelkommandoCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyStrassenschluesselCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyUnterhLeuchteCustomBean;
-import de.cismet.cids.custom.beans.belis.TkeyUnterhMastCustomBean;
-import de.cismet.cids.custom.beans.belis.VeranlassungCustomBean;
+import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean;
+import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -990,7 +992,17 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
 
         final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
-        final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
+
+        final Node[] tmp = SessionManager.getProxy().getRoots();
+        final ArrayList<Node> filteredNodes = new ArrayList<Node>(tmp.length);
+        for (final Node n : tmp) {
+            if (n.getDomain().equals(BelisMetaClassConstants.DOMAIN)) {
+                filteredNodes.add(n);
+            }
+        }
+        final Node[] filteredNodeArray = filteredNodes.toArray(new Node[0]);
+        final RootTreeNode rootTreeNode = new RootTreeNode(filteredNodeArray);
+
         final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
                 rootTreeNode,
                 PropertyManager.getManager().isEditable(),
