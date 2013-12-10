@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="bean.lage" class="java.lang.String"/>
+	<field name="bean.stadtteil.stadtteil" class="java.lang.String"/>
+	<field name="bean.zaehlungen" class="java.util.Collection"/>
+	<field name="title" class="java.lang.String"/>
+	<field name="durchschnitt" class="java.lang.Integer"/>
+	<field name="first" class="java.lang.String"/>
+	<field name="last" class="java.lang.String"/>
+	<field name="count" class="java.lang.Integer"/>
+	<variable name="bean.zaehlungen_1" class="java.lang.Integer" resetType="Group" resetGroup="Zaehlung" calculation="Count">
+		<variableExpression><![CDATA[$F{bean.zaehlungen}]]></variableExpression>
+	</variable>
+	<variable name="bean.zaehlungen_2" class="java.lang.Integer" resetType="Group" resetGroup="Zaehlung" calculation="Count">
+		<variableExpression><![CDATA[$F{bean.zaehlungen}]]></variableExpression>
+	</variable>
+	<group name="Zaehlung">
+		<groupExpression><![CDATA[$F{bean.lage}]]></groupExpression>
+		<groupHeader>
+			<band height="144">
+				<textField>
+					<reportElement x="1" y="0" width="554" height="35"/>
+					<textElement verticalAlignment="Middle" markup="none">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{title}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="-84" y="35" width="700" height="1"/>
+				</line>
+				<line>
+					<reportElement x="-84" y="-1" width="700" height="1"/>
+				</line>
+				<staticText>
+					<reportElement x="11" y="49" width="100" height="14"/>
+					<textElement/>
+					<text><![CDATA[Anzahl Zählungen:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="11" y="69" width="255" height="13"/>
+					<textElement/>
+					<text><![CDATA[durchschnittliche Anzahl von Passanten pro Stunde:]]></text>
+				</staticText>
+				<line>
+					<reportElement x="-84" y="138" width="700" height="1"/>
+				</line>
+				<textField>
+					<reportElement x="276" y="69" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{durchschnitt}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="11" y="89" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[erste Zählung:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="329" y="89" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[letzte Zählung:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="120" y="89" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{first}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="439" y="89" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{last}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="11" y="119" width="152" height="20"/>
+					<textElement/>
+					<text><![CDATA[Anzahl besonderer Ereignisse:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="176" y="119" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{count}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="120" y="49" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{bean.zaehlungen}.size()+""]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<detail>
+		<band height="46">
+			<subreport isUsingCache="false">
+				<reportElement x="1" y="0" width="554" height="45"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{bean.zaehlungen})]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/cids/wuppreportingschulung/loesungen/zaehlungen.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>
