@@ -162,74 +162,60 @@ class WorkbenchTransferHandler extends TransferHandler {
 
         try {
             final TreePath path = tree.getPathForRow(dropRow);
+            final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)path.getLastPathComponent();
+
             final Object userObject = ((CustomMutableTreeTableNode)path.getLastPathComponent()).getUserObject();
             if (userObject instanceof VeranlassungCustomBean) {
                 final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)userObject;
-                final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)path.getLastPathComponent();
                 for (final int selRow : selRows) {
                     final CidsBean clipboardBean = (CidsBean)
                         ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
 
-                    final CustomMutableTreeTableNode newNode = new CustomMutableTreeTableNode(clipboardBean, true);
                     if (clipboardBean instanceof TdtaStandortMastCustomBean) {
                         final Collection<TdtaStandortMastCustomBean> standorte =
                             veranlassungCustomBean.getAr_standorte();
                         if (!standorte.contains((TdtaStandortMastCustomBean)clipboardBean)) {
                             standorte.add((TdtaStandortMastCustomBean)clipboardBean);
-                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                                newNode,
-                                dropNode);
+                            BelisBroker.getInstance().addNewBasicToVeranlassungNode(dropNode, clipboardBean);
                         }
                     } else if (clipboardBean instanceof TdtaLeuchtenCustomBean) {
                         final Collection<TdtaLeuchtenCustomBean> leuchten = veranlassungCustomBean.getAr_leuchten();
                         if (!leuchten.contains((TdtaLeuchtenCustomBean)clipboardBean)) {
                             leuchten.add((TdtaLeuchtenCustomBean)clipboardBean);
-                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                                newNode,
-                                dropNode);
+                            BelisBroker.getInstance().addNewBasicToVeranlassungNode(dropNode, clipboardBean);
                         }
                     } else if (clipboardBean instanceof LeitungCustomBean) {
                         final Collection<LeitungCustomBean> leitungen = veranlassungCustomBean.getAr_leitungen();
                         if (!leitungen.contains((LeitungCustomBean)clipboardBean)) {
                             leitungen.add((LeitungCustomBean)clipboardBean);
-                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                                newNode,
-                                dropNode);
+                            BelisBroker.getInstance().addNewBasicToVeranlassungNode(dropNode, clipboardBean);
                         }
                     } else if (clipboardBean instanceof MauerlascheCustomBean) {
                         final Collection<MauerlascheCustomBean> mauerlaschen =
                             veranlassungCustomBean.getAr_mauerlaschen();
                         if (!mauerlaschen.contains((MauerlascheCustomBean)clipboardBean)) {
                             mauerlaschen.add((MauerlascheCustomBean)clipboardBean);
-                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                                newNode,
-                                dropNode);
+                            BelisBroker.getInstance().addNewBasicToVeranlassungNode(dropNode, clipboardBean);
                         }
                     } else if (clipboardBean instanceof AbzweigdoseCustomBean) {
                         final Collection<AbzweigdoseCustomBean> abzweigdosen =
                             veranlassungCustomBean.getAr_abzweigdosen();
                         if (!abzweigdosen.contains((AbzweigdoseCustomBean)clipboardBean)) {
                             abzweigdosen.add((AbzweigdoseCustomBean)clipboardBean);
-                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                                newNode,
-                                dropNode);
+                            BelisBroker.getInstance().addNewBasicToVeranlassungNode(dropNode, clipboardBean);
                         }
                     } else if (clipboardBean instanceof SchaltstelleCustomBean) {
                         final Collection<SchaltstelleCustomBean> schaltstellen =
                             veranlassungCustomBean.getAr_schaltstellen();
                         if (!schaltstellen.contains((SchaltstelleCustomBean)clipboardBean)) {
                             schaltstellen.add((SchaltstelleCustomBean)clipboardBean);
-                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                                newNode,
-                                dropNode);
+                            BelisBroker.getInstance().addNewBasicToVeranlassungNode(dropNode, clipboardBean);
                         }
                     } else if (clipboardBean instanceof GeometrieCustomBean) {
                         final Collection<GeometrieCustomBean> geometrien = veranlassungCustomBean.getAr_geometrien();
                         if (!geometrien.contains((GeometrieCustomBean)clipboardBean)) {
                             geometrien.add((GeometrieCustomBean)clipboardBean);
-                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                                newNode,
-                                dropNode);
+                            BelisBroker.getInstance().addNewBasicToVeranlassungNode(dropNode, clipboardBean);
                         }
                     }
                 }
@@ -245,38 +231,10 @@ class WorkbenchTransferHandler extends TransferHandler {
                                 || (clipboardBean instanceof AbzweigdoseCustomBean)
                                 || (clipboardBean instanceof SchaltstelleCustomBean)
                                 || (clipboardBean instanceof GeometrieCustomBean)) {
-                        final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
-                        if (clipboardBean instanceof TdtaStandortMastCustomBean) {
-                            protokoll.setFk_standort((TdtaStandortMastCustomBean)clipboardBean);
-                        } else if (clipboardBean instanceof TdtaLeuchtenCustomBean) {
-                            protokoll.setFk_leuchte((TdtaLeuchtenCustomBean)clipboardBean);
-                        } else if (clipboardBean instanceof LeitungCustomBean) {
-                            protokoll.setFk_leitung((LeitungCustomBean)clipboardBean);
-                        } else if (clipboardBean instanceof MauerlascheCustomBean) {
-                            protokoll.setFk_mauerlasche((MauerlascheCustomBean)clipboardBean);
-                        } else if (clipboardBean instanceof AbzweigdoseCustomBean) {
-                            protokoll.setFk_abzweigdose((AbzweigdoseCustomBean)clipboardBean);
-                        } else if (clipboardBean instanceof SchaltstelleCustomBean) {
-                            protokoll.setFk_schaltstelle((SchaltstelleCustomBean)clipboardBean);
-                        } else if (clipboardBean instanceof GeometrieCustomBean) {
-                            protokoll.setFk_geometrie((GeometrieCustomBean)clipboardBean);
-                        }
+                        final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
+                                    .createProtokollFromBasic(clipboardBean);
+                        BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, clipboardBean);
                         arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
-
-                        final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)
-                            path.getLastPathComponent();
-                        final CustomMutableTreeTableNode newProtokollNode = new CustomMutableTreeTableNode(
-                                protokoll,
-                                true);
-                        final CustomMutableTreeTableNode newBasicNode = new CustomMutableTreeTableNode(
-                                clipboardBean,
-                                true);
-                        ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                            newProtokollNode,
-                            dropNode);
-                        ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                            newBasicNode,
-                            newProtokollNode);
                     } else if (clipboardBean instanceof VeranlassungCustomBean) {
                         final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)clipboardBean;
                         final Collection<CidsBean> allBasics = new ArrayList<CidsBean>();
@@ -288,36 +246,11 @@ class WorkbenchTransferHandler extends TransferHandler {
                         allBasics.addAll(veranlassungCustomBean.getAr_standorte());
                         allBasics.addAll(veranlassungCustomBean.getAr_geometrien());
 
-                        final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)
-                            path.getLastPathComponent();
-
                         for (final CidsBean basic : allBasics) {
-                            final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
-                            final CustomMutableTreeTableNode newProtokollNode = new CustomMutableTreeTableNode(
-                                    protokoll,
-                                    true);
-                            final CustomMutableTreeTableNode newBasicNode = new CustomMutableTreeTableNode(basic, true);
-                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                                newProtokollNode,
-                                dropNode);
-                            ((CustomTreeTableModel)tree.getTreeTableModel()).insertNodeIntoAsLastChild(
-                                newBasicNode,
-                                newProtokollNode);
-                            if (basic instanceof TdtaStandortMastCustomBean) {
-                                protokoll.setFk_standort((TdtaStandortMastCustomBean)basic);
-                            } else if (basic instanceof TdtaLeuchtenCustomBean) {
-                                protokoll.setFk_leuchte((TdtaLeuchtenCustomBean)basic);
-                            } else if (basic instanceof LeitungCustomBean) {
-                                protokoll.setFk_leitung((LeitungCustomBean)basic);
-                            } else if (basic instanceof MauerlascheCustomBean) {
-                                protokoll.setFk_mauerlasche((MauerlascheCustomBean)basic);
-                            } else if (basic instanceof AbzweigdoseCustomBean) {
-                                protokoll.setFk_abzweigdose((AbzweigdoseCustomBean)basic);
-                            } else if (basic instanceof SchaltstelleCustomBean) {
-                                protokoll.setFk_schaltstelle((SchaltstelleCustomBean)basic);
-                            } else if (basic instanceof GeometrieCustomBean) {
-                                protokoll.setFk_geometrie((GeometrieCustomBean)basic);
-                            }
+                            final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
+                                        .createProtokollFromBasic(basic);
+                            protokoll.setFk_veranlassung(veranlassungCustomBean);
+                            BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, basic);
                             arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
                         }
                     }

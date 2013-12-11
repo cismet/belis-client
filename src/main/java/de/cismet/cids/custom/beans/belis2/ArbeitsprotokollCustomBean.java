@@ -47,6 +47,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     public static final String PROP__FK_ABZWEIGDOSE = "fk_abzweigdose";
     public static final String PROP__FK_SCHALTSTELLE = "fk_schaltstelle";
     public static final String PROP__FK_GEOMETRIE = "fk_geometrie";
+    public static final String PROP__FK_VERANLASSUNG = "fk_veranlassung";
     public static final String PROP__N_AKTIONEN = "n_aktionen";
 
     private static final String[] PROPERTY_NAMES = new String[] {
@@ -84,6 +85,8 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     private SchaltstelleCustomBean fk_schaltstelle;
     private ArbeitsauftragCustomBean fk_arbeitsauftrag;
     private GeometrieCustomBean fk_geometrie;
+    private VeranlassungCustomBean fk_veranlassung;
+
     private Collection<ArbeitsprotokollaktionCustomBean> n_aktionen;
 
     //~ Constructors -----------------------------------------------------------
@@ -394,6 +397,26 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
         final ArbeitsauftragCustomBean old = this.fk_arbeitsauftrag;
         this.fk_arbeitsauftrag = fk_arbeitsauftrag;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_ARBEITSAUFTRAG, old, this.fk_arbeitsauftrag);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public VeranlassungCustomBean getFk_veranlassung() {
+        return fk_veranlassung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_veranlassung  fk_arbeitsauftrag DOCUMENT ME!
+     */
+    public void setFk_veranlassung(final VeranlassungCustomBean fk_veranlassung) {
+        final VeranlassungCustomBean old = this.fk_veranlassung;
+        this.fk_veranlassung = fk_veranlassung;
+        this.propertyChangeSupport.firePropertyChange(PROP__FK_VERANLASSUNG, old, this.fk_veranlassung);
     }
 
     /**

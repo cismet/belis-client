@@ -11,7 +11,12 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
+import java.awt.event.ActionEvent;
+
 import java.util.Collection;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
@@ -54,14 +59,26 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
     // End of variables declaration//GEN-END:variables
 
     @Override
+    public Class getEntityClass() {
+        return TdtaLeuchtenCustomBean.class;
+    }
+
+    @Override
     public void setEntity(final TdtaLeuchtenCustomBean entity) {
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }
 
     @Override
-    public String getProtokollname() {
-        return "Rundsteuerempfängerwechsel";
+    public Action getAction() {
+        return new AbstractAction("Rundsteuerempfängerwechsel") {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
+                                                                                   // methods, choose Tools | Templates.
+                }
+            };
     }
 
     @Override

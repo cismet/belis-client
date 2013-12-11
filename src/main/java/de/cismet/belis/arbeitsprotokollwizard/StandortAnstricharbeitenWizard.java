@@ -11,7 +11,12 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
+import java.awt.event.ActionEvent;
+
 import java.util.Collection;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
@@ -54,14 +59,26 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
     // End of variables declaration//GEN-END:variables
 
     @Override
+    public Class getEntityClass() {
+        return TdtaStandortMastCustomBean.class;
+    }
+
+    @Override
     public void setEntity(final TdtaStandortMastCustomBean entity) {
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }
 
     @Override
-    public String getProtokollname() {
-        return "Anstricharbeiten";
+    public Action getAction() {
+        return new AbstractAction("Anstricharbeiten") {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
+                                                                                   // methods, choose Tools | Templates.
+                }
+            };
     }
 
     @Override

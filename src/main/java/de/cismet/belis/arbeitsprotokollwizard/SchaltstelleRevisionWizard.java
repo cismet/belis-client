@@ -11,7 +11,12 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
+import java.awt.event.ActionEvent;
+
 import java.util.Collection;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
@@ -54,14 +59,26 @@ public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard<S
     // End of variables declaration//GEN-END:variables
 
     @Override
+    public Class getEntityClass() {
+        return SchaltstelleCustomBean.class;
+    }
+
+    @Override
     public void setEntity(final SchaltstelleCustomBean entity) {
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }
 
     @Override
-    public String getProtokollname() {
-        return "Revision";
+    public Action getAction() {
+        return new AbstractAction("Revision") {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
+                                                                                   // methods, choose Tools | Templates.
+                }
+            };
     }
 
     @Override

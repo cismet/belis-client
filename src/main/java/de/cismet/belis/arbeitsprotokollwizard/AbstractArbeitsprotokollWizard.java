@@ -13,9 +13,9 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.util.Collection;
 
+import javax.swing.Action;
 import javax.swing.JPanel;
 
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -26,7 +26,6 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-//@org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
 public abstract class AbstractArbeitsprotokollWizard<T extends BaseEntity> extends JPanel {
 
     //~ Instance fields --------------------------------------------------------
@@ -34,6 +33,13 @@ public abstract class AbstractArbeitsprotokollWizard<T extends BaseEntity> exten
     private T entity;
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public abstract Class getEntityClass();
 
     /**
      * DOCUMENT ME!
@@ -58,7 +64,7 @@ public abstract class AbstractArbeitsprotokollWizard<T extends BaseEntity> exten
      *
      * @return  DOCUMENT ME!
      */
-    public abstract String getProtokollname();
+    public abstract Action getAction();
 
     /**
      * DOCUMENT ME!

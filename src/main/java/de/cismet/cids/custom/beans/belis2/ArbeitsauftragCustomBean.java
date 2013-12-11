@@ -17,15 +17,8 @@ import java.sql.Date;
 
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.List;
-
-import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
-
-import de.cismet.belis2.server.search.HighestLfdNummerSearch;
-
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -50,6 +43,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity {
     public static final String PROP__NUMMER = "nummer";
     public static final String PROP__N_PROTOKOLLE = "n_protokolle";
     public static final String PROP__N_VERANLASSUNGEN = "n_veranlassungen";
+    public static final String PROP__ZUGEWIESEN_AN = "zugewiesen_an";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -57,12 +51,14 @@ public class ArbeitsauftragCustomBean extends BaseEntity {
             PROP__ANGELEGT_AM,
             PROP__NUMMER,
             PROP__N_PROTOKOLLE,
-            PROP__N_VERANLASSUNGEN
+            PROP__N_VERANLASSUNGEN,
+            PROP__ZUGEWIESEN_AN
         };
 
     //~ Instance fields --------------------------------------------------------
 
     private String angelegt_von;
+    private String zugewiesen_an;
     private Date angelegt_am;
     private Integer nummer;
     private Collection<ArbeitsprotokollCustomBean> n_protokolle;
@@ -159,6 +155,26 @@ public class ArbeitsauftragCustomBean extends BaseEntity {
         final Date old = this.angelegt_am;
         this.angelegt_am = angelegt_am;
         this.propertyChangeSupport.firePropertyChange(PROP__ANGELEGT_AM, old, this.angelegt_am);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getZugewiesen_an() {
+        return zugewiesen_an;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  zugewiesen_an  nummer DOCUMENT ME!
+     */
+    public void setZugewiesen_an(final String zugewiesen_an) {
+        final String old = this.zugewiesen_an;
+        this.zugewiesen_an = zugewiesen_an;
+        this.propertyChangeSupport.firePropertyChange(PROP__ZUGEWIESEN_AN, old, this.zugewiesen_an);
     }
 
     /**

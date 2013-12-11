@@ -132,8 +132,9 @@ public class DetailWidget extends BelisWidget {
      * Set the value of currentEntity TODO change parameter type to DocumentContainer or BaseEntity.
      *
      * @param  currentEntity  new value of currentEntity
+     * @param  parentEntity   DOCUMENT ME!
      */
-    public void setCurrentEntity(final Object currentEntity) {
+    public void setCurrentEntity(final Object currentEntity, final Object parentEntity) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("setCurrentEntity", new CurrentStackTrace());
         }
@@ -249,11 +250,19 @@ public class DetailWidget extends BelisWidget {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Arbeitsprotokoll");
             }
+            if (parentEntity instanceof ArbeitsauftragCustomBean) {
+                arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
+                arbeitsauftragPanel.setElementsNull();
+                // arbeitsprotokollPanel.setCurrentEntity((ArbeitsprotokollCustomBean)currentEntity);
+                // arbeitsprotokollPanel.setElementsNull();
 
-            arbeitsprotokollPanel.setCurrentEntity((ArbeitsprotokollCustomBean)currentEntity);
-            arbeitsprotokollPanel.setElementsNull();
-
-            showPanel(arbeitsprotokollPanel);
+                arbeitsauftragPanel.setSelectedProtokoll((ArbeitsprotokollCustomBean)currentEntity);
+                showPanel(arbeitsauftragPanel);
+            } else {
+                LOG.error("parent of protokoll node should be an auftrags node");
+                showPanel(null);
+                panDokumente.setDokumente(null);
+            }
         } else {
             LOG.info("no panel for entity available");
             showPanel(null);
@@ -282,7 +291,7 @@ public class DetailWidget extends BelisWidget {
     @Override
     public void clearComponent() {
         super.clearComponent();
-        setCurrentEntity(null);
+        setCurrentEntity(null, null);
     }
 
     @Override
@@ -295,6 +304,7 @@ public class DetailWidget extends BelisWidget {
         schaltstellePanel.setPanelEditable(isEditable);
         veranlassungPanel.setPanelEditable(isEditable);
         arbeitsauftragPanel.setPanelEditable(isEditable);
+//        arbeitsprotokollPanel.setPanelEditable(isEditable);
         panDokumente.setEditable(isEditable);
     }
 

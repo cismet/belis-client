@@ -11,7 +11,14 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
+import java.awt.event.ActionEvent;
+
+import java.beans.PropertyChangeListener;
+
 import java.util.Collection;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
@@ -35,6 +42,11 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public Class getEntityClass() {
+        return TdtaLeuchtenCustomBean.class;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -60,8 +72,15 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
     }
 
     @Override
-    public String getProtokollname() {
-        return "Leuchtmittelwechsel";
+    public Action getAction() {
+        return new AbstractAction("Leuchtmittelwechsel") {
+
+                @Override
+                public void actionPerformed(final ActionEvent e) {
+                    throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
+                                                                                   // methods, choose Tools | Templates.
+                }
+            };
     }
 
     @Override
