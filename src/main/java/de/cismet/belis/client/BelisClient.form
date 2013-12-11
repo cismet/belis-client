@@ -171,32 +171,6 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="menBookmarks">
-          <Properties>
-            <Property name="mnemonic" type="int" value="76"/>
-            <Property name="text" type="java.lang.String" value="Lesezeichen"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mniAddBookmark">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lesezeichen hinzuf&#xfc;gen"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mniBookmarkManager">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lesezeichen Manager"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mniBookmarkSidebar">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Lesezeichen in eigenem Fenster &#xf6;ffnen"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
         <Menu class="javax.swing.JMenu" name="menExtras">
           <Properties>
             <Property name="mnemonic" type="int" value="69"/>
