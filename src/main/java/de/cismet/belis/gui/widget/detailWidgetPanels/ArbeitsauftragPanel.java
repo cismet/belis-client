@@ -340,8 +340,8 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        txtNummer.setEnabled(isEditable);
-        txtZugewiesenAn.setEnabled(isEditable);
+        RendererTools.setEditable(txtNummer, isEditable);
+        RendererTools.setEditable(txtZugewiesenAn, isEditable);
         arbeitsprotokollPanel1.setPanelEditable(isEditable);
         this.isEditable = isEditable;
     }

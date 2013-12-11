@@ -26,6 +26,8 @@ import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.util.RendererTools;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
 
@@ -402,11 +404,11 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        dapDatum.setEnabled(isEditable);
-        cbxStatus.setEnabled(isEditable);
-        txaBemerkungen.setEnabled(isEditable);
-        txfMonteur.setEnabled(isEditable);
-        txaMaterial.setEnabled(isEditable);
+        RendererTools.setEditable(dapDatum, isEditable);
+        RendererTools.setEditable(cbxStatus, isEditable);
+        RendererTools.setEditable(txaBemerkungen, isEditable);
+        RendererTools.setEditable(txfMonteur, isEditable);
+        RendererTools.setEditable(txaMaterial, isEditable);
     }
 
     @Override
