@@ -9,6 +9,7 @@ package de.cismet.cids.custom.beans.belis2;
 
 import java.io.File;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -214,6 +215,25 @@ public class DmsUrlCustomBean extends BaseEntity {
                 }
                 if (candidate.isFile()) {
                     return candidate;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public URI toUri() {
+        if (getUrl() != null) {
+            final URL u = getUrl().getURL();
+            if (u != null) {
+                try {
+                    return u.toURI();
+                } catch (URISyntaxException e) {
+                    LOG.error("URL syntax error.", e);
                 }
             }
         }

@@ -30,6 +30,8 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.widget.DetailWidget;
 
+import de.cismet.belis.util.RendererTools;
+
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean;
@@ -1360,36 +1362,36 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
      */
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        cbxStandortStrassenschluessel.setEnabled(isEditable);
-        cbxStandortStrassenschluesselNr.setEnabled(isEditable);
-        cbxStandortKennziffer.setEnabled(isEditable);
-        cbxStandortStadtbezirk.setEnabled(isEditable);
-        txfStandortStandortAngabe.setEnabled(isEditable);
-        txfStandortHausnummer.setEnabled(isEditable);
-        cbxStandortMastart.setEnabled(isEditable);
-        cbxStandortMasttyp.setEnabled(isEditable);
-        cbxStandortUnterhalt.setEnabled(isEditable);
-        cbxStandortKlassifizierung.setEnabled(isEditable);
-        dapStandortInbetriebnahme.setEnabled(isEditable);
-        dapStandortLetzteAenderung.setEnabled(isEditable);
-        dapStandortMastanstrich.setEnabled(isEditable);
-        dapStandortMastschutz.setEnabled(isEditable);
-        txfStandortMontagefirma.setEnabled(isEditable);
-        txaStandortBemerkung.setEnabled(isEditable);
-        cboStandortVerrechnungseinheit.setEnabled(isEditable);
-        dapStandortElekPruefung.setEnabled(isEditable);
-        dapStandortNaechstesPruefdatum.setEnabled(isEditable);
-        dapStandortRevision.setEnabled(isEditable);
-        dapStandortStandsicherheitspruefung.setEnabled(isEditable);
-        txfStandortAnstrichfarbe.setEnabled(isEditable);
-        txfStandortGruendung.setEnabled(isEditable);
-        txfStandortLaufendenummer.setEnabled(isEditable);
-        txfStandortMontagefirma.setEnabled(isEditable);
-        txfStandortMonteur.setEnabled(isEditable);
-        txfStandortVerfahren.setEnabled(isEditable);
-        txfAnbauten.setEnabled(isEditable);
-        cboStandortErdung.setEnabled(isEditable);
-        cbxStandortAnlagengruppe.setEnabled(isEditable);
+        RendererTools.setEditable(cbxStandortStrassenschluessel, isEditable);
+        RendererTools.setEditable(cbxStandortStrassenschluesselNr, isEditable);
+        RendererTools.setEditable(cbxStandortKennziffer, isEditable);
+        RendererTools.setEditable(cbxStandortStadtbezirk, isEditable);
+        RendererTools.setEditable(txfStandortStandortAngabe, isEditable);
+        RendererTools.setEditable(txfStandortHausnummer, isEditable);
+        RendererTools.setEditable(cbxStandortMastart, isEditable);
+        RendererTools.setEditable(cbxStandortMasttyp, isEditable);
+        RendererTools.setEditable(cbxStandortUnterhalt, isEditable);
+        RendererTools.setEditable(cbxStandortKlassifizierung, isEditable);
+        RendererTools.setEditable(dapStandortInbetriebnahme, isEditable);
+        RendererTools.setEditable(dapStandortLetzteAenderung, isEditable);
+        RendererTools.setEditable(dapStandortMastanstrich, isEditable);
+        RendererTools.setEditable(dapStandortMastschutz, isEditable);
+        RendererTools.setEditable(txfStandortMontagefirma, isEditable);
+        RendererTools.setEditable(txaStandortBemerkung, isEditable);
+        RendererTools.setEditable(cboStandortVerrechnungseinheit, isEditable);
+        RendererTools.setEditable(dapStandortElekPruefung, isEditable);
+        RendererTools.setEditable(dapStandortNaechstesPruefdatum, isEditable);
+        RendererTools.setEditable(dapStandortRevision, isEditable);
+        RendererTools.setEditable(dapStandortStandsicherheitspruefung, isEditable);
+        RendererTools.setEditable(txfStandortAnstrichfarbe, isEditable);
+        RendererTools.setEditable(txfStandortGruendung, isEditable);
+        RendererTools.setEditable(txfStandortLaufendenummer, isEditable);
+        RendererTools.setEditable(txfStandortMontagefirma, isEditable);
+        RendererTools.setEditable(txfStandortMonteur, isEditable);
+        RendererTools.setEditable(txfStandortVerfahren, isEditable);
+        RendererTools.setEditable(txfAnbauten, isEditable);
+        RendererTools.setEditable(cboStandortErdung, isEditable);
+        RendererTools.setEditable(cbxStandortAnlagengruppe, isEditable);
     }
 
     /**

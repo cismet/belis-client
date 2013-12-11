@@ -18,8 +18,6 @@ package de.cismet.belis.gui.documentpanel;
 
 import org.apache.log4j.Logger;
 
-import org.jdesktop.observablecollections.ObservableList;
-
 import java.awt.Cursor;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -31,11 +29,13 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -60,6 +60,20 @@ import de.cismet.belis.gui.utils.UIUtils;
 
 import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
 
+import de.cismet.netutil.Proxy;
+
+import de.cismet.security.WebDavClient;
+import de.cismet.security.WebDavHelper;
+
+import de.cismet.tools.CismetThreadPool;
+import de.cismet.tools.PasswordEncrypter;
+
+import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.WaitDialog;
+import de.cismet.tools.gui.downloadmanager.DownloadManager;
+import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
+import de.cismet.tools.gui.downloadmanager.WebDavDownload;
+
 /**
  * DOCUMENT ME!
  *
@@ -81,6 +95,9 @@ public final class DocumentPanel extends javax.swing.JPanel {
     public static final String EXTENSIONS = "\\.(jpg|jpeg|gif|png|pdf|html|doc|xls|txt)";
     private static final Icon IDLE_ICON;
     private static final Icon[] BUSY_ICONS;
+    private static final String WEB_DAV_USER;
+    private static final String WEB_DAV_PASSWORD;
+    private static final String WEB_DAV_DIRECTORY;
 
     static {
         // Prepare the icons
@@ -89,9 +106,22 @@ public final class DocumentPanel extends javax.swing.JPanel {
             BUSY_ICONS[i] = new ImageIcon(DocumentPanel.class.getResource(ICON_RES_PATH + "busy-icon" + i + ".png"));
         }
         IDLE_ICON = new ImageIcon(DocumentPanel.class.getResource(ICON_RES_PATH + "idle-icon.png"));
+
+        final ResourceBundle bundle = ResourceBundle.getBundle("WebDavBelis");
+        String pass = bundle.getString("password");
+
+        if ((pass != null) && pass.startsWith(PasswordEncrypter.CRYPT_PREFIX)) {
+            pass = PasswordEncrypter.decryptString(pass);
+        }
+
+        WEB_DAV_PASSWORD = pass;
+        WEB_DAV_USER = bundle.getString("username");
+        WEB_DAV_DIRECTORY = bundle.getString("url");
     }
 
     //~ Instance fields --------------------------------------------------------
+
+    private Collection<DmsUrlCustomBean> removeNewAddedFotoBean = new ArrayList<DmsUrlCustomBean>();
 
     // --
     // private final DefaultListModel docListModel;
@@ -101,6 +131,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
     // private DocumentContainer currentEntity = null;
     private Collection<DmsUrlCustomBean> dokumente = null;
     private boolean inEditMode = false;
+    private WebDavClient webDavClient;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblAbsolutePath;
@@ -171,6 +202,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
                     }
                 });
         lblStatus.setIcon(IDLE_ICON);
+        this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -231,26 +263,84 @@ public final class DocumentPanel extends javax.swing.JPanel {
 
     /**
      * DOCUMENT ME!
-     *
-     * @param  urlString  DOCUMENT ME!
      */
-    private void addURLtoList(final String urlString) {
+    private void downloadSelection() {
+        final Object sel = lstDocList.getSelectedValue();
+        if (sel instanceof DmsUrlCustomBean) {
+            final DmsUrlCustomBean bean = (DmsUrlCustomBean)sel;
+            if (DownloadManagerDialog.showAskingForUserTitle(this)) {
+                final String jobname = DownloadManagerDialog.getJobname();
+                final String name = bean.getDescription();
+                final String file = bean.toUri().getPath().substring(bean.toUri().getPath().lastIndexOf("/") + 1);
+                final String fserverName = bean.toUri()
+                            .getPath()
+                            .substring(bean.toUri().getPath().lastIndexOf("/") + 1);
+                String extension = "";
+                if (fserverName.lastIndexOf(".") != -1) {
+                    extension = fserverName.substring(fserverName.lastIndexOf("."));
+                }
+                String filename = name;
+
+                if (name.lastIndexOf(".") != -1) {
+                    filename = name.substring(0, name.lastIndexOf("."));
+                }
+
+                DownloadManager.instance()
+                        .add(new WebDavDownload(
+                                webDavClient,
+                                WEB_DAV_DIRECTORY
+                                + WebDavHelper.encodeURL(file),
+                                jobname,
+                                filename
+                                + extension,
+                                filename,
+                                extension));
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   urlString  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private String addURLtoList(final String urlString) {
         if (log.isDebugEnabled()) {
             log.debug("addURLToList set: " + getDokumente());
         }
+        final String docName = urlString.substring(urlString.lastIndexOf("/") + 1);
         final String description = JOptionPane.showInputDialog(
                 DocumentPanel.this,
                 "Welche Beschriftung soll der Link haben?",
-                urlString);
+                docName);
         if ((description != null) && (description.length() > 0)) {
             // docListModel.addElement(DmsUrl.createDmsURLFromLink(urlString, description));
-            dokumente.add(DmsUrlCustomBean.createDmsURLFromLink(urlString, description));
+            if (log.isDebugEnabled()) {
+                log.debug("addURLToList: " + getDokumente());
+            }
+            return description;
         } else {
             // cancel case
-            return;
+            return null;
         }
-        if (log.isDebugEnabled()) {
-            log.debug("addURLToList: " + getDokumente());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fileList  DOCUMENT ME!
+     */
+    public void addFiles(final List<DocumentStruct> fileList) {
+        if ((fileList != null) && (fileList.size() > 0)) {
+            final WaitDialog wd = new WaitDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    true,
+                    "Speichere Dokument",
+                    null);
+            CismetThreadPool.execute(new DocumentUploadWorker(fileList, wd));
+            StaticSwingTools.showDialog(wd);
         }
     }
 
@@ -429,14 +519,14 @@ public final class DocumentPanel extends javax.swing.JPanel {
         if (toCast != null) {
             if (toCast instanceof DmsUrlCustomBean) {
                 final DmsUrlCustomBean url = (DmsUrlCustomBean)toCast;
-                final File document = url.toFile();
+                final String document = url.toUri().getPath().substring(url.toUri().getPath().lastIndexOf("/") + 1);
                 if (document != null) {
                     busyIconTimer.start();
                     final SwingWorker<ImageIcon, Void> oldWorker = previewWorker;
                     if (oldWorker != null) {
                         oldWorker.cancel(true);
                     }
-                    previewWorker = new PreviewWorker(document);
+                    previewWorker = new PreviewWorker(document, url.toUri().toString());
                     THREAD_EXECUTOR.execute(previewWorker);
                 }
             }
@@ -450,7 +540,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      */
     private void lblPreviewMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblPreviewMouseClicked
         if (!evt.isPopupTrigger()) {
-            openSelectionInBrowser();
+            downloadSelection();
         }
     }                                                                          //GEN-LAST:event_lblPreviewMouseClicked
 
@@ -461,7 +551,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      */
     private void lstDocListMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMouseClicked
         if ((evt.getClickCount() > 1) && !evt.isPopupTrigger()) {
-            openSelectionInBrowser();
+            downloadSelection();
         }
     }                                                                          //GEN-LAST:event_lstDocListMouseClicked
 
@@ -628,12 +718,18 @@ public final class DocumentPanel extends javax.swing.JPanel {
                             final List mp = (List)possibleFileList;
 //                            lstDocList.setEnabled(false);
                             // TODO add to list, erst File -> DmsUrl, dann adden
+                            final List<DocumentStruct> docList = new ArrayList<DocumentStruct>();
                             for (final Object o : mp) {
                                 if (o instanceof File) {
                                     final File f = (File)o;
-                                    addURLtoList(f.toURI().toString());
+                                    final String desc = addURLtoList(f.toURI().toString());
+
+                                    if (desc != null) {
+                                        docList.add(new DocumentStruct(desc, f));
+                                    }
                                 }
                             }
+                            addFiles(docList);
                             return true;
                         }
                     }
@@ -641,12 +737,27 @@ public final class DocumentPanel extends javax.swing.JPanel {
                 for (int i = 0; i < flavors.length; ++i) {
                     if (flavors[i].equals(DataFlavor.stringFlavor)) {
                         // CAST
+                        final List<DocumentStruct> docList = new ArrayList<DocumentStruct>();
                         final String urls = (String)tr.getTransferData(DataFlavor.stringFlavor);
                         final StringTokenizer tokens = new StringTokenizer(urls);
                         while (tokens.hasMoreTokens()) {
                             final String urlString = tokens.nextToken();
-                            addURLtoList(urlString);
+                            try {
+                                final File f = new File(new URL(urlString).toURI());
+
+                                if (f.exists()) {
+                                    final String desc = addURLtoList(urlString);
+
+                                    if (desc != null) {
+                                        docList.add(new DocumentStruct(desc, f));
+                                    }
+                                }
+                            } catch (MalformedURLException ex) {
+                                log.error("malformed url", ex);
+                            }
                         }
+
+                        addFiles(docList);
                         return true;
                     }
                 }
@@ -666,7 +777,8 @@ public final class DocumentPanel extends javax.swing.JPanel {
 
         //~ Instance fields ----------------------------------------------------
 
-        private final File document;
+        private final String document;
+        private final String absPath;
 
         //~ Constructors -------------------------------------------------------
 
@@ -674,9 +786,11 @@ public final class DocumentPanel extends javax.swing.JPanel {
          * Creates a new PreviewWorker object.
          *
          * @param  document  DOCUMENT ME!
+         * @param  absPath   DOCUMENT ME!
          */
-        public PreviewWorker(final File document) {
+        public PreviewWorker(final String document, final String absPath) {
             this.document = document;
+            this.absPath = absPath;
         }
 
         //~ Methods ------------------------------------------------------------
@@ -689,17 +803,22 @@ public final class DocumentPanel extends javax.swing.JPanel {
             } catch (InterruptedException ie) {
                 // ignore
             }
-            if ((document != null) && document.isFile() && !isCancelled()) {
-                // setText-methods are threadsafe!
+
+            if ((document != null) && !isCancelled()) {
                 lblPreview.setText("loading...");
-                return UIUtils.loadPicture(document.getAbsolutePath(),
+                // setText-methods are threadsafe!
+                return UIUtils.loadPicture(
+                        document,
                         panPreviewScp.getWidth()
                                 - INSET
                                 - SHADOW_SIZE,
                         panPreviewScp.getHeight()
                                 - INSET
                                 - SHADOW_SIZE,
-                        SHADOW_SIZE);
+                        SHADOW_SIZE,
+                        webDavClient,
+                        WEB_DAV_DIRECTORY,
+                        DocumentPanel.this);
             }
             return null;
         }
@@ -707,8 +826,8 @@ public final class DocumentPanel extends javax.swing.JPanel {
         @Override
         protected void done() {
             if (!isCancelled()) {
-                lblAbsolutePath.setText(document.getAbsolutePath());
-                lblAbsolutePath.setToolTipText(document.getAbsolutePath());
+                lblAbsolutePath.setText("");
+                lblAbsolutePath.setToolTipText("");
                 ImageIcon icon = null;
                 try {
                     icon = get();
@@ -736,6 +855,149 @@ public final class DocumentPanel extends javax.swing.JPanel {
                 lblStatus.setIcon(IDLE_ICON);
             }
             previewWorker = null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class DocumentStruct {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private String name;
+        private File file;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new DocumentStruct object.
+         *
+         * @param  name  DOCUMENT ME!
+         * @param  file  DOCUMENT ME!
+         */
+        public DocumentStruct(final String name, final File file) {
+            this.name = name;
+            this.file = file;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the name
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  name  the name to set
+         */
+        public void setName(final String name) {
+            this.name = name;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the file
+         */
+        public File getFile() {
+            return file;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  file  the file to set
+         */
+        public void setFile(final File file) {
+            this.file = file;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    final class DocumentUploadWorker extends SwingWorker<Collection<DmsUrlCustomBean>, Void> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final String FILE_PREFIX = "DOC-";
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final Collection<DocumentStruct> docs;
+        private final WaitDialog wd;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new ImageUploadWorker object.
+         *
+         * @param  docs  fotos DOCUMENT ME!
+         * @param  wd    DOCUMENT ME!
+         */
+        public DocumentUploadWorker(final Collection<DocumentStruct> docs, final WaitDialog wd) {
+            this.docs = docs;
+            this.wd = wd;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected Collection<DmsUrlCustomBean> doInBackground() throws Exception {
+            try {
+                final Collection<DmsUrlCustomBean> newBeans = new ArrayList<DmsUrlCustomBean>();
+                for (final DocumentStruct doc : docs) {
+                    final File imageFile = doc.getFile();
+                    final String webFileName = WebDavHelper.generateWebDAVFileName(FILE_PREFIX, imageFile);
+                    WebDavHelper.uploadFileToWebDAV(
+                        webFileName,
+                        imageFile,
+                        WEB_DAV_DIRECTORY,
+                        webDavClient,
+                        DocumentPanel.this);
+                    newBeans.add(DmsUrlCustomBean.createDmsURLFromLink(WEB_DAV_DIRECTORY + webFileName, doc.getName()));
+                }
+                return newBeans;
+            } finally {
+                while (!wd.isVisible()) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        // nothing to do
+                    }
+                }
+
+                wd.setVisible(false);
+                wd.dispose();
+            }
+        }
+
+        @Override
+        protected void done() {
+            try {
+                final Collection<DmsUrlCustomBean> newBeans = get();
+
+                if (!newBeans.isEmpty()) {
+                    dokumente.addAll(newBeans);
+                    removeNewAddedFotoBean.addAll(newBeans);
+                }
+            } catch (InterruptedException ex) {
+                log.warn(ex, ex);
+            } catch (ExecutionException ex) {
+                log.error(ex, ex);
+            } finally {
+            }
         }
     }
 }

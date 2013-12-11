@@ -64,6 +64,8 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.util.BelisIcons;
 
+import de.cismet.cids.client.tools.CallServerTunnel;
+
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cismap.commons.BoundingBox;
@@ -74,6 +76,8 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.commons2.architecture.layout.LayoutManager;
 
 import de.cismet.lookupoptions.gui.OptionsDialog;
+
+import de.cismet.security.WebAccessManager;
 
 import de.cismet.tools.StaticDecimalTools;
 
@@ -1123,6 +1127,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 
                 @Override
                 public void run() {
+                    WebAccessManager.getInstance().setTunnel(new CallServerTunnel("BELIS2"));
                     configManager = new ConfigurationManager();
                     configManager.setDefaultFileName(getPluginConfigurationFile());
                     configManager.setFileName(getPluginConfigurationFile());

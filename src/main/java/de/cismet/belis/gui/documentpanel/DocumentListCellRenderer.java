@@ -16,6 +16,8 @@ import java.awt.Component;
 
 import java.io.File;
 
+import java.net.URI;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,10 +103,10 @@ public class DocumentListCellRenderer extends DefaultListCellRenderer {
         ImageIcon imageIcon = null;
         if (value instanceof DmsUrlCustomBean) {
             final DmsUrlCustomBean url = (DmsUrlCustomBean)value;
-            final File file = url.toFile();
+            final URI file = url.toUri();
             value = url.getBeschreibung();
             if (file != null) {
-                final String[] tmp = file.getName().split("\\.");
+                final String[] tmp = file.toString().split("\\.");
                 if ((tmp != null) && (tmp.length > 0)) {
                     final String extension = tmp[tmp.length - 1];
                     imageIcon = FILE_TYPE_ICONS.get(extension);

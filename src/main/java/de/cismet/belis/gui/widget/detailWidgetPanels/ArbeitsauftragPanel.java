@@ -25,6 +25,8 @@ import javax.swing.table.AbstractTableModel;
 
 import de.cismet.belis.gui.DateToStringConverter;
 
+import de.cismet.belis.util.RendererTools;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;

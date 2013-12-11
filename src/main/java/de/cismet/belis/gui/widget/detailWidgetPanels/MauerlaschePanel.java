@@ -24,6 +24,8 @@ import javax.swing.JList;
 
 import de.cismet.belis.gui.widget.DetailWidget;
 
+import de.cismet.belis.util.RendererTools;
+
 import de.cismet.cids.custom.beans.belis2.MaterialMauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
@@ -500,13 +502,13 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        cbxMauerlascheStrassenschluessel.setEnabled(isEditable);
-        cbxMauerlascheStrassenschluesselNr.setEnabled(isEditable);
-        cbxMauerlascheMaterial.setEnabled(isEditable);
-        dapMauerlascheErstellungsjahr.setEnabled(isEditable);
-        txfMauerlascheLaufendenummer.setEnabled(isEditable);
-        dapPruefdatum.setEnabled(isEditable);
-        txaMauerlascheBemerkung.setEnabled(isEditable);
+        RendererTools.setEditable(cbxMauerlascheStrassenschluessel, isEditable);
+        RendererTools.setEditable(cbxMauerlascheStrassenschluesselNr, isEditable);
+        RendererTools.setEditable(cbxMauerlascheMaterial, isEditable);
+        RendererTools.setEditable(dapMauerlascheErstellungsjahr, isEditable);
+        RendererTools.setEditable(txfMauerlascheLaufendenummer, isEditable);
+        RendererTools.setEditable(dapPruefdatum, isEditable);
+        RendererTools.setEditable(txaMauerlascheBemerkung, isEditable);
     }
 
     /**
