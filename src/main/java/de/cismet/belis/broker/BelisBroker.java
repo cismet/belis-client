@@ -1198,7 +1198,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
          * <receiver>sebastian.puhl@cismet.de</receiver> </neuesKommunalesFinanzmanagement> <failures>
          * <receiver>sebastian.puhl@cismet.de</receiver> </failures> </emailConfiguration>
          */
-
         try {
             try {
                 final Element loggingConf = parent.getChild("Logging");
@@ -2744,7 +2743,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     }
 
     // ToDo mayby better to operate on the
-
     /**
      * DOCUMENT ME!
      */
