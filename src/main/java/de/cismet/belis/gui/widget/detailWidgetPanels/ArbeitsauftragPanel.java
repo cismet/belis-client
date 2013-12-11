@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 
 import de.cismet.belis.gui.DateToStringConverter;
 
+import de.cismet.belis.util.RendererTools;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
@@ -272,7 +274,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        txtNummer.setEnabled(isEditable);
+        RendererTools.setEditable(txtNummer, isEditable);
     }
 
     @Override

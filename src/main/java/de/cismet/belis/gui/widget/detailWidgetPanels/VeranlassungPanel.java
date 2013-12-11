@@ -28,6 +28,8 @@ import de.cismet.belis.broker.CidsBroker;
 import de.cismet.belis.gui.DateToStringConverter;
 import de.cismet.belis.gui.widget.DetailWidget;
 
+import de.cismet.belis.util.RendererTools;
+
 import de.cismet.cids.custom.beans.belis2.InfobausteinCustomBean;
 import de.cismet.cids.custom.beans.belis2.InfobausteinTemplateCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
@@ -615,16 +617,16 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        txtNummer.setEnabled(isEditable);
-        cbxArt.setEnabled(isEditable);
-        txtBezeichnung.setEnabled(isEditable);
-        txaBeschreibung.setEnabled(isEditable);
-        txaBemerkungen.setEnabled(isEditable);
-        btnAddInfo.setEnabled(isEditable);
-        btnRemInfo.setEnabled(isEditable);
-        btnTemplate.setEnabled(isEditable);
-        cbxInfobausteineTemplate.setEnabled(isEditable);
-        tblInfobausteine.setEnabled(isEditable);
+        RendererTools.setEditable(txtNummer, isEditable);
+        RendererTools.setEditable(cbxArt, isEditable);
+        RendererTools.setEditable(txtBezeichnung, isEditable);
+        RendererTools.setEditable(txaBeschreibung, isEditable);
+        RendererTools.setEditable(txaBemerkungen, isEditable);
+        RendererTools.setEditable(btnAddInfo, isEditable);
+        RendererTools.setEditable(btnRemInfo, isEditable);
+        RendererTools.setEditable(btnTemplate, isEditable);
+        RendererTools.setEditable(cbxInfobausteineTemplate, isEditable);
+        RendererTools.setEditable(tblInfobausteine, isEditable);
     }
 
     @Override

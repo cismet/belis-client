@@ -26,6 +26,8 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.widget.DetailWidget;
 
+import de.cismet.belis.util.RendererTools;
+
 import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean;
 import de.cismet.cids.custom.beans.belis2.MaterialLeitungCustomBean;
@@ -326,9 +328,13 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        cbxLeitungLeitungstyp.setEnabled(isEditable);
-        cbxLeitungMaterial.setEnabled(isEditable);
-        cbxLeitungQuerschnitt.setEnabled(isEditable);
+//        cbxLeitungLeitungstyp.setEnabled(isEditable);
+//        cbxLeitungMaterial.setEnabled(isEditable);
+//        cbxLeitungQuerschnitt.setEnabled(isEditable);
+
+        RendererTools.setEditable(cbxLeitungLeitungstyp, isEditable);
+        RendererTools.setEditable(cbxLeitungMaterial, isEditable);
+        RendererTools.setEditable(cbxLeitungQuerschnitt, isEditable);
     }
 
     @Override

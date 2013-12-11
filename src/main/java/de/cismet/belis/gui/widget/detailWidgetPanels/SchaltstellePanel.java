@@ -24,6 +24,8 @@ import javax.swing.JList;
 
 import de.cismet.belis.gui.widget.DetailWidget;
 
+import de.cismet.belis.util.RendererTools;
+
 import de.cismet.cids.custom.beans.belis2.BauartCustomBean;
 import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
@@ -668,17 +670,17 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        cbxSchaltstelleStrassenschluessel.setEnabled(isEditable);
-        cbxSchaltstelleStrassenschluesselNr.setEnabled(isEditable);
-        cbxSchaltstelleBauart.setEnabled(isEditable);
-        cbxRundsteuerempfaenger.setEnabled(isEditable);
-        txfSchaltstelleHausnummer.setEnabled(isEditable);
-        txfSchaltstelleLaufendenummer.setEnabled(isEditable);
-        txfSchaltstelleNummer.setEnabled(isEditable);
-        txfSchaltstelleStandortbezeichnung.setEnabled(isEditable);
-        dapSchaltstelleErstellungsjahr.setEnabled(isEditable);
-        txaSchaltstelleBemerkung.setEnabled(isEditable);
-        dapPruefdatum.setEnabled(isEditable);
+        RendererTools.setEditable(cbxSchaltstelleStrassenschluessel, isEditable);
+        RendererTools.setEditable(cbxSchaltstelleStrassenschluesselNr, isEditable);
+        RendererTools.setEditable(cbxSchaltstelleBauart, isEditable);
+        RendererTools.setEditable(cbxRundsteuerempfaenger, isEditable);
+        RendererTools.setEditable(txfSchaltstelleHausnummer, isEditable);
+        RendererTools.setEditable(txfSchaltstelleLaufendenummer, isEditable);
+        RendererTools.setEditable(txfSchaltstelleNummer, isEditable);
+        RendererTools.setEditable(txfSchaltstelleStandortbezeichnung, isEditable);
+        RendererTools.setEditable(dapSchaltstelleErstellungsjahr, isEditable);
+        RendererTools.setEditable(txaSchaltstelleBemerkung, isEditable);
+        RendererTools.setEditable(dapPruefdatum, isEditable);
     }
 
     @Override

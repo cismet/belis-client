@@ -33,6 +33,8 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.widget.DetailWidget;
 
+import de.cismet.belis.util.RendererTools;
+
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.cids.custom.beans.belis2.LeuchtmittelCustomBean;
@@ -1435,27 +1437,28 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
      * @param  isEditable  DOCUMENT ME!
      */
     public void setInheritedMastPropertiesEnabled(final boolean isEditable) {
-        cbxLeuchteStrassenschluessel.setEnabled(isEditable);
-        cbxLeuchteStrassenschluesselNr.setEnabled(isEditable);
-        cbxLeuchteKennziffer.setEnabled(isEditable);
         lblLeuchteStandortangabe.setVisible(isEditable);
         lblLeuchteVerrechnungseinheit.setVisible(isEditable);
         lblLeuchteStadtbezirk.setVisible(isEditable);
         cbxLeuchteStadtbezirk.setVisible(isEditable);
         txfLeuchteStandortAngabe.setVisible(isEditable);
         cboLeuchteVerrechnungseinheit.setVisible(isEditable);
-        cbxLeuchteStadtbezirk.setEnabled(isEditable);
-        txfLeuchteStandortAngabe.setEnabled(isEditable);
-        cboLeuchteVerrechnungseinheit.setEnabled(isEditable);
-        txtAnschlussleistung1DK.setEnabled(isEditable);
-        txtAnschlussleistung2DK.setEnabled(isEditable);
-        cbxLeuchtmittel.setEnabled(isEditable);
-        txtLebensdauer.setEnabled(isEditable);
-        dapLeuchtmittelwechsel.setEnabled(isEditable);
-        dapNaechsterWechsel.setEnabled(isEditable);
-        dapSonderturnus.setEnabled(isEditable);
-        dapWechselVorschaltgeraet.setEnabled(isEditable);
-        txfVorschaltgeraet.setEnabled(isEditable);
+
+        RendererTools.setEditable(cbxLeuchteStrassenschluessel, isEditable);
+        RendererTools.setEditable(cbxLeuchteStrassenschluesselNr, isEditable);
+        RendererTools.setEditable(cbxLeuchteKennziffer, isEditable);
+        RendererTools.setEditable(cbxLeuchteStadtbezirk, isEditable);
+        RendererTools.setEditable(txfLeuchteStandortAngabe, isEditable);
+        RendererTools.setEditable(cboLeuchteVerrechnungseinheit, isEditable);
+        RendererTools.setEditable(txtAnschlussleistung1DK, isEditable);
+        RendererTools.setEditable(txtAnschlussleistung2DK, isEditable);
+        RendererTools.setEditable(cbxLeuchtmittel, isEditable);
+        RendererTools.setEditable(txtLebensdauer, isEditable);
+        RendererTools.setEditable(dapLeuchtmittelwechsel, isEditable);
+        RendererTools.setEditable(dapNaechsterWechsel, isEditable);
+        RendererTools.setEditable(dapSonderturnus, isEditable);
+        RendererTools.setEditable(dapWechselVorschaltgeraet, isEditable);
+        RendererTools.setEditable(txfVorschaltgeraet, isEditable);
     }
 
     /**
@@ -1496,41 +1499,41 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        txtLeuchteLeuchtennummer.setEnabled(isEditable);
-        cbxLeuchteEnergielieferant.setEnabled(isEditable);
-        txtLeuchteSchaltstelle.setEnabled(isEditable);
-        cbxRundsteuerempfaenger.setEnabled(isEditable);
-        cbxLeuchteUnterhalt.setEnabled(isEditable);
-        cboLeuchteZaehler.setEnabled(isEditable);
-        dapLeuchteInbetriebnahme.setEnabled(isEditable);
-        cbxLeuchteLeuchtentyp.setEnabled(isEditable);
-        cbxLeuchteDoppelkommando1.setEnabled(isEditable);
-        cbxLeuchteDoppelkommando2.setEnabled(isEditable);
-        sprLeuchteDoppelkommando1Anzahl.setEnabled(isEditable);
-        sprLeuchteDoppelkommando2Anzahl.setEnabled(isEditable);
-        txfLeuchteMontagefirma.setEnabled(isEditable);
-        txaLeuchteBemerkung.setEnabled(isEditable);
+        RendererTools.setEditable(txtLeuchteLeuchtennummer, isEditable);
+        RendererTools.setEditable(cbxLeuchteEnergielieferant, isEditable);
+        RendererTools.setEditable(txtLeuchteSchaltstelle, isEditable);
+        RendererTools.setEditable(cbxRundsteuerempfaenger, isEditable);
+        RendererTools.setEditable(cbxLeuchteUnterhalt, isEditable);
+        RendererTools.setEditable(cboLeuchteZaehler, isEditable);
+        RendererTools.setEditable(dapLeuchteInbetriebnahme, isEditable);
+        RendererTools.setEditable(cbxLeuchteLeuchtentyp, isEditable);
+        RendererTools.setEditable(cbxLeuchteDoppelkommando1, isEditable);
+        RendererTools.setEditable(cbxLeuchteDoppelkommando2, isEditable);
+        RendererTools.setEditable(sprLeuchteDoppelkommando1Anzahl, isEditable);
+        RendererTools.setEditable(sprLeuchteDoppelkommando2Anzahl, isEditable);
+        RendererTools.setEditable(txfLeuchteMontagefirma, isEditable);
+        RendererTools.setEditable(txaLeuchteBemerkung, isEditable);
         if ((belisBroker.getWorkbenchWidget() != null)
                     && !((belisBroker.getWorkbenchWidget().getSelectedTreeNode() != null)
                         && belisBroker.getWorkbenchWidget().isParentNodeMast(
                             belisBroker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))) {
-            cbxLeuchteKennziffer.setEnabled(isEditable);
-            cbxLeuchteStrassenschluessel.setEnabled(isEditable);
-            cbxLeuchteStrassenschluesselNr.setEnabled(isEditable);
+            RendererTools.setEditable(cbxLeuchteKennziffer, isEditable);
+            RendererTools.setEditable(cbxLeuchteStrassenschluessel, isEditable);
+            RendererTools.setEditable(cbxLeuchteStrassenschluesselNr, isEditable);
         }
-        cbxLeuchteStadtbezirk.setEnabled(isEditable);
-        txfLeuchteStandortAngabe.setEnabled(isEditable);
-        cboLeuchteVerrechnungseinheit.setEnabled(isEditable);
-        txtAnschlussleistung1DK.setEnabled(isEditable);
-        txtAnschlussleistung2DK.setEnabled(isEditable);
-        cbxLeuchtmittel.setEnabled(isEditable);
-        txtLebensdauer.setEnabled(isEditable);
-        dapLeuchtmittelwechsel.setEnabled(isEditable);
-        dapNaechsterWechsel.setEnabled(isEditable);
-        dapSonderturnus.setEnabled(isEditable);
-        dapWechselVorschaltgeraet.setEnabled(isEditable);
-        txfVorschaltgeraet.setEnabled(isEditable);
-        dapEinbaudatum.setEnabled(isEditable);
+        RendererTools.setEditable(cbxLeuchteStadtbezirk, isEditable);
+        RendererTools.setEditable(txfLeuchteStandortAngabe, isEditable);
+        RendererTools.setEditable(cboLeuchteVerrechnungseinheit, isEditable);
+        RendererTools.setEditable(txtAnschlussleistung1DK, isEditable);
+        RendererTools.setEditable(txtAnschlussleistung2DK, isEditable);
+        RendererTools.setEditable(cbxLeuchtmittel, isEditable);
+        RendererTools.setEditable(txtLebensdauer, isEditable);
+        RendererTools.setEditable(dapLeuchtmittelwechsel, isEditable);
+        RendererTools.setEditable(dapNaechsterWechsel, isEditable);
+        RendererTools.setEditable(dapSonderturnus, isEditable);
+        RendererTools.setEditable(dapWechselVorschaltgeraet, isEditable);
+        RendererTools.setEditable(txfVorschaltgeraet, isEditable);
+        RendererTools.setEditable(dapEinbaudatum, isEditable);
     }
 
     @Override
