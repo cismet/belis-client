@@ -73,6 +73,8 @@ import de.cismet.cismap.commons.gui.ClipboardWaitDialog;
 import de.cismet.cismap.commons.gui.statusbar.StatusBar;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
+import de.cismet.commons2.architecture.layout.LayoutManager;
+
 import de.cismet.lookupoptions.gui.OptionsDialog;
 
 import de.cismet.security.WebAccessManager;
@@ -110,15 +112,8 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     private static BelisClient.WundaAuthentification wa = new BelisClient.WundaAuthentification();
     private static boolean isLoginEnabled = true;
 
-    private static final String FILESEPARATOR = System.getProperty("file.separator");
-    private static final String DIRECTORYPATH_HOME = System.getProperty("user.home");
-    private static final String DIRECTORYEXTENSION = System.getProperty("directory.extension");
-
-    private static final String DIRECTORYNAME_BELISHOME = ".belis"
-                + ((DIRECTORYEXTENSION != null) ? DIRECTORYEXTENSION : "");
-
-    private static final String DIRECTORYPATH_BELIS = DIRECTORYPATH_HOME + FILESEPARATOR + DIRECTORYNAME_BELISHOME;
-    private static final String FILEPATH_SCREEN = DIRECTORYPATH_BELIS + FILESEPARATOR + "belis.screen";
+    private static String DIRECTORYPATH_BELIS;
+    private static String FILEPATH_SCREEN;
 
     private static JFrame SPLASH;
 
@@ -138,7 +133,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JMenu menBookmarks;
     private javax.swing.JMenu menEdit;
     private javax.swing.JMenu menExtras;
     private javax.swing.JMenu menFile;
@@ -147,10 +141,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     private javax.swing.JMenu menSearch;
     private javax.swing.JMenu menWindow;
     private javax.swing.JMenuItem mniAbout;
-    private javax.swing.JMenuItem mniAddBookmark;
     private javax.swing.JMenuItem mniBack;
-    private javax.swing.JMenuItem mniBookmarkManager;
-    private javax.swing.JMenuItem mniBookmarkSidebar;
     private javax.swing.JMenuItem mniClippboard;
     private javax.swing.JMenuItem mniClose;
     private javax.swing.JMenuItem mniForward;
@@ -201,6 +192,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             clipboarder = new ClipboardWaitDialog(this, true);
 
             broker = BelisBroker.getInstance();
+            broker.setLayoutManager(new LayoutManager(DIRECTORYPATH_BELIS, broker));
             broker.setFilterNormal(true);
             broker.setFilterVeranlassung(false);
             broker.setFilterArbeitsauftrag(false);
@@ -473,10 +465,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         sepBeforePos = new javax.swing.JSeparator();
         sepAfterPos = new javax.swing.JSeparator();
         mniHistorySidebar = new javax.swing.JMenuItem();
-        menBookmarks = new javax.swing.JMenu();
-        mniAddBookmark = new javax.swing.JMenuItem();
-        mniBookmarkManager = new javax.swing.JMenuItem();
-        mniBookmarkSidebar = new javax.swing.JMenuItem();
         menExtras = new javax.swing.JMenu();
         mniOptions = new javax.swing.JMenuItem();
         jSeparator12 = new javax.swing.JSeparator();
@@ -669,23 +657,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         menHistory.add(mniHistorySidebar);
 
         mnuBar.add(menHistory);
-
-        menBookmarks.setMnemonic('L');
-        menBookmarks.setText("Lesezeichen");
-
-        mniAddBookmark.setText("Lesezeichen hinzufügen");
-        mniAddBookmark.setEnabled(false);
-        menBookmarks.add(mniAddBookmark);
-
-        mniBookmarkManager.setText("Lesezeichen Manager");
-        mniBookmarkManager.setEnabled(false);
-        menBookmarks.add(mniBookmarkManager);
-
-        mniBookmarkSidebar.setText("Lesezeichen in eigenem Fenster öffnen");
-        mniBookmarkSidebar.setEnabled(false);
-        menBookmarks.add(mniBookmarkSidebar);
-
-        mnuBar.add(menBookmarks);
 
         menExtras.setMnemonic('E');
         menExtras.setText("Extras");
@@ -1141,6 +1112,17 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         } catch (final Exception ex) {
             LOG.error("Fehler beim setzen des Look & Feels", ex);
         }
+
+        final String fileSeparator = System.getProperty("file.separator");
+        final String directoryPath = System.getProperty("user.home");
+        final String directoryExtension = System.getProperty("directory.extension");
+
+        final String belisHomeName = ".belis"
+                    + ((directoryExtension != null) ? directoryExtension : "");
+
+        DIRECTORYPATH_BELIS = directoryPath + fileSeparator + belisHomeName;
+        FILEPATH_SCREEN = DIRECTORYPATH_BELIS + fileSeparator + "belis.screen";
+
         final Thread t = new Thread() {
 
                 @Override
@@ -1149,8 +1131,9 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     configManager = new ConfigurationManager();
                     configManager.setDefaultFileName(getPluginConfigurationFile());
                     configManager.setFileName(getPluginConfigurationFile());
+                    configManager.setHome(directoryPath);
+                    configManager.setFolder(belisHomeName);
                     configManager.setClassPathFolder(PLUGIN_CONFIGURATION_CLASSPATH);
-                    configManager.initialiseLocalConfigurationClasspath();
 
 //                    final LoginManager loginManager = new LoginManager();
 //

@@ -94,6 +94,8 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
+import de.cismet.belis.client.BelisClient;
+
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.belis.gui.search.AddressSearchControl;
@@ -295,7 +297,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     private final CopyPasteToolbar copyPasteToolbar;
     private final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
     private final EntityClipboard entityClipboard;
-    private final LayoutManager layoutManager = new LayoutManager();
+    private LayoutManager layoutManager;
     private AddressSearchControl asPan;
     private ConfigurationManager configManager;
     private JToolBar toolbar;
@@ -1210,8 +1212,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             if (LOG.isDebugEnabled()) {
                 LOG.debug("masterConfigure: " + BelisBroker.class.getName());
             }
-            configManager.addConfigurable(layoutManager);
-            configManager.configure(layoutManager);
             configManager.addConfigurable(metaSearchComponentFactory);
             configManager.configure(metaSearchComponentFactory);
             for (final BelisWidget widget : getWidgets()) {
@@ -1484,6 +1484,15 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public LayoutManager getLayoutManager() {
         return layoutManager;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  layoutManager  DOCUMENT ME!
+     */
+    public void setLayoutManager(final LayoutManager layoutManager) {
+        this.layoutManager = layoutManager;
     }
 
     /**
