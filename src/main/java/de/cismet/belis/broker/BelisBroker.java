@@ -992,17 +992,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
 
         final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
-
-        final Node[] tmp = SessionManager.getProxy().getRoots();
-        final ArrayList<Node> filteredNodes = new ArrayList<Node>(tmp.length);
-        for (final Node n : tmp) {
-            if (n.getDomain().equals(BelisMetaClassConstants.DOMAIN)) {
-                filteredNodes.add(n);
-            }
-        }
-        final Node[] filteredNodeArray = filteredNodes.toArray(new Node[0]);
-        final RootTreeNode rootTreeNode = new RootTreeNode(filteredNodeArray);
-
+        final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
         final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
                 rootTreeNode,
                 PropertyManager.getManager().isEditable(),
