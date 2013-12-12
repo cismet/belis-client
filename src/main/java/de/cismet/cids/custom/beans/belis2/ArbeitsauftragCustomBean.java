@@ -23,14 +23,13 @@ import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
-import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentContainer {
+public class ArbeitsauftragCustomBean extends BaseEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -276,15 +275,4 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
 //        }
 //    }
 
-    @Override
-    public Collection<DmsUrlCustomBean> getDokumente() {
-        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
-                                                                          // Tools | Templates.
-    }
-
-    @Override
-    public void setDokumente(final Collection<DmsUrlCustomBean> urls) {
-        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
-                                                                          // Tools | Templates.
-    }
 }
