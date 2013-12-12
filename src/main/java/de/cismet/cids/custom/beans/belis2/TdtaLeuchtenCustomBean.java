@@ -28,7 +28,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements DocumentContainer {
+public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity, DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 

@@ -26,7 +26,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class MauerlascheCustomBean extends GeoBaseEntity implements DocumentContainer {
+public class MauerlascheCustomBean extends GeoBaseEntity implements BasicEntity, DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 

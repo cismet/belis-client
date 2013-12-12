@@ -44,7 +44,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class TdtaStandortMastCustomBean extends GeoBaseEntity implements DocumentContainer {
+public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEntity, DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 

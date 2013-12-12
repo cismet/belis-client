@@ -21,7 +21,6 @@ import java.util.Collection;
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.commons.server.entity.BaseEntity;
-import de.cismet.commons.server.entity.GeoBaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
