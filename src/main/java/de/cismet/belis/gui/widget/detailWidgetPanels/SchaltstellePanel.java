@@ -610,7 +610,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxSchaltstelleStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
+    private void cbxSchaltstelleStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -622,14 +622,14 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                       //GEN-LAST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
+    }//GEN-LAST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxSchaltstelleStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxSchaltstelleStrassenschluesselActionPerformed
+    private void cbxSchaltstelleStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSchaltstelleStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -641,7 +641,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                     //GEN-LAST:event_cbxSchaltstelleStrassenschluesselActionPerformed
+    }//GEN-LAST:event_cbxSchaltstelleStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -681,6 +681,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         RendererTools.setEditable(dapSchaltstelleErstellungsjahr, isEditable);
         RendererTools.setEditable(txaSchaltstelleBemerkung, isEditable);
         RendererTools.setEditable(dapPruefdatum, isEditable);
+        RendererTools.setEditable(dapEinbaudatum, isEditable);
     }
 
     @Override
