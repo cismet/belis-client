@@ -1136,6 +1136,11 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      * @param  args  DOCUMENT ME!
      */
     public static void main(final String[] args) {
+        final String intranetUse = System.getProperty("intranetUse", "false");
+        if (!intranetUse.equals("false") && !intranetUse.equals("true")) {
+            LOG.warn("SystemProperty intranetUse should be set to either true or false. You set it to: " + intranetUse
+                        + " (Will handle that like false.)");
+        }
         try {
             final Plastic3DLookAndFeel lf = new Plastic3DLookAndFeel();
             javax.swing.UIManager.setLookAndFeel(lf);
@@ -1157,7 +1162,13 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 
                 @Override
                 public void run() {
-                    WebAccessManager.getInstance().setTunnel(new CallServerTunnel("BELIS2"));
+                    if (!intranetUse.equals("true")) {
+                        try {
+                            WebAccessManager.getInstance().setTunnel(new CallServerTunnel("BELIS2"));
+                        } catch (Throwable e) {
+                            LOG.error("problem initializing WebaccessManager", e);
+                        }
+                    }
                     configManager = new ConfigurationManager();
                     configManager.setDefaultFileName(getPluginConfigurationFile());
                     configManager.setFileName(getPluginConfigurationFile());
@@ -1474,7 +1485,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 //                configManager.setCurrentUser(userString + "@" + standaloneDomain);
 //                //zweimal wegen userdepending konfiguration
 //                configManager.configure(this);
-
                 final Boolean permission = broker.getPermissions().get(tester);
                 PropertyManager.getManager().setEditable(permission);
                 if (log.isDebugEnabled()) {

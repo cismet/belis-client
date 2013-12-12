@@ -37,6 +37,7 @@ import de.cismet.belis.todo.CustomTreeTableModel;
 import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.BasicEntity;
 import de.cismet.cids.custom.beans.belis2.GeometrieCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
@@ -115,13 +116,7 @@ class WorkbenchTransferHandler extends TransferHandler {
             final List<TreePath> toTransfer = new ArrayList<TreePath>();
             for (final TreePath path : paths) {
                 final Object object = ((CustomMutableTreeTableNode)path.getLastPathComponent()).getUserObject();
-                if (!((object instanceof AbzweigdoseCustomBean)
-                                || (object instanceof MauerlascheCustomBean)
-                                || (object instanceof LeitungCustomBean)
-                                || (object instanceof TdtaLeuchtenCustomBean)
-                                || (object instanceof TdtaStandortMastCustomBean)
-                                || (object instanceof SchaltstelleCustomBean)
-                                || (object instanceof VeranlassungCustomBean)
+                if (!((object instanceof BasicEntity) || (object instanceof VeranlassungCustomBean)
                                 || (object instanceof GeometrieCustomBean))) {
                     return null;
                 }
@@ -224,11 +219,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                 for (final int selRow : selRows) {
                     final CidsBean clipboardBean = (CidsBean)
                         ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
-                    if ((clipboardBean instanceof TdtaStandortMastCustomBean)
-                                || (clipboardBean instanceof TdtaLeuchtenCustomBean)
-                                || (clipboardBean instanceof LeitungCustomBean)
-                                || (clipboardBean instanceof MauerlascheCustomBean)
-                                || (clipboardBean instanceof AbzweigdoseCustomBean)
+                    if ((clipboardBean instanceof BasicEntity)
                                 || (clipboardBean instanceof SchaltstelleCustomBean)
                                 || (clipboardBean instanceof GeometrieCustomBean)) {
                         final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()

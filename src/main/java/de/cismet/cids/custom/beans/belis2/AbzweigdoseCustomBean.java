@@ -25,7 +25,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class AbzweigdoseCustomBean extends GeoBaseEntity implements DocumentContainer {
+public class AbzweigdoseCustomBean extends GeoBaseEntity implements BasicEntity, DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 

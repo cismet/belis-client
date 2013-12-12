@@ -21,6 +21,7 @@ import de.cismet.belis.todo.CustomMutableTreeTableNode;
 import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.BasicEntity;
 import de.cismet.cids.custom.beans.belis2.GeometrieCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
@@ -128,12 +129,7 @@ public class EntityClipboard {
                                 broker.addNewProtokollToAuftragNode(selectedNode, protokoll, basic);
                                 arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
                             }
-                        } else if ((clipboardBean instanceof AbzweigdoseCustomBean)
-                                    || (clipboardBean instanceof MauerlascheCustomBean)
-                                    || (clipboardBean instanceof LeitungCustomBean)
-                                    || (clipboardBean instanceof SchaltstelleCustomBean)
-                                    || (clipboardBean instanceof TdtaLeuchtenCustomBean)
-                                    || (clipboardBean instanceof TdtaStandortMastCustomBean)
+                        } else if ((clipboardBean instanceof BasicEntity)
                                     || (clipboardBean instanceof GeometrieCustomBean)) {
                             final ArbeitsprotokollCustomBean protokoll = broker.createProtokollFromBasic(clipboardBean);
                             broker.addNewProtokollToAuftragNode(selectedNode, protokoll, clipboardBean);
@@ -257,13 +253,8 @@ public class EntityClipboard {
                 if (node != null) {
                     final Object object = node.getUserObject();
                     if ((broker.isFilterVeranlassung() && (object instanceof VeranlassungCustomBean))
-                                || ((broker.isFilterNormal() && (object instanceof TdtaLeuchtenCustomBean))
-                                    || (object instanceof TdtaStandortMastCustomBean)
-                                    || (object instanceof AbzweigdoseCustomBean)
-                                    || (object instanceof MauerlascheCustomBean)
-                                    || (object instanceof LeitungCustomBean)
-                                    || (object instanceof SchaltstelleCustomBean)
-                                    || (object instanceof GeometrieCustomBean))) {
+                                || (broker.isFilterNormal()
+                                    && ((object instanceof BasicEntity) || (object instanceof GeometrieCustomBean)))) {
                         beans.add((CidsBean)object);
                     }
                 }
