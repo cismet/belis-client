@@ -274,4 +274,5 @@ public class ArbeitsauftragCustomBean extends BaseEntity {
 //            throw new ActionNotSuccessfulException("Error while querying highest nummer", ex);
 //        }
 //    }
+
 }

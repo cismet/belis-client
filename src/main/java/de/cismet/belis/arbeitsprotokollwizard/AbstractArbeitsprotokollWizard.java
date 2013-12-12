@@ -11,14 +11,19 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
+import java.awt.event.ActionListener;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EventListener;
 
 import javax.swing.Action;
 import javax.swing.JPanel;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 
-import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.tools.gui.StaticSwingTools;
 
 /**
  * DOCUMENT ME!
@@ -26,11 +31,12 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public abstract class AbstractArbeitsprotokollWizard<T extends BaseEntity> extends JPanel {
+public abstract class AbstractArbeitsprotokollWizard extends JPanel {
 
     //~ Instance fields --------------------------------------------------------
 
-    private T entity;
+    private ArbeitsprotokollCustomBean protokoll;
+    private Collection<ActionListener> listeners = new ArrayList<ActionListener>();
 
     //~ Methods ----------------------------------------------------------------
 
@@ -44,10 +50,17 @@ public abstract class AbstractArbeitsprotokollWizard<T extends BaseEntity> exten
     /**
      * DOCUMENT ME!
      *
-     * @param  entity  DOCUMENT ME!
+     * @return  DOCUMENT ME!
      */
-    public void setEntity(final T entity) {
-        this.entity = entity;
+    public abstract String getTitle();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  protokoll  DOCUMENT ME!
+     */
+    public void setProtokoll(final ArbeitsprotokollCustomBean protokoll) {
+        this.protokoll = protokoll;
     }
 
     /**
@@ -55,8 +68,8 @@ public abstract class AbstractArbeitsprotokollWizard<T extends BaseEntity> exten
      *
      * @return  DOCUMENT ME!
      */
-    public T getEntity() {
-        return entity;
+    public ArbeitsprotokollCustomBean getProtokoll() {
+        return protokoll;
     }
 
     /**
@@ -71,5 +84,31 @@ public abstract class AbstractArbeitsprotokollWizard<T extends BaseEntity> exten
      *
      * @return  DOCUMENT ME!
      */
-    public abstract Collection<ArbeitsprotokollaktionCustomBean> getAktionen();
+    protected abstract Collection<ArbeitsprotokollaktionCustomBean> executeAktionen();
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void showDialog() {
+        final ArbeitsprotokollDialog dialog = new ArbeitsprotokollDialog(this, null, true);
+        StaticSwingTools.showDialog(dialog);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void addListener(final ActionListener listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void removeListener(final ActionListener listener) {
+        listeners.remove(listener);
+    }
 }

@@ -28,7 +28,7 @@ import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
-public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard<MauerlascheCustomBean> {
+public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
 
     //~ Constructors -----------------------------------------------------------
 
@@ -64,9 +64,8 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard<Ma
     }
 
     @Override
-    public void setEntity(final MauerlascheCustomBean entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+    public String getTitle() {
+        return "Prüfung";
     }
 
     @Override
@@ -82,7 +81,8 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard<Ma
     }
 
     @Override
-    public Collection<ArbeitsprotokollaktionCustomBean> getAktionen() {
-        return null;
+    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
+        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
+                                                                          // Tools | Templates.
     }
 }

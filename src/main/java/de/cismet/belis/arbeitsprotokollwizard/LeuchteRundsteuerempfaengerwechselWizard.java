@@ -28,7 +28,7 @@ import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
-public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitsprotokollWizard<TdtaLeuchtenCustomBean> {
+public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitsprotokollWizard {
 
     //~ Constructors -----------------------------------------------------------
 
@@ -64,9 +64,8 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
     }
 
     @Override
-    public void setEntity(final TdtaLeuchtenCustomBean entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+    public String getTitle() {
+        return "Rundsteuerempfängerwechsel";
     }
 
     @Override
@@ -82,7 +81,8 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
     }
 
     @Override
-    public Collection<ArbeitsprotokollaktionCustomBean> getAktionen() {
-        return null;
+    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
+        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
+                                                                          // Tools | Templates.
     }
 }
