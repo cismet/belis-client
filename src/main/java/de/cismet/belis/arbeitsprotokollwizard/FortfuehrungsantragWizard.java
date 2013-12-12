@@ -13,15 +13,13 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.beans.PropertyChangeListener;
-
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -30,14 +28,20 @@ import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
-public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWizard<TdtaLeuchtenCustomBean> {
+public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates new form VorschaltgeraetwechselWizard.
      */
-    public LeuchteLeuchtmittelwechselWizard() {
+    public FortfuehrungsantragWizard() {
         initComponents();
     }
 
@@ -45,7 +49,7 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
 
     @Override
     public Class getEntityClass() {
-        return TdtaLeuchtenCustomBean.class;
+        return null;
     }
 
     /**
@@ -55,36 +59,65 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(
+                FortfuehrungsantragWizard.class,
+                "FortfuehrungsantragWizard.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel1, gridBagConstraints);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jScrollPane1, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
 
     @Override
-    public void setEntity(final TdtaLeuchtenCustomBean entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+    public String getTitle() {
+        return "Fortführungsantrag";
     }
 
     @Override
     public Action getAction() {
-        return new AbstractAction("Leuchtmittelwechsel") {
+        return new AbstractAction("Fortführungsantrag") {
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
-                                                                                   // methods, choose Tools | Templates.
+                    showDialog();
                 }
             };
     }
 
     @Override
-    public Collection<ArbeitsprotokollaktionCustomBean> getAktionen() {
-        return null;
+    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
+        final ArbeitsprotokollaktionCustomBean aktion = ArbeitsprotokollaktionCustomBean.createNew();
+        aktion.setAenderung("Fortführungsantrag");
+        aktion.setAlt(null);
+        aktion.setNeu(jTextArea1.getText());
+
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
+        aktionen.add(aktion);
+        return aktionen;
     }
 }

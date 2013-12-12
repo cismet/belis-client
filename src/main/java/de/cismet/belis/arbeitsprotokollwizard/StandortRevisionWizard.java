@@ -28,7 +28,7 @@ import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
-public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard<TdtaStandortMastCustomBean> {
+public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
 
     //~ Constructors -----------------------------------------------------------
 
@@ -64,9 +64,8 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard<TdtaS
     }
 
     @Override
-    public void setEntity(final TdtaStandortMastCustomBean entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+    public String getTitle() {
+        return "Revision";
     }
 
     @Override
@@ -82,7 +81,8 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard<TdtaS
     }
 
     @Override
-    public Collection<ArbeitsprotokollaktionCustomBean> getAktionen() {
-        return null;
+    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
+        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
+                                                                          // Tools | Templates.
     }
 }

@@ -351,6 +351,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         new ArrayList<AbstractArbeitsprotokollWizard>();
     private Collection<AbstractArbeitsprotokollWizard> schaltstelleWizards =
         new ArrayList<AbstractArbeitsprotokollWizard>();
+    private Collection<AbstractArbeitsprotokollWizard> allgemeineWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard>();
 
     private boolean filterNormal = true;
     private boolean filterVeranlassung = false;
@@ -429,7 +431,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @return  DOCUMENT ME!
      */
     public Collection<AbstractArbeitsprotokollWizard> getWizardsActionsForEntity(final BaseEntity entity) {
-        if (entity instanceof AbzweigdoseCustomBean) {
+        if (entity == null) {
+            return (Collection<AbstractArbeitsprotokollWizard>)allgemeineWizards;
+        } else if (entity instanceof AbzweigdoseCustomBean) {
             return (Collection<AbstractArbeitsprotokollWizard>)abzweigdoseWizards;
         } else if (entity instanceof TdtaStandortMastCustomBean) {
             return (Collection<AbstractArbeitsprotokollWizard>)standorteWizards;
@@ -1203,7 +1207,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             for (final AbstractArbeitsprotokollWizard wizard
                         : Lookup.getDefault().lookupAll(AbstractArbeitsprotokollWizard.class)) {
                 try {
-                    if (wizard.getEntityClass().getName().equals(TdtaLeuchtenCustomBean.class.getName())) {
+                    if (wizard.getEntityClass() == null) {
+                        allgemeineWizards.add(wizard);
+                    } else if (wizard.getEntityClass().getName().equals(TdtaLeuchtenCustomBean.class.getName())) {
                         leuchtenWizards.add(wizard);
                     } else if (wizard.getEntityClass().getName().equals(TdtaStandortMastCustomBean.class.getName())) {
                         standorteWizards.add(wizard);

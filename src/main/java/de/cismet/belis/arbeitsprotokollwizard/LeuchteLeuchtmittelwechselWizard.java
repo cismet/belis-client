@@ -13,15 +13,21 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.beans.PropertyChangeListener;
-
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.belis.broker.CidsBroker;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeuchtmittelCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+
+import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 /**
  * DOCUMENT ME!
@@ -30,7 +36,17 @@ import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
-public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWizard<TdtaLeuchtenCustomBean> {
+public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWizard {
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cbxLeuchtmittel;
+    private javax.swing.JCheckBox chkErdungIO;
+    private org.jdesktop.swingx.JXDatePicker dapStandortElekPruefung;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField txtLebensdauer;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -39,6 +55,8 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
      */
     public LeuchteLeuchtmittelwechselWizard() {
         initComponents();
+        ((DefaultBindableReferenceCombo)cbxLeuchtmittel).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
+                LeuchtmittelCustomBean.TABLE));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -55,20 +73,94 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
-    } // </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabel1 = new javax.swing.JLabel();
+        chkErdungIO = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        cbxLeuchtmittel = new DefaultBindableReferenceCombo();
+        jLabel3 = new javax.swing.JLabel();
+        txtLebensdauer = new javax.swing.JTextField();
+        dapStandortElekPruefung = new org.jdesktop.swingx.JXDatePicker();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(
+                LeuchteLeuchtmittelwechselWizard.class,
+                "LeuchteLeuchtmittelwechselWizard.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel1, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            chkErdungIO,
+            org.openide.util.NbBundle.getMessage(
+                LeuchteLeuchtmittelwechselWizard.class,
+                "LeuchteLeuchtmittelwechselWizard.chkErdungIO.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(chkErdungIO, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel2,
+            org.openide.util.NbBundle.getMessage(
+                LeuchteLeuchtmittelwechselWizard.class,
+                "LeuchteLeuchtmittelwechselWizard.jLabel2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(cbxLeuchtmittel, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel3,
+            org.openide.util.NbBundle.getMessage(
+                LeuchteLeuchtmittelwechselWizard.class,
+                "LeuchteLeuchtmittelwechselWizard.jLabel3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(txtLebensdauer, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(dapStandortElekPruefung, gridBagConstraints);
+    }                                                              // </editor-fold>//GEN-END:initComponents
 
     @Override
-    public void setEntity(final TdtaLeuchtenCustomBean entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+    public String getTitle() {
+        return "Leuchtmittelwechsel";
     }
 
     @Override
@@ -77,14 +169,72 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
-                                                                                   // methods, choose Tools | Templates.
+                    showDialog();
                 }
             };
     }
 
     @Override
-    public Collection<ArbeitsprotokollaktionCustomBean> getAktionen() {
-        return null;
+    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
+        final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
+        final TdtaStandortMastCustomBean standort = leuchte.getFk_standort();
+
+        final Date altElekPruefung = standort.getElek_pruefung();
+        final Boolean altErdung = standort.getErdung();
+        final LeuchtmittelCustomBean altLeuchtmittel = leuchte.getLeuchtmittel();
+        final Double altLebensdauer = leuchte.getLebensdauer();
+        final Date altStandortLetzteAenderung = standort.getLetzteAenderung();
+
+        final Date neuElekPruefung = dapStandortElekPruefung.getDate();
+        final Date neuStandortLetzteAenderung = neuElekPruefung;
+        final boolean neuErdung = chkErdungIO.isSelected();
+        final LeuchtmittelCustomBean neuLeuchtmittel = (LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem();
+        Double neuLebensdauer = null;
+        try {
+            neuLebensdauer = Double.parseDouble(txtLebensdauer.getText());
+        } catch (Exception e) {
+            neuLebensdauer = null;
+        }
+
+        standort.setLetzte_aenderung(neuStandortLetzteAenderung);
+        standort.setElek_pruefung(neuElekPruefung);
+        standort.setErdung(neuErdung);
+        leuchte.setLeuchtmittel(neuLeuchtmittel);
+        leuchte.setLebensdauer(neuLebensdauer);
+
+        final ArbeitsprotokollaktionCustomBean standortLetzteAenderungAktion = ArbeitsprotokollaktionCustomBean
+                    .createNew();
+        standortLetzteAenderungAktion.setAenderung("Letzte Änderung an Mast");
+        standortLetzteAenderungAktion.setAlt((altStandortLetzteAenderung != null)
+                ? altStandortLetzteAenderung.toString() : null);
+        standortLetzteAenderungAktion.setNeu(neuStandortLetzteAenderung.toString());
+
+        final ArbeitsprotokollaktionCustomBean elekPruefungAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        elekPruefungAktion.setAenderung("Elektrische Prüfung");
+        elekPruefungAktion.setAlt((altElekPruefung != null) ? altElekPruefung.toString() : null);
+        elekPruefungAktion.setNeu(neuElekPruefung.toString());
+
+        final ArbeitsprotokollaktionCustomBean erdung = ArbeitsprotokollaktionCustomBean.createNew();
+        erdung.setAenderung("Erdung in Ordnung");
+        erdung.setAlt((altErdung != null) ? (altErdung ? "Ja" : "Nein") : null);
+        erdung.setNeu(neuErdung ? "Ja" : "Nein");
+
+        final ArbeitsprotokollaktionCustomBean leuchtmittel = ArbeitsprotokollaktionCustomBean.createNew();
+        leuchtmittel.setAenderung("Leuchtmittel");
+        leuchtmittel.setAlt((altLeuchtmittel != null) ? altLeuchtmittel.getKeyString() : null);
+        leuchtmittel.setNeu((neuLeuchtmittel != null) ? neuLeuchtmittel.getKeyString() : null);
+
+        final ArbeitsprotokollaktionCustomBean lebensdauer = ArbeitsprotokollaktionCustomBean.createNew();
+        lebensdauer.setAenderung("Lebensdauer");
+        lebensdauer.setAlt((altLebensdauer != null) ? Double.toString(altLebensdauer) : null);
+        lebensdauer.setNeu((neuLebensdauer != null) ? Double.toString(neuLebensdauer) : null);
+
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
+        aktionen.add(elekPruefungAktion);
+        aktionen.add(erdung);
+        aktionen.add(leuchtmittel);
+        aktionen.add(lebensdauer);
+
+        return aktionen;
     }
 }

@@ -141,7 +141,11 @@ public class DetailWidget extends BelisWidget {
         final Object oldCurrentEntity = this.currentEntity;
         this.currentEntity = currentEntity;
 
-        firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
+        try {
+            firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
+        } catch (final Exception ex) {
+            LOG.info("", ex);
+        }
         bindingGroup.unbind();
         bindingGroup.bind();
 
@@ -253,8 +257,6 @@ public class DetailWidget extends BelisWidget {
             if (parentEntity instanceof ArbeitsauftragCustomBean) {
                 arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
                 arbeitsauftragPanel.setElementsNull();
-                // arbeitsprotokollPanel.setCurrentEntity((ArbeitsprotokollCustomBean)currentEntity);
-                // arbeitsprotokollPanel.setElementsNull();
 
                 arbeitsauftragPanel.setSelectedProtokoll((ArbeitsprotokollCustomBean)currentEntity);
                 showPanel(arbeitsauftragPanel);

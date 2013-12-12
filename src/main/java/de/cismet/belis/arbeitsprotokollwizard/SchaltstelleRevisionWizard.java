@@ -28,7 +28,7 @@ import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
-public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard<SchaltstelleCustomBean> {
+public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard {
 
     //~ Constructors -----------------------------------------------------------
 
@@ -64,9 +64,8 @@ public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard<S
     }
 
     @Override
-    public void setEntity(final SchaltstelleCustomBean entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+    public String getTitle() {
+        return "Revision";
     }
 
     @Override
@@ -82,7 +81,8 @@ public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard<S
     }
 
     @Override
-    public Collection<ArbeitsprotokollaktionCustomBean> getAktionen() {
-        return null;
+    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
+        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
+                                                                          // Tools | Templates.
     }
 }

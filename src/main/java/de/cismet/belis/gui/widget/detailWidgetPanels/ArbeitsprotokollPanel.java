@@ -14,13 +14,18 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 import org.jdesktop.beansbinding.BindingGroup;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.SwingUtilities;
+import javax.swing.table.AbstractTableModel;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
@@ -29,6 +34,7 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.util.RendererTools;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
@@ -45,6 +51,13 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ArbeitsprotokollPanel.class);
 
+    private static final Class[] COLUMN_CLASSES = {
+            String.class,
+            String.class,
+            String.class
+        };
+    private static final String[] COLUMN_NAMES = { "Änderung", "von", "zu" };
+
     //~ Instance fields --------------------------------------------------------
 
     private BelisBroker belisBroker = BelisBroker.getInstance();
@@ -56,6 +69,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JLabel lblArbeitsprotokoll;
@@ -69,6 +83,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     private javax.swing.JPanel panDetails;
     private javax.swing.JScrollPane scrBemerkungen;
     private javax.swing.JScrollPane scrMaterial;
+    private javax.swing.JTable tblInfobausteine;
     private javax.swing.JTextArea txaBemerkungen;
     private javax.swing.JTextArea txaMaterial;
     private javax.swing.JTextField txfMonteur;
@@ -126,12 +141,17 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         jSeparator2 = new javax.swing.JSeparator();
         panActions = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblInfobausteine = new javax.swing.JTable();
 
-        lblArbeitsprotokoll.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        lblArbeitsprotokoll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/16/arbeitsprotokoll.png"))); // NOI18N
-        lblArbeitsprotokoll.setText("Arbeitsprotokoll"); // NOI18N
+        lblArbeitsprotokoll.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
+        lblArbeitsprotokoll.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/arbeitsprotokoll.png"))); // NOI18N
+        lblArbeitsprotokoll.setText("Arbeitsprotokoll");                                            // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
+
+        jSplitPane1.setResizeWeight(1.0);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -202,21 +222,32 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
         cbxStatus.setEnabled(false);
         cbxStatus.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean) {
-                    final de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean el = (de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean)value;
-                    setText(el.getBezeichnung());
-                }
-                return this;
-            }
-        });
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_status}"), cbxStatus, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean el =
+                            (de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean)value;
+                        setText(el.getBezeichnung());
+                    }
+                    return this;
+                }
+            });
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_status}"),
+                cbxStatus,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -235,7 +266,12 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         txaBemerkungen.setRows(5);
         txaBemerkungen.setMinimumSize(new java.awt.Dimension(240, 85));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkung}"), txaBemerkungen, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkung}"),
+                txaBemerkungen,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         scrBemerkungen.setViewportView(txaBemerkungen);
@@ -256,7 +292,12 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         txaMaterial.setRows(5);
         txaMaterial.setMinimumSize(new java.awt.Dimension(240, 85));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.material}"), txaMaterial, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.material}"),
+                txaMaterial,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         scrMaterial.setViewportView(txaMaterial);
@@ -272,7 +313,12 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
         txfMonteur.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.monteur}"), txfMonteur, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.monteur}"),
+                txfMonteur,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -296,6 +342,9 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
         jSplitPane1.setLeftComponent(jPanel1);
 
+        jPanel2.setMaximumSize(new java.awt.Dimension(500, 2147483647));
+        jPanel2.setMinimumSize(new java.awt.Dimension(500, 120));
+        jPanel2.setPreferredSize(new java.awt.Dimension(500, 297));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         panAktionen.setLayout(new java.awt.GridBagLayout());
@@ -309,13 +358,14 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panAktionen.add(panActions, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -333,6 +383,22 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel2.add(jLabel2, gridBagConstraints);
 
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(100, 200));
+
+        tblInfobausteine.setModel(new AktionenTableModel());
+        tblInfobausteine.setMinimumSize(new java.awt.Dimension(60, 200));
+        jScrollPane1.setViewportView(tblInfobausteine);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 4.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel2.add(jScrollPane1, gridBagConstraints);
+
         jSplitPane1.setRightComponent(jPanel2);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -342,7 +408,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         add(jSplitPane1, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     final void initPanel() {
@@ -372,6 +438,9 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         RendererTools.setEditable(txaBemerkungen, isEditable);
         RendererTools.setEditable(txfMonteur, isEditable);
         RendererTools.setEditable(txaMaterial, isEditable);
+        for (final Component comp : panActions.getComponents()) {
+            comp.setEnabled(isEditable);
+        }
     }
 
     @Override
@@ -400,12 +469,34 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
             subEntity = null;
         }
 
-        final Collection<AbstractArbeitsprotokollWizard> wizardsActionsForEntity = BelisBroker.getInstance()
-                    .getWizardsActionsForEntity(subEntity);
+        final Collection<AbstractArbeitsprotokollWizard> allWizards = new ArrayList<AbstractArbeitsprotokollWizard>();
+        allWizards.addAll(BelisBroker.getInstance().getWizardsActionsForEntity(subEntity));
+        allWizards.addAll(BelisBroker.getInstance().getWizardsActionsForEntity(null));
         panActions.removeAll();
-        if (wizardsActionsForEntity != null) {
-            for (final AbstractArbeitsprotokollWizard wizard : wizardsActionsForEntity) {
-                panActions.add(new JButton(wizard.getAction()));
+        if (currentEntity != null) {
+            if (currentEntity.getN_aktionen().isEmpty()) {
+                for (final AbstractArbeitsprotokollWizard wizard : allWizards) {
+                    panActions.add(new JButton(wizard.getAction()));
+                    wizard.setProtokoll(currentEntity);
+                    final ActionListener listener = new ActionListener() {
+
+                            @Override
+                            public void actionPerformed(final ActionEvent e) {
+                                revalidate();
+                                repaint();
+                                final ActionListener listener = this;
+                                SwingUtilities.invokeLater(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            wizard.removeListener(listener);
+                                        }
+                                    });
+                            }
+                        };
+                    wizard.addListener(listener);
+                }
+            } else {
             }
         }
         validate();
@@ -415,5 +506,80 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     @Override
     protected BindingGroup getBindingGroup() {
         return null;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    class AktionenTableModel extends AbstractTableModel {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public int getRowCount() {
+            if (currentEntity != null) {
+                return ((ArbeitsprotokollCustomBean)currentEntity).getN_aktionen().size();
+            } else {
+                return 0;
+            }
+        }
+
+        @Override
+        public int getColumnCount() {
+            return COLUMN_NAMES.length;
+        }
+
+        @Override
+        public Object getValueAt(final int rowIndex, final int columnIndex) {
+            if (currentEntity != null) {
+                final ArbeitsprotokollaktionCustomBean aktion = getRowObject(rowIndex);
+                if (columnIndex == 0) {
+                    return aktion.getAenderung();
+                } else if (columnIndex == 1) {
+                    return aktion.getAlt();
+                } else if (columnIndex == 2) {
+                    return aktion.getNeu();
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   rowIndex  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        private ArbeitsprotokollaktionCustomBean getRowObject(final int rowIndex) {
+            final ArbeitsprotokollCustomBean protokoll = (ArbeitsprotokollCustomBean)currentEntity;
+            protokoll.getN_aktionen();
+            final Collection<ArbeitsprotokollaktionCustomBean> protokolle = protokoll.getN_aktionen();
+            final ArbeitsprotokollaktionCustomBean aktion =
+                protokolle.toArray(new ArbeitsprotokollaktionCustomBean[0])[rowIndex];
+            return aktion;
+        }
+
+        @Override
+        public Class<?> getColumnClass(final int columnIndex) {
+            return COLUMN_CLASSES[columnIndex];
+        }
+
+        @Override
+        public String getColumnName(final int columnIndex) {
+            return COLUMN_NAMES[columnIndex];
+        }
+
+        @Override
+        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
+            return false;
+        }
     }
 }
