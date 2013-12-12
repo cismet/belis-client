@@ -176,6 +176,7 @@ public class RendererTools {
      */
     public static void makeWritable(final JXDatePicker dp) {
         dp.setEditable(true);
+        dp.setEnabled(true);
     }
 
     /**
@@ -196,6 +197,7 @@ public class RendererTools {
         tf.setBorder(new JTextField().getBorder());
         tf.setOpaque(true);
         tf.setEditable(true);
+        tf.setEnabled(true);
     }
 
     /**
@@ -218,6 +220,7 @@ public class RendererTools {
      */
     public static void makeWritable(final DefaultBindableDateChooser cb) {
         cb.setEditable(true);
+        cb.setEnabled(true);
     }
 
     /**
@@ -227,6 +230,7 @@ public class RendererTools {
      */
     public static void makeWritable(final JTextArea ta) {
         ta.setEditable(true);
+        ta.setEnabled(true);
     }
 
     /**
@@ -245,6 +249,7 @@ public class RendererTools {
      */
     public static void makeWritable(final DefaultBindableColorChooser cc) {
         cc.setReadOnly(false);
+        cc.setEnabled(true);
     }
 
     /**
@@ -254,6 +259,7 @@ public class RendererTools {
      */
     public static void makeWritable(final DefaultBindableCheckboxField cc) {
         cc.setReadOnly(false);
+        cc.setEnabled(true);
     }
 
     /**

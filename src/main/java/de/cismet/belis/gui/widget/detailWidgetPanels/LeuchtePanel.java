@@ -1447,18 +1447,18 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         RendererTools.setEditable(cbxLeuchteStrassenschluessel, isEditable);
         RendererTools.setEditable(cbxLeuchteStrassenschluesselNr, isEditable);
         RendererTools.setEditable(cbxLeuchteKennziffer, isEditable);
-        RendererTools.setEditable(cbxLeuchteStadtbezirk, isEditable);
-        RendererTools.setEditable(txfLeuchteStandortAngabe, isEditable);
-        RendererTools.setEditable(cboLeuchteVerrechnungseinheit, isEditable);
-        RendererTools.setEditable(txtAnschlussleistung1DK, isEditable);
-        RendererTools.setEditable(txtAnschlussleistung2DK, isEditable);
-        RendererTools.setEditable(cbxLeuchtmittel, isEditable);
-        RendererTools.setEditable(txtLebensdauer, isEditable);
-        RendererTools.setEditable(dapLeuchtmittelwechsel, isEditable);
-        RendererTools.setEditable(dapNaechsterWechsel, isEditable);
-        RendererTools.setEditable(dapSonderturnus, isEditable);
-        RendererTools.setEditable(dapWechselVorschaltgeraet, isEditable);
-        RendererTools.setEditable(txfVorschaltgeraet, isEditable);
+//        RendererTools.setEditable(cbxLeuchteStadtbezirk, isEditable);
+//        RendererTools.setEditable(txfLeuchteStandortAngabe, isEditable);
+//        RendererTools.setEditable(cboLeuchteVerrechnungseinheit, isEditable);
+//        RendererTools.setEditable(txtAnschlussleistung1DK, isEditable);
+//        RendererTools.setEditable(txtAnschlussleistung2DK, isEditable);
+//        RendererTools.setEditable(cbxLeuchtmittel, isEditable);
+//        RendererTools.setEditable(txtLebensdauer, isEditable);
+//        RendererTools.setEditable(dapLeuchtmittelwechsel, isEditable);
+//        RendererTools.setEditable(dapNaechsterWechsel, isEditable);
+//        RendererTools.setEditable(dapSonderturnus, isEditable);
+//        RendererTools.setEditable(dapWechselVorschaltgeraet, isEditable);
+//        RendererTools.setEditable(txfVorschaltgeraet, isEditable);
     }
 
     /**
@@ -1466,7 +1466,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxLeuchteStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxLeuchteStrassenschluesselNrActionPerformed
+    private void cbxLeuchteStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLeuchteStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -1477,14 +1477,14 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                  //GEN-LAST:event_cbxLeuchteStrassenschluesselNrActionPerformed
+    }//GEN-LAST:event_cbxLeuchteStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxLeuchteStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxLeuchteStrassenschluesselActionPerformed
+    private void cbxLeuchteStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLeuchteStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -1495,7 +1495,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                //GEN-LAST:event_cbxLeuchteStrassenschluesselActionPerformed
+    }//GEN-LAST:event_cbxLeuchteStrassenschluesselActionPerformed
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
