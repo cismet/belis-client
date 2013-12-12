@@ -169,6 +169,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     // There is no need to hold the objects in an extra set only convenience
     private Set newObjects = new TreeSet(new ReverseComparator(
                 new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+    private Set editObjects = new TreeSet(new ReverseComparator(
+                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
     // private Set savedObjects = new HashSet();
     // private Set processedObjects = new HashSet();
     private final Set removedObjects = new TreeSet(new ReverseComparator(
@@ -585,6 +587,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 }
                 for (final MutableTreeTableNode node : nodes) {
                     treeTableModel.insertNodeIntoAsLastChild(node, editObjectsNode);
+                    BelisBroker.getInstance().getWorkbenchWidget().getEditObjects().add(node.getUserObject());
                 }
                 jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(editObjectsNode)));
             }
@@ -609,6 +612,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
 
                 treeTableModel.removeAllChildrenFromNode(editObjectsNode, false);
                 treeTableModel.removeNodeFromParent(editObjectsNode);
+                BelisBroker.getInstance().getWorkbenchWidget().getEditObjects().clear();
                 if (treeTableModel.getPathForUserObject(searchResultsNode.getUserObject()) == null) {
                     treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
                 }
@@ -2052,7 +2056,27 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             LOG.debug("setNewObjects");
         }
         this.newObjects = newObjects;
-        // refreshTreeArtifacts(REFRESH_PROCESSED_OBJECTS);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Set getEditObjects() {
+        return editObjects;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  editObjects  DOCUMENT ME!
+     */
+    public void setEditObjects(final Set editObjects) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("setEditObjects");
+        }
+        this.editObjects = editObjects;
     }
 
     /**

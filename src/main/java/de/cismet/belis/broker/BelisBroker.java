@@ -750,6 +750,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (isInEditMode()) {
             switchInEditMode(false);
             setComponentsEditable(false);
+            workbenchWidget.getEditObjects().clear();
             new SwingWorker<Void, Void>() {
 
                     @Override
@@ -1993,7 +1994,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             if (LOG.isDebugEnabled()) {
                 LOG.debug(getCurrentSearchResults().size() + " Objects to Save");
             }
-            CidsBroker.getInstance().saveObjects(getCurrentSearchResults(), getAccountName());
+            CidsBroker.getInstance().saveObjects(workbenchWidget.getEditObjects(), getAccountName());
         }
 
         CidsBroker.getInstance().deleteEntities(workbenchWidget.getObjectsToRemove(), getAccountName());
