@@ -104,9 +104,17 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
+                    clear();
                     showDialog();
                 }
             };
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void clear() {
+        jTextArea1.setText(null);
     }
 
     @Override

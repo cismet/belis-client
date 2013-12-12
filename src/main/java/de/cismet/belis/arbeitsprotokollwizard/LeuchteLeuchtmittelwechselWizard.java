@@ -169,9 +169,20 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
+                    clear();
                     showDialog();
                 }
             };
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void clear() {
+        cbxLeuchtmittel.setSelectedItem(null);
+        chkErdungIO.setSelected(false);
+        txtLebensdauer.setText(null);
+        dapStandortElekPruefung.setDate(new Date());
     }
 
     @Override
