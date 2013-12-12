@@ -95,7 +95,7 @@
     </dependencies>
     
     <build>
-        <finalName>BelISClient</finalName>
+        <finalName>BelIS2Client</finalName>
     </build>
 </project>
 

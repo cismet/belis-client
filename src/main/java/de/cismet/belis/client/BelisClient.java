@@ -18,6 +18,9 @@ import Sirius.navigator.resource.PropertyManager;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 
+import net.infonode.docking.View;
+import net.infonode.docking.util.StringViewMap;
+
 import org.jdesktop.swingx.JXLoginPane;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.auth.DefaultUserNameStore;
@@ -39,6 +42,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -74,6 +78,7 @@ import de.cismet.cismap.commons.gui.statusbar.StatusBar;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.commons2.architecture.layout.LayoutManager;
+import de.cismet.commons2.architecture.layout.LayoutManagerListener;
 
 import de.cismet.lookupoptions.gui.OptionsDialog;
 
@@ -107,6 +112,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 
     private static Image banner = new javax.swing.ImageIcon(BelisClient.class.getResource(
                 "/de/cismet/belis/resource/icon/image/login.png")).getImage();
+    private static final String FIRST_START_IMAGE = "/de/cismet/belis/resource/icon/image/belis.jpg";
     private static Image applicationIcon = null;
     // ToDo maybe changeable would be cool for different authentication methods!!!
     private static BelisClient.WundaAuthentification wa = new BelisClient.WundaAuthentification();
@@ -192,7 +198,16 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             clipboarder = new ClipboardWaitDialog(this, true);
 
             broker = BelisBroker.getInstance();
-            broker.setLayoutManager(new LayoutManager(DIRECTORYPATH_BELIS, broker));
+            final LayoutManager lm = new LayoutManager(DIRECTORYPATH_BELIS, broker);
+            lm.addLayoutManagerListener(new LayoutManagerListener() {
+
+                    @Override
+                    public void infoNodeDockingConfigured() {
+                        setWindowMenus();
+                    }
+                });
+
+            broker.setLayoutManager(lm);
             broker.setFilterNormal(true);
             broker.setFilterVeranlassung(false);
             broker.setFilterArbeitsauftrag(false);
@@ -262,6 +277,21 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setWindowMenus() {
+        final LayoutManager lman = BelisBroker.getInstance().getLayoutManager();
+        final StringViewMap viewMap = lman.getViewMap();
+
+        for (int i = 0; i < viewMap.getViewCount(); ++i) {
+            final View view = viewMap.getViewAtIndex(i);
+
+            final JMenuItem tmpMen = new JMenuItem(new DefaultWindowAction(view));
+            menWindow.insert(tmpMen, i);
+        }
+    }
 
     /**
      * DOCUMENT ME!
@@ -1106,6 +1136,11 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      * @param  args  DOCUMENT ME!
      */
     public static void main(final String[] args) {
+        final String intranetUse = System.getProperty("intranetUse", "false");
+        if (!intranetUse.equals("false") && !intranetUse.equals("true")) {
+            LOG.warn("SystemProperty intranetUse should be set to either true or false. You set it to: " + intranetUse
+                        + " (Will handle that like false.)");
+        }
         try {
             final Plastic3DLookAndFeel lf = new Plastic3DLookAndFeel();
             javax.swing.UIManager.setLookAndFeel(lf);
@@ -1127,7 +1162,13 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 
                 @Override
                 public void run() {
-                    WebAccessManager.getInstance().setTunnel(new CallServerTunnel("BELIS2"));
+                    if (!intranetUse.equals("true")) {
+                        try {
+                            WebAccessManager.getInstance().setTunnel(new CallServerTunnel("BELIS2"));
+                        } catch (Throwable e) {
+                            LOG.error("problem initializing WebaccessManager", e);
+                        }
+                    }
                     configManager = new ConfigurationManager();
                     configManager.setDefaultFileName(getPluginConfigurationFile());
                     configManager.setFileName(getPluginConfigurationFile());
@@ -1143,7 +1184,14 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     configManager.configure(wa);
 
                     try {
-                        SPLASH = StaticStartupTools.showGhostFrame(FILEPATH_SCREEN, "belis [Startup]");
+                        final File ghostFrameFile = new File(FILEPATH_SCREEN + ".png");
+
+                        if (!ghostFrameFile.exists()) {
+                            SPLASH = StaticStartupTools.showCustomGhostFrame(getClass().getResource(FIRST_START_IMAGE),
+                                    "belis [Startup]");
+                        } else {
+                            SPLASH = StaticStartupTools.showGhostFrame(FILEPATH_SCREEN, "belis [Startup]");
+                        }
                         SPLASH.setLocationRelativeTo(null);
                     } catch (Exception e) {
                         LOG.warn("Problem beim Darstellen des Pre-Loading-Frame", e);
@@ -1160,6 +1208,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         t.setPriority(Thread.NORM_PRIORITY);
         t.start();
     }
+
     /**
      * DOCUMENT ME!
      */
@@ -1264,6 +1313,41 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     }
 
     //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class DefaultWindowAction extends AbstractAction {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private View view;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new DefaultWindowAction object.
+         *
+         * @param  view  DOCUMENT ME!
+         */
+        public DefaultWindowAction(final View view) {
+            super(view.getTitle(), view.getIcon());
+            this.view = view;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            if (view.isClosable()) {
+                view.close();
+            } else {
+                view.restore();
+            }
+        }
+    }
 
     /**
      * best place ??
@@ -1401,7 +1485,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 //                configManager.setCurrentUser(userString + "@" + standaloneDomain);
 //                //zweimal wegen userdepending konfiguration
 //                configManager.configure(this);
-
                 final Boolean permission = broker.getPermissions().get(tester);
                 PropertyManager.getManager().setEditable(permission);
                 if (log.isDebugEnabled()) {

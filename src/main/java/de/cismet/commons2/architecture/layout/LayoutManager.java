@@ -36,6 +36,7 @@ import java.io.ObjectOutputStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -75,6 +76,7 @@ public class LayoutManager {
     private RootWindow rootWindow;
     private boolean isInit = true;
     private ArrayList<View> views = new ArrayList<View>();
+    private List<LayoutManagerListener> layoutManagerListener = new ArrayList<LayoutManagerListener>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -166,9 +168,37 @@ public class LayoutManager {
             }
 
             broker.getParentComponent().add(rootWindow, BorderLayout.CENTER);
+            fireInfoNodeDockingConfigured();
         } catch (Exception ex) {
             LOG.error("Error while configuring InfoNodeDocking: ", ex);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void fireInfoNodeDockingConfigured() {
+        for (final LayoutManagerListener l : layoutManagerListener) {
+            l.infoNodeDockingConfigured();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void addLayoutManagerListener(final LayoutManagerListener listener) {
+        layoutManagerListener.add(listener);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void removeLayoutManagerListener(final LayoutManagerListener listener) {
+        layoutManagerListener.remove(listener);
     }
 
     /**
@@ -547,6 +577,15 @@ public class LayoutManager {
             LOG.warn("rootWindow == null");
         }
         return rootWindow;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public StringViewMap getViewMap() {
+        return viewMap;
     }
 
     /**
