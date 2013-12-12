@@ -18,6 +18,9 @@ import Sirius.navigator.resource.PropertyManager;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 
+import net.infonode.docking.View;
+import net.infonode.docking.util.StringViewMap;
+
 import org.jdesktop.swingx.JXLoginPane;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.auth.DefaultUserNameStore;
@@ -39,6 +42,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -74,6 +78,7 @@ import de.cismet.cismap.commons.gui.statusbar.StatusBar;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
 import de.cismet.commons2.architecture.layout.LayoutManager;
+import de.cismet.commons2.architecture.layout.LayoutManagerListener;
 
 import de.cismet.lookupoptions.gui.OptionsDialog;
 
@@ -87,7 +92,6 @@ import de.cismet.tools.configuration.NoWriteError;
 
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 import de.cismet.tools.gui.startup.StaticStartupTools;
-import java.io.File;
 
 /**
  * DOCUMENT ME!
@@ -194,7 +198,16 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             clipboarder = new ClipboardWaitDialog(this, true);
 
             broker = BelisBroker.getInstance();
-            broker.setLayoutManager(new LayoutManager(DIRECTORYPATH_BELIS, broker));
+            final LayoutManager lm = new LayoutManager(DIRECTORYPATH_BELIS, broker);
+            lm.addLayoutManagerListener(new LayoutManagerListener() {
+
+                    @Override
+                    public void infoNodeDockingConfigured() {
+                        setWindowMenus();
+                    }
+                });
+
+            broker.setLayoutManager(lm);
             broker.setFilterNormal(true);
             broker.setFilterVeranlassung(false);
             broker.setFilterArbeitsauftrag(false);
@@ -212,7 +225,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             menues.add(menExtras);
             menues.add(menWindow);
             menues.add(menHelp);
-            
+
             final KeyStroke configLoggerKeyStroke = KeyStroke.getKeyStroke('L', InputEvent.CTRL_MASK);
             final Action configAction = new AbstractAction() {
 
@@ -264,6 +277,21 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void setWindowMenus() {
+        final LayoutManager lman = BelisBroker.getInstance().getLayoutManager();
+        final StringViewMap viewMap = lman.getViewMap();
+
+        for (int i = 0; i < viewMap.getViewCount(); ++i) {
+            final View view = viewMap.getViewAtIndex(i);
+
+            final JMenuItem tmpMen = new JMenuItem(new DefaultWindowAction(view));
+            menWindow.insert(tmpMen, i);
+        }
+    }
 
     /**
      * DOCUMENT ME!
@@ -785,33 +813,33 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniSaveLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSaveLayoutActionPerformed
+    private void mniSaveLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniSaveLayoutActionPerformed
         broker.getLayoutManager().saveLayout();
-    }//GEN-LAST:event_mniSaveLayoutActionPerformed
+    }                                                                                 //GEN-LAST:event_mniSaveLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniLoadLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLoadLayoutActionPerformed
+    private void mniLoadLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniLoadLayoutActionPerformed
         broker.getLayoutManager().loadLayout();
-    }//GEN-LAST:event_mniLoadLayoutActionPerformed
+    }                                                                                 //GEN-LAST:event_mniLoadLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniLockLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLockLayoutActionPerformed
-    }//GEN-LAST:event_mniLockLayoutActionPerformed
+    private void mniLockLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniLockLayoutActionPerformed
+    }                                                                                 //GEN-LAST:event_mniLockLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniClippboardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniClippboardActionPerformed
+    private void mniClippboardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniClippboardActionPerformed
         final Thread t = new Thread(new Runnable() {
 
                     @Override
@@ -837,74 +865,74 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     }
                 });
         t.start();
-    }//GEN-LAST:event_mniClippboardActionPerformed
+    } //GEN-LAST:event_mniClippboardActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniCloseActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniCloseActionPerformed
+    private void mniCloseActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniCloseActionPerformed
         this.dispose();
-    }//GEN-LAST:event_mniCloseActionPerformed
+    }                                                                            //GEN-LAST:event_mniCloseActionPerformed
     /**
      * ToDo.
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniRefreshActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRefreshActionPerformed
-    }//GEN-LAST:event_mniRefreshActionPerformed
+    private void mniRefreshActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniRefreshActionPerformed
+    }                                                                              //GEN-LAST:event_mniRefreshActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniBackActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBackActionPerformed
+    private void mniBackActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniBackActionPerformed
         if ((broker.getMappingComponent() != null) && broker.getMappingComponent().isBackPossible()) {
             broker.getMappingComponent().back(true);
         }
-    }//GEN-LAST:event_mniBackActionPerformed
+    }                                                                           //GEN-LAST:event_mniBackActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniForwardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniForwardActionPerformed
+    private void mniForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniForwardActionPerformed
         if ((broker.getMappingComponent() != null) && broker.getMappingComponent().isForwardPossible()) {
             broker.getMappingComponent().forward(true);
         }
-    }//GEN-LAST:event_mniForwardActionPerformed
+    }                                                                              //GEN-LAST:event_mniForwardActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniHomeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniHomeActionPerformed
+    private void mniHomeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniHomeActionPerformed
         if (broker.getMappingComponent() != null) {
             broker.getMappingComponent().gotoInitialBoundingBox();
         }
-    }//GEN-LAST:event_mniHomeActionPerformed
+    }                                                                           //GEN-LAST:event_mniHomeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniOptionsActionPerformed
+    private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOptionsActionPerformed
         final OptionsDialog od = new OptionsDialog(this, true);
         od.setLocationRelativeTo(this);
         od.setVisible(true);
-    }//GEN-LAST:event_mniOptionsActionPerformed
+    }                                                                              //GEN-LAST:event_mniOptionsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniGotoPointActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniGotoPointActionPerformed
+    private void mniGotoPointActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniGotoPointActionPerformed
         final BoundingBox c = broker.getMappingComponent().getCurrentBoundingBox();
         final double x = (c.getX1() + c.getX2()) / 2;
         final double y = (c.getY1() + c.getY2()) / 2;
@@ -923,14 +951,14 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     .gotoBoundingBox(bb, true, false, broker.getMappingComponent().getAnimationDuration());
         } catch (Exception skip) {
         }
-    }//GEN-LAST:event_mniGotoPointActionPerformed
+    }                                                                                //GEN-LAST:event_mniGotoPointActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniScaleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniScaleActionPerformed
+    private void mniScaleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniScaleActionPerformed
         final String s = JOptionPane.showInputDialog(
                 this,
                 "Maßstab manuell auswählen",
@@ -942,33 +970,33 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     .gotoBoundingBoxWithHistory(broker.getMappingComponent().getBoundingBoxFromScale(i));
         } catch (Exception skip) {
         }
-    }//GEN-LAST:event_mniScaleActionPerformed
+    }                                                                            //GEN-LAST:event_mniScaleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniResetWindowLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniResetWindowLayoutActionPerformed
+    private void mniResetWindowLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniResetWindowLayoutActionPerformed
         broker.getLayoutManager().doLayoutInfoNodeDefaultFile();
-    }//GEN-LAST:event_mniResetWindowLayoutActionPerformed
+    }                                                                                        //GEN-LAST:event_mniResetWindowLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniOnlineHelpActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniOnlineHelpActionPerformed
-    }//GEN-LAST:event_mniOnlineHelpActionPerformed
+    private void mniOnlineHelpActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOnlineHelpActionPerformed
+    }                                                                                 //GEN-LAST:event_mniOnlineHelpActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniNewsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNewsActionPerformed
+    private void mniNewsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniNewsActionPerformed
         // openUrlInExternalBrowser(newsURL);
-    }//GEN-LAST:event_mniNewsActionPerformed
+    } //GEN-LAST:event_mniNewsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1145,10 +1173,11 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     configManager.configure(wa);
 
                     try {
-                        File ghostFrameFile = new File(FILEPATH_SCREEN + ".png");
-                        
+                        final File ghostFrameFile = new File(FILEPATH_SCREEN + ".png");
+
                         if (!ghostFrameFile.exists()) {
-                            SPLASH = StaticStartupTools.showCustomGhostFrame(getClass().getResource(FIRST_START_IMAGE), "belis [Startup]");
+                            SPLASH = StaticStartupTools.showCustomGhostFrame(getClass().getResource(FIRST_START_IMAGE),
+                                    "belis [Startup]");
                         } else {
                             SPLASH = StaticStartupTools.showGhostFrame(FILEPATH_SCREEN, "belis [Startup]");
                         }
@@ -1273,6 +1302,41 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
     }
 
     //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private class DefaultWindowAction extends AbstractAction {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private View view;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new DefaultWindowAction object.
+         *
+         * @param  view  DOCUMENT ME!
+         */
+        public DefaultWindowAction(final View view) {
+            super(view.getTitle(), view.getIcon());
+            this.view = view;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void actionPerformed(final ActionEvent e) {
+            if (view.isClosable()) {
+                view.close();
+            } else {
+                view.restore();
+            }
+        }
+    }
 
     /**
      * best place ??
