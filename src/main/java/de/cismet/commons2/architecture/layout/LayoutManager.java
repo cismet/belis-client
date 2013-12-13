@@ -47,6 +47,7 @@ import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.widget.AbstractWidget;
 import de.cismet.belis.gui.widget.BelisWidget;
+
 import de.cismet.belis.util.JnlpSystemPropertyHelper;
 
 import de.cismet.tools.CurrentStackTrace;

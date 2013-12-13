@@ -1,3 +1,10 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -5,30 +12,54 @@
 package de.cismet.belis.util;
 
 /**
+ * DOCUMENT ME!
  *
- * @author jruiz
+ * @author   jruiz
+ * @version  $Revision$, $Date$
  */
 public class JnlpSystemPropertyHelper {
 
-    public static String getProperty(String propertyName) {
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   propertyName  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static String getProperty(final String propertyName) {
         return getProperty(propertyName, null);
-    }   
-    
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   propertyName  DOCUMENT ME!
+     * @param   defaultValue  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public static String getProperty(String propertyName, final String defaultValue) {
         if (propertyName == null) {
             return null;
         }
-        
+
         final String normalPropertyValue = System.getProperty(propertyName);
-        
+
         if (normalPropertyValue == null) {
             propertyName = "jnlp." + propertyName;
         }
-        
+
         return System.getProperty(propertyName, defaultValue);
     }
- 
-    public static void main(String[] args) {
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  DOCUMENT ME!
+     */
+    public static void main(final String[] args) {
         System.setProperty("testProp", "ohne jnlp");
         System.setProperty("jnlp.testProp", "mit jnlp");
         System.out.println(getProperty("testProp"));

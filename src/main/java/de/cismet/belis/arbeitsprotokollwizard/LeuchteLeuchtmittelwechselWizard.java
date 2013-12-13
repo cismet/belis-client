@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -187,6 +189,8 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
 
     @Override
     protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
         final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
         final TdtaStandortMastCustomBean standort = leuchte.getFk_standort();
 
@@ -217,13 +221,13 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
                     .createNew();
         standortLetzteAenderungAktion.setAenderung("Letzte Änderung an Mast");
         standortLetzteAenderungAktion.setAlt((altStandortLetzteAenderung != null)
-                ? altStandortLetzteAenderung.toString() : null);
-        standortLetzteAenderungAktion.setNeu(neuStandortLetzteAenderung.toString());
+                ? dateFormat.format(altStandortLetzteAenderung) : null);
+        standortLetzteAenderungAktion.setNeu(dateFormat.format(neuStandortLetzteAenderung));
 
         final ArbeitsprotokollaktionCustomBean elekPruefungAktion = ArbeitsprotokollaktionCustomBean.createNew();
         elekPruefungAktion.setAenderung("Elektrische Prüfung");
-        elekPruefungAktion.setAlt((altElekPruefung != null) ? altElekPruefung.toString() : null);
-        elekPruefungAktion.setNeu(neuElekPruefung.toString());
+        elekPruefungAktion.setAlt((altElekPruefung != null) ? dateFormat.format(altElekPruefung) : null);
+        elekPruefungAktion.setNeu(dateFormat.format(neuElekPruefung));
 
         final ArbeitsprotokollaktionCustomBean erdung = ArbeitsprotokollaktionCustomBean.createNew();
         erdung.setAenderung("Erdung in Ordnung");

@@ -15,6 +15,7 @@ import Sirius.navigator.connection.SessionManager;
 
 import java.sql.Date;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 
@@ -23,13 +24,14 @@ import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class ArbeitsauftragCustomBean extends BaseEntity {
+public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -63,6 +65,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity {
     private Integer nummer;
     private Collection<ArbeitsprotokollCustomBean> n_protokolle;
     private Collection<VeranlassungCustomBean> n_veranlassungen;
+    private Collection<DmsUrlCustomBean> ar_dokumente = new ArrayList<DmsUrlCustomBean>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -275,4 +278,13 @@ public class ArbeitsauftragCustomBean extends BaseEntity {
 //        }
 //    }
 
+    @Override
+    public Collection<DmsUrlCustomBean> getDokumente() {
+        return ar_dokumente;
+    }
+
+    @Override
+    public void setDokumente(final Collection<DmsUrlCustomBean> ar_dokumente) {
+        this.ar_dokumente = ar_dokumente;
+    }
 }

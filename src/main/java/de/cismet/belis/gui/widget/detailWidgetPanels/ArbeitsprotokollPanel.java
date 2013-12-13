@@ -31,6 +31,8 @@ import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.client.BelisClient;
+
 import de.cismet.belis.util.RendererTools;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
@@ -482,13 +484,21 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
                             @Override
                             public void actionPerformed(final ActionEvent e) {
-                                revalidate();
-                                repaint();
                                 final ActionListener listener = this;
                                 SwingUtilities.invokeLater(new Runnable() {
 
                                         @Override
                                         public void run() {
+                                            revalidate();
+                                            repaint();
+                                            BelisBroker.getInstance()
+                                                    .getDetailWidget()
+                                                    .getArbeitsauftragPanel()
+                                                    .setSelectedProtokoll(null);
+                                            BelisBroker.getInstance()
+                                                    .getDetailWidget()
+                                                    .getArbeitsauftragPanel()
+                                                    .setSelectedProtokoll(currentEntity);
                                             wizard.removeListener(listener);
                                         }
                                     });

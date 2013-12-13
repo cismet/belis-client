@@ -92,6 +92,9 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
     protected void showDialog() {
         final ArbeitsprotokollDialog dialog = new ArbeitsprotokollDialog(this, null, true);
         StaticSwingTools.showDialog(dialog);
+        for (final ActionListener listener : listeners) {
+            listener.actionPerformed(null);
+        }
     }
 
     /**
