@@ -18,6 +18,9 @@ package de.cismet.belis.gui.documentpanel;
 
 import org.apache.log4j.Logger;
 
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
+
 import java.awt.Cursor;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -40,6 +43,7 @@ import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -994,8 +998,17 @@ public final class DocumentPanel extends javax.swing.JPanel {
                 }
             } catch (InterruptedException ex) {
                 log.warn(ex, ex);
-            } catch (ExecutionException ex) {
+            } catch (Exception ex) {
                 log.error(ex, ex);
+                final ErrorInfo ei = new ErrorInfo(
+                        "Fehler",
+                        "Beim Hochladen des Dokumentes ist ein Fehler aufgetreten.",
+                        null,
+                        null,
+                        ex,
+                        Level.SEVERE,
+                        null);
+                JXErrorPane.showDialog(DocumentPanel.this, ei);
             } finally {
             }
         }

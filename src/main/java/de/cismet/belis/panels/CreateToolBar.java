@@ -78,6 +78,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeS
     public CreateToolBar(final BelisBroker broker) {
         this.broker = broker;
         initComponents();
+        btnNewGeometrie.setEnabled(false);
         setWidgetEditable(false);
     }
 
@@ -649,7 +650,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeS
         final WorkbenchWidget workbench = BelisBroker.getInstance().getWorkbenchWidget();
         final Collection<TreePath> paths = workbench.getSelectedTreeNodes();
 
-        if (paths.size() == 1) {
+        if ((paths != null) && (paths.size() == 1)) {
             final TreePath path = paths.toArray(new TreePath[1])[0];
             if (path.getLastPathComponent() instanceof CustomMutableTreeTableNode) {
                 final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)path.getLastPathComponent();
