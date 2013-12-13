@@ -40,6 +40,6 @@ public class InfobausteinTemplateToStringConverter extends CustomToStringConvert
     @Override
     public String createString() {
         final InfobausteinTemplateCustomBean infobausteinTemplate = ((InfobausteinTemplateCustomBean)cidsBean);
-        return infobausteinTemplate.getSchluessel() + " - " + infobausteinTemplate.getBezeichnung();
+        return infobausteinTemplate.getBezeichnung();
     }
 }
