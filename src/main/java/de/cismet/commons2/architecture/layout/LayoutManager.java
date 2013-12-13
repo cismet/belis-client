@@ -47,6 +47,7 @@ import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.widget.AbstractWidget;
 import de.cismet.belis.gui.widget.BelisWidget;
+import de.cismet.belis.util.JnlpSystemPropertyHelper;
 
 import de.cismet.tools.CurrentStackTrace;
 
@@ -61,7 +62,7 @@ public class LayoutManager {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LayoutManager.class);
-    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    private static final String FILE_SEPARATOR = JnlpSystemPropertyHelper.getProperty("file.separator");
     private static final String LAYOUT_FILENAME = "belis.layout";
     private static final String DEFAULT_LAYOUT = "/de/cismet/commons/architecture/configuration/defaultBelis.layout";
 
