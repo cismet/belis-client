@@ -75,7 +75,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -270,7 +269,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     // this is ugly there should be a default toolbar ......
     public AtomicBoolean isPendingForCreateMode = new AtomicBoolean(false);
 
-    protected JButton btnSwitchInEditmode;
     protected JButton btnDiscardChanges;
     protected JButton btnAcceptChanges;
     protected JButton btnSwitchInCreateMode;
@@ -1030,7 +1028,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 rootTreeNode,
                 PropertyManager.getManager().isEditable(),
                 true,
-                5);
+                PropertyManager.getManager().getMaxConnections());
         final CatalogueSelectionListener catalogueSelectionListener = new CatalogueSelectionListener(
                 attributeViewer,
                 descriptionPane);
@@ -1506,8 +1504,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("is inFullReadOnlyMode disable edit buttions");
                         }
-                        btnSwitchInEditmode.setEnabled(false);
-                        btnSwitchInCreateMode.setEnabled(false);
+                        editButtonsToolbar.enableSwitchToModeButtons(false);
                     }
                     mapWidget.setInteractionMode();
                     frame.setVisible(true);
@@ -1709,33 +1706,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public void setBtnReloadFlurstueck(final JButton btnReloadFlurstueck) {
         this.btnReload = btnReloadFlurstueck;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public JButton getBtnSwitchInEditmode() {
-        return btnSwitchInEditmode;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  btnSwitchInEditmode  DOCUMENT ME!
-     */
-    public void setBtnSwitchInEditmode(final JButton btnSwitchInEditmode) {
-        this.btnSwitchInEditmode = btnSwitchInEditmode;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public JButton getBtnSwitchInCreateMode() {
-        return btnSwitchInCreateMode;
     }
 
     /**
@@ -2194,7 +2164,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         addMapSearchControl();
         btnAcceptChanges.setIcon(BelisIcons.icoAccept22);
         btnDiscardChanges.setIcon(BelisIcons.icoCancel22);
-        btnSwitchInEditmode.setIcon(BelisIcons.icoEdit22);
     }
 
     /**
@@ -2970,8 +2939,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             LOG.debug("fireSearchFinished");
         }
         if (!isFullReadOnlyMode) {
-            btnSwitchInEditmode.setEnabled(true);
-            btnSwitchInCreateMode.setEnabled(true);
+            editButtonsToolbar.enableSwitchToModeButtons(!isInCreateMode() && !isInEditMode());
         }
         btnReload.setEnabled(true);
         cmdPrint.setEnabled(true);
@@ -2985,8 +2953,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (LOG.isDebugEnabled()) {
             LOG.debug("fireSearchStarted");
         }
-        btnSwitchInEditmode.setEnabled(false);
-        btnSwitchInCreateMode.setEnabled(false);
+        editButtonsToolbar.enableSwitchToModeButtons(false);
 
         btnReload.setEnabled(false);
         cmdPrint.setEnabled(false);
@@ -3391,8 +3358,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     LOG.debug("enable buttons");
                 }
                 if (!isFullReadOnlyMode()) {
-                    btnSwitchInEditmode.setEnabled(true);
-                    btnSwitchInCreateMode.setEnabled(true);
+                    editButtonsToolbar.enableSwitchToModeButtons(true);
                 }
                 btnAcceptChanges.setEnabled(false);
                 btnDiscardChanges.setEnabled(false);

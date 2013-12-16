@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.util.BelisIcons;
+
 import de.cismet.tools.CurrentStackTrace;
 
 /**
@@ -47,6 +49,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
      */
     public EditButtonsToolbar() {
         initComponents();
+        btnSwitchInEditmode.setIcon(BelisIcons.icoEdit22);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -91,7 +94,6 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnSwitchInEditmode, gridBagConstraints);
-        broker.setBtnSwitchInEditmode(btnSwitchInEditmode);
 
         btnSwitchInCreateMode.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/22/createMode.png"))); // NOI18N
