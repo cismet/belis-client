@@ -959,9 +959,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEn
         if ((getMastart() != null) && (getMastart().getMastart() != null)) {
             strings.add(getMastart().getMastart());
         }
-        if (getLaufendeNummer() != null) {
-            strings.add(String.valueOf(getLaufendeNummer()));
-        }
         return implode(strings.toArray(new String[0]), ", ");
     }
 

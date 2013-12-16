@@ -61,11 +61,8 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
             if (value instanceof CustomMutableTreeTableNode) {
                 final Object userObject = ((CustomMutableTreeTableNode)value).getUserObject();
                 if (userObject instanceof TdtaStandortMastCustomBean) {
-                    if (((TdtaStandortMastCustomBean)userObject).isStandortMast()) {
-                        setText("");
-                    } else {
-                        setText("Standort");
-                    }
+                    final Integer laufendeNummer = ((TdtaStandortMastCustomBean)userObject).getLaufendeNummer();
+                    setText((laufendeNummer != null) ? Integer.toString(laufendeNummer) : "");
                     setIcon(BelisIcons.icoStandort16);
                 } else if (userObject instanceof TdtaLeuchtenCustomBean) {
                     setText("Leuchte");
