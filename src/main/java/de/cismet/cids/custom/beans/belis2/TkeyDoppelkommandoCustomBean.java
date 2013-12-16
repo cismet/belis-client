@@ -105,7 +105,9 @@ public class TkeyDoppelkommandoCustomBean extends BaseEntity {
      * @param  beschreibung  DOCUMENT ME!
      */
     public void setBeschreibung(final String beschreibung) {
+        final String old = this.beschreibung;
         this.beschreibung = beschreibung;
+        this.propertyChangeSupport.firePropertyChange(PROP__BESCHREIBUNG, old, this.beschreibung);
     }
 
     @Override
