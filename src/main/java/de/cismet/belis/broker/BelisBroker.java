@@ -2548,6 +2548,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         Object currentEntity = null;
                         Object parentEntity = null;
                         final TreePath treePath = ((WorkbenchWidget)evt.getSource()).getSelectedTreeNode();
+                        boolean isEditable = false;
                         if (treePath != null) {
                             final CustomMutableTreeTableNode customMutableTreeTableNode = (CustomMutableTreeTableNode)
                                 treePath.getLastPathComponent();
@@ -2559,9 +2560,24 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                             if (parentNode != null) {
                                 parentEntity = parentNode.getUserObject();
                             }
+                            if (
+                                treePath.getPathComponent(1).equals(
+                                            ((WorkbenchWidget)evt.getSource()).getNewObjectsNode())
+                                        || treePath.getPathComponent(1).equals(
+                                            ((WorkbenchWidget)evt.getSource()).getEditObjectsNode())) {
+                                final Object parentObject =
+                                    ((CustomMutableTreeTableNode)treePath.getParentPath().getLastPathComponent())
+                                            .getUserObject();
+                                if (!((parentObject instanceof VeranlassungCustomBean)
+                                                || (parentObject instanceof ArbeitsprotokollCustomBean))) {
+                                    isEditable = true;
+                                }
+                            }
                         }
-                        detailWidget.setCurrentEntity(currentEntity, parentEntity);
+
+                        detailWidget.setCurrentEntity(currentEntity, parentEntity, isEditable);
                         panCreate.setCurrentEntity(currentEntity);
+                        panCreate.setWidgetEditable(isEditable);
                     }
                 }
             };

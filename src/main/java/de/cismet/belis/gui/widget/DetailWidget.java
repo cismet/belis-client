@@ -133,8 +133,9 @@ public class DetailWidget extends BelisWidget {
      *
      * @param  currentEntity  new value of currentEntity
      * @param  parentEntity   DOCUMENT ME!
+     * @param  isEditable     DOCUMENT ME!
      */
-    public void setCurrentEntity(final Object currentEntity, final Object parentEntity) {
+    public void setCurrentEntity(final Object currentEntity, final Object parentEntity, final boolean isEditable) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("setCurrentEntity", new CurrentStackTrace());
         }
@@ -149,15 +150,6 @@ public class DetailWidget extends BelisWidget {
         bindingGroup.unbind();
         bindingGroup.bind();
 
-        boolean isEditable = false;
-        if ((currentEntity != null) && (currentEntity instanceof CidsBean)) {
-            final CidsBean currentBean = (CidsBean)currentEntity;
-            if (BelisBroker.getInstance().isInCreateMode()) {
-                isEditable = currentBean.getMetaObject().getStatus() == MetaObject.NEW;
-            } else if (BelisBroker.getInstance().isInEditMode()) {
-                isEditable = currentBean.getMetaObject().getStatus() != MetaObject.NEW;
-            }
-        }
         setWidgetEditable(isEditable);
 
         if (currentEntity == null) {
@@ -293,7 +285,7 @@ public class DetailWidget extends BelisWidget {
     @Override
     public void clearComponent() {
         super.clearComponent();
-        setCurrentEntity(null, null);
+        setCurrentEntity(null, null, false);
     }
 
     @Override
