@@ -1959,12 +1959,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             if (LOG.isDebugEnabled()) {
                 LOG.debug(workbenchWidget.getNewObjects().size() + " Objects to Save");
             }
-            CidsBroker.getInstance().saveObjects(workbenchWidget.getNewObjects(), getAccountName());
+            CidsBroker.getInstance().saveObjects(workbenchWidget.getNewObjects());
         } else {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(getCurrentSearchResults().size() + " Objects to Save");
             }
-            CidsBroker.getInstance().saveObjects(workbenchWidget.getEditObjects(), getAccountName());
+            CidsBroker.getInstance().saveObjects(workbenchWidget.getEditObjects());
         }
 
         CidsBroker.getInstance().deleteEntities(workbenchWidget.getObjectsToRemove(), getAccountName());
