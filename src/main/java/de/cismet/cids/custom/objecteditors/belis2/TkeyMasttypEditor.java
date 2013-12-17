@@ -43,6 +43,7 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
 
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.belis.gui.documentpanel.DocumentPanel documentPanel1;
     private javax.swing.JLabel lblBezeichnung;
     private javax.swing.JLabel lblDokumente;
     private javax.swing.JLabel lblHersteller;
@@ -94,6 +95,7 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         lblLph = new javax.swing.JLabel();
         spinLph = new javax.swing.JSpinner();
         lblDokumente = new javax.swing.JLabel();
+        documentPanel1 = new de.cismet.belis.gui.documentpanel.DocumentPanel();
 
         setMaximumSize(new java.awt.Dimension(1190, 1625));
         setMinimumSize(new java.awt.Dimension(807, 485));
@@ -201,6 +203,19 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblDokumente, gridBagConstraints);
 
+        documentPanel1.setEditable(true);
+        documentPanel1.setOpaque(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dokumente}"), documentPanel1, org.jdesktop.beansbinding.BeanProperty.create("dokumente"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnlCard2.add(documentPanel1, gridBagConstraints);
+
         add(pnlCard2, "card2");
 
         bindingGroup.bind();
@@ -221,6 +236,7 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
             this.cidsBean = cidsBean;
             bindingGroup.bind();
         }
+        documentPanel1.setEditable(cidsBean != null);            
     }
 
     @Override

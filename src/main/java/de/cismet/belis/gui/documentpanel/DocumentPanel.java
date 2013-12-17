@@ -111,16 +111,25 @@ public final class DocumentPanel extends javax.swing.JPanel {
         }
         IDLE_ICON = new ImageIcon(DocumentPanel.class.getResource(ICON_RES_PATH + "idle-icon.png"));
 
-        final ResourceBundle bundle = ResourceBundle.getBundle("WebDavBelis");
-        String pass = bundle.getString("password");
+        String pass = null;
+        String user = null;
+        String webDavRoot = null;
+        try {
+            final ResourceBundle bundle = ResourceBundle.getBundle("WebDavBelis");
+            pass = bundle.getString("password");
+            user = bundle.getString("username");
+            webDavRoot = bundle.getString("url");
 
-        if ((pass != null) && pass.startsWith(PasswordEncrypter.CRYPT_PREFIX)) {
-            pass = PasswordEncrypter.decryptString(pass);
+            if ((pass != null) && pass.startsWith(PasswordEncrypter.CRYPT_PREFIX)) {
+                pass = PasswordEncrypter.decryptString(pass);
+            }            
+        } catch (final Exception ex) {
+        } finally {
+            WEB_DAV_PASSWORD = pass;
+            WEB_DAV_USER = user;
+            WEB_DAV_DIRECTORY = webDavRoot;            
         }
 
-        WEB_DAV_PASSWORD = pass;
-        WEB_DAV_USER = bundle.getString("username");
-        WEB_DAV_DIRECTORY = bundle.getString("url");
     }
 
     //~ Instance fields --------------------------------------------------------
@@ -516,7 +525,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstDocListValueChanged
+    private void lstDocListValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstDocListValueChanged
         lblPreview.setIcon(null);
         lblPreview.setText("");
         final Object toCast = lstDocList.getSelectedValue();
@@ -535,60 +544,60 @@ public final class DocumentPanel extends javax.swing.JPanel {
                 }
             }
         }
-    }                                                                                     //GEN-LAST:event_lstDocListValueChanged
+    }//GEN-LAST:event_lstDocListValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblPreviewMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblPreviewMouseClicked
+    private void lblPreviewMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPreviewMouseClicked
         if (!evt.isPopupTrigger()) {
             downloadSelection();
         }
-    }                                                                          //GEN-LAST:event_lblPreviewMouseClicked
+    }//GEN-LAST:event_lblPreviewMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMouseClicked
+    private void lstDocListMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstDocListMouseClicked
         if ((evt.getClickCount() > 1) && !evt.isPopupTrigger()) {
             downloadSelection();
         }
-    }                                                                          //GEN-LAST:event_lstDocListMouseClicked
+    }//GEN-LAST:event_lstDocListMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void miDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_miDeleteActionPerformed
+    private void miDeleteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDeleteActionPerformed
         deleteSelectedListItems();
-    }                                                                            //GEN-LAST:event_miDeleteActionPerformed
+    }//GEN-LAST:event_miDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListMousePressed(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMousePressed
+    private void lstDocListMousePressed(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstDocListMousePressed
         if (evt.isPopupTrigger() && !dokumente.isEmpty() && inEditMode) {
             popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
         }
-    }                                                                          //GEN-LAST:event_lstDocListMousePressed
+    }//GEN-LAST:event_lstDocListMousePressed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListMouseReleased(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMouseReleased
+    private void lstDocListMouseReleased(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstDocListMouseReleased
         if (evt.isPopupTrigger() && !dokumente.isEmpty() && inEditMode) {
             popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
         }
-    }                                                                           //GEN-LAST:event_lstDocListMouseReleased
+    }//GEN-LAST:event_lstDocListMouseReleased
 
     /**
      * DOCUMENT ME!

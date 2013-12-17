@@ -34,7 +34,7 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
     public static final String PROP__LPH = "lph";
     public static final String PROP__HERSTELLER = "hersteller";
     public static final String PROP__WANDSTAERKE = "wandstaerke";
-    public static final String PROP__DOKUMENTE = "wandstaerke";
+    public static final String PROP__DOKUMENTE = "dokumente";
     public static final String PROP__FOTO = "foto";
 
     private static final String[] PROPERTY_NAMES = new String[] {
