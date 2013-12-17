@@ -222,20 +222,20 @@ class WorkbenchTransferHandler extends TransferHandler {
                     if ((clipboardBean instanceof BasicEntity)
                                 || (clipboardBean instanceof SchaltstelleCustomBean)
                                 || (clipboardBean instanceof GeometrieCustomBean)) {
-                        final TreePath parentPath = tree.getPathForRow(selRow).getParentPath();
-                        final TdtaStandortMastCustomBean mastBean;
-                        if (parentPath != null) {
-                            final Object parentObject = ((CustomMutableTreeTableNode)parentPath.getLastPathComponent())
-                                        .getUserObject();
-                            if (parentObject instanceof TdtaStandortMastCustomBean) {
-                                mastBean = (TdtaStandortMastCustomBean)parentObject;
-                            } else {
-                                mastBean = null;
-                            }
-                        } else {
-                            mastBean = null;
-                        }
-                        ((TdtaLeuchtenCustomBean)clipboardBean).setFk_standort(mastBean);
+//                        final TreePath parentPath = tree.getPathForRow(selRow).getParentPath();
+//                        final TdtaStandortMastCustomBean mastBean;
+//                        if (parentPath != null) {
+//                            final Object parentObject = ((CustomMutableTreeTableNode)parentPath.getLastPathComponent())
+//                                        .getUserObject();
+//                            if (parentObject instanceof TdtaStandortMastCustomBean) {
+//                                mastBean = (TdtaStandortMastCustomBean)parentObject;
+//                            } else {
+//                                mastBean = null;
+//                            }
+//                        } else {
+//                            mastBean = null;
+//                        }
+//                        ((TdtaLeuchtenCustomBean)clipboardBean).setFk_standort(mastBean);
 
                         final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
                                     .createProtokollFromBasic(clipboardBean);
