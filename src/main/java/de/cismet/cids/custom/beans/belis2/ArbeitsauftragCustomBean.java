@@ -287,4 +287,13 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     public void setDokumente(final Collection<DmsUrlCustomBean> ar_dokumente) {
         this.ar_dokumente = ar_dokumente;
     }
+
+    @Override
+    public String getKeyString() {
+        if (getNummer() != null) {
+            return getNummer().toString();
+        } else {
+            return "";
+        }
+    }
 }
