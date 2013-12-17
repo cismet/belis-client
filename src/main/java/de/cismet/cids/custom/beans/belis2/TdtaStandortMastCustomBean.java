@@ -1009,28 +1009,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEn
         return implode(strings.toArray(new String[0]), ", ");
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   stringArray  DOCUMENT ME!
-     * @param   delimiter    DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private static String implode(final String[] stringArray, final String delimiter) {
-        if (stringArray.length == 0) {
-            return "";
-        } else {
-            final StringBuilder sb = new StringBuilder();
-            sb.append(stringArray[0]);
-            for (int index = 1; index < stringArray.length; index++) {
-                sb.append(delimiter);
-                sb.append(stringArray[index]);
-            }
-            return sb.toString();
-        }
-    }
-
     @Override
     public String getHumanReadablePosition() {
         if ((getStrassenschluessel() != null) && (getStrassenschluessel().getStrasse() != null)) {

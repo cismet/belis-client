@@ -117,4 +117,27 @@ public class BaseEntity extends CidsBean {
     public String getHumanReadablePosition() {
         return "";
     }
+    
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   stringArray  DOCUMENT ME!
+     * @param   delimiter    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected static String implode(final String[] stringArray, final String delimiter) {
+        if (stringArray.length == 0) {
+            return "";
+        } else {
+            final StringBuilder sb = new StringBuilder();
+            sb.append(stringArray[0]);
+            for (int index = 1; index < stringArray.length; index++) {
+                sb.append(delimiter);
+                sb.append(stringArray[index]);
+            }
+            return sb.toString();
+        }
+    }
+    
 }

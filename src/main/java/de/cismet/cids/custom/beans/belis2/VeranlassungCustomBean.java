@@ -22,6 +22,7 @@ import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
+import java.util.ArrayList;
 
 /**
  * DOCUMENT ME!
@@ -527,10 +528,16 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
 
     @Override
     public String getKeyString() {
-        if (getBezeichnung() != null) {
-            return getNummer() + " - " + getBezeichnung();
-        } else {
-            return "";
+        final Collection<String> strings = new ArrayList<String>();
+        if (getFk_art() != null) {
+            strings.add(getFk_art().getBezeichnung());
         }
+        if (getNummer() != null) {
+            strings.add(getNummer());
+        }
+        if (getBezeichnung() != null) {
+            strings.add(getBezeichnung());
+        }
+        return implode(strings.toArray(new String[0]), ", ");
     }
 }
