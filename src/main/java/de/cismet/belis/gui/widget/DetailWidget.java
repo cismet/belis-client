@@ -12,11 +12,7 @@
  */
 package de.cismet.belis.gui.widget;
 
-import Sirius.server.middleware.types.MetaObject;
-
 import java.beans.PropertyChangeEvent;
-
-import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
@@ -38,8 +34,6 @@ import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
-
-import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.commons.architecture.validation.Validatable;
 
@@ -76,6 +70,9 @@ public class DetailWidget extends BelisWidget {
     private final VeranlassungPanel veranlassungPanel;
     private final ArbeitsauftragPanel arbeitsauftragPanel;
     private final ArbeitsprotokollPanel arbeitsprotokollPanel;
+
+    private AbstractDetailWidgetPanel currentDetailWidgetPanel = null;
+    private boolean isEditable = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
@@ -164,18 +161,18 @@ public class DetailWidget extends BelisWidget {
             panDokumente.setDokumente(((DocumentContainer)currentEntity).getDokumente());
             panMain.setTabComponentAt(1, labDokumente);
         }
+
         if (currentEntity instanceof TdtaStandortMastCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Standort");
             }
             standortPanel.setCurrentEntity((TdtaStandortMastCustomBean)currentEntity);
-            standortPanel.setElementsNull();
-
-            showPanel(standortPanel);
+            currentDetailWidgetPanel = standortPanel;
         } else if (currentEntity instanceof TdtaLeuchtenCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Leuchte");
             }
+
             LOG.info("ParentNode: " + ((TdtaLeuchtenCustomBean)currentEntity).getStandort());
             if (getBroker().getWorkbenchWidget().isParentNodeMast(
                             getBroker().getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
@@ -190,78 +187,74 @@ public class DetailWidget extends BelisWidget {
             }
 
             leuchtePanel.setCurrentEntity((TdtaLeuchtenCustomBean)currentEntity);
-            leuchtePanel.setElementsNull();
-            showPanel(leuchtePanel);
+            currentDetailWidgetPanel = leuchtePanel;
         } else if (currentEntity instanceof LeitungCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Leitung");
             }
 
             leitungPanel.setCurrentEntity((LeitungCustomBean)currentEntity);
-            leitungPanel.setElementsNull();
-
-            showPanel(leitungPanel);
+            currentDetailWidgetPanel = leitungPanel;
         } else if (currentEntity instanceof AbzweigdoseCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Abzweigdose");
             }
-            showPanel(abzweigdosePanel);
+
+            abzweigdosePanel.setCurrentEntity((AbzweigdoseCustomBean)currentEntity);
+            currentDetailWidgetPanel = abzweigdosePanel;
         } else if (currentEntity instanceof MauerlascheCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Mauerlasche");
             }
 
             mauerlaschePanel.setCurrentEntity((MauerlascheCustomBean)currentEntity);
-            mauerlaschePanel.setElementsNull();
-
-            showPanel(mauerlaschePanel);
+            currentDetailWidgetPanel = mauerlaschePanel;
         } else if (currentEntity instanceof SchaltstelleCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Schaltstelle");
             }
 
             schaltstellePanel.setCurrentEntity((SchaltstelleCustomBean)currentEntity);
-            schaltstellePanel.setElementsNull();
-
-            showPanel(schaltstellePanel);
+            currentDetailWidgetPanel = schaltstellePanel;
         } else if (currentEntity instanceof VeranlassungCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Veranlassung");
             }
 
             veranlassungPanel.setCurrentEntity((VeranlassungCustomBean)currentEntity);
-            veranlassungPanel.setElementsNull();
-
-            showPanel(veranlassungPanel);
+            currentDetailWidgetPanel = veranlassungPanel;
         } else if (currentEntity instanceof ArbeitsauftragCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Arbeitsauftrag");
             }
 
             arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)currentEntity);
-            arbeitsauftragPanel.setElementsNull();
-
-            showPanel(arbeitsauftragPanel);
+            currentDetailWidgetPanel = arbeitsauftragPanel;
         } else if (currentEntity instanceof ArbeitsprotokollCustomBean) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("CurrentEntity is Arbeitsprotokoll");
             }
             if (parentEntity instanceof ArbeitsauftragCustomBean) {
-                arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
-                arbeitsauftragPanel.setElementsNull();
-
                 arbeitsauftragPanel.setSelectedProtokoll((ArbeitsprotokollCustomBean)currentEntity);
-                showPanel(arbeitsauftragPanel);
+
+                arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
+                currentDetailWidgetPanel = arbeitsauftragPanel;
             } else {
                 LOG.error("parent of protokoll node should be an auftrags node");
-                showPanel(null);
-                panDokumente.setDokumente(null);
+                currentDetailWidgetPanel = null;
             }
         } else {
-            LOG.info("no panel for entity available");
-            showPanel(null);
-            panDokumente.setDokumente(null);
+            currentDetailWidgetPanel = null;
         }
+
+        if (currentDetailWidgetPanel == null) {
+            panDokumente.setDokumente(null);
+        } else {
+            currentDetailWidgetPanel.setElementsNull();
+            currentDetailWidgetPanel.setPanelEditable(isEditable);
+        }
+
+        showPanel(currentDetailWidgetPanel);
         this.repaint();
     }
 
@@ -291,14 +284,10 @@ public class DetailWidget extends BelisWidget {
     @Override
     public void setWidgetEditable(final boolean isEditable) {
         super.setWidgetEditable(isEditable);
-        standortPanel.setPanelEditable(isEditable);
-        leuchtePanel.setPanelEditable(isEditable);
-        leitungPanel.setPanelEditable(isEditable);
-        mauerlaschePanel.setPanelEditable(isEditable);
-        schaltstellePanel.setPanelEditable(isEditable);
-        veranlassungPanel.setPanelEditable(isEditable);
-        arbeitsauftragPanel.setPanelEditable(isEditable);
-//        arbeitsprotokollPanel.setPanelEditable(isEditable);
+        this.isEditable = isEditable;
+        if (currentDetailWidgetPanel != null) {
+            currentDetailWidgetPanel.setPanelEditable(isEditable);
+        }
         panDokumente.setEditable(isEditable);
     }
 
@@ -376,33 +365,10 @@ public class DetailWidget extends BelisWidget {
 
     @Override
     public int getStatus() {
-        if (standortPanel.getStatus() != Validatable.VALID) {
-            validationMessage = standortPanel.getValidationMessage();
-            return standortPanel.getStatus();
-        } else if (leuchtePanel.getStatus() != Validatable.VALID) {
-            validationMessage = leuchtePanel.getValidationMessage();
-            return leuchtePanel.getStatus();
-        } else if (leitungPanel.getStatus() != Validatable.VALID) {
-            validationMessage = leitungPanel.getValidationMessage();
-            return leitungPanel.getStatus();
-        } else if (mauerlaschePanel.getStatus() != Validatable.VALID) {
-            validationMessage = mauerlaschePanel.getValidationMessage();
-            return mauerlaschePanel.getStatus();
-        } else if (schaltstellePanel.getStatus() != Validatable.VALID) {
-            validationMessage = schaltstellePanel.getValidationMessage();
-            return schaltstellePanel.getStatus();
-        } else if (abzweigdosePanel.getStatus() != Validatable.VALID) {
-            validationMessage = abzweigdosePanel.getValidationMessage();
-            return abzweigdosePanel.getStatus();
-        } else if (veranlassungPanel.getStatus() != Validatable.VALID) {
-            validationMessage = veranlassungPanel.getValidationMessage();
-            return veranlassungPanel.getStatus();
-        } else if (arbeitsauftragPanel.getStatus() != Validatable.VALID) {
-            validationMessage = arbeitsauftragPanel.getValidationMessage();
-            return arbeitsauftragPanel.getStatus();
-        } else if (arbeitsprotokollPanel.getStatus() != Validatable.VALID) {
-            validationMessage = arbeitsprotokollPanel.getValidationMessage();
-            return arbeitsprotokollPanel.getStatus();
+        if (currentDetailWidgetPanel != null) {
+            final int status = currentDetailWidgetPanel.getStatus();
+            validationMessage = currentDetailWidgetPanel.getValidationMessage();
+            return status;
         } else {
             validationMessage = "";
             return Validatable.VALID;
