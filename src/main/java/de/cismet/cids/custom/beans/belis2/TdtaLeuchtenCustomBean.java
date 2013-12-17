@@ -36,13 +36,24 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
     public static final TkeyDoppelkommandoCustomBean DEFAULT_DOPPELKOMMANDO;
 
     static {
-        DEFAULT_UNTERHALT = TkeyUnterhLeuchteCustomBean.createNew();
-        DEFAULT_UNTERHALT.setPk((Integer)0);
-        DEFAULT_UNTERHALT.setUnterhaltspflichtigeLeuchte("Öffentl. Beleuchtung");
-
-        DEFAULT_DOPPELKOMMANDO = TkeyDoppelkommandoCustomBean.createNew();
-        DEFAULT_DOPPELKOMMANDO.setPk("12");
-        DEFAULT_DOPPELKOMMANDO.setBeschreibung("Ganznachtbetrieb (früher Nacht)");
+        TkeyUnterhLeuchteCustomBean unterhalt = null;
+        try {
+            unterhalt = TkeyUnterhLeuchteCustomBean.createNew();
+            unterhalt.setPk((Integer)0);
+            unterhalt.setUnterhaltspflichtigeLeuchte("Öffentl. Beleuchtung");
+        } catch (final Exception ex) {
+        } finally {
+            DEFAULT_UNTERHALT = unterhalt;
+        }
+        TkeyDoppelkommandoCustomBean doppelkommando = null;
+        try {
+            doppelkommando = TkeyDoppelkommandoCustomBean.createNew();
+            doppelkommando.setPk("12");
+            doppelkommando.setBeschreibung("Ganznachtbetrieb (früher Nacht)");
+        } catch (final Exception ex) {
+        } finally {
+            DEFAULT_DOPPELKOMMANDO = doppelkommando;
+        }
     }
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TdtaLeuchtenCustomBean.class);
