@@ -62,7 +62,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     private String angelegt_von;
     private String zugewiesen_an;
     private Date angelegt_am;
-    private Integer nummer;
+    private String nummer;
     private Collection<ArbeitsprotokollCustomBean> n_protokolle;
     private Collection<VeranlassungCustomBean> n_veranlassungen;
     private Collection<DmsUrlCustomBean> ar_dokumente = new ArrayList<DmsUrlCustomBean>();
@@ -185,7 +185,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getNummer() {
+    public String getNummer() {
         return nummer;
     }
 
@@ -194,8 +194,8 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
      *
      * @param  nummer  DOCUMENT ME!
      */
-    public void setNummer(final Integer nummer) {
-        final Integer old = this.nummer;
+    public void setNummer(final String nummer) {
+        final String old = this.nummer;
         this.nummer = nummer;
         this.propertyChangeSupport.firePropertyChange(PROP__NUMMER, old, this.nummer);
     }
