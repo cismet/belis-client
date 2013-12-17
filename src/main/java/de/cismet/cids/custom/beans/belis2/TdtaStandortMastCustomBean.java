@@ -1312,7 +1312,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEn
     @Override
     public CidsBean persist() throws Exception {
         if (getLaufendeNummer() == null) {
-            determineNextLaufendenummer(-1);
+            determineNextLaufendenummer(1);
         }
         setLeuchtenPropertiesDependingOnStandort();
         return super.persist();
