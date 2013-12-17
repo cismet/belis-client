@@ -118,6 +118,11 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JSpinner" name="spinBestueckung">
+          <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="value" source="Form" sourcePath="${cidsBean.bestueckung}" target="spinBestueckung" targetPath="value" updateStrategy="0" immediately="false">
               <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -147,6 +152,11 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JSpinner" name="spinLeistung">
+          <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="value" source="Form" sourcePath="${cidsBean.leistung}" target="spinLeistung" targetPath="value" updateStrategy="0" immediately="false">
               <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -176,6 +186,11 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JSpinner" name="spinLeistungBrutto">
+          <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="value" source="Form" sourcePath="${cidsBean.leistung_brutto}" target="spinLeistungBrutto" targetPath="value" updateStrategy="0" immediately="false">
               <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -205,6 +220,11 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JSpinner" name="spinLeistungReduziert">
+          <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="value" source="Form" sourcePath="${cidsBean.leistung_reduziert}" target="spinLeistungReduziert" targetPath="value" updateStrategy="0" immediately="false">
               <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -234,6 +254,11 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JSpinner" name="spinLeistungReduziertBrutto">
+          <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="value" source="Form" sourcePath="${cidsBean.leistung_brutto_reduziert}" target="spinLeistungReduziertBrutto" targetPath="value" updateStrategy="0" immediately="false">
               <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -287,20 +312,6 @@
         <Component class="javax.swing.JTextField" name="txtVorschaltgeraet">
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${cidsBean.vorschaltgeraet}" target="txtVorschaltgeraet" targetPath="text" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-              <GridBagConstraints gridX="1" gridY="-1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="3" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="de.cismet.belis.gui.documentpanel.DocumentPanel" name="documentPanel1">
-          <Properties>
-            <Property name="editable" type="boolean" value="true"/>
-            <Property name="opaque" type="boolean" value="false"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="dokumente" source="Form" sourcePath="${cidsBean.dokumente}" target="documentPanel1" targetPath="dokumente" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

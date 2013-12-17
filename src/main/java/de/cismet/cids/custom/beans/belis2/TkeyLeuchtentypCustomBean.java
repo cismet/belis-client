@@ -290,7 +290,9 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
      * @param  vorschaltgeraet  DOCUMENT ME!
      */
     public void setVorschaltgeraet(final String vorschaltgeraet) {
+        final String old = this.vorschaltgeraet;
         this.vorschaltgeraet = vorschaltgeraet;
+        this.propertyChangeSupport.firePropertyChange(PROP__VORSCHALTGERAET, old, this.vorschaltgeraet);
     }
 
     @Override

@@ -94,6 +94,11 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JSpinner" name="spinAnschlusswert">
+          <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+            </Property>
+          </Properties>
           <BindingProperties>
             <BindingProperty name="value" source="Form" sourcePath="${cidsBean.anschlusswert}" target="spinAnschlusswert" targetPath="value" updateStrategy="0" immediately="false">
               <Property name="nullValue" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
