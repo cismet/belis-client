@@ -1064,11 +1064,11 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                 if (LOG.isDebugEnabled()) {
                     // TODO saveCurrentFlurstueck wirft keine Exception, prüfen an welchen Stellen die Methode benutzt
                     // wird und sicherstellen das keine Probleme durch eine geworfene Exception auftreten
-                    LOG.debug("Es ist ein Fehler wärend dem abspeichern des Flurstuecks aufgetreten", ex);
+                    LOG.debug("Es ist ein Fehler während dem abspeichern der Objekte aufgetreten", ex);
                 }
                 JOptionPane.showMessageDialog(
                     this,
-                    "Es traten Fehler beim abspeichern des Flurstuecks auf",
+                    "Es traten Fehler beim abspeichern der Objekte auf",
                     "Fehler",
                     JOptionPane.ERROR_MESSAGE);
             }
