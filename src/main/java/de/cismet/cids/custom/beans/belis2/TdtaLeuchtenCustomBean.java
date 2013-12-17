@@ -973,7 +973,11 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Property not from parent mast");
             }
-            super.propertyChange(evt);
+            try {
+                super.propertyChange(evt);
+            } catch (final Exception ex) {
+                LOG.info("error while super.propertyChange(evt)", ex);
+            }
         }
     }
 

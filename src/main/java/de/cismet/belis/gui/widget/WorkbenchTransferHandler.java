@@ -225,9 +225,10 @@ class WorkbenchTransferHandler extends TransferHandler {
                         final TreePath parentPath = tree.getPathForRow(selRow).getParentPath();
                         final TdtaStandortMastCustomBean mastBean;
                         if (parentPath != null) {
-                            final Object parentObject = ((CustomMutableTreeTableNode)parentPath.getLastPathComponent()).getUserObject();
+                            final Object parentObject = ((CustomMutableTreeTableNode)parentPath.getLastPathComponent())
+                                        .getUserObject();
                             if (parentObject instanceof TdtaStandortMastCustomBean) {
-                                mastBean = (TdtaStandortMastCustomBean) parentObject;
+                                mastBean = (TdtaStandortMastCustomBean)parentObject;
                             } else {
                                 mastBean = null;
                             }
@@ -235,7 +236,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                             mastBean = null;
                         }
                         ((TdtaLeuchtenCustomBean)clipboardBean).setFk_standort(mastBean);
-                        
+
                         final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
                                     .createProtokollFromBasic(clipboardBean);
                         BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, clipboardBean);

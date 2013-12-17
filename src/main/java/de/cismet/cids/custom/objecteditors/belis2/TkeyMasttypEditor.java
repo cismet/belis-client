@@ -105,14 +105,21 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         pnlCard2.setOpaque(false);
         pnlCard2.setLayout(new java.awt.GridBagLayout());
 
-        lblMasttyp.setText(org.openide.util.NbBundle.getMessage(TkeyMasttypEditor.class, "TkeyMasttypEditor.lblMasttyp.text")); // NOI18N
+        lblMasttyp.setText(org.openide.util.NbBundle.getMessage(
+                TkeyMasttypEditor.class,
+                "TkeyMasttypEditor.lblMasttyp.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblMasttyp, gridBagConstraints);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.masttyp}"), txtMasttyp, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.masttyp}"),
+                txtMasttyp,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -122,14 +129,21 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(txtMasttyp, gridBagConstraints);
 
-        lblBezeichnung.setText(org.openide.util.NbBundle.getMessage(TkeyMasttypEditor.class, "TkeyMasttypEditor.lblBezeichnung.text")); // NOI18N
+        lblBezeichnung.setText(org.openide.util.NbBundle.getMessage(
+                TkeyMasttypEditor.class,
+                "TkeyMasttypEditor.lblBezeichnung.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblBezeichnung, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bezeichnung}"), txtBezeichnung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bezeichnung}"),
+                txtBezeichnung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -139,14 +153,21 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(txtBezeichnung, gridBagConstraints);
 
-        lblHersteller.setText(org.openide.util.NbBundle.getMessage(TkeyMasttypEditor.class, "TkeyMasttypEditor.lblHersteller.text")); // NOI18N
+        lblHersteller.setText(org.openide.util.NbBundle.getMessage(
+                TkeyMasttypEditor.class,
+                "TkeyMasttypEditor.lblHersteller.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblHersteller, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hersteller}"), txtHersteller, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.hersteller}"),
+                txtHersteller,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -156,14 +177,21 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(txtHersteller, gridBagConstraints);
 
-        lblWandstaerke.setText(org.openide.util.NbBundle.getMessage(TkeyMasttypEditor.class, "TkeyMasttypEditor.lblWandstaerke.text")); // NOI18N
+        lblWandstaerke.setText(org.openide.util.NbBundle.getMessage(
+                TkeyMasttypEditor.class,
+                "TkeyMasttypEditor.lblWandstaerke.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblWandstaerke, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wandstaerke}"), spinWandstaerke, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wandstaerke}"),
+                spinWandstaerke,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
@@ -184,7 +212,12 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
 
         spinLph.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lph}"), spinLph, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lph}"),
+                spinLph,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
@@ -196,7 +229,9 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(spinLph, gridBagConstraints);
 
-        lblDokumente.setText(org.openide.util.NbBundle.getMessage(TkeyMasttypEditor.class, "TkeyMasttypEditor.lblDokumente.text")); // NOI18N
+        lblDokumente.setText(org.openide.util.NbBundle.getMessage(
+                TkeyMasttypEditor.class,
+                "TkeyMasttypEditor.lblDokumente.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
@@ -206,7 +241,12 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         documentPanel1.setEditable(true);
         documentPanel1.setOpaque(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dokumente}"), documentPanel1, org.jdesktop.beansbinding.BeanProperty.create("dokumente"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dokumente}"),
+                documentPanel1,
+                org.jdesktop.beansbinding.BeanProperty.create("dokumente"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -219,7 +259,7 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         add(pnlCard2, "card2");
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
@@ -236,7 +276,7 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
             this.cidsBean = cidsBean;
             bindingGroup.bind();
         }
-        documentPanel1.setEditable(cidsBean != null);            
+        documentPanel1.setEditable(cidsBean != null);
     }
 
     @Override

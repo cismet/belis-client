@@ -105,14 +105,21 @@ public class RundsteuerempfaengerEditor extends javax.swing.JPanel implements Re
         pnlCard2.setOpaque(false);
         pnlCard2.setLayout(new java.awt.GridBagLayout());
 
-        lblHerrstellerRs.setText(org.openide.util.NbBundle.getMessage(RundsteuerempfaengerEditor.class, "RundsteuerempfaengerEditor.lblHerrstellerRs.text")); // NOI18N
+        lblHerrstellerRs.setText(org.openide.util.NbBundle.getMessage(
+                RundsteuerempfaengerEditor.class,
+                "RundsteuerempfaengerEditor.lblHerrstellerRs.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblHerrstellerRs, gridBagConstraints);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.herrsteller_rs}"), txtHerrstellerRs, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.herrsteller_rs}"),
+                txtHerrstellerRs,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -122,14 +129,21 @@ public class RundsteuerempfaengerEditor extends javax.swing.JPanel implements Re
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(txtHerrstellerRs, gridBagConstraints);
 
-        lblRsTyp.setText(org.openide.util.NbBundle.getMessage(RundsteuerempfaengerEditor.class, "RundsteuerempfaengerEditor.lblRsTyp.text")); // NOI18N
+        lblRsTyp.setText(org.openide.util.NbBundle.getMessage(
+                RundsteuerempfaengerEditor.class,
+                "RundsteuerempfaengerEditor.lblRsTyp.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblRsTyp, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.rs_typ}"), txtRsTyp, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.rs_typ}"),
+                txtRsTyp,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -139,16 +153,27 @@ public class RundsteuerempfaengerEditor extends javax.swing.JPanel implements Re
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(txtRsTyp, gridBagConstraints);
 
-        lblAnschlusswert.setText(org.openide.util.NbBundle.getMessage(RundsteuerempfaengerEditor.class, "RundsteuerempfaengerEditor.lblAnschlusswert.text")); // NOI18N
+        lblAnschlusswert.setText(org.openide.util.NbBundle.getMessage(
+                RundsteuerempfaengerEditor.class,
+                "RundsteuerempfaengerEditor.lblAnschlusswert.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblAnschlusswert, gridBagConstraints);
 
-        spinAnschlusswert.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        spinAnschlusswert.setModel(new javax.swing.SpinnerNumberModel(
+                Double.valueOf(0.0d),
+                null,
+                null,
+                Double.valueOf(1.0d)));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.anschlusswert}"), spinAnschlusswert, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.anschlusswert}"),
+                spinAnschlusswert,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
@@ -160,7 +185,9 @@ public class RundsteuerempfaengerEditor extends javax.swing.JPanel implements Re
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(spinAnschlusswert, gridBagConstraints);
 
-        lblProgramm.setText(org.openide.util.NbBundle.getMessage(RundsteuerempfaengerEditor.class, "RundsteuerempfaengerEditor.lblProgramm.text")); // NOI18N
+        lblProgramm.setText(org.openide.util.NbBundle.getMessage(
+                RundsteuerempfaengerEditor.class,
+                "RundsteuerempfaengerEditor.lblProgramm.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -169,7 +196,12 @@ public class RundsteuerempfaengerEditor extends javax.swing.JPanel implements Re
 
         cboProgramm.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A", "B" }));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.programm}"), cboProgramm, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.programm}"),
+                cboProgramm,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -182,7 +214,7 @@ public class RundsteuerempfaengerEditor extends javax.swing.JPanel implements Re
         add(pnlCard2, "card2");
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {

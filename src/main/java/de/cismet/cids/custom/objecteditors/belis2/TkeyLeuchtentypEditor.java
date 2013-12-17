@@ -127,14 +127,21 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         pnlCard2.setOpaque(false);
         pnlCard2.setLayout(new java.awt.GridBagLayout());
 
-        lblLeuchtentyp.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblLeuchtentyp.text")); // NOI18N
+        lblLeuchtentyp.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblLeuchtentyp.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLeuchtentyp, gridBagConstraints);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leuchtentyp}"), txtLeuchtentyp, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leuchtentyp}"),
+                txtLeuchtentyp,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -144,14 +151,21 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(txtLeuchtentyp, gridBagConstraints);
 
-        lblFabrikat.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblFabrikat.text")); // NOI18N
+        lblFabrikat.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblFabrikat.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblFabrikat, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fabrikat}"), txtFabrikat, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.fabrikat}"),
+                txtFabrikat,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -161,14 +175,21 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(txtFabrikat, gridBagConstraints);
 
-        lblTypenbezeichnung.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblTypenbezeichnung.text")); // NOI18N
+        lblTypenbezeichnung.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblTypenbezeichnung.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblTypenbezeichnung, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typbenbezeichnung}"), txtTypenbezeichnung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typbenbezeichnung}"),
+                txtTypenbezeichnung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -178,16 +199,27 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(txtTypenbezeichnung, gridBagConstraints);
 
-        lblBestueckung.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblBestueckung.text")); // NOI18N
+        lblBestueckung.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblBestueckung.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblBestueckung, gridBagConstraints);
 
-        spinBestueckung.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        spinBestueckung.setModel(new javax.swing.SpinnerNumberModel(
+                Double.valueOf(0.0d),
+                null,
+                null,
+                Double.valueOf(1.0d)));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bestueckung}"), spinBestueckung, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bestueckung}"),
+                spinBestueckung,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
@@ -199,16 +231,27 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(spinBestueckung, gridBagConstraints);
 
-        lblLeistung.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblLeistung.text")); // NOI18N
+        lblLeistung.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblLeistung.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLeistung, gridBagConstraints);
 
-        spinLeistung.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        spinLeistung.setModel(new javax.swing.SpinnerNumberModel(
+                Double.valueOf(0.0d),
+                null,
+                null,
+                Double.valueOf(1.0d)));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung}"), spinLeistung, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung}"),
+                spinLeistung,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
@@ -220,16 +263,27 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(spinLeistung, gridBagConstraints);
 
-        lblLeistungBrutto.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblLeistungBrutto.text")); // NOI18N
+        lblLeistungBrutto.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblLeistungBrutto.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLeistungBrutto, gridBagConstraints);
 
-        spinLeistungBrutto.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        spinLeistungBrutto.setModel(new javax.swing.SpinnerNumberModel(
+                Double.valueOf(0.0d),
+                null,
+                null,
+                Double.valueOf(1.0d)));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung_brutto}"), spinLeistungBrutto, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung_brutto}"),
+                spinLeistungBrutto,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
@@ -241,16 +295,27 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(spinLeistungBrutto, gridBagConstraints);
 
-        lblLeistungReduziert.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblLeistungReduziert.text")); // NOI18N
+        lblLeistungReduziert.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblLeistungReduziert.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLeistungReduziert, gridBagConstraints);
 
-        spinLeistungReduziert.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        spinLeistungReduziert.setModel(new javax.swing.SpinnerNumberModel(
+                Double.valueOf(0.0d),
+                null,
+                null,
+                Double.valueOf(1.0d)));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung_reduziert}"), spinLeistungReduziert, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung_reduziert}"),
+                spinLeistungReduziert,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
@@ -262,16 +327,27 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(spinLeistungReduziert, gridBagConstraints);
 
-        lblLeistungReduziertBrutto.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblLeistungReduziertBrutto.text")); // NOI18N
+        lblLeistungReduziertBrutto.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblLeistungReduziertBrutto.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLeistungReduziertBrutto, gridBagConstraints);
 
-        spinLeistungReduziertBrutto.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        spinLeistungReduziertBrutto.setModel(new javax.swing.SpinnerNumberModel(
+                Double.valueOf(0.0d),
+                null,
+                null,
+                Double.valueOf(1.0d)));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung_brutto_reduziert}"), spinLeistungReduziertBrutto, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung_brutto_reduziert}"),
+                spinLeistungReduziertBrutto,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
@@ -283,14 +359,21 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(spinLeistungReduziertBrutto, gridBagConstraints);
 
-        lblLampe.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblLampe.text")); // NOI18N
+        lblLampe.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblLampe.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLampe, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lampe}"), txtLampe, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lampe}"),
+                txtLampe,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -300,14 +383,21 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(txtLampe, gridBagConstraints);
 
-        lblVorschaltgeraet.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblVorschaltgeraet.text")); // NOI18N
+        lblVorschaltgeraet.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblVorschaltgeraet.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblVorschaltgeraet, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vorschaltgeraet}"), txtVorschaltgeraet, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.vorschaltgeraet}"),
+                txtVorschaltgeraet,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -317,7 +407,9 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
         pnlCard2.add(txtVorschaltgeraet, gridBagConstraints);
 
-        lblDokumente.setText(org.openide.util.NbBundle.getMessage(TkeyLeuchtentypEditor.class, "TkeyLeuchtentypEditor.lblDokumente.text")); // NOI18N
+        lblDokumente.setText(org.openide.util.NbBundle.getMessage(
+                TkeyLeuchtentypEditor.class,
+                "TkeyLeuchtentypEditor.lblDokumente.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
@@ -327,7 +419,12 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         documentPanel1.setEditable(false);
         documentPanel1.setOpaque(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dokumente}"), documentPanel1, org.jdesktop.beansbinding.BeanProperty.create("dokumente"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.dokumente}"),
+                documentPanel1,
+                org.jdesktop.beansbinding.BeanProperty.create("dokumente"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -340,7 +437,7 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         add(pnlCard2, "card2");
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public CidsBean getCidsBean() {
