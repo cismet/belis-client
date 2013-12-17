@@ -609,8 +609,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Was in edit mode switching to view mode.");
                 }
-
-                treeTableModel.removeAllChildrenFromNode(editObjectsNode, false);
+//                treeTableModel.removeAllChildrenFromNode(editObjectsNode, false);
                 treeTableModel.removeNodeFromParent(editObjectsNode);
                 BelisBroker.getInstance().getWorkbenchWidget().getEditObjects().clear();
                 if (treeTableModel.getPathForUserObject(searchResultsNode.getUserObject()) == null) {
@@ -2125,12 +2124,6 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             LOG.debug("objectsRemoved");
         }
         if (!getBroker().isInCreateMode()) {
-            if (removedObjects.size() > 0) {
-                for (final Object curObjectToRemove : removedObjects) {
-                    currentSearchResults.remove(curObjectToRemove);
-                    newObjects.remove(curObjectToRemove);
-                }
-            }
             leuchtenRemovedFromMastMap.clear();
             removedObjects.clear();
         }
