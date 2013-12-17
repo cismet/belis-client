@@ -46,7 +46,7 @@ public class RundsteuerempfaengerCustomBean extends BaseEntity {
 
     private String herrsteller_rs;
     private String rs_typ;
-    private Integer anschlusswert;
+    private Double anschlusswert;
     private String programm;
     private DmsUrlCustomBean foto;
 
@@ -139,7 +139,7 @@ public class RundsteuerempfaengerCustomBean extends BaseEntity {
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getAnschlusswert() {
+    public Double getAnschlusswert() {
         return anschlusswert;
     }
 
@@ -148,8 +148,8 @@ public class RundsteuerempfaengerCustomBean extends BaseEntity {
      *
      * @param  anschlusswert  fk_geom DOCUMENT ME!
      */
-    public void setAnschlusswert(final Integer anschlusswert) {
-        final Integer old = this.anschlusswert;
+    public void setAnschlusswert(final Double anschlusswert) {
+        final Double old = this.anschlusswert;
         this.anschlusswert = anschlusswert;
         this.propertyChangeSupport.firePropertyChange(PROP__ANSCHLUSSWERT, old, this.anschlusswert);
     }
