@@ -255,6 +255,22 @@ public class EntityClipboard {
                     if ((broker.isFilterVeranlassung() && (object instanceof VeranlassungCustomBean))
                                 || (broker.isFilterNormal()
                                     && ((object instanceof BasicEntity) || (object instanceof GeometrieCustomBean)))) {
+
+                        if (object instanceof TdtaLeuchtenCustomBean) {
+                            final TreePath parentPath = path.getParentPath();
+                            final TdtaStandortMastCustomBean mastBean;
+                            if (parentPath != null) {
+                                final Object parentObject = ((CustomMutableTreeTableNode)parentPath.getLastPathComponent()).getUserObject();
+                                if (parentObject instanceof TdtaStandortMastCustomBean) {
+                                    mastBean = (TdtaStandortMastCustomBean) parentObject;
+                                } else {
+                                    mastBean = null;
+                                }
+                            } else {
+                                mastBean = null;
+                            }
+                            ((TdtaLeuchtenCustomBean)object).setFk_standort(mastBean);                            
+                        }
                         beans.add((CidsBean)object);
                     }
                 }
