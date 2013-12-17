@@ -34,10 +34,6 @@ import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.belis.gui.widget.KeyTableListener;
 
-import de.cismet.belis2.server.search.HighestLfdNummerSearch;
-
-import de.cismet.belisEE.bean.interfaces.BelisServerRemote;
-
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
 
@@ -49,7 +45,6 @@ import de.cismet.cids.custom.beans.belis2.GeomCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -66,7 +61,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class CidsBroker implements BelisServerRemote {
+public class CidsBroker {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -275,7 +270,6 @@ public class CidsBroker implements BelisServerRemote {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    @Override
     public Collection getAll(String className) throws ActionNotSuccessfulException {
         className = className.toLowerCase();
         if (keyTableCollections.containsKey(className)) {
@@ -285,7 +279,17 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   strassenschluessel  DOCUMENT ME!
+     * @param   kennziffer          DOCUMENT ME!
+     * @param   laufendeNummer      DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public TreeSet<BaseEntity> getObjectsByKey(final String strassenschluessel,
             final Integer kennziffer,
             final Integer laufendeNummer) throws ActionNotSuccessfulException {
@@ -313,9 +317,15 @@ public class CidsBroker implements BelisServerRemote {
         }
         return results;
     }
-
-    // ToDo is it a good idea to make a basic identity for generic id access or propertyChange support ??
-    @Override
+    /**
+     * ToDo is it a good idea to make a basic identity for generic id access or propertyChange support ??
+     *
+     * @param   key  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public Collection<TdtaStandortMastCustomBean> retrieveStandort(final StandortKey key)
             throws ActionNotSuccessfulException {
         try {
@@ -583,8 +593,16 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
-    public Collection<BaseEntity> saveObjects(final Collection<BaseEntity> objectsToSave, final String userString)
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   objectsToSave  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
+    public Collection<BaseEntity> saveObjects(final Collection<BaseEntity> objectsToSave)
             throws ActionNotSuccessfulException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("save objects");
@@ -646,7 +664,15 @@ public class CidsBroker implements BelisServerRemote {
         return proxy.customServerSearch(proxy.getSession().getUser(), search);
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   objectsToRefresh  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public Collection<BaseEntity> refreshObjects(final Collection<BaseEntity> objectsToRefresh)
             throws ActionNotSuccessfulException {
         if (LOG.isDebugEnabled()) {
@@ -739,7 +765,14 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   objectToDelete  DOCUMENT ME!
+     * @param   userString      DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public void deleteEntity(final BaseEntity objectToDelete, final String userString)
             throws ActionNotSuccessfulException {
         if (objectToDelete != null) {
@@ -788,7 +821,14 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   objectsToDelete  DOCUMENT ME!
+     * @param   userString       DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public void deleteEntities(final Collection<BaseEntity> objectsToDelete, final String userString)
             throws ActionNotSuccessfulException {
         if (objectsToDelete != null) {
@@ -810,7 +850,15 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   bb  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public TreeSet getObjectsByBoundingBox(final BoundingBox bb) throws ActionNotSuccessfulException {
         final TreeSet result = new TreeSet(new ReverseComparator(
                     new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
@@ -850,20 +898,46 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   geom  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public Object getObjectsByGeom(final GeomCustomBean geom) throws ActionNotSuccessfulException {
 //        throw new UnsupportedOperationException("Not supported yet.");
         return null;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   standort  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public boolean checkIfStandortExists(final TdtaStandortMastCustomBean standort)
             throws ActionNotSuccessfulException {
 //        throw new UnsupportedOperationException("Not supported yet.");
         return false;
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   objectToLock  DOCUMENT ME!
+     * @param   userString    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     * @throws  LockAlreadyExistsException    DOCUMENT ME!
+     */
     public SperreCustomBean lockEntity(final BaseEntity objectToLock, final String userString)
             throws ActionNotSuccessfulException, LockAlreadyExistsException {
         try {
@@ -904,7 +978,17 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   objectsToLock  DOCUMENT ME!
+     * @param   userString     DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     * @throws  LockAlreadyExistsException    DOCUMENT ME!
+     */
     public Collection<SperreCustomBean> lockEntity(final Collection<BaseEntity> objectsToLock, final String userString)
             throws ActionNotSuccessfulException, LockAlreadyExistsException {
         final ArrayList<SperreCustomBean> lockedObjects = new ArrayList<SperreCustomBean>();
@@ -970,7 +1054,13 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   lockedObject  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public SperreCustomBean isEntityLocked(final BaseEntity lockedObject) {
         // datamodell refactoring 22.10.07
         if (lockedObject != null) {
@@ -1012,7 +1102,17 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   objectToLock  DOCUMENT ME!
+     * @param   userString    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     * @throws  LockAlreadyExistsException    DOCUMENT ME!
+     */
     public SperreCustomBean tryToLockEntity(final BaseEntity objectToLock, final String userString)
             throws ActionNotSuccessfulException, LockAlreadyExistsException {
         SperreCustomBean exisitingLock = null;
@@ -1026,7 +1126,13 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   holdedLock  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public void unlockEntity(final SperreCustomBean holdedLock) throws ActionNotSuccessfulException {
         try {
             if (holdedLock != null) {
@@ -1039,7 +1145,15 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   objectsToUnlock  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public Collection<Object> unlockEntity(final Collection<? extends BaseEntity> objectsToUnlock)
             throws ActionNotSuccessfulException {
         final ArrayList unsuccessfulUnlocking = new ArrayList();
@@ -1064,7 +1178,13 @@ public class CidsBroker implements BelisServerRemote {
         }
     }
 
-    @Override
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   objectToUnlock  DOCUMENT ME!
+     *
+     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     */
     public void unlockEntity(final BaseEntity objectToUnlock) throws ActionNotSuccessfulException {
         final SperreCustomBean entityLock = isEntityLocked(objectToUnlock);
         if (entityLock != null) {

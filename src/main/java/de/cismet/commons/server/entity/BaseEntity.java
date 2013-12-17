@@ -117,7 +117,7 @@ public class BaseEntity extends CidsBean {
     public String getHumanReadablePosition() {
         return "";
     }
-    
+
     /**
      * DOCUMENT ME!
      *
@@ -139,5 +139,4 @@ public class BaseEntity extends CidsBean {
             return sb.toString();
         }
     }
-    
 }
