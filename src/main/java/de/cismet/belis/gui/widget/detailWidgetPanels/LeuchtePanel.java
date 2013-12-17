@@ -31,7 +31,6 @@ import javax.swing.tree.TreePath;
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
-
 import de.cismet.belis.util.RendererTools;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
@@ -224,9 +223,10 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         cboLeuchteVerrechnungseinheit = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
 
-        lblLeuchte.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        lblLeuchte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/16/leuchte.png"))); // NOI18N
-        lblLeuchte.setText("Leuchte"); // NOI18N
+        lblLeuchte.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
+        lblLeuchte.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/leuchte.png"))); // NOI18N
+        lblLeuchte.setText("Leuchte");                                                     // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -242,24 +242,32 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxLeuchteStrassenschluesselNr.setEnabled(false);
         cbxLeuchteStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
-                    final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
-                    setText(ss.getPk());
+
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
+                        setText(ss.getPk());
+                    }
+                    return this;
                 }
-                return this;
-            }
-        });
+            });
         cbxLeuchteStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxLeuchteStrassenschluesselNrActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbxLeuchteStrassenschluesselNrActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -269,29 +277,42 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxLeuchteStrassenschluessel.setEnabled(false);
         cbxLeuchteStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
-                    final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss = (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
-                    setText(ss.getKeyString());
-                }
-                return this;
-            }
-        });
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"), cbxLeuchteStrassenschluessel, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
+                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
+                        setText(ss.getKeyString());
+                    }
+                    return this;
+                }
+            });
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
+                cbxLeuchteStrassenschluessel,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setValidator(new NotNullValidator("Strassenschlüssel"));
         bindingGroup.addBinding(binding);
 
         cbxLeuchteStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxLeuchteStrassenschluesselActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbxLeuchteStrassenschluesselActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridwidth = 2;
@@ -310,22 +331,34 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxLeuchteKennziffer.setEnabled(false);
         cbxLeuchteKennziffer.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean) {
-                    final de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean kzf = (de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean)value;
-                    setText(kzf.getKeyString());
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean kzf =
+                            (de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean)value;
+                        setText(kzf.getKeyString());
+                    }
+                    return this;
                 }
-                return this;
-            }
-        });
+            });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.kennziffer}"), cbxLeuchteKennziffer, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.kennziffer}"),
+                cbxLeuchteKennziffer,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "");
         binding.setValidator(new NotNullValidator("Kennziffer"));
         bindingGroup.addBinding(binding);
 
@@ -347,7 +380,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         txfLeuchteLaufendenummer.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"), txfLeuchteLaufendenummer, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
+                txfLeuchteLaufendenummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -368,7 +406,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         txtLeuchteLeuchtennummer.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.leuchtennummer}"), txtLeuchteLeuchtennummer, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.leuchtennummer}"),
+                txtLeuchteLeuchtennummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new LeuchtennummerValidator());
         bindingGroup.addBinding(binding);
 
@@ -390,21 +433,32 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxLeuchteEnergielieferant.setEnabled(false);
         cbxLeuchteEnergielieferant.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean) {
-                    final de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean el = (de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean)value;
-                    setText(el.getEnergielieferant());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.energielieferant}"), cbxLeuchteEnergielieferant, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean el =
+                            (de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean)value;
+                        setText(el.getEnergielieferant());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.energielieferant}"),
+                cbxLeuchteEnergielieferant,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -425,7 +479,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         txtLeuchteSchaltstelle.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.schaltstelle}"), txtLeuchteSchaltstelle, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.schaltstelle}"),
+                txtLeuchteSchaltstelle,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
@@ -447,21 +506,32 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxRundsteuerempfaenger.setEnabled(false);
         cbxRundsteuerempfaenger.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean) {
-                    final de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean el = (de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean)value;
-                    setText(el.getEnergielieferant());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.rundsteuerempfaenger}"), cbxRundsteuerempfaenger, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean el =
+                            (de.cismet.cids.custom.beans.belis2.TkeyEnergielieferantCustomBean)value;
+                        setText(el.getEnergielieferant());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.rundsteuerempfaenger}"),
+                cbxRundsteuerempfaenger,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -480,7 +550,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         dapEinbaudatum.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.einbaudatum}"), dapEinbaudatum, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.einbaudatum}"),
+                dapEinbaudatum,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -501,7 +576,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxLeuchteLeuchtentyp.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.leuchtentyp}"), cbxLeuchteLeuchtentyp, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.leuchtentyp}"),
+                cbxLeuchteLeuchtentyp,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -522,21 +602,32 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxLeuchteUnterhalt.setEnabled(false);
         cbxLeuchteUnterhalt.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean) {
-                    final de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean ul = (de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean)value;
-                    setText(ul.getUnterhaltspflichtigeLeuchte());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtLeuchte}"), cbxLeuchteUnterhalt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean ul =
+                            (de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean)value;
+                        setText(ul.getUnterhaltspflichtigeLeuchte());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtLeuchte}"),
+                cbxLeuchteUnterhalt,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -557,7 +648,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cboLeuchteZaehler.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zaehler}"), cboLeuchteZaehler, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zaehler}"),
+                cboLeuchteZaehler,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         bindingGroup.addBinding(binding);
 
@@ -579,7 +675,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         dapLeuchteInbetriebnahme.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahmeLeuchte}"), dapLeuchteInbetriebnahme, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahmeLeuchte}"),
+                dapLeuchteInbetriebnahme,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -601,21 +702,32 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxLeuchteDoppelkommando1.setEnabled(false);
         cbxLeuchteDoppelkommando1.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean) {
-                    final de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean dk = (de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean)value;
-                    setText(dk.getPk()+" - "+dk.getBeschreibung());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dk1}"), cbxLeuchteDoppelkommando1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean dk =
+                            (de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean)value;
+                        setText(dk.getPk() + " - " + dk.getBeschreibung());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dk1}"),
+                cbxLeuchteDoppelkommando1,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -628,7 +740,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         sprLeuchteDoppelkommando1Anzahl.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anzahl1DK}"), sprLeuchteDoppelkommando1Anzahl, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anzahl1DK}"),
+                sprLeuchteDoppelkommando1Anzahl,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         bindingGroup.addBinding(binding);
 
@@ -649,21 +766,32 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxLeuchteDoppelkommando2.setEnabled(false);
         cbxLeuchteDoppelkommando2.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean) {
-                    final de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean dk = (de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean)value;
-                    setText(dk.getPk()+" - "+dk.getBeschreibung());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dk2}"), cbxLeuchteDoppelkommando2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean dk =
+                            (de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean)value;
+                        setText(dk.getPk() + " - " + dk.getBeschreibung());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.dk2}"),
+                cbxLeuchteDoppelkommando2,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -676,7 +804,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         sprLeuchteDoppelkommando2Anzahl.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anzahl2DK}"), sprLeuchteDoppelkommando2Anzahl, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anzahl2DK}"),
+                sprLeuchteDoppelkommando2Anzahl,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         bindingGroup.addBinding(binding);
 
@@ -695,10 +828,16 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblAnschlussleistung1DK, gridBagConstraints);
 
-        txtAnschlussleistung1DK.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtAnschlussleistung1DK.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         txtAnschlussleistung1DK.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anschlussleistung_1dk}"), txtAnschlussleistung1DK, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anschlussleistung_1dk}"),
+                txtAnschlussleistung1DK,
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -716,7 +855,8 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblAnschlussleistung2DK, gridBagConstraints);
 
-        txtAnschlussleistung2DK.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtAnschlussleistung2DK.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         txtAnschlussleistung2DK.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -735,7 +875,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxLeuchtmittel.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.leuchtmittel}"), cbxLeuchtmittel, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.leuchtmittel}"),
+                cbxLeuchtmittel,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -756,7 +901,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         txtLebensdauer.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.lebensdauer}"), txtLebensdauer, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.lebensdauer}"),
+                txtLebensdauer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -777,7 +927,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         dapLeuchtmittelwechsel.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wechseldatum}"), dapLeuchtmittelwechsel, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wechseldatum}"),
+                dapLeuchtmittelwechsel,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -798,7 +953,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         dapNaechsterWechsel.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.naechster_wechsel}"), dapNaechsterWechsel, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.naechster_wechsel}"),
+                dapNaechsterWechsel,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -819,7 +979,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         dapSonderturnus.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wartungszyklus}"), dapSonderturnus, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wartungszyklus}"),
+                dapSonderturnus,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -840,7 +1005,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         dapWechselVorschaltgeraet.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wechselvorschaltgeraet}"), dapWechselVorschaltgeraet, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wechselvorschaltgeraet}"),
+                dapWechselVorschaltgeraet,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -861,7 +1031,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         txfVorschaltgeraet.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.vorschaltgeraet}"), txfVorschaltgeraet, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.vorschaltgeraet}"),
+                txfVorschaltgeraet,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -882,7 +1057,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         txfLeuchteMontagefirma.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.montageFirmaLeuchte}"), txfLeuchteMontagefirma, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.montageFirmaLeuchte}"),
+                txfLeuchteMontagefirma,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
@@ -906,7 +1086,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         txaLeuchteBemerkung.setRows(5);
         txaLeuchteBemerkung.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkungen}"), txaLeuchteBemerkung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkungen}"),
+                txaLeuchteBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
@@ -932,7 +1117,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         txfLeuchteStandortAngabe.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.standortangabe}"), txfLeuchteStandortAngabe, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.standortangabe}"),
+                txfLeuchteStandortAngabe,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -953,21 +1143,32 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cbxLeuchteStadtbezirk.setEnabled(false);
         cbxLeuchteStadtbezirk.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                final JList list,final Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(value == null){
-                    setText(comboBoxNullValue);
-                } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean) {
-                    final de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean sb = (de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean)value;
-                    setText(sb.getBezirk());
-                }
-                return this;
-            }
-        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.stadtbezirk}"), cbxLeuchteStadtbezirk, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                @Override
+                public Component getListCellRendererComponent(
+                        final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value == null) {
+                        setText(comboBoxNullValue);
+                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean) {
+                        final de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean sb =
+                            (de.cismet.cids.custom.beans.belis2.TkeyBezirkCustomBean)value;
+                        setText(sb.getBezirk());
+                    }
+                    return this;
+                }
+            });
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.stadtbezirk}"),
+                cbxLeuchteStadtbezirk,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -978,7 +1179,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(cbxLeuchteStadtbezirk, gridBagConstraints);
 
-        lblLeuchteVerrechnungseinheit.setText("V-Einheit:"); // NOI18N
+        lblLeuchteVerrechnungseinheit.setText("V-Einheit:");                 // NOI18N
         lblLeuchteVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -989,7 +1190,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
 
         cboLeuchteVerrechnungseinheit.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.verrechnungseinheit}"), cboLeuchteVerrechnungseinheit, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standort.verrechnungseinheit}"),
+                cboLeuchteVerrechnungseinheit,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         bindingGroup.addBinding(binding);
 
@@ -1009,16 +1215,18 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         gridBagConstraints.weightx = 1.0;
         add(panContent, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
-        );
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                550,
+                Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 145, Short.MAX_VALUE)
-        );
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                145,
+                Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1028,7 +1236,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         add(jPanel2, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     final void initPanel() {
@@ -1256,7 +1464,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxLeuchteStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLeuchteStrassenschluesselNrActionPerformed
+    private void cbxLeuchteStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxLeuchteStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -1267,14 +1475,14 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         } finally {
             isTriggerd = false;
         }
-    }//GEN-LAST:event_cbxLeuchteStrassenschluesselNrActionPerformed
+    }                                                                                                  //GEN-LAST:event_cbxLeuchteStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxLeuchteStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLeuchteStrassenschluesselActionPerformed
+    private void cbxLeuchteStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxLeuchteStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
@@ -1285,7 +1493,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         } finally {
             isTriggerd = false;
         }
-    }//GEN-LAST:event_cbxLeuchteStrassenschluesselActionPerformed
+    }                                                                                                //GEN-LAST:event_cbxLeuchteStrassenschluesselActionPerformed
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
