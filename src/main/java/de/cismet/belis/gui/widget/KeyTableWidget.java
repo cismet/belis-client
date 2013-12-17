@@ -11,16 +11,13 @@
  */
 package de.cismet.belis.gui.widget;
 
-import Sirius.navigator.method.MethodManager;
 import Sirius.navigator.resource.PropertyManager;
 import Sirius.navigator.types.treenode.DefaultMetaTreeNode;
-import Sirius.navigator.types.treenode.ObjectTreeNode;
 import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.navigator.ui.attributes.editor.AttributeEditor;
 import Sirius.navigator.ui.tree.MetaCatalogueTree;
 
 import Sirius.server.middleware.types.MetaObjectNode;
-import Sirius.server.newuser.permission.PermissionHolder;
 
 import org.apache.log4j.Logger;
 
@@ -30,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -57,6 +53,7 @@ public class KeyTableWidget extends BelisWidget implements TreeSelectionListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTree jTree1;
     private javax.swing.JPanel pnlPureTreeNode;
@@ -99,23 +96,30 @@ public class KeyTableWidget extends BelisWidget implements TreeSelectionListener
         final java.awt.GridBagConstraints gridBagConstraints;
 
         jSplitPane1 = new javax.swing.JSplitPane();
-        pnlValues = new javax.swing.JPanel();
-        pnlPureTreeNode = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = ComponentRegistry.getRegistry().getCatalogueTree();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        pnlValues = new javax.swing.JPanel();
+        pnlPureTreeNode = new javax.swing.JPanel();
 
         setLayout(new java.awt.GridBagLayout());
 
         jSplitPane1.setBorder(null);
 
-        pnlValues.setLayout(new java.awt.CardLayout());
-        pnlValues.add(pnlPureTreeNode, "PURE_TREE_NODE");
-
-        jSplitPane1.setRightComponent(pnlValues);
-
         jScrollPane1.setViewportView(jTree1);
 
         jSplitPane1.setLeftComponent(jScrollPane1);
+
+        pnlValues.setLayout(new java.awt.CardLayout());
+        pnlValues.add(pnlPureTreeNode, "PURE_TREE_NODE");
+
+        jScrollPane2.setViewportView(pnlValues);
+        pnlValues.getAccessibleContext()
+                .setAccessibleDescription(org.openide.util.NbBundle.getMessage(
+                        KeyTableWidget.class,
+                        "KeyTableWidget.pnlValues.AccessibleContext.accessibleDescription")); // NOI18N
+
+        jSplitPane1.setRightComponent(jScrollPane2);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
