@@ -1955,16 +1955,20 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (LOG.isDebugEnabled()) {
             LOG.debug("save");
         }
+
+        workbenchWidget.getNewObjects().removeAll(workbenchWidget.getObjectsToRemove());
+        workbenchWidget.getEditObjects().removeAll(workbenchWidget.getObjectsToRemove());
+        final Set<BaseEntity> savedObjects = new TreeSet<BaseEntity>(new ReverseComparator(new EntityComparator()));
         if (isInCreateMode()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(workbenchWidget.getNewObjects().size() + " Objects to Save");
             }
-            CidsBroker.getInstance().saveObjects(workbenchWidget.getNewObjects());
+            savedObjects.addAll(CidsBroker.getInstance().saveObjects(workbenchWidget.getNewObjects()));
         } else {
             if (LOG.isDebugEnabled()) {
                 LOG.debug(getCurrentSearchResults().size() + " Objects to Save");
             }
-            CidsBroker.getInstance().saveObjects(workbenchWidget.getEditObjects());
+            savedObjects.addAll(CidsBroker.getInstance().saveObjects(workbenchWidget.getEditObjects()));
         }
 
         CidsBroker.getInstance().deleteEntities(workbenchWidget.getObjectsToRemove(), getAccountName());
@@ -1982,11 +1986,17 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         // ToDo search Map for Objects
                     } else {
                     }
-                    // ToDo disabled Functionality 04.05.2009
-                    // workbenchWidget.moveNewObjectsAfterSave();
                     if (isInCreateMode()) {
-                        setCurrentSearchResults(new TreeSet());
+                        getCurrentSearchResults().addAll(savedObjects);
+                    } else {
+                        setCurrentSearchResults(savedObjects);
                     }
+//                    // ToDo disabled Functionality 04.05.2009
+//                    // workbenchWidget.moveNewObjectsAfterSave();
+//                    if (isInCreateMode()) {
+//                        setCurrentSearchResults(new TreeSet());
+//                        getWorkbenchWidget().refreshTreeArtifacts(WorkbenchWidget.REFRESH_SEARCH_RESULTS);
+//                    }
                 }
             };
 
@@ -1996,16 +2006,16 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             EventQueue.invokeAndWait(runnable);
         }
 
-        if (isInCreateMode()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("refreshing SearchResults. Doing mapsearch");
-            }
-            search(getMappingComponent().getCurrentBoundingBox());
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("not in createmode");
-            }
-        }
+//        if (isInCreateMode()) {
+//            if (LOG.isDebugEnabled()) {
+//                LOG.debug("refreshing SearchResults. Doing mapsearch");
+//            }
+//            search(getMappingComponent().getCurrentBoundingBox());
+//        } else {
+//            if (LOG.isDebugEnabled()) {
+//                LOG.debug("not in createmode");
+//            }
+//        }
         return null;
     }
 
