@@ -309,7 +309,20 @@ public class DetailWidget extends BelisWidget {
 //        arbeitsprotokollPanel.setPanelEditable(isEditable);
         panDokumente.setEditable(isEditable);
     }
+    
+    public void restoreChanges() {
+        if (panDokumente != null) {
+            panDokumente.restoreChanges();
+        }
+    }
 
+    
+    public void saveChanges() {
+        if (panDokumente != null) {
+            panDokumente.saveChanges();
+        }
+    }
+    
     /**
      * DOCUMENT ME!
      */

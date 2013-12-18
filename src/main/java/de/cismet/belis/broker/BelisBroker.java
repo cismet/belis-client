@@ -1998,6 +1998,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
 
         CidsBroker.getInstance().deleteEntities(workbenchWidget.getObjectsToRemove(), getAccountName());
+        detailWidget.saveChanges();
         if (LOG.isDebugEnabled()) {
             LOG.debug("Changes are saved");
         }
@@ -2092,6 +2093,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     }
                     // refreshMap();
                     workbenchWidget.restoreSelectedElementIfPossible();
+                    detailWidget.restoreChanges();
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Objects are refreshed");
                     }
