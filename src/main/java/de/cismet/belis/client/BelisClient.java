@@ -91,6 +91,7 @@ import de.cismet.tools.configuration.Configurable;
 import de.cismet.tools.configuration.ConfigurationManager;
 import de.cismet.tools.configuration.NoWriteError;
 
+import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 import de.cismet.tools.gui.startup.StaticStartupTools;
 
@@ -924,8 +925,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      */
     private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOptionsActionPerformed
         final OptionsDialog od = new OptionsDialog(this, true);
-        od.setLocationRelativeTo(this);
-        od.setVisible(true);
+        StaticSwingTools.showDialog(od);
     }                                                                              //GEN-LAST:event_mniOptionsActionPerformed
 
     /**
@@ -1159,55 +1159,55 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         DIRECTORYPATH_BELIS = directoryPath + fileSeparator + belisHomeName;
         FILEPATH_SCREEN = DIRECTORYPATH_BELIS + fileSeparator + "belis.screen";
 
-        final Thread t = new Thread() {
-
-                @Override
-                public void run() {
-                    if (!intranetUse.equals("true")) {
-                        try {
-                            WebAccessManager.getInstance().setTunnel(new CallServerTunnel("BELIS2"));
-                        } catch (Throwable e) {
-                            LOG.error("problem initializing WebaccessManager", e);
-                        }
-                    }
-                    configManager = new ConfigurationManager();
-                    configManager.setDefaultFileName(getPluginConfigurationFile());
-                    configManager.setFileName(getPluginConfigurationFile());
-                    configManager.setHome(directoryPath);
-                    configManager.setFolder(belisHomeName);
-                    configManager.setClassPathFolder(PLUGIN_CONFIGURATION_CLASSPATH);
+//        final Thread t = new Thread() {
+//
+//                @Override
+//                public void run() {
+        if (!intranetUse.equals("true")) {
+            try {
+                WebAccessManager.getInstance().setTunnel(new CallServerTunnel("BELIS2"));
+            } catch (Throwable e) {
+                LOG.error("problem initializing WebaccessManager", e);
+            }
+        }
+        configManager = new ConfigurationManager();
+        configManager.setDefaultFileName(getPluginConfigurationFile());
+        configManager.setFileName(getPluginConfigurationFile());
+        configManager.setHome(directoryPath);
+        configManager.setFolder(belisHomeName);
+        configManager.setClassPathFolder(PLUGIN_CONFIGURATION_CLASSPATH);
 
 //                    final LoginManager loginManager = new LoginManager();
 //
 //                    configManager.addConfigurable(loginManager);
 //                    configManager.configure(loginManager);
-                    configManager.addConfigurable(wa);
-                    configManager.configure(wa);
+        configManager.addConfigurable(wa);
+        configManager.configure(wa);
 
-                    try {
-                        final File ghostFrameFile = new File(FILEPATH_SCREEN + ".png");
+        try {
+            final File ghostFrameFile = new File(FILEPATH_SCREEN + ".png");
 
-                        if (!ghostFrameFile.exists()) {
-                            SPLASH = StaticStartupTools.showCustomGhostFrame(getClass().getResource(FIRST_START_IMAGE),
-                                    "belis [Startup]");
-                        } else {
-                            SPLASH = StaticStartupTools.showGhostFrame(FILEPATH_SCREEN, "belis [Startup]");
-                        }
-                        SPLASH.setLocationRelativeTo(null);
-                    } catch (Exception e) {
-                        LOG.warn("Problem beim Darstellen des Pre-Loading-Frame", e);
-                    }
+            if (!ghostFrameFile.exists()) {
+                SPLASH = StaticStartupTools.showCustomGhostFrame(BelisClient.class.getResource(FIRST_START_IMAGE),
+                        "belis [Startup]");
+            } else {
+                SPLASH = StaticStartupTools.showGhostFrame(FILEPATH_SCREEN, "belis [Startup]");
+            }
+            SPLASH.setLocationRelativeTo(null);
+        } catch (Exception e) {
+            LOG.warn("Problem beim Darstellen des Pre-Loading-Frame", e);
+        }
 
-                    try {
-                        handleLogin();
-                    } catch (Exception ex) {
-                        LOG.error("Fehler beim Loginframe", ex);
-                        System.exit(2);
-                    }
-                }
-            };
-        t.setPriority(Thread.NORM_PRIORITY);
-        t.start();
+        try {
+            handleLogin();
+        } catch (Exception ex) {
+            LOG.error("Fehler beim Loginframe", ex);
+            System.exit(2);
+        }
+//                }
+//            };
+//        t.setPriority(Thread.NORM_PRIORITY);
+//        t.start();
     }
 
     /**
@@ -1240,7 +1240,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                 login.setUserName(u);
             }
 
-            final JXLoginPane.JXLoginDialog d = new JXLoginPane.JXLoginDialog((JFrame)null, login);
+            final JXLoginPane.JXLoginDialog d = new JXLoginPane.JXLoginDialog(SPLASH, login);
             try {
                 final String loginTitle = JnlpSystemPropertyHelper.getProperty("login.title");
                 if (loginTitle != null) {
@@ -1261,7 +1261,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             d.setIconImage(applicationIcon);
             d.setAlwaysOnTop(true);
 
-            d.setVisible(true);
+            StaticSwingTools.showDialog(d);
 
             handleLoginStatus(d.getStatus(), usernames, login);
         } else {
