@@ -11,6 +11,9 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import org.jdesktop.observablecollections.ObservableList;
+import org.jdesktop.observablecollections.ObservableListListener;
+
 import java.awt.Color;
 import java.awt.Image;
 
@@ -688,6 +691,48 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEn
      * @param  leuchten  DOCUMENT ME!
      */
     public void setLeuchten(final Collection<TdtaLeuchtenCustomBean> leuchten) {
+        if (leuchten != null) {
+            for (final TdtaLeuchtenCustomBean leuchte : leuchten) {
+                if (leuchte != null) {
+                    leuchte.setFk_standort_backlink(this);
+                }
+            }
+            if (leuchten instanceof ObservableList) {
+                ((ObservableList)leuchten).addObservableListListener(new ObservableListListener() {
+
+                        @Override
+                        public void listElementsAdded(final ObservableList list, final int index, final int length) {
+                            for (int i = index; i < (index + length); ++i) {
+                                final Object object = list.get(i);
+                                if ((object != null) && (object instanceof TdtaLeuchtenCustomBean)) {
+                                    ((TdtaLeuchtenCustomBean)object).setFk_standort_backlink(
+                                        TdtaStandortMastCustomBean.this);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void listElementsRemoved(final ObservableList list,
+                                final int index,
+                                final List removedList) {
+                            for (final Object object : removedList) {
+                                if ((object != null) && (object instanceof TdtaLeuchtenCustomBean)) {
+                                    ((TdtaLeuchtenCustomBean)object).setFk_standort_backlink(null);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void listElementReplaced(final ObservableList ol, final int i, final Object o) {
+                        }
+
+                        @Override
+                        public void listElementPropertyChanged(final ObservableList ol, final int i) {
+                        }
+                    });
+            }
+        }
+
         final Collection<TdtaLeuchtenCustomBean> old = this.leuchten;
         this.leuchten = leuchten;
         this.propertyChangeSupport.firePropertyChange(PROP__LEUCHTEN, old, this.leuchten);

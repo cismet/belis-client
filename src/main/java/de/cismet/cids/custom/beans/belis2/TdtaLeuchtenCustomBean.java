@@ -144,6 +144,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
     private TkeyDoppelkommandoCustomBean fk_dk2;
     private Date inbetriebnahme_leuchte;
     private TdtaStandortMastCustomBean fk_standort;
+    private TdtaStandortMastCustomBean fk_standort_backlink;
     private Integer lfd_nummer;
     private TkeyKennzifferCustomBean fk_kennziffer;
     private Integer leuchtennummer;
@@ -601,7 +602,11 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
      * @return  DOCUMENT ME!
      */
     public TdtaStandortMastCustomBean getFk_standort() {
-        return fk_standort;
+        if (fk_standort == null) {
+            return getFk_standort_backlink();
+        } else {
+            return fk_standort;
+        }
     }
 
     /**
@@ -1233,6 +1238,24 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
      */
     public Date getEinbaudatum() {
         return einbaudatum;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public TdtaStandortMastCustomBean getFk_standort_backlink() {
+        return fk_standort_backlink;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fk_standort_backlink  DOCUMENT ME!
+     */
+    public void setFk_standort_backlink(final TdtaStandortMastCustomBean fk_standort_backlink) {
+        this.fk_standort_backlink = fk_standort_backlink;
     }
 
     /**
