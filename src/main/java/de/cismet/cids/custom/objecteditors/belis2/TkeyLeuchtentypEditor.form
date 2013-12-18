@@ -95,7 +95,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtTypenbezeichnung">
           <BindingProperties>
-            <BindingProperty name="text" source="Form" sourcePath="${cidsBean.typbenbezeichnung}" target="txtTypenbezeichnung" targetPath="text" updateStrategy="0" immediately="false">
+            <BindingProperty name="text" source="Form" sourcePath="${cidsBean.typenbezeichnung}" target="txtTypenbezeichnung" targetPath="text" updateStrategy="0" immediately="false">
               <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
             </BindingProperty>
           </BindingProperties>

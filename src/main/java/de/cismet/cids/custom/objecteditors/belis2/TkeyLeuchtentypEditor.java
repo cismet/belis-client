@@ -15,13 +15,6 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import org.apache.log4j.Logger;
 
-import de.cismet.belis.commons.constants.BelisMetaClassConstants;
-
-import de.cismet.belis.gui.documentpanel.DocumentPanel;
-
-import de.cismet.cids.client.tools.DevelopmentTools;
-
-import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -187,7 +180,7 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typbenbezeichnung}"),
+                org.jdesktop.beansbinding.ELProperty.create("${cidsBean.typenbezeichnung}"),
                 txtTypenbezeichnung,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -469,24 +462,5 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
 
     @Override
     public void setTitle(final String title) {
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   args  DOCUMENT ME!
-     *
-     * @throws  Exception  DOCUMENT ME!
-     */
-    public static void main(final String[] args) throws Exception {
-        DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
-            BelisMetaClassConstants.DOMAIN,
-            "Bearbeiter",
-            "JoettenK",
-            "jkbelis",
-            TkeyLeuchtentypCustomBean.TABLE,
-            1,
-            1280,
-            1024);
     }
 }

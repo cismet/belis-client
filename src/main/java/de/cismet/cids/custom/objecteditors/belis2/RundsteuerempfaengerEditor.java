@@ -17,11 +17,6 @@ import org.apache.log4j.Logger;
 
 import org.jdesktop.beansbinding.Converter;
 
-import de.cismet.belis.commons.constants.BelisMetaClassConstants;
-
-import de.cismet.cids.client.tools.DevelopmentTools;
-
-import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -240,25 +235,6 @@ public class RundsteuerempfaengerEditor extends javax.swing.JPanel implements Re
 
     @Override
     public void setTitle(final String title) {
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   args  DOCUMENT ME!
-     *
-     * @throws  Exception  DOCUMENT ME!
-     */
-    public static void main(final String[] args) throws Exception {
-        DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
-            BelisMetaClassConstants.DOMAIN,
-            "Bearbeiter",
-            "JoettenK",
-            "jkbelis",
-            RundsteuerempfaengerCustomBean.TABLE,
-            1,
-            1280,
-            1024);
     }
 
     //~ Inner Classes ----------------------------------------------------------

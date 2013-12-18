@@ -15,11 +15,6 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import org.apache.log4j.Logger;
 
-import de.cismet.belis.commons.constants.BelisMetaClassConstants;
-
-import de.cismet.cids.client.tools.DevelopmentTools;
-
-import de.cismet.cids.custom.beans.belis2.TkeyMasttypCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -291,24 +286,5 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
 
     @Override
     public void setTitle(final String title) {
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   args  DOCUMENT ME!
-     *
-     * @throws  Exception  DOCUMENT ME!
-     */
-    public static void main(final String[] args) throws Exception {
-        DevelopmentTools.createEditorInFrameFromRMIConnectionOnLocalhost(
-            BelisMetaClassConstants.DOMAIN,
-            "Bearbeiter",
-            "JoettenK",
-            "jkbelis",
-            TkeyMasttypCustomBean.TABLE,
-            1,
-            1280,
-            1024);
     }
 }
