@@ -235,8 +235,9 @@ public class DetailWidget extends BelisWidget {
                 LOG.debug("CurrentEntity is Arbeitsprotokoll");
             }
             if (parentEntity instanceof ArbeitsauftragCustomBean) {
-                arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
                 arbeitsauftragPanel.setSelectedProtokoll((ArbeitsprotokollCustomBean)currentEntity);
+
+                arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
                 currentDetailWidgetPanel = arbeitsauftragPanel;
             } else {
                 LOG.error("parent of protokoll node should be an auftrags node");
