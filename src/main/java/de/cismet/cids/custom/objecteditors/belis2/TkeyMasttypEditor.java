@@ -15,7 +15,6 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import org.apache.log4j.Logger;
 
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
@@ -46,11 +45,11 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
     private javax.swing.JLabel lblMasttyp;
     private javax.swing.JLabel lblWandstaerke;
     private javax.swing.JPanel pnlCard2;
-    private javax.swing.JSpinner spinLph;
-    private javax.swing.JSpinner spinWandstaerke;
     private javax.swing.JTextField txtBezeichnung;
     private javax.swing.JTextField txtHersteller;
+    private javax.swing.JFormattedTextField txtLph;
     private javax.swing.JTextField txtMasttyp;
+    private javax.swing.JFormattedTextField txtWandstaerke;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -86,9 +85,9 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         lblHersteller = new javax.swing.JLabel();
         txtHersteller = new javax.swing.JTextField();
         lblWandstaerke = new javax.swing.JLabel();
-        spinWandstaerke = new javax.swing.JSpinner();
+        txtWandstaerke = new javax.swing.JFormattedTextField();
         lblLph = new javax.swing.JLabel();
-        spinLph = new javax.swing.JSpinner();
+        txtLph = new javax.swing.JFormattedTextField();
         lblDokumente = new javax.swing.JLabel();
         documentPanel1 = new de.cismet.belis.gui.documentpanel.DocumentPanel();
 
@@ -181,22 +180,22 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblWandstaerke, gridBagConstraints);
 
+        txtWandstaerke.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.IntegerNumberFormatter()));
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.wandstaerke}"),
-                spinWandstaerke,
+                txtWandstaerke,
                 org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
-        pnlCard2.add(spinWandstaerke, gridBagConstraints);
+        pnlCard2.add(txtWandstaerke, gridBagConstraints);
 
         lblLph.setText(org.openide.util.NbBundle.getMessage(TkeyMasttypEditor.class, "TkeyMasttypEditor.lblLph.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -205,24 +204,22 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLph, gridBagConstraints);
 
-        spinLph.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        txtLph.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.DoubleNumberFormatter()));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.lph}"),
-                spinLph,
+                txtLph,
                 org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
-        pnlCard2.add(spinLph, gridBagConstraints);
+        pnlCard2.add(txtLph, gridBagConstraints);
 
         lblDokumente.setText(org.openide.util.NbBundle.getMessage(
                 TkeyMasttypEditor.class,
@@ -246,7 +243,6 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         pnlCard2.add(documentPanel1, gridBagConstraints);

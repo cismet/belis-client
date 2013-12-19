@@ -90,18 +90,23 @@ public class DetailWidget extends BelisWidget {
      * Creates a new DetailWidget object.
      */
     public DetailWidget() {
-        setWidgetName("Details");
-        initComponents();
+        try {
+            setWidgetName("Details");
+            initComponents();
 
-        standortPanel = new StandortPanel();
-        leuchtePanel = new LeuchtePanel();
-        leitungPanel = new LeitungPanel();
-        abzweigdosePanel = new AbzweigdosePanel();
-        mauerlaschePanel = new MauerlaschePanel();
-        schaltstellePanel = new SchaltstellePanel();
-        veranlassungPanel = new VeranlassungPanel();
-        arbeitsauftragPanel = new ArbeitsauftragPanel();
-        arbeitsprotokollPanel = new ArbeitsprotokollPanel();
+            standortPanel = new StandortPanel();
+            leuchtePanel = new LeuchtePanel();
+            leitungPanel = new LeitungPanel();
+            abzweigdosePanel = new AbzweigdosePanel();
+            mauerlaschePanel = new MauerlaschePanel();
+            schaltstellePanel = new SchaltstellePanel();
+            veranlassungPanel = new VeranlassungPanel();
+            arbeitsauftragPanel = new ArbeitsauftragPanel();
+            arbeitsprotokollPanel = new ArbeitsprotokollPanel();
+        } catch (final RuntimeException ex) {
+            LOG.fatal("error while initializing DetailWidget", ex);
+            throw ex;
+        }
     }
 
     //~ Methods ----------------------------------------------------------------

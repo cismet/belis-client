@@ -18,6 +18,7 @@ import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 
 import java.awt.Component;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 
 import java.util.Collection;
@@ -30,6 +31,8 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis.gui.utils.IntegerNumberFormatter;
 
 import de.cismet.belis.util.RendererTools;
 
@@ -115,8 +118,6 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     private javax.swing.JLabel lblWechselVorschaltgeraet;
     private javax.swing.JPanel panContent;
     private javax.swing.JScrollPane scpLeuchteBemerkung;
-    private javax.swing.JSpinner sprLeuchteDoppelkommando1Anzahl;
-    private javax.swing.JSpinner sprLeuchteDoppelkommando2Anzahl;
     private javax.swing.JTextArea txaLeuchteBemerkung;
     private javax.swing.JTextField txfLeuchteLaufendenummer;
     private javax.swing.JTextField txfLeuchteMontagefirma;
@@ -124,7 +125,9 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
     private javax.swing.JTextField txfVorschaltgeraet;
     private javax.swing.JFormattedTextField txtAnschlussleistung1DK;
     private javax.swing.JFormattedTextField txtAnschlussleistung2DK;
-    private javax.swing.JTextField txtLebensdauer;
+    private javax.swing.JFormattedTextField txtLebensdauer;
+    private javax.swing.JFormattedTextField txtLeuchteDoppelkommando1Anzahl;
+    private javax.swing.JFormattedTextField txtLeuchteDoppelkommando2Anzahl;
     private javax.swing.JTextField txtLeuchteLeuchtennummer;
     private javax.swing.JTextField txtLeuchteSchaltstelle;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -140,6 +143,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         initComponents();
         initComponentToLabelMap();
         initPanel();
+        NumberFormat.getIntegerInstance().setMaximumFractionDigits(0);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -188,10 +192,10 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         dapLeuchteInbetriebnahme = new org.jdesktop.swingx.JXDatePicker();
         lblLeuchteDoppelkommando1 = new javax.swing.JLabel();
         cbxLeuchteDoppelkommando1 = new javax.swing.JComboBox();
-        sprLeuchteDoppelkommando1Anzahl = new javax.swing.JSpinner();
+        txtLeuchteDoppelkommando1Anzahl = new javax.swing.JFormattedTextField();
         lblLeuchteDoppelkommando2 = new javax.swing.JLabel();
         cbxLeuchteDoppelkommando2 = new javax.swing.JComboBox();
-        sprLeuchteDoppelkommando2Anzahl = new javax.swing.JSpinner();
+        txtLeuchteDoppelkommando2Anzahl = new javax.swing.JFormattedTextField();
         lblAnschlussleistung1DK = new javax.swing.JLabel();
         txtAnschlussleistung1DK = new javax.swing.JFormattedTextField();
         lblAnschlussleistung2DK = new javax.swing.JLabel();
@@ -199,7 +203,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         lblLeuchtmittel = new javax.swing.JLabel();
         cbxLeuchtmittel = new javax.swing.JComboBox();
         lblLebensdauer = new javax.swing.JLabel();
-        txtLebensdauer = new javax.swing.JTextField();
+        txtLebensdauer = new javax.swing.JFormattedTextField();
         lblLeuchtmittelwechsel = new javax.swing.JLabel();
         dapLeuchtmittelwechsel = new org.jdesktop.swingx.JXDatePicker();
         lblNaechsterWechsel = new javax.swing.JLabel();
@@ -358,7 +362,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.kennziffer}"),
                 cbxLeuchteKennziffer,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
-                "");
+                "kennziffer");
         binding.setValidator(new NotNullValidator("Kennziffer"));
         bindingGroup.addBinding(binding);
 
@@ -738,23 +742,25 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(cbxLeuchteDoppelkommando1, gridBagConstraints);
 
-        sprLeuchteDoppelkommando1Anzahl.setEnabled(false);
+        txtLeuchteDoppelkommando1Anzahl.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.IntegerNumberFormatter()));
+        txtLeuchteDoppelkommando1Anzahl.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anzahl1DK}"),
-                sprLeuchteDoppelkommando1Anzahl,
-                org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
+                txtLeuchteDoppelkommando1Anzahl,
+                org.jdesktop.beansbinding.BeanProperty.create("value"),
+                "anzahl1DK");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(sprLeuchteDoppelkommando1Anzahl, gridBagConstraints);
+        panContent.add(txtLeuchteDoppelkommando1Anzahl, gridBagConstraints);
 
         lblLeuchteDoppelkommando2.setText("Doppelkomando 2:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -802,23 +808,25 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(cbxLeuchteDoppelkommando2, gridBagConstraints);
 
-        sprLeuchteDoppelkommando2Anzahl.setEnabled(false);
+        txtLeuchteDoppelkommando2Anzahl.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.IntegerNumberFormatter()));
+        txtLeuchteDoppelkommando2Anzahl.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anzahl2DK}"),
-                sprLeuchteDoppelkommando2Anzahl,
-                org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
+                txtLeuchteDoppelkommando2Anzahl,
+                org.jdesktop.beansbinding.BeanProperty.create("value"),
+                "anzahl2DK");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(sprLeuchteDoppelkommando2Anzahl, gridBagConstraints);
+        panContent.add(txtLeuchteDoppelkommando2Anzahl, gridBagConstraints);
 
         lblAnschlussleistung1DK.setText("Anschlussleistung 1DK:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -829,7 +837,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         panContent.add(lblAnschlussleistung1DK, gridBagConstraints);
 
         txtAnschlussleistung1DK.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
-                new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+                new de.cismet.belis.gui.utils.DoubleNumberFormatter()));
         txtAnschlussleistung1DK.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -837,7 +845,8 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anschlussleistung_1dk}"),
                 txtAnschlussleistung1DK,
-                org.jdesktop.beansbinding.BeanProperty.create("value"));
+                org.jdesktop.beansbinding.BeanProperty.create("value"),
+                "anschlussleistung_1dk");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -856,8 +865,18 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         panContent.add(lblAnschlussleistung2DK, gridBagConstraints);
 
         txtAnschlussleistung2DK.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
-                new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+                new de.cismet.belis.gui.utils.DoubleNumberFormatter()));
         txtAnschlussleistung2DK.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anschlussleistung_2dk}"),
+                txtAnschlussleistung2DK,
+                org.jdesktop.beansbinding.BeanProperty.create("value"),
+                "anschlussleistung_2dk");
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridwidth = 3;
@@ -899,6 +918,8 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblLebensdauer, gridBagConstraints);
 
+        txtLebensdauer.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.DoubleNumberFormatter()));
         txtLebensdauer.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -906,14 +927,13 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.lebensdauer}"),
                 txtLebensdauer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtLebensdauer, gridBagConstraints);
 
@@ -1225,7 +1245,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                145,
+                147,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1351,12 +1371,12 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
             LOG.warn("Error while commiting edits: " + ex);
         }
         try {
-            sprLeuchteDoppelkommando1Anzahl.commitEdit();
+            txtLeuchteDoppelkommando1Anzahl.commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
         try {
-            sprLeuchteDoppelkommando2Anzahl.commitEdit();
+            txtLeuchteDoppelkommando2Anzahl.commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
@@ -1399,8 +1419,8 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         componentToLabelMap.put(cbxLeuchteStrassenschluesselNr, lblLeuchteStrassenschluessel);
         componentToLabelMap.put(cbxLeuchteUnterhalt, lblLeuchteUnterhalt);
         componentToLabelMap.put(dapLeuchteInbetriebnahme, lblLeuchteInbetriebnahme);
-        componentToLabelMap.put(sprLeuchteDoppelkommando1Anzahl, lblLeuchteDoppelkommando1);
-        componentToLabelMap.put(sprLeuchteDoppelkommando2Anzahl, lblLeuchteDoppelkommando2);
+        componentToLabelMap.put(txtLeuchteDoppelkommando1Anzahl, lblLeuchteDoppelkommando1);
+        componentToLabelMap.put(txtLeuchteDoppelkommando2Anzahl, lblLeuchteDoppelkommando2);
         componentToLabelMap.put(txaLeuchteBemerkung, lblLeuchteBemerkung);
         componentToLabelMap.put(txfLeuchteLaufendenummer, lblLeuchteLaufendenummer);
         componentToLabelMap.put(txfLeuchteMontagefirma, lblLeuchteMontagefirma);
@@ -1507,8 +1527,8 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
         RendererTools.setEditable(cbxLeuchteLeuchtentyp, isEditable);
         RendererTools.setEditable(cbxLeuchteDoppelkommando1, isEditable);
         RendererTools.setEditable(cbxLeuchteDoppelkommando2, isEditable);
-        RendererTools.setEditable(sprLeuchteDoppelkommando1Anzahl, isEditable);
-        RendererTools.setEditable(sprLeuchteDoppelkommando2Anzahl, isEditable);
+        RendererTools.setEditable(txtLeuchteDoppelkommando1Anzahl, isEditable);
+        RendererTools.setEditable(txtLeuchteDoppelkommando2Anzahl, isEditable);
         RendererTools.setEditable(txfLeuchteMontagefirma, isEditable);
         RendererTools.setEditable(txaLeuchteBemerkung, isEditable);
         if ((belisBroker.getWorkbenchWidget() != null)

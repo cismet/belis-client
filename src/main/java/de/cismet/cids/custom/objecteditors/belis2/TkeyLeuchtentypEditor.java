@@ -15,7 +15,6 @@ import Sirius.navigator.ui.RequestsFullSizeComponent;
 
 import org.apache.log4j.Logger;
 
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
@@ -51,13 +50,13 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
     private javax.swing.JLabel lblTypenbezeichnung;
     private javax.swing.JLabel lblVorschaltgeraet;
     private javax.swing.JPanel pnlCard2;
-    private javax.swing.JSpinner spinBestueckung;
-    private javax.swing.JSpinner spinLeistung;
-    private javax.swing.JSpinner spinLeistungBrutto;
-    private javax.swing.JSpinner spinLeistungReduziert;
-    private javax.swing.JSpinner spinLeistungReduziertBrutto;
+    private javax.swing.JFormattedTextField txtBestueckung;
     private javax.swing.JTextField txtFabrikat;
     private javax.swing.JTextField txtLampe;
+    private javax.swing.JFormattedTextField txtLeistung;
+    private javax.swing.JFormattedTextField txtLeistungBrutto;
+    private javax.swing.JFormattedTextField txtLeistungReduziert;
+    private javax.swing.JFormattedTextField txtLeistungReduziertBrutto;
     private javax.swing.JTextField txtLeuchtentyp;
     private javax.swing.JTextField txtTypenbezeichnung;
     private javax.swing.JTextField txtVorschaltgeraet;
@@ -96,15 +95,15 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         lblTypenbezeichnung = new javax.swing.JLabel();
         txtTypenbezeichnung = new javax.swing.JTextField();
         lblBestueckung = new javax.swing.JLabel();
-        spinBestueckung = new javax.swing.JSpinner();
+        txtBestueckung = new javax.swing.JFormattedTextField();
         lblLeistung = new javax.swing.JLabel();
-        spinLeistung = new javax.swing.JSpinner();
+        txtLeistung = new javax.swing.JFormattedTextField();
         lblLeistungBrutto = new javax.swing.JLabel();
-        spinLeistungBrutto = new javax.swing.JSpinner();
+        txtLeistungBrutto = new javax.swing.JFormattedTextField();
         lblLeistungReduziert = new javax.swing.JLabel();
-        spinLeistungReduziert = new javax.swing.JSpinner();
+        txtLeistungReduziert = new javax.swing.JFormattedTextField();
         lblLeistungReduziertBrutto = new javax.swing.JLabel();
-        spinLeistungReduziertBrutto = new javax.swing.JSpinner();
+        txtLeistungReduziertBrutto = new javax.swing.JFormattedTextField();
         lblLampe = new javax.swing.JLabel();
         txtLampe = new javax.swing.JTextField();
         lblVorschaltgeraet = new javax.swing.JLabel();
@@ -201,28 +200,22 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblBestueckung, gridBagConstraints);
 
-        spinBestueckung.setModel(new javax.swing.SpinnerNumberModel(
-                Double.valueOf(0.0d),
-                null,
-                null,
-                Double.valueOf(1.0d)));
+        txtBestueckung.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.DoubleNumberFormatter()));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.bestueckung}"),
-                spinBestueckung,
+                txtBestueckung,
                 org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
-        pnlCard2.add(spinBestueckung, gridBagConstraints);
+        pnlCard2.add(txtBestueckung, gridBagConstraints);
 
         lblLeistung.setText(org.openide.util.NbBundle.getMessage(
                 TkeyLeuchtentypEditor.class,
@@ -233,28 +226,22 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLeistung, gridBagConstraints);
 
-        spinLeistung.setModel(new javax.swing.SpinnerNumberModel(
-                Double.valueOf(0.0d),
-                null,
-                null,
-                Double.valueOf(1.0d)));
+        txtLeistung.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.DoubleNumberFormatter()));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung}"),
-                spinLeistung,
+                txtLeistung,
                 org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
-        pnlCard2.add(spinLeistung, gridBagConstraints);
+        pnlCard2.add(txtLeistung, gridBagConstraints);
 
         lblLeistungBrutto.setText(org.openide.util.NbBundle.getMessage(
                 TkeyLeuchtentypEditor.class,
@@ -265,28 +252,22 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLeistungBrutto, gridBagConstraints);
 
-        spinLeistungBrutto.setModel(new javax.swing.SpinnerNumberModel(
-                Double.valueOf(0.0d),
-                null,
-                null,
-                Double.valueOf(1.0d)));
+        txtLeistungBrutto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.DoubleNumberFormatter()));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung_brutto}"),
-                spinLeistungBrutto,
+                txtLeistungBrutto,
                 org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
-        pnlCard2.add(spinLeistungBrutto, gridBagConstraints);
+        pnlCard2.add(txtLeistungBrutto, gridBagConstraints);
 
         lblLeistungReduziert.setText(org.openide.util.NbBundle.getMessage(
                 TkeyLeuchtentypEditor.class,
@@ -297,28 +278,22 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLeistungReduziert, gridBagConstraints);
 
-        spinLeistungReduziert.setModel(new javax.swing.SpinnerNumberModel(
-                Double.valueOf(0.0d),
-                null,
-                null,
-                Double.valueOf(1.0d)));
+        txtLeistungReduziert.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.DoubleNumberFormatter()));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung_reduziert}"),
-                spinLeistungReduziert,
+                txtLeistungReduziert,
                 org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
-        pnlCard2.add(spinLeistungReduziert, gridBagConstraints);
+        pnlCard2.add(txtLeistungReduziert, gridBagConstraints);
 
         lblLeistungReduziertBrutto.setText(org.openide.util.NbBundle.getMessage(
                 TkeyLeuchtentypEditor.class,
@@ -329,28 +304,22 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblLeistungReduziertBrutto, gridBagConstraints);
 
-        spinLeistungReduziertBrutto.setModel(new javax.swing.SpinnerNumberModel(
-                Double.valueOf(0.0d),
-                null,
-                null,
-                Double.valueOf(1.0d)));
+        txtLeistungReduziertBrutto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.DoubleNumberFormatter()));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.leistung_brutto_reduziert}"),
-                spinLeistungReduziertBrutto,
+                txtLeistungReduziertBrutto,
                 org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
-        pnlCard2.add(spinLeistungReduziertBrutto, gridBagConstraints);
+        pnlCard2.add(txtLeistungReduziertBrutto, gridBagConstraints);
 
         lblLampe.setText(org.openide.util.NbBundle.getMessage(
                 TkeyLeuchtentypEditor.class,
@@ -422,7 +391,6 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         pnlCard2.add(documentPanel1, gridBagConstraints);

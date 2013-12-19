@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 
 import org.jdesktop.beansbinding.Converter;
 
-
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultCustomObjectEditor;
@@ -47,7 +46,7 @@ public class RundsteuerempfaengerEditor extends javax.swing.JPanel implements Re
     private javax.swing.JLabel lblProgramm;
     private javax.swing.JLabel lblRsTyp;
     private javax.swing.JPanel pnlCard2;
-    private javax.swing.JSpinner spinAnschlusswert;
+    private javax.swing.JFormattedTextField txtAnschlusswert;
     private javax.swing.JTextField txtHerrstellerRs;
     private javax.swing.JTextField txtRsTyp;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -83,7 +82,7 @@ public class RundsteuerempfaengerEditor extends javax.swing.JPanel implements Re
         lblRsTyp = new javax.swing.JLabel();
         txtRsTyp = new javax.swing.JTextField();
         lblAnschlusswert = new javax.swing.JLabel();
-        spinAnschlusswert = new javax.swing.JSpinner();
+        txtAnschlusswert = new javax.swing.JFormattedTextField();
         lblProgramm = new javax.swing.JLabel();
         cboProgramm = new javax.swing.JComboBox();
 
@@ -152,28 +151,22 @@ public class RundsteuerempfaengerEditor extends javax.swing.JPanel implements Re
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
         pnlCard2.add(lblAnschlusswert, gridBagConstraints);
 
-        spinAnschlusswert.setModel(new javax.swing.SpinnerNumberModel(
-                Double.valueOf(0.0d),
-                null,
-                null,
-                Double.valueOf(1.0d)));
+        txtAnschlusswert.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(
+                new de.cismet.belis.gui.utils.DoubleNumberFormatter()));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${cidsBean.anschlusswert}"),
-                spinAnschlusswert,
+                txtAnschlusswert,
                 org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setSourceNullValue(0);
-        binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
-        pnlCard2.add(spinAnschlusswert, gridBagConstraints);
+        pnlCard2.add(txtAnschlusswert, gridBagConstraints);
 
         lblProgramm.setText(org.openide.util.NbBundle.getMessage(
                 RundsteuerempfaengerEditor.class,
