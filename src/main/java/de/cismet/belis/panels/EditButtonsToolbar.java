@@ -11,6 +11,8 @@
  */
 package de.cismet.belis.panels;
 
+import Sirius.navigator.connection.SessionManager;
+
 import javax.swing.JOptionPane;
 
 import de.cismet.belis.broker.BelisBroker;
