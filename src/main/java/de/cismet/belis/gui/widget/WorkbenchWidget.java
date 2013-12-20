@@ -571,6 +571,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
 
                 jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(newObjectsNode)));
+                jttHitTable.getTreeSelectionModel()
+                        .setSelectionPath(new TreePath(treeTableModel.getPathToRoot(newObjectsNode)));
             } else {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Configuring Workbench for EditMode");
