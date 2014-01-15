@@ -13,7 +13,11 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -29,6 +33,13 @@ import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
 public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokollWizard {
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXDatePicker dapErneuertAm;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField txtVorschaltgeraet;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -48,15 +59,50 @@ public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokol
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
-    } // </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabel1 = new javax.swing.JLabel();
+        dapErneuertAm = new org.jdesktop.swingx.JXDatePicker();
+        jLabel2 = new javax.swing.JLabel();
+        txtVorschaltgeraet = new javax.swing.JTextField();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(
+                LeuchteVorschaltgeraetwechselWizard.class,
+                "LeuchteVorschaltgeraetwechselWizard.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(dapErneuertAm, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel2,
+            org.openide.util.NbBundle.getMessage(
+                LeuchteVorschaltgeraetwechselWizard.class,
+                "LeuchteVorschaltgeraetwechselWizard.jLabel2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(txtVorschaltgeraet, gridBagConstraints);
+    }                                                                 // </editor-fold>//GEN-END:initComponents
 
     @Override
     public Class getEntityClass() {
@@ -70,19 +116,51 @@ public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokol
 
     @Override
     public Action getAction() {
-        return new AbstractAction("Vorschaltgerätwechsel") {
+        return new AbstractAction(getTitle()) {
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
-                                                                                   // methods, choose Tools | Templates.
+                    clear();
+                    showDialog();
                 }
             };
     }
 
     @Override
+    protected void clear() {
+        dapErneuertAm.setDate(null);
+        txtVorschaltgeraet.setText(null);
+    }
+
+    @Override
     protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
-                                                                          // Tools | Templates.
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+        final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
+
+        final Date altErneuertAm = leuchte.getWechselvorschaltgeraet();
+        final String altVorschaltgeraet = leuchte.getVorschaltgeraet();
+
+        final Date neuErneuertAm = dapErneuertAm.getDate();
+        final String neuVorschaltgeraet = txtVorschaltgeraet.getText();
+
+        leuchte.setWechselvorschaltgeraet(neuErneuertAm);
+        leuchte.setVorschaltgeraet(neuVorschaltgeraet);
+
+        final ArbeitsprotokollaktionCustomBean erneuertAmAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        erneuertAmAktion.setAenderung("Erneuerung Vorschaltgerät");
+        erneuertAmAktion.setAlt((altErneuertAm != null) ? dateFormat.format(altErneuertAm) : null);
+        erneuertAmAktion.setNeu(dateFormat.format(neuErneuertAm));
+
+        final ArbeitsprotokollaktionCustomBean vorschaltgeraetAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        vorschaltgeraetAktion.setAenderung("Vorschaltgerät");
+        vorschaltgeraetAktion.setAlt(altVorschaltgeraet);
+        vorschaltgeraetAktion.setNeu(neuVorschaltgeraet);
+
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
+        aktionen.add(erneuertAmAktion);
+        aktionen.add(vorschaltgeraetAktion);
+
+        return aktionen;
     }
 }

@@ -161,7 +161,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
     private LeuchtmittelCustomBean leuchtmittel;
     private Double lebensdauer;
     private Date wechseldatum;
-    private Double wartungszyklus;
+    private Date wartungszyklus;
     private Date wechselvorschaltgeraet;
     private Date naechster_wechsel;
     private String vorschaltgeraet;
@@ -1136,7 +1136,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
      *
      * @return  DOCUMENT ME!
      */
-    public Double getWartungszyklus() {
+    public Date getWartungszyklus() {
         return wartungszyklus;
     }
 
@@ -1145,8 +1145,8 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
      *
      * @param  wartungszyklus  DOCUMENT ME!
      */
-    public void setWartungszyklus(final Double wartungszyklus) {
-        final Double old = this.wartungszyklus;
+    public void setWartungszyklus(final Date wartungszyklus) {
+        final Date old = this.wartungszyklus;
         this.wartungszyklus = wartungszyklus;
         this.propertyChangeSupport.firePropertyChange(PROP__WARTUNGSZYKLUS, old, this.wartungszyklus);
     }

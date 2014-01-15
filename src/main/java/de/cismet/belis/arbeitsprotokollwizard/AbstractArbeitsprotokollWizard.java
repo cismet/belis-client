@@ -114,4 +114,10 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
     public void removeListener(final ActionListener listener) {
         listeners.remove(listener);
     }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void clear() {
+    }
 }

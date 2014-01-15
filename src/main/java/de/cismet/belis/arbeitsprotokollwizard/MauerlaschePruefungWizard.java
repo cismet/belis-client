@@ -13,7 +13,11 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -29,6 +33,11 @@ import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
 public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXDatePicker dapPruefung;
+    private javax.swing.JLabel jLabel1;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -48,15 +57,31 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
-    } // </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabel1 = new javax.swing.JLabel();
+        dapPruefung = new org.jdesktop.swingx.JXDatePicker();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(
+                MauerlaschePruefungWizard.class,
+                "MauerlaschePruefungWizard.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(dapPruefung, gridBagConstraints);
+    }                                                       // </editor-fold>//GEN-END:initComponents
 
     @Override
     public Class getEntityClass() {
@@ -70,19 +95,40 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
 
     @Override
     public Action getAction() {
-        return new AbstractAction("Prüfung") {
+        return new AbstractAction(getTitle()) {
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
-                                                                                   // methods, choose Tools | Templates.
+                    clear();
+                    showDialog();
                 }
             };
     }
 
     @Override
+    protected void clear() {
+        dapPruefung.setDate(null);
+    }
+
+    @Override
     protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
-                                                                          // Tools | Templates.
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+        final MauerlascheCustomBean mauerlasche = getProtokoll().getFk_mauerlasche();
+
+        final Date altPruefdatum = mauerlasche.getPruefdatum();
+        final Date neuPruefdatum = dapPruefung.getDate();
+
+        mauerlasche.setPruefdatum(neuPruefdatum);
+
+        final ArbeitsprotokollaktionCustomBean pruefdatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        pruefdatumAktion.setAenderung("Prüfdatum");
+        pruefdatumAktion.setAlt((altPruefdatum != null) ? dateFormat.format(altPruefdatum) : null);
+        pruefdatumAktion.setNeu(dateFormat.format(neuPruefdatum));
+
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
+        aktionen.add(pruefdatumAktion);
+
+        return aktionen;
     }
 }

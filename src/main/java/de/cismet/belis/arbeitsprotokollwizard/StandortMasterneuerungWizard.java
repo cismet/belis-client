@@ -13,7 +13,11 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -29,6 +33,13 @@ import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
 public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard {
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXDatePicker dapInbetriebnahme;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField txtMontagefirma;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -48,15 +59,50 @@ public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
-    } // </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabel1 = new javax.swing.JLabel();
+        dapInbetriebnahme = new org.jdesktop.swingx.JXDatePicker();
+        jLabel3 = new javax.swing.JLabel();
+        txtMontagefirma = new javax.swing.JTextField();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(
+                StandortMasterneuerungWizard.class,
+                "StandortMasterneuerungWizard.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(dapInbetriebnahme, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel3,
+            org.openide.util.NbBundle.getMessage(
+                StandortMasterneuerungWizard.class,
+                "StandortMasterneuerungWizard.jLabel3.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(txtMontagefirma, gridBagConstraints);
+    }                                                          // </editor-fold>//GEN-END:initComponents
 
     @Override
     public Class getEntityClass() {
@@ -70,19 +116,81 @@ public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard
 
     @Override
     public Action getAction() {
-        return new AbstractAction("Masterneuerung") {
+        return new AbstractAction(getTitle()) {
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
-                                                                                   // methods, choose Tools | Templates.
+                    clear();
+                    showDialog();
                 }
             };
     }
 
     @Override
+    protected void clear() {
+        dapInbetriebnahme.setDate(null);
+        txtMontagefirma.setText(null);
+    }
+
+    @Override
     protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
-                                                                          // Tools | Templates.
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+        final TdtaStandortMastCustomBean standort = getProtokoll().getFk_standort();
+
+        final Date altInbetriebnahme = standort.getInbetriebnahmeMast();
+        final String altMontagefirma = standort.getMontagefirma();
+        final Date altStandsicherheitspruefung = standort.getStandsicherheitspruefung();
+        final String altVerfahren = standort.getVerfahren();
+        final Date altNaechstesPruefdatum = standort.getNaechstes_pruefdatum();
+
+        final Date neuInbetriebnahme = dapInbetriebnahme.getDate();
+        final String neuMontagefirma = txtMontagefirma.getText();
+        final Date neuStandsicherheitspruefung = null;
+        final String neuVerfahren = null;
+        final Date neuNaechstesPruefdatum = null;
+
+        standort.setInbetriebnahmeMast(neuInbetriebnahme);
+        standort.setMontagefirma(neuMontagefirma);
+        standort.setStandsicherheitspruefung(neuStandsicherheitspruefung);
+        standort.setVerfahren(neuVerfahren);
+        standort.setNaechstes_pruefdatum(neuNaechstesPruefdatum);
+
+        final ArbeitsprotokollaktionCustomBean inbetriebnahmeAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        inbetriebnahmeAktion.setAenderung("Inbetriebnahme");
+        inbetriebnahmeAktion.setAlt((altInbetriebnahme != null) ? dateFormat.format(altInbetriebnahme) : null);
+        inbetriebnahmeAktion.setNeu(dateFormat.format(neuInbetriebnahme));
+
+        final ArbeitsprotokollaktionCustomBean montagefirmaAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        montagefirmaAktion.setAenderung("Montagefirma");
+        montagefirmaAktion.setAlt(altMontagefirma);
+        montagefirmaAktion.setNeu(neuMontagefirma);
+
+        final ArbeitsprotokollaktionCustomBean standsicherheitspruefungAktion = ArbeitsprotokollaktionCustomBean
+                    .createNew();
+        standsicherheitspruefungAktion.setAenderung("Standsicherheitsprüfung");
+        standsicherheitspruefungAktion.setAlt((altStandsicherheitspruefung != null)
+                ? dateFormat.format(altStandsicherheitspruefung) : null);
+        standsicherheitspruefungAktion.setNeu(dateFormat.format(neuStandsicherheitspruefung));
+
+        final ArbeitsprotokollaktionCustomBean verfahrenAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        verfahrenAktion.setAenderung("Verfahren");
+        verfahrenAktion.setAlt(altVerfahren);
+        verfahrenAktion.setNeu(neuVerfahren);
+
+        final ArbeitsprotokollaktionCustomBean naechstesPruefdatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        naechstesPruefdatumAktion.setAenderung("Nächstes Prüfdatum");
+        naechstesPruefdatumAktion.setAlt((altNaechstesPruefdatum != null) ? dateFormat.format(altNaechstesPruefdatum)
+                                                                          : null);
+        naechstesPruefdatumAktion.setNeu(dateFormat.format(neuNaechstesPruefdatum));
+
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
+        aktionen.add(inbetriebnahmeAktion);
+        aktionen.add(montagefirmaAktion);
+        aktionen.add(standsicherheitspruefungAktion);
+        aktionen.add(verfahrenAktion);
+        aktionen.add(naechstesPruefdatumAktion);
+
+        return aktionen;
     }
 }

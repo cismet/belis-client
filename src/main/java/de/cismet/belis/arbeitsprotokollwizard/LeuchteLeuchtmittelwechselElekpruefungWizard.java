@@ -38,11 +38,14 @@ import de.cismet.cids.editors.DefaultBindableReferenceCombo;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
-public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWizard {
+public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeitsprotokollWizard {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbxLeuchtmittel;
+    private javax.swing.JCheckBox chkErdungIO;
     private org.jdesktop.swingx.JXDatePicker dapLeuchteLeuchtmittelwechsel;
+    private org.jdesktop.swingx.JXDatePicker dapStandortElekPruefung;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -54,7 +57,7 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
     /**
      * Creates new form VorschaltgeraetwechselWizard.
      */
-    public LeuchteLeuchtmittelwechselWizard() {
+    public LeuchteLeuchtmittelwechselElekpruefungWizard() {
         initComponents();
         ((DefaultBindableReferenceCombo)cbxLeuchtmittel).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
                 LeuchtmittelCustomBean.TABLE));
@@ -76,6 +79,9 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jLabel1 = new javax.swing.JLabel();
+        dapStandortElekPruefung = new org.jdesktop.swingx.JXDatePicker();
+        chkErdungIO = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
         dapLeuchteLeuchtmittelwechsel = new org.jdesktop.swingx.JXDatePicker();
         jLabel2 = new javax.swing.JLabel();
@@ -86,12 +92,43 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
         setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel4,
+            jLabel1,
             org.openide.util.NbBundle.getMessage(
-                LeuchteLeuchtmittelwechselWizard.class,
-                "LeuchteLeuchtmittelwechselWizard.jLabel4.text")); // NOI18N
+                LeuchteLeuchtmittelwechselElekpruefungWizard.class,
+                "LeuchteLeuchtmittelwechselElekpruefungWizard.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(dapStandortElekPruefung, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            chkErdungIO,
+            org.openide.util.NbBundle.getMessage(
+                LeuchteLeuchtmittelwechselElekpruefungWizard.class,
+                "LeuchteLeuchtmittelwechselElekpruefungWizard.chkErdungIO.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(chkErdungIO, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel4,
+            org.openide.util.NbBundle.getMessage(
+                LeuchteLeuchtmittelwechselElekpruefungWizard.class,
+                "LeuchteLeuchtmittelwechselElekpruefungWizard.jLabel4.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jLabel4, gridBagConstraints);
@@ -106,8 +143,8 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel2,
             org.openide.util.NbBundle.getMessage(
-                LeuchteLeuchtmittelwechselWizard.class,
-                "LeuchteLeuchtmittelwechselWizard.jLabel2.text")); // NOI18N
+                LeuchteLeuchtmittelwechselElekpruefungWizard.class,
+                "LeuchteLeuchtmittelwechselElekpruefungWizard.jLabel2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -124,8 +161,8 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel3,
             org.openide.util.NbBundle.getMessage(
-                LeuchteLeuchtmittelwechselWizard.class,
-                "LeuchteLeuchtmittelwechselWizard.jLabel3.text")); // NOI18N
+                LeuchteLeuchtmittelwechselElekpruefungWizard.class,
+                "LeuchteLeuchtmittelwechselElekpruefungWizard.jLabel3.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -137,11 +174,11 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(txtLebensdauer, gridBagConstraints);
-    }                                                              // </editor-fold>//GEN-END:initComponents
+    }                                                                          // </editor-fold>//GEN-END:initComponents
 
     @Override
     public String getTitle() {
-        return "Leuchtmittelwechsel";
+        return "Leuchtmittelwechsel (mit EP)";
     }
 
     @Override
@@ -163,7 +200,9 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
     protected void clear() {
         dapLeuchteLeuchtmittelwechsel.setDate(null);
         cbxLeuchtmittel.setSelectedItem(null);
+        chkErdungIO.setSelected(false);
         txtLebensdauer.setText(null);
+        dapStandortElekPruefung.setDate(new Date());
     }
 
     @Override
@@ -171,12 +210,17 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
         final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
+        final TdtaStandortMastCustomBean standort = leuchte.getFk_standort();
 
-        final Date altLeuchteWechseldatum = leuchte.getWechseldatum();
+        final Date altElekPruefung = standort.getElek_pruefung();
+        final Boolean altErdung = standort.getErdung();
         final LeuchtmittelCustomBean altLeuchtmittel = leuchte.getLeuchtmittel();
         final Double altLebensdauer = leuchte.getLebensdauer();
+        final Date altLeuchteWechseldatum = leuchte.getWechseldatum();
 
+        final Date neuElekPruefung = dapStandortElekPruefung.getDate();
         final Date neuLeuchteWechseldatum = dapLeuchteLeuchtmittelwechsel.getDate();
+        final boolean neuErdung = chkErdungIO.isSelected();
         final LeuchtmittelCustomBean neuLeuchtmittel = (LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem();
         Double neuLebensdauer = null;
         try {
@@ -185,9 +229,26 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
             neuLebensdauer = null;
         }
 
-        leuchte.setWechseldatum(neuLeuchteWechseldatum);
+        standort.setElek_pruefung(neuElekPruefung);
+        standort.setErdung(neuErdung);
         leuchte.setLeuchtmittel(neuLeuchtmittel);
         leuchte.setLebensdauer(neuLebensdauer);
+        leuchte.setWechseldatum(neuLeuchteWechseldatum);
+
+        final ArbeitsprotokollaktionCustomBean elekPruefungAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        elekPruefungAktion.setAenderung("Elektrische Prüfung");
+        elekPruefungAktion.setAlt((altElekPruefung != null) ? dateFormat.format(altElekPruefung) : null);
+        elekPruefungAktion.setNeu(dateFormat.format(neuElekPruefung));
+
+        final ArbeitsprotokollaktionCustomBean erdungAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        erdungAktion.setAenderung("Erdung in Ordnung");
+        erdungAktion.setAlt((altErdung != null) ? (altErdung ? "Ja" : "Nein") : null);
+        erdungAktion.setNeu(neuErdung ? "Ja" : "Nein");
+
+        final ArbeitsprotokollaktionCustomBean wechseldatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        wechseldatumAktion.setAenderung("Wechseldatum");
+        wechseldatumAktion.setAlt((altLeuchteWechseldatum != null) ? dateFormat.format(altLeuchteWechseldatum) : null);
+        wechseldatumAktion.setNeu(dateFormat.format(neuLeuchteWechseldatum));
 
         final ArbeitsprotokollaktionCustomBean leuchtmittelAktion = ArbeitsprotokollaktionCustomBean.createNew();
         leuchtmittelAktion.setAenderung("Leuchtmittel");
@@ -199,12 +260,9 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
         lebensdauerAktion.setAlt((altLebensdauer != null) ? Double.toString(altLebensdauer) : null);
         lebensdauerAktion.setNeu((neuLebensdauer != null) ? Double.toString(neuLebensdauer) : null);
 
-        final ArbeitsprotokollaktionCustomBean wechseldatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        wechseldatumAktion.setAenderung("Wechseldatum");
-        wechseldatumAktion.setAlt((altLeuchteWechseldatum != null) ? dateFormat.format(altLeuchteWechseldatum) : null);
-        wechseldatumAktion.setNeu(dateFormat.format(neuLeuchteWechseldatum));
-
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
+        aktionen.add(elekPruefungAktion);
+        aktionen.add(erdungAktion);
         aktionen.add(wechseldatumAktion);
         aktionen.add(leuchtmittelAktion);
         aktionen.add(lebensdauerAktion);

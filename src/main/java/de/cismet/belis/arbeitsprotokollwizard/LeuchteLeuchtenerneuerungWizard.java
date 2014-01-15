@@ -22,8 +22,15 @@ import java.util.Date;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.belis.broker.CidsBroker;
+import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
+
+import de.cismet.cids.editors.DefaultBindableReferenceCombo;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  * DOCUMENT ME!
@@ -32,13 +39,13 @@ import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
  * @version  $Revision$, $Date$
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
-public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWizard {
+public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWizard {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jdesktop.swingx.JXDatePicker dapMastanstrich;
+    private javax.swing.JComboBox cbxLeuchtentyp;
+    private org.jdesktop.swingx.JXDatePicker dapInbetriebnahme;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtAnstrichfarbe;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -46,8 +53,12 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
     /**
      * Creates new form VorschaltgeraetwechselWizard.
      */
-    public StandortAnstricharbeitenWizard() {
+    public LeuchteLeuchtenerneuerungWizard() {
         initComponents();
+
+        ((DefaultBindableReferenceCombo)cbxLeuchtentyp).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
+                TkeyLeuchtentypCustomBean.TABLE));
+        AutoCompleteDecorator.decorate(cbxLeuchtentyp, new ObjectToKeyStringConverter());        
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -62,17 +73,17 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
         java.awt.GridBagConstraints gridBagConstraints;
 
         jLabel1 = new javax.swing.JLabel();
-        dapMastanstrich = new org.jdesktop.swingx.JXDatePicker();
-        jLabel3 = new javax.swing.JLabel();
-        txtAnstrichfarbe = new javax.swing.JTextField();
+        dapInbetriebnahme = new org.jdesktop.swingx.JXDatePicker();
+        jLabel2 = new javax.swing.JLabel();
+        cbxLeuchtentyp = new DefaultBindableReferenceCombo();
 
         setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel1,
             org.openide.util.NbBundle.getMessage(
-                StandortAnstricharbeitenWizard.class,
-                "StandortAnstricharbeitenWizard.jLabel1.text")); // NOI18N
+                LeuchteLeuchtenerneuerungWizard.class,
+                "LeuchteLeuchtenerneuerungWizard.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
@@ -84,34 +95,35 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(dapMastanstrich, gridBagConstraints);
+        add(dapInbetriebnahme, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel3,
+            jLabel2,
             org.openide.util.NbBundle.getMessage(
-                StandortAnstricharbeitenWizard.class,
-                "StandortAnstricharbeitenWizard.jLabel3.text")); // NOI18N
+                LeuchteLeuchtenerneuerungWizard.class,
+                "LeuchteLeuchtenerneuerungWizard.jLabel2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jLabel3, gridBagConstraints);
+        add(jLabel2, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(txtAnstrichfarbe, gridBagConstraints);
-    }                                                            // </editor-fold>//GEN-END:initComponents
+        add(cbxLeuchtentyp, gridBagConstraints);
+    } // </editor-fold>//GEN-END:initComponents
 
     @Override
     public Class getEntityClass() {
-        return TdtaStandortMastCustomBean.class;
+        return TdtaLeuchtenCustomBean.class;
     }
 
     @Override
     public String getTitle() {
-        return "Anstricharbeiten";
+        return "Leuchtenerneuerung";
     }
 
     @Override
@@ -126,39 +138,43 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
             };
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     protected void clear() {
-        dapMastanstrich.setDate(null);
-        txtAnstrichfarbe.setText(null);
+        dapInbetriebnahme.setDate(null);
+        cbxLeuchtentyp.setSelectedItem(null);
     }
 
     @Override
     protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-        final TdtaStandortMastCustomBean standort = getProtokoll().getFk_standort();
+        final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
 
-        final Date altMastanstrich = standort.getMastanstrich();
-        final String altAnstrichfarbe = standort.getAnstrichfarbe();
-        final Date neuMastanstrich = dapMastanstrich.getDate();
-        final String neuAnstrichfarbe = txtAnstrichfarbe.getText();
+        final Date altInbetriebnahme = leuchte.getInbetriebnahmeLeuchte();
+        final TkeyLeuchtentypCustomBean altLeuchtentyp = leuchte.getLeuchtentyp();
 
-        standort.setStandsicherheitspruefung(neuMastanstrich);
-        standort.setAnstrichfarbe(neuAnstrichfarbe);
+        final Date neuInbetriebnahme = dapInbetriebnahme.getDate();
+        final TkeyLeuchtentypCustomBean neuLeuchtentyp = (TkeyLeuchtentypCustomBean)cbxLeuchtentyp.getSelectedItem();
 
-        final ArbeitsprotokollaktionCustomBean mastanstrichAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        mastanstrichAktion.setAenderung("Mastanstrich");
-        mastanstrichAktion.setAlt((altMastanstrich != null) ? dateFormat.format(altMastanstrich) : null);
-        mastanstrichAktion.setNeu(dateFormat.format(neuMastanstrich));
+        leuchte.setInbetriebnahmeLeuchte(neuInbetriebnahme);
+        leuchte.setLeuchtentyp(neuLeuchtentyp);
 
-        final ArbeitsprotokollaktionCustomBean anstrichfarbeAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        anstrichfarbeAktion.setAenderung("Anstrichfarbe");
-        anstrichfarbeAktion.setAlt(altAnstrichfarbe);
-        anstrichfarbeAktion.setNeu(neuAnstrichfarbe);
+        final ArbeitsprotokollaktionCustomBean leuchtentypAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        leuchtentypAktion.setAenderung("Leuchtentyp");
+        leuchtentypAktion.setAlt((altLeuchtentyp != null) ? altLeuchtentyp.getKeyString() : null);
+        leuchtentypAktion.setNeu((neuLeuchtentyp != null) ? neuLeuchtentyp.getKeyString() : null);
+
+        final ArbeitsprotokollaktionCustomBean inbetriebnahmeAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        inbetriebnahmeAktion.setAenderung("Inbetriebnahme");
+        inbetriebnahmeAktion.setAlt((altInbetriebnahme != null) ? dateFormat.format(altInbetriebnahme) : null);
+        inbetriebnahmeAktion.setNeu(dateFormat.format(neuInbetriebnahme));
 
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(mastanstrichAktion);
-        aktionen.add(anstrichfarbeAktion);
+        aktionen.add(inbetriebnahmeAktion);
+        aktionen.add(leuchtentypAktion);
 
         return aktionen;
     }

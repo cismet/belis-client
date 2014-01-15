@@ -100,7 +100,7 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
 
     @Override
     public Action getAction() {
-        return new AbstractAction("Fortführungsantrag") {
+        return new AbstractAction(getTitle()) {
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
@@ -113,7 +113,8 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
     /**
      * DOCUMENT ME!
      */
-    private void clear() {
+    @Override
+    protected void clear() {
         jTextArea1.setText(null);
     }
 

@@ -13,12 +13,17 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
+import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 /**
@@ -29,6 +34,11 @@ import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
 public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXDatePicker dapRevision;
+    private javax.swing.JLabel jLabel1;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -48,15 +58,29 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 400, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 300, Short.MAX_VALUE));
-    } // </editor-fold>//GEN-END:initComponents
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jLabel1 = new javax.swing.JLabel();
+        dapRevision = new org.jdesktop.swingx.JXDatePicker();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(StandortRevisionWizard.class, "StandortRevisionWizard.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(jLabel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(dapRevision, gridBagConstraints);
+    }                                                                                                                   // </editor-fold>//GEN-END:initComponents
 
     @Override
     public Class getEntityClass() {
@@ -70,19 +94,40 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
 
     @Override
     public Action getAction() {
-        return new AbstractAction("Revision") {
+        return new AbstractAction(getTitle()) {
 
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); // To change body of generated
-                                                                                   // methods, choose Tools | Templates.
+                    clear();
+                    showDialog();
                 }
             };
     }
 
     @Override
+    protected void clear() {
+        dapRevision.setDate(null);
+    }
+
+    @Override
     protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
-                                                                          // Tools | Templates.
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+        final TdtaStandortMastCustomBean standort = getProtokoll().getFk_standort();
+
+        final Date altRevision = standort.getRevision();
+        final Date neuRevision = dapRevision.getDate();
+
+        standort.setRevision(neuRevision);
+
+        final ArbeitsprotokollaktionCustomBean revisionAktion = ArbeitsprotokollaktionCustomBean.createNew();
+        revisionAktion.setAenderung("Revision");
+        revisionAktion.setAlt((altRevision != null) ? dateFormat.format(altRevision) : null);
+        revisionAktion.setNeu(dateFormat.format(neuRevision));
+
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
+        aktionen.add(revisionAktion);
+
+        return aktionen;
     }
 }
