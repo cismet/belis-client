@@ -159,7 +159,7 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
         final ArbeitsprotokollaktionCustomBean einbaudatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
         einbaudatumAktion.setAenderung("Einbaudatum");
         einbaudatumAktion.setAlt((altEinbaudatum != null) ? dateFormat.format(altEinbaudatum) : null);
-        einbaudatumAktion.setNeu(dateFormat.format(neuEinbaudatum));
+        einbaudatumAktion.setNeu((neuEinbaudatum != null) ? dateFormat.format(neuEinbaudatum) : null);
 
         final ArbeitsprotokollaktionCustomBean rundsteuerempfaengerAktion = ArbeitsprotokollaktionCustomBean
                     .createNew();

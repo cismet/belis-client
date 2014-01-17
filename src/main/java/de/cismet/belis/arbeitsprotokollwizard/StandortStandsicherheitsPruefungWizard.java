@@ -177,7 +177,8 @@ public class StandortStandsicherheitsPruefungWizard extends AbstractArbeitsproto
         standsicherheitspruefungAktion.setAenderung("Standsicherheitsprüfung");
         standsicherheitspruefungAktion.setAlt((altStandsicherheitspruefung != null)
                 ? dateFormat.format(altStandsicherheitspruefung) : null);
-        standsicherheitspruefungAktion.setNeu(dateFormat.format(neuStandsicherheitspruefung));
+        standsicherheitspruefungAktion.setNeu((neuStandsicherheitspruefung != null)
+                ? dateFormat.format(neuStandsicherheitspruefung) : null);
 
         final ArbeitsprotokollaktionCustomBean verfahrenAktion = ArbeitsprotokollaktionCustomBean.createNew();
         verfahrenAktion.setAenderung("Verfahren");
@@ -188,7 +189,8 @@ public class StandortStandsicherheitsPruefungWizard extends AbstractArbeitsproto
         naechstesPruefdatumAktion.setAenderung("Nächstes Prüfdatum");
         naechstesPruefdatumAktion.setAlt((altNaechstesPruefdatum != null) ? dateFormat.format(altNaechstesPruefdatum)
                                                                           : null);
-        naechstesPruefdatumAktion.setNeu(dateFormat.format(neuNaechstesPruefdatum));
+        naechstesPruefdatumAktion.setNeu((neuNaechstesPruefdatum != null) ? dateFormat.format(neuNaechstesPruefdatum)
+                                                                          : null);
 
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
         aktionen.add(standsicherheitspruefungAktion);

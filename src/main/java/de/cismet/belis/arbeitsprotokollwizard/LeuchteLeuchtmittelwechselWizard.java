@@ -202,7 +202,7 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
         final ArbeitsprotokollaktionCustomBean wechseldatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
         wechseldatumAktion.setAenderung("Wechseldatum");
         wechseldatumAktion.setAlt((altLeuchteWechseldatum != null) ? dateFormat.format(altLeuchteWechseldatum) : null);
-        wechseldatumAktion.setNeu(dateFormat.format(neuLeuchteWechseldatum));
+        wechseldatumAktion.setNeu((neuLeuchteWechseldatum != null) ? dateFormat.format(neuLeuchteWechseldatum) : null);
 
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
         aktionen.add(wechseldatumAktion);

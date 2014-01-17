@@ -150,7 +150,7 @@ public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokol
         final ArbeitsprotokollaktionCustomBean erneuertAmAktion = ArbeitsprotokollaktionCustomBean.createNew();
         erneuertAmAktion.setAenderung("Erneuerung Vorschaltgerät");
         erneuertAmAktion.setAlt((altErneuertAm != null) ? dateFormat.format(altErneuertAm) : null);
-        erneuertAmAktion.setNeu(dateFormat.format(neuErneuertAm));
+        erneuertAmAktion.setNeu((neuErneuertAm != null) ? dateFormat.format(neuErneuertAm) : null);
 
         final ArbeitsprotokollaktionCustomBean vorschaltgeraetAktion = ArbeitsprotokollaktionCustomBean.createNew();
         vorschaltgeraetAktion.setAenderung("Vorschaltgerät");

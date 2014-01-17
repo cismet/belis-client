@@ -124,7 +124,7 @@ public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard {
         final ArbeitsprotokollaktionCustomBean pruefdatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
         pruefdatumAktion.setAenderung("Prüfdatum");
         pruefdatumAktion.setAlt((altPruefdatum != null) ? dateFormat.format(altPruefdatum) : null);
-        pruefdatumAktion.setNeu(dateFormat.format(neuPruefdatum));
+        pruefdatumAktion.setNeu((neuPruefdatum != null) ? dateFormat.format(neuPruefdatum) : null);
 
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
         aktionen.add(pruefdatumAktion);

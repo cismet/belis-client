@@ -123,7 +123,7 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
         final ArbeitsprotokollaktionCustomBean revisionAktion = ArbeitsprotokollaktionCustomBean.createNew();
         revisionAktion.setAenderung("Revision");
         revisionAktion.setAlt((altRevision != null) ? dateFormat.format(altRevision) : null);
-        revisionAktion.setNeu(dateFormat.format(neuRevision));
+        revisionAktion.setNeu((neuRevision != null) ? dateFormat.format(neuRevision) : null);
 
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
         aktionen.add(revisionAktion);

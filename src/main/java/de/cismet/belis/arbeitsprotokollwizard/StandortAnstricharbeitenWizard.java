@@ -143,13 +143,13 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
         final Date neuMastanstrich = dapMastanstrich.getDate();
         final String neuAnstrichfarbe = txtAnstrichfarbe.getText();
 
-        standort.setStandsicherheitspruefung(neuMastanstrich);
+        standort.setMastanstrich(neuMastanstrich);
         standort.setAnstrichfarbe(neuAnstrichfarbe);
 
         final ArbeitsprotokollaktionCustomBean mastanstrichAktion = ArbeitsprotokollaktionCustomBean.createNew();
         mastanstrichAktion.setAenderung("Mastanstrich");
         mastanstrichAktion.setAlt((altMastanstrich != null) ? dateFormat.format(altMastanstrich) : null);
-        mastanstrichAktion.setNeu(dateFormat.format(neuMastanstrich));
+        mastanstrichAktion.setNeu((neuMastanstrich != null) ? dateFormat.format(neuMastanstrich) : null);
 
         final ArbeitsprotokollaktionCustomBean anstrichfarbeAktion = ArbeitsprotokollaktionCustomBean.createNew();
         anstrichfarbeAktion.setAenderung("Anstrichfarbe");

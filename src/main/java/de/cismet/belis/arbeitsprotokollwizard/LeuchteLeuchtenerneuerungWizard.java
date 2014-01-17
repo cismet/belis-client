@@ -172,7 +172,7 @@ public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWiz
         final ArbeitsprotokollaktionCustomBean inbetriebnahmeAktion = ArbeitsprotokollaktionCustomBean.createNew();
         inbetriebnahmeAktion.setAenderung("Inbetriebnahme");
         inbetriebnahmeAktion.setAlt((altInbetriebnahme != null) ? dateFormat.format(altInbetriebnahme) : null);
-        inbetriebnahmeAktion.setNeu(dateFormat.format(neuInbetriebnahme));
+        inbetriebnahmeAktion.setNeu((neuInbetriebnahme != null) ? dateFormat.format(neuInbetriebnahme) : null);
 
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
         aktionen.add(inbetriebnahmeAktion);

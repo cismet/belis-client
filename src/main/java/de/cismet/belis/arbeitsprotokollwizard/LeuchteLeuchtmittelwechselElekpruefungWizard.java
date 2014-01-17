@@ -238,7 +238,7 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
         final ArbeitsprotokollaktionCustomBean elekPruefungAktion = ArbeitsprotokollaktionCustomBean.createNew();
         elekPruefungAktion.setAenderung("Elektrische Prüfung");
         elekPruefungAktion.setAlt((altElekPruefung != null) ? dateFormat.format(altElekPruefung) : null);
-        elekPruefungAktion.setNeu(dateFormat.format(neuElekPruefung));
+        elekPruefungAktion.setNeu((neuElekPruefung != null) ? dateFormat.format(neuElekPruefung) : null);
 
         final ArbeitsprotokollaktionCustomBean erdungAktion = ArbeitsprotokollaktionCustomBean.createNew();
         erdungAktion.setAenderung("Erdung in Ordnung");
@@ -248,7 +248,7 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
         final ArbeitsprotokollaktionCustomBean wechseldatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
         wechseldatumAktion.setAenderung("Wechseldatum");
         wechseldatumAktion.setAlt((altLeuchteWechseldatum != null) ? dateFormat.format(altLeuchteWechseldatum) : null);
-        wechseldatumAktion.setNeu(dateFormat.format(neuLeuchteWechseldatum));
+        wechseldatumAktion.setNeu((neuLeuchteWechseldatum != null) ? dateFormat.format(neuLeuchteWechseldatum) : null);
 
         final ArbeitsprotokollaktionCustomBean leuchtmittelAktion = ArbeitsprotokollaktionCustomBean.createNew();
         leuchtmittelAktion.setAenderung("Leuchtmittel");

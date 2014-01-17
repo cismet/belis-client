@@ -125,7 +125,7 @@ public class LeuchteSonderturnusWizard extends AbstractArbeitsprotokollWizard {
         final ArbeitsprotokollaktionCustomBean sonderturnusAktion = ArbeitsprotokollaktionCustomBean.createNew();
         sonderturnusAktion.setAenderung("Sonderturnus");
         sonderturnusAktion.setAlt((altSonderturnus != null) ? dateFormat.format(altSonderturnus) : null);
-        sonderturnusAktion.setNeu(dateFormat.format(neuSonderturnus));
+        sonderturnusAktion.setNeu((neuSonderturnus != null) ? dateFormat.format(neuSonderturnus) : null);
 
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
         aktionen.add(sonderturnusAktion);

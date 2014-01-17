@@ -159,7 +159,7 @@ public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard
         final ArbeitsprotokollaktionCustomBean inbetriebnahmeAktion = ArbeitsprotokollaktionCustomBean.createNew();
         inbetriebnahmeAktion.setAenderung("Inbetriebnahme");
         inbetriebnahmeAktion.setAlt((altInbetriebnahme != null) ? dateFormat.format(altInbetriebnahme) : null);
-        inbetriebnahmeAktion.setNeu(dateFormat.format(neuInbetriebnahme));
+        inbetriebnahmeAktion.setNeu((neuInbetriebnahme != null) ? dateFormat.format(neuInbetriebnahme) : null);
 
         final ArbeitsprotokollaktionCustomBean montagefirmaAktion = ArbeitsprotokollaktionCustomBean.createNew();
         montagefirmaAktion.setAenderung("Montagefirma");
@@ -171,7 +171,8 @@ public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard
         standsicherheitspruefungAktion.setAenderung("Standsicherheitsprüfung");
         standsicherheitspruefungAktion.setAlt((altStandsicherheitspruefung != null)
                 ? dateFormat.format(altStandsicherheitspruefung) : null);
-        standsicherheitspruefungAktion.setNeu(dateFormat.format(neuStandsicherheitspruefung));
+        standsicherheitspruefungAktion.setNeu((neuStandsicherheitspruefung != null)
+                ? dateFormat.format(neuStandsicherheitspruefung) : null);
 
         final ArbeitsprotokollaktionCustomBean verfahrenAktion = ArbeitsprotokollaktionCustomBean.createNew();
         verfahrenAktion.setAenderung("Verfahren");
@@ -182,7 +183,8 @@ public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard
         naechstesPruefdatumAktion.setAenderung("Nächstes Prüfdatum");
         naechstesPruefdatumAktion.setAlt((altNaechstesPruefdatum != null) ? dateFormat.format(altNaechstesPruefdatum)
                                                                           : null);
-        naechstesPruefdatumAktion.setNeu(dateFormat.format(neuNaechstesPruefdatum));
+        naechstesPruefdatumAktion.setNeu((neuNaechstesPruefdatum != null) ? dateFormat.format(neuNaechstesPruefdatum)
+                                                                          : null);
 
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
         aktionen.add(inbetriebnahmeAktion);
