@@ -39,6 +39,9 @@ public class RundsteuerempfaengerToStringConverter extends CustomToStringConvert
 
     @Override
     public String createString() {
+        if (cidsBean == null) {
+            return null;
+        }
         return ((RundsteuerempfaengerCustomBean)cidsBean).getRs_typ();
     }
 }

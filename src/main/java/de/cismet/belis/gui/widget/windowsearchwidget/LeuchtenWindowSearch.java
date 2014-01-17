@@ -13,11 +13,16 @@ package de.cismet.belis.gui.widget.windowsearchwidget;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 
 import de.cismet.belis2.server.search.BelisSearchStatement;
 import de.cismet.belis2.server.search.LeuchteSearchStatement;
 
+import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
 
@@ -48,6 +53,7 @@ public class LeuchtenWindowSearch extends BelisWindowSearch {
     private javax.swing.JComboBox cbLeuchtentyp;
     private javax.swing.JCheckBox cbNaechsterWechselBis;
     private javax.swing.JCheckBox cbNaechsterWechselVon;
+    private javax.swing.JComboBox cbRundsteuerempfaenger;
     private javax.swing.JCheckBox cbWechseldatumBis;
     private javax.swing.JCheckBox cbWechseldatumVon;
     private javax.swing.JCheckBox chkAnschlussleistung1dk;
@@ -70,7 +76,6 @@ public class LeuchtenWindowSearch extends BelisWindowSearch {
     private javax.swing.JPanel panRundsteuerempfaenger;
     private javax.swing.JPanel panSchaltstelle;
     private javax.swing.JPanel panWechseldatum;
-    private javax.swing.JTextField txtRundsteuerempfaenger;
     private javax.swing.JTextField txtSchaltstelle;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -91,6 +96,11 @@ public class LeuchtenWindowSearch extends BelisWindowSearch {
                 TkeyDoppelkommandoCustomBean.TABLE));
         ((DefaultBindableReferenceCombo)cbLeuchtentyp).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
                 TkeyLeuchtentypCustomBean.TABLE));
+        ((DefaultBindableReferenceCombo)cbRundsteuerempfaenger).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
+                RundsteuerempfaengerCustomBean.TABLE));
+
+        AutoCompleteDecorator.decorate(cbLeuchtentyp, new ObjectToKeyStringConverter());
+        AutoCompleteDecorator.decorate(cbRundsteuerempfaenger, new ObjectToKeyStringConverter());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -126,7 +136,7 @@ public class LeuchtenWindowSearch extends BelisWindowSearch {
         chkLeuchtentyp = new javax.swing.JCheckBox();
         panRundsteuerempfaenger = new javax.swing.JPanel();
         chkRundsteuerempfaenger = new javax.swing.JCheckBox();
-        txtRundsteuerempfaenger = new javax.swing.JTextField();
+        cbRundsteuerempfaenger = new DefaultBindableReferenceCombo();
         panSchaltstelle = new javax.swing.JPanel();
         chkSchaltstelle = new javax.swing.JCheckBox();
         txtSchaltstelle = new javax.swing.JTextField();
@@ -439,23 +449,21 @@ public class LeuchtenWindowSearch extends BelisWindowSearch {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
         panRundsteuerempfaenger.add(chkRundsteuerempfaenger, gridBagConstraints);
 
-        txtRundsteuerempfaenger.setText(org.openide.util.NbBundle.getMessage(
-                LeuchtenWindowSearch.class,
-                "LeuchtenWindowSearch.txtRundsteuerempfaenger.text")); // NOI18N
-
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 chkRundsteuerempfaenger,
                 org.jdesktop.beansbinding.ELProperty.create("${selected}"),
-                txtRundsteuerempfaenger,
+                cbRundsteuerempfaenger,
                 org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
-        panRundsteuerempfaenger.add(txtRundsteuerempfaenger, gridBagConstraints);
+        panRundsteuerempfaenger.add(cbRundsteuerempfaenger, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -599,11 +607,11 @@ public class LeuchtenWindowSearch extends BelisWindowSearch {
         final String naechsterWechselBis = (cbNaechsterWechselBis.isSelected())
             ? dcNaechsterWechselBis.getDate().toString() : null;
 
+        final String schaltstelle = (chkSchaltstelle.isSelected()) ? txtSchaltstelle.getText() : null;
         final Integer leuchtentyp = (chkLeuchtentyp.isSelected())
             ? ((CidsBean)cbLeuchtentyp.getSelectedItem()).getMetaObject().getId() : null;
-        final String rundsteuerempfaenger = (chkRundsteuerempfaenger.isSelected()) ? txtRundsteuerempfaenger.getText()
-                                                                                   : null;
-        final String schaltstelle = (chkSchaltstelle.isSelected()) ? txtSchaltstelle.getText() : null;
+        final Integer rundsteuerempfaenger = (chkRundsteuerempfaenger.isSelected())
+            ? ((CidsBean)cbRundsteuerempfaenger.getSelectedItem()).getMetaObject().getId() : null;
         final Integer anschlussleistung1dk = (chkAnschlussleistung1dk.isSelected())
             ? ((CidsBean)cbAnschlussleistung1dk.getSelectedItem()).getMetaObject().getId() : null;
         final Integer anschlussleistung2dk = (chkAnschlussleistung2dk.isSelected())
