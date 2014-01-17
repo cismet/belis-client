@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.BorderLayout;
 
+import de.cismet.belis.broker.BelisBroker;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 
@@ -141,6 +143,7 @@ public class ArbeitsprotokollDialog extends javax.swing.JDialog {
             protokoll.getN_aktionen().add(aktion);
         }
         dispose();
+        BelisBroker.getInstance().getDetailWidget().getArbeitsprotokollPanel().refreshAktionen();
     }                                                                                    //GEN-LAST:event_cmdExecuteAktionActionPerformed
 
     /**

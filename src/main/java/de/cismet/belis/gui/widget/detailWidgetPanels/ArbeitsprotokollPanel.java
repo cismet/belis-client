@@ -12,6 +12,7 @@
 package de.cismet.belis.gui.widget.detailWidgetPanels;
 
 import org.jdesktop.beansbinding.BindingGroup;
+import org.jdesktop.observablecollections.ObservableList;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -445,6 +446,21 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
+    public void refreshAktionen() {
+        SwingUtilities.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    ((AktionenTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
+                    validate();
+                    repaint();
+                }
+            });
+    }
+
     @Override
     public void setCurrentEntity(final ArbeitsprotokollCustomBean currentEntity) {
         super.setCurrentEntity(currentEntity);
@@ -472,45 +488,50 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         }
 
         final Collection<AbstractArbeitsprotokollWizard> allWizards = new ArrayList<AbstractArbeitsprotokollWizard>();
-        allWizards.addAll(BelisBroker.getInstance().getWizardsActionsForEntity(subEntity));
+        final Collection<AbstractArbeitsprotokollWizard> entityWizards = BelisBroker.getInstance()
+                    .getWizardsActionsForEntity(subEntity);
+        if (entityWizards != null) {
+            allWizards.addAll(entityWizards);
+        }
         allWizards.addAll(BelisBroker.getInstance().getWizardsActionsForEntity(null));
         panActions.removeAll();
         if (currentEntity != null) {
-            if (currentEntity.getN_aktionen().isEmpty()) {
-                for (final AbstractArbeitsprotokollWizard wizard : allWizards) {
-                    panActions.add(new JButton(wizard.getAction()));
-                    wizard.setProtokoll(currentEntity);
-                    final ActionListener listener = new ActionListener() {
+//            if (currentEntity.getN_aktionen().isEmpty()) {
+            for (final AbstractArbeitsprotokollWizard wizard : allWizards) {
+                panActions.add(new JButton(wizard.getAction()));
+                wizard.setProtokoll(currentEntity);
+                final ActionListener listener = new ActionListener() {
 
-                            @Override
-                            public void actionPerformed(final ActionEvent e) {
-                                final ActionListener listener = this;
-                                SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void actionPerformed(final ActionEvent e) {
+                            final ActionListener listener = this;
+                            SwingUtilities.invokeLater(new Runnable() {
 
-                                        @Override
-                                        public void run() {
-                                            revalidate();
-                                            repaint();
-                                            BelisBroker.getInstance()
-                                                    .getDetailWidget()
-                                                    .getArbeitsauftragPanel()
-                                                    .setSelectedProtokoll(null);
-                                            BelisBroker.getInstance()
-                                                    .getDetailWidget()
-                                                    .getArbeitsauftragPanel()
-                                                    .setSelectedProtokoll(currentEntity);
-                                            wizard.removeListener(listener);
-                                        }
-                                    });
-                            }
-                        };
-                    wizard.addListener(listener);
-                }
-            } else {
+                                    @Override
+                                    public void run() {
+                                        revalidate();
+                                        repaint();
+                                        BelisBroker.getInstance()
+                                                .getDetailWidget()
+                                                .getArbeitsauftragPanel()
+                                                .setSelectedProtokoll(null);
+                                        BelisBroker.getInstance()
+                                                .getDetailWidget()
+                                                .getArbeitsauftragPanel()
+                                                .setSelectedProtokoll(currentEntity);
+                                        wizard.removeListener(listener);
+                                    }
+                                });
+                        }
+                    };
+                wizard.addListener(listener);
             }
+//            } else {
+//            }
         }
         validate();
         repaint();
+        ((AktionenTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
     }
 
     @Override

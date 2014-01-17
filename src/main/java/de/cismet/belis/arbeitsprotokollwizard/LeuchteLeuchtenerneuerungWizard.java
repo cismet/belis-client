@@ -11,6 +11,8 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import java.awt.event.ActionEvent;
 
 import java.text.SimpleDateFormat;
@@ -23,6 +25,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
+
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
@@ -30,7 +33,6 @@ import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
 
 import de.cismet.cids.editors.DefaultBindableReferenceCombo;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  * DOCUMENT ME!
@@ -58,7 +60,7 @@ public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWiz
 
         ((DefaultBindableReferenceCombo)cbxLeuchtentyp).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
                 TkeyLeuchtentypCustomBean.TABLE));
-        AutoCompleteDecorator.decorate(cbxLeuchtentyp, new ObjectToKeyStringConverter());        
+        AutoCompleteDecorator.decorate(cbxLeuchtentyp, new ObjectToKeyStringConverter());
     }
 
     //~ Methods ----------------------------------------------------------------
