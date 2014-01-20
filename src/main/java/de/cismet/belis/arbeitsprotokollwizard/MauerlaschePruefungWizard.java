@@ -11,6 +11,9 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.observablecollections.ObservableList;
+
 import java.awt.event.ActionEvent;
 
 import java.text.SimpleDateFormat;
@@ -18,12 +21,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
+import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -36,6 +43,7 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXDatePicker dapPruefung;
+    private de.cismet.belis.gui.documentpanel.DocumentPanel documentPanel1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
@@ -46,6 +54,10 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
      */
     public MauerlaschePruefungWizard() {
         initComponents();
+        final List<DmsUrlCustomBean> list = new ArrayList();
+        final ObservableList<DmsUrlCustomBean> observableList = ObservableCollections.observableList(list);
+        documentPanel1.setDokumente(observableList);
+        documentPanel1.setEditable(true);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -61,6 +73,7 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
 
         jLabel1 = new javax.swing.JLabel();
         dapPruefung = new org.jdesktop.swingx.JXDatePicker();
+        documentPanel1 = new de.cismet.belis.gui.documentpanel.DocumentPanel();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -81,6 +94,13 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(dapPruefung, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(documentPanel1, gridBagConstraints);
     }                                                       // </editor-fold>//GEN-END:initComponents
 
     @Override
@@ -108,6 +128,7 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
     @Override
     protected void clear() {
         dapPruefung.setDate(null);
+        documentPanel1.getDokumente().clear();
     }
 
     @Override
@@ -121,13 +142,23 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
 
         mauerlasche.setPruefdatum(neuPruefdatum);
 
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
+
         final ArbeitsprotokollaktionCustomBean pruefdatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
         pruefdatumAktion.setAenderung("Prüfdatum");
         pruefdatumAktion.setAlt((altPruefdatum != null) ? dateFormat.format(altPruefdatum) : null);
         pruefdatumAktion.setNeu((neuPruefdatum != null) ? dateFormat.format(neuPruefdatum) : null);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
         aktionen.add(pruefdatumAktion);
+
+        final Collection<DmsUrlCustomBean> dokumente = documentPanel1.getDokumente();
+        for (final DmsUrlCustomBean dokument : dokumente) {
+            final ArbeitsprotokollaktionCustomBean dokumenteAktion = ArbeitsprotokollaktionCustomBean.createNew();
+            dokumenteAktion.setAenderung("neues Dokument");
+            dokumenteAktion.setAlt(null);
+            dokumenteAktion.setNeu(dokument.getBeschreibung());
+            mauerlasche.getDokumente().add(dokument);
+            aktionen.add(dokumenteAktion);
+        }
 
         return aktionen;
     }
