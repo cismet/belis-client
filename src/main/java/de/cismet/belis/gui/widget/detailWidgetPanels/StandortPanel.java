@@ -1148,6 +1148,15 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         cboStandortErdung.setText("Erdung i.O.");
         cboStandortErdung.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erdung}"),
+                cboStandortErdung,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 18;
