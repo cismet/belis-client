@@ -127,6 +127,7 @@ import de.cismet.belis.util.BelisIcons;
 
 import de.cismet.belis2.server.search.BelisLocationSearchStatement;
 import de.cismet.belis2.server.search.BelisSearchStatement;
+import de.cismet.belis2.server.search.BelisTopicSearchStatement;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
@@ -166,6 +167,8 @@ import de.cismet.cismap.commons.interaction.events.StatusEvent;
 import de.cismet.cismap.commons.tools.IconUtils;
 
 import de.cismet.cismap.navigatorplugin.MetaSearchHelper;
+import de.cismet.cismap.navigatorplugin.metasearch.MetaSearch;
+import de.cismet.cismap.navigatorplugin.metasearch.SearchSearchTopicsDialog;
 
 import de.cismet.commons.architecture.exception.LockingNotSuccessfulException;
 import de.cismet.commons.architecture.geometrySlot.GeometrySlot;
@@ -1242,6 +1245,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 null);
 
         setMappingComponent(mappingComponent);
+        metaSearchComponentFactory.setCustomGeoSearch(new BelisTopicSearchStatement());
         setMetaSearchComponentFactory(metaSearchComponentFactory);
 
         CismapBroker.getInstance().addStatusListener(new StatusListener() {
