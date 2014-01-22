@@ -71,7 +71,7 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
 
         //~ Enum constants -----------------------------------------------------
 
-        ABZEIGDOSE, LEITUNG, MAUERLASCHE, SCHALTESTELLE, STANDORT, LEUCHTE
+        ABZEIGDOSE, LEITUNG, MAUERLASCHE, SCHALTESTELLE, STANDORT, LEUCHTE, ARBEITSAUFTRAG, VERANLASSUNG
     }
 
     //~ Instance fields --------------------------------------------------------
@@ -91,12 +91,14 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox chkAbzweigdose;
+    private javax.swing.JCheckBox chkArbeitsauftrag;
     private javax.swing.JCheckBox chkLeitung;
     private javax.swing.JCheckBox chkMap;
     private javax.swing.JCheckBox chkMauerlasche;
     private javax.swing.JCheckBox chkSchaltstelle;
     private javax.swing.JCheckBox chkStandort;
     private javax.swing.JCheckBox chkStreetAndNumber;
+    private javax.swing.JCheckBox chkVeranlassung;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JPanel jPanel1;
@@ -165,6 +167,14 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
                     searchListenerName = MappingComponent.CREATE_SEARCH_POLYGON + "_LEUCHTE";
                 }
                 break;
+                case ARBEITSAUFTRAG: {
+                    searchListenerName = MappingComponent.CREATE_SEARCH_POLYGON + "_ARBEITSAUFTRAG";
+                }
+                break;
+                case VERANLASSUNG: {
+                    searchListenerName = MappingComponent.CREATE_SEARCH_POLYGON + "_VERANLASSUNG";
+                }
+                break;
             }
             final BelisCreateSearchGeometryListener listener = new BelisCreateSearchGeometryListener(
                     mappingComponent,
@@ -194,6 +204,8 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
         chkMauerlasche = new javax.swing.JCheckBox();
         chkAbzweigdose = new javax.swing.JCheckBox();
         chkLeitung = new javax.swing.JCheckBox();
+        chkArbeitsauftrag = new javax.swing.JCheckBox();
+        chkVeranlassung = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         chkStreetAndNumber = new javax.swing.JCheckBox();
         jComboBox1 = new javax.swing.JComboBox();
@@ -238,6 +250,16 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
             chkLeitung,
             org.openide.util.NbBundle.getMessage(BelisWindowSearch.class, "BelisWindowSearch.chkLeitung.text")); // NOI18N
         jPanel3.add(chkLeitung);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            chkArbeitsauftrag,
+            org.openide.util.NbBundle.getMessage(BelisWindowSearch.class, "BelisWindowSearch.chkArbeitsauftrag.text")); // NOI18N
+        jPanel3.add(chkArbeitsauftrag);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            chkVeranlassung,
+            org.openide.util.NbBundle.getMessage(BelisWindowSearch.class, "BelisWindowSearch.chkVeranlassung.text")); // NOI18N
+        jPanel3.add(chkVeranlassung);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -374,8 +396,8 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
                 chkMauerlasche.isSelected(),
                 chkLeitung.isSelected(),
                 chkAbzweigdose.isSelected(),
-                false,
-                false);
+                chkVeranlassung.isSelected(),
+                chkArbeitsauftrag.isSelected());
         belisSearchStatement.setGeometry(searchGeom);
         return belisSearchStatement;
     }
@@ -508,6 +530,13 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
                 case LEUCHTE: {
                     chkStandort.setSelected(true);
                 }
+                case ARBEITSAUFTRAG: {
+                    chkArbeitsauftrag.setSelected(true);
+                }
+                break;
+                case VERANLASSUNG: {
+                    chkVeranlassung.setSelected(true);
+                }
                 break;
             }
         } else {
@@ -516,6 +545,8 @@ public class BelisWindowSearch extends javax.swing.JPanel implements CidsWindowS
             chkMauerlasche.setSelected(true);
             chkSchaltstelle.setSelected(true);
             chkStandort.setSelected(true);
+            chkArbeitsauftrag.setSelected(true);
+            chkVeranlassung.setSelected(true);
         }
     }
 }
