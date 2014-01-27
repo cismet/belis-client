@@ -15,11 +15,18 @@ import Sirius.navigator.connection.SessionManager;
 
 import java.sql.Date;
 
+import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
+
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
+
+import de.cismet.belis2.server.search.NextVeranlassungNummerSearch;
 
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
@@ -119,6 +126,18 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
         final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)createNew(TABLE);
         veranlassungCustomBean.setDatum(new Date(Calendar.getInstance().getTime().getTime()));
         veranlassungCustomBean.setUsername(SessionManager.getSession().getUser().getName());
+
+        try {
+            final List<Long> nextNumber = (List<Long>)CidsBroker.getInstance()
+                        .executeServerSearch(new NextVeranlassungNummerSearch());
+
+            final Long number = (nextNumber.isEmpty()) ? null : nextNumber.get(0);
+            final DecimalFormat df = new DecimalFormat("00000000");
+            veranlassungCustomBean.setNummer(df.format(number));
+        } catch (final Exception ex) {
+            LOG.error("", ex);
+        }
+
         return veranlassungCustomBean;
     }
 
@@ -529,15 +548,15 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
     @Override
     public String getKeyString() {
         final Collection<String> strings = new ArrayList<String>();
-        if (getFk_art() != null) {
-            strings.add(getFk_art().getBezeichnung());
-        }
+        strings.add("V");
         if (getNummer() != null) {
             strings.add(getNummer());
         }
-        if (getBezeichnung() != null) {
-            strings.add(getBezeichnung());
+        if (getFk_art() != null) {
+            strings.add(getFk_art().getSchluessel());
+        } else {
+            strings.add("_");
         }
-        return implode(strings.toArray(new String[0]), ", ");
+        return implode(strings.toArray(new String[0]), "");
     }
 }

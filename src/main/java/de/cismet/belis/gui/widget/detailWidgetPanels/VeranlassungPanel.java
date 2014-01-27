@@ -26,7 +26,6 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.DateToStringConverter;
-import de.cismet.belis.gui.widget.DetailWidget;
 
 import de.cismet.belis.util.RendererTools;
 
@@ -76,6 +75,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     private javax.swing.JLabel lblDatumValue;
     private javax.swing.JLabel lblInformationsbausteine;
     private javax.swing.JLabel lblNummer;
+    private javax.swing.JLabel lblNummerValue;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblUserValue;
     private javax.swing.JLabel lblVeranlassung;
@@ -86,7 +86,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     private javax.swing.JTextArea txaBemerkungen;
     private javax.swing.JTextArea txaBeschreibung;
     private javax.swing.JTextField txtBezeichnung;
-    private javax.swing.JTextField txtNummer;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -154,6 +153,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         lblVeranlassung = new javax.swing.JLabel();
         panContent = new javax.swing.JPanel();
         lblNummer = new javax.swing.JLabel();
+        lblNummerValue = new javax.swing.JLabel();
         lblArt = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
         lblDatum = new javax.swing.JLabel();
@@ -161,7 +161,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         lblBeschreibung = new javax.swing.JLabel();
         lblBemerkungen = new javax.swing.JLabel();
         lblInformationsbausteine = new javax.swing.JLabel();
-        txtNummer = new javax.swing.JTextField();
         cbxArt = new javax.swing.JComboBox();
         txtBezeichnung = new javax.swing.JTextField();
         scrBeschreibung = new javax.swing.JScrollPane();
@@ -195,6 +194,27 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblNummer, gridBagConstraints);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.nummer}"),
+                lblNummerValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"),
+                "nummer");
+        binding.setSourceNullValue("00000000");
+        binding.setSourceUnreadableValue("00000000");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblNummerValue, gridBagConstraints);
 
         lblArt.setText("Grund (Art):");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -251,26 +271,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblInformationsbausteine, gridBagConstraints);
-
-        txtNummer.setEnabled(false);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.nummer}"),
-                txtNummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(txtNummer, gridBagConstraints);
 
         cbxArt.setEnabled(false);
         cbxArt.setRenderer(new DefaultListCellRenderer() {
@@ -524,7 +524,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                228,
+                238,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -601,7 +601,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
     @Override
     final void initComponentToLabelMap() {
-        componentToLabelMap.put(txtNummer, lblNummer);
         componentToLabelMap.put(cbxArt, lblArt);
         componentToLabelMap.put(txtBezeichnung, lblBezeichnung);
         componentToLabelMap.put(txaBeschreibung, lblBeschreibung);
@@ -617,7 +616,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        RendererTools.setEditable(txtNummer, isEditable);
         RendererTools.setEditable(cbxArt, isEditable);
         RendererTools.setEditable(txtBezeichnung, isEditable);
         RendererTools.setEditable(txaBeschreibung, isEditable);

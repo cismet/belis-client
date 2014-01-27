@@ -15,11 +15,19 @@ import Sirius.navigator.connection.SessionManager;
 
 import java.sql.Date;
 
+import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
+
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
+
+import de.cismet.belis2.server.search.NextArbeitsauftragNummerSearch;
+import de.cismet.belis2.server.search.NextVeranlassungNummerSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -86,6 +94,18 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
         final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)createNew(TABLE);
         arbeitsauftragCustomBean.setAngelegt_am(new Date(Calendar.getInstance().getTime().getTime()));
         arbeitsauftragCustomBean.setAngelegt_von(SessionManager.getSession().getUser().getName());
+
+        try {
+            final List<Long> nextNumber = (List<Long>)CidsBroker.getInstance()
+                        .executeServerSearch(new NextArbeitsauftragNummerSearch());
+
+            final Long number = (nextNumber.isEmpty()) ? null : nextNumber.get(0);
+            final DecimalFormat df = new DecimalFormat("00000000");
+            arbeitsauftragCustomBean.setNummer(df.format(number));
+        } catch (final Exception ex) {
+            LOG.error("", ex);
+        }
+
         return arbeitsauftragCustomBean;
     }
 
@@ -290,10 +310,11 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
 
     @Override
     public String getKeyString() {
+        final Collection<String> strings = new ArrayList<String>();
+        strings.add("A");
         if (getNummer() != null) {
-            return getNummer().toString();
-        } else {
-            return "";
+            strings.add(getNummer());
         }
+        return implode(strings.toArray(new String[0]), "");
     }
 }

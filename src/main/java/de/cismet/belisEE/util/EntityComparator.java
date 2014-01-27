@@ -16,11 +16,13 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -222,6 +224,26 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
                             || (o2 instanceof SchaltstelleCustomBean)
                             || (o2 instanceof MauerlascheCustomBean)) {
                     return -1;
+                } else {
+                    return 1;
+                }
+            } else if (o1 instanceof ArbeitsauftragCustomBean) {
+                if (o2 instanceof ArbeitsauftragCustomBean) {
+                    if (o2.equals(o1)) {
+                        return 0;
+                    } else {
+                        return o2.getKeyString().compareTo(o1.getKeyString());
+                    }
+                } else {
+                    return 1;
+                }
+            } else if (o1 instanceof VeranlassungCustomBean) {
+                if (o2 instanceof VeranlassungCustomBean) {
+                    if (o2.equals(o1)) {
+                        return 0;
+                    } else {
+                        return o2.getKeyString().compareTo(o1.getKeyString());
+                    }
                 } else {
                     return 1;
                 }

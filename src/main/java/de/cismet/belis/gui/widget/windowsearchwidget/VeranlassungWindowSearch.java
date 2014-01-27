@@ -45,17 +45,26 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
     private javax.swing.JComboBox cbGrund;
     private javax.swing.JCheckBox chkActiveOnly;
     private javax.swing.JCheckBox chkAngelegtVon;
+    private javax.swing.JCheckBox chkBemerkung;
+    private javax.swing.JCheckBox chkBeschreibung;
     private javax.swing.JCheckBox chkDatumBis;
     private javax.swing.JCheckBox chkDatumVon;
     private javax.swing.JCheckBox chkGrund;
+    private javax.swing.JCheckBox chkInfoBaustein;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcDatumBis;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcDatumVon;
     private javax.swing.JPanel panActiveOnly;
     private javax.swing.JPanel panAngelegtVon;
+    private javax.swing.JPanel panBemerkung;
+    private javax.swing.JPanel panBeschreibung;
     private javax.swing.JPanel panDatum;
     private javax.swing.JPanel panGrund;
+    private javax.swing.JPanel panInfoBaustein;
     private javax.swing.JPanel panMain;
     private javax.swing.JTextField txtAngelegtVon;
+    private javax.swing.JTextField txtBemerkung;
+    private javax.swing.JTextField txtBeschreibung;
+    private javax.swing.JTextField txtInfoBaustein;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -115,6 +124,15 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         panGrund = new javax.swing.JPanel();
         cbGrund = new DefaultBindableReferenceCombo();
         chkGrund = new javax.swing.JCheckBox();
+        panBeschreibung = new javax.swing.JPanel();
+        chkBeschreibung = new javax.swing.JCheckBox();
+        txtBeschreibung = new javax.swing.JTextField();
+        panBemerkung = new javax.swing.JPanel();
+        chkBemerkung = new javax.swing.JCheckBox();
+        txtBemerkung = new javax.swing.JTextField();
+        panInfoBaustein = new javax.swing.JPanel();
+        chkInfoBaustein = new javax.swing.JCheckBox();
+        txtInfoBaustein = new javax.swing.JTextField();
 
         panMain.setLayout(new java.awt.GridBagLayout());
 
@@ -272,6 +290,99 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMain.add(panGrund, gridBagConstraints);
+
+        panBeschreibung.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    VeranlassungWindowSearch.class,
+                    "VeranlassungWindowSearch.panBeschreibung.border.title"))); // NOI18N
+        panBeschreibung.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            chkBeschreibung,
+            org.openide.util.NbBundle.getMessage(
+                VeranlassungWindowSearch.class,
+                "VeranlassungWindowSearch.chkBeschreibung.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panBeschreibung.add(chkBeschreibung, gridBagConstraints);
+
+        txtBeschreibung.setText(org.openide.util.NbBundle.getMessage(
+                VeranlassungWindowSearch.class,
+                "VeranlassungWindowSearch.txtBeschreibung.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panBeschreibung.add(txtBeschreibung, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMain.add(panBeschreibung, gridBagConstraints);
+
+        panBemerkung.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    VeranlassungWindowSearch.class,
+                    "VeranlassungWindowSearch.panBemerkung.border.title"))); // NOI18N
+        panBemerkung.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            chkBemerkung,
+            org.openide.util.NbBundle.getMessage(
+                VeranlassungWindowSearch.class,
+                "VeranlassungWindowSearch.chkBemerkung.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panBemerkung.add(chkBemerkung, gridBagConstraints);
+
+        txtBemerkung.setText(org.openide.util.NbBundle.getMessage(
+                VeranlassungWindowSearch.class,
+                "VeranlassungWindowSearch.txtBemerkung.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panBemerkung.add(txtBemerkung, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMain.add(panBemerkung, gridBagConstraints);
+
+        panInfoBaustein.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    VeranlassungWindowSearch.class,
+                    "VeranlassungWindowSearch.panInfoBaustein.border.title"))); // NOI18N
+        panInfoBaustein.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            chkInfoBaustein,
+            org.openide.util.NbBundle.getMessage(
+                VeranlassungWindowSearch.class,
+                "VeranlassungWindowSearch.chkInfoBaustein.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panInfoBaustein.add(chkInfoBaustein, gridBagConstraints);
+
+        txtInfoBaustein.setText(org.openide.util.NbBundle.getMessage(
+                VeranlassungWindowSearch.class,
+                "VeranlassungWindowSearch.txtInfoBaustein.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panInfoBaustein.add(txtInfoBaustein, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMain.add(panInfoBaustein, gridBagConstraints);
 
         setLayout(null);
     } // </editor-fold>//GEN-END:initComponents

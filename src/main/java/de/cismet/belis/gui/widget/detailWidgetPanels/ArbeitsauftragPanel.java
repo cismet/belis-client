@@ -81,10 +81,10 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblDatumValue;
     private javax.swing.JLabel lblNummer;
+    private javax.swing.JLabel lblNummerValue;
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblUserValue;
     private javax.swing.JLabel lblZugewiesenAn;
-    private javax.swing.JTextField txtNummer;
     private javax.swing.JTextField txtZugewiesenAn;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -125,7 +125,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         jLabel2 = new javax.swing.JLabel();
         lblNummer = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
-        txtNummer = new javax.swing.JTextField();
         arbeitsprotokollPanel1 = new de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsprotokollPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new JXTable();
@@ -133,6 +132,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         lblZugewiesenAn = new javax.swing.JLabel();
         txtZugewiesenAn = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
+        lblNummerValue = new javax.swing.JLabel();
 
         lblArbeitsauftrag.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
         lblArbeitsauftrag.setIcon(new javax.swing.ImageIcon(
@@ -213,25 +213,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lblUser, gridBagConstraints);
-
-        txtNummer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.nummer}"),
-                txtNummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(txtNummer, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -299,6 +280,25 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         gridBagConstraints.weightx = 1.0;
         add(jPanel1, gridBagConstraints);
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.nummer}"),
+                lblNummerValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"),
+                "nummer");
+        binding.setSourceNullValue("00000000");
+        binding.setSourceUnreadableValue("00000000");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(lblNummerValue, gridBagConstraints);
+
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
@@ -327,7 +327,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
     @Override
     final void initComponentToLabelMap() {
-        componentToLabelMap.put(txtNummer, lblNummer);
         componentToLabelMap.put(lblUserValue, lblUser);
         componentToLabelMap.put(lblDatumValue, lblDatum);
 
@@ -340,7 +339,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        RendererTools.setEditable(txtNummer, isEditable);
         RendererTools.setEditable(txtZugewiesenAn, isEditable);
         arbeitsprotokollPanel1.setPanelEditable(isEditable);
         this.isEditable = isEditable;
