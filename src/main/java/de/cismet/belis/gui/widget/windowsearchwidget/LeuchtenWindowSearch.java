@@ -624,8 +624,8 @@ public class LeuchtenWindowSearch extends BelisWindowSearch {
         leuchteSearchStatement.setFk_leuchttyp(leuchtentyp);
         leuchteSearchStatement.setRundsteuerempfaenger(rundsteuerempfaenger);
         leuchteSearchStatement.setSchaltstelle(schaltstelle);
-        leuchteSearchStatement.setAnschlussleistung_1dk(anschlussleistung1dk);
-        leuchteSearchStatement.setAnschlussleistung_2dk(anschlussleistung2dk);
+        leuchteSearchStatement.setFk_dk1(anschlussleistung1dk);
+        leuchteSearchStatement.setFk_dk1(anschlussleistung2dk);
 
         leuchteSearchStatement.setGeometry(searchGeom);
         return leuchteSearchStatement;
