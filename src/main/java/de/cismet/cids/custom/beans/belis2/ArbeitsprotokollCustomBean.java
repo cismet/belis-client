@@ -86,6 +86,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     private ArbeitsauftragCustomBean fk_arbeitsauftrag;
     private GeometrieCustomBean fk_geometrie;
     private VeranlassungCustomBean fk_veranlassung;
+    private VeranlassungCustomBean fk_veranlassung_backlink;
 
     private Collection<ArbeitsprotokollaktionCustomBean> n_aktionen;
 
@@ -407,7 +408,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     public VeranlassungCustomBean getFk_veranlassung() {
         return fk_veranlassung;
     }
-
+    
     /**
      * DOCUMENT ME!
      *
@@ -461,24 +462,33 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
 
     @Override
     public String getKeyString() {
+        final VeranlassungCustomBean veranlassung = getFk_veranlassung();
+
+        final String subfix;
+        if (veranlassung != null) {
+            subfix = " (" + veranlassung.getKeyString() + ")";
+        } else {
+            subfix = "";
+        }
+
         if (getFk_abzweigdose() != null) {
-            return "Abzweigdose";
+            return "Abzweigdose" + subfix;
         } else if (getFk_leitung() != null) {
-            return "Leitung";
+            return "Leitung" + subfix;
         } else if (getFk_leuchte() != null) {
-            return "Leuchte";
+            return "Leuchte" + subfix;
         } else if (getFk_mauerlasche() != null) {
-            return "Mauerlasche";
+            return "Mauerlasche" + subfix;
         } else if (getFk_schaltstelle() != null) {
-            return "Schaltstelle";
+            return "Schaltstelle" + subfix;
         } else if (getFk_geometrie() != null) {
-            return "Geometrie";
+            return "Geometrie" + subfix;
         } else if (getFk_standort() != null) {
             final TdtaStandortMastCustomBean standort = getFk_standort();
             if (standort.isStandortMast()) {
-                return "Mast";
+                return "Mast" + subfix;
             } else {
-                return "Standort";
+                return "Standort" + subfix;
             }
         } else {
             return super.getKeyString();

@@ -55,7 +55,7 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
     public static final String PROP__AR_GEOMETRIEN = "ar_geometrien";
     public static final String PROP__USERNAME = "username";
     public static final String PROP__NUMMER = "nummer";
-    public static final String PROP__FK_AUFTRAG = "fk_auftrag";
+    public static final String PROP__N_PROTOKOLLE = "n_auftraege";
     public static final String PROP__BEZEICHNUNG = "bezeichnung";
     public static final String PROP__BEMERKUNGEN = "bemerkungen";
     public static final String PROP__BESCHREIBUNG = "beschreibung";
@@ -76,7 +76,7 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
             PROP__AR_GEOMETRIEN,
             PROP__USERNAME,
             PROP__NUMMER,
-            PROP__FK_AUFTRAG,
+            PROP__N_PROTOKOLLE,
             PROP__BEZEICHNUNG,
             PROP__BEMERKUNGEN,
             PROP__BESCHREIBUNG,
@@ -96,10 +96,9 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
     private Collection<AbzweigdoseCustomBean> ar_abzweigdosen;
     private Collection<DmsUrlCustomBean> ar_dokumente;
     private Collection<GeometrieCustomBean> ar_geometrien;
-    private GeomCustomBean fk_geometrie;
+    private Collection<ArbeitsprotokollCustomBean> n_protokolle;
     private String username;
     private String nummer;
-    private ArbeitsauftragCustomBean fk_auftrag;
     private String bezeichnung;
     private String bemerkungen;
     private String beschreibung;
@@ -407,19 +406,19 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
      *
      * @return  DOCUMENT ME!
      */
-    public ArbeitsauftragCustomBean getFk_auftrag() {
-        return fk_auftrag;
+    public Collection<ArbeitsprotokollCustomBean> getN_protokolle() {
+        return n_protokolle;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  fk_auftrag  DOCUMENT ME!
+     * @param  n_protokolle  DOCUMENT ME!
      */
-    public void setFk_auftrag(final ArbeitsauftragCustomBean fk_auftrag) {
-        final ArbeitsauftragCustomBean old = this.fk_auftrag;
-        this.fk_auftrag = fk_auftrag;
-        this.propertyChangeSupport.firePropertyChange(PROP__FK_AUFTRAG, old, this.fk_auftrag);
+    public void setN_protokolle(final Collection<ArbeitsprotokollCustomBean> n_protokolle) {
+        final Collection<ArbeitsprotokollCustomBean> old = this.n_protokolle;
+        this.n_protokolle = n_protokolle;
+        this.propertyChangeSupport.firePropertyChange(PROP__N_PROTOKOLLE, old, this.n_protokolle);
     }
 
     /**
