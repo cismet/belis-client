@@ -85,6 +85,9 @@
                   <Dimension value="[132, 25]"/>
                 </Property>
               </Properties>
+              <BindingProperties>
+                <BindingProperty name="enabled" source="chkDatumVon" sourcePath="${selected}" target="dcDatumVon" targetPath="enabled" updateStrategy="0" immediately="false"/>
+              </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="1" gridY="0" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="5" insetsRight="0" anchor="21" weightX="1.0" weightY="0.0"/>
@@ -103,6 +106,9 @@
                   <Dimension value="[132, 25]"/>
                 </Property>
               </Properties>
+              <BindingProperties>
+                <BindingProperty name="enabled" source="chkDatumBis" sourcePath="${selected}" target="dcDatumBis" targetPath="enabled" updateStrategy="0" immediately="false"/>
+              </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="3" gridY="0" gridWidth="1" gridHeight="1" fill="1" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="5" insetsRight="0" anchor="21" weightX="1.0" weightY="0.0"/>
@@ -159,6 +165,9 @@
                   <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="VeranlassungWindowSearch.txtAngelegtVon.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <BindingProperties>
+                <BindingProperty name="enabled" source="chkAngelegtVon" sourcePath="${selected}" target="txtAngelegtVon" targetPath="enabled" updateStrategy="0" immediately="false"/>
+              </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
@@ -186,8 +195,11 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
           <SubComponents>
             <Component class="javax.swing.JComboBox" name="cbGrund">
+              <BindingProperties>
+                <BindingProperty name="enabled" source="chkGrund" sourcePath="${selected}" target="cbGrund" targetPath="enabled" updateStrategy="0" immediately="false"/>
+              </BindingProperties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(VeranlassungsartCustomBean.TABLE)"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -245,6 +257,9 @@
                   <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="VeranlassungWindowSearch.txtBeschreibung.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <BindingProperties>
+                <BindingProperty name="enabled" source="chkBeschreibung" sourcePath="${selected}" target="txtBeschreibung" targetPath="enabled" updateStrategy="0" immediately="false"/>
+              </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
@@ -289,6 +304,9 @@
                   <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="VeranlassungWindowSearch.txtBemerkung.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <BindingProperties>
+                <BindingProperty name="enabled" source="chkBemerkung" sourcePath="${selected}" target="txtBemerkung" targetPath="enabled" updateStrategy="0" immediately="false"/>
+              </BindingProperties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                   <GridBagConstraints gridX="-1" gridY="-1" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="5" insetsBottom="5" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>

@@ -137,7 +137,7 @@ public class TkeyBezirkCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Stadtbezirk[pk=" + pk + "]";
+        return getBezirk();
     }
 
     @Override

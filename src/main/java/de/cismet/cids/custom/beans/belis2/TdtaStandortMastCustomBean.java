@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis2.server.search.HighestLfdNummerSearch;
@@ -55,8 +56,9 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEn
 
     static {
         DEFAULT_UNTERHALT = TkeyUnterhMastCustomBean.createNew();
-//        DEFAULT_UNTERHALT.setPk((Integer)0);
-//        DEFAULT_UNTERHALT.setUnterhaltMast("öffentl. Beleuchtung");
+        DEFAULT_UNTERHALT.setPk((Integer)0);
+        DEFAULT_UNTERHALT.setUnterhaltMast("öffentl. Beleuchtung");
+//        BelisBroker.setDefaultUnterhaltMast(curUnterhaltMast);
     }
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(

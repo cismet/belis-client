@@ -157,11 +157,6 @@ public class TkeyUnterhMastCustomBean extends BaseEntity {
     }
 
     @Override
-    public String toString() {
-        return getKeyString();
-    }
-
-    @Override
     public String getKeyString() {
         if (getUnterhaltMast() != null) {
             return getUnterhaltMast().toLowerCase(Locale.GERMAN);

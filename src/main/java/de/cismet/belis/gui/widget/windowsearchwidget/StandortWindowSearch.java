@@ -13,7 +13,7 @@ package de.cismet.belis.gui.widget.windowsearchwidget;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import de.cismet.belis.broker.CidsBroker;
+import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis2.server.search.BelisSearchStatement;
 import de.cismet.belis2.server.search.StandortSearchStatement;
@@ -25,8 +25,6 @@ import de.cismet.cids.custom.beans.belis2.TkeyMasttypCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
 
@@ -92,17 +90,6 @@ public class StandortWindowSearch extends BelisWindowSearch {
         super(Mode.STANDORT, "Masten");
         initComponents();
         initWithThisSpecificPanel(panMain);
-
-        ((DefaultBindableReferenceCombo)cbAnlagengruppe).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                AnlagengruppeCustomBean.TABLE));
-        ((DefaultBindableReferenceCombo)cbMastart).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                TkeyMastartCustomBean.TABLE));
-        ((DefaultBindableReferenceCombo)cbMasttyp).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                TkeyMasttypCustomBean.TABLE));
-        ((DefaultBindableReferenceCombo)cbKlassifizierung).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                TkeyKlassifizierungCustomBean.TABLE));
-        ((DefaultBindableReferenceCombo)cbUnterhaltspflichtMast).setMetaClass(CidsBroker.getInstance()
-                    .getBelisMetaClass(TkeyUnterhMastCustomBean.TABLE));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -139,19 +126,19 @@ public class StandortWindowSearch extends BelisWindowSearch {
         dcStandsicherheitspruefungBis = new de.cismet.cids.editors.DefaultBindableDateChooser();
         cbStandsicherheitspruefungBis = new javax.swing.JCheckBox();
         panMastart = new javax.swing.JPanel();
-        cbMastart = new DefaultBindableReferenceCombo();
+        cbMastart = BelisBroker.createKeyTableComboBox(TkeyMastartCustomBean.TABLE);
         chkMastart = new javax.swing.JCheckBox();
         panMasttyp = new javax.swing.JPanel();
-        cbMasttyp = new DefaultBindableReferenceCombo();
+        cbMasttyp = BelisBroker.createKeyTableComboBox(TkeyMasttypCustomBean.TABLE);
         chkMasttyp = new javax.swing.JCheckBox();
         panKlassifizierung = new javax.swing.JPanel();
-        cbKlassifizierung = new DefaultBindableReferenceCombo();
+        cbKlassifizierung = BelisBroker.createKeyTableComboBox(TkeyKlassifizierungCustomBean.TABLE);
         chkKlassifizierung = new javax.swing.JCheckBox();
         panAnlagengruppe = new javax.swing.JPanel();
-        cbAnlagengruppe = new DefaultBindableReferenceCombo();
+        cbAnlagengruppe = BelisBroker.createKeyTableComboBox(AnlagengruppeCustomBean.TABLE);
         chkAnlagengruppe = new javax.swing.JCheckBox();
         panUnterhaltspflichtMast = new javax.swing.JPanel();
-        cbUnterhaltspflichtMast = new DefaultBindableReferenceCombo();
+        cbUnterhaltspflichtMast = BelisBroker.createKeyTableComboBox(TkeyUnterhMastCustomBean.TABLE);
         chkUnterhaltspflichtMast = new javax.swing.JCheckBox();
 
         panMain.setLayout(new java.awt.GridBagLayout());

@@ -86,7 +86,6 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     private ArbeitsauftragCustomBean fk_arbeitsauftrag;
     private GeometrieCustomBean fk_geometrie;
     private VeranlassungCustomBean fk_veranlassung;
-    private VeranlassungCustomBean fk_veranlassung_backlink;
 
     private Collection<ArbeitsprotokollaktionCustomBean> n_aktionen;
 
@@ -408,7 +407,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     public VeranlassungCustomBean getFk_veranlassung() {
         return fk_veranlassung;
     }
-    
+
     /**
      * DOCUMENT ME!
      *

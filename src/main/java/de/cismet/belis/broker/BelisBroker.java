@@ -63,6 +63,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -75,11 +76,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -93,10 +99,6 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
-import de.cismet.belis.client.BelisClient;
-
-import de.cismet.belis.commons.constants.BelisMetaClassConstants;
-
 import de.cismet.belis.gui.search.AddressSearchControl;
 import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
@@ -105,6 +107,7 @@ import de.cismet.belis.gui.search.SearchController;
 import de.cismet.belis.gui.widget.BelisWidget;
 import de.cismet.belis.gui.widget.DetailWidget;
 import de.cismet.belis.gui.widget.ExtendedNavigatorAttributeEditorGui;
+import de.cismet.belis.gui.widget.KeyTableListener;
 import de.cismet.belis.gui.widget.MapWidget;
 import de.cismet.belis.gui.widget.WorkbenchWidget;
 
@@ -132,6 +135,7 @@ import de.cismet.belis2.server.search.BelisTopicSearchStatement;
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
 
+import de.cismet.belisEE.util.CriteriaStringComparator;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 
@@ -154,6 +158,8 @@ import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.editors.DefaultBindableReferenceCombo;
+
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.features.DefaultFeatureCollection;
 import de.cismet.cismap.commons.features.Feature;
@@ -167,8 +173,6 @@ import de.cismet.cismap.commons.interaction.events.StatusEvent;
 import de.cismet.cismap.commons.tools.IconUtils;
 
 import de.cismet.cismap.navigatorplugin.MetaSearchHelper;
-import de.cismet.cismap.navigatorplugin.metasearch.MetaSearch;
-import de.cismet.cismap.navigatorplugin.metasearch.SearchSearchTopicsDialog;
 
 import de.cismet.commons.architecture.exception.LockingNotSuccessfulException;
 import de.cismet.commons.architecture.geometrySlot.GeometrySlot;
@@ -3306,6 +3310,76 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         final boolean old = this.filterArbeitsauftrag;
         this.filterArbeitsauftrag = filterArbeitsauftrag;
         propertyChangeSupport.firePropertyChange(PROP_FILTER_ARBEITSAUFTRAG, old, filterArbeitsauftrag);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   keyTableClassname  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static DefaultBindableReferenceCombo createKeyTableComboBox(final String keyTableClassname) {
+        final DefaultBindableReferenceCombo comboBox = new DefaultBindableReferenceCombo(CidsBroker.getInstance()
+                        .getBelisMetaClass(keyTableClassname));
+        comboBox.setNullable(true);
+        comboBox.setNullValueRepresentation("<html><i>Wert auswählen...</i></html>");
+        addComboBoxToKeyTableValuesListener(comboBox, keyTableClassname);
+        return comboBox;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static JComboBox createStrassenschluesselNummerComboBox() {
+        final DefaultBindableReferenceCombo comboBox = new DefaultBindableReferenceCombo(CidsBroker.getInstance()
+                        .getBelisMetaClass(TkeyStrassenschluesselCustomBean.TABLE),
+                "pk");
+        comboBox.setNullable(true);
+        comboBox.setNullValueRepresentation("<html><i>Wert auswählen...</i></html>");
+        addComboBoxToKeyTableValuesListener(comboBox, TkeyStrassenschluesselCustomBean.TABLE);
+        comboBox.setRenderer(new DefaultListCellRenderer() {
+
+                @Override
+                public Component getListCellRendererComponent(final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    final Component ret = super.getListCellRendererComponent(
+                            list,
+                            value,
+                            index,
+                            isSelected,
+                            cellHasFocus);
+                    if ((value == null) && (ret instanceof JLabel)) {
+                        ((JLabel)ret).setText(comboBox.getNullValueRepresentation());
+                    } else if ((value instanceof TkeyStrassenschluesselCustomBean) && (ret instanceof JLabel)) {
+                        ((JLabel)ret).setText(((TkeyStrassenschluesselCustomBean)value).getPk());
+                    }
+                    return ret;
+                }
+            });
+        return comboBox;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  comboBox           DOCUMENT ME!
+     * @param  keyTableClassname  DOCUMENT ME!
+     */
+    private static void addComboBoxToKeyTableValuesListener(final DefaultBindableReferenceCombo comboBox,
+            final String keyTableClassname) {
+        CidsBroker.getInstance().addListenerForKeyTableChange(keyTableClassname, new KeyTableListener() {
+
+                @Override
+                public void keyTableChanged() {
+                    comboBox.reload(true);
+                }
+            });
     }
 
     //~ Inner Classes ----------------------------------------------------------

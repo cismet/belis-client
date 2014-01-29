@@ -24,15 +24,13 @@ import java.util.Date;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import de.cismet.belis.broker.CidsBroker;
+import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
-
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 /**
  * DOCUMENT ME!
@@ -58,8 +56,6 @@ public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWiz
     public LeuchteLeuchtenerneuerungWizard() {
         initComponents();
 
-        ((DefaultBindableReferenceCombo)cbxLeuchtentyp).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                TkeyLeuchtentypCustomBean.TABLE));
         AutoCompleteDecorator.decorate(cbxLeuchtentyp, new ObjectToKeyStringConverter());
     }
 
@@ -77,7 +73,7 @@ public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWiz
         jLabel1 = new javax.swing.JLabel();
         dapInbetriebnahme = new org.jdesktop.swingx.JXDatePicker();
         jLabel2 = new javax.swing.JLabel();
-        cbxLeuchtentyp = new DefaultBindableReferenceCombo();
+        cbxLeuchtentyp = BelisBroker.createKeyTableComboBox(TkeyLeuchtentypCustomBean.TABLE);
 
         setLayout(new java.awt.GridBagLayout());
 

@@ -39,6 +39,6 @@ public class TkeyKennzifferToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return ((TkeyKennzifferCustomBean)cidsBean).getBeschreibung();
+        return ((TkeyKennzifferCustomBean)cidsBean).getKeyString();
     }
 }

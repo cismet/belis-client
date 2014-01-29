@@ -23,7 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TkeyMasttypCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
 
 import de.cismet.cids.tools.CustomToStringConverter;

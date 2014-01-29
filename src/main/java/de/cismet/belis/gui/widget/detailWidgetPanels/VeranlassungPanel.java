@@ -13,17 +13,12 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 
 import org.jdesktop.beansbinding.BindingGroup;
 
-import java.awt.Component;
-
 import java.util.Collection;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.table.AbstractTableModel;
 
 import de.cismet.belis.broker.BelisBroker;
-import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.DateToStringConverter;
 
@@ -31,10 +26,9 @@ import de.cismet.belis.util.RendererTools;
 
 import de.cismet.cids.custom.beans.belis2.InfobausteinCustomBean;
 import de.cismet.cids.custom.beans.belis2.InfobausteinTemplateCustomBean;
+import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean;
-
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 /**
  * DOCUMENT ME!
@@ -53,10 +47,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
             String.class
         };
     private static final String[] COLUMN_NAMES = { "Bezeichnung", "Wert" };
-
-    //~ Instance fields --------------------------------------------------------
-
-    private BelisBroker belisBroker = BelisBroker.getInstance();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddInfo;
@@ -99,38 +89,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         initComponents();
         initComponentToLabelMap();
         initPanel();
-
-        ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setMetaClass(CidsBroker.getInstance()
-                    .getBelisMetaClass(InfobausteinTemplateCustomBean.TABLE));
-//        ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setNullable(true);
-//        ((DefaultBindableReferenceCombo)cbxInfobausteineTemplate).setRenderer(new DefaultListCellRenderer() {
-//
-//                @Override
-//                public Component getListCellRendererComponent(final JList<? extends Object> list,
-//                        final Object value,
-//                        final int index,
-//                        final boolean isSelected,
-//                        final boolean cellHasFocus) {
-//                    final Component comp = super.getListCellRendererComponent(
-//                            list,
-//                            value,
-//                            index,
-//                            isSelected,
-//                            cellHasFocus);
-//                    if (value instanceof InfobausteinTemplateCustomBean) {
-//                        return comp;
-//                    } else {
-//                        ((JLabel)comp).setText("[keine] - freie Auswahl der Informationsbausteine");
-//                        return comp;
-//                    }
-//                }
-//            });
-
-        fillComboBoxWithKeyTableValuesAndAddListener(cbxArt, VeranlassungsartCustomBean.TABLE);
-        cbxArt.setSelectedItem(null);
-
-        fillComboBoxWithKeyTableValuesAndAddListener(cbxInfobausteineTemplate, InfobausteinTemplateCustomBean.TABLE);
-        cbxInfobausteineTemplate.setSelectedItem(null);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -161,7 +119,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         lblBeschreibung = new javax.swing.JLabel();
         lblBemerkungen = new javax.swing.JLabel();
         lblInformationsbausteine = new javax.swing.JLabel();
-        cbxArt = new javax.swing.JComboBox();
+        cbxArt = BelisBroker.createKeyTableComboBox(VeranlassungsartCustomBean.TABLE);
         txtBezeichnung = new javax.swing.JTextField();
         scrBeschreibung = new javax.swing.JScrollPane();
         txaBeschreibung = new javax.swing.JTextArea();
@@ -171,7 +129,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         lblDatumValue = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblInfobausteine = new javax.swing.JTable();
-        cbxInfobausteineTemplate = new DefaultBindableReferenceCombo();
+        cbxInfobausteineTemplate = BelisBroker.createKeyTableComboBox(InfobausteinTemplateCustomBean.TABLE);
         jPanel1 = new javax.swing.JPanel();
         btnAddInfo = new javax.swing.JButton();
         btnRemInfo = new javax.swing.JButton();
@@ -273,26 +231,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         panContent.add(lblInformationsbausteine, gridBagConstraints);
 
         cbxArt.setEnabled(false);
-        cbxArt.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean el =
-                            (de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean)value;
-                        setText(el.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,

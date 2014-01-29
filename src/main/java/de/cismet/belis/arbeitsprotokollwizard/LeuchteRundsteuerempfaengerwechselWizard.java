@@ -11,6 +11,8 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import java.awt.event.ActionEvent;
 
 import java.text.SimpleDateFormat;
@@ -22,13 +24,13 @@ import java.util.Date;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import de.cismet.belis.broker.CidsBroker;
+import de.cismet.belis.broker.BelisBroker;
+
+import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
-
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 /**
  * DOCUMENT ME!
@@ -53,8 +55,8 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
      */
     public LeuchteRundsteuerempfaengerwechselWizard() {
         initComponents();
-        ((DefaultBindableReferenceCombo)cbxRundsteuerempfaenger).setMetaClass(CidsBroker.getInstance()
-                    .getBelisMetaClass(RundsteuerempfaengerCustomBean.TABLE));
+
+        AutoCompleteDecorator.decorate(cbxRundsteuerempfaenger, new ObjectToKeyStringConverter());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -71,7 +73,7 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
         jLabel1 = new javax.swing.JLabel();
         dapEinbaudatum = new org.jdesktop.swingx.JXDatePicker();
         jLabel2 = new javax.swing.JLabel();
-        cbxRundsteuerempfaenger = new DefaultBindableReferenceCombo();
+        cbxRundsteuerempfaenger = BelisBroker.createKeyTableComboBox(RundsteuerempfaengerCustomBean.TABLE);
 
         setLayout(new java.awt.GridBagLayout());
 

@@ -13,17 +13,14 @@ package de.cismet.belis.gui.widget.windowsearchwidget;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import de.cismet.belis.broker.CidsBroker;
+import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.belis2.server.search.ArbeitsauftragSearchStatement;
 import de.cismet.belis2.server.search.BelisSearchStatement;
 import de.cismet.belis2.server.search.VeranlassungSearchStatement;
 
 import de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
 
@@ -65,6 +62,7 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
     private javax.swing.JTextField txtBemerkung;
     private javax.swing.JTextField txtBeschreibung;
     private javax.swing.JTextField txtInfoBaustein;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -76,9 +74,6 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         super(Mode.VERANLASSUNG, "Veranlassung");
         initComponents();
         initWithThisSpecificPanel(panMain);
-
-        ((DefaultBindableReferenceCombo)cbGrund).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                VeranlassungsartCustomBean.TABLE));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -109,6 +104,7 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         panMain = new javax.swing.JPanel();
         panActiveOnly = new javax.swing.JPanel();
@@ -122,7 +118,7 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         chkAngelegtVon = new javax.swing.JCheckBox();
         txtAngelegtVon = new javax.swing.JTextField();
         panGrund = new javax.swing.JPanel();
-        cbGrund = new DefaultBindableReferenceCombo();
+        cbGrund = BelisBroker.createKeyTableComboBox(VeranlassungsartCustomBean.TABLE);
         chkGrund = new javax.swing.JCheckBox();
         panBeschreibung = new javax.swing.JPanel();
         chkBeschreibung = new javax.swing.JCheckBox();
@@ -185,6 +181,15 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         dcDatumVon.setMaximumSize(new java.awt.Dimension(132, 25));
         dcDatumVon.setMinimumSize(new java.awt.Dimension(132, 25));
         dcDatumVon.setPreferredSize(new java.awt.Dimension(132, 25));
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkDatumVon,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                dcDatumVon,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -197,6 +202,15 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         dcDatumBis.setMaximumSize(new java.awt.Dimension(132, 25));
         dcDatumBis.setMinimumSize(new java.awt.Dimension(132, 25));
         dcDatumBis.setPreferredSize(new java.awt.Dimension(132, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkDatumBis,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                dcDatumBis,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -249,6 +263,15 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         txtAngelegtVon.setText(org.openide.util.NbBundle.getMessage(
                 VeranlassungWindowSearch.class,
                 "VeranlassungWindowSearch.txtAngelegtVon.text")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkAngelegtVon,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                txtAngelegtVon,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -266,6 +289,15 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
                     VeranlassungWindowSearch.class,
                     "VeranlassungWindowSearch.panGrund.border.title"))); // NOI18N
         panGrund.setLayout(new java.awt.GridBagLayout());
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkGrund,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                cbGrund,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -310,6 +342,15 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         txtBeschreibung.setText(org.openide.util.NbBundle.getMessage(
                 VeranlassungWindowSearch.class,
                 "VeranlassungWindowSearch.txtBeschreibung.text")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkBeschreibung,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                txtBeschreibung,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -341,6 +382,15 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         txtBemerkung.setText(org.openide.util.NbBundle.getMessage(
                 VeranlassungWindowSearch.class,
                 "VeranlassungWindowSearch.txtBemerkung.text")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkBemerkung,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                txtBemerkung,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -385,5 +435,7 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         panMain.add(panInfoBaustein, gridBagConstraints);
 
         setLayout(null);
+
+        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 }

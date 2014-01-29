@@ -22,14 +22,12 @@ import java.util.Date;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import de.cismet.belis.broker.CidsBroker;
+import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeuchtmittelCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
-
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 /**
  * DOCUMENT ME!
@@ -59,8 +57,6 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
      */
     public LeuchteLeuchtmittelwechselElekpruefungWizard() {
         initComponents();
-        ((DefaultBindableReferenceCombo)cbxLeuchtmittel).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                LeuchtmittelCustomBean.TABLE));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -85,7 +81,7 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
         jLabel4 = new javax.swing.JLabel();
         dapLeuchteLeuchtmittelwechsel = new org.jdesktop.swingx.JXDatePicker();
         jLabel2 = new javax.swing.JLabel();
-        cbxLeuchtmittel = new DefaultBindableReferenceCombo();
+        cbxLeuchtmittel = BelisBroker.createKeyTableComboBox(LeuchtmittelCustomBean.TABLE);
         jLabel3 = new javax.swing.JLabel();
         txtLebensdauer = new javax.swing.JTextField();
 

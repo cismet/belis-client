@@ -16,6 +16,8 @@ import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 import java.util.Date;
 
+import de.cismet.belis.broker.BelisBroker;
+
 import de.cismet.belisEE.mapicons.MapIcons;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
@@ -45,6 +47,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
         } finally {
             DEFAULT_UNTERHALT = unterhalt;
         }
+//        BelisBroker.setDefaultUnterhaltLeuchte(curUnterhaltLeuchte);
         TkeyDoppelkommandoCustomBean doppelkommando = null;
         try {
             doppelkommando = TkeyDoppelkommandoCustomBean.createNew();
@@ -54,6 +57,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
         } finally {
             DEFAULT_DOPPELKOMMANDO = doppelkommando;
         }
+//        BelisBroker.setDefaultDoppelkommando1(curDoppelkommando);
     }
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TdtaLeuchtenCustomBean.class);

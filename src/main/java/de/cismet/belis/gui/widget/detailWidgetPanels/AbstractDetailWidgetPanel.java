@@ -25,17 +25,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.widget.KeyTableListener;
-
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.belisEE.util.CriteriaStringComparator;
 
@@ -62,9 +63,7 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
     //~ Instance fields --------------------------------------------------------
 
     public final String PANEL_CARD_NAME;
-
     protected T currentEntity = null;
-    final String comboBoxNullValue = "Wert auswählen...";
     boolean isTriggerd = false;
     final HashMap<JComponent, JComponent> componentToLabelMap = new HashMap<JComponent, JComponent>();
     private String validationMessage;
@@ -119,6 +118,7 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
     public T getCurrentEntity() {
         return currentEntity;
     }
+
     /**
      * DOCUMENT ME!
      *
@@ -127,101 +127,18 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
     public void setCurrentEntity(final T currentEntity) {
         final T oldCurrentEntity = this.currentEntity;
         this.currentEntity = currentEntity;
-        firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  col                 DOCUMENT ME!
-     * @param  box                 DOCUMENT ME!
-     * @param  sortByNaturalOrder  if true use compareTo() of the elements to sort them, otherwise use the
-     *                             CriteriaStringComparator
-     */
-    void createSortedCBoxModelFromCollection(final Collection<? extends BaseEntity> col,
-            final JComboBox box,
-            final boolean sortByNaturalOrder) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("sorting collection: " + col);
-        }
-        final BaseEntity selectedEntity = (BaseEntity)box.getSelectedItem();
         try {
-            if (box != null) {
-                if (col != null) {
-                    final Object[] objArr = col.toArray();
-                    if (sortByNaturalOrder) {
-                        Arrays.sort(objArr);
-                    } else {
-                        Arrays.sort(objArr, CriteriaStringComparator.getInstance());
-                    }
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("sorted Collection:" + objArr);
-                    }
-                    box.setModel(new DefaultComboBoxModel(objArr));
-                } else {
-                    box.setModel(new DefaultComboBoxModel());
-                }
-            }
-        } catch (Exception ex) {
-            LOG.error("error while sorting collection", ex);
+            firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
+        } catch (final Exception ex) {
+            LOG.error(ex, ex);
         }
-        box.setSelectedItem(selectedEntity);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  comboBox            DOCUMENT ME!
-     * @param  keyTableClassname   DOCUMENT ME!
-     * @param  sortByNaturalOrder  if true use compareTo() of the elements to sort them, otherwise use the
-     *                             CriteriaStringComparator
-     */
-    public void fillComboBoxWithKeyTableValues(final JComboBox comboBox,
-            final String keyTableClassname,
-            final boolean sortByNaturalOrder) {
-        try {
-            final Collection<BaseEntity> keyTableValues = CidsBroker.getInstance().getAll(keyTableClassname);
-            createSortedCBoxModelFromCollection(keyTableValues, comboBox, sortByNaturalOrder);
-        } catch (ActionNotSuccessfulException ex) {
-            comboBox.setModel(new DefaultComboBoxModel());
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  comboBox            DOCUMENT ME!
-     * @param  keyTableClassname   DOCUMENT ME!
-     * @param  sortByNaturalOrder  if true use compareTo() of the elements to sort them, otherwise use the
-     *                             CriteriaStringComparator
-     */
-    public void fillComboBoxWithKeyTableValuesAndAddListener(final JComboBox comboBox,
-            final String keyTableClassname,
-            final boolean sortByNaturalOrder) {
-        fillComboBoxWithKeyTableValues(comboBox, keyTableClassname, sortByNaturalOrder);
-        CidsBroker.getInstance().addListenerForKeyTableChange(keyTableClassname, new KeyTableListener() {
-
-                @Override
-                public void keyTableChanged() {
-                    fillComboBoxWithKeyTableValues(comboBox, keyTableClassname, sortByNaturalOrder);
-                }
-            });
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  comboBox           DOCUMENT ME!
-     * @param  keyTableClassname  DOCUMENT ME!
-     */
-    public void fillComboBoxWithKeyTableValuesAndAddListener(final JComboBox comboBox, final String keyTableClassname) {
-        fillComboBoxWithKeyTableValuesAndAddListener(comboBox, keyTableClassname, false);
     }
 
     /**
      * DOCUMENT ME!
      */
     protected abstract void commitEdits();
+
     /**
      * DOCUMENT ME!
      *

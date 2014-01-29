@@ -14,15 +14,11 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-import java.awt.Component;
-
 import java.text.ParseException;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
-import javax.swing.JList;
 
-import de.cismet.belis.gui.widget.DetailWidget;
+import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.util.RendererTools;
 
@@ -100,9 +96,9 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         lblMauerlascheMaterial = new javax.swing.JLabel();
         txfMauerlascheLaufendenummer = new javax.swing.JTextField();
         dapMauerlascheErstellungsjahr = new org.jdesktop.swingx.JXDatePicker();
-        cbxMauerlascheMaterial = new javax.swing.JComboBox();
-        cbxMauerlascheStrassenschluesselNr = new javax.swing.JComboBox();
-        cbxMauerlascheStrassenschluessel = new javax.swing.JComboBox();
+        cbxMauerlascheMaterial = BelisBroker.createKeyTableComboBox(MaterialMauerlascheCustomBean.TABLE);
+        cbxMauerlascheStrassenschluesselNr = BelisBroker.createStrassenschluesselNummerComboBox();
+        cbxMauerlascheStrassenschluessel = BelisBroker.createKeyTableComboBox(TkeyStrassenschluesselCustomBean.TABLE);
         lblPruefdatum = new javax.swing.JLabel();
         dapPruefdatum = new org.jdesktop.swingx.JXDatePicker();
         lblMauerlascheBemerkung = new javax.swing.JLabel();
@@ -195,26 +191,6 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         jPanel3.add(dapMauerlascheErstellungsjahr, gridBagConstraints);
 
         cbxMauerlascheMaterial.setEnabled(false);
-        cbxMauerlascheMaterial.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.MaterialMauerlascheCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.MaterialMauerlascheCustomBean mm =
-                            (de.cismet.cids.custom.beans.belis2.MaterialMauerlascheCustomBean)value;
-                        setText(mm.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -242,26 +218,6 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         jPanel3.add(cbxMauerlascheMaterial, gridBagConstraints);
 
         cbxMauerlascheStrassenschluesselNr.setEnabled(false);
-        cbxMauerlascheStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
-                        setText(ss.getPk());
-                    }
-                    return this;
-                }
-            });
         cbxMauerlascheStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -278,26 +234,6 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
         jPanel3.add(cbxMauerlascheStrassenschluesselNr, gridBagConstraints);
 
         cbxMauerlascheStrassenschluessel.setEnabled(false);
-        cbxMauerlascheStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
-                        setText(ss.getKeyString());
-                    }
-                    return this;
-                }
-            });
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -464,21 +400,9 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
     @Override
     void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
-        fillComboBoxWithKeyTableValuesAndAddListener(
-            cbxMauerlascheStrassenschluessel,
-            TkeyStrassenschluesselCustomBean.TABLE);
-        cbxMauerlascheStrassenschluessel.setSelectedItem(null);
 
         AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluessel, new ObjectToKeyStringConverter());
-        fillComboBoxWithKeyTableValuesAndAddListener(
-            cbxMauerlascheStrassenschluesselNr,
-            TkeyStrassenschluesselCustomBean.TABLE,
-            true);
-        cbxMauerlascheStrassenschluesselNr.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbxMauerlascheStrassenschluesselNr, new ObjectToPkConverter("pk"));
-
-        fillComboBoxWithKeyTableValuesAndAddListener(cbxMauerlascheMaterial, MaterialMauerlascheCustomBean.TABLE);
-        cbxMauerlascheMaterial.setSelectedItem(null);
     }
 
     @Override

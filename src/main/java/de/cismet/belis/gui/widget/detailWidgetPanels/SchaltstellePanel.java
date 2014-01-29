@@ -22,7 +22,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import de.cismet.belis.gui.widget.DetailWidget;
+import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.util.RendererTools;
 
@@ -108,8 +108,8 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         lblSchaltstelleStrassenschluessel = new javax.swing.JLabel();
-        cbxSchaltstelleStrassenschluesselNr = new javax.swing.JComboBox();
-        cbxSchaltstelleStrassenschluessel = new javax.swing.JComboBox();
+        cbxSchaltstelleStrassenschluesselNr = BelisBroker.createStrassenschluesselNummerComboBox();
+        cbxSchaltstelleStrassenschluessel = BelisBroker.createKeyTableComboBox(TkeyStrassenschluesselCustomBean.TABLE);
         lblSchaltstelleLaufendenummer = new javax.swing.JLabel();
         txfSchaltstelleLaufendenummer = new javax.swing.JTextField();
         lblSchaltstelleHausnummer = new javax.swing.JLabel();
@@ -121,11 +121,11 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         lblSchaltstelleStandortbezeichnung = new javax.swing.JLabel();
         txfSchaltstelleStandortbezeichnung = new javax.swing.JTextField();
         lblSchaltstelleBauart = new javax.swing.JLabel();
-        cbxSchaltstelleBauart = new javax.swing.JComboBox();
+        cbxSchaltstelleBauart = BelisBroker.createKeyTableComboBox(BauartCustomBean.TABLE);
         lblPruefdatum = new javax.swing.JLabel();
         dapPruefdatum = new org.jdesktop.swingx.JXDatePicker();
         lblRundsteuerempfaenger = new javax.swing.JLabel();
-        cbxRundsteuerempfaenger = new javax.swing.JComboBox();
+        cbxRundsteuerempfaenger = BelisBroker.createKeyTableComboBox(RundsteuerempfaengerCustomBean.TABLE);
         lblEinbaudatum = new javax.swing.JLabel();
         dapEinbaudatum = new org.jdesktop.swingx.JXDatePicker();
         lblSchaltstelleBemerkung = new javax.swing.JLabel();
@@ -151,26 +151,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         jPanel4.add(lblSchaltstelleStrassenschluessel, gridBagConstraints);
 
         cbxSchaltstelleStrassenschluesselNr.setEnabled(false);
-        cbxSchaltstelleStrassenschluesselNr.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
-                        setText(ss.getPk());
-                    }
-                    return this;
-                }
-            });
         cbxSchaltstelleStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -186,26 +166,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         jPanel4.add(cbxSchaltstelleStrassenschluesselNr, gridBagConstraints);
 
         cbxSchaltstelleStrassenschluessel.setEnabled(false);
-        cbxSchaltstelleStrassenschluessel.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean ss =
-                            (de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean)value;
-                        setText(ss.getKeyString());
-                    }
-                    return this;
-                }
-            });
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -379,26 +339,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         jPanel4.add(lblSchaltstelleBauart, gridBagConstraints);
 
         cbxSchaltstelleBauart.setEnabled(false);
-        cbxSchaltstelleBauart.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.BauartCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.BauartCustomBean ba =
-                            (de.cismet.cids.custom.beans.belis2.BauartCustomBean)value;
-                        setText(ba.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -454,26 +394,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         jPanel4.add(lblRundsteuerempfaenger, gridBagConstraints);
 
         cbxRundsteuerempfaenger.setEnabled(false);
-        cbxRundsteuerempfaenger.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.BauartCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.BauartCustomBean ba =
-                            (de.cismet.cids.custom.beans.belis2.BauartCustomBean)value;
-                        setText(ba.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -584,21 +504,6 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     @Override
     final void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
-
-        fillComboBoxWithKeyTableValuesAndAddListener(
-            cbxSchaltstelleStrassenschluessel,
-            TkeyStrassenschluesselCustomBean.TABLE);
-        fillComboBoxWithKeyTableValuesAndAddListener(
-            cbxSchaltstelleStrassenschluesselNr,
-            TkeyStrassenschluesselCustomBean.TABLE,
-            true);
-        fillComboBoxWithKeyTableValuesAndAddListener(cbxSchaltstelleBauart, BauartCustomBean.TABLE);
-        fillComboBoxWithKeyTableValuesAndAddListener(cbxRundsteuerempfaenger, RundsteuerempfaengerCustomBean.TABLE);
-
-        cbxSchaltstelleStrassenschluessel.setSelectedItem(null);
-        cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
-        cbxSchaltstelleBauart.setSelectedItem(null);
-        cbxRundsteuerempfaenger.setSelectedItem(null);
 
         AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluessel, new ObjectToKeyStringConverter());
         AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluesselNr, new ObjectToPkConverter("pk"));

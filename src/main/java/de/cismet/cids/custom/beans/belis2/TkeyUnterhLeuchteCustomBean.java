@@ -165,7 +165,7 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        return "UnterhaltLeuchte[pk=" + pk + "]";
+        return getUnterhaltspflichtigeLeuchte();
     }
 
     @Override

@@ -139,11 +139,6 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
     }
 
     @Override
-    public String toString() {
-        return getKeyString();
-    }
-
-    @Override
     public String getKeyString() {
         if (getKlassifizierung() != null) {
             return getKlassifizierung().toLowerCase(Locale.GERMAN);

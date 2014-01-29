@@ -15,7 +15,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-import de.cismet.belis.broker.CidsBroker;
+import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 
@@ -27,8 +27,6 @@ import de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
 
@@ -90,15 +88,6 @@ public class LeuchtenWindowSearch extends BelisWindowSearch {
         initComponents();
         initWithThisSpecificPanel(panMain);
 
-        ((DefaultBindableReferenceCombo)cbAnschlussleistung1dk).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                TkeyDoppelkommandoCustomBean.TABLE));
-        ((DefaultBindableReferenceCombo)cbAnschlussleistung2dk).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                TkeyDoppelkommandoCustomBean.TABLE));
-        ((DefaultBindableReferenceCombo)cbLeuchtentyp).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                TkeyLeuchtentypCustomBean.TABLE));
-        ((DefaultBindableReferenceCombo)cbRundsteuerempfaenger).setMetaClass(CidsBroker.getInstance().getBelisMetaClass(
-                RundsteuerempfaengerCustomBean.TABLE));
-
         AutoCompleteDecorator.decorate(cbLeuchtentyp, new ObjectToKeyStringConverter());
         AutoCompleteDecorator.decorate(cbRundsteuerempfaenger, new ObjectToKeyStringConverter());
     }
@@ -132,19 +121,19 @@ public class LeuchtenWindowSearch extends BelisWindowSearch {
         dcNaechsterWechselBis = new de.cismet.cids.editors.DefaultBindableDateChooser();
         cbNaechsterWechselBis = new javax.swing.JCheckBox();
         panLeuchtentyp = new javax.swing.JPanel();
-        cbLeuchtentyp = new DefaultBindableReferenceCombo();
+        cbLeuchtentyp = BelisBroker.createKeyTableComboBox(TkeyLeuchtentypCustomBean.TABLE);
         chkLeuchtentyp = new javax.swing.JCheckBox();
         panRundsteuerempfaenger = new javax.swing.JPanel();
         chkRundsteuerempfaenger = new javax.swing.JCheckBox();
-        cbRundsteuerempfaenger = new DefaultBindableReferenceCombo();
+        cbRundsteuerempfaenger = BelisBroker.createKeyTableComboBox(RundsteuerempfaengerCustomBean.TABLE);
         panSchaltstelle = new javax.swing.JPanel();
         chkSchaltstelle = new javax.swing.JCheckBox();
         txtSchaltstelle = new javax.swing.JTextField();
         panAnschlussleistung1dk = new javax.swing.JPanel();
-        cbAnschlussleistung1dk = new DefaultBindableReferenceCombo();
+        cbAnschlussleistung1dk = BelisBroker.createKeyTableComboBox(TkeyDoppelkommandoCustomBean.TABLE);
         chkAnschlussleistung1dk = new javax.swing.JCheckBox();
         panAnschlussleistung2dk = new javax.swing.JPanel();
-        cbAnschlussleistung2dk = new DefaultBindableReferenceCombo();
+        cbAnschlussleistung2dk = BelisBroker.createKeyTableComboBox(TkeyDoppelkommandoCustomBean.TABLE);
         chkAnschlussleistung2dk = new javax.swing.JCheckBox();
 
         panMain.setLayout(new java.awt.GridBagLayout());

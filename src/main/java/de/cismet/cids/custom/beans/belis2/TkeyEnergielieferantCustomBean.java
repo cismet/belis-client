@@ -138,7 +138,7 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Energielieferant[pk=" + pk + "]";
+        return getEnergielieferant();
     }
 
     @Override

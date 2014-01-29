@@ -13,18 +13,9 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 
 import org.jdesktop.beansbinding.BindingGroup;
 
-import java.awt.Component;
-
-import java.util.Collection;
-
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
-import javax.swing.JList;
 
 import de.cismet.belis.broker.BelisBroker;
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.belis.gui.widget.DetailWidget;
 
 import de.cismet.belis.util.RendererTools;
 
@@ -68,21 +59,6 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
         initComponents();
         initComponentToLabelMap();
         initPanel();
-
-        // ToDo ugly !!! workaround
-        try {
-            final Collection<LeitungstypCustomBean> leitungstypen = CidsBroker.getInstance()
-                        .getAll(LeitungstypCustomBean.TABLE);
-            if ((leitungstypen != null) && (leitungstypen.size() > 0)) {
-                for (final LeitungstypCustomBean curLeitungstyp : leitungstypen) {
-                    if (curLeitungstyp.getId().equals(1)) {
-                        BelisBroker.getInstance().setLastLeitungstyp(curLeitungstyp);
-                    }
-                }
-            }
-        } catch (final Exception ex) {
-            LOG.error("could not find leitungstypen");
-        }
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -107,9 +83,9 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
         lblLeitungMaterial = new javax.swing.JLabel();
         lblLeitungLeitungstyp = new javax.swing.JLabel();
         lblLeitungQuerschnitt = new javax.swing.JLabel();
-        cbxLeitungLeitungstyp = new javax.swing.JComboBox();
-        cbxLeitungMaterial = new javax.swing.JComboBox();
-        cbxLeitungQuerschnitt = new javax.swing.JComboBox();
+        cbxLeitungLeitungstyp = BelisBroker.createKeyTableComboBox(LeitungstypCustomBean.TABLE);
+        cbxLeitungMaterial = BelisBroker.createKeyTableComboBox(MaterialLeitungCustomBean.TABLE);
+        cbxLeitungQuerschnitt = BelisBroker.createKeyTableComboBox(QuerschnittCustomBean.TABLE);
         jPanel3 = new javax.swing.JPanel();
 
         jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                          // NOI18N
@@ -149,26 +125,6 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
         jPanel2.add(lblLeitungQuerschnitt, gridBagConstraints);
 
         cbxLeitungLeitungstyp.setEnabled(false);
-        cbxLeitungLeitungstyp.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean lt =
-                            (de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean)value;
-                        setText(lt.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -188,26 +144,6 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
         jPanel2.add(cbxLeitungLeitungstyp, gridBagConstraints);
 
         cbxLeitungMaterial.setEnabled(false);
-        cbxLeitungMaterial.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.MaterialLeitungCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.MaterialLeitungCustomBean mt =
-                            (de.cismet.cids.custom.beans.belis2.MaterialLeitungCustomBean)value;
-                        setText(mt.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -227,30 +163,6 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
         jPanel2.add(cbxLeitungMaterial, gridBagConstraints);
 
         cbxLeitungQuerschnitt.setEnabled(false);
-        cbxLeitungQuerschnitt.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.QuerschnittCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.QuerschnittCustomBean qt =
-                            (de.cismet.cids.custom.beans.belis2.QuerschnittCustomBean)value;
-                        if (qt.getGroesse() != null) {
-                            setText(qt.getGroesse().toString());
-                        } else {
-                            setText("");
-                        }
-                    }
-                    return this;
-                }
-            });
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -303,15 +215,6 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
     @Override
     void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
-
-        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeitungMaterial, MaterialLeitungCustomBean.TABLE);
-        cbxLeitungMaterial.setSelectedItem(null);
-
-        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeitungLeitungstyp, LeitungstypCustomBean.TABLE);
-        cbxLeitungLeitungstyp.setSelectedItem(null);
-
-        fillComboBoxWithKeyTableValuesAndAddListener(cbxLeitungQuerschnitt, QuerschnittCustomBean.TABLE);
-        cbxLeitungQuerschnitt.setSelectedItem(null);
     }
 
     @Override

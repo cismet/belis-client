@@ -12,7 +12,6 @@
 package de.cismet.belis.gui.widget.detailWidgetPanels;
 
 import org.jdesktop.beansbinding.BindingGroup;
-import org.jdesktop.observablecollections.ObservableList;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -21,18 +20,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
 import de.cismet.belis.broker.BelisBroker;
-
-import de.cismet.belis.client.BelisClient;
 
 import de.cismet.belis.util.RendererTools;
 
@@ -133,7 +128,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         lblBemerkung = new javax.swing.JLabel();
         lblMaterial = new javax.swing.JLabel();
         dapDatum = new org.jdesktop.swingx.JXDatePicker();
-        cbxStatus = new javax.swing.JComboBox();
+        cbxStatus = BelisBroker.createKeyTableComboBox(ArbeitsprotokollstatusCustomBean.TABLE);
         scrBemerkungen = new javax.swing.JScrollPane();
         txaBemerkungen = new javax.swing.JTextArea();
         scrMaterial = new javax.swing.JScrollPane();
@@ -224,26 +219,6 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         panDetails.add(dapDatum, gridBagConstraints);
 
         cbxStatus.setEnabled(false);
-        cbxStatus.setRenderer(new DefaultListCellRenderer() {
-
-                @Override
-                public Component getListCellRendererComponent(
-                        final JList list,
-                        final Object value,
-                        final int index,
-                        final boolean isSelected,
-                        final boolean cellHasFocus) {
-                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value == null) {
-                        setText(comboBoxNullValue);
-                    } else if (value instanceof de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean) {
-                        final de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean el =
-                            (de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean)value;
-                        setText(el.getBezeichnung());
-                    }
-                    return this;
-                }
-            });
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -415,8 +390,6 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
     @Override
     final void initPanel() {
-        fillComboBoxWithKeyTableValuesAndAddListener(cbxStatus, ArbeitsprotokollstatusCustomBean.TABLE);
-        cbxStatus.setSelectedItem(null);
     }
 
     /**

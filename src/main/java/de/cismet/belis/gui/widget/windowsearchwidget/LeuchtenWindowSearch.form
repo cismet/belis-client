@@ -287,7 +287,7 @@
                 <BindingProperty name="enabled" source="chkLeuchtentyp" sourcePath="${selected}" target="cbLeuchtentyp" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(TkeyLeuchtentypCustomBean.TABLE)"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -344,7 +344,7 @@
                 <BindingProperty name="enabled" source="chkRundsteuerempfaenger" sourcePath="${selected}" target="cbRundsteuerempfaenger" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(RundsteuerempfaengerCustomBean.TABLE)"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -424,7 +424,7 @@
                 <BindingProperty name="enabled" source="chkAnschlussleistung1dk" sourcePath="${selected}" target="cbAnschlussleistung1dk" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(TkeyDoppelkommandoCustomBean.TABLE)"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -469,7 +469,7 @@
                 <BindingProperty name="enabled" source="chkAnschlussleistung2dk" sourcePath="${selected}" target="cbAnschlussleistung2dk" targetPath="enabled" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new DefaultBindableReferenceCombo()"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(TkeyDoppelkommandoCustomBean.TABLE)"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

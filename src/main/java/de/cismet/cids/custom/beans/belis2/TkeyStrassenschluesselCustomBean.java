@@ -140,21 +140,7 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity
     }
 
     @Override
-    public String toString() {
-        return "Strassenschlüssel[pk=" + pk + "]";
-    }
-
-    @Override
     public String getKeyString() {
-//        if(getPk() != null && getStrasse() != null){
-//            return getPk()+" - "+getStrasse();
-//        } else if(getPk() != null){
-//            return getPk()+" - Kein Straßennamen vorhanden.";
-//        } else if(getStrasse() != null){
-//            return "Keine ID - "+getStrasse();
-//        } else {
-//            return "";
-//        }
         if (getStrasse() != null) {
             return getStrasse();
         } else {

@@ -50,6 +50,7 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
     private javax.swing.JTextField txtAngelegtVon;
     private javax.swing.JTextField txtAuftragsnummer;
     private javax.swing.JTextField txtZugewiesenAn;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -92,6 +93,7 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         panTest = new javax.swing.JPanel();
         panActiveOnly = new javax.swing.JPanel();
@@ -159,6 +161,15 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         txtAuftragsnummer.setText(org.openide.util.NbBundle.getMessage(
                 ArbeitsauftragWindowSearch.class,
                 "ArbeitsauftragWindowSearch.txtAuftragsnummer.text")); // NOI18N
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkAuftragsnummer,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                txtAuftragsnummer,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -191,6 +202,15 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         txtZugewiesenAn.setText(org.openide.util.NbBundle.getMessage(
                 ArbeitsauftragWindowSearch.class,
                 "ArbeitsauftragWindowSearch.txtZugewiesenAn.text")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkZugewiesenAn,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                txtZugewiesenAn,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -226,6 +246,15 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         dcAngelegtAmVon.setMaximumSize(new java.awt.Dimension(132, 25));
         dcAngelegtAmVon.setMinimumSize(new java.awt.Dimension(132, 25));
         dcAngelegtAmVon.setPreferredSize(new java.awt.Dimension(132, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkAngelegtAmVon,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                dcAngelegtAmVon,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -238,6 +267,15 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         dcAngelegtAmBis.setMaximumSize(new java.awt.Dimension(132, 25));
         dcAngelegtAmBis.setMinimumSize(new java.awt.Dimension(132, 25));
         dcAngelegtAmBis.setPreferredSize(new java.awt.Dimension(132, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkAngelegtAmBis,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                dcAngelegtAmBis,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -286,6 +324,15 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         txtAngelegtVon.setText(org.openide.util.NbBundle.getMessage(
                 ArbeitsauftragWindowSearch.class,
                 "ArbeitsauftragWindowSearch.txtAngelegtVon.text")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkAngelegtVon,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                txtAngelegtVon,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -300,5 +347,7 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         panTest.add(panAngelegtVon, gridBagConstraints);
 
         setLayout(null);
+
+        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 }
