@@ -86,8 +86,8 @@ public class BrokerTester {
     public static final String CALLSERVER_URL = "https://geoportal.wuppertal.de:8084/callserver/binary";
     public static final String CALLSERVER_DOMAIN = CidsBroker.BELIS_DOMAIN;
     public static final String CALLSERVER_USER = "JoettenK";
-//    public static final String CALLSERVER_PASSWORD = "kif";
-    public static final String CALLSERVER_PASSWORD = "jkbelis";
+//    public static final String CALLSERVER_PASSWORD = "";
+    public static final String CALLSERVER_PASSWORD = "";
     public static final String CALLSERVER_GROUP = "Bearbeiter";
 
     //~ Constructors -----------------------------------------------------------
