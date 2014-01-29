@@ -8,24 +8,45 @@
 
 import Sirius.navigator.connection.*;
 import Sirius.navigator.connection.proxy.ConnectionProxy;
+import Sirius.navigator.event.CatalogueActivationListener;
+import Sirius.navigator.event.CatalogueSelectionListener;
+import Sirius.navigator.exception.ConnectionException;
+import Sirius.navigator.resource.PropertyManager;
+import Sirius.navigator.search.dynamic.SearchDialog;
+import Sirius.navigator.types.treenode.RootTreeNode;
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.DescriptionPane;
+import Sirius.navigator.ui.DescriptionPaneFS;
+import Sirius.navigator.ui.LayoutedContainer;
+import Sirius.navigator.ui.MutableMenuBar;
+import Sirius.navigator.ui.MutablePopupMenu;
+import Sirius.navigator.ui.MutableToolBar;
+import Sirius.navigator.ui.attributes.AttributeViewer;
+import Sirius.navigator.ui.attributes.editor.AttributeEditor;
+import Sirius.navigator.ui.tree.MetaCatalogueTree;
+import Sirius.navigator.ui.tree.SearchResultsTree;
 
-import java.sql.Date;
+import org.jdesktop.swingx.auth.LoginService;
 
+import java.awt.Component;
+
+import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis.commons.constants.ArbeitsauftragPropertyConstants;
-import de.cismet.belis.commons.constants.ArbeitsprotokollPropertyConstants;
-import de.cismet.belis.commons.constants.VeranlassungPropertyConstants;
+import de.cismet.belis.client.BelisClient;
 
-import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
-import de.cismet.cids.custom.beans.belis2.InfobausteinCustomBean;
-import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
-import de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean;
+import de.cismet.belis.gui.widget.ExtendedNavigatorAttributeEditorGui;
 
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.tools.gui.DefaultPopupMenuListener;
+import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 
 /*
@@ -57,15 +78,17 @@ public class BrokerTester {
 
     private static final transient org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BrokerTester.class);
 
-    public static final String CONNECTION_CLASS = "Sirius.navigator.connection.RMIConnection";
+    public static final String CONNECTION_CLASS = "Sirius.navigator.connection.RESTfulConnection";
     public static final String CONNECTION_PROXY_CLASS =
         "Sirius.navigator.connection.proxy.DefaultConnectionProxyHandler";
 
-    public static final String CALLSERVER_URL = "rmi://localhost/callServer";
+//    public static final String CALLSERVER_URL = "http://localhost:9917/callserver/binary";
+    public static final String CALLSERVER_URL = "https://geoportal.wuppertal.de:8084/callserver/binary";
     public static final String CALLSERVER_DOMAIN = CidsBroker.BELIS_DOMAIN;
-    public static final String CALLSERVER_USER = "admin";
-    public static final String CALLSERVER_PASSWORD = "krissenich";
-    public static final String CALLSERVER_GROUP = "Administratoren";
+    public static final String CALLSERVER_USER = "JoettenK";
+//    public static final String CALLSERVER_PASSWORD = "kif";
+    public static final String CALLSERVER_PASSWORD = "jkbelis";
+    public static final String CALLSERVER_GROUP = "Bearbeiter";
 
     //~ Constructors -----------------------------------------------------------
 
@@ -78,46 +101,112 @@ public class BrokerTester {
      * Creates a new BrokerTester object.
      */
     public BrokerTester() {
-        final ConnectionProxy proxy = initProxy();
-        SessionManager.init(proxy);
-
-        runTest();
     }
 
     //~ Methods ----------------------------------------------------------------
 
     /**
      * DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
      */
-    private void runTest() {
-        final CidsBroker broker = CidsBroker.getInstance();
+    private static void initComponentRegistry() throws Exception {
+        final SearchResultsTree searchResultsTree = new SearchResultsTree();
+        final MutableToolBar toolBar = new MutableToolBar();
+        final MutableMenuBar menuBar = new MutableMenuBar();
+        final LayoutedContainer container = new LayoutedContainer(toolBar, menuBar, true);
+        final AttributeViewer attributeViewer = new AttributeViewer();
+        final AttributeEditor attributeEditor = new ExtendedNavigatorAttributeEditorGui();
+        final SearchDialog searchDialog = null;
 
-        final VeranlassungCustomBean veranlassungBean = VeranlassungCustomBean.createNew();
-        final VeranlassungsartCustomBean veranlassungsartBean = VeranlassungsartCustomBean.createNew();
-        final ArbeitsauftragCustomBean arbeitsauftragBean = ArbeitsauftragCustomBean.createNew();
-        final ArbeitsprotokollCustomBean arbeitsprotokollBean = ArbeitsprotokollCustomBean.createNew();
-        final ArbeitsprotokollstatusCustomBean arbeitsprotokollstatusBean = ArbeitsprotokollstatusCustomBean
-                    .createNew();
-        final InfobausteinCustomBean infobausteinBean = InfobausteinCustomBean.createNew();
+        final DescriptionPane descriptionPane = new DescriptionPaneFS();
+        final MutablePopupMenu popupMenu = new MutablePopupMenu();
 
-        try {
-            veranlassungBean.setProperty(VeranlassungPropertyConstants.PROP__FK_ART, veranlassungsartBean);
-            veranlassungBean.setProperty(VeranlassungPropertyConstants.PROP__FK_AUFTRAG, arbeitsauftragBean);
-            veranlassungBean.setProperty(VeranlassungPropertyConstants.PROP__DATUM, new Date(0));
-            ((Collection)veranlassungBean.getProperty(VeranlassungPropertyConstants.PROP__AR_INFOBAUSTEINE)).add(
-                infobausteinBean);
-
-            arbeitsprotokollBean.setProperty(
-                ArbeitsprotokollPropertyConstants.PROP__FK_STATUS,
-                arbeitsprotokollstatusBean);
-
-            ((Collection)arbeitsauftragBean.getProperty(ArbeitsauftragPropertyConstants.PROP__N_PROTOKOLLE)).add(
-                arbeitsprotokollBean);
-        } catch (Exception ex) {
-            LOG.fatal("error setting property", ex);
+        final Collection<Component> toRemoveComponents = new ArrayList<Component>();
+        for (final Component component : popupMenu.getComponents()) {
+            if ((component instanceof JSeparator)
+                        || ((component instanceof JMenuItem)
+                            && (((JMenuItem)component).getActionCommand() != null)
+                            && (((JMenuItem)component).getActionCommand().equals("cmdSearch")
+                                || ((JMenuItem)component).getActionCommand().equals("treecommand")))) {
+                toRemoveComponents.add(component);
+            }
+        }
+        for (final Component toRemoveComponent : toRemoveComponents) {
+            popupMenu.remove(toRemoveComponent);
         }
 
-        LOG.fatal(veranlassungBean.getMOString());
+        final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
+        final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
+        final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
+                rootTreeNode,
+                PropertyManager.getManager().isEditable(),
+                true,
+                PropertyManager.getManager().getMaxConnections());
+        final CatalogueSelectionListener catalogueSelectionListener = new CatalogueSelectionListener(
+                attributeViewer,
+                descriptionPane);
+        final CatalogueActivationListener catalogueActivationListener = new CatalogueActivationListener(
+                metaCatalogueTree,
+                attributeViewer,
+                descriptionPane);
+
+        metaCatalogueTree.addMouseListener(cataloguePopupMenuListener);
+        metaCatalogueTree.addTreeSelectionListener(catalogueSelectionListener);
+        metaCatalogueTree.addComponentListener(catalogueActivationListener);
+
+        ComponentRegistry.registerComponents(
+            null,
+            container,
+            menuBar,
+            toolBar,
+            popupMenu,
+            metaCatalogueTree,
+            searchResultsTree,
+            attributeViewer,
+            attributeEditor,
+            searchDialog,
+            descriptionPane);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   frame  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private static void runTest(final JFrame frame) throws Exception {
+        try {
+//            final JXLoginPane login = new JXLoginPane(new WundaAuthentification(), null, null);
+//            final JXLoginPane.JXLoginDialog d = new JXLoginPane.JXLoginDialog((JFrame)null, login);
+//            StaticSwingTools.showDialog(d);
+
+            SessionManager.init(initProxy());
+            ClassCacheMultiple.setInstance(CALLSERVER_DOMAIN);
+
+            initComponentRegistry();
+
+            final TreeNodesDialog dialog = new TreeNodesDialog(frame, true);
+            new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (final InterruptedException ex) {
+                            LOG.fatal("error while sleeping", ex);
+                        }
+                        dialog.dispose();
+                    }
+                }).start();
+            StaticSwingTools.showDialog(dialog);
+
+            SessionManager.destroy();
+            Thread.sleep(500);
+        } catch (final ConnectionException ex) {
+            LOG.fatal("getRoots()", ex);
+        }
     }
 
     /**
@@ -126,41 +215,103 @@ public class BrokerTester {
      * @param  args  DOCUMENT ME!
      */
     public static void main(final String[] args) {
-        try {
-            Log4JQuickConfig.configure4LumbermillOnLocalhost();
+        Log4JQuickConfig.configure4LumbermillOnLocalhost();
 
-            final BrokerTester tester = new BrokerTester();
-        } catch (Exception ex) {
-            LOG.fatal(ex, ex);
-        } finally {
-            System.exit(0);
-        }
+        final JFrame frame = new JFrame();
+        frame.setVisible(true);
+        new Thread(
+            new Runnable() {
+
+                @Override
+                public void run() {
+                    while (true) {
+                        try {
+                            runTest(frame);
+                        } catch (Exception ex) {
+                            LOG.fatal("error while test", ex);
+                            System.exit(0);
+                        }
+                    }
+                }
+            }).start();
     }
 
     /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
      */
-    private ConnectionProxy initProxy() {
-        try {
-            final Connection connection = ConnectionFactory.getFactory()
-                        .createConnection(CONNECTION_CLASS, CALLSERVER_URL);
+    private static ConnectionProxy initProxy() throws Exception {
+        final Connection connection = ConnectionFactory.getFactory().createConnection(CONNECTION_CLASS, CALLSERVER_URL);
 
-            final ConnectionInfo connectionInfo = new ConnectionInfo();
-            connectionInfo.setCallserverURL(CALLSERVER_URL);
-            connectionInfo.setPassword(CALLSERVER_PASSWORD);
-            connectionInfo.setUserDomain(CALLSERVER_DOMAIN);
-            connectionInfo.setUsergroup(CALLSERVER_GROUP);
-            connectionInfo.setUsergroupDomain(CALLSERVER_DOMAIN);
-            connectionInfo.setUsername(CALLSERVER_USER);
+        final ConnectionInfo connectionInfo = new ConnectionInfo();
+        connectionInfo.setCallserverURL(CALLSERVER_URL);
+        connectionInfo.setPassword(CALLSERVER_PASSWORD);
+        connectionInfo.setUserDomain(CALLSERVER_DOMAIN);
+        connectionInfo.setUsergroup(CALLSERVER_GROUP);
+        connectionInfo.setUsergroupDomain(CALLSERVER_DOMAIN);
+        connectionInfo.setUsername(CALLSERVER_USER);
 
-            final ConnectionSession session = ConnectionFactory.getFactory()
-                        .createSession(connection, connectionInfo, true);
-            return ConnectionFactory.getFactory().createProxy(CONNECTION_PROXY_CLASS, session);
-        } catch (Exception ex) {
-            LOG.fatal(ex, ex);
-            return null;
+        final ConnectionSession session = ConnectionFactory.getFactory()
+                    .createSession(connection, connectionInfo, true);
+        return ConnectionFactory.getFactory().createProxy(CONNECTION_PROXY_CLASS, session);
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    public static class WundaAuthentification extends LoginService {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(
+                BelisClient.WundaAuthentification.class);
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new WundaAuthentification object.
+         */
+        public WundaAuthentification() {
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public boolean authenticate(final String name, final char[] password, final String server) throws Exception {
+            try {
+                final String user = CALLSERVER_USER;
+                final String group = CALLSERVER_GROUP;
+
+                final Connection connection = ConnectionFactory.getFactory()
+                            .createConnection(CONNECTION_CLASS, CALLSERVER_URL);
+                final ConnectionSession session;
+                final ConnectionProxy proxy;
+                final ConnectionInfo connectionInfo = new ConnectionInfo();
+                connectionInfo.setCallserverURL(CALLSERVER_URL);
+                connectionInfo.setPassword(CALLSERVER_PASSWORD);
+                connectionInfo.setUserDomain(CALLSERVER_DOMAIN);
+                connectionInfo.setUsergroup(group);
+                connectionInfo.setUsergroupDomain(CALLSERVER_DOMAIN);
+                connectionInfo.setUsername(user);
+
+                session = ConnectionFactory.getFactory().createSession(connection, connectionInfo, true);
+                proxy = ConnectionFactory.getFactory().createProxy(CONNECTION_PROXY_CLASS, session);
+                SessionManager.init(proxy);
+                ClassCacheMultiple.setInstance(CALLSERVER_DOMAIN);
+
+                CidsBroker.getInstance().setProxy(proxy);
+                return true;
+            } catch (Throwable t) {
+                log.error("Fehler beim Anmelden", t);
+                return false;
+            }
         }
     }
 }

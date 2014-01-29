@@ -2338,7 +2338,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             disableSearch();
             final BelisSearchStatement belisSearchStatement = new BelisSearchStatement(
                     isFilterNormal(),
-                    isFilterNormal(),
+                    false,
                     isFilterNormal(),
                     isFilterNormal(),
                     isFilterNormal(),
