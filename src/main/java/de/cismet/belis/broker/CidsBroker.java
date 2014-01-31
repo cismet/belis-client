@@ -71,7 +71,6 @@ public class CidsBroker {
 
     //~ Instance fields --------------------------------------------------------
 
-    HashMap<String, Collection<CidsBean>> keyTableCollections = new HashMap<String, Collection<CidsBean>>();
     HashMap<String, Collection<KeyTableListener>> keyTableListeners =
         new HashMap<String, Collection<KeyTableListener>>();
     private ConnectionProxy proxy = null;
@@ -256,27 +255,8 @@ public class CidsBroker {
         for (final MetaObject metaObject : mos) {
             beans.add(metaObject.getBean());
         }
-        keyTableCollections.put(className, beans);
         fireListenerForKeyTableChange(className);
         return (Collection)beans;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   className  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    public Collection getAll(String className) throws ActionNotSuccessfulException {
-        className = className.toLowerCase();
-        if (keyTableCollections.containsKey(className)) {
-            return keyTableCollections.get(className);
-        } else {
-            return refreshAll(className);
-        }
     }
 
     /**

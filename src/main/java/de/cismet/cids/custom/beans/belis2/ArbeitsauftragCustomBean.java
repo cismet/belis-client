@@ -27,7 +27,6 @@ import de.cismet.belis.broker.CidsBroker;
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.belis2.server.search.NextArbeitsauftragNummerSearch;
-import de.cismet.belis2.server.search.NextVeranlassungNummerSearch;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -51,8 +50,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     public static final String PROP__ANGELEGT_VON = "angelegt_von";
     public static final String PROP__ANGELEGT_AM = "angelegt_am";
     public static final String PROP__NUMMER = "nummer";
-    public static final String PROP__N_PROTOKOLLE = "n_protokolle";
-    public static final String PROP__N_VERANLASSUNGEN = "n_veranlassungen";
+    public static final String PROP__AR_PROTOKOLLE = "ar_protokolle";
     public static final String PROP__ZUGEWIESEN_AN = "zugewiesen_an";
 
     private static final String[] PROPERTY_NAMES = new String[] {
@@ -60,8 +58,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
             PROP__ANGELEGT_VON,
             PROP__ANGELEGT_AM,
             PROP__NUMMER,
-            PROP__N_PROTOKOLLE,
-            PROP__N_VERANLASSUNGEN,
+            PROP__AR_PROTOKOLLE,
             PROP__ZUGEWIESEN_AN
         };
 
@@ -71,8 +68,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     private String zugewiesen_an;
     private Date angelegt_am;
     private String nummer;
-    private Collection<ArbeitsprotokollCustomBean> n_protokolle;
-    private Collection<VeranlassungCustomBean> n_veranlassungen;
+    private Collection<ArbeitsprotokollCustomBean> ar_protokolle;
     private Collection<DmsUrlCustomBean> ar_dokumente = new ArrayList<DmsUrlCustomBean>();
 
     //~ Constructors -----------------------------------------------------------
@@ -225,39 +221,19 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<ArbeitsprotokollCustomBean> getN_protokolle() {
-        return n_protokolle;
+    public Collection<ArbeitsprotokollCustomBean> getAr_protokolle() {
+        return ar_protokolle;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  n_protokolle  DOCUMENT ME!
+     * @param  ar_protokolle  DOCUMENT ME!
      */
-    public void setN_protokolle(final Collection<ArbeitsprotokollCustomBean> n_protokolle) {
-        final Collection<ArbeitsprotokollCustomBean> old = this.n_protokolle;
-        this.n_protokolle = n_protokolle;
-        this.propertyChangeSupport.firePropertyChange(PROP__N_PROTOKOLLE, old, this.n_protokolle);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<VeranlassungCustomBean> getN_veranlassungen() {
-        return n_veranlassungen;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  n_veranlassungen  DOCUMENT ME!
-     */
-    public void setN_veranlassungen(final Collection<VeranlassungCustomBean> n_veranlassungen) {
-        final Collection<VeranlassungCustomBean> old = this.n_veranlassungen;
-        this.n_veranlassungen = n_veranlassungen;
-        this.propertyChangeSupport.firePropertyChange(PROP__N_VERANLASSUNGEN, old, this.n_veranlassungen);
+    public void setAr_protokolle(final Collection<ArbeitsprotokollCustomBean> ar_protokolle) {
+        final Collection<ArbeitsprotokollCustomBean> old = this.ar_protokolle;
+        this.ar_protokolle = ar_protokolle;
+        this.propertyChangeSupport.firePropertyChange(PROP__AR_PROTOKOLLE, old, this.ar_protokolle);
     }
 
     @Override

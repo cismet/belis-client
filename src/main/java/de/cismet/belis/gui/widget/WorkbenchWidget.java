@@ -1102,7 +1102,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         final ArbeitsauftragCustomBean arbeitsauftragCustomBean =
                                             (ArbeitsauftragCustomBean)currentUserObject;
                                         for (final ArbeitsprotokollCustomBean ap
-                                                    : arbeitsauftragCustomBean.getN_protokolle()) {
+                                                    : arbeitsauftragCustomBean.getAr_protokolle()) {
                                             selectArbeitsprotokollCustomBean(featuresToSelect, ap);
                                         }
                                     } else if (currentUserObject instanceof ArbeitsprotokollCustomBean) {
@@ -1525,7 +1525,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                     true);
                             treeTableModel.insertNodeIntoAsLastChild(arbeitsauftragNode, searchResultsNode);
                             for (final ArbeitsprotokollCustomBean protokoll
-                                        : arbeitsauftragCustomBean.getN_protokolle()) {
+                                        : arbeitsauftragCustomBean.getAr_protokolle()) {
                                 final AbzweigdoseCustomBean abzweigdose = protokoll.getFk_abzweigdose();
                                 final LeitungCustomBean leitung = protokoll.getFk_leitung();
                                 final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
@@ -1631,7 +1631,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                     true);
                             treeTableModel.insertNodeIntoAsLastChild(arbeitsauftragNode, newObjectsNode);
                             for (final ArbeitsprotokollCustomBean protokoll
-                                        : arbeitsauftragCustomBean.getN_protokolle()) {
+                                        : arbeitsauftragCustomBean.getAr_protokolle()) {
                                 final CustomMutableTreeTableNode protokollNode = new CustomMutableTreeTableNode(
                                         protokoll,
                                         true);
@@ -1916,7 +1916,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject();
                 final ArbeitsprotokollCustomBean protokoll = (ArbeitsprotokollCustomBean)
                     ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject();
-                auftrag.getN_protokolle().remove(protokoll);
+                auftrag.getAr_protokolle().remove(protokoll);
                 removedObjects.add(protokoll);
             } else if ((nodeToRemove.getUserObject() != null)
                         && (nodeToRemove.getUserObject() instanceof TdtaLeuchtenCustomBean)
@@ -2391,7 +2391,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 final CustomMutableTreeTableNode newGeometrieNode = new CustomMutableTreeTableNode(newGeometrie, true);
                 final ArbeitsauftragCustomBean selAuftrag = ((ArbeitsauftragCustomBean)tmpObject);
                 newProtokoll.setFk_geometrie(newGeometrie);
-                selAuftrag.getN_protokolle().add(newProtokoll);
+                selAuftrag.getAr_protokolle().add(newProtokoll);
                 newObjects.add(newProtokollNode.getUserObject());
                 newObjects.add(newGeometrieNode.getUserObject());
                 treeTableModel.insertNodeIntoAsLastChild(

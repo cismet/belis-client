@@ -374,7 +374,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         super.setCurrentEntity(currentEntity);
         ((ProtokolleTableModel)jTable1.getModel()).clear();
         if (currentEntity != null) {
-            ((ProtokolleTableModel)jTable1.getModel()).addProtokolle(currentEntity.getN_protokolle());
+            ((ProtokolleTableModel)jTable1.getModel()).addProtokolle(currentEntity.getAr_protokolle());
         }
     }
 

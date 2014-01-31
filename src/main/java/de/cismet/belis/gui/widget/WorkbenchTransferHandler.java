@@ -225,7 +225,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                         final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
                                     .createProtokollFromBasic(clipboardBean);
                         BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, clipboardBean);
-                        arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
+                        arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                     } else if (clipboardBean instanceof VeranlassungCustomBean) {
                         final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)clipboardBean;
                         final Collection<CidsBean> allBasics = new ArrayList<CidsBean>();
@@ -242,7 +242,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                                         .createProtokollFromBasic(basic);
                             protokoll.setFk_veranlassung(veranlassungCustomBean);
                             BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, basic);
-                            arbeitsauftragCustomBean.getN_protokolle().add(protokoll);
+                            arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                         }
                     }
                 }

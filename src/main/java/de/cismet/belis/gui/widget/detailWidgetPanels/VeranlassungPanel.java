@@ -24,9 +24,9 @@ import de.cismet.belis.gui.DateToStringConverter;
 
 import de.cismet.belis.util.RendererTools;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.InfobausteinCustomBean;
 import de.cismet.cids.custom.beans.belis2.InfobausteinTemplateCustomBean;
-import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean;
 
@@ -57,6 +57,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblArt;
     private javax.swing.JLabel lblBemerkungen;
     private javax.swing.JLabel lblBeschreibung;
@@ -64,6 +65,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblDatumValue;
     private javax.swing.JLabel lblInformationsbausteine;
+    private javax.swing.JLabel lblInformationsbausteine1;
     private javax.swing.JLabel lblNummer;
     private javax.swing.JLabel lblNummerValue;
     private javax.swing.JLabel lblUser;
@@ -72,6 +74,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     private javax.swing.JPanel panContent;
     private javax.swing.JScrollPane scrBemerkungen;
     private javax.swing.JScrollPane scrBeschreibung;
+    private javax.swing.JTable tblArbeitsauftraege;
     private javax.swing.JTable tblInfobausteine;
     private javax.swing.JTextArea txaBemerkungen;
     private javax.swing.JTextArea txaBeschreibung;
@@ -134,6 +137,9 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         btnAddInfo = new javax.swing.JButton();
         btnRemInfo = new javax.swing.JButton();
         btnTemplate = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblArbeitsauftraege = new javax.swing.JTable();
+        lblInformationsbausteine1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
 
         lblVeranlassung.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
@@ -444,6 +450,31 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(btnTemplate, gridBagConstraints);
 
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(100, 200));
+
+        tblArbeitsauftraege.setModel(new IBTableModel());
+        tblArbeitsauftraege.setMinimumSize(new java.awt.Dimension(60, 200));
+        tblArbeitsauftraege.setPreferredSize(new java.awt.Dimension(60, 200));
+        jScrollPane2.setViewportView(tblArbeitsauftraege);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(jScrollPane2, gridBagConstraints);
+
+        lblInformationsbausteine1.setText("Arbeitsaufträge:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblInformationsbausteine1, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -462,7 +493,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                238,
+                205,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -662,4 +693,73 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
             }
         }
     }
+//
+//    /**
+//     * DOCUMENT ME!
+//     *
+//     * @version  $Revision$, $Date$
+//     */
+//    class AATableModel extends AbstractTableModel {
+//
+//        //~ Methods ------------------------------------------------------------
+//
+//        @Override
+//        public int getRowCount() {
+//            if (currentEntity != null) {
+//                return ((VeranlassungCustomBean)currentEntity).getN_protokolle().size();
+//            } else {
+//                return 0;
+//            }
+//        }
+//
+//        @Override
+//        public int getColumnCount() {
+//            return COLUMN_NAMES.length;
+//        }
+//
+//        @Override
+//        public Object getValueAt(final int rowIndex, final int columnIndex) {
+//            if (currentEntity != null) {
+//                final ArbeitsprotokollCustomBean protokoll = getRowObject(rowIndex);
+//                if (columnIndex == 0) {
+//                    return protokoll.get
+//                } else if (columnIndex == 1) {
+//                    return protokoll.getWert();
+//                } else {
+//                    return null;
+//                }
+//            } else {
+//                return null;
+//            }
+//        }
+//
+//        /**
+//         * DOCUMENT ME!
+//         *
+//         * @param   rowIndex  DOCUMENT ME!
+//         *
+//         * @return  DOCUMENT ME!
+//         */
+//        private ArbeitsprotokollCustomBean getRowObject(final int rowIndex) {
+//            final VeranlassungCustomBean template = (VeranlassungCustomBean)currentEntity;
+//            final Collection<ArbeitsprotokollCustomBean> n_protokolle = template.getN_protokolle();
+//            final ArbeitsprotokollCustomBean baustein = n_protokolle.toArray(new ArbeitsprotokollCustomBean[0])[rowIndex];
+//            return baustein;
+//        }
+//
+//        @Override
+//        public Class<?> getColumnClass(final int columnIndex) {
+//            return COLUMN_CLASSES[columnIndex];
+//        }
+//
+//        @Override
+//        public String getColumnName(final int columnIndex) {
+//            return COLUMN_NAMES[columnIndex];
+//        }
+//
+//        @Override
+//        public boolean isCellEditable(final int rowIndex, final int columnIndex) {
+//            return false;
+//        }
+//    }
 }

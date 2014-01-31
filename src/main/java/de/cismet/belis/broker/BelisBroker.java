@@ -1030,6 +1030,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
 
         final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
+        Thread.sleep(1000);
         final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
         final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
                 rootTreeNode,
@@ -2398,7 +2399,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_standorte()));
                 } else if ((currentResult instanceof ArbeitsauftragCustomBean)) {
                     final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)currentResult;
-                    for (final ArbeitsprotokollCustomBean protokoll : arbeitsauftragCustomBean.getN_protokolle()) {
+                    for (final ArbeitsprotokollCustomBean protokoll : arbeitsauftragCustomBean.getAr_protokolle()) {
                         if (protokoll.getFk_abzweigdose() != null) {
                             featuresToAdd.add(protokoll.getFk_abzweigdose());
                         }

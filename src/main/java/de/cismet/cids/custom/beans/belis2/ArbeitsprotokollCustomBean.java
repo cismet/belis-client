@@ -39,7 +39,6 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     public static final String PROP__DEFEKT = "defekt";
     public static final String PROP__DATUM = "datum";
     public static final String PROP__FK_STATUS = "fk_status";
-    public static final String PROP__FK_ARBEITSAUFTRAG = "fk_arbeitsauftrag";
     public static final String PROP__FK_MAUERLASCHE = "fk_mauerlasche";
     public static final String PROP__FK_LEUCHTE = "fk_leuchte";
     public static final String PROP__FK_LEITUNG = "fk_leitung";
@@ -64,7 +63,6 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
             PROP__FK_LEITUNG,
             PROP__FK_ABZWEIGDOSE,
             PROP__FK_SCHALTSTELLE,
-            PROP__FK_ARBEITSAUFTRAG,
             PROP__FK_GEOMETRIE,
             PROP__N_AKTIONEN
         };
@@ -83,7 +81,6 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     private TdtaStandortMastCustomBean fk_standort;
     private AbzweigdoseCustomBean fk_abzweigdose;
     private SchaltstelleCustomBean fk_schaltstelle;
-    private ArbeitsauftragCustomBean fk_arbeitsauftrag;
     private GeometrieCustomBean fk_geometrie;
     private VeranlassungCustomBean fk_veranlassung;
 
@@ -377,26 +374,6 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
         final ArbeitsprotokollstatusCustomBean old = this.fk_status;
         this.fk_status = fk_status;
         this.propertyChangeSupport.firePropertyChange(PROP__FK_STATUS, old, this.fk_status);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public ArbeitsauftragCustomBean getFk_arbeitsauftrag() {
-        return fk_arbeitsauftrag;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  fk_arbeitsauftrag  DOCUMENT ME!
-     */
-    public void setFk_arbeitsauftrag(final ArbeitsauftragCustomBean fk_arbeitsauftrag) {
-        final ArbeitsauftragCustomBean old = this.fk_arbeitsauftrag;
-        this.fk_arbeitsauftrag = fk_arbeitsauftrag;
-        this.propertyChangeSupport.firePropertyChange(PROP__FK_ARBEITSAUFTRAG, old, this.fk_arbeitsauftrag);
     }
 
     /**

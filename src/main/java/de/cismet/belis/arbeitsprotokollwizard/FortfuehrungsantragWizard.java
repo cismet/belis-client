@@ -95,7 +95,7 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
 
     @Override
     public String getTitle() {
-        return "Fortführungsantrag";
+        return "Sonstiges";
     }
 
     @Override
@@ -121,7 +121,7 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
     @Override
     protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
         final ArbeitsprotokollaktionCustomBean aktion = ArbeitsprotokollaktionCustomBean.createNew();
-        aktion.setAenderung("Fortführungsantrag");
+        aktion.setAenderung("Sonstiges");
         aktion.setAlt(null);
         aktion.setNeu(jTextArea1.getText());
 
