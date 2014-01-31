@@ -125,7 +125,7 @@ public class EntityClipboard {
                             allBasics.addAll(veranlassungCustomBean.getAr_standorte());
                             for (final CidsBean basic : allBasics) {
                                 final ArbeitsprotokollCustomBean protokoll = broker.createProtokollFromBasic(basic);
-                                protokoll.setFk_veranlassung(veranlassungCustomBean);
+                                protokoll.setFk_veranlassung(veranlassungCustomBean.getId());
                                 broker.addNewProtokollToAuftragNode(selectedNode, protokoll, basic);
                                 arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                             }

@@ -84,6 +84,13 @@ class WorkbenchTransferHandler extends TransferHandler {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   support  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public boolean canImport(final TransferHandler.TransferSupport support) {
         if (!support.isDrop() || !support.isDataFlavorSupported(nodesFlavor)) {
@@ -104,6 +111,13 @@ class WorkbenchTransferHandler extends TransferHandler {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   c  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     protected Transferable createTransferable(final JComponent c) {
         final JXTreeTable tree = (JXTreeTable)c;
@@ -140,11 +154,25 @@ class WorkbenchTransferHandler extends TransferHandler {
         return new TreePath(path.getPath());
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   c  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public int getSourceActions(final JComponent c) {
         return COPY;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   support  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public boolean importData(final TransferHandler.TransferSupport support) {
         if (!canImport(support)) {
@@ -240,7 +268,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                         for (final CidsBean basic : allBasics) {
                             final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
                                         .createProtokollFromBasic(basic);
-                            protokoll.setFk_veranlassung(veranlassungCustomBean);
+                            protokoll.setFk_veranlassung(veranlassungCustomBean.getId());
                             BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, basic);
                             arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                         }
@@ -255,6 +283,11 @@ class WorkbenchTransferHandler extends TransferHandler {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String toString() {
         return getClass().getName();
@@ -286,6 +319,15 @@ class WorkbenchTransferHandler extends TransferHandler {
 
         //~ Methods ------------------------------------------------------------
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   flavor  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  UnsupportedFlavorException  DOCUMENT ME!
+         */
         @Override
         public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
             if (!isDataFlavorSupported(flavor)) {
@@ -294,11 +336,23 @@ class WorkbenchTransferHandler extends TransferHandler {
             return nodes;
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public DataFlavor[] getTransferDataFlavors() {
             return flavors;
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   flavor  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public boolean isDataFlavorSupported(final DataFlavor flavor) {
             return nodesFlavor.equals(flavor);

@@ -103,6 +103,11 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public JLabel getTabLabel() {
         return lblArbeitsauftrag;
@@ -302,6 +307,9 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     final void initPanel() {
     }
@@ -325,6 +333,9 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     public void commitEdits() {
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     final void initComponentToLabelMap() {
         componentToLabelMap.put(lblUserValue, lblUser);
@@ -333,10 +344,18 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         jTable1.getSelectionModel().addListSelectionListener(this);
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     public void setElementsNull() {
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  isEditable  DOCUMENT ME!
+     */
     @Override
     public void setPanelEditable(final boolean isEditable) {
         RendererTools.setEditable(txtZugewiesenAn, isEditable);
@@ -344,11 +363,21 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         this.isEditable = isEditable;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     protected BindingGroup getBindingGroup() {
         return bindingGroup;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void valueChanged(final ListSelectionEvent e) {
         final int[] selection = jTable1.getSelectedRows();
@@ -369,9 +398,15 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  currentEntity  DOCUMENT ME!
+     */
     @Override
     public void setCurrentEntity(final ArbeitsauftragCustomBean currentEntity) {
         super.setCurrentEntity(currentEntity);
+        LOG.fatal(currentEntity.getMOString());
         ((ProtokolleTableModel)jTable1.getModel()).clear();
         if (currentEntity != null) {
             ((ProtokolleTableModel)jTable1.getModel()).addProtokolle(currentEntity.getAr_protokolle());
@@ -393,6 +428,11 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
         //~ Methods ------------------------------------------------------------
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public int getRowCount() {
             if (protokolle == null) {
@@ -401,11 +441,24 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
             return protokolle.size();
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public int getColumnCount() {
             return COLUMN_NAMES.length;
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   rowIndex     DOCUMENT ME!
+         * @param   columnIndex  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
             final ArbeitsprotokollCustomBean protokoll = getProtokollByIndex(rowIndex);
@@ -413,7 +466,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
                 return null;
             }
 
-            final VeranlassungCustomBean veranlassungCustomBean = protokoll.getFk_veranlassung();
+            final VeranlassungCustomBean veranlassungCustomBean = null; // protokoll.getFk_veranlassung();
             final ArbeitsprotokollstatusCustomBean status = protokoll.getFk_status();
             final BaseEntity entity;
             final String entityName;
@@ -529,11 +582,25 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
             fireTableDataChanged();
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   columnIndex  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public String getColumnName(final int columnIndex) {
             return COLUMN_NAMES[columnIndex];
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   columnIndex  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public Class<?> getColumnClass(final int columnIndex) {
             return COLUMN_CLASSES[columnIndex];

@@ -422,6 +422,15 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         txtInfoBaustein.setText(org.openide.util.NbBundle.getMessage(
                 VeranlassungWindowSearch.class,
                 "VeranlassungWindowSearch.txtInfoBaustein.text")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkInfoBaustein,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                txtInfoBaustein,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
