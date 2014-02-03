@@ -44,24 +44,30 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
     private javax.swing.JCheckBox chkAngelegtVon;
     private javax.swing.JCheckBox chkBemerkung;
     private javax.swing.JCheckBox chkBeschreibung;
+    private javax.swing.JCheckBox chkBezeichnung;
     private javax.swing.JCheckBox chkDatumBis;
     private javax.swing.JCheckBox chkDatumVon;
     private javax.swing.JCheckBox chkGrund;
     private javax.swing.JCheckBox chkInfoBaustein;
+    private javax.swing.JCheckBox chkVeranlassungsnummer;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcDatumBis;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcDatumVon;
     private javax.swing.JPanel panActiveOnly;
     private javax.swing.JPanel panAngelegtVon;
     private javax.swing.JPanel panBemerkung;
     private javax.swing.JPanel panBeschreibung;
+    private javax.swing.JPanel panBezeichnung;
     private javax.swing.JPanel panDatum;
     private javax.swing.JPanel panGrund;
     private javax.swing.JPanel panInfoBaustein;
     private javax.swing.JPanel panMain;
+    private javax.swing.JPanel panVeranlassungsnummer;
     private javax.swing.JTextField txtAngelegtVon;
     private javax.swing.JTextField txtBemerkung;
     private javax.swing.JTextField txtBeschreibung;
+    private javax.swing.JTextField txtBezeichnung;
     private javax.swing.JTextField txtInfoBaustein;
+    private javax.swing.JTextField txtVeranlassungsnummer;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -86,12 +92,24 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
                                                         : null;
         final String angelegtVon = (chkAngelegtVon.isSelected()) ? txtAngelegtVon.getText() : null;
 
+        final String veranlassungsnummer = (chkVeranlassungsnummer.isSelected()) ? txtVeranlassungsnummer.getText()
+                                                                                 : null;
+        final String bezeichnung = (chkBezeichnung.isSelected()) ? txtBezeichnung.getText() : null;
+        final String beschreibung = (chkBeschreibung.isSelected()) ? txtBeschreibung.getText() : null;
+        final String bemerkung = (chkBemerkung.isSelected()) ? txtBemerkung.getText() : null;
+        final String infobaustein = (chkInfoBaustein.isSelected()) ? txtInfoBaustein.getText() : null;
+
         final VeranlassungSearchStatement veranlassungSearchStatement = new VeranlassungSearchStatement();
         veranlassungSearchStatement.setGeometry(searchGeom);
         veranlassungSearchStatement.setActiveObjectsOnly(chkActiveOnly.isSelected());
         veranlassungSearchStatement.setDatum(datumVon, datumBis);
         veranlassungSearchStatement.setGrund_id(grundId);
         veranlassungSearchStatement.setAngelegtVon(angelegtVon);
+        veranlassungSearchStatement.setNummer(veranlassungsnummer);
+        veranlassungSearchStatement.setBezeichnung(bezeichnung);
+        veranlassungSearchStatement.setBeschreibung(beschreibung);
+        veranlassungSearchStatement.setBemerkungen(bemerkung);
+        veranlassungSearchStatement.setInfobaustein(infobaustein);
 
         return veranlassungSearchStatement;
     }
@@ -117,9 +135,15 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         panAngelegtVon = new javax.swing.JPanel();
         chkAngelegtVon = new javax.swing.JCheckBox();
         txtAngelegtVon = new javax.swing.JTextField();
+        panVeranlassungsnummer = new javax.swing.JPanel();
+        chkVeranlassungsnummer = new javax.swing.JCheckBox();
+        txtVeranlassungsnummer = new javax.swing.JTextField();
         panGrund = new javax.swing.JPanel();
         cbGrund = BelisBroker.createKeyTableComboBox(VeranlassungsartCustomBean.TABLE);
         chkGrund = new javax.swing.JCheckBox();
+        panBezeichnung = new javax.swing.JPanel();
+        chkBezeichnung = new javax.swing.JCheckBox();
+        txtBezeichnung = new javax.swing.JTextField();
         panBeschreibung = new javax.swing.JPanel();
         chkBeschreibung = new javax.swing.JCheckBox();
         txtBeschreibung = new javax.swing.JTextField();
@@ -284,6 +308,46 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMain.add(panAngelegtVon, gridBagConstraints);
 
+        panVeranlassungsnummer.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    VeranlassungWindowSearch.class,
+                    "VeranlassungWindowSearch.panVeranlassungsnummer.border.title"))); // NOI18N
+        panVeranlassungsnummer.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            chkVeranlassungsnummer,
+            org.openide.util.NbBundle.getMessage(
+                VeranlassungWindowSearch.class,
+                "VeranlassungWindowSearch.chkVeranlassungsnummer.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panVeranlassungsnummer.add(chkVeranlassungsnummer, gridBagConstraints);
+
+        txtVeranlassungsnummer.setText(org.openide.util.NbBundle.getMessage(
+                VeranlassungWindowSearch.class,
+                "VeranlassungWindowSearch.txtVeranlassungsnummer.text")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkVeranlassungsnummer,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                txtVeranlassungsnummer,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panVeranlassungsnummer.add(txtVeranlassungsnummer, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMain.add(panVeranlassungsnummer, gridBagConstraints);
+
         panGrund.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     VeranlassungWindowSearch.class,
@@ -322,6 +386,47 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMain.add(panGrund, gridBagConstraints);
+
+        panBezeichnung.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    VeranlassungWindowSearch.class,
+                    "VeranlassungWindowSearch.panBezeichnung.border.title"))); // NOI18N
+        panBezeichnung.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            chkBezeichnung,
+            org.openide.util.NbBundle.getMessage(
+                VeranlassungWindowSearch.class,
+                "VeranlassungWindowSearch.chkBezeichnung.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panBezeichnung.add(chkBezeichnung, gridBagConstraints);
+
+        txtBezeichnung.setText(org.openide.util.NbBundle.getMessage(
+                VeranlassungWindowSearch.class,
+                "VeranlassungWindowSearch.txtBezeichnung.text")); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                chkBezeichnung,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                txtBezeichnung,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panBezeichnung.add(txtBezeichnung, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMain.add(panBezeichnung, gridBagConstraints);
 
         panBeschreibung.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(

@@ -268,7 +268,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                         for (final CidsBean basic : allBasics) {
                             final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
                                         .createProtokollFromBasic(basic);
-                            protokoll.setFk_veranlassung(veranlassungCustomBean.getId());
+                            protokoll.setVeranlassungsnummer(veranlassungCustomBean.getNummer());
                             BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, basic);
                             arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                         }

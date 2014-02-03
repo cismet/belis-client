@@ -131,6 +131,7 @@ import de.cismet.belis.util.BelisIcons;
 import de.cismet.belis2.server.search.BelisLocationSearchStatement;
 import de.cismet.belis2.server.search.BelisSearchStatement;
 import de.cismet.belis2.server.search.BelisTopicSearchStatement;
+import de.cismet.belis2.server.search.VeranlassungSearchStatement;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
@@ -2327,6 +2328,25 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             return true;
         }
         return false;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   veranlassungsnummer  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection searchForArbeitsprotokolleOfVeralassung(final String veranlassungsnummer) {
+        final VeranlassungSearchStatement searchStatement = new VeranlassungSearchStatement();
+        searchStatement.setNummer(veranlassungsnummer);
+        try {
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), searchStatement);
+            return res;
+        } catch (final Exception ex) {
+            return null;
+        }
     }
 
     /**

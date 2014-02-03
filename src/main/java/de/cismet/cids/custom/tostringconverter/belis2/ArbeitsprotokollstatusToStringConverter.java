@@ -23,7 +23,7 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -31,12 +31,12 @@ import de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class AnlagengruppeToStringConverter extends GeoBaseEntityToStringConverter {
+public class ArbeitsprotokollstatusToStringConverter extends GeoBaseEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public String createString() {
-        return ((AnlagengruppeCustomBean)cidsBean).toString();
+        return ((ArbeitsprotokollstatusCustomBean)cidsBean).getBezeichnung();
     }
 }

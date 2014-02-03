@@ -46,7 +46,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     public static final String PROP__FK_ABZWEIGDOSE = "fk_abzweigdose";
     public static final String PROP__FK_SCHALTSTELLE = "fk_schaltstelle";
     public static final String PROP__FK_GEOMETRIE = "fk_geometrie";
-    public static final String PROP__FK_VERANLASSUNG = "fk_veranlassung";
+    public static final String PROP__VERANLASSUNGSNUMMER = "veranlassungsnummer";
     public static final String PROP__N_AKTIONEN = "n_aktionen";
 
     private static final String[] PROPERTY_NAMES = new String[] {
@@ -64,7 +64,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
             PROP__FK_ABZWEIGDOSE,
             PROP__FK_SCHALTSTELLE,
             PROP__FK_GEOMETRIE,
-            PROP__FK_VERANLASSUNG,
+            PROP__VERANLASSUNGSNUMMER,
             PROP__N_AKTIONEN
         };
 
@@ -83,7 +83,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     private AbzweigdoseCustomBean fk_abzweigdose;
     private SchaltstelleCustomBean fk_schaltstelle;
     private GeometrieCustomBean fk_geometrie;
-    private Integer fk_veranlassung;
+    private String veranlassungsnummer;
 
     private Collection<ArbeitsprotokollaktionCustomBean> n_aktionen;
 
@@ -399,19 +399,19 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getFk_veranlassung() {
-        return fk_veranlassung;
+    public String getVeranlassungsnummer() {
+        return veranlassungsnummer;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  fk_veranlassung  fk_arbeitsauftrag DOCUMENT ME!
+     * @param  veranlassungsnummer  fk_arbeitsauftrag DOCUMENT ME!
      */
-    public void setFk_veranlassung(final Integer fk_veranlassung) {
-        final Integer old = this.fk_veranlassung;
-        this.fk_veranlassung = fk_veranlassung;
-        this.propertyChangeSupport.firePropertyChange(PROP__FK_VERANLASSUNG, old, this.fk_veranlassung);
+    public void setVeranlassungsnummer(final String veranlassungsnummer) {
+        final String old = this.veranlassungsnummer;
+        this.veranlassungsnummer = veranlassungsnummer;
+        this.propertyChangeSupport.firePropertyChange(PROP__VERANLASSUNGSNUMMER, old, this.veranlassungsnummer);
     }
 
     /**

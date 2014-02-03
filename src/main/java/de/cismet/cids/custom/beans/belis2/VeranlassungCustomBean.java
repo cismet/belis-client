@@ -55,7 +55,6 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
     public static final String PROP__AR_GEOMETRIEN = "ar_geometrien";
     public static final String PROP__USERNAME = "username";
     public static final String PROP__NUMMER = "nummer";
-    public static final String PROP__N_PROTOKOLLE = "n_auftraege";
     public static final String PROP__BEZEICHNUNG = "bezeichnung";
     public static final String PROP__BEMERKUNGEN = "bemerkungen";
     public static final String PROP__BESCHREIBUNG = "beschreibung";
@@ -76,7 +75,6 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
             PROP__AR_GEOMETRIEN,
             PROP__USERNAME,
             PROP__NUMMER,
-            PROP__N_PROTOKOLLE,
             PROP__BEZEICHNUNG,
             PROP__BEMERKUNGEN,
             PROP__BESCHREIBUNG,
@@ -399,26 +397,6 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
         final String old = this.nummer;
         this.nummer = nummer;
         this.propertyChangeSupport.firePropertyChange(PROP__NUMMER, old, this.nummer);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<ArbeitsprotokollCustomBean> getN_protokolle() {
-        return n_protokolle;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  n_protokolle  DOCUMENT ME!
-     */
-    public void setN_protokolle(final Collection<ArbeitsprotokollCustomBean> n_protokolle) {
-        final Collection<ArbeitsprotokollCustomBean> old = this.n_protokolle;
-        this.n_protokolle = n_protokolle;
-        this.propertyChangeSupport.firePropertyChange(PROP__N_PROTOKOLLE, old, this.n_protokolle);
     }
 
     /**

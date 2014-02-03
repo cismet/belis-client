@@ -24,7 +24,6 @@ import de.cismet.belis.gui.DateToStringConverter;
 
 import de.cismet.belis.util.RendererTools;
 
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.InfobausteinCustomBean;
 import de.cismet.cids.custom.beans.belis2.InfobausteinTemplateCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
@@ -58,6 +57,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblArbeitsauftraege;
     private javax.swing.JLabel lblArt;
     private javax.swing.JLabel lblBemerkungen;
     private javax.swing.JLabel lblBeschreibung;
@@ -65,7 +65,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblDatumValue;
     private javax.swing.JLabel lblInformationsbausteine;
-    private javax.swing.JLabel lblInformationsbausteine1;
     private javax.swing.JLabel lblNummer;
     private javax.swing.JLabel lblNummerValue;
     private javax.swing.JLabel lblUser;
@@ -139,7 +138,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         btnTemplate = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblArbeitsauftraege = new javax.swing.JTable();
-        lblInformationsbausteine1 = new javax.swing.JLabel();
+        lblArbeitsauftraege = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
 
         lblVeranlassung.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
@@ -452,10 +451,10 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(100, 200));
 
-        tblArbeitsauftraege.setModel(new IBTableModel());
         tblArbeitsauftraege.setMinimumSize(new java.awt.Dimension(60, 200));
         tblArbeitsauftraege.setPreferredSize(new java.awt.Dimension(60, 200));
         jScrollPane2.setViewportView(tblArbeitsauftraege);
+        jScrollPane2.setVisible(false);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -467,13 +466,14 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(jScrollPane2, gridBagConstraints);
 
-        lblInformationsbausteine1.setText("Arbeitsaufträge:");
+        lblArbeitsauftraege.setText("Arbeitsaufträge:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblInformationsbausteine1, gridBagConstraints);
+        panContent.add(lblArbeitsauftraege, gridBagConstraints);
+        lblArbeitsauftraege.setVisible(false);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
