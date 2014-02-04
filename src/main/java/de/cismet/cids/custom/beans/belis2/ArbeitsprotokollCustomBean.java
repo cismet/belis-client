@@ -461,11 +461,9 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
      */
     @Override
     public String getKeyString() {
-        final VeranlassungCustomBean veranlassung = null; // getFk_veranlassung();
-
         final String subfix;
-        if (veranlassung != null) {
-            subfix = " (" + veranlassung.getKeyString() + ")";
+        if (getVeranlassungsnummer() != null) {
+            subfix = " (V" + getVeranlassungsnummer() + ")";
         } else {
             subfix = "";
         }

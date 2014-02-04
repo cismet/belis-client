@@ -466,7 +466,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
                 return null;
             }
 
-            final VeranlassungCustomBean veranlassungCustomBean = null; // protokoll.getFk_veranlassung();
             final ArbeitsprotokollstatusCustomBean status = protokoll.getFk_status();
             final BaseEntity entity;
             final String entityName;
@@ -502,10 +501,10 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
             switch (columnIndex) {
                 case 0: {
-                    if (veranlassungCustomBean == null) {
+                    if (protokoll.getVeranlassungsnummer() == null) {
                         return null;
                     } else {
-                        return veranlassungCustomBean.getKeyString();
+                        return "V" + protokoll.getVeranlassungsnummer();
                     }
                 }
                 case 1: {
