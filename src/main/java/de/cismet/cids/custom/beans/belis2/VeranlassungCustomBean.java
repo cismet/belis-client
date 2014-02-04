@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
@@ -534,6 +535,6 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
         } else {
             strings.add("_");
         }
-        return implode(strings.toArray(new String[0]), "");
+        return CidsBroker.implode(strings.toArray(new String[0]), "");
     }
 }

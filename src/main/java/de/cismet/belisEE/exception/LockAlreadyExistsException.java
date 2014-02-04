@@ -12,8 +12,12 @@
 package de.cismet.belisEE.exception;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 
 import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
+
+import de.cismet.tools.collections.HashArrayList;
 
 /**
  * DOCUMENT ME!
@@ -25,20 +29,9 @@ public class LockAlreadyExistsException extends Exception {
 
     //~ Instance fields --------------------------------------------------------
 
-    private final ArrayList<SperreCustomBean> alreadyExisingLocks = new ArrayList<SperreCustomBean>();
+    private final Collection<SperreCustomBean> alreadyExisingLocks = new ArrayList<SperreCustomBean>();
 
     //~ Constructors -----------------------------------------------------------
-
-    /**
-     * Creates a new LockAlreadyExistsException object.
-     *
-     * @param  message              DOCUMENT ME!
-     * @param  alreadyExistingLock  DOCUMENT ME!
-     */
-    public LockAlreadyExistsException(final String message, final SperreCustomBean alreadyExistingLock) {
-        super(message);
-        alreadyExisingLocks.add(alreadyExistingLock);
-    }
 
     /**
      * Creates a new LockAlreadyExistsException object.
@@ -46,7 +39,8 @@ public class LockAlreadyExistsException extends Exception {
      * @param  message               DOCUMENT ME!
      * @param  alreadyExistingLocks  DOCUMENT ME!
      */
-    public LockAlreadyExistsException(final String message, final ArrayList<SperreCustomBean> alreadyExistingLocks) {
+    public LockAlreadyExistsException(final String message,
+            final Collection<SperreCustomBean> alreadyExistingLocks) {
         super(message);
         if (alreadyExistingLocks != null) {
             alreadyExisingLocks.addAll(alreadyExistingLocks);
@@ -60,7 +54,7 @@ public class LockAlreadyExistsException extends Exception {
      *
      * @return  DOCUMENT ME!
      */
-    public ArrayList<SperreCustomBean> getAlreadyExisingLocks() {
+    public Collection<SperreCustomBean> getAlreadyExisingLocks() {
         return alreadyExisingLocks;
     }
 }

@@ -63,7 +63,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -76,7 +75,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -136,7 +134,6 @@ import de.cismet.belis2.server.search.VeranlassungSearchStatement;
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
 
-import de.cismet.belisEE.util.CriteriaStringComparator;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 
@@ -149,6 +146,7 @@ import de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
+import de.cismet.cids.custom.beans.belis2.SperreEntityCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean;
@@ -363,6 +361,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     private boolean filterNormal = true;
     private boolean filterVeranlassung = false;
     private boolean filterArbeitsauftrag = false;
+    private SperreCustomBean sperre = null;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -2628,7 +2627,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
         if (!isInCreateMode()) {
             try {
-                CidsBroker.getInstance().lockEntity(currentSearchResults, getAccountName());
+                releaseLock();
+                sperre = CidsBroker.getInstance().lockEntities(currentSearchResults, getAccountName());
             } catch (ActionNotSuccessfulException ex) {
                 LOG.error("Error while creating lock:", ex);
                 isPendingForCreateMode.set(false);
@@ -2637,7 +2637,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             } catch (LockAlreadyExistsException ex) {
                 LOG.info("Some of the objects are already locked", ex);
                 isPendingForCreateMode.set(false);
-                final ArrayList<SperreCustomBean> alreadyLocked = ex.getAlreadyExisingLocks();
+                final Collection<SperreCustomBean> alreadyLocked = ex.getAlreadyExisingLocks();
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Count of already locked objects: " + alreadyLocked.size());
                 }
@@ -2659,17 +2659,14 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public void releaseLock() throws Exception {
         setInCreateMode(false);
         if (!isInCreateMode()) {
-            final Set unsuccessfulObjects = null;
             try {
-                // ToDo problem with unlocking of entities not locked by this user
-                CidsBroker.getInstance().unlockEntity(currentSearchResults);
+                if (sperre != null) {
+                    CidsBroker.getInstance().unlock(sperre);
+                    sperre = null;
+                }
             } catch (ActionNotSuccessfulException ex) {
                 LOG.error("Error while unlocking locked objects:", ex);
                 throw new Exception("Angelegte sperren konnten nicht gelöst werden.");
-            }
-            if ((unsuccessfulObjects != null) && !unsuccessfulObjects.isEmpty()) {
-                // ToDo what to do ? Error to the user and go
-                LOG.error("Some of the objects couldn't be unlocked posting to the user");
             }
         } else {
             LOG.info("Create Modus no locks necessary");
@@ -2715,16 +2712,16 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     /**
      * DOCUMENT ME!
      *
-     * @param  lockedObjects  DOCUMENT ME!
+     * @param  locks  DOCUMENT ME!
      */
-    private void showObjectsLockedDialog(final ArrayList<SperreCustomBean> lockedObjects) {
+    private void showObjectsLockedDialog(final Collection<SperreCustomBean> locks) {
         final JDialog dialog = new JDialog(StaticSwingTools.getParentFrame(getParentComponent()),
                 "Gesperrte Objekte...",
                 true);
         if (lockPanel == null) {
-            lockPanel = new AlreadyLockedObjectsPanel(lockedObjects);
+            lockPanel = new AlreadyLockedObjectsPanel(locks);
         } else {
-            lockPanel.setLockedObjects(lockedObjects);
+            lockPanel.setLocks(locks);
         }
         dialog.setIconImage(((ImageIcon)BelisIcons.icoError16).getImage());
         dialog.add(lockPanel);

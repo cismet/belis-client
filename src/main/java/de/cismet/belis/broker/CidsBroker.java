@@ -41,10 +41,10 @@ import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.LeuchteComparator;
 import de.cismet.belisEE.util.StandortKey;
 
-import de.cismet.cids.custom.beans.belis2.GeomCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
+import de.cismet.cids.custom.beans.belis2.SperreEntityCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -881,72 +881,48 @@ public class CidsBroker {
     /**
      * DOCUMENT ME!
      *
-     * @param   geom  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    public Object getObjectsByGeom(final GeomCustomBean geom) throws ActionNotSuccessfulException {
-//        throw new UnsupportedOperationException("Not supported yet.");
-        return null;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   standort  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    public boolean checkIfStandortExists(final TdtaStandortMastCustomBean standort)
-            throws ActionNotSuccessfulException {
-//        throw new UnsupportedOperationException("Not supported yet.");
-        return false;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   objectToLock  DOCUMENT ME!
-     * @param   userString    DOCUMENT ME!
+     * @param   objectsToLock  DOCUMENT ME!
+     * @param   userString     DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      * @throws  LockAlreadyExistsException    DOCUMENT ME!
      */
-    public SperreCustomBean lockEntity(final BaseEntity objectToLock, final String userString)
+    public SperreCustomBean lockEntities(final Collection<BaseEntity> objectsToLock, final String userString)
             throws ActionNotSuccessfulException, LockAlreadyExistsException {
         try {
-            if (objectToLock != null) {
-                // datamodell refactoring 22.10.07
-                final SperreCustomBean lock = isEntityLocked(objectToLock);
-                if (lock != null) {
+            if (objectsToLock != null) {
+                final Collection<SperreCustomBean> locks = checkIfLocked(objectsToLock);
+                if ((locks != null) && !locks.isEmpty()) {
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug("A lock for the desired object is already existing and is hold by: "
-                                    + lock.getUserString());
+                        LOG.debug("A lock for the desired object is already existing");
                     }
                     // ToDo internationalise
-                    throw new LockAlreadyExistsException("A lock for the desired object is already existing", lock);
+                    throw new LockAlreadyExistsException(
+                        "A lock for the desired object is already existing",
+                        locks);
                 } else {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("There is no Lock for the object");
                     }
+
                     final SperreCustomBean newLock = SperreCustomBean.createNew();
-                    newLock.setClassId(objectToLock.getMetaObject().getMetaClass().getId());
                     newLock.setTimestamp(new Date(new java.util.Date().getTime()));
                     newLock.setUserString(userString);
-                    newLock.setObjectId(objectToLock.getId());
+                    for (final BaseEntity objectToLock : objectsToLock) {
+                        final SperreEntityCustomBean newLockEntity = SperreEntityCustomBean.createNew();
+                        newLockEntity.setClassId(objectToLock.getMetaObject().getMetaClass().getId());
+                        newLockEntity.setObjectId(objectToLock.getId());
+                        newLock.getN_sperre_entities().add(newLockEntity);
+                    }
                     return (SperreCustomBean)newLock.persist();
                 }
             } else {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("The object to lock is null");
+                    LOG.debug("The objectcollection to lock is null");
                 }
-                throw new ActionNotSuccessfulException("The object to lock is null");
+                throw new ActionNotSuccessfulException("The objectcollection to lock is null");
             }
         } catch (ActionNotSuccessfulException e) {
             throw e;
@@ -959,151 +935,79 @@ public class CidsBroker {
     }
 
     /**
-     * DOCUMENT ME!
+     * /** * DOCUMENT ME! * * @param objectsToLock DOCUMENT ME! * @param userString DOCUMENT ME! * * @return DOCUMENT
+     * ME! * * @throws ActionNotSuccessfulException DOCUMENT ME! * @throws LockAlreadyExistsException DOCUMENT ME!
      *
-     * @param   objectsToLock  DOCUMENT ME!
-     * @param   userString     DOCUMENT ME!
+     * @param   stringArray  DOCUMENT ME!
+     * @param   delimiter    DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     * @throws  LockAlreadyExistsException    DOCUMENT ME!
      */
-    public Collection<SperreCustomBean> lockEntity(final Collection<BaseEntity> objectsToLock, final String userString)
-            throws ActionNotSuccessfulException, LockAlreadyExistsException {
-        final ArrayList<SperreCustomBean> lockedObjects = new ArrayList<SperreCustomBean>();
-        final ArrayList<SperreCustomBean> exisitingLock = new ArrayList<SperreCustomBean>();
-
-        if (objectsToLock != null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Objects to lock count: " + objectsToLock.size());
+    public static String implode(final String[] stringArray, final String delimiter) {
+        if (stringArray.length == 0) {
+            return "";
+        } else {
+            final StringBuilder sb = new StringBuilder();
+            sb.append(stringArray[0]);
+            for (int index = 1; index < stringArray.length; index++) {
+                sb.append(delimiter);
+                sb.append(stringArray[index]);
             }
-            for (final BaseEntity curObject : objectsToLock) {
-                try {
-                    lockedObjects.add(lockEntity(curObject, userString));
-                } catch (ActionNotSuccessfulException ex) {
-                    LOG.error("Error while locking one of the objects", ex);
-                    if (!lockedObjects.isEmpty()) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Unlocking already locked objects");
-                        }
-                        try {
-                            unlockEntity(lockedObjects);
-                        } catch (ActionNotSuccessfulException ex2) {
-                            LOG.error("Error while unlocking already locked objects", ex);
-                            throw new ActionNotSuccessfulException(
-                                "Tried to lock Objects --> faild. Tried to unlock the successful locked objects --> faild",
-                                ex);
-                        }
-                    }
-                    throw new ActionNotSuccessfulException("Error while locking one of the objects.", ex);
-                } catch (LockAlreadyExistsException ex) {
+            return sb.toString();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   objectToCheck  lockedObjects DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<SperreCustomBean> checkIfLocked(final Collection<BaseEntity> objectToCheck) {
+        final Collection<SperreCustomBean> locks = new ArrayList<SperreCustomBean>();
+
+        final Collection<String> whereList = new ArrayList<String>();
+        for (final BaseEntity lockedObject : objectToCheck) {
+            if (lockedObject != null) {
+                if (lockedObject.getMetaObject().getStatus() == MetaObject.NEW) {
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug("One of the Objects is already locked --> trying the rest of the objects");
+                        LOG.debug("Entity is not yet persisted. Therefore it is surely not locked");
                     }
-                    exisitingLock.addAll(ex.getAlreadyExisingLocks());
-                    continue;
+                } else {
+                    whereList.add("(class_id = " + lockedObject.getMetaObject().getMetaClass().getId()
+                                + " AND object_id = " + lockedObject.getId() + ")");
                 }
-            }
-            if (exisitingLock.isEmpty()) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("locking of Objects was successful");
-                }
-                return new ArrayList<SperreCustomBean>(lockedObjects);
             } else {
-                if (!lockedObjects.isEmpty()) {
-                    try {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("unlocking of already locked objects (Cleanup)");
-                        }
-                        final Collection failedUnlocks = unlockEntity(lockedObjects);
-                    } catch (ActionNotSuccessfulException ex2) {
-                        LOG.error("Error while unlocking already locked objects", ex2);
-                        throw new ActionNotSuccessfulException(
-                            "Tried to lock Objects --> faild. Tried to unlock the successful locked objects --> faild",
-                            ex2);
-                    }
-                }
-                throw new LockAlreadyExistsException("Error some of the objects are already locked", exisitingLock);
+                LOG.warn("Entity is null. could not check if its locked");
             }
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("The set of objects to lock is null");
-            }
-            throw new ActionNotSuccessfulException("The set of objects to lock is null");
         }
-    }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   lockedObject  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public SperreCustomBean isEntityLocked(final BaseEntity lockedObject) {
-        // datamodell refactoring 22.10.07
-        if (lockedObject != null) {
-            final Integer id = lockedObject.getId();
-            if (id == null) {
+        if (whereList.isEmpty()) {
+            return locks;
+        }
+
+        final String whereSnippet = implode(whereList.toArray(new String[0]), " OR ");
+        final MetaClass mcSperre = getMetaClass(SperreCustomBean.TABLE, BELIS_DOMAIN);
+        final MetaClass mcSperreEntity = getMetaClass(SperreEntityCustomBean.TABLE, BELIS_DOMAIN);
+        final String query = "SELECT DISTINCT " + mcSperre.getID() + ", " + mcSperre.getTableName() + "."
+                    + mcSperre.getPrimaryKey() + ", lock_timestamp" + " "
+                    + "FROM " + mcSperre.getTableName() + ", " + mcSperreEntity.getTableName() + " "
+                    + "WHERE sperre.id = fk_sperre AND " + whereSnippet + " "
+                    + "ORDER BY lock_timestamp;";
+        final MetaObject[] mos = getMetaObject(query, BELIS_DOMAIN);
+
+        if (mos != null) {
+            for (final MetaObject mo : mos) {
+                final SperreCustomBean lock = (SperreCustomBean)mo.getBean();
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Entity is not yet persisted. Therefore it is surely not locked");
+                    LOG.debug("A lock for the desired object is already existing and is hold by: "
+                                + lock.getUserString());
                 }
-                return null;
+                locks.add(lock);
             }
-
-            final MetaClass mcSperreBean = getMetaClass(SperreCustomBean.TABLE, BELIS_DOMAIN);
-
-            final String query = "SELECT " + mcSperreBean.getID() + ", " + mcSperreBean.getTableName() + "."
-                        + mcSperreBean.getPrimaryKey() + " "
-                        + "FROM " + mcSperreBean.getTableName() + " "
-                        + "WHERE "
-                        + "object_id = " + id
-                        + "AND class_id = " + lockedObject.getMetaObject().getMetaClass().getId()
-                        + ";";
-            final MetaObject[] mos = getMetaObject(query, BELIS_DOMAIN);
-
-            if ((mos == null) || (mos.length <= 0)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("There is no lock for the given Object");
-                }
-                return null;
-            }
-            final SperreCustomBean lock = (SperreCustomBean)mos[0].getBean();
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("A lock for the desired object is already existing and is hold by: " + lock.getUserString());
-            }
-            return lock;
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("The object to check is null");
-            }
-            return null;
         }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   objectToLock  DOCUMENT ME!
-     * @param   userString    DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     * @throws  LockAlreadyExistsException    DOCUMENT ME!
-     */
-    public SperreCustomBean tryToLockEntity(final BaseEntity objectToLock, final String userString)
-            throws ActionNotSuccessfulException, LockAlreadyExistsException {
-        SperreCustomBean exisitingLock = null;
-        if ((exisitingLock = isEntityLocked(objectToLock)) == null) {
-            return lockEntity(objectToLock, userString);
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Entity is locked");
-            }
-            throw new LockAlreadyExistsException("A lock for the desired object is already existing", exisitingLock);
-        }
+        return locks;
     }
 
     /**
@@ -1113,7 +1017,7 @@ public class CidsBroker {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    public void unlockEntity(final SperreCustomBean holdedLock) throws ActionNotSuccessfulException {
+    public void unlock(final SperreCustomBean holdedLock) throws ActionNotSuccessfulException {
         try {
             if (holdedLock != null) {
                 holdedLock.delete();
@@ -1122,60 +1026,6 @@ public class CidsBroker {
         } catch (final Exception ex) {
             LOG.error("Failure while releasing lock", ex);
             throw new ActionNotSuccessfulException("Failure while releasing lock", ex);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   objectsToUnlock  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    public Collection<Object> unlockEntity(final Collection<? extends BaseEntity> objectsToUnlock)
-            throws ActionNotSuccessfulException {
-        final ArrayList unsuccessfulUnlocking = new ArrayList();
-        if (objectsToUnlock != null) {
-            for (final BaseEntity curObject : objectsToUnlock) {
-                try {
-                    if (curObject instanceof SperreCustomBean) {
-                        unlockEntity((SperreCustomBean)curObject);
-                    } else {
-                        unlockEntity(curObject);
-                    }
-                } catch (ActionNotSuccessfulException ex) {
-                    unsuccessfulUnlocking.add(curObject);
-                }
-            }
-            return new HashSet<Object>(unsuccessfulUnlocking);
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("The set of objects to unlock is null");
-            }
-            throw new ActionNotSuccessfulException("The set of objects to unlock is null");
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   objectToUnlock  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    public void unlockEntity(final BaseEntity objectToUnlock) throws ActionNotSuccessfulException {
-        final SperreCustomBean entityLock = isEntityLocked(objectToUnlock);
-        if (entityLock != null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("There is an Lock for the given Entity");
-            }
-            unlockEntity(entityLock);
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("There is no Lock for the given Entity");
-            }
         }
     }
 }

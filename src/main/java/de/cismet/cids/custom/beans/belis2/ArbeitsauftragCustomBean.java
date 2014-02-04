@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
@@ -291,6 +292,6 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
         if (getNummer() != null) {
             strings.add(getNummer());
         }
-        return implode(strings.toArray(new String[0]), "");
+        return CidsBroker.implode(strings.toArray(new String[0]), "");
     }
 }

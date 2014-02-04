@@ -1006,7 +1006,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEn
         if ((getMastart() != null) && (getMastart().getMastart() != null)) {
             strings.add(getMastart().getMastart());
         }
-        return implode(strings.toArray(new String[0]), ", ");
+        return CidsBroker.implode(strings.toArray(new String[0]), ", ");
     }
 
     @Override

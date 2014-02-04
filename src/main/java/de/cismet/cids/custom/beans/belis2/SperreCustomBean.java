@@ -13,6 +13,8 @@ package de.cismet.cids.custom.beans.belis2;
 
 import java.sql.Date;
 
+import java.util.Collection;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -30,17 +32,15 @@ public class SperreCustomBean extends BaseEntity {
 
     public static final String PROP__LOCK_TIMESTAMP = "lock_timestamp";
     public static final String PROP__USER_STRING = "user_string";
+    public static final String PROP__N_SPERRE_ENTITIES = "n_sperre_entities";
     public static final String PROP__ADDITIONAL_INFO = "additional_info";
-    public static final String PROP__OBJECT_ID = "object_id";
-    public static final String PROP__CLASS_ID = "class_id";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
             PROP__LOCK_TIMESTAMP,
             PROP__USER_STRING,
-            PROP__ADDITIONAL_INFO,
-            PROP__OBJECT_ID,
-            PROP__CLASS_ID
+            PROP__N_SPERRE_ENTITIES,
+            PROP__ADDITIONAL_INFO
         };
 
     //~ Instance fields --------------------------------------------------------
@@ -48,8 +48,7 @@ public class SperreCustomBean extends BaseEntity {
     private Date lock_timestamp;
     private String user_string;
     private String additional_info;
-    private Integer object_id;
-    private Integer class_id;
+    private Collection<SperreEntityCustomBean> n_sperre_entities;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -140,75 +139,19 @@ public class SperreCustomBean extends BaseEntity {
      *
      * @return  DOCUMENT ME!
      */
-    public Integer getObject_id() {
-        return object_id;
+    public Collection<SperreEntityCustomBean> getN_sperre_entities() {
+        return n_sperre_entities;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  object_id  DOCUMENT ME!
+     * @param  n_sperre_entities  DOCUMENT ME!
      */
-    public void setObject_id(final Integer object_id) {
-        final Integer old = this.object_id;
-        this.object_id = object_id;
-        this.propertyChangeSupport.firePropertyChange(PROP__OBJECT_ID, old, this.object_id);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Integer getClass_id() {
-        return class_id;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  class_id  DOCUMENT ME!
-     */
-    public void setClass_id(final Integer class_id) {
-        final Integer old = this.class_id;
-        this.class_id = class_id;
-        this.propertyChangeSupport.firePropertyChange(PROP__CLASS_ID, old, this.class_id);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Integer getClassId() {
-        return getClass_id();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  classId  DOCUMENT ME!
-     */
-    public void setClassId(final Integer classId) {
-        setClass_id(classId);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Integer getObjectId() {
-        return getObject_id();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  objectId  DOCUMENT ME!
-     */
-    public void setObjectId(final Integer objectId) {
-        setObject_id(objectId);
+    public void setN_sperre_entities(final Collection<SperreEntityCustomBean> n_sperre_entities) {
+        final Collection<SperreEntityCustomBean> old = this.n_sperre_entities;
+        this.n_sperre_entities = n_sperre_entities;
+        this.propertyChangeSupport.firePropertyChange(PROP__N_SPERRE_ENTITIES, old, this.n_sperre_entities);
     }
 
     /**

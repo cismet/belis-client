@@ -1074,7 +1074,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             }
             while (broker.isInEditMode()) {
                 try {
-                    // TODO Progressbar & !!! Regeneriert sich nicht nach einem Server neustart
                     broker.releaseLock();
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Sperre konnte erfolgreich gelöst werden");

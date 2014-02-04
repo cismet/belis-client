@@ -19,6 +19,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.swing.JDialog;
@@ -36,20 +37,20 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final String PROP_LOCKED_OBJECTS = "lockedObjects";
+    public static final String PROP_LOCKS = "locks";
 
     //~ Instance fields --------------------------------------------------------
 
     protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-    BindingGroup bindingGroup2 = new BindingGroup();
 
-    private ArrayList<SperreCustomBean> lockedObjects;
+    private Collection<SperreCustomBean> locks;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTable jXTable1;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -59,18 +60,9 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
      *
      * @param  lockedObjects  DOCUMENT ME!
      */
-    public AlreadyLockedObjectsPanel(final ArrayList<SperreCustomBean> lockedObjects) {
-        this.lockedObjects = lockedObjects;
+    public AlreadyLockedObjectsPanel(final Collection<SperreCustomBean> lockedObjects) {
+        this.locks = lockedObjects;
         initComponents();
-        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${lockedObjects}"),
-                jXTable1,
-                org.jdesktop.beansbinding.ELProperty.create("${model}"));
-        binding.setConverter(new LockConverter());
-        bindingGroup2.addBinding(binding);
-        bindingGroup2.bind();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -102,6 +94,8 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jXTable1 = new org.jdesktop.swingx.JXTable();
@@ -116,6 +110,15 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
                     jButton1ActionPerformed(evt);
                 }
             });
+
+        final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${locks}"),
+                jXTable1,
+                org.jdesktop.beansbinding.BeanProperty.create("model"));
+        binding.setConverter(new LockConverter());
+        bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(jXTable1);
 
@@ -156,17 +159,22 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
                 javax.swing.GroupLayout.Alignment.TRAILING,
                 layout.createSequentialGroup().addGap(23, 23, 23).addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel2)
-                                .addComponent(
-                                    jLabel1,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                                    68,
-                                    javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(23, 23, 23).addComponent(
+                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
+                        jLabel2,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
+                        jLabel1,
+                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                        68,
+                        javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(23, 23, 23).addComponent(
                     jScrollPane1,
                     javax.swing.GroupLayout.PREFERRED_SIZE,
                     207,
                     javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
                     javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jButton1).addContainerGap()));
+
+        bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -183,18 +191,19 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public ArrayList<SperreCustomBean> getLockedObjects() {
-        return lockedObjects;
+    public Collection<SperreCustomBean> getLocks() {
+        return locks;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  lockedObjects  DOCUMENT ME!
+     * @param  locks  DOCUMENT ME!
      */
-    public void setLockedObjects(final ArrayList<SperreCustomBean> lockedObjects) {
-        this.lockedObjects = lockedObjects;
-        propertyChangeSupport.firePropertyChange(PROP_LOCKED_OBJECTS, null, lockedObjects);
+    public void setLocks(final Collection<SperreCustomBean> locks) {
+        final Collection<SperreCustomBean> old = this.locks;
+        this.locks = locks;
+        propertyChangeSupport.firePropertyChange(PROP_LOCKS, old, locks);
     }
 }
 /**
@@ -206,21 +215,21 @@ class LockConverter extends Converter<ArrayList<SperreCustomBean>, DefaultTableM
 
     //~ Instance fields --------------------------------------------------------
 
-    private ArrayList<SperreCustomBean> lockedObjects;
+    private ArrayList<SperreCustomBean> locks;
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    public DefaultTableModel convertForward(final ArrayList<SperreCustomBean> lockedObjects) {
-        this.lockedObjects = lockedObjects;
-        Object[][] rows = null;
-        if ((lockedObjects != null) && (lockedObjects.size() != 0)) {
-            rows = new Object[lockedObjects.size()][2];
+    public DefaultTableModel convertForward(final ArrayList<SperreCustomBean> locks) {
+        this.locks = locks;
+        final Object[][] rows;
+        if ((locks != null) && (!locks.isEmpty())) {
+            rows = new Object[locks.size()][2];
         } else {
             rows = new Object[0][2];
         }
         int row = 0;
-        for (final SperreCustomBean curLock : lockedObjects) {
+        for (final SperreCustomBean curLock : locks) {
             rows[row][0] = curLock.getUserString();
             rows[row][1] = curLock.getTimestamp();
             row++;
@@ -245,6 +254,6 @@ class LockConverter extends Converter<ArrayList<SperreCustomBean>, DefaultTableM
 
     @Override
     public ArrayList<SperreCustomBean> convertReverse(final DefaultTableModel arg0) {
-        return lockedObjects;
+        return locks;
     }
 }
