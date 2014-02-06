@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<field name="name" class="java.lang.String"/>
+	<field name="moeglicheAktionen" class="java.util.Collection"/>
+	<field name="moeglicheStati" class="java.util.Collection"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="237" splitType="Prevent">
+			<subreport>
+				<reportElement mode="Opaque" x="0" y="62" width="214" height="175" backcolor="#E0E0E0"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{moeglicheAktionen})]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["/Users/thorsten/dev/620-belis-client/src/main/resources/de/cismet/belis/gui/reports/moeglicheAktionen.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="-11" y="1" width="572" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="7" width="253" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement mode="Opaque" x="424" y="8" width="109" height="78" backcolor="#E0E0E0"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{moeglicheStati})]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["/Users/thorsten/dev/620-belis-client/src/main/resources/de/cismet/belis/gui/reports/moeglicheStati.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="0" y="27" width="45" height="14"/>
+				<textElement/>
+				<text><![CDATA[Monteur:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="41" width="45" height="13"/>
+				<textElement/>
+				<text><![CDATA[Datum:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="45" y="40" width="179" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="45" y="52" width="179" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="230" y="98" width="331" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="230" y="112" width="331" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="230" y="126" width="331" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="230" y="140" width="331" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="230" y="154" width="331" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="230" y="168" width="331" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="230" y="182" width="331" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="230" y="196" width="331" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="230" y="210" width="331" height="1" forecolor="#999999"/>
+			</line>
+			<line>
+				<reportElement x="230" y="224" width="331" height="1" forecolor="#999999"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="8" splitType="Stretch">
+			<line>
+				<reportElement x="-11" y="4" width="572" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="35" splitType="Stretch"/>
+	</summary>
+</jasperReport>

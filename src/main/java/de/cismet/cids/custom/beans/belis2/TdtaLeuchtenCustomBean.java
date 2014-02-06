@@ -16,8 +16,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 import java.util.Date;
 
-import de.cismet.belis.broker.BelisBroker;
-
 import de.cismet.belisEE.mapicons.MapIcons;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;

@@ -850,7 +850,7 @@ public class CidsBroker {
                         + " UNION SELECT 11, id, fk_geom FROM leitung"
                         + " UNION SELECT 15, id, fk_geom FROM schaltstelle"
                         + " UNION SELECT 29, id, fk_geom FROM tdta_standort_mast) AS geom_objects, geom"
-                        + " WHERE geom.id = geom_objects.fk_geom AND envelope(geometryfromtext('"
+                        + " WHERE geom.id = geom_objects.fk_geom AND envelope(ST_geometryfromtext('"
                         + bb.getGeometryFromTextLineString()
                         + "', -1)) && geom.geo_field",
                 BELIS_DOMAIN);
