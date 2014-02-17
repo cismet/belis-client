@@ -16,6 +16,8 @@ import java.util.Date;
 
 import de.cismet.belisEE.mapicons.MapIcons;
 
+import de.cismet.belisEE.util.EntityComparator;
+
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
@@ -26,7 +28,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class SchaltstelleCustomBean extends GeoBaseEntity implements BasicEntity, DocumentContainer {
+public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEntity, DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -525,32 +527,6 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements BasicEntity
     }
 
     @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof SchaltstelleCustomBean) {
-            final SchaltstelleCustomBean anEntity = (SchaltstelleCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getId() == null) || (anEntity.getId() == null)) {
-                return false;
-            } else {
-                return this.getId().equals(anEntity.getId());
-            }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public String toString() {
         return getKeyString();
     }
@@ -569,7 +545,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements BasicEntity
         if ((getStrassenschluessel() != null) && (getStrassenschluessel().getStrasse() != null)) {
             return getStrassenschluessel().getStrasse();
         } else {
-            return super.getHumanReadablePosition();
+            return "";
         }
     }
 
@@ -593,5 +569,22 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements BasicEntity
     @Override
     public void setGeometrie(final GeomCustomBean geometrie) {
         setFk_geom(geometrie);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   o  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public int compareTo(final WorkbenchEntity o) {
+        if (o instanceof SchaltstelleCustomBean) {
+            final SchaltstelleCustomBean s = (SchaltstelleCustomBean)o;
+            return 1;
+        } else {
+            return EntityComparator.compareTypes(this, o);
+        }
     }
 }

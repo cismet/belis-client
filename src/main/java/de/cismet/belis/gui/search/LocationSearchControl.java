@@ -12,22 +12,11 @@
  */
 package de.cismet.belis.gui.search;
 
-import org.apache.commons.collections.comparators.ReverseComparator;
-
-import java.text.ParseException;
-
-import java.util.TreeSet;
-
 import de.cismet.belis.broker.BelisBroker;
-
-import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cismap.commons.wfsforms.WFSFormFeature;
 
 import de.cismet.commons.architecture.util.ArchitectureUtils;
-
-import de.cismet.commons.server.entity.BaseEntity;
 
 //ToDo visualisation of working Progressbar --> cooler if there were something central for such events
 /**

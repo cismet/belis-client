@@ -11,8 +11,6 @@
  */
 package de.cismet.belis.gui.search;
 
-import org.apache.commons.collections.comparators.ReverseComparator;
-
 import org.jdom.Element;
 
 import java.awt.GridBagConstraints;
@@ -23,7 +21,6 @@ import java.io.InputStreamReader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 import java.util.Vector;
 
 import javax.swing.border.EmptyBorder;
@@ -33,9 +30,6 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.todo.RetrieveWorker;
 
 import de.cismet.belis.util.BelisIcons;
-
-import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.wfsforms.WFSFormAdress;
@@ -267,7 +261,6 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
             log.debug("AddressSearch started --> searching db for geometries boundingbox: " + addressBB);
         }
         broker.fireSearchStarted();
-        broker.setLastSearch(new RetrieveWorker(broker, addressBB));
         broker.execute(new RetrieveWorker(broker, addressBB));
     }
 

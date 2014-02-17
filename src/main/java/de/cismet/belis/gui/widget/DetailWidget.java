@@ -178,7 +178,7 @@ public class DetailWidget extends BelisWidget {
                 LOG.debug("CurrentEntity is Leuchte");
             }
 
-            LOG.info("ParentNode: " + ((TdtaLeuchtenCustomBean)currentEntity).getStandort());
+            LOG.info("ParentNode: " + ((TdtaLeuchtenCustomBean)currentEntity).getFk_standort());
             if (getBroker().getWorkbenchWidget().isParentNodeMast(
                             getBroker().getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
                 if (LOG.isDebugEnabled()) {

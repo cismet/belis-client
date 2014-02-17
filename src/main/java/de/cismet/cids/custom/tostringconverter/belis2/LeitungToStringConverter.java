@@ -29,7 +29,7 @@ package de.cismet.cids.custom.tostringconverter.belis2;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class LeitungToStringConverter extends GeoBaseEntityToStringConverter {
+public class LeitungToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 

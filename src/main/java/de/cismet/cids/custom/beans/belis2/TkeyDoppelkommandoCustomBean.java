@@ -111,38 +111,7 @@ public class TkeyDoppelkommandoCustomBean extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        if (this.getPk() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getPk().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof TkeyDoppelkommandoCustomBean) {
-            final TkeyDoppelkommandoCustomBean anEntity = (TkeyDoppelkommandoCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getPk() == null) || (anEntity.getPk() == null)) {
-                return false;
-            } else {
-                return this.getPk().equals(anEntity.getPk());
-            }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public String toString() {
-        return getKeyString();
-    }
-
-    @Override
-    public String getKeyString() {
         if ((getPk() != null) && (getBeschreibung() != null)) {
             return getPk() + " - " + getBeschreibung();
         } else if (getPk() != null) {

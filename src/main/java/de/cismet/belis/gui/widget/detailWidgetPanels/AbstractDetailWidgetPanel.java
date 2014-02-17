@@ -19,26 +19,15 @@ import org.jdesktop.beansbinding.PropertyStateEvent;
 import java.awt.Color;
 import java.awt.Component;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.SwingWorker;
 
 import de.cismet.belis.broker.BelisBroker;
-import de.cismet.belis.broker.CidsBroker;
-
-import de.cismet.belis.gui.widget.KeyTableListener;
-
-import de.cismet.belisEE.util.CriteriaStringComparator;
 
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 

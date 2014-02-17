@@ -20,8 +20,7 @@ import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyStrassenschluesselCustomBean extends BaseEntity
-        implements Comparable<TkeyStrassenschluesselCustomBean> {
+public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Comparable<BaseEntity> {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -114,33 +113,7 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity
     }
 
     @Override
-    public int hashCode() {
-        if (this.getPk() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getPk().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof TkeyStrassenschluesselCustomBean) {
-            final TkeyStrassenschluesselCustomBean anEntity = (TkeyStrassenschluesselCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getPk() == null) || (anEntity.getPk() == null)) {
-                return false;
-            } else {
-                return this.getPk().equals(anEntity.getPk());
-            }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public String getKeyString() {
+    public String toString() {
         if (getStrasse() != null) {
             return getStrasse();
         } else {
@@ -149,16 +122,11 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity
     }
 
     @Override
-    public String getCompareCriteriaString() {
-        if (getStrasse() != null) {
-            return getStrasse();
+    public int compareTo(final BaseEntity o) {
+        if (o instanceof TkeyStrassenschluesselCustomBean) {
+            return AlphanumComparator.getInstance().compare(this.pk, ((TkeyStrassenschluesselCustomBean)o).getPk());
         } else {
-            return "";
+            return 1;
         }
-    }
-
-    @Override
-    public int compareTo(final TkeyStrassenschluesselCustomBean o) {
-        return AlphanumComparator.getInstance().compare(this.pk, o.pk);
     }
 }

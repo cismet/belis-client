@@ -42,6 +42,6 @@ public class LeuchtmittelToStringConverter extends CustomToStringConverter {
         if (cidsBean == null) {
             return null;
         }
-        return ((LeuchtmittelCustomBean)cidsBean).getKeyString();
+        return ((LeuchtmittelCustomBean)cidsBean).toString();
     }
 }

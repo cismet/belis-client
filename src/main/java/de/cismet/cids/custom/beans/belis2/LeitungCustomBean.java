@@ -16,6 +16,8 @@ import java.awt.Paint;
 
 import java.util.Collection;
 
+import de.cismet.belisEE.util.EntityComparator;
+
 import de.cismet.commons.server.entity.GeoBaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
@@ -24,7 +26,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class LeitungCustomBean extends GeoBaseEntity implements BasicEntity, DocumentContainer {
+public class LeitungCustomBean extends GeoBaseEntity implements WorkbenchEntity, DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -235,15 +237,6 @@ public class LeitungCustomBean extends GeoBaseEntity implements BasicEntity, Doc
         setFk_querschnitt(querschnitt);
     }
 
-    // ToDo change the style of the leitung depending to the attributes
-    @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
     @Override
     public int getLineWidth() {
         return 4;
@@ -266,24 +259,6 @@ public class LeitungCustomBean extends GeoBaseEntity implements BasicEntity, Doc
     }
 
     @Override
-    public boolean equals(final Object other) {
-        if (other instanceof LeitungCustomBean) {
-            final LeitungCustomBean anEntity = (LeitungCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getId() == null) || (anEntity.getId() == null)) {
-                return false;
-            } else {
-                return this.getId().equals(anEntity.getId());
-            }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public String getKeyString() {
         String leitungstyp = "";
         if ((getLeitungstyp() != null) && (getLeitungstyp().getBezeichnung() != null)) {
@@ -300,5 +275,27 @@ public class LeitungCustomBean extends GeoBaseEntity implements BasicEntity, Doc
     @Override
     public void setGeometrie(final GeomCustomBean geometrie) {
         setFk_geom(geometrie);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   o  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public int compareTo(final WorkbenchEntity o) {
+        if (o instanceof LeitungCustomBean) {
+            final LeitungCustomBean l = (LeitungCustomBean)o;
+            return 1;
+        } else {
+            return EntityComparator.compareTypes(this, o);
+        }
+    }
+
+    @Override
+    public String getHumanReadablePosition() {
+        return "";
     }
 }

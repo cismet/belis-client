@@ -207,26 +207,4 @@ public class SperreCustomBean extends BaseEntity {
     public void setTimestamp(final Date timestamp) {
         setLock_timestamp(timestamp);
     }
-
-    @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SperreCustomBean)) {
-            return false;
-        }
-        final SperreCustomBean other = (SperreCustomBean)object;
-        if (((this.getId() == null) && (other.getId() != null))
-                    || ((this.getId() != null) && !this.getId().equals(other.getId()))) {
-            return false;
-        }
-        return true;
-    }
 }

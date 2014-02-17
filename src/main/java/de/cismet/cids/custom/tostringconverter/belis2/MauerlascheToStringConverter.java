@@ -29,7 +29,7 @@ package de.cismet.cids.custom.tostringconverter.belis2;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class MauerlascheToStringConverter extends GeoBaseEntityToStringConverter {
+public class MauerlascheToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 

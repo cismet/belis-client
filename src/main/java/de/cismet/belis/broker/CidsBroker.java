@@ -27,7 +27,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
@@ -38,7 +37,6 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
 
 import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
 import de.cismet.belisEE.util.StandortKey;
 
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
@@ -282,18 +280,15 @@ public class CidsBroker {
                 laufendeNummer);
         final Collection<MauerlascheCustomBean> mauerlaschen = retrieveMauerlasche(strassenschluessel, laufendeNummer);
         // final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(new EntityComparator());
-        final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(new ReverseComparator(
-                    new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+        final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(new ReverseComparator(new EntityComparator()));
         if (standorte != null) {
-            addCollectionToSortedSet(results, standorte);
+            results.addAll(standorte);
         }
         if (schaltstellen != null) {
-            addCollectionToSortedSet(results, schaltstellen);
-            // results.addAll(schaltstellen);
+            results.addAll(schaltstellen);
         }
         if (mauerlaschen != null) {
-            addCollectionToSortedSet(results, mauerlaschen);
-            // results.addAll(mauerlaschen);
+            results.addAll(mauerlaschen);
         }
         return results;
     }
@@ -587,8 +582,8 @@ public class CidsBroker {
         if (LOG.isDebugEnabled()) {
             LOG.debug("save objects");
         }
-        final TreeSet<BaseEntity> savedEntities = new TreeSet(new ReverseComparator(
-                    new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+
+        final TreeSet<BaseEntity> savedEntities = new TreeSet(new ReverseComparator(new EntityComparator()));
         final ArrayList<BaseEntity> errornousEntities = new ArrayList<BaseEntity>();
         try {
             if (objectsToSave != null) {
@@ -659,8 +654,7 @@ public class CidsBroker {
             LOG.debug("refresh objects");
         }
         final ArrayList<BaseEntity> errornousEntities = new ArrayList<BaseEntity>();
-        final TreeSet refreshedObjects = new TreeSet(new ReverseComparator(
-                    new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+        final TreeSet refreshedObjects = new TreeSet(new ReverseComparator(new EntityComparator()));
         final HashMap<String, ArrayList> entityIDs = new HashMap();
         try {
             if ((objectsToRefresh != null) && (objectsToRefresh.size() > 0)) {
@@ -713,7 +707,7 @@ public class CidsBroker {
                             if (LOG.isDebugEnabled()) {
                                 LOG.debug("found: " + curClassResults);
                             }
-                            addCollectionToSortedSet(refreshedObjects, curClassResults);
+                            refreshedObjects.addAll(curClassResults);
                         }
                     } catch (Exception ex) {
                         if (LOG.isDebugEnabled()) {
@@ -748,85 +742,29 @@ public class CidsBroker {
     /**
      * DOCUMENT ME!
      *
-     * @param   objectToDelete  DOCUMENT ME!
-     * @param   userString      DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    public void deleteEntity(final BaseEntity objectToDelete, final String userString)
-            throws ActionNotSuccessfulException {
-        if (objectToDelete != null) {
-            try {
-                if (objectToDelete instanceof TdtaStandortMastCustomBean) {
-                    if (((TdtaStandortMastCustomBean)objectToDelete).getLeuchten() != null) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Leuchten des zu löschenden Standorts: "
-                                        + ((TdtaStandortMastCustomBean)objectToDelete).getLeuchten());
-                        }
-                    } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("leuchten null");
-                        }
-                    }
-                }
-                final BaseEntity updatedEntity = (BaseEntity)objectToDelete.persist();
-                if (objectToDelete instanceof TdtaStandortMastCustomBean) {
-                    if (((TdtaStandortMastCustomBean)objectToDelete).getLeuchten() != null) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Leuchten des zu löschenden Standorts: "
-                                        + ((TdtaStandortMastCustomBean)objectToDelete).getLeuchten());
-                        }
-                    } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("leuchten null");
-                        }
-                    }
-                }
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("UpdatedEntity: " + updatedEntity);
-                }
-                updatedEntity.delete();
-                updatedEntity.persist();
-            } catch (Exception ex) {
-                LOG.error("Error while deleting entity", ex);
-                throw new ActionNotSuccessfulException("Error while deleting entity", ex);
-            }
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Object to delete == null");
-            }
-        }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("deleting of entity successful");
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @param   objectsToDelete  DOCUMENT ME!
-     * @param   userString       DOCUMENT ME!
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    public void deleteEntities(final Collection<BaseEntity> objectsToDelete, final String userString)
-            throws ActionNotSuccessfulException {
-        if (objectsToDelete != null) {
-            try {
-                for (final BaseEntity curObject : objectsToDelete) {
-                    deleteEntity(curObject, userString);
+    public void deleteEntities(final Collection<BaseEntity> objectsToDelete) throws ActionNotSuccessfulException {
+        try {
+            if (objectsToDelete != null) {
+                for (final BaseEntity objectToDelete : objectsToDelete) {
+                    if (objectToDelete != null) {
+                        objectToDelete.delete();
+                        objectToDelete.persist();
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("deleting of entity successful");
+                        }
+                    }
                 }
-            } catch (Exception ex) {
-                LOG.error("Error while deleting entities", ex);
-                throw new ActionNotSuccessfulException("Error while deleting entities", ex);
             }
-        } else {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Objects to delete == null");
+                LOG.debug("deleting of all entities successful");
             }
-        }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("deleting of all entities successful");
+        } catch (Exception ex) {
+            LOG.error("Error while deleting entities", ex);
+            throw new ActionNotSuccessfulException("Error while deleting entities", ex);
         }
     }
 
@@ -840,8 +778,7 @@ public class CidsBroker {
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
     public TreeSet getObjectsByBoundingBox(final BoundingBox bb) throws ActionNotSuccessfulException {
-        final TreeSet result = new TreeSet(new ReverseComparator(
-                    new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+        final TreeSet result = new TreeSet(new ReverseComparator(new EntityComparator()));
 
         final Collection<CidsBean> curClassResults = (Collection<CidsBean>)getBeanCollectionForQuery(
                 "SELECT classid, objectid  FROM ("
@@ -857,25 +794,8 @@ public class CidsBroker {
         if (LOG.isDebugEnabled()) {
             LOG.debug("found: " + curClassResults);
         }
-        addCollectionToSortedSet(result, curClassResults);
+        result.addAll(curClassResults);
         return result;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  sortedSet   DOCUMENT ME!
-     * @param  collection  DOCUMENT ME!
-     */
-    public static void addCollectionToSortedSet(final SortedSet sortedSet, final Collection collection) {
-        if ((sortedSet != null) && (collection != null) && (collection.size() > 0)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("adding Collection: " + collection + "to sorted set: " + sortedSet);
-            }
-            for (final Object curObject : collection) {
-                sortedSet.add(curObject);
-            }
-        }
     }
 
     /**

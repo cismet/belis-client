@@ -164,26 +164,4 @@ public class SperreEntityCustomBean extends BaseEntity {
     public void setObjectId(final Integer objectId) {
         setObject_id(objectId);
     }
-
-    @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SperreEntityCustomBean)) {
-            return false;
-        }
-        final SperreEntityCustomBean other = (SperreEntityCustomBean)object;
-        if (((this.getId() == null) && (other.getId() != null))
-                    || ((this.getId() != null) && !this.getId().equals(other.getId()))) {
-            return false;
-        }
-        return true;
-    }
 }

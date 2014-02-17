@@ -97,33 +97,7 @@ public class LeuchtmittelCustomBean extends BaseEntity {
     }
 
     @Override
-    public String getKeyString() {
+    public String toString() {
         return getHersteller() + " " + getLichtfarbe();
-    }
-
-    @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof LeuchtmittelCustomBean) {
-            final LeuchtmittelCustomBean anEntity = (LeuchtmittelCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getId() == null) || (anEntity.getId() == null)) {
-                return false;
-            } else {
-                return this.getId().equals(anEntity.getId());
-            }
-        } else {
-            return false;
-        }
     }
 }

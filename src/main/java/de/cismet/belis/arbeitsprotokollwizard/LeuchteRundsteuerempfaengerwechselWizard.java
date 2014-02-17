@@ -166,9 +166,9 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
         final ArbeitsprotokollaktionCustomBean rundsteuerempfaengerAktion = ArbeitsprotokollaktionCustomBean
                     .createNew();
         rundsteuerempfaengerAktion.setAenderung("Rundsteuerempfänger");
-        rundsteuerempfaengerAktion.setAlt((altRundsteuerempfaenger != null) ? altRundsteuerempfaenger.getKeyString()
+        rundsteuerempfaengerAktion.setAlt((altRundsteuerempfaenger != null) ? altRundsteuerempfaenger.toString()
                                                                             : null);
-        rundsteuerempfaengerAktion.setNeu((neuRundsteuerempfaenger != null) ? neuRundsteuerempfaenger.getKeyString()
+        rundsteuerempfaengerAktion.setNeu((neuRundsteuerempfaenger != null) ? neuRundsteuerempfaenger.toString()
                                                                             : null);
 
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();

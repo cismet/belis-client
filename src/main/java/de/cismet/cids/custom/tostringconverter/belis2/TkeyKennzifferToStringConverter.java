@@ -39,6 +39,15 @@ public class TkeyKennzifferToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return ((TkeyKennzifferCustomBean)cidsBean).getKeyString();
+        final TkeyKennzifferCustomBean k = (TkeyKennzifferCustomBean)cidsBean;
+        if ((k.getKennziffer() != null) && (k.getBeschreibung() != null)) {
+            return k.getKennziffer() + " - " + k.getBeschreibung();
+        } else if (k.getKennziffer() != null) {
+            return k.getKennziffer() + " - Keine Beschreibung vorhanden.";
+        } else if (k.getBeschreibung() != null) {
+            return "Keine ID - " + k.getBeschreibung();
+        } else {
+            return "";
+        }
     }
 }

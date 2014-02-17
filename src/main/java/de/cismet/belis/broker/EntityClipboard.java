@@ -21,7 +21,6 @@ import de.cismet.belis.todo.CustomMutableTreeTableNode;
 import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.BasicEntity;
 import de.cismet.cids.custom.beans.belis2.GeometrieCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
@@ -29,6 +28,7 @@ import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -129,7 +129,7 @@ public class EntityClipboard {
                                 broker.addNewProtokollToAuftragNode(selectedNode, protokoll, basic);
                                 arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                             }
-                        } else if ((clipboardBean instanceof BasicEntity)
+                        } else if ((clipboardBean instanceof WorkbenchEntity)
                                     || (clipboardBean instanceof GeometrieCustomBean)) {
                             final ArbeitsprotokollCustomBean protokoll = broker.createProtokollFromBasic(clipboardBean);
                             broker.addNewProtokollToAuftragNode(selectedNode, protokoll, clipboardBean);
@@ -192,7 +192,7 @@ public class EntityClipboard {
                 }
                 clear();
 
-                broker.getWorkbenchWidget().refreshTreeArtifacts(WorkbenchWidget.REFRESH_NEW_OBJECTS);
+                broker.getWorkbenchWidget().refreshPersistObjects();
             } catch (Exception ex) {
                 LOG.error("error while pasting bean", ex);
             }
@@ -254,7 +254,8 @@ public class EntityClipboard {
                     final Object object = node.getUserObject();
                     if ((broker.isFilterVeranlassung() && (object instanceof VeranlassungCustomBean))
                                 || (broker.isFilterNormal()
-                                    && ((object instanceof BasicEntity) || (object instanceof GeometrieCustomBean)))) {
+                                    && ((object instanceof WorkbenchEntity)
+                                        || (object instanceof GeometrieCustomBean)))) {
                         beans.add((CidsBean)object);
                     }
                 }

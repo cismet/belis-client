@@ -16,9 +16,9 @@ import java.beans.PropertyChangeEvent;
 import java.util.Collection;
 import java.util.Date;
 
-import de.cismet.belis.broker.BelisBroker;
-
 import de.cismet.belisEE.mapicons.MapIcons;
+
+import de.cismet.belisEE.util.EntityComparator;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
@@ -30,7 +30,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity, DocumentContainer {
+public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEntity, DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -110,7 +110,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
             PROP__FK_DK1,
             PROP__FK_DK2,
             PROP__INBETRIEBNAHME_LEUCHTE,
-            PROP__FK_STANDORT,
             PROP__LFD_NUMMER,
             PROP__ANZAHL_2DK,
             PROP__FK_KENNZIFFER,
@@ -729,24 +728,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
      *
      * @return  DOCUMENT ME!
      */
-    public TdtaStandortMastCustomBean getStandort() {
-        return getFk_standort();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  standort  DOCUMENT ME!
-     */
-    public void setStandort(final TdtaStandortMastCustomBean standort) {
-        setFk_standort(standort);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
     public Integer getLaufendeNummer() {
         return getLfd_nummer();
     }
@@ -887,32 +868,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
     }
 
     @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof TdtaLeuchtenCustomBean) {
-            final TdtaLeuchtenCustomBean anEntity = (TdtaLeuchtenCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getId() == null) || (anEntity.getId() == null)) {
-                return false;
-            } else {
-                return this.getId().equals(anEntity.getId());
-            }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public String toString() {
         return "Leuchte[id=" + getId() + "]";
     }
@@ -943,7 +898,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
         if ((getStrassenschluessel() != null) && (getStrassenschluessel().getStrasse() != null)) {
             return getStrassenschluessel().getStrasse();
         } else {
-            return super.getHumanReadablePosition();
+            return "";
         }
     }
 
@@ -1287,5 +1242,40 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements BasicEntity
             return;
         }
         getFk_standort().setGeometrie(val);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   o  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public int compareTo(final WorkbenchEntity o) {
+        if (o instanceof TdtaLeuchtenCustomBean) {
+            final TdtaLeuchtenCustomBean l = (TdtaLeuchtenCustomBean)o;
+            if ((getStrassenschluessel() != null) && (l.getStrassenschluessel() != null)) {
+                final int result = getStrassenschluessel().compareTo(l.getStrassenschluessel());
+                if (result == 0) {
+                    if ((getLaufendeNummer() != null) && (l.getLaufendeNummer() != null)) {
+                        final int lfdNumComp = getLaufendeNummer().compareTo(l.getLaufendeNummer());
+                        return (lfdNumComp == 0) ? 1 : lfdNumComp;
+                    } else if (getLaufendeNummer() != null) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                } else {
+                    return (result == 0) ? 1 : result;
+                }
+            } else if (getLeuchtennummer() != null) {
+                return 1;
+            } else {
+                return -1;
+            }
+        } else {
+            return EntityComparator.compareTypes(this, o);
+        }
     }
 }

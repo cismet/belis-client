@@ -39,6 +39,6 @@ public class TkeyMasttypToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return ((TkeyMasttypCustomBean)cidsBean).getKeyString();
+        return ((TkeyMasttypCustomBean)cidsBean).toString();
     }
 }

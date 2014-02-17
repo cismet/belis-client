@@ -13,12 +13,14 @@ package de.cismet.cids.custom.beans.belis2;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
+import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;
+
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class TkeyKennzifferCustomBean extends BaseEntity {
+public class TkeyKennzifferCustomBean extends BaseEntity implements Comparable<TkeyKennzifferCustomBean> {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -27,8 +29,8 @@ public class TkeyKennzifferCustomBean extends BaseEntity {
 
     public static final String TABLE = "tkey_kennziffer";
 
-    public static final String PROP__BESCHREIBUNG = "Beschreibung";
-    public static final String PROP__KENNZIFFER = "Kennziffer";
+    public static final String PROP__BESCHREIBUNG = "beschreibung";
+    public static final String PROP__KENNZIFFER = "kennziffer";
 
     private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BESCHREIBUNG, PROP__KENNZIFFER };
 
@@ -115,41 +117,11 @@ public class TkeyKennzifferCustomBean extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        if (this.getKennziffer() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getKennziffer().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof TkeyKennzifferCustomBean) {
-            final TkeyKennzifferCustomBean anEntity = (TkeyKennzifferCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getKennziffer() == null) || (anEntity.getKennziffer() == null)) {
-                return false;
-            } else {
-                return this.getKennziffer().equals(anEntity.getKennziffer());
-            }
+    public int compareTo(final TkeyKennzifferCustomBean o) {
+        if ((o != null)) {
+            return AlphanumComparator.getInstance().compare(getKennziffer(), o.getKennziffer());
         } else {
-            return false;
-        }
-    }
-
-    @Override
-    public String getKeyString() {
-        if ((getKennziffer() != null) && (getBeschreibung() != null)) {
-            return getKennziffer() + " - " + getBeschreibung();
-        } else if (getKennziffer() != null) {
-            return getKennziffer() + " - Keine Beschreibung vorhanden.";
-        } else if (getBeschreibung() != null) {
-            return "Keine ID - " + getBeschreibung();
-        } else {
-            return "";
+            return 1;
         }
     }
 }

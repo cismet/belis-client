@@ -17,14 +17,14 @@ import java.util.Comparator;
 
 import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
-
-import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!
@@ -32,41 +32,27 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public class EntityComparator implements Comparator<BaseEntity>, Serializable {
+public class EntityComparator implements Comparator<WorkbenchEntity>, Serializable {
 
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntityComparator.class);
 
-    //~ Instance fields --------------------------------------------------------
-
-    private Comparator<TdtaLeuchtenCustomBean> leuchteComparator;
-
-    //~ Constructors -----------------------------------------------------------
-
-    /**
-     * Creates a new EntityComparator object.
-     */
-    public EntityComparator() {
-    }
-
-    /**
-     * Creates a new EntityComparator object.
-     *
-     * @param  leuchteComparator  DOCUMENT ME!
-     */
-    public EntityComparator(final Comparator<TdtaLeuchtenCustomBean> leuchteComparator) {
-        this.leuchteComparator = leuchteComparator;
-    }
-
     //~ Methods ----------------------------------------------------------------
 
-    // ToDo compare and equals of methods do not match fix it idea:
-    // if equals is true -> return 0
     @Override
-    public int compare(final BaseEntity o1, final BaseEntity o2) {
-        final int result = compareImpl(o1, o2);
-        return result;
+    public int compare(final WorkbenchEntity o1, final WorkbenchEntity o2) {
+        if ((o1 != null) && (o2 != null)) {
+            if (o1.equals(o2)) {
+                return 0;
+            } else {
+                return o1.compareTo(o2);
+            }
+        } else if (o1 != null) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
 
     /**
@@ -77,190 +63,28 @@ public class EntityComparator implements Comparator<BaseEntity>, Serializable {
      *
      * @return  DOCUMENT ME!
      */
-    private int compareImpl(final BaseEntity o1, final BaseEntity o2) {
-        if ((o1 != null) && (o2 != null)) {
-            if (o1 instanceof TdtaLeuchtenCustomBean) {
-                if (o2 instanceof TdtaLeuchtenCustomBean) {
-                    return leuchteComparator.compare((TdtaLeuchtenCustomBean)o1, (TdtaLeuchtenCustomBean)o2);
-                } else {
-                    return 1;
-                }
-            } else if (o1 instanceof TdtaStandortMastCustomBean) {
-                if (o2 instanceof TdtaStandortMastCustomBean) {
-                    if (o1.equals(o2)) {
-                        return 0;
-                    } else if (!((TdtaStandortMastCustomBean)o1).isStandortMast()) {
-                        return -1;
-                    } else if (!((TdtaStandortMastCustomBean)o2).isStandortMast()) {
-                        return 1;
-                    } else if ((((TdtaStandortMastCustomBean)o1).getLeuchten() != null)
-                                && (((TdtaStandortMastCustomBean)o1).getLeuchten().size() == 0)) {
-                        return -1;
-                    } else if ((((TdtaStandortMastCustomBean)o2).getLeuchten() != null)
-                                && (((TdtaStandortMastCustomBean)o2).getLeuchten().size() == 0)) {
-                        return 1;
-                    } else if ((((TdtaStandortMastCustomBean)o1).getStrassenschluessel() != null)
-                                && (((TdtaStandortMastCustomBean)o2).getStrassenschluessel() != null)) {
-                        int result = CriteriaStringComparator.getInstance()
-                                    .compare(((TdtaStandortMastCustomBean)o1).getStrassenschluessel(),
-                                        ((TdtaStandortMastCustomBean)o2).getStrassenschluessel());
-                        // ((TdtaStandortMastCustomBean)
-                        // o1).getLaufendeNummer().compareTo(((TdtaStandortMastCustomBean) o2).getLaufendeNummer());
-                        if (result == 0) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Strassen sind gleich");
-                            }
-                            if ((((TdtaStandortMastCustomBean)o1).getKennziffer() != null)
-                                        && (((TdtaStandortMastCustomBean)o2).getKennziffer() != null)) {
-                                result = CriteriaStringComparator.getInstance()
-                                            .compare(((TdtaStandortMastCustomBean)o1).getKennziffer(),
-                                                    ((TdtaStandortMastCustomBean)o2).getKennziffer());
-                                if (result == 0) {
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug("Kennziffern sind gleich");
-                                    }
-                                    if ((((TdtaStandortMastCustomBean)o1).getLaufendeNummer() != null)
-                                                && (((TdtaStandortMastCustomBean)o2).getLaufendeNummer() != null)) {
-                                        result = ((TdtaStandortMastCustomBean)o1).getLaufendeNummer()
-                                                    .compareTo(((TdtaStandortMastCustomBean)o2).getLaufendeNummer());
-                                        if (result == 0) {
-                                            if (LOG.isDebugEnabled()) {
-                                                LOG.debug("laufende Nummern sind gleich");
-                                                LOG.debug("the entity fields are equals odering dosen't matter");
-                                            }
-                                            return 1;
-                                        } else {
-                                            if (LOG.isDebugEnabled()) {
-                                                LOG.debug("laufende Nummern sind ungleich");
-                                            }
-                                            return result;
-                                        }
-                                    } else if (((TdtaStandortMastCustomBean)o1).getLaufendeNummer() != null) {
-                                        return 1;
-                                    } else if (((TdtaStandortMastCustomBean)o2).getLaufendeNummer() != null) {
-                                        return -1;
-                                    } else {
-                                        return -1;
-                                    }
-                                } else {
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug("Kennziffern sind ungleich");
-                                    }
-                                    return result;
-                                }
-                            } else if (((TdtaStandortMastCustomBean)o1).getKennziffer() != null) {
-                                return 1;
-                            } else if (((TdtaStandortMastCustomBean)o2).getKennziffer() != null) {
-                                return -1;
-                            } else {
-                                return -1;
-                            }
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Strassen sind ungleich");
-                            }
-                            return result;
-                        }
-                    } else if (((TdtaStandortMastCustomBean)o1).getStrassenschluessel() != null) {
-                        return 1;
-                    } else if (((TdtaStandortMastCustomBean)o2).getStrassenschluessel() != null) {
-                        return -1;
-                    } else {
-                        return -1;
-                    }
-                } else if (o2 instanceof TdtaLeuchtenCustomBean) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else if (o1 instanceof LeitungCustomBean) {
-                if (o2 instanceof LeitungCustomBean) {
-                    if (o1.equals(o2)) {
-                        return 0;
-                    } else {
-                        return 1;
-                    }
-                } else if ((o2 instanceof TdtaStandortMastCustomBean) || (o2 instanceof TdtaLeuchtenCustomBean)) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else if (o1 instanceof SchaltstelleCustomBean) {
-                if (o2 instanceof SchaltstelleCustomBean) {
-                    if (o1.equals(o2)) {
-                        return 0;
-                    } else {
-                        return 1;
-                    }
-                } else if ((o2 instanceof TdtaStandortMastCustomBean) || (o2 instanceof TdtaLeuchtenCustomBean)
-                            || (o2 instanceof LeitungCustomBean)) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else if (o1 instanceof MauerlascheCustomBean) {
-                if (o2 instanceof MauerlascheCustomBean) {
-                    if (o1.equals(o2)) {
-                        return 0;
-                    } else {
-                        return 1;
-                    }
-                } else if ((o2 instanceof TdtaStandortMastCustomBean) || (o2 instanceof TdtaLeuchtenCustomBean)
-                            || (o2 instanceof LeitungCustomBean)
-                            || (o2 instanceof SchaltstelleCustomBean)) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else if (o1 instanceof AbzweigdoseCustomBean) {
-                if (o2 instanceof AbzweigdoseCustomBean) {
-                    if (o1.equals(o2)) {
-                        return 0;
-                    } else {
-                        return 1;
-                    }
-                } else if ((o2 instanceof TdtaStandortMastCustomBean) || (o2 instanceof TdtaLeuchtenCustomBean)
-                            || (o2 instanceof LeitungCustomBean)
-                            || (o2 instanceof SchaltstelleCustomBean)
-                            || (o2 instanceof MauerlascheCustomBean)) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else if (o1 instanceof ArbeitsauftragCustomBean) {
-                if (o2 instanceof ArbeitsauftragCustomBean) {
-                    if (o2.equals(o1)) {
-                        return 0;
-                    } else {
-                        return o2.getKeyString().compareTo(o1.getKeyString());
-                    }
-                } else {
-                    return 1;
-                }
-            } else if (o1 instanceof VeranlassungCustomBean) {
-                if (o2 instanceof VeranlassungCustomBean) {
-                    if (o2.equals(o1)) {
-                        return 0;
-                    } else {
-                        return o2.getKeyString().compareTo(o1.getKeyString());
-                    }
-                } else {
-                    return 1;
-                }
-            } else {
-                if (o1.equals(o2)) {
-                    return 0;
-                } else {
-                    // if the case is not written down the order is does not matter.
-                    return 1;
-                }
-            }
-        } else if (o1 != null) {
-            return 1;
-        } else if (o2 != null) {
-            return -1;
-        } else {
-            return 0;
-        }
+    public static int compareTypes(final WorkbenchEntity o1, final WorkbenchEntity o2) {
+        int compare = 0;
+        compare += (o1 instanceof VeranlassungCustomBean) ? 9 : 0;
+        compare += (o1 instanceof ArbeitsauftragCustomBean) ? 8 : 0;
+        compare += (o1 instanceof ArbeitsprotokollCustomBean) ? 7 : 0;
+        compare += (o1 instanceof TdtaStandortMastCustomBean) ? 6 : 0;
+        compare += (o1 instanceof TdtaLeuchtenCustomBean) ? 5 : 0;
+        compare += (o1 instanceof SchaltstelleCustomBean) ? 4 : 0;
+        compare += (o1 instanceof MauerlascheCustomBean) ? 3 : 0;
+        compare += (o1 instanceof LeitungCustomBean) ? 2 : 0;
+        compare += (o1 instanceof AbzweigdoseCustomBean) ? 1 : 0;
+
+        compare -= (o2 instanceof VeranlassungCustomBean) ? 9 : 0;
+        compare -= (o2 instanceof ArbeitsauftragCustomBean) ? 8 : 0;
+        compare += (o1 instanceof ArbeitsprotokollCustomBean) ? 7 : 0;
+        compare -= (o2 instanceof TdtaStandortMastCustomBean) ? 6 : 0;
+        compare -= (o2 instanceof TdtaLeuchtenCustomBean) ? 5 : 0;
+        compare -= (o2 instanceof SchaltstelleCustomBean) ? 4 : 0;
+        compare -= (o2 instanceof MauerlascheCustomBean) ? 3 : 0;
+        compare -= (o2 instanceof LeitungCustomBean) ? 2 : 0;
+        compare -= (o2 instanceof AbzweigdoseCustomBean) ? 1 : 0;
+
+        return (compare == 0) ? 1 : compare;
     }
 }

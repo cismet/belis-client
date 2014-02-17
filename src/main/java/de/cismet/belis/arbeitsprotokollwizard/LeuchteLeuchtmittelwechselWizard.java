@@ -186,8 +186,8 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
 
         final ArbeitsprotokollaktionCustomBean leuchtmittelAktion = ArbeitsprotokollaktionCustomBean.createNew();
         leuchtmittelAktion.setAenderung("Leuchtmittel");
-        leuchtmittelAktion.setAlt((altLeuchtmittel != null) ? altLeuchtmittel.getKeyString() : null);
-        leuchtmittelAktion.setNeu((neuLeuchtmittel != null) ? neuLeuchtmittel.getKeyString() : null);
+        leuchtmittelAktion.setAlt((altLeuchtmittel != null) ? altLeuchtmittel.toString() : null);
+        leuchtmittelAktion.setNeu((neuLeuchtmittel != null) ? neuLeuchtmittel.toString() : null);
 
         final ArbeitsprotokollaktionCustomBean lebensdauerAktion = ArbeitsprotokollaktionCustomBean.createNew();
         lebensdauerAktion.setAenderung("Lebensdauer");

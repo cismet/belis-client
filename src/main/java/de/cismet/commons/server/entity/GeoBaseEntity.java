@@ -252,11 +252,6 @@ public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
     }
 
     @Override
-    public String getKeyString() {
-        return "";
-    }
-
-    @Override
     public void setCanBeSelected(final boolean selectable) {
     }
 }

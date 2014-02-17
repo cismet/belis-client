@@ -135,7 +135,6 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
 
 import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
@@ -146,7 +145,6 @@ import de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
-import de.cismet.cids.custom.beans.belis2.SperreEntityCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean;
@@ -319,8 +317,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         new ArrayList<FeatureSelectionChangedListener>();
     private AlreadyLockedObjectsPanel lockPanel = null;
     // Todo maybe deliver mapWidget by default so the derived broker has direct access and don't have to search
-    private Set<BaseEntity> currentSearchResults = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+    private Set<BaseEntity> currentSearchResults = new TreeSet(new ReverseComparator(new EntityComparator()));
 //    public static final String PROP_NEW_OBJECTS = "currentSearchResults";
     private boolean inCreateMode;
     private MapSearchControl mscPan = null;
@@ -755,7 +752,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (isInEditMode()) {
             switchInEditMode(false);
             setComponentsEditable(false);
-            workbenchWidget.getEditObjects().clear();
+            if (isInCreateMode()) {
+                workbenchWidget.clearNewNode();
+            } else {
+                workbenchWidget.clearEditNode();
+            }
             new SwingWorker<Void, Void>() {
 
                     @Override
@@ -1099,13 +1100,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                                     }
 
                                     final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(
-                                            new ReverseComparator(
-                                                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-                                    CidsBroker.addCollectionToSortedSet(results, entities);
-                                    if (results.contains(null)) {
-                                        LOG.fatal("!!!");
-                                    }
-
+                                            new ReverseComparator(new EntityComparator()));
+                                    results.addAll(entities);
                                     setSearchResult(results);
                                     enableSearch();
                                     fireSearchFinished();
@@ -1951,71 +1947,47 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     }
 
     /**
-     * ToDo!!! use Backgroundworker
+     * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    // ToDo idea mabey a method where the instance above collects the objects to save Set objectsToSave
-    // ToDo in Background
-    // ToDo would be couler if the swingworker would get the runnable and execute it in edt
-    public Runnable save() throws Exception {
+    public Runnable saveWorkbench() throws Exception {
         if (LOG.isDebugEnabled()) {
             LOG.debug("save");
-        }
-        if (isInCreateMode()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(workbenchWidget.getNewObjects().size() + " Objects to Save");
-            }
-            CidsBroker.getInstance().saveObjects(workbenchWidget.getNewObjects());
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(getCurrentSearchResults().size() + " Objects to Save");
-            }
-            CidsBroker.getInstance().saveObjects(workbenchWidget.getEditObjects());
+            LOG.debug(workbenchWidget.getObjectsToPersist().size() + " Objects to save");
+            LOG.debug(workbenchWidget.getObjectsToDelete().size() + " Objects to delete");
         }
 
-        CidsBroker.getInstance().deleteEntities(workbenchWidget.getObjectsToRemove(), getAccountName());
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Changes are saved");
+        final Collection<BaseEntity> persistedObjects = CidsBroker.getInstance()
+                    .saveObjects(workbenchWidget.getObjectsToPersist());
+        getCurrentSearchResults().addAll(persistedObjects);
+        if (!isInCreateMode()) {
+            final Collection<BaseEntity> objectsToDelete = workbenchWidget.getObjectsToDelete();
+            CidsBroker.getInstance().deleteEntities(objectsToDelete);
+            getCurrentSearchResults().removeAll(objectsToDelete);
+        }
+        for (final BaseEntity entity : getCurrentSearchResults()) {
+            entity.storeBackup();
+        }
+        workbenchWidget.getObjectsToDelete().clear();
+        if (isInCreateMode()) {
+            workbenchWidget.clearNewNode();
+        } else {
+            workbenchWidget.clearEditNode();
         }
 
         final Runnable runnable = new Runnable() {
 
                 @Override
                 public void run() {
-                    workbenchWidget.objectsRemoved();
-                    if (isInCreateMode()) {
-                        workbenchWidget.clearNewObjects();
-                        // ToDo search Map for Objects
-                    } else {
-                    }
-                    // ToDo disabled Functionality 04.05.2009
-                    // workbenchWidget.moveNewObjectsAfterSave();
-                    if (isInCreateMode()) {
-                        setCurrentSearchResults(new TreeSet());
-                    }
+                    workbenchWidget.refreshAll();
+                    refreshMap();
                 }
             };
 
-        if (SwingUtilities.isEventDispatchThread()) {
-            runnable.run();
-        } else {
-            EventQueue.invokeAndWait(runnable);
-        }
-
-        if (isInCreateMode()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("refreshing SearchResults. Doing mapsearch");
-            }
-            search(getMappingComponent().getCurrentBoundingBox());
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("not in createmode");
-            }
-        }
-        return null;
+        return runnable;
     }
 
     /**
@@ -2032,56 +2004,34 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    protected Runnable cancel() throws Exception {
+    protected Runnable cancelWorkbench() throws Exception {
         if (LOG.isDebugEnabled()) {
             LOG.debug("cancel");
         }
-//        try {
-        workbenchWidget.saveSelectedElementAndUnselectAll();
-//            Set tmpResults = null;
-        if (!isInCreateMode() && (lastSearch != null)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("is not in create mode. Refreshing search results with last search");
-            }
-//                if (lastSearch.getBoundingBox() != null) {
-            search(lastSearch.getBoundingBox());
-//                } else {
-//                    search(lastSearch.getStrassenschluessel(),
-//                        lastSearch.getKennziffer(),
-//                        lastSearch.getLaufendenummer());
-//                }
-        }
-//            final Set refreshedSearchResults = tmpResults;
 
-        // ToDo Refresh the already persited new objects;
-        // result.add(new Standort((int)(10000*Math.random())));
+        if (!isInCreateMode()) {
+            getCurrentSearchResults().addAll(workbenchWidget.getObjectsToDelete());
+            for (final BaseEntity entity : workbenchWidget.getObjectsToPersist()) {
+                entity.loadBackup();
+            }
+            getCurrentSearchResults().addAll(workbenchWidget.getObjectsToPersist());
+        }
+        workbenchWidget.getObjectsToDelete().clear();
+        if (isInCreateMode()) {
+            workbenchWidget.clearNewNode();
+        } else {
+            workbenchWidget.clearEditNode();
+        }
+
         final Runnable cancelEDTRun = new Runnable() {
 
                 @Override
                 public void run() {
-                    if (!isInCreateMode()) {
-                        // ToDo After this statement there is a exception console (case there are search results and
-                        // the edit modus is cancled) setCurrentSearchResults(refreshedSearchResults);
-                        workbenchWidget.restoreRemovedObjects();
-                    } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("is in create mode");
-                        }
-                        workbenchWidget.clearNewObjects();
-                    }
-                    // refreshMap();
-                    workbenchWidget.restoreSelectedElementIfPossible();
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Objects are refreshed");
-                    }
+                    workbenchWidget.refreshAll();
+                    refreshMap();
                 }
             };
-        // runOrEDTDispatch(cancelEDTRun);
         return cancelEDTRun;
-//        } catch (ActionNotSuccessfulException ex) {
-//            LOG.error("Error while refreshing objects: " + ex);
-//            return null;
-//        }
     }
 
     /**
@@ -2245,7 +2195,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @param  set  DOCUMENT ME!
      */
-    public void setSearchResult(final Set set) {
+    public void setSearchResult(final Set<BaseEntity> set) {
         if (set != null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Search results: " + set.size());
@@ -2261,32 +2211,14 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                 @Override
                 public void run() {
-//                    if ((set != null) && !IsGreaterMaxSearchResults(set.size())) {
+                    for (final BaseEntity entity : set) {
+                        entity.storeBackup();
+                    }
                     setCurrentSearchResults(set);
-                    // ToDo PropertyChangeListener;
                     refreshMap();
                     getMappingComponent().zoomToFullFeatureCollectionBounds();
-//                    }
                 }
             });
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public RetrieveWorker getLastSearch() {
-        return lastSearch;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  lastSearch  DOCUMENT ME!
-     */
-    public void setLastSearch(final RetrieveWorker lastSearch) {
-        this.lastSearch = lastSearch;
     }
 
     /**
@@ -2880,7 +2812,14 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * DOCUMENT ME!
      */
     public void addNewStandort() {
-        workbenchWidget.selectNode(workbenchWidget.addNewStandort());
+        final TdtaStandortMastCustomBean newStandort = TdtaStandortMastCustomBean.createNew();
+        newStandort.setVerrechnungseinheit(true);
+
+        if (BelisBroker.getDefaultUnterhaltMast() != null) {
+            newStandort.setUnterhaltspflichtMast(BelisBroker.getDefaultUnterhaltMast());
+        }
+        newStandort.addPropertyChangeListener(workbenchWidget);
+        workbenchWidget.addNewEntity(newStandort);
     }
 
     /**
@@ -2889,72 +2828,76 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @param  relatedObject  DOCUMENT ME!
      */
     public void addNewLeuchte(final Object relatedObject) {
-        workbenchWidget.selectNode(workbenchWidget.addNewLeuchte(relatedObject));
+        workbenchWidget.addNewLeuchte(relatedObject);
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewLeuchte() {
-        workbenchWidget.selectNode(workbenchWidget.addNewLeuchte());
+        workbenchWidget.addNewLeuchte();
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewMauerlasche() {
-        workbenchWidget.selectNode(workbenchWidget.addNewMauerlasche());
+        final MauerlascheCustomBean newMauerlasche = MauerlascheCustomBean.createNew();
+        newMauerlasche.setStrassenschluessel(getLastMauerlascheStrassenschluessel());
+        newMauerlasche.addPropertyChangeListener(this);
+        newMauerlasche.addPropertyChangeListener(workbenchWidget);
+        workbenchWidget.addNewEntity(newMauerlasche);
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewSchaltstelle() {
-        workbenchWidget.selectNode(workbenchWidget.addNewSchaltstelle());
+        final SchaltstelleCustomBean newSchaltstelle = SchaltstelleCustomBean.createNew();
+        newSchaltstelle.addPropertyChangeListener(workbenchWidget);
+        workbenchWidget.addNewEntity(newSchaltstelle);
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewLeitung() {
-        workbenchWidget.selectNode(workbenchWidget.addNewLeitung());
+        final LeitungCustomBean newLeitung = LeitungCustomBean.createNew();
+        newLeitung.setLeitungstyp(getLastLeitungstyp());
+        newLeitung.addPropertyChangeListener(this);
+        newLeitung.addPropertyChangeListener(workbenchWidget);
+        workbenchWidget.addNewEntity(newLeitung);
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewAbzweigdose() {
-        workbenchWidget.selectNode(workbenchWidget.addNewAbzweigdose());
+        final AbzweigdoseCustomBean newAbzweigdose = AbzweigdoseCustomBean.createNew();
+        workbenchWidget.addNewEntity(newAbzweigdose);
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewVeranlassung() {
-        workbenchWidget.selectNode(workbenchWidget.addNewVeranlassung());
+        final VeranlassungCustomBean newVeranlassung = VeranlassungCustomBean.createNew();
+        workbenchWidget.addNewEntity(newVeranlassung);
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewGeometrie() {
-        workbenchWidget.selectNode(workbenchWidget.addNewGeometrie());
+        workbenchWidget.addNewGeometrie();
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewArbeitsauftrag() {
-        workbenchWidget.selectNode(workbenchWidget.addNewArbeitsauftrag());
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  relatedObject  DOCUMENT ME!
-     */
-    public void addNewArbeitsprotokoll(final Object relatedObject) {
-        workbenchWidget.selectNode(workbenchWidget.addNewArbeitsprotokoll(relatedObject));
+        final ArbeitsauftragCustomBean newArbeitsauftrag = ArbeitsauftragCustomBean.createNew();
+        workbenchWidget.addNewEntity(newArbeitsauftrag);
     }
 
     /**
@@ -3434,9 +3377,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         @Override
         protected Runnable doInBackground() throws Exception {
             if (mode == SAVE_MODE) {
-                return save();
+                return saveWorkbench();
             } else if (mode == CANCEL_MODE) {
-                return BelisBroker.this.cancel();
+                return cancelWorkbench();
             } else {
                 LOG.warn("Mode is unkown.");
                 return null;

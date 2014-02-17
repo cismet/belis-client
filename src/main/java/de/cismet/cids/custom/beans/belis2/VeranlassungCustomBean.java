@@ -22,7 +22,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
-import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
@@ -37,7 +36,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class VeranlassungCustomBean extends BaseEntity implements DocumentContainer {
+public class VeranlassungCustomBean extends BaseEntity implements DocumentContainer, WorkbenchEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -142,32 +141,6 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof VeranlassungCustomBean) {
-            final VeranlassungCustomBean anEntity = (VeranlassungCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if (!this.getClass().isAssignableFrom(other.getClass())) {
-                return false;
-            } else if ((this.getId() == null) || (anEntity.getId() == null)) {
-                return false;
-            } else {
-                return this.getId().equals(anEntity.getId());
-            }
-        } else {
-            return false;
-        }
     }
 
     @Override
@@ -536,5 +509,27 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
             strings.add("_");
         }
         return CidsBroker.implode(strings.toArray(new String[0]), "");
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   o  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public int compareTo(final WorkbenchEntity o) {
+        if (o instanceof VeranlassungCustomBean) {
+            final VeranlassungCustomBean v = (VeranlassungCustomBean)o;
+            return getKeyString().compareTo(v.getKeyString()) * -1;
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public String getHumanReadablePosition() {
+        return null;
     }
 }

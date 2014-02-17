@@ -131,33 +131,7 @@ public class TkeyUnterhMastCustomBean extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        if (this.getPk() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getPk().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof TkeyUnterhMastCustomBean) {
-            final TkeyUnterhMastCustomBean anEntity = (TkeyUnterhMastCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getPk() == null) || (anEntity.getPk() == null)) {
-                return false;
-            } else {
-                return this.getPk().equals(anEntity.getPk());
-            }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public String getKeyString() {
+    public String toString() {
         if (getUnterhaltMast() != null) {
             return getUnterhaltMast().toLowerCase(Locale.GERMAN);
         } else {
