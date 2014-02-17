@@ -13,6 +13,8 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 
 import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -28,7 +30,7 @@ public class ObjectToKeyStringConverter extends ObjectToStringConverter {
     @Override
     public String getPreferredStringForItem(final Object item) {
         if ((item != null) && (item instanceof BaseEntity)) {
-            return ((BaseEntity)item).getKeyString();
+            return ((BaseEntity)item).toString();
         } else {
             return null;
         }

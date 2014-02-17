@@ -1077,7 +1077,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 @Override
                 public String getPreferredStringForItem(final Object item) {
                     if ((item != null) && (item instanceof TkeyLeuchtentypCustomBean)) {
-                        return ((TkeyLeuchtentypCustomBean)item).getKeyString();
+                        return ((TkeyLeuchtentypCustomBean)item).toString();
                     } else {
                         return null;
                     }

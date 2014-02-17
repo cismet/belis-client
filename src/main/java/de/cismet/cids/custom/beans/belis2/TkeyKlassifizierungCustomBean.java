@@ -113,33 +113,7 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        if (this.getPk() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getPk().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof TkeyKlassifizierungCustomBean) {
-            final TkeyKlassifizierungCustomBean anEntity = (TkeyKlassifizierungCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getPk() == null) || (anEntity.getPk() == null)) {
-                return false;
-            } else {
-                return this.getPk().equals(anEntity.getPk());
-            }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public String getKeyString() {
+    public String toString() {
         if (getKlassifizierung() != null) {
             return getKlassifizierung().toLowerCase(Locale.GERMAN);
         } else {
@@ -147,13 +121,13 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
         }
     }
 
-    @Override
-    public String getCompareCriteriaString() {
-        // Workaround: 'keine Angabe' is ordered on the first place
-        if (getPk().equals(0)) {
-            return "00000";
-        } else {
-            return getKeyString();
-        }
-    }
+//    @Override
+//    public String getCompareCriteriaString() {
+//        // Workaround: 'keine Angabe' is ordered on the first place
+//        if (getPk().equals(0)) {
+//            return "00000";
+//        } else {
+//            return getKeyString();
+//        }
+//    }
 }

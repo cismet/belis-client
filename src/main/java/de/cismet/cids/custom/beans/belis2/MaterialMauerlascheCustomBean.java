@@ -80,29 +80,7 @@ public class MaterialMauerlascheCustomBean extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MaterialMauerlascheCustomBean)) {
-            return false;
-        }
-        final MaterialMauerlascheCustomBean other = (MaterialMauerlascheCustomBean)object;
-        if (((this.getId() == null) && (other.getId() != null))
-                    || ((this.getId() != null) && !this.getId().equals(other.getId()))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String getKeyString() {
+    public String toString() {
         if (getBezeichnung() != null) {
             return getBezeichnung();
         } else {

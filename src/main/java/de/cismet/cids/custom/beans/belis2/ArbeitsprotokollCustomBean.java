@@ -17,6 +17,8 @@ import java.util.Collection;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
+import de.cismet.belisEE.util.EntityComparator;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -24,7 +26,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  *
  * @version  $Revision$, $Date$
  */
-public class ArbeitsprotokollCustomBean extends BaseEntity {
+public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -114,44 +116,6 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   other  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof ArbeitsprotokollCustomBean) {
-            final ArbeitsprotokollCustomBean anEntity = (ArbeitsprotokollCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if (!this.getClass().isAssignableFrom(other.getClass())) {
-                return false;
-            } else if ((this.getId() == null) || (anEntity.getId() == null)) {
-                return false;
-            } else {
-                return this.getId().equals(anEntity.getId());
-            }
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -488,7 +452,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
                 return "Standort" + subfix;
             }
         } else {
-            return super.getKeyString();
+            return "";
         }
     }
 
@@ -512,7 +476,26 @@ public class ArbeitsprotokollCustomBean extends BaseEntity {
         } else if (getFk_standort() != null) {
             return getFk_standort().getHumanReadablePosition();
         } else {
-            return super.getHumanReadablePosition();
+            return "";
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   o  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public int compareTo(final WorkbenchEntity o) {
+        if (o instanceof ArbeitsprotokollCustomBean) {
+            final ArbeitsprotokollCustomBean p = (ArbeitsprotokollCustomBean)o;
+
+            // TODOJean sortieren nach untertypen
+            return 1;
+        } else {
+            return EntityComparator.compareTypes(this, o);
         }
     }
 }

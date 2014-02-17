@@ -31,7 +31,7 @@ import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class ArbeitsprotokollstatusToStringConverter extends GeoBaseEntityToStringConverter {
+public class ArbeitsprotokollstatusToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 

@@ -31,7 +31,7 @@ import de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class AnlagengruppeToStringConverter extends GeoBaseEntityToStringConverter {
+public class AnlagengruppeToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 

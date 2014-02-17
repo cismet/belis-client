@@ -1052,7 +1052,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("All changes are valid" + isValid);
                         }
-                        broker.save();
+                        broker.saveWorkbench();
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("Änderungen wurden gespeichert");
                         }

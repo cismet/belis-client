@@ -29,7 +29,7 @@ package de.cismet.cids.custom.tostringconverter.belis2;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class AbzweigdoseToStringConverter extends GeoBaseEntityToStringConverter {
+public class AbzweigdoseToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 

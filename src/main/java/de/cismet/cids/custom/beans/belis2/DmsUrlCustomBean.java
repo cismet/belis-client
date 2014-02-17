@@ -190,14 +190,6 @@ public class DmsUrlCustomBean extends BaseEntity {
         setUrl_id(url);
     }
 
-    @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
     /**
      * DOCUMENT ME!
      *
@@ -238,24 +230,6 @@ public class DmsUrlCustomBean extends BaseEntity {
             }
         }
         return null;
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof DmsUrlCustomBean) {
-            final DmsUrlCustomBean anEntity = (DmsUrlCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getId() == null) || (anEntity.getId() == null)) {
-                return false;
-            } else {
-                return this.getId().equals(anEntity.getId());
-            }
-        } else {
-            return false;
-        }
     }
 
     @Override

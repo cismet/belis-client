@@ -28,9 +28,9 @@ import javax.swing.tree.TreePath;
 import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -89,8 +89,7 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
      * @return  DOCUMENT ME!
      */
     public Set getAllUserObjects() {
-        final Set allObjects = new TreeSet(new ReverseComparator(
-                    new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+        final Set allObjects = new TreeSet(new ReverseComparator(new EntityComparator()));
         for (final TreeTableNode curNode : getAllNodes(rootNode)) {
             if (curNode.getUserObject() != null) {
                 allObjects.add(curNode.getUserObject());
@@ -170,16 +169,16 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
         switch (aColumn) {
             case 1: {
                 if (aObject instanceof TreeTableNode) {
-                    if (((TreeTableNode)aObject).getUserObject() instanceof BaseEntity) {
-                        return ((BaseEntity)((TreeTableNode)aObject).getUserObject()).getKeyString();
+                    if (((TreeTableNode)aObject).getUserObject() instanceof WorkbenchEntity) {
+                        return ((WorkbenchEntity)((TreeTableNode)aObject).getUserObject()).getKeyString();
                     }
                 }
                 return "";
             }
             case 2: {
                 if (aObject instanceof TreeTableNode) {
-                    if (((TreeTableNode)aObject).getUserObject() instanceof BaseEntity) {
-                        return ((BaseEntity)((TreeTableNode)aObject).getUserObject()).getHumanReadablePosition();
+                    if (((TreeTableNode)aObject).getUserObject() instanceof WorkbenchEntity) {
+                        return ((WorkbenchEntity)((TreeTableNode)aObject).getUserObject()).getHumanReadablePosition();
                     }
                 }
                 return "";

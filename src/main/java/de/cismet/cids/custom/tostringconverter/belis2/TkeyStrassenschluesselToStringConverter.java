@@ -39,6 +39,6 @@ public class TkeyStrassenschluesselToStringConverter extends CustomToStringConve
 
     @Override
     public String createString() {
-        return ((TkeyStrassenschluesselCustomBean)cidsBean).getKeyString();
+        return ((TkeyStrassenschluesselCustomBean)cidsBean).toString();
     }
 }

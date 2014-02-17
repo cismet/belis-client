@@ -32,6 +32,7 @@ import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -406,7 +407,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     @Override
     public void setCurrentEntity(final ArbeitsauftragCustomBean currentEntity) {
         super.setCurrentEntity(currentEntity);
-        LOG.fatal(currentEntity.getMOString());
         ((ProtokolleTableModel)jTable1.getModel()).clear();
         if (currentEntity != null) {
             ((ProtokolleTableModel)jTable1.getModel()).addProtokolle(currentEntity.getAr_protokolle());
@@ -467,7 +467,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
             }
 
             final ArbeitsprotokollstatusCustomBean status = protokoll.getFk_status();
-            final BaseEntity entity;
+            final WorkbenchEntity entity;
             final String entityName;
             if (protokoll.getFk_abzweigdose() != null) {
                 entity = protokoll.getFk_abzweigdose();

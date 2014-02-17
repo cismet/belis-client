@@ -73,32 +73,6 @@ public class ArbeitsprotokollaktionCustomBean extends BaseEntity {
         return PROPERTY_NAMES;
     }
 
-    @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof ArbeitsprotokollaktionCustomBean) {
-            final ArbeitsprotokollaktionCustomBean anEntity = (ArbeitsprotokollaktionCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if (!this.getClass().isAssignableFrom(other.getClass())) {
-                return false;
-            } else if ((this.getId() == null) || (anEntity.getId() == null)) {
-                return false;
-            } else {
-                return this.getId().equals(anEntity.getId());
-            }
-        } else {
-            return false;
-        }
-    }
-
     /**
      * DOCUMENT ME!
      *

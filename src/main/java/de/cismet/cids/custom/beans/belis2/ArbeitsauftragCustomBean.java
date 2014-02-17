@@ -22,14 +22,13 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
-import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.belis2.server.search.NextArbeitsauftragNummerSearch;
 
-import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.belisEE.util.EntityComparator;
 
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
@@ -39,7 +38,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentContainer {
+public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentContainer, WorkbenchEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -109,32 +108,6 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     @Override
     public String[] getPropertyNames() {
         return PROPERTY_NAMES;
-    }
-
-    @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof ArbeitsauftragCustomBean) {
-            final ArbeitsauftragCustomBean anEntity = (ArbeitsauftragCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if (!this.getClass().isAssignableFrom(other.getClass())) {
-                return false;
-            } else if ((this.getId() == null) || (anEntity.getId() == null)) {
-                return false;
-            } else {
-                return this.getId().equals(anEntity.getId());
-            }
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -238,44 +211,6 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     }
 
     @Override
-    public CidsBean persist() throws Exception {
-//        determineNextNummer();
-        LOG.fatal(this.getMOString());
-        return super.persist();
-    }
-
-//    /**
-//     * DOCUMENT ME!
-//     *
-//     * @param   minimalNumber  DOCUMENT ME!
-//     *
-//     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-//     */
-//    private void determineNextNummer() throws ActionNotSuccessfulException {
-//        if (LOG.isDebugEnabled()) {
-//            LOG.debug("determine next laufendenummer");
-//        }
-//        try {
-//            final List<Integer> highestNumbers = (List<Integer>)CidsBroker.getInstance()
-//                        .executeServerSearch(new HighestLfdNummerSearch(
-//                                    strassenschluessel,
-//                                    kennziffer));
-//
-//            final Integer highestNumber = (highestNumbers.isEmpty()) ? null : highestNumbers.get(0);
-//            if ((highestNumber == null)) {
-//                setNummer(0);
-//            } else {
-//                setNummer(highestNumber + 1);
-//            }
-//        } catch (Exception ex) {
-//            if (LOG.isDebugEnabled()) {
-//                LOG.debug("Error while querying entity", ex);
-//            }
-//            throw new ActionNotSuccessfulException("Error while querying highest nummer", ex);
-//        }
-//    }
-
-    @Override
     public Collection<DmsUrlCustomBean> getDokumente() {
         return ar_dokumente;
     }
@@ -283,6 +218,29 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     @Override
     public void setDokumente(final Collection<DmsUrlCustomBean> ar_dokumente) {
         this.ar_dokumente = ar_dokumente;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   o  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public int compareTo(final WorkbenchEntity o) {
+        if (o instanceof ArbeitsauftragCustomBean) {
+            final ArbeitsauftragCustomBean a = (ArbeitsauftragCustomBean)o;
+            final int result = getKeyString().compareTo(a.getKeyString()) * -1;
+            return (result == 0) ? 1 : result;
+        } else {
+            return EntityComparator.compareTypes(this, o);
+        }
+    }
+
+    @Override
+    public String getHumanReadablePosition() {
+        return "";
     }
 
     @Override

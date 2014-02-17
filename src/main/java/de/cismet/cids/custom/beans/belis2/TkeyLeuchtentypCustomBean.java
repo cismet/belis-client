@@ -296,38 +296,7 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
     }
 
     @Override
-    public int hashCode() {
-        if (this.getLeuchtentyp() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getLeuchtentyp().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof TkeyLeuchtentypCustomBean) {
-            final TkeyLeuchtentypCustomBean anEntity = (TkeyLeuchtentypCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getLeuchtentyp() == null) || (anEntity.getLeuchtentyp() == null)) {
-                return false;
-            } else {
-                return this.getLeuchtentyp().equals(anEntity.getLeuchtentyp());
-            }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public String toString() {
-        return getKeyString();
-    }
-
-    @Override
-    public String getKeyString() {
         if (getLeuchtentyp() != null) {
             return getLeuchtentyp() + ((getFabrikat() != null) ? (" " + getFabrikat()) : "");
         } else {

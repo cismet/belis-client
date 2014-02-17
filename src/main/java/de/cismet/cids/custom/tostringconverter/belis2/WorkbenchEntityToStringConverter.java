@@ -23,9 +23,9 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.tools.CustomToStringConverter;
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
  * DOCUMENT ME!
@@ -33,14 +33,14 @@ import de.cismet.commons.server.entity.GeoBaseEntity;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class GeoBaseEntityToStringConverter extends CustomToStringConverter {
+public class WorkbenchEntityToStringConverter extends CustomToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public String createString() {
-        final String keyString = ((GeoBaseEntity)cidsBean).getKeyString();
-        final String humanReadablePosition = ((GeoBaseEntity)cidsBean).getHumanReadablePosition();
+        final String keyString = ((WorkbenchEntity)cidsBean).getKeyString();
+        final String humanReadablePosition = ((WorkbenchEntity)cidsBean).getHumanReadablePosition();
         if (!keyString.isEmpty() || !humanReadablePosition.isEmpty()) {
             return " -" + ((!keyString.isEmpty()) ? (" " + keyString) : "")
                         + ((!humanReadablePosition.isEmpty()) ? (" (" + humanReadablePosition + ")") : "");

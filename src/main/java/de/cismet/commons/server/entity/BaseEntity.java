@@ -11,13 +11,14 @@
  */
 package de.cismet.commons.server.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.cids.custom.beans.belis2.BauartCustomBean;
-
 import de.cismet.cids.dynamics.CidsBean;
-
-import static de.cismet.cids.custom.beans.belis2.BauartCustomBean.TABLE;
 
 /**
  * DOCUMENT ME!
@@ -35,6 +36,8 @@ public class BaseEntity extends CidsBean {
     private static int NEXT_NEW_ID = -1;
 
     //~ Instance fields --------------------------------------------------------
+
+    private final Map<String, Object> backupProperties = new HashMap<String, Object>();
 
     private Integer id;
 
@@ -66,7 +69,7 @@ public class BaseEntity extends CidsBean {
             entity.getMetaObject().setID(nextId);
             return entity;
         } catch (Exception ex) {
-            LOG.error("error creating " + TABLE + " bean", ex);
+            LOG.error("error creating " + tableName + " bean", ex);
             return null;
         }
     }
@@ -91,30 +94,88 @@ public class BaseEntity extends CidsBean {
         this.propertyChangeSupport.firePropertyChange(PROP__ID, old, this.id);
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public String getKeyString() {
-        return "";
+    @Override
+    public int hashCode() {
+        if (this.getId() == null) {
+            return System.identityHashCode(this);
+        }
+        return this.getId().hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if ((other == null) || !(other instanceof BaseEntity)) {
+            return false;
+        }
+        if (this == other) {
+            return true;
+        }
+
+        final BaseEntity otherBE = (BaseEntity)other;
+        if ((getId() == null) || (otherBE.getId() == null)) {
+            return false;
+        }
+
+        if (otherBE.getMetaObject().getMetaClass().equals(getMetaObject().getMetaClass())) {
+            return otherBE.getId().equals(getId());
+        } else {
+            return false;
+        }
     }
 
     /**
      * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
      */
-    public String getCompareCriteriaString() {
-        return getKeyString();
+    public void storeBackup() {
+        backupProperties.clear();
+        for (final String property : getPropertyNames()) {
+            final Object object = getProperty(property);
+            if (object instanceof Collection) {
+                final Collection collectionCopy = new ArrayList((Collection)object);
+                for (final Object collectionObject : collectionCopy) {
+                    if (collectionObject instanceof BaseEntity) {
+                        ((BaseEntity)collectionObject).storeBackup();
+                    }
+                }
+                backupProperties.put(property, collectionCopy);
+            } else {
+                if (object instanceof BaseEntity) {
+                    ((BaseEntity)object).storeBackup();
+                }
+                backupProperties.put(property, object);
+            }
+        }
     }
 
     /**
      * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
      */
-    public String getHumanReadablePosition() {
-        return "";
+    public void loadBackup() {
+        for (final String property : getPropertyNames()) {
+            final Object object = backupProperties.get(property);
+            if (object instanceof Collection) {
+                final Collection collectionCopy = (Collection)object;
+                getBeanCollectionProperty(property).clear();
+                for (final Object collectionObject : collectionCopy) {
+                    if (collectionObject instanceof BaseEntity) {
+                        ((BaseEntity)collectionObject).loadBackup();
+                        try {
+                            getBeanCollectionProperty(property).add((BaseEntity)collectionObject);
+                        } catch (Exception ex) {
+                            LOG.error("error while setting collection copy", ex);
+                        }
+                    }
+                }
+            } else {
+                if (object instanceof BaseEntity) {
+                    ((BaseEntity)object).loadBackup();
+                }
+                try {
+                    setProperty(property, object);
+                } catch (Exception ex) {
+                    LOG.error("error while setting object copy", ex);
+                }
+            }
+        }
     }
 }

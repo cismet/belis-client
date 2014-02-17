@@ -17,5 +17,20 @@ package de.cismet.cids.custom.beans.belis2;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public interface BasicEntity {
+public interface WorkbenchEntity extends Comparable<WorkbenchEntity> {
+
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    String getHumanReadablePosition();
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    String getKeyString();
 }

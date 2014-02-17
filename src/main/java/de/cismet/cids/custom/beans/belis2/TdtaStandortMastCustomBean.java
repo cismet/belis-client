@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis2.server.search.HighestLfdNummerSearch;
@@ -33,6 +32,7 @@ import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
 import de.cismet.belisEE.mapicons.MapIcons;
 
+import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.StandortKey;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -48,7 +48,7 @@ import de.cismet.commons.server.interfaces.DocumentContainer;
  *
  * @version  $Revision$, $Date$
  */
-public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEntity, DocumentContainer {
+public class TdtaStandortMastCustomBean extends GeoBaseEntity implements WorkbenchEntity, DocumentContainer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -75,7 +75,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEn
     public static final String PROP__MASTSCHUTZ = "mastschutz";
     public static final String PROP__FK_UNTERHALTSPFLICHT_MAST = "fk_unterhaltspflicht_mast";
     public static final String PROP__FK_MASTTYP = "fk_masttyp";
-    public static final String PROP__INBETRIEBNAHME_MAST = "inbetriebnahme_Mast";
+    public static final String PROP__INBETRIEBNAHME_MAST = "inbetriebnahme_mast";
     public static final String PROP__VERRECHNUNGSEINHEIT = "verrechnungseinheit";
     public static final String PROP__LETZTE_AENDERUNG = "letzte_aenderung";
     public static final String PROP__FK_GEOM = "fk_geom";
@@ -958,32 +958,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEn
     }
 
     @Override
-    public int hashCode() {
-        if (this.getId() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof TdtaStandortMastCustomBean) {
-            final TdtaStandortMastCustomBean anEntity = (TdtaStandortMastCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getId() == null) || (anEntity.getId() == null)) {
-                return false;
-            } else {
-                return this.getId().equals(anEntity.getId());
-            }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public String toString() {
         return "Standort[id=" + getId() + "]";
     }
@@ -1014,7 +988,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEn
         if ((getStrassenschluessel() != null) && (getStrassenschluessel().getStrasse() != null)) {
             return getStrassenschluessel().getStrasse();
         } else {
-            return super.getHumanReadablePosition();
+            return "";
         }
     }
 
@@ -1459,6 +1433,56 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements BasicEn
                 }
                 curLeuchte.setLaufendeNummer(getLaufendeNummer());
             }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   o  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public int compareTo(final WorkbenchEntity o) {
+        if (o instanceof TdtaStandortMastCustomBean) {
+            final TdtaStandortMastCustomBean s = (TdtaStandortMastCustomBean)o;
+            if (!isStandortMast()) {
+                return -1;
+            } else if (!s.isStandortMast()) {
+                return 1;
+            } else if ((getStrassenschluessel() != null) && (s.getStrassenschluessel() != null)) {
+                int result = getStrassenschluessel().compareTo(s.getStrassenschluessel());
+                if (result == 0) {
+                    if ((getKennziffer() != null) && (s.getKennziffer() != null)) {
+                        result = getKennziffer().compareTo(s.getKennziffer());
+                        if (result == 0) {
+                            if ((getLaufendeNummer() != null) && (s.getLaufendeNummer() != null)) {
+                                final int lfdNumComp = getLaufendeNummer().compareTo(s.getLaufendeNummer());
+                                return (lfdNumComp == 0) ? 1 : lfdNumComp;
+                            } else if (getLaufendeNummer() != null) {
+                                return 1;
+                            } else {
+                                return -1;
+                            }
+                        } else {
+                            return (result == 0) ? 1 : result;
+                        }
+                    } else if (getKennziffer() != null) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                } else {
+                    return (result == 0) ? 1 : result;
+                }
+            } else if (getStrassenschluessel() != null) {
+                return 1;
+            } else {
+                return -1;
+            }
+        } else {
+            return EntityComparator.compareTypes(this, o);
         }
     }
 }

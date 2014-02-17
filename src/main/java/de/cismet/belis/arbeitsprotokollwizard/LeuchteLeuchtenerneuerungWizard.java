@@ -162,8 +162,8 @@ public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWiz
 
         final ArbeitsprotokollaktionCustomBean leuchtentypAktion = ArbeitsprotokollaktionCustomBean.createNew();
         leuchtentypAktion.setAenderung("Leuchtentyp");
-        leuchtentypAktion.setAlt((altLeuchtentyp != null) ? altLeuchtentyp.getKeyString() : null);
-        leuchtentypAktion.setNeu((neuLeuchtentyp != null) ? neuLeuchtentyp.getKeyString() : null);
+        leuchtentypAktion.setAlt((altLeuchtentyp != null) ? altLeuchtentyp.toString() : null);
+        leuchtentypAktion.setNeu((neuLeuchtentyp != null) ? neuLeuchtentyp.toString() : null);
 
         final ArbeitsprotokollaktionCustomBean inbetriebnahmeAktion = ArbeitsprotokollaktionCustomBean.createNew();
         inbetriebnahmeAktion.setAenderung("Inbetriebnahme");

@@ -12,16 +12,9 @@
  */
 package de.cismet.belis.gui.search;
 
-import org.apache.commons.collections.comparators.ReverseComparator;
-
-import java.util.TreeSet;
-
 import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.util.BelisIcons;
-
-import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.commons.architecture.util.ArchitectureUtils;
 

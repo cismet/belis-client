@@ -172,38 +172,7 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
     }
 
     @Override
-    public int hashCode() {
-        if (this.getMasttyp() == null) {
-            return System.identityHashCode(this);
-        }
-        return this.getMasttyp().hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (other instanceof TkeyMasttypCustomBean) {
-            final TkeyMasttypCustomBean anEntity = (TkeyMasttypCustomBean)other;
-            if (this == other) {
-                return true;
-            } else if ((other == null) || (!this.getClass().isAssignableFrom(other.getClass()))) {
-                return false;
-            } else if ((this.getMasttyp() == null) || (anEntity.getMasttyp() == null)) {
-                return false;
-            } else {
-                return this.getMasttyp().equals(anEntity.getMasttyp());
-            }
-        } else {
-            return false;
-        }
-    }
-
-    @Override
     public String toString() {
-        return getKeyString();
-    }
-
-    @Override
-    public String getKeyString() {
         if (getMasttyp() != null) {
             return getMasttyp() + ((getBezeichnung() != null) ? (" " + getBezeichnung()) : "");
         } else {
