@@ -247,14 +247,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                 for (final int selRow : selRows) {
                     final CidsBean clipboardBean = (CidsBean)
                         ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
-                    if ((clipboardBean instanceof WorkbenchEntity)
-                                || (clipboardBean instanceof SchaltstelleCustomBean)
-                                || (clipboardBean instanceof GeometrieCustomBean)) {
-                        final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
-                                    .createProtokollFromBasic(clipboardBean);
-                        BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, clipboardBean);
-                        arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
-                    } else if (clipboardBean instanceof VeranlassungCustomBean) {
+                    if (clipboardBean instanceof VeranlassungCustomBean) {
                         final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)clipboardBean;
                         final Collection<CidsBean> allBasics = new ArrayList<CidsBean>();
                         allBasics.addAll(veranlassungCustomBean.getAr_abzweigdosen());
@@ -272,6 +265,13 @@ class WorkbenchTransferHandler extends TransferHandler {
                             BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, basic);
                             arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                         }
+                    } else if ((clipboardBean instanceof WorkbenchEntity)
+                                || (clipboardBean instanceof SchaltstelleCustomBean)
+                                || (clipboardBean instanceof GeometrieCustomBean)) {
+                        final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
+                                    .createProtokollFromBasic(clipboardBean);
+                        BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, clipboardBean);
+                        arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                     }
                 }
             }
