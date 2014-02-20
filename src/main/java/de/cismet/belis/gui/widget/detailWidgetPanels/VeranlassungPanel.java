@@ -161,9 +161,10 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         lblArbeitsauftraege = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
 
-        lblVeranlassung.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        lblVeranlassung.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/belis/resource/icon/16/veranlassung.png"))); // NOI18N
-        lblVeranlassung.setText("Veranlassung"); // NOI18N
+        lblVeranlassung.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
+        lblVeranlassung.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/veranlassung.png"))); // NOI18N
+        lblVeranlassung.setText("Veranlassung");                                                // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -177,7 +178,13 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblNummer, gridBagConstraints);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.nummer}"), lblNummerValue, org.jdesktop.beansbinding.BeanProperty.create("text"), "nummer");
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.nummer}"),
+                lblNummerValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"),
+                "nummer");
         binding.setSourceNullValue("00000000");
         binding.setSourceUnreadableValue("00000000");
         bindingGroup.addBinding(binding);
@@ -250,7 +257,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         cbxArt.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_art}"), cbxArt, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_art}"),
+                cbxArt,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -265,7 +277,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         txtBezeichnung.setEnabled(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bezeichnung}"), txtBezeichnung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bezeichnung}"),
+                txtBezeichnung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -285,7 +302,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         txaBeschreibung.setEnabled(false);
         txaBeschreibung.setMinimumSize(new java.awt.Dimension(240, 85));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.beschreibung}"), txaBeschreibung, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.beschreibung}"),
+                txaBeschreibung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         scrBeschreibung.setViewportView(txaBeschreibung);
@@ -307,7 +329,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         txaBemerkungen.setEnabled(false);
         txaBemerkungen.setMinimumSize(new java.awt.Dimension(240, 85));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkungen}"), txaBemerkungen, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bemerkungen}"),
+                txaBemerkungen,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         scrBemerkungen.setViewportView(txaBemerkungen);
@@ -322,7 +349,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(scrBemerkungen, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.username}"), lblUserValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.username}"),
+                lblUserValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -335,7 +367,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblUserValue, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.datum}"), lblDatumValue, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.datum}"),
+                lblDatumValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setConverter(new DateToStringConverter());
         bindingGroup.addBinding(binding);
 
@@ -366,7 +403,13 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(jScrollPane1, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_infobaustein_template}"), cbxInfobausteineTemplate, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"), "");
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_infobaustein_template}"),
+                cbxInfobausteineTemplate,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -384,10 +427,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         btnAddInfo.setMinimumSize(new java.awt.Dimension(29, 29));
         btnAddInfo.setPreferredSize(new java.awt.Dimension(29, 29));
         btnAddInfo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddInfoActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnAddInfoActionPerformed(evt);
+                }
+            });
         jPanel1.add(btnAddInfo);
 
         btnRemInfo.setText("-");
@@ -395,10 +440,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         btnRemInfo.setMinimumSize(new java.awt.Dimension(29, 29));
         btnRemInfo.setPreferredSize(new java.awt.Dimension(29, 29));
         btnRemInfo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemInfoActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnRemInfoActionPerformed(evt);
+                }
+            });
         jPanel1.add(btnRemInfo);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -410,10 +457,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         btnTemplate.setText("Vorlage hinzufügen");
         btnTemplate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTemplateActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnTemplateActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -452,16 +501,18 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.weightx = 1.0;
         add(panContent, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 459, Short.MAX_VALUE)
-        );
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                459,
+                Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 205, Short.MAX_VALUE)
-        );
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                205,
+                Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -472,40 +523,40 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         add(jPanel2, gridBagConstraints);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnAddInfoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddInfoActionPerformed
+    private void btnAddInfoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnAddInfoActionPerformed
         final VeranlassungCustomBean template = (VeranlassungCustomBean)currentEntity;
         final Collection<InfobausteinCustomBean> ar_bausteine = template.getAr_infobausteine();
         ar_bausteine.add(InfobausteinCustomBean.createNew());
         ((AbstractTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
-    }//GEN-LAST:event_btnAddInfoActionPerformed
+    }                                                                              //GEN-LAST:event_btnAddInfoActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnRemInfoActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemInfoActionPerformed
+    private void btnRemInfoActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnRemInfoActionPerformed
         final VeranlassungCustomBean template = (VeranlassungCustomBean)currentEntity;
         final Collection<InfobausteinCustomBean> ar_bausteine = template.getAr_infobausteine();
         final int rowIndex = tblInfobausteine.getSelectedRow();
         final InfobausteinCustomBean baustein = ar_bausteine.toArray(new InfobausteinCustomBean[0])[rowIndex];
         ar_bausteine.remove(baustein);
         ((AbstractTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
-    }//GEN-LAST:event_btnRemInfoActionPerformed
+    }                                                                              //GEN-LAST:event_btnRemInfoActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnTemplateActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTemplateActionPerformed
+    private void btnTemplateActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnTemplateActionPerformed
         final Object selectedItem = cbxInfobausteineTemplate.getSelectedItem();
 //        currentEntity.getAr_infobausteine().clear();
         if (selectedItem instanceof InfobausteinTemplateCustomBean) {
@@ -522,7 +573,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
             }
         }
         ((AbstractTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
-    }//GEN-LAST:event_btnTemplateActionPerformed
+    }                                                                               //GEN-LAST:event_btnTemplateActionPerformed
 
     @Override
     final void initPanel() {

@@ -40,7 +40,6 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbGrund;
-    private javax.swing.JCheckBox chkActiveOnly;
     private javax.swing.JCheckBox chkAngelegtVon;
     private javax.swing.JCheckBox chkBemerkung;
     private javax.swing.JCheckBox chkBeschreibung;
@@ -52,6 +51,7 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
     private javax.swing.JCheckBox chkVeranlassungsnummer;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcDatumBis;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcDatumVon;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JPanel panActiveOnly;
     private javax.swing.JPanel panAngelegtVon;
     private javax.swing.JPanel panBemerkung;
@@ -101,7 +101,8 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
 
         final VeranlassungSearchStatement veranlassungSearchStatement = new VeranlassungSearchStatement();
         veranlassungSearchStatement.setGeometry(searchGeom);
-        veranlassungSearchStatement.setActiveObjectsOnly(chkActiveOnly.isSelected());
+        veranlassungSearchStatement.setActiveObjectsOnly(jComboBox1.getSelectedItem().equals("nur offene"));
+        veranlassungSearchStatement.setWorkedoffObjectsOnly(jComboBox1.getSelectedItem().equals("nur abgearbeitete"));
         veranlassungSearchStatement.setDatum(datumVon, datumBis);
         veranlassungSearchStatement.setGrund_id(grundId);
         veranlassungSearchStatement.setAngelegtVon(angelegtVon);
@@ -126,7 +127,7 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
 
         panMain = new javax.swing.JPanel();
         panActiveOnly = new javax.swing.JPanel();
-        chkActiveOnly = new javax.swing.JCheckBox();
+        jComboBox1 = new javax.swing.JComboBox();
         panDatum = new javax.swing.JPanel();
         chkDatumVon = new javax.swing.JCheckBox();
         dcDatumVon = new de.cismet.cids.editors.DefaultBindableDateChooser();
@@ -162,19 +163,13 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
                     "VeranlassungWindowSearch.panActiveOnly.border.title"))); // NOI18N
         panActiveOnly.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            chkActiveOnly,
-            org.openide.util.NbBundle.getMessage(
-                VeranlassungWindowSearch.class,
-                "VeranlassungWindowSearch.chkActiveOnly.text")); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(
+                new String[] { "egal", "nur offene", "nur abgearbeitete" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
-        panActiveOnly.add(chkActiveOnly, gridBagConstraints);
+        panActiveOnly.add(jComboBox1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;

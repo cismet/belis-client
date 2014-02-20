@@ -33,7 +33,6 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
             ArbeitsauftragWindowSearch.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox chkActiveOnly;
     private javax.swing.JCheckBox chkAngelegtAmBis;
     private javax.swing.JCheckBox chkAngelegtAmVon;
     private javax.swing.JCheckBox chkAngelegtVon;
@@ -41,7 +40,8 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
     private javax.swing.JCheckBox chkZugewiesenAn;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcAngelegtAmBis;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcAngelegtAmVon;
-    private javax.swing.JPanel panActiveOnly;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JPanel panActiveOnly1;
     private javax.swing.JPanel panAngelegtAm;
     private javax.swing.JPanel panAngelegtVon;
     private javax.swing.JPanel panAuftragsnummer;
@@ -76,7 +76,8 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
 
         final ArbeitsauftragSearchStatement arbeitsauftragSearchStatement = new ArbeitsauftragSearchStatement();
         arbeitsauftragSearchStatement.setGeometry(searchGeom);
-        arbeitsauftragSearchStatement.setActiveObjectsOnly(chkActiveOnly.isSelected());
+        arbeitsauftragSearchStatement.setActiveObjectsOnly(jComboBox1.getSelectedItem().equals("nur offene"));
+        arbeitsauftragSearchStatement.setWorkedoffObjectsOnly(jComboBox1.getSelectedItem().equals("nur abgearbeitete"));
         arbeitsauftragSearchStatement.setAngelegtAm(angelegtAmVon, angelegtAmBis);
         arbeitsauftragSearchStatement.setAngelegtVon(angelegtVon);
         arbeitsauftragSearchStatement.setZugewiesenAn(zugewiesenAn);
@@ -96,8 +97,8 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         panTest = new javax.swing.JPanel();
-        panActiveOnly = new javax.swing.JPanel();
-        chkActiveOnly = new javax.swing.JCheckBox();
+        panActiveOnly1 = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox();
         panAuftragsnummer = new javax.swing.JPanel();
         chkAuftragsnummer = new javax.swing.JCheckBox();
         txtAuftragsnummer = new javax.swing.JTextField();
@@ -115,32 +116,26 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
 
         panTest.setLayout(new java.awt.GridBagLayout());
 
-        panActiveOnly.setBorder(javax.swing.BorderFactory.createTitledBorder(
+        panActiveOnly1.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     ArbeitsauftragWindowSearch.class,
-                    "ArbeitsauftragWindowSearch.panActiveOnly.border.title"))); // NOI18N
-        panActiveOnly.setLayout(new java.awt.GridBagLayout());
+                    "ArbeitsauftragWindowSearch.panActiveOnly1.border.title"))); // NOI18N
+        panActiveOnly1.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            chkActiveOnly,
-            org.openide.util.NbBundle.getMessage(
-                ArbeitsauftragWindowSearch.class,
-                "ArbeitsauftragWindowSearch.chkActiveOnly.text")); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(
+                new String[] { "egal", "nur offene", "nur abgearbeitete" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
-        panActiveOnly.add(chkActiveOnly, gridBagConstraints);
+        panActiveOnly1.add(jComboBox1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panTest.add(panActiveOnly, gridBagConstraints);
+        panTest.add(panActiveOnly1, gridBagConstraints);
 
         panAuftragsnummer.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
