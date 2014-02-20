@@ -2302,6 +2302,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public Collection searchForArbeitsprotokolleOfVeralassung(final String veranlassungsnummer) {
         final ArbeitsauftragSearchStatement searchStatement = new ArbeitsauftragSearchStatement();
         searchStatement.setVeranlassungsNummer(veranlassungsnummer);
+        searchStatement.setActiveObjectsOnly(false);
+        searchStatement.setWorkedoffObjectsOnly(false);
         try {
             final Collection res = SessionManager.getProxy()
                         .customServerSearch(SessionManager.getSession().getUser(), searchStatement);
