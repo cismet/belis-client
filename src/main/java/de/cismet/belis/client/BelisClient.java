@@ -81,6 +81,7 @@ import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.commons2.architecture.layout.LayoutManager;
 import de.cismet.commons2.architecture.layout.LayoutManagerListener;
 
+import de.cismet.lookupoptions.gui.OptionsClient;
 import de.cismet.lookupoptions.gui.OptionsDialog;
 
 import de.cismet.security.WebAccessManager;
@@ -445,6 +446,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                 broker.setParentComponent(panMain);
                 broker.setConfigManager(configManager);
                 configManager.addConfigurable(broker);
+                configManager.addConfigurable(OptionsClient.getInstance());
                 configManager.configure(broker);
             } catch (Exception ex) {
                 LOG.warn("Error while retrieving broker instance", ex);
@@ -1136,6 +1138,14 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      * @param  args  DOCUMENT ME!
      */
     public static void main(final String[] args) {
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+                @Override
+                public void uncaughtException(final Thread t, final Throwable e) {
+                    LOG.error("Uncaught Exception in " + t, e);
+                }
+            });
+
         final String intranetUse = JnlpSystemPropertyHelper.getProperty("intranetUse", "false");
         if (!intranetUse.equals("false") && !intranetUse.equals("true")) {
             LOG.warn("SystemProperty intranetUse should be set to either true or false. You set it to: " + intranetUse

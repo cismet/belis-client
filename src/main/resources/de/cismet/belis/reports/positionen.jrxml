@@ -20,7 +20,7 @@
 			<subreport>
 				<reportElement mode="Opaque" x="0" y="62" width="214" height="175" backcolor="#E0E0E0"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{moeglicheAktionen})]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA["/Users/thorsten/dev/620-belis-client/src/main/resources/de/cismet/belis/gui/reports/moeglicheAktionen.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/belis/reports/moeglicheAktionen.jasper"]]></subreportExpression>
 			</subreport>
 			<line>
 				<reportElement x="-11" y="1" width="572" height="1"/>
@@ -35,7 +35,7 @@
 			<subreport>
 				<reportElement mode="Opaque" x="424" y="8" width="109" height="78" backcolor="#E0E0E0"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{moeglicheStati})]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA["/Users/thorsten/dev/620-belis-client/src/main/resources/de/cismet/belis/gui/reports/moeglicheStati.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/belis/reports/moeglicheStati.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
 				<reportElement x="0" y="27" width="45" height="14"/>

@@ -35,6 +35,14 @@ import com.vividsolutions.jts.geom.Geometry;
 import net.infonode.docking.RootWindow;
 import net.infonode.gui.componentpainter.GradientComponentPainter;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JRViewer;
+
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -49,6 +57,7 @@ import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
 
+import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
 import java.awt.Color;
@@ -57,10 +66,13 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+
+import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,6 +83,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -97,6 +110,10 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
+import de.cismet.belis.client.BelisClient;
+
+import de.cismet.belis.gui.reports.BelisReporter;
+import de.cismet.belis.gui.reports.ReportingArbeitsauftrag;
 import de.cismet.belis.gui.search.AddressSearchControl;
 import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
@@ -157,12 +174,15 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
+import de.cismet.cids.utils.jasperreports.ReportSwingWorkerDialog;
+
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.features.DefaultFeatureCollection;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.gui.printing.JasperDownload;
 import de.cismet.cismap.commons.gui.statusbar.StatusBar;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.interaction.StatusListener;
@@ -195,6 +215,8 @@ import de.cismet.tools.configuration.NoWriteError;
 
 import de.cismet.tools.gui.DefaultPopupMenuListener;
 import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.downloadmanager.DownloadManager;
+import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 
 import de.cismet.veto.VetoException;
 import de.cismet.veto.VetoListener;
@@ -277,6 +299,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     protected JButton btnAcceptChanges;
     protected JButton btnSwitchInCreateMode;
     protected JButton cmdPrint = new javax.swing.JButton();
+    protected JButton cmdAAPrint = new javax.swing.JButton();
     protected JButton btnReload = new javax.swing.JButton();
     protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     protected final Collection<Clearable> clearAndDisableListeners = new ArrayList<Clearable>();
@@ -1724,23 +1747,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     /**
      * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public JButton getCmdPrint() {
-        return cmdPrint;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  cmdPrint  DOCUMENT ME!
-     */
-    public void setCmdPrint(final JButton cmdPrint) {
-        this.cmdPrint = cmdPrint;
-    }
-    /**
-     * DOCUMENT ME!
      */
     private void initToolbar() {
         try {
@@ -1759,7 +1765,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             cmdPrint.setBorderPainted(false);
             cmdPrint.setFocusable(false);
             cmdPrint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-            final Dimension size = new Dimension(23, 23);
+            final Dimension size = new Dimension(30, 23);
             cmdPrint.setPreferredSize(size);
             cmdPrint.setMinimumSize(size);
             cmdPrint.setMaximumSize(size);
@@ -1778,15 +1784,39 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     }
                 });
 
+            cmdAAPrint.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/de/cismet/belis/resource/icon/22/printAA.png"))); // NOI18N
+
+            cmdAAPrint.setToolTipText("Arbeitsauftrags-Report");
+            cmdAAPrint.setBorderPainted(false);
+            cmdAAPrint.setFocusable(false);
+            cmdAAPrint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            cmdAAPrint.setPreferredSize(size);
+            cmdAAPrint.setMinimumSize(size);
+            cmdAAPrint.setMaximumSize(size);
+            cmdAAPrint.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            cmdAAPrint.addActionListener(new java.awt.event.ActionListener() {
+
+                    @Override
+                    public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                        printReport();
+                    }
+                });
+
             final JPanel printPanel = new JPanel();
             printPanel.setLayout(new java.awt.GridBagLayout());
-            printPanel.setMaximumSize(new Dimension(29, 23));
-            printPanel.setMinimumSize(new Dimension(29, 23));
-            printPanel.setPreferredSize(new Dimension(29, 23));
+            printPanel.setMaximumSize(new Dimension(60, 23));
+            printPanel.setMinimumSize(new Dimension(60, 23));
+            printPanel.setPreferredSize(new Dimension(60, 23));
             final java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.gridx = 0;
             gridBagConstraints.gridy = 0;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+            gridBagConstraints.anchor = GridBagConstraints.WEST;
             printPanel.add(cmdPrint, gridBagConstraints);
+            gridBagConstraints.gridx = 1;
+            printPanel.add(cmdAAPrint, gridBagConstraints);
+            gridBagConstraints.anchor = GridBagConstraints.EAST;
             toolbar.add(printPanel);
 
             addSeparatorToToolbar();
@@ -3324,6 +3354,83 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 }
             });
         return comboBox;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void printReport() {
+        final ArrayList<CidsBean> beans = new ArrayList<CidsBean>();
+        final Collection<TreePath> paths = getWorkbenchWidget().getSelectedTreeNodes();
+        if (paths != null) {
+            for (final TreePath path : paths) {
+                final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)path.getLastPathComponent();
+                if (node != null) {
+                    final Object object = node.getUserObject();
+                    if (object instanceof ArbeitsauftragCustomBean) {
+                        beans.add((ArbeitsauftragCustomBean)object);
+                    }
+                }
+            }
+        }
+
+        if (beans.isEmpty()) {
+            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
+                "Es muss mindestens ein Arbeitsauftrag im Arbeitsbereich selektiert sein.",
+                "kein Arbeitsauftrag selektiert",
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            new SwingWorker<JasperDownload, Void>() {
+
+                    final ReportSwingWorkerDialog dialog = new ReportSwingWorkerDialog(StaticSwingTools.getParentFrame(
+                                getParentComponent()),
+                            true);
+
+                    @Override
+                    protected JasperDownload doInBackground() throws Exception {
+                        SwingUtilities.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    StaticSwingTools.showDialog(dialog);
+                                }
+                            });
+
+                        try {
+                            final JasperDownload download = BelisReporter.getArbeitsauftragsReport(beans);
+                            return download;
+                        } catch (Exception ex) {
+                            LOG.error("error while creating ArbeitsauftragsReport", ex);
+                            return null;
+                        }
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            final JasperDownload download = get();
+                            DownloadManagerDialog.instance((StaticSwingTools.getParentFrame(
+                                        getParentComponent())));
+                            DownloadManager.instance().add(download);
+//                            final JDialog downloadManager = DownloadManagerDialog.instance((StaticSwingTools
+//                                                .getParentFrame(
+//                                                    getParentComponent())));
+//                            downloadManager.pack();
+//                            StaticSwingTools.showDialog(downloadManager);
+                        } catch (final Exception ex) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("exeption while downloading Report", ex);
+                            }
+                            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
+                                "Beim Generieren des Arbeitsauftrag-Reports ist ein Fehler aufgetreten.",
+                                "Fehler beim Generieren des Reports",
+                                JOptionPane.ERROR_MESSAGE);
+                        } finally {
+                            dialog.setVisible(false);
+                        }
+                    }
+                }.execute();
+        }
     }
 
     /**

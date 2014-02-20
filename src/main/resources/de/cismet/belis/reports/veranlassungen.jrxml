@@ -59,7 +59,7 @@
 			<subreport>
 				<reportElement x="-10" y="111" width="574" height="21"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{positionen})]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA["/Users/thorsten/dev/620-belis-client/src/main/resources/de/cismet/belis/gui/reports/positionen.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/belis/reports/positionen.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

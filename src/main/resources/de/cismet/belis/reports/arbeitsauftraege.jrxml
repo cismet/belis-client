@@ -33,41 +33,41 @@
 			<subreport>
 				<reportElement x="-12" y="349" width="577" height="62"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{veranlassungen})]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA["/Users/thorsten/dev/620-belis-client/src/main/resources/de/cismet/belis/gui/reports/veranlassungen.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/belis/reports/veranlassungen.jasper"]]></subreportExpression>
 			</subreport>
 			<frame>
 				<reportElement mode="Opaque" x="2" y="2" width="554" height="92" backcolor="#EBEBEB"/>
 				<staticText>
 					<reportElement x="110" y="24" width="158" height="21"/>
 					<textElement>
-						<font fontName="arial" size="12" isBold="true" pdfFontName="de/cismet/lagis/reports/arial.ttf" isPdfEmbedded="true"/>
+						<font fontName="arial" size="12" isBold="true" pdfFontName="de/cismet/belis/reports/arial.ttf" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[öffentliche Beleuchtung]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="110" y="3" width="158" height="21"/>
 					<textElement>
-						<font fontName="arial" size="16" isBold="true" pdfFontName="de/cismet/lagis/reports/arial.ttf" isPdfEmbedded="true"/>
+						<font fontName="arial" size="16" isBold="true" pdfFontName="de/cismet/belis/reports/arial.ttf" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Stadt Wuppertal]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="110" y="45" width="158" height="20"/>
 					<textElement>
-						<font fontName="arial" size="12" pdfFontName="de/cismet/lagis/reports/arial.ttf" isPdfEmbedded="true"/>
+						<font fontName="arial" size="12" pdfFontName="de/cismet/belis/reports/arial.ttf" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Johannes-Rau-Platz 1]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="110" y="65" width="158" height="20"/>
 					<textElement>
-						<font fontName="arial" size="12" pdfFontName="de/cismet/lagis/reports/arial.ttf" isPdfEmbedded="true"/>
+						<font fontName="arial" size="12" pdfFontName="de/cismet/belis/reports/arial.ttf" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[42275 Wuppertal]]></text>
 				</staticText>
 				<image>
 					<reportElement x="11" y="3" width="92" height="82"/>
-					<imageExpression class="java.lang.String"><![CDATA["de/cismet/belis/gui/reports/logo_stadt_wuppertal.png"]]></imageExpression>
+					<imageExpression class="java.lang.String"><![CDATA["de/cismet/belis/reports/logo_stadt_wuppertal.png"]]></imageExpression>
 				</image>
 				<textField>
 					<reportElement x="268" y="0" width="285" height="20"/>
@@ -90,7 +90,7 @@
 			<staticText>
 				<reportElement x="12" y="94" width="158" height="20"/>
 				<textElement>
-					<font fontName="arial" size="12" pdfFontName="de/cismet/lagis/reports/arial.ttf" isPdfEmbedded="true"/>
+					<font fontName="arial" size="12" pdfFontName="de/cismet/belis/reports/arial.ttf" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Auszug aus dem Orthofoto]]></text>
 			</staticText>
@@ -110,7 +110,7 @@
 			<textField>
 				<reportElement x="342" y="1" width="209" height="13"/>
 				<textElement textAlignment="Right">
-					<font fontName="arial" pdfFontName="de/cismet/lagis/reports/arial.ttf" isPdfEmbedded="true"/>
+					<font fontName="arial" pdfFontName="de/cismet/belis/reports/arial.ttf" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA["Seite "+$V{PAGE_NUMBER}+" von " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>

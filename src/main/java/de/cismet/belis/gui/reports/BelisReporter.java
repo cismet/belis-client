@@ -119,7 +119,7 @@ public class BelisReporter {
 //                    "/de/cismet/cids/custom/reports/wunda_blau/mauer-katasterblatt.jasper"));
 
                 jasperReport = (JasperReport)JRLoader.loadObject(new File(
-                            "/Users/thorsten/dev/620-belis-client/src/main/resources/de/cismet/belis/gui/reports/arbeitsauftraege.jasper"));
+                            "/home/jruiz/git/belis-client/src/main/resources/de/cismet/belis/reports/arbeitsauftraege.jasper"));
 
                 jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
@@ -178,12 +178,12 @@ public class BelisReporter {
             ra.init(aa);
             repAuftraege.add(ra);
         }
-        final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(arbeitsauftraege);
+        final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(repAuftraege);
         final HashMap parameters = new HashMap();
         final JasperReport jasperReport;
         final JasperPrint jasperPrint;
-        jasperReport = (JasperReport)JRLoader.loadObject(new File(
-                    "/Users/thorsten/dev/620-belis-client/src/main/resources/de/cismet/belis/gui/reports/arbeitsauftraege.jasper"));
+        jasperReport = (JasperReport)JRLoader.loadObject(BelisReporter.class.getResourceAsStream(
+                    "/de/cismet/belis/reports/arbeitsauftraege.jasper"));
         jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         final String jobname = DownloadManagerDialog.getJobname();
         return new JasperDownload(jasperPrint, jobname, "Belis-AA", "belis.aa");

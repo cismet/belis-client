@@ -12,12 +12,7 @@
  */
 package de.cismet.belis.gui.reports;
 
-import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
 
 import org.apache.commons.collections.MultiHashMap;
 
@@ -25,7 +20,6 @@ import org.openide.util.Exceptions;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -61,7 +55,6 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.HeadlessMapProvider;
 import de.cismet.cismap.commons.XBoundingBox;
-import de.cismet.cismap.commons.features.DefaultStyledFeature;
 import de.cismet.cismap.commons.features.DefaultXStyledFeature;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.gui.piccolo.CustomFixedWidthStroke;
@@ -90,7 +83,8 @@ public class ReportingArbeitsauftrag {
     static {
         final Properties prop = new Properties();
         try {
-            prop.load(ReportingArbeitsauftrag.class.getResourceAsStream("reporting.properties"));
+            prop.load(ReportingArbeitsauftrag.class.getResourceAsStream(
+                    "/de/cismet/belis/reports/reporting.properties"));
             MAP_URL = prop.getProperty("map.url");
             MAP_WIDTH = Integer.parseInt(prop.getProperty("map.width"));
             MAP_HEIGHT = Integer.parseInt(prop.getProperty("map.height"));
@@ -123,7 +117,7 @@ public class ReportingArbeitsauftrag {
      *
      * @param  aaBean  DOCUMENT ME!
      */
-    void init(final CidsBean aaBean) {
+    public void init(final CidsBean aaBean) {
         orig = aaBean;
         nummer = "Arbeitsauftrag: A" + String.valueOf(aaBean.getProperty("nummer"));
         angelegt = "angelegt von: " + String.valueOf(aaBean.getProperty("angelegt_von")) + " ("
@@ -190,33 +184,36 @@ public class ReportingArbeitsauftrag {
             int position = 0;
             for (final Feature f : allOriginalFeatures) {
                 position++;
-                if (union == null) {
-                    union = f.getGeometry().getEnvelope();
-                } else {
-                    union = union.getEnvelope().union(f.getGeometry().getEnvelope());
+                if (f.getGeometry() != null) {
+                    if (union == null) {
+                        union = f.getGeometry().getEnvelope();
+                    } else {
+                        union = union.getEnvelope().union(f.getGeometry().getEnvelope());
+                    }
+                    final DefaultXStyledFeature dsf = new DefaultXStyledFeature(
+                            null,
+                            "",
+                            "",
+                            null,
+                            new CustomFixedWidthStroke(2f));
+                    dsf.setGeometry(f.getGeometry());
+                    dsf.setPrimaryAnnotation("  P" + position);
+                    dsf.setPrimaryAnnotationPaint(Color.black);
+                    dsf.setPrimaryAnnotationHalo(Color.WHITE);
+
+                    final BufferedImage bi = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+                    final Graphics2D graphics = (Graphics2D)bi.getGraphics();
+                    final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(bi); // ((StyledFeature)
+
+                    symb.setSweetSpotX(0.5);
+                    symb.setSweetSpotY(0.5);
+                    dsf.setIconImage(new ImageIcon(bi));
+                    dsf.setAutoScale(false);
+                    final Font font = new Font("SansSerif", Font.PLAIN, 4);
+                    dsf.setPrimaryAnnotationFont(font);
+                    dsf.setFeatureAnnotationSymbol(symb);
+                    mapProvider.addFeature(dsf);
                 }
-                final DefaultXStyledFeature dsf = new DefaultXStyledFeature(
-                        null,
-                        "",
-                        "",
-                        null,
-                        new CustomFixedWidthStroke(2f));
-                dsf.setGeometry(f.getGeometry());
-                dsf.setPrimaryAnnotation("  P" + position);
-                dsf.setPrimaryAnnotationPaint(Color.black);
-
-                final BufferedImage bi = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
-                final Graphics2D graphics = (Graphics2D)bi.getGraphics();
-                final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(bi); // ((StyledFeature)
-
-                symb.setSweetSpotX(0.5);
-                symb.setSweetSpotY(0.5);
-                dsf.setIconImage(new ImageIcon(bi));
-                dsf.setAutoScale(false);
-                final Font font = new Font("SansSerif", Font.PLAIN, 4);
-                dsf.setPrimaryAnnotationFont(font);
-                dsf.setFeatureAnnotationSymbol(symb);
-                mapProvider.addFeature(dsf);
             }
         }
         union = union.getEnvelope().buffer(MAP_BUFFER);
