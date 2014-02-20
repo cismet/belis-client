@@ -143,6 +143,7 @@ import de.cismet.belis.todo.RetrieveWorker;
 
 import de.cismet.belis.util.BelisIcons;
 
+import de.cismet.belis2.server.search.ArbeitsauftragSearchStatement;
 import de.cismet.belis2.server.search.BelisLocationSearchStatement;
 import de.cismet.belis2.server.search.BelisSearchStatement;
 import de.cismet.belis2.server.search.BelisTopicSearchStatement;
@@ -2299,8 +2300,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @return  DOCUMENT ME!
      */
     public Collection searchForArbeitsprotokolleOfVeralassung(final String veranlassungsnummer) {
-        final VeranlassungSearchStatement searchStatement = new VeranlassungSearchStatement();
-        searchStatement.setNummer(veranlassungsnummer);
+        final ArbeitsauftragSearchStatement searchStatement = new ArbeitsauftragSearchStatement();
+        searchStatement.setVeranlassungsNummer(veranlassungsnummer);
         try {
             final Collection res = SessionManager.getProxy()
                         .customServerSearch(SessionManager.getSession().getUser(), searchStatement);

@@ -190,6 +190,25 @@ public class CidsBroker {
     /**
      * DOCUMENT ME!
      *
+     * @param   classid   DOCUMENT ME!
+     * @param   objectid  DOCUMENT ME!
+     * @param   domain    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MetaObject getMetaObject(final int classid, final int objectid, final String domain) {
+        MetaObject mos = null;
+        try {
+            mos = getProxy().getMetaObject(SessionManager.getSession().getUser(), objectid, classid, domain);
+        } catch (ConnectionException ex) {
+            LOG.error("error retrieving metaobject by id", ex);
+        }
+        return mos;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  className  DOCUMENT ME!
      * @param  listener   DOCUMENT ME!
      */
