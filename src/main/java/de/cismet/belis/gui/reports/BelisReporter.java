@@ -39,6 +39,8 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.cids.client.tools.DevelopmentTools;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.gui.MappingComponent;
@@ -100,9 +102,9 @@ public class BelisReporter {
             CidsBroker.getInstance().setProxy(SessionManager.getProxy());
 
             final ReportingArbeitsauftrag ra = new ReportingArbeitsauftrag();
-            ra.init(beans[0]);
+            ra.init((ArbeitsauftragCustomBean)beans[0]);
             final ReportingArbeitsauftrag ra2 = new ReportingArbeitsauftrag();
-            ra2.init(beans[1]);
+            ra2.init((ArbeitsauftragCustomBean)beans[1]);
 //        List l=(List)ra.getPositionenNachVeranlassung().get(ReportingArbeitsauftrag.OHNE_VERANLASSUNG);
             final List l = (List)ra.getVeranlassungen();
             final ArrayList a = new ArrayList<Object>();
@@ -170,10 +172,11 @@ public class BelisReporter {
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    public static JasperDownload getArbeitsauftragsReport(final List<CidsBean> arbeitsauftraege) throws Exception {
+    public static JasperDownload getArbeitsauftragsReport(final List<ArbeitsauftragCustomBean> arbeitsauftraege)
+            throws Exception {
         final ArrayList<ReportingArbeitsauftrag> repAuftraege = new ArrayList<ReportingArbeitsauftrag>(
                 arbeitsauftraege.size());
-        for (final CidsBean aa : arbeitsauftraege) {
+        for (final ArbeitsauftragCustomBean aa : arbeitsauftraege) {
             final ReportingArbeitsauftrag ra = new ReportingArbeitsauftrag();
             ra.init(aa);
             repAuftraege.add(ra);

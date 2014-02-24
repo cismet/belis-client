@@ -23,20 +23,18 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.tools.CustomToStringConverter;
-
 /**
  * DOCUMENT ME!
  *
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class TdtaLeuchtenToStringConverter extends CustomToStringConverter {
+public class TdtaLeuchtenToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public String createString() {
-        return "Leuchte";
+        return "Leuchte" + super.createString();
     }
 }

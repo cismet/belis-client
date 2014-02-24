@@ -18,6 +18,8 @@ import java.util.Collection;
 
 import de.cismet.belisEE.util.EntityComparator;
 
+import de.cismet.cids.custom.tostringconverter.belis2.LeitungToStringConverter;
+
 import de.cismet.commons.server.entity.GeoBaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
@@ -297,5 +299,10 @@ public class LeitungCustomBean extends GeoBaseEntity implements WorkbenchEntity,
     @Override
     public String getHumanReadablePosition() {
         return "";
+    }
+
+    @Override
+    public String toString() {
+        return new LeitungToStringConverter().convert(this.getMetaObject());
     }
 }

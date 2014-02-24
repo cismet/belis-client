@@ -35,6 +35,9 @@ import de.cismet.belisEE.mapicons.MapIcons;
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.StandortKey;
 
+import de.cismet.cids.custom.tostringconverter.belis2.TdtaStandortMastToStringConverter;
+import de.cismet.cids.custom.tostringconverter.belis2.WorkbenchEntityToStringConverter;
+
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
@@ -959,7 +962,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
 
     @Override
     public String toString() {
-        return "Standort[id=" + getId() + "]";
+        return new TdtaStandortMastToStringConverter().convert(this.getMetaObject());
     }
 
     /**

@@ -18,6 +18,8 @@ import de.cismet.belisEE.mapicons.MapIcons;
 
 import de.cismet.belisEE.util.EntityComparator;
 
+import de.cismet.cids.custom.tostringconverter.belis2.SchaltstelleToStringConverter;
+
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
@@ -528,7 +530,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
 
     @Override
     public String toString() {
-        return getKeyString();
+        return new SchaltstelleToStringConverter().convert(this.getMetaObject());
     }
 
     @Override

@@ -22,9 +22,8 @@ import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.cids.dynamics.CidsBean;
-
-import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!
@@ -48,36 +47,34 @@ public class ReportingPosition {
      * @param  nummer     DOCUMENT ME!
      * @param  protokoll  DOCUMENT ME!
      */
-    public ReportingPosition(final int nummer, final CidsBean protokoll) {
-        CidsBean entity = null;
+    public ReportingPosition(final int nummer, final ArbeitsprotokollCustomBean protokoll) {
+        WorkbenchEntity entity = null;
         name = "Position " + String.valueOf(nummer) + ": ";
-        if (protokoll.getProperty("fk_leuchte") != null) {
-            name += "Leuchte " + String.valueOf(protokoll.getProperty("fk_leuchte.lfd_nummer")) + ", "
-                        + String.valueOf(protokoll.getProperty("fk_leuchte.fk_leuchttyp.leuchtentyp"));
-            entity = (CidsBean)protokoll.getProperty("fk_leuchte");
-        } else if (protokoll.getProperty("fk_geometrie") != null) {
-            name += "Allgemeine Geometrie";
-            entity = (CidsBean)protokoll.getProperty("fk_geometry");
-        } else if (protokoll.getProperty("fk_standort") != null) {
-            name += "Standort ";
-            entity = (CidsBean)protokoll.getProperty("fk_standort");
-        } else if (protokoll.getProperty("fk_abzweigdose") != null) {
-            name += "Abzweigdose ";
-            entity = (CidsBean)protokoll.getProperty("fk_abzweigdose");
-        } else if (protokoll.getProperty("fk_leitung") != null) {
-            name += "Leitung ";
-            entity = (CidsBean)protokoll.getProperty("fk_leitung");
-        } else if (protokoll.getProperty("fk_mauerlasche") != null) {
-            name += "Mauerlasche ";
-            entity = (CidsBean)protokoll.getProperty("fk_leitung");
-        } else if (protokoll.getProperty("fk_schaltstelle") != null) {
-            name += "Schaltstelle";
-            entity = (CidsBean)protokoll.getProperty("fk_schaltstelle");
+        if (protokoll.getFk_leuchte() != null) {
+            entity = protokoll.getFk_leuchte();
+        } else if (protokoll.getFk_geometrie() != null) {
+            entity = protokoll.getFk_geometrie();
+        } else if (protokoll.getFk_standort() != null) {
+            entity = protokoll.getFk_standort();
+        } else if (protokoll.getFk_abzweigdose() != null) {
+            entity = protokoll.getFk_abzweigdose();
+        } else if (protokoll.getFk_leitung() != null) {
+            entity = protokoll.getFk_leitung();
+        } else if (protokoll.getFk_mauerlasche() != null) {
+            entity = protokoll.getFk_mauerlasche();
+        } else if (protokoll.getFk_schaltstelle() != null) {
+            entity = protokoll.getFk_schaltstelle();
         }
+        if (entity != null) {
+            name += entity;
+        }
+
         final Collection<AbstractArbeitsprotokollWizard> wizardActions = BelisBroker.getInstance()
-                    .getWizardsActionsForEntity((BaseEntity)entity);
-        for (final AbstractArbeitsprotokollWizard action : wizardActions) {
-            moeglicheAktionen.add(new ReportingAction(String.valueOf(action.getAction().getValue(Action.NAME))));
+                    .getWizardsActionsForEntity((WorkbenchEntity)entity);
+        if (wizardActions != null) {
+            for (final AbstractArbeitsprotokollWizard action : wizardActions) {
+                moeglicheAktionen.add(new ReportingAction(String.valueOf(action.getAction().getValue(Action.NAME))));
+            }
         }
         final Collection<AbstractArbeitsprotokollWizard> defaultActions = BelisBroker.getInstance()
                     .getWizardsActionsForEntity(null);

@@ -23,6 +23,8 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+
 /**
  * DOCUMENT ME!
  *
@@ -35,6 +37,6 @@ public class TdtaStandortMastToStringConverter extends WorkbenchEntityToStringCo
 
     @Override
     public String createString() {
-        return "Mast" + super.createString();
+        return "Mast " + ((TdtaStandortMastCustomBean)cidsBean).getLaufendeNummer() + super.createString();
     }
 }

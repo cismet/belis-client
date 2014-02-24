@@ -25,13 +25,15 @@ package de.cismet.cids.custom.tostringconverter.belis2;
 
 import de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean;
 
+import de.cismet.cids.tools.CustomToStringConverter;
+
 /**
  * DOCUMENT ME!
  *
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class AnlagengruppeToStringConverter extends WorkbenchEntityToStringConverter {
+public class AnlagengruppeToStringConverter extends CustomToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 

@@ -18,6 +18,8 @@ import de.cismet.belisEE.mapicons.MapIcons;
 
 import de.cismet.belisEE.util.EntityComparator;
 
+import de.cismet.cids.custom.tostringconverter.belis2.MauerlascheToStringConverter;
+
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
 import de.cismet.commons.server.entity.GeoBaseEntity;
@@ -404,6 +406,15 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
 
     @Override
     public String getKeyString() {
-        return "";
+        String laufendeNummer = "";
+        if (getLaufende_nummer() != null) {
+            laufendeNummer = getLaufende_nummer().toString();
+        }
+        return laufendeNummer;
+    }
+
+    @Override
+    public String toString() {
+        return new MauerlascheToStringConverter().convert(this.getMetaObject());
     }
 }

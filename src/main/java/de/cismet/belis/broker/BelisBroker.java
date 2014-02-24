@@ -35,14 +35,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import net.infonode.docking.RootWindow;
 import net.infonode.gui.componentpainter.GradientComponentPainter;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JRViewer;
-
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -57,7 +49,6 @@ import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
 
-import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
 import java.awt.Color;
@@ -72,8 +63,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import java.io.File;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -83,7 +72,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -110,10 +98,7 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
-import de.cismet.belis.client.BelisClient;
-
 import de.cismet.belis.gui.reports.BelisReporter;
-import de.cismet.belis.gui.reports.ReportingArbeitsauftrag;
 import de.cismet.belis.gui.search.AddressSearchControl;
 import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
@@ -147,7 +132,6 @@ import de.cismet.belis2.server.search.ArbeitsauftragSearchStatement;
 import de.cismet.belis2.server.search.BelisLocationSearchStatement;
 import de.cismet.belis2.server.search.BelisSearchStatement;
 import de.cismet.belis2.server.search.BelisTopicSearchStatement;
-import de.cismet.belis2.server.search.VeranlassungSearchStatement;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 import de.cismet.belisEE.exception.LockAlreadyExistsException;
@@ -170,6 +154,7 @@ import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -456,7 +441,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<AbstractArbeitsprotokollWizard> getWizardsActionsForEntity(final BaseEntity entity) {
+    public Collection<AbstractArbeitsprotokollWizard> getWizardsActionsForEntity(final WorkbenchEntity entity) {
         if (entity == null) {
             return (Collection<AbstractArbeitsprotokollWizard>)allgemeineWizards;
         } else if (entity instanceof AbzweigdoseCustomBean) {
@@ -3363,7 +3348,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * DOCUMENT ME!
      */
     public void printReport() {
-        final ArrayList<CidsBean> beans = new ArrayList<CidsBean>();
+        final ArrayList<ArbeitsauftragCustomBean> beans = new ArrayList<ArbeitsauftragCustomBean>();
         final Collection<TreePath> paths = getWorkbenchWidget().getSelectedTreeNodes();
         if (paths != null) {
             for (final TreePath path : paths) {

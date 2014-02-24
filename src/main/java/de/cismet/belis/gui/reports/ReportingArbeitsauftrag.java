@@ -31,8 +31,8 @@ import java.net.URL;
 import java.text.NumberFormat;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
 import javax.imageio.ImageIO;
@@ -50,8 +50,6 @@ import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
-
-import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.HeadlessMapProvider;
 import de.cismet.cismap.commons.XBoundingBox;
@@ -108,7 +106,7 @@ public class ReportingArbeitsauftrag {
     ArrayList<ReportingVeranlassung> veranlassungen = new ArrayList<ReportingVeranlassung>();
     MultiHashMap positionenNachVeranlassung = new MultiHashMap();
 //HashMap<Object, ArrayList<>
-    CidsBean orig;
+    ArbeitsauftragCustomBean orig;
 
     //~ Methods ----------------------------------------------------------------
 
@@ -117,19 +115,18 @@ public class ReportingArbeitsauftrag {
      *
      * @param  aaBean  DOCUMENT ME!
      */
-    public void init(final CidsBean aaBean) {
+    public void init(final ArbeitsauftragCustomBean aaBean) {
         orig = aaBean;
-        nummer = "Arbeitsauftrag: A" + String.valueOf(aaBean.getProperty("nummer"));
-        angelegt = "angelegt von: " + String.valueOf(aaBean.getProperty("angelegt_von")) + " ("
-                    + String.valueOf(aaBean.getProperty("angelegt_am")) + ")";
-        final Object an = aaBean.getProperty("zugewiesen_an");
-        zugewiesen_an = "zugewiesen an: " + ((an != null) ? String.valueOf(an) : "_____________");
+        nummer = "Arbeitsauftrag: A" + aaBean.getNummer();
+        angelegt = "angelegt von: " + aaBean.getAngelegt_von() + " (" + String.valueOf(aaBean.getAngelegt_am()) + ")";
+        final String an = aaBean.getZugewiesen_an();
+        zugewiesen_an = "zugewiesen an: " + ((an != null) ? an : "_____________");
 
-        final List<CidsBean> positionen = aaBean.getBeanCollectionProperty("ar_protokolle");
+        final Collection<ArbeitsprotokollCustomBean> positionen = aaBean.getAr_protokolle();
         int zaehler = 0;
-        for (final CidsBean position : positionen) {
+        for (final ArbeitsprotokollCustomBean position : positionen) {
             zaehler++;
-            String veranlassungsnummer = (String)position.getProperty("veranlassungsnummer");
+            String veranlassungsnummer = position.getVeranlassungsnummer();
             if (veranlassungsnummer == null) {
                 veranlassungsnummer = OHNE_VERANLASSUNG;
             }
@@ -138,7 +135,7 @@ public class ReportingArbeitsauftrag {
         final Iterator veranlassungenIt = positionenNachVeranlassung.keySet().iterator();
         while (veranlassungenIt.hasNext()) {
             final String key = (String)veranlassungenIt.next();
-            final List value = (List)positionenNachVeranlassung.get(key);
+            final Collection value = (Collection)positionenNachVeranlassung.get(key);
             veranlassungen.add(new ReportingVeranlassung(key, value));
         }
         initMap();

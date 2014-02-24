@@ -34,8 +34,7 @@ import de.cismet.belis.util.RendererTools;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
-
-import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!
@@ -437,7 +436,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     @Override
     public void setCurrentEntity(final ArbeitsprotokollCustomBean currentEntity) {
         super.setCurrentEntity(currentEntity);
-        final BaseEntity subEntity;
+        final WorkbenchEntity subEntity;
         if (currentEntity != null) {
             if (currentEntity.getFk_abzweigdose() != null) {
                 subEntity = currentEntity.getFk_abzweigdose();

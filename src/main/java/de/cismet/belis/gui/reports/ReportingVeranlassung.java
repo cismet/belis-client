@@ -21,7 +21,6 @@ import org.openide.util.Exceptions;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import de.cismet.belis.broker.CidsBroker;
 
@@ -51,7 +50,7 @@ public class ReportingVeranlassung {
      * @param  veranlassungsKey     DOCUMENT ME!
      * @param  reportingPositionen  DOCUMENT ME!
      */
-    public ReportingVeranlassung(final String veranlassungsKey, final List reportingPositionen) {
+    public ReportingVeranlassung(final String veranlassungsKey, final Collection reportingPositionen) {
         final int numberPos = ((reportingPositionen != null) ? reportingPositionen.size() : 0);
         if (veranlassungsKey.equals(ReportingArbeitsauftrag.OHNE_VERANLASSUNG)) {
             nummer = "ohne Veranlassung: ";

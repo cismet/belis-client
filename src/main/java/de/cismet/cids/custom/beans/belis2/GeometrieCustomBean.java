@@ -164,4 +164,9 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
             return EntityComparator.compareTypes(this, o);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Geometrie";
+    }
 }
