@@ -3448,7 +3448,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                 @Override
                 public void keyTableChanged() {
-                    comboBox.reload(true);
+                    try {
+                        comboBox.reload(true);
+                    } catch (final Exception ex) {
+                        LOG.warn("exception while comboBox.reload(true)", ex);
+                    }
                 }
             });
     }
