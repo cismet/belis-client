@@ -57,6 +57,7 @@ public class ReportingPosition {
             entity = (CidsBean)protokoll.getProperty("fk_leuchte");
         } else if (protokoll.getProperty("fk_geometrie") != null) {
             name += "Allgemeine Geometrie";
+            entity = (CidsBean)protokoll.getProperty("fk_geometry");
         } else if (protokoll.getProperty("fk_standort") != null) {
             name += "Standort ";
             entity = (CidsBean)protokoll.getProperty("fk_standort");
