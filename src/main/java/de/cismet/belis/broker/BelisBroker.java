@@ -1041,7 +1041,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
         final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
         Thread.sleep(1000);
-        final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
+        final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots("BELIS2"));
         final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
                 rootTreeNode,
                 PropertyManager.getManager().isEditable(),
