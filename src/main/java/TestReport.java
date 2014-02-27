@@ -49,8 +49,6 @@ import de.cismet.belis2.server.search.ArbeitsauftragSearchStatement;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 
-import de.cismet.cids.dynamics.CidsBean;
-
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.utils.jasperreports.ReportSwingWorkerDialog;

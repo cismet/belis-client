@@ -11,6 +11,9 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import java.awt.Color;
+import java.awt.Paint;
+
 import java.util.Collection;
 
 import de.cismet.belisEE.mapicons.MapIcons;
@@ -121,6 +124,11 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
                     null);
             return mapIcon;
         }
+    }
+
+    @Override
+    public Paint getFillingPaint() {
+        return new Color(Color.BLUE.getRed() / 255f, Color.BLUE.getGreen() / 255f, Color.BLUE.getBlue() / 255f, getTransparency());
     }
 
     @Override

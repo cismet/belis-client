@@ -60,6 +60,8 @@ import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 
+import de.cismet.commons.server.entity.GeoBaseEntity;
+
 /**
  * DOCUMENT ME!
  *
@@ -77,6 +79,7 @@ public class ReportingArbeitsauftrag {
     private static int BASE_DPI;
     private static int TARGET_DPI;
     private static double MAP_BUFFER;
+    private static Font FONT = new Font("SansSerif", Font.PLAIN, 16);
 
     static {
         final Properties prop = new Properties();
@@ -91,7 +94,7 @@ public class ReportingArbeitsauftrag {
             MAP_BUFFER = Double.parseDouble(prop.getProperty("map.buffer"));
         } catch (Exception ex) {
             LOG.error("Error during intializing of BelisReportingParameters. No Report will be available");
-        }
+        }        
     }
 
     public static final String OHNE_VERANLASSUNG = "OHNE";
@@ -147,13 +150,19 @@ public class ReportingArbeitsauftrag {
     private void initMap() {
         final SimpleWMS s = new SimpleWMS(new SimpleWmsGetMapUrl(MAP_URL));
         final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)orig;
-        final ArrayList<Feature> allOriginalFeatures = new ArrayList<Feature>();
+        final ArrayList<GeoBaseEntity> allOriginalFeatures = new ArrayList<GeoBaseEntity>();
         final ArrayList<Feature> annotatingFeatures = new ArrayList<Feature>();
         final HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+        final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB)); // ((StyledFeature)
+        symb.setSweetSpotX(0.5);
+        symb.setSweetSpotY(0.5);
 
+        int position = 0;        
         Geometry union = null;
         for (final ArbeitsprotokollCustomBean protokoll
                     : arbeitsauftragCustomBean.getAr_protokolle()) {
+            position++;
+            
             final AbzweigdoseCustomBean abzweigdose = protokoll.getFk_abzweigdose();
             final LeitungCustomBean leitung = protokoll.getFk_leitung();
             final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
@@ -161,76 +170,71 @@ public class ReportingArbeitsauftrag {
             final MauerlascheCustomBean mauerlasche = protokoll.getFk_mauerlasche();
             final SchaltstelleCustomBean schaltstelle = protokoll.getFk_schaltstelle();
             final GeometrieCustomBean geometrie = protokoll.getFk_geometrie();
-            final CustomMutableTreeTableNode node;
+            final GeoBaseEntity entity;
             if (abzweigdose != null) {
-                allOriginalFeatures.add(abzweigdose);
+                entity = abzweigdose;
             } else if (leitung != null) {
-                allOriginalFeatures.add(leitung);
+                entity = leitung;
             } else if (leuchte != null) {
-                allOriginalFeatures.add(leuchte);
+                entity = leuchte;
             } else if (standort != null) {
-                allOriginalFeatures.add(standort);
+                entity = standort;
             } else if (mauerlasche != null) {
-                allOriginalFeatures.add(mauerlasche);
+                entity = mauerlasche;
             } else if (schaltstelle != null) {
-                allOriginalFeatures.add(schaltstelle);
+                entity = schaltstelle;
             } else if (geometrie != null) {
-                allOriginalFeatures.add(geometrie);
+                entity = geometrie;
             } else {
+                entity = null;
             }
-            int position = 0;
-            for (final Feature f : allOriginalFeatures) {
-                position++;
-                if (f.getGeometry() != null) {
-                    if (union == null) {
-                        union = f.getGeometry().getEnvelope();
-                    } else {
-                        union = union.getEnvelope().union(f.getGeometry().getEnvelope());
-                    }
-                    final DefaultXStyledFeature dsf = new DefaultXStyledFeature(
-                            null,
-                            "",
-                            "",
-                            null,
-                            new CustomFixedWidthStroke(2f));
-                    dsf.setGeometry(f.getGeometry());
-                    dsf.setPrimaryAnnotation("  P" + position);
-                    dsf.setPrimaryAnnotationPaint(Color.black);
-                    dsf.setPrimaryAnnotationHalo(Color.WHITE);
+            allOriginalFeatures.add(entity);
 
-                    final BufferedImage bi = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
-                    final Graphics2D graphics = (Graphics2D)bi.getGraphics();
-                    final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(bi); // ((StyledFeature)
-
-                    symb.setSweetSpotX(0.5);
-                    symb.setSweetSpotY(0.5);
-                    dsf.setIconImage(new ImageIcon(bi));
-                    dsf.setAutoScale(false);
-                    final Font font = new Font("SansSerif", Font.PLAIN, 4);
-                    dsf.setPrimaryAnnotationFont(font);
-                    dsf.setFeatureAnnotationSymbol(symb);
-                    mapProvider.addFeature(dsf);
+            if (entity != null) {
+                final Geometry geom = entity.getGeometry();
+                if (union == null) {
+                    union = geom.getEnvelope();
+                } else {
+                    union = union.getEnvelope().union(geom.getEnvelope());
                 }
+
+                final DefaultXStyledFeature dsf = new DefaultXStyledFeature(
+                        null,
+                        "",
+                        "",
+                        null,
+                        new CustomFixedWidthStroke(2f));
+                dsf.setGeometry(geom);
+                dsf.setPrimaryAnnotation("  P" + position);
+                dsf.setPrimaryAnnotationPaint(Color.black);
+                dsf.setPrimaryAnnotationHalo(Color.WHITE);
+                dsf.setAutoScale(true);
+                
+                // unsichtbar
+                dsf.setLinePaint(new Color(0, 0, 0, 1));
+                dsf.setFillingPaint(new Color(0, 0, 0, 1));
+                dsf.setTransparency(1);                
+                dsf.setPrimaryAnnotationFont(FONT);
+                dsf.setFeatureAnnotationSymbol(symb);
+                
+                annotatingFeatures.add(dsf);
             }
         }
-        union = union.getEnvelope().buffer(MAP_BUFFER);
-        mapProvider.addLayer(s);
+        if (union != null) {
+            union = union.getEnvelope().buffer(MAP_BUFFER);
+            union.setSRID(31466);
+        }
 
-        union.setSRID(31466);
         final XBoundingBox bb = new XBoundingBox(union);
-
         mapProvider.setBoundingBox(bb);
-        System.out.println(bb);
-
+        mapProvider.addLayer(s);
         mapProvider.addFeatures(allOriginalFeatures);
-
+        mapProvider.addFeatures(annotatingFeatures);
+        
         try {
-            final Image img = mapProvider.getImageAndWait(BASE_DPI, TARGET_DPI, MAP_WIDTH, MAP_HEIGHT);
-            final String masstab = "1:"
-                        + NumberFormat.getIntegerInstance().format(mapProvider.getImageScaleDenominator());
-            map = (BufferedImage)img;
+            map = (BufferedImage)mapProvider.getImageAndWait(BASE_DPI, TARGET_DPI, MAP_WIDTH, MAP_HEIGHT);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error(ex, ex);
             fallbackMap();
         }
     }
