@@ -20,15 +20,11 @@ import org.openide.util.Exceptions;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import java.io.IOException;
 
 import java.net.URL;
-
-import java.text.NumberFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,10 +32,6 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import javax.imageio.ImageIO;
-
-import javax.swing.ImageIcon;
-
-import de.cismet.belis.todo.CustomMutableTreeTableNode;
 
 import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
@@ -191,36 +183,38 @@ public class ReportingArbeitsauftrag {
             } else {
                 entity = null;
             }
-            allOriginalFeatures.add(entity);
 
             if (entity != null) {
+                allOriginalFeatures.add(entity);
                 final Geometry geom = entity.getGeometry();
-                if (union == null) {
-                    union = geom.getEnvelope();
-                } else {
-                    union = union.getEnvelope().union(geom.getEnvelope());
+                if (geom != null) {
+                    if (union == null) {
+                        union = geom.getEnvelope();
+                    } else {
+                        union = union.getEnvelope().union(geom.getEnvelope());
+                    }
+
+                    final DefaultXStyledFeature dsf = new DefaultXStyledFeature(
+                            null,
+                            "",
+                            "",
+                            null,
+                            new CustomFixedWidthStroke(2f));
+                    dsf.setGeometry(geom);
+                    dsf.setPrimaryAnnotation("  P" + position);
+                    dsf.setPrimaryAnnotationPaint(Color.black);
+                    dsf.setPrimaryAnnotationHalo(Color.WHITE);
+                    dsf.setAutoScale(true);
+
+                    // unsichtbar
+                    dsf.setLinePaint(new Color(0, 0, 0, 1));
+                    dsf.setFillingPaint(new Color(0, 0, 0, 1));
+                    dsf.setTransparency(1);
+                    dsf.setPrimaryAnnotationFont(FONT);
+                    dsf.setFeatureAnnotationSymbol(symb);
+
+                    annotatingFeatures.add(dsf);
                 }
-
-                final DefaultXStyledFeature dsf = new DefaultXStyledFeature(
-                        null,
-                        "",
-                        "",
-                        null,
-                        new CustomFixedWidthStroke(2f));
-                dsf.setGeometry(geom);
-                dsf.setPrimaryAnnotation("  P" + position);
-                dsf.setPrimaryAnnotationPaint(Color.black);
-                dsf.setPrimaryAnnotationHalo(Color.WHITE);
-                dsf.setAutoScale(true);
-
-                // unsichtbar
-                dsf.setLinePaint(new Color(0, 0, 0, 1));
-                dsf.setFillingPaint(new Color(0, 0, 0, 1));
-                dsf.setTransparency(1);
-                dsf.setPrimaryAnnotationFont(FONT);
-                dsf.setFeatureAnnotationSymbol(symb);
-
-                annotatingFeatures.add(dsf);
             }
         }
         if (union != null) {

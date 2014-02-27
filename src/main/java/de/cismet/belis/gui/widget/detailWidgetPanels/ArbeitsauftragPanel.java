@@ -22,6 +22,9 @@ import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.tree.TreePath;
+
+import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.DateToStringConverter;
 
@@ -391,9 +394,11 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         }
 
         if (protokoll != null) {
+            BelisBroker.getInstance().getWorkbenchWidget().selectUserObject(protokoll);
             arbeitsprotokollPanel1.setCurrentEntity(protokoll);
             arbeitsprotokollPanel1.setPanelEditable(isEditable);
         } else {
+            BelisBroker.getInstance().getWorkbenchWidget().selectUserObject(currentEntity);
             arbeitsprotokollPanel1.setCurrentEntity(null);
             arbeitsprotokollPanel1.setPanelEditable(false);
         }
