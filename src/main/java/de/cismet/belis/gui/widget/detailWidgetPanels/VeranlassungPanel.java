@@ -616,6 +616,10 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
     @Override
     public void setCurrentEntity(final VeranlassungCustomBean currentEntity) {
+        if (tblInfobausteine.getCellEditor() != null) {
+            tblInfobausteine.getCellEditor().stopCellEditing();
+        }
+
         super.setCurrentEntity(currentEntity);
 
         new SwingWorker<Collection<ArbeitsauftragCustomBean>, Void>() {
