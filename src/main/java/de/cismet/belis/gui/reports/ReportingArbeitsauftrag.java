@@ -94,7 +94,7 @@ public class ReportingArbeitsauftrag {
             MAP_BUFFER = Double.parseDouble(prop.getProperty("map.buffer"));
         } catch (Exception ex) {
             LOG.error("Error during intializing of BelisReportingParameters. No Report will be available");
-        }        
+        }
     }
 
     public static final String OHNE_VERANLASSUNG = "OHNE";
@@ -153,16 +153,19 @@ public class ReportingArbeitsauftrag {
         final ArrayList<GeoBaseEntity> allOriginalFeatures = new ArrayList<GeoBaseEntity>();
         final ArrayList<Feature> annotatingFeatures = new ArrayList<Feature>();
         final HeadlessMapProvider mapProvider = new HeadlessMapProvider();
-        final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB)); // ((StyledFeature)
+        final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(new BufferedImage(
+                    10,
+                    10,
+                    BufferedImage.TYPE_INT_ARGB)); // ((StyledFeature)
         symb.setSweetSpotX(0.5);
         symb.setSweetSpotY(0.5);
 
-        int position = 0;        
+        int position = 0;
         Geometry union = null;
         for (final ArbeitsprotokollCustomBean protokoll
                     : arbeitsauftragCustomBean.getAr_protokolle()) {
             position++;
-            
+
             final AbzweigdoseCustomBean abzweigdose = protokoll.getFk_abzweigdose();
             final LeitungCustomBean leitung = protokoll.getFk_leitung();
             final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
@@ -209,14 +212,14 @@ public class ReportingArbeitsauftrag {
                 dsf.setPrimaryAnnotationPaint(Color.black);
                 dsf.setPrimaryAnnotationHalo(Color.WHITE);
                 dsf.setAutoScale(true);
-                
+
                 // unsichtbar
                 dsf.setLinePaint(new Color(0, 0, 0, 1));
                 dsf.setFillingPaint(new Color(0, 0, 0, 1));
-                dsf.setTransparency(1);                
+                dsf.setTransparency(1);
                 dsf.setPrimaryAnnotationFont(FONT);
                 dsf.setFeatureAnnotationSymbol(symb);
-                
+
                 annotatingFeatures.add(dsf);
             }
         }
@@ -230,7 +233,7 @@ public class ReportingArbeitsauftrag {
         mapProvider.addLayer(s);
         mapProvider.addFeatures(allOriginalFeatures);
         mapProvider.addFeatures(annotatingFeatures);
-        
+
         try {
             map = (BufferedImage)mapProvider.getImageAndWait(BASE_DPI, TARGET_DPI, MAP_WIDTH, MAP_HEIGHT);
         } catch (Exception ex) {

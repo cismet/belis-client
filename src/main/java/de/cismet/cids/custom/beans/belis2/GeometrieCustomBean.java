@@ -128,7 +128,12 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
 
     @Override
     public Paint getFillingPaint() {
-        return new Color(Color.BLUE.getRed() / 255f, Color.BLUE.getGreen() / 255f, Color.BLUE.getBlue() / 255f, getTransparency());
+        return new Color(Color.BLUE.getRed() / 255f,
+                Color.BLUE.getGreen()
+                        / 255f,
+                Color.BLUE.getBlue()
+                        / 255f,
+                getTransparency());
     }
 
     @Override
