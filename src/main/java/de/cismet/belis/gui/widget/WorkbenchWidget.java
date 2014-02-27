@@ -993,6 +993,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         featuresToSelect.addAll(veranlassungCustomBean.getAr_mauerlaschen());
                                         featuresToSelect.addAll(veranlassungCustomBean.getAr_schaltstellen());
                                         featuresToSelect.addAll(veranlassungCustomBean.getAr_standorte());
+                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_geometrien());
                                     } else if (currentUserObject instanceof ArbeitsauftragCustomBean) {
                                         final ArbeitsauftragCustomBean arbeitsauftragCustomBean =
                                             (ArbeitsauftragCustomBean)currentUserObject;

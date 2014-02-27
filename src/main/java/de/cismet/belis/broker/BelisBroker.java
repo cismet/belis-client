@@ -2387,6 +2387,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         if (protokoll.getFk_standort() != null) {
                             featuresToAdd.add(protokoll.getFk_standort());
                         }
+                        if (protokoll.getFk_geometrie() != null) {
+                            featuresToAdd.add(protokoll.getFk_geometrie());
+                        }
                     }
                 } else if ((currentResult instanceof StyledFeature)
                             && (((StyledFeature)currentResult).getGeometry() != null)) {
