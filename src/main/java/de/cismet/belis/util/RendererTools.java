@@ -59,7 +59,9 @@ public class RendererTools {
      */
     public static void makeReadOnly(final JComboBox cb) {
         cb.setEnabled(false);
-        cb.setRenderer(new CustomListCellRenderer(cb.getRenderer()));
+        if (!(cb.getRenderer() instanceof CustomListCellRenderer)) {
+            cb.setRenderer(new CustomListCellRenderer(cb.getRenderer()));
+        }
     }
 
     /**

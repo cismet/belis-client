@@ -38,14 +38,14 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
 
     public static final String TABLE = "geometrie";
 
-    public static final String PROP__DOKUMENTE = "dokumente";
+    public static final String PROP__AR_DOKUMENTE = "ar_dokumente";
     public static final String PROP__FK_GEOM = "fk_geom";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__DOKUMENTE, PROP__FK_GEOM };
+    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__AR_DOKUMENTE, PROP__FK_GEOM };
 
     //~ Instance fields --------------------------------------------------------
 
-    private Collection<DmsUrlCustomBean> dokumente;
+    private Collection<DmsUrlCustomBean> ar_dokumente;
     private GeomCustomBean fk_geom;
 
     //~ Constructors -----------------------------------------------------------
@@ -77,9 +77,28 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
      *
      * @return  DOCUMENT ME!
      */
+    public Collection<DmsUrlCustomBean> getAr_dokumente() {
+        return ar_dokumente;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  dokumente  DOCUMENT ME!
+     */
+    public void setAr_dokumente(final Collection<DmsUrlCustomBean> dokumente) {
+        final Collection<DmsUrlCustomBean> old = this.ar_dokumente;
+        this.ar_dokumente = dokumente;
+        this.propertyChangeSupport.firePropertyChange(PROP__AR_DOKUMENTE, old, this.ar_dokumente);
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Collection<DmsUrlCustomBean> getDokumente() {
-        return dokumente;
+        return getAr_dokumente();
     }
 
     /**
@@ -89,9 +108,7 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
      */
     @Override
     public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
-        final Collection<DmsUrlCustomBean> old = this.dokumente;
-        this.dokumente = dokumente;
-        this.propertyChangeSupport.firePropertyChange(PROP__DOKUMENTE, old, this.dokumente);
+        setAr_dokumente(dokumente);
     }
 
     /**

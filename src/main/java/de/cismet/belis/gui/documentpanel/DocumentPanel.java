@@ -140,7 +140,6 @@ public final class DocumentPanel extends javax.swing.JPanel {
     private final Timer busyIconTimer;
     private int busyIconIndex = 0;
     private SwingWorker<ImageIcon, Void> previewWorker;
-    // private DocumentContainer currentEntity = null;
     private Collection<DmsUrlCustomBean> dokumente = null;
     private boolean inEditMode = false;
     private WebDavClient webDavClient;
@@ -166,11 +165,6 @@ public final class DocumentPanel extends javax.swing.JPanel {
     /**
      * Creates a new DocumentPanel object.
      */
-// public DocumentPanel(final Collection<DmsUrl> listFiles) {
-// this();
-// setDocumentList(listFiles);
-// lstDocList.setSelectedIndex(lstDocList.getFirstVisibleIndex());
-// }
     /**
      * Creates a new DocumentPanel object.
      */
@@ -241,36 +235,6 @@ public final class DocumentPanel extends javax.swing.JPanel {
         firePropertyChange("DocumentPanel.Dokumente", null, dokumente);
         bindingGroup.unbind();
         bindingGroup.bind();
-    }
-    // --
-
-//    public void setCurrentEntity(final DocumentContainer dc) {
-//        this.currentEntity = dc;
-//    }
-//
-//    public DocumentContainer getCurrentEntity() {
-//        return this.currentEntity;
-//    }
-    /**
-     * DOCUMENT ME!
-     */
-//    public void setDocumentList(final Collection<DmsUrl> urls) {
-//        docListModel.removeAllElements();
-//        for (final DmsUrl f : urls) {
-//            docListModel.addElement(f);
-//        }
-//    }
-    private void openSelectionInBrowser() {
-        final Object sel = lstDocList.getSelectedValue();
-        if (sel instanceof DmsUrlCustomBean) {
-            final DmsUrlCustomBean dmsUrl = (DmsUrlCustomBean)sel;
-            if (dmsUrl.getUrl() != null) {
-                final URL u = dmsUrl.getUrl().getURL();
-                if (u != null) {
-                    UIUtils.openURL(u.toString());
-                }
-            }
-        }
     }
 
     /**

@@ -19,6 +19,7 @@ import java.util.Collection;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 
 /**
@@ -48,7 +49,7 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    public Class getEntityClass() {
+    public ArbeitsprotokollCustomBean.ChildType getEntityClass() {
         return null;
     }
 

@@ -14,6 +14,8 @@ package de.cismet.belis.gui.widget;
 
 import java.beans.PropertyChangeEvent;
 
+import java.util.Collection;
+
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsauftragPanel;
@@ -34,6 +36,7 @@ import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.commons.architecture.validation.Validatable;
 
@@ -59,7 +62,8 @@ public class DetailWidget extends BelisWidget {
 
     //~ Instance fields --------------------------------------------------------
 
-    protected Object currentEntity = null;
+    protected Collection<WorkbenchEntity> currentEntities;
+    protected WorkbenchEntity currentEntity = null;
 
     private final StandortPanel standortPanel;
     private final LeuchtePanel leuchtePanel;
@@ -72,7 +76,6 @@ public class DetailWidget extends BelisWidget {
     private final ArbeitsprotokollPanel arbeitsprotokollPanel;
 
     private AbstractDetailWidgetPanel currentDetailWidgetPanel = null;
-    private boolean isEditable = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
@@ -122,33 +125,55 @@ public class DetailWidget extends BelisWidget {
     }
 
     /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public WorkbenchEntity getCurrentEntity() {
+        return currentEntity;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  currentEntity  DOCUMENT ME!
+     */
+    public void setCurrentEntity(final WorkbenchEntity currentEntity) {
+        final WorkbenchEntity oldCurrentEntity = this.currentEntity;
+        firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
+        this.currentEntity = currentEntity;
+    }
+
+    /**
      * Get the value of currentEntity.
      *
      * @return  the value of currentEntity
      */
-    public Object getCurrentEntity() {
-        return currentEntity;
+    public Collection<WorkbenchEntity> getCurrentEntities() {
+        return currentEntities;
     }
 
     /**
      * Set the value of currentEntity TODO change parameter type to DocumentContainer or BaseEntity.
      *
-     * @param  currentEntity  new value of currentEntity
-     * @param  parentEntity   DOCUMENT ME!
-     * @param  isEditable     DOCUMENT ME!
+     * @param  currentEntities  new value of currentEntity
+     * @param  parentEntity     DOCUMENT ME!
+     * @param  isEditable       DOCUMENT ME!
      */
-    public void setCurrentEntity(final Object currentEntity, final Object parentEntity, final boolean isEditable) {
+    public void setCurrentEntities(final Collection<WorkbenchEntity> currentEntities,
+            final WorkbenchEntity parentEntity,
+            final boolean isEditable) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("setCurrentEntity", new CurrentStackTrace());
+            LOG.debug("setCurrentEntities", new CurrentStackTrace());
         }
-        final Object oldCurrentEntity = this.currentEntity;
-        this.currentEntity = currentEntity;
+        this.currentEntities = currentEntities;
 
-        try {
-            firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
-        } catch (final Exception ex) {
-            LOG.info("", ex);
+        if ((currentEntities != null) && !currentEntities.isEmpty()) {
+            setCurrentEntity(currentEntities.iterator().next());
+        } else {
+            setCurrentEntity(null);
         }
+
         bindingGroup.unbind();
         bindingGroup.bind();
 
@@ -241,7 +266,7 @@ public class DetailWidget extends BelisWidget {
             }
             if (parentEntity instanceof ArbeitsauftragCustomBean) {
                 arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
-                arbeitsauftragPanel.setSelectedProtokoll((ArbeitsprotokollCustomBean)currentEntity);
+                arbeitsauftragPanel.setSelectedProtokolle((Collection)currentEntities);
                 currentDetailWidgetPanel = arbeitsauftragPanel;
             } else {
                 LOG.error("parent of protokoll node should be an auftrags node");
@@ -282,13 +307,12 @@ public class DetailWidget extends BelisWidget {
     @Override
     public void clearComponent() {
         super.clearComponent();
-        setCurrentEntity(null, null, false);
+        setCurrentEntities(null, null, false);
     }
 
     @Override
     public void setWidgetEditable(final boolean isEditable) {
         super.setWidgetEditable(isEditable);
-        this.isEditable = isEditable;
         if (currentDetailWidgetPanel != null) {
             currentDetailWidgetPanel.setPanelEditable(isEditable);
         }

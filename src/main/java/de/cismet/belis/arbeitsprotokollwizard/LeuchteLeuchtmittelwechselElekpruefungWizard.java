@@ -24,6 +24,7 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeuchtmittelCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
@@ -62,8 +63,8 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    public Class getEntityClass() {
-        return TdtaLeuchtenCustomBean.class;
+    public ArbeitsprotokollCustomBean.ChildType getEntityClass() {
+        return ArbeitsprotokollCustomBean.ChildType.LEUCHTE;
     }
 
     /**

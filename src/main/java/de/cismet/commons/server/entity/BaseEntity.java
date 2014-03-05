@@ -80,7 +80,7 @@ public class BaseEntity extends CidsBean {
      * @return  DOCUMENT ME!
      */
     public Integer getId() {
-        return (id < 0) ? null : id;
+        return ((id == null) || (id < 0)) ? null : id;
     }
 
     /**

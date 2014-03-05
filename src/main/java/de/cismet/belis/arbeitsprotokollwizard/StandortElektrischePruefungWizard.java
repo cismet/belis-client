@@ -22,6 +22,7 @@ import java.util.Date;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
@@ -52,8 +53,8 @@ public class StandortElektrischePruefungWizard extends AbstractArbeitsprotokollW
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    public Class getEntityClass() {
-        return TdtaStandortMastCustomBean.class;
+    public ArbeitsprotokollCustomBean.ChildType getEntityClass() {
+        return ArbeitsprotokollCustomBean.ChildType.STANDORT;
     }
 
     /**

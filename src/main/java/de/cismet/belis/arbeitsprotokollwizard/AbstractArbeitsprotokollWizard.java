@@ -45,7 +45,7 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public abstract Class getEntityClass();
+    public abstract ArbeitsprotokollCustomBean.ChildType getEntityClass();
 
     /**
      * DOCUMENT ME!

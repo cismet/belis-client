@@ -26,6 +26,7 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
@@ -104,8 +105,8 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
     }                                                       // </editor-fold>//GEN-END:initComponents
 
     @Override
-    public Class getEntityClass() {
-        return MauerlascheCustomBean.class;
+    public ArbeitsprotokollCustomBean.ChildType getEntityClass() {
+        return ArbeitsprotokollCustomBean.ChildType.MAUERLASCHE;
     }
 
     @Override

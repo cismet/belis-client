@@ -441,23 +441,34 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<AbstractArbeitsprotokollWizard> getWizardsActionsForEntity(final WorkbenchEntity entity) {
+    public Collection<AbstractArbeitsprotokollWizard> getWizardsActionsForEntity(
+            final ArbeitsprotokollCustomBean.ChildType entity) {
         if (entity == null) {
             return (Collection<AbstractArbeitsprotokollWizard>)allgemeineWizards;
-        } else if (entity instanceof AbzweigdoseCustomBean) {
-            return (Collection<AbstractArbeitsprotokollWizard>)abzweigdoseWizards;
-        } else if (entity instanceof TdtaStandortMastCustomBean) {
-            return (Collection<AbstractArbeitsprotokollWizard>)standorteWizards;
-        } else if (entity instanceof TdtaLeuchtenCustomBean) {
-            return (Collection<AbstractArbeitsprotokollWizard>)leuchtenWizards;
-        } else if (entity instanceof MauerlascheCustomBean) {
-            return (Collection<AbstractArbeitsprotokollWizard>)mauerlascheWizards;
-        } else if (entity instanceof SchaltstelleCustomBean) {
-            return (Collection<AbstractArbeitsprotokollWizard>)schaltstelleWizards;
-        } else if (entity instanceof LeitungCustomBean) {
-            return (Collection<AbstractArbeitsprotokollWizard>)leitungWizards;
         } else {
-            return null;
+            switch (entity) {
+                case ABZWEIGDOSE: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)abzweigdoseWizards;
+                }
+                case STANDORT: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)standorteWizards;
+                }
+                case LEUCHTE: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)leuchtenWizards;
+                }
+                case MAUERLASCHE: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)mauerlascheWizards;
+                }
+                case SCHALTSTELLE: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)schaltstelleWizards;
+                }
+                case LEITUNG: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)leitungWizards;
+                }
+                default: {
+                    return null;
+                }
+            }
         }
     }
 
@@ -1221,17 +1232,17 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 try {
                     if (wizard.getEntityClass() == null) {
                         allgemeineWizards.add(wizard);
-                    } else if (wizard.getEntityClass().getName().equals(TdtaLeuchtenCustomBean.class.getName())) {
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.LEUCHTE)) {
                         leuchtenWizards.add(wizard);
-                    } else if (wizard.getEntityClass().getName().equals(TdtaStandortMastCustomBean.class.getName())) {
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.STANDORT)) {
                         standorteWizards.add(wizard);
-                    } else if (wizard.getEntityClass().getName().equals(AbzweigdoseCustomBean.class.getName())) {
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.ABZWEIGDOSE)) {
                         abzweigdoseWizards.add(wizard);
-                    } else if (wizard.getEntityClass().getName().equals(MauerlascheCustomBean.class.getName())) {
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.MAUERLASCHE)) {
                         mauerlascheWizards.add(wizard);
-                    } else if (wizard.getEntityClass().getName().equals(SchaltstelleCustomBean.class.getName())) {
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.SCHALTSTELLE)) {
                         schaltstelleWizards.add(wizard);
-                    } else if (wizard.getEntityClass().getName().equals(LeitungCustomBean.class.getName())) {
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.LEITUNG)) {
                         leitungWizards.add(wizard);
                     }
                 } catch (Exception ex) {
@@ -2526,38 +2537,80 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 @Override
                 public void propertyChange(final PropertyChangeEvent evt) {
                     if (evt.getPropertyName().equals(WorkbenchWidget.PROP_SELECTEDTREENODES)) {
-                        Object currentEntity = null;
-                        Object parentEntity = null;
-                        final TreePath treePath = ((WorkbenchWidget)evt.getSource()).getSelectedTreeNode();
+                        final Collection<WorkbenchEntity> currentEntities = new ArrayList<WorkbenchEntity>();
+                        WorkbenchEntity parentEntity = null;
+
+                        boolean first = true;
+                        boolean allSameParent = true;
+                        boolean allSameType = true;
+                        CustomMutableTreeTableNode allSameParentNode = null;
+                        Object allSameMainNode = null;
+                        Class allSameTypeClass = null;
+                        if (((WorkbenchWidget)evt.getSource()).getSelectedTreeNodes() != null) {
+                            for (final TreePath treePath : ((WorkbenchWidget)evt.getSource()).getSelectedTreeNodes()) {
+                                final Object currentMainNode = treePath.getPathComponent(1);
+                                final CustomMutableTreeTableNode currentParentNode = (CustomMutableTreeTableNode)
+                                    treePath.getParentPath().getLastPathComponent();
+                                final Object currentUserObject =
+                                    ((CustomMutableTreeTableNode)treePath.getLastPathComponent()).getUserObject();
+                                final Class currentClass = currentUserObject.getClass();
+                                if (first) {
+                                    allSameParentNode = currentParentNode;
+                                    allSameMainNode = currentMainNode;
+                                    allSameTypeClass = currentClass;
+                                    first = false;
+                                }
+                                if (currentParentNode != allSameParentNode) {
+                                    allSameParent = false;
+                                }
+                                if ((currentClass != allSameTypeClass)) {
+                                    allSameType = false;
+                                }
+                                if (currentUserObject instanceof WorkbenchEntity) {
+                                    currentEntities.add((WorkbenchEntity)currentUserObject);
+                                }
+                            }
+                        }
+
+                        if (!allSameType || (allSameTypeClass == null)
+                                    || ((currentEntities.size() > 1)
+                                        && !allSameTypeClass.equals(ArbeitsprotokollCustomBean.class))) {
+                            currentEntities.clear();
+                        }
+                        if (!currentEntities.isEmpty() && allSameParent && (allSameParentNode != null)
+                                    && (allSameParentNode.getUserObject() instanceof WorkbenchEntity)) {
+                            parentEntity = (WorkbenchEntity)allSameParentNode.getUserObject();
+                        }
+
                         boolean isEditable = false;
-                        if (treePath != null) {
-                            final CustomMutableTreeTableNode customMutableTreeTableNode = (CustomMutableTreeTableNode)
-                                treePath.getLastPathComponent();
-                            if (customMutableTreeTableNode != null) {
-                                currentEntity = customMutableTreeTableNode.getUserObject();
-                            }
-                            final CustomMutableTreeTableNode parentNode = (CustomMutableTreeTableNode)
-                                treePath.getParentPath().getLastPathComponent();
-                            if (parentNode != null) {
-                                parentEntity = parentNode.getUserObject();
-                            }
-                            if (
-                                treePath.getPathComponent(1).equals(
-                                            ((WorkbenchWidget)evt.getSource()).getNewObjectsNode())
-                                        || treePath.getPathComponent(1).equals(
-                                            ((WorkbenchWidget)evt.getSource()).getEditObjectsNode())) {
-                                final Object parentObject =
-                                    ((CustomMutableTreeTableNode)treePath.getParentPath().getLastPathComponent())
-                                            .getUserObject();
-                                if (!((parentObject instanceof VeranlassungCustomBean)
-                                                || (parentObject instanceof ArbeitsprotokollCustomBean))) {
+                        if (!currentEntities.isEmpty()) {
+                            final boolean isFromNewNode = (allSameMainNode != null)
+                                        && allSameMainNode.equals(((WorkbenchWidget)evt.getSource())
+                                            .getNewObjectsNode());
+                            final boolean isFromEditNode = (allSameMainNode != null)
+                                        && allSameMainNode.equals(((WorkbenchWidget)evt.getSource())
+                                            .getEditObjectsNode());
+                            if (isFromNewNode || isFromEditNode) {
+                                if (!((parentEntity instanceof VeranlassungCustomBean)
+                                                || (parentEntity instanceof ArbeitsprotokollCustomBean))) {
                                     isEditable = true;
                                 }
                             }
                         }
 
-                        detailWidget.setCurrentEntity(currentEntity, parentEntity, isEditable);
-                        panCreate.setCurrentEntity(currentEntity);
+                        detailWidget.setCurrentEntities(currentEntities, parentEntity, isEditable);
+                        final WorkbenchEntity selectedSingleEntity;
+                        if (currentEntities.size() == 1) {
+                            final Object selectedObject = currentEntities.iterator().next();
+                            if ((selectedObject != null) && (selectedObject instanceof WorkbenchEntity)) {
+                                selectedSingleEntity = (WorkbenchEntity)selectedObject;
+                            } else {
+                                selectedSingleEntity = null;
+                            }
+                        } else {
+                            selectedSingleEntity = null;
+                        }
+                        panCreate.setSelectedEntity(selectedSingleEntity);
                         panCreate.setWidgetEditable(isEditable);
                     }
                 }

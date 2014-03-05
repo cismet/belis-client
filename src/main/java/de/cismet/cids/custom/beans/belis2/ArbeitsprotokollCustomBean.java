@@ -11,9 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
-import java.sql.Date;
-
 import java.util.Collection;
+import java.util.Date;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
@@ -69,6 +68,20 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
             PROP__VERANLASSUNGSNUMMER,
             PROP__N_AKTIONEN
         };
+
+    //~ Enums ------------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    public enum ChildType {
+
+        //~ Enum constants -----------------------------------------------------
+
+        MAUERLASCHE, LEUCHTE, LEITUNG, STANDORT, ABZWEIGDOSE, SCHALTSTELLE, GEOMETRIE
+    }
 
     //~ Instance fields --------------------------------------------------------
 
@@ -165,6 +178,31 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      */
     public TdtaLeuchtenCustomBean getFk_leuchte() {
         return fk_leuchte;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public WorkbenchEntity getChildEntity() {
+        if (getFk_leuchte() != null) {
+            return getFk_leuchte();
+        } else if (getFk_geometrie() != null) {
+            return getFk_geometrie();
+        } else if (getFk_standort() != null) {
+            return getFk_standort();
+        } else if (getFk_abzweigdose() != null) {
+            return getFk_abzweigdose();
+        } else if (getFk_leitung() != null) {
+            return getFk_leitung();
+        } else if (getFk_mauerlasche() != null) {
+            return getFk_mauerlasche();
+        } else if (getFk_schaltstelle() != null) {
+            return getFk_schaltstelle();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -416,6 +454,31 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
         final Collection<ArbeitsprotokollaktionCustomBean> old = this.n_aktionen;
         this.n_aktionen = n_aktionen;
         this.propertyChangeSupport.firePropertyChange(PROP__N_AKTIONEN, old, this.n_aktionen);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ChildType getChildType() {
+        if (getFk_abzweigdose() != null) {
+            return ChildType.ABZWEIGDOSE;
+        } else if (getFk_leitung() != null) {
+            return ChildType.LEITUNG;
+        } else if (getFk_leuchte() != null) {
+            return ChildType.LEUCHTE;
+        } else if (getFk_mauerlasche() != null) {
+            return ChildType.MAUERLASCHE;
+        } else if (getFk_schaltstelle() != null) {
+            return ChildType.SCHALTSTELLE;
+        } else if (getFk_geometrie() != null) {
+            return ChildType.GEOMETRIE;
+        } else if (getFk_standort() != null) {
+            return ChildType.STANDORT;
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -63,6 +63,7 @@ public class CustomListCellRenderer extends DefaultListCellRenderer {
 //            ((JLabel)c).setForeground(Color.BLACK);
 //            ((JLabel)c).setOpaque(false);
 //            ((JLabel)c).setUI((new JLabel()).getUI());
+            renderer.setIcon(((JLabel)c).getIcon());
             renderer.setText(((JLabel)c).getText());
             return renderer;
         }

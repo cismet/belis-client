@@ -22,6 +22,7 @@ import java.util.Date;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 
@@ -105,8 +106,8 @@ public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokol
     }                                                                 // </editor-fold>//GEN-END:initComponents
 
     @Override
-    public Class getEntityClass() {
-        return TdtaLeuchtenCustomBean.class;
+    public ArbeitsprotokollCustomBean.ChildType getEntityClass() {
+        return ArbeitsprotokollCustomBean.ChildType.LEUCHTE;
     }
 
     @Override

@@ -48,29 +48,14 @@ public class ReportingPosition {
      * @param  protokoll  DOCUMENT ME!
      */
     public ReportingPosition(final int nummer, final ArbeitsprotokollCustomBean protokoll) {
-        WorkbenchEntity entity = null;
+        final WorkbenchEntity entity = protokoll.getChildEntity();
         name = "Position " + String.valueOf(nummer) + ": ";
-        if (protokoll.getFk_leuchte() != null) {
-            entity = protokoll.getFk_leuchte();
-        } else if (protokoll.getFk_geometrie() != null) {
-            entity = protokoll.getFk_geometrie();
-        } else if (protokoll.getFk_standort() != null) {
-            entity = protokoll.getFk_standort();
-        } else if (protokoll.getFk_abzweigdose() != null) {
-            entity = protokoll.getFk_abzweigdose();
-        } else if (protokoll.getFk_leitung() != null) {
-            entity = protokoll.getFk_leitung();
-        } else if (protokoll.getFk_mauerlasche() != null) {
-            entity = protokoll.getFk_mauerlasche();
-        } else if (protokoll.getFk_schaltstelle() != null) {
-            entity = protokoll.getFk_schaltstelle();
-        }
         if (entity != null) {
             name += entity;
         }
 
         final Collection<AbstractArbeitsprotokollWizard> wizardActions = BelisBroker.getInstance()
-                    .getWizardsActionsForEntity((WorkbenchEntity)entity);
+                    .getWizardsActionsForEntity(protokoll.getChildType());
         if (wizardActions != null) {
             for (final AbstractArbeitsprotokollWizard action : wizardActions) {
                 moeglicheAktionen.add(new ReportingAction(String.valueOf(action.getAction().getValue(Action.NAME))));

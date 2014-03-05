@@ -22,6 +22,7 @@ import java.util.Date;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 
@@ -84,8 +85,8 @@ public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard {
     }                                                        // </editor-fold>//GEN-END:initComponents
 
     @Override
-    public Class getEntityClass() {
-        return SchaltstelleCustomBean.class;
+    public ArbeitsprotokollCustomBean.ChildType getEntityClass() {
+        return ArbeitsprotokollCustomBean.ChildType.SCHALTSTELLE;
     }
 
     @Override

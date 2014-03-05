@@ -31,6 +31,7 @@ import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
+import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.commons.architecture.interfaces.Editable;
 
@@ -46,13 +47,11 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeS
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final String PROP_CURRENT_ENTITY = "currentEntity";
-
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(CreateToolBar.class);
 
     //~ Instance fields --------------------------------------------------------
 
-    protected Object currentEntity = null;
+    protected WorkbenchEntity selectedEntity = null;
     private BelisBroker broker;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -111,26 +110,12 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeS
     }
 
     /**
-     * Get the value of currentEntity.
+     * Set the value of selectedEntity.
      *
-     * @return  the value of currentEntity
+     * @param  selectedEntity  new value of selectedEntity
      */
-    public Object getCurrentEntity() {
-        return currentEntity;
-    }
-
-    /**
-     * Set the value of currentEntity.
-     *
-     * @param  currentEntity  new value of currentEntity
-     */
-    public void setCurrentEntity(final Object currentEntity) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setCurrentEntity");
-        }
-        final Object oldCurrentEntity = this.currentEntity;
-        this.currentEntity = currentEntity;
-        firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
+    public void setSelectedEntity(final WorkbenchEntity selectedEntity) {
+        this.selectedEntity = selectedEntity;
         if (!broker.isInEditMode()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("not in edit mode");
@@ -145,44 +130,44 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeS
      */
     private void checkSetButtonState() {
         if (broker.isInCreateMode()) {
-            if (currentEntity == null) {
+            if (selectedEntity == null) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("current entity is null. No Entity is selected");
                 }
                 setAllButtonsEnabled(true);
                 // btnNewLeuchte.setEnabled(false);
                 btnRemove.setEnabled(false);
-            } else if (currentEntity instanceof TdtaStandortMastCustomBean) {
+            } else if (selectedEntity instanceof TdtaStandortMastCustomBean) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Current entity is Standort");
                 }
                 setAllButtonsEnabled(true);
-            } else if (currentEntity instanceof TdtaLeuchtenCustomBean) {
+            } else if (selectedEntity instanceof TdtaLeuchtenCustomBean) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("CurrentEntity is Leuchte");
+                    LOG.debug("currentEntities is Leuchte");
                 }
                 setAllButtonsEnabled(true);
             } else {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Current Entity is: " + currentEntity);
+                    LOG.debug("Current Entity is: " + selectedEntity);
                 }
                 setAllButtonsEnabled(true);
-                if (!(currentEntity instanceof BaseEntity)) {
+                if (!(selectedEntity instanceof BaseEntity)) {
                     btnRemove.setEnabled(false);
                 }
                 // btnNewLeuchte.setEnabled(false);
             }
         } else {
-            if (currentEntity == null) {
+            if (selectedEntity == null) {
                 btnRemove.setEnabled(false);
             } else {
-                if (!(currentEntity instanceof BaseEntity)) {
+                if (!(selectedEntity instanceof BaseEntity)) {
                     btnRemove.setEnabled(false);
                 } else {
                     btnRemove.setEnabled(true);
                 }
-                if ((currentEntity instanceof TdtaStandortMastCustomBean)
-                            || ((currentEntity instanceof TdtaLeuchtenCustomBean)
+                if ((selectedEntity instanceof TdtaStandortMastCustomBean)
+                            || ((selectedEntity instanceof TdtaLeuchtenCustomBean)
                                 && broker.getWorkbenchWidget().isParentNodeMast(
                                     broker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))) {
                     if (LOG.isDebugEnabled()) {
@@ -449,27 +434,27 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeS
         }
         try {
             broker.setVetoCheckEnabled(false);
-            if ((currentEntity == null)
-                        || ((currentEntity instanceof TdtaLeuchtenCustomBean)
+            if ((selectedEntity == null)
+                        || ((selectedEntity instanceof TdtaLeuchtenCustomBean)
                             && broker.getWorkbenchWidget().isNodeHaengeLeuchte(
                                 broker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))
-                        || !((currentEntity instanceof TdtaStandortMastCustomBean)
-                            || (currentEntity instanceof TdtaLeuchtenCustomBean))) {
+                        || !((selectedEntity instanceof TdtaStandortMastCustomBean)
+                            || (selectedEntity instanceof TdtaLeuchtenCustomBean))) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Leuchte will be created without Mast");
                 }
                 broker.addNewLeuchte();
-            } else if (((currentEntity instanceof TdtaStandortMastCustomBean)
-                            && ((TdtaStandortMastCustomBean)currentEntity).isStandortMast())
-                        || (currentEntity instanceof TdtaLeuchtenCustomBean)) {
+            } else if (((selectedEntity instanceof TdtaStandortMastCustomBean)
+                            && ((TdtaStandortMastCustomBean)selectedEntity).isStandortMast())
+                        || (selectedEntity instanceof TdtaLeuchtenCustomBean)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Leuchte will be appended to Standort");
                 }
-                broker.addNewLeuchte(currentEntity);
+                broker.addNewLeuchte(selectedEntity);
             } else {
                 LOG.warn(
                     "Creation of Leuchte not possible selected object must either be of Standort or Leuchte or non entity: "
-                            + currentEntity);
+                            + selectedEntity);
             }
         } finally {
             broker.setVetoCheckEnabled(true);
@@ -538,7 +523,6 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeS
         }
         try {
             broker.setVetoCheckEnabled(false);
-//            broker.removeEntity(currentEntity);
             broker.removeSelectedEntity();
         } finally {
             broker.setVetoCheckEnabled(true);

@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
 
@@ -34,10 +34,7 @@ import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
-import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
 import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
-
-import de.cismet.commons.server.entity.BaseEntity;
 
 /**
  * DOCUMENT ME!
@@ -236,7 +233,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         jScrollPane2.setPreferredSize(new java.awt.Dimension(450, 120));
 
         jTable1.setModel(new ProtokolleTableModel());
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane2.setViewportView(jTable1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -321,12 +318,18 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     /**
      * DOCUMENT ME!
      *
-     * @param  protokoll  DOCUMENT ME!
+     * @param  protokolle  DOCUMENT ME!
      */
-    public void setSelectedProtokoll(final ArbeitsprotokollCustomBean protokoll) {
-        final int index = ((ProtokolleTableModel)jTable1.getModel()).getIndexByProtokoll(protokoll);
-        final int viewIndex = jTable1.convertRowIndexToView(index);
-        jTable1.getSelectionModel().addSelectionInterval(viewIndex, viewIndex);
+    public void setSelectedProtokolle(final Collection<ArbeitsprotokollCustomBean> protokolle) {
+        int viewIndex = -1;
+        jTable1.getSelectionModel().setValueIsAdjusting(true);
+        jTable1.getSelectionModel().clearSelection();
+        for (final ArbeitsprotokollCustomBean protokoll : protokolle) {
+            final int index = ((ProtokolleTableModel)jTable1.getModel()).getIndexByProtokoll(protokoll);
+            viewIndex = jTable1.convertRowIndexToView(index);
+            jTable1.getSelectionModel().addSelectionInterval(viewIndex, viewIndex);
+        }
+        jTable1.getSelectionModel().setValueIsAdjusting(false);
         jTable1.scrollRectToVisible(jTable1.getCellRect(viewIndex, 0, true));
     }
 
@@ -363,7 +366,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     @Override
     public void setPanelEditable(final boolean isEditable) {
         RendererTools.setEditable(txtZugewiesenAn, isEditable);
-        arbeitsprotokollPanel1.setPanelEditable(isEditable);
+        arbeitsprotokollPanel1.setPanelEditable(isEditable && !getSelectedProtokolle().isEmpty());
         this.isEditable = isEditable;
     }
 
@@ -380,27 +383,43 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     /**
      * DOCUMENT ME!
      *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<ArbeitsprotokollCustomBean> getSelectedProtokolle() {
+        final int[] selection = jTable1.getSelectedRows();
+        final int[] modelSelection = new int[selection.length];
+
+        final Collection<ArbeitsprotokollCustomBean> protokolle = new ArrayList<ArbeitsprotokollCustomBean>();
+        for (int index = 0; index < selection.length; ++index) {
+            modelSelection[index] = jTable1.convertRowIndexToModel(selection[index]);
+            final ArbeitsprotokollCustomBean protokoll = ((ProtokolleTableModel)jTable1.getModel()).getProtokollByIndex(
+                    modelSelection[index]);
+            protokolle.add(protokoll);
+        }
+        return protokolle;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  e  DOCUMENT ME!
      */
     @Override
     public void valueChanged(final ListSelectionEvent e) {
-        final int[] selection = jTable1.getSelectedRows();
-        final int[] modelSelection = new int[selection.length];
+        if (!e.getValueIsAdjusting()) {
+            final Collection<ArbeitsprotokollCustomBean> protokolle = getSelectedProtokolle();
 
-        ArbeitsprotokollCustomBean protokoll = null;
-        for (int index = 0; index < selection.length; ++index) {
-            modelSelection[index] = jTable1.convertRowIndexToModel(selection[index]);
-            protokoll = ((ProtokolleTableModel)jTable1.getModel()).getProtokollByIndex(modelSelection[index]);
-        }
-
-        if (protokoll != null) {
-            BelisBroker.getInstance().getWorkbenchWidget().selectUserObject(protokoll);
-            arbeitsprotokollPanel1.setCurrentEntity(protokoll);
-            arbeitsprotokollPanel1.setPanelEditable(isEditable);
-        } else {
-            BelisBroker.getInstance().getWorkbenchWidget().selectUserObject(currentEntity);
-            arbeitsprotokollPanel1.setCurrentEntity(null);
-            arbeitsprotokollPanel1.setPanelEditable(false);
+            if (!protokolle.isEmpty()) {
+                BelisBroker.getInstance().getWorkbenchWidget().selectUserObjects(protokolle);
+                arbeitsprotokollPanel1.setCurrentEntities(protokolle);
+                arbeitsprotokollPanel1.setPanelEditable(isEditable);
+            } else {
+                final Collection col = new ArrayList();
+                col.add(currentEntity);
+                BelisBroker.getInstance().getWorkbenchWidget().selectUserObjects(col);
+                arbeitsprotokollPanel1.setCurrentEntity(null);
+                arbeitsprotokollPanel1.setPanelEditable(false);
+            }
         }
     }
 

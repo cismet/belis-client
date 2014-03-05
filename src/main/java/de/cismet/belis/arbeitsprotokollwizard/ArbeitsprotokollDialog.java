@@ -11,6 +11,8 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
+import Sirius.server.middleware.types.MetaObject;
+
 import java.awt.BorderLayout;
 
 import de.cismet.belis.broker.BelisBroker;

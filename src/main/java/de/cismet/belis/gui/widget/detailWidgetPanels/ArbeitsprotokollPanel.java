@@ -34,7 +34,8 @@ import de.cismet.belis.util.RendererTools;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
+
+import de.cismet.cids.utils.multibean.MultiBeanHelper;
 
 /**
  * DOCUMENT ME!
@@ -58,6 +59,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     //~ Instance fields --------------------------------------------------------
 
     private BelisBroker belisBroker = BelisBroker.getInstance();
+    private MultiBeanHelper mbh = new MultiBeanHelper();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbxStatus;
@@ -97,6 +99,12 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         initComponents();
         initComponentToLabelMap();
         initPanel();
+
+        mbh.registerComponentForProperty(txfMonteur, ArbeitsprotokollCustomBean.PROP__MONTEUR);
+        mbh.registerComponentForProperty(dapDatum, ArbeitsprotokollCustomBean.PROP__DATUM);
+        mbh.registerComponentForProperty(cbxStatus, ArbeitsprotokollCustomBean.PROP__FK_STATUS);
+        mbh.registerComponentForProperty(txaBemerkungen, ArbeitsprotokollCustomBean.PROP__BEMERKUNG);
+        mbh.registerComponentForProperty(txaMaterial, ArbeitsprotokollCustomBean.PROP__MATERIAL);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -208,6 +216,15 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         panDetails.add(lblMaterial, gridBagConstraints);
 
         dapDatum.setEnabled(false);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.datum}"),
+                dapDatum,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -219,7 +236,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
         cbxStatus.setEnabled(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_status}"),
@@ -295,7 +312,8 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.monteur}"),
                 txfMonteur,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
+                org.jdesktop.beansbinding.BeanProperty.create("text"),
+                "");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -433,37 +451,50 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
             });
     }
 
-    @Override
-    public void setCurrentEntity(final ArbeitsprotokollCustomBean currentEntity) {
-        super.setCurrentEntity(currentEntity);
-        final WorkbenchEntity subEntity;
-        if (currentEntity != null) {
-            if (currentEntity.getFk_abzweigdose() != null) {
-                subEntity = currentEntity.getFk_abzweigdose();
-            } else if (currentEntity.getFk_geometrie() != null) {
-                subEntity = currentEntity.getFk_geometrie();
-            } else if (currentEntity.getFk_leitung() != null) {
-                subEntity = currentEntity.getFk_leitung();
-            } else if (currentEntity.getFk_leuchte() != null) {
-                subEntity = currentEntity.getFk_leuchte();
-            } else if (currentEntity.getFk_mauerlasche() != null) {
-                subEntity = currentEntity.getFk_mauerlasche();
-            } else if (currentEntity.getFk_schaltstelle() != null) {
-                subEntity = currentEntity.getFk_schaltstelle();
-            } else if (currentEntity.getFk_standort() != null) {
-                subEntity = currentEntity.getFk_standort();
-            } else {
-                subEntity = null;
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  currentEntities  DOCUMENT ME!
+     */
+    public void setCurrentEntities(final Collection<ArbeitsprotokollCustomBean> currentEntities) {
+        final ArbeitsprotokollCustomBean dummyBean = ArbeitsprotokollCustomBean.createNew();
+        mbh.setDummyBean(dummyBean);
+        mbh.setBeans((Collection)currentEntities);
+        super.setCurrentEntity(dummyBean);
+
+        boolean allSame = true;
+        ArbeitsprotokollCustomBean.ChildType allSameChildType = null;
+        boolean first = true;
+        for (final ArbeitsprotokollCustomBean protokoll : currentEntities) {
+            if (first) {
+                allSameChildType = protokoll.getChildType();
+                first = false;
             }
-        } else {
-            subEntity = null;
+            if (protokoll.getChildType() != allSameChildType) {
+                allSame = false;
+            }
         }
 
+        refreshWizards(allSame ? allSameChildType : null);
+
+        validate();
+        repaint();
+        ((AktionenTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  childType  DOCUMENT ME!
+     */
+    public void refreshWizards(final ArbeitsprotokollCustomBean.ChildType childType) {
         final Collection<AbstractArbeitsprotokollWizard> allWizards = new ArrayList<AbstractArbeitsprotokollWizard>();
-        final Collection<AbstractArbeitsprotokollWizard> entityWizards = BelisBroker.getInstance()
-                    .getWizardsActionsForEntity(subEntity);
-        if (entityWizards != null) {
-            allWizards.addAll(entityWizards);
+        if (childType != null) {
+            final Collection<AbstractArbeitsprotokollWizard> entityWizards = BelisBroker.getInstance()
+                        .getWizardsActionsForEntity(childType);
+            if (entityWizards != null) {
+                allWizards.addAll(entityWizards);
+            }
         }
         allWizards.addAll(BelisBroker.getInstance().getWizardsActionsForEntity(null));
         panActions.removeAll();
@@ -481,16 +512,13 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
                                     @Override
                                     public void run() {
-                                        revalidate();
-                                        repaint();
+                                        final Collection<ArbeitsprotokollCustomBean> protokolle = BelisBroker
+                                                    .getInstance().getDetailWidget().getArbeitsauftragPanel()
+                                                    .getSelectedProtokolle();
                                         BelisBroker.getInstance()
                                                 .getDetailWidget()
                                                 .getArbeitsauftragPanel()
-                                                .setSelectedProtokoll(null);
-                                        BelisBroker.getInstance()
-                                                .getDetailWidget()
-                                                .getArbeitsauftragPanel()
-                                                .setSelectedProtokoll(currentEntity);
+                                                .setSelectedProtokolle(protokolle);
                                         wizard.removeListener(listener);
                                     }
                                 });
@@ -501,6 +529,18 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 //            } else {
 //            }
         }
+    }
+
+    @Override
+    public void setCurrentEntity(final ArbeitsprotokollCustomBean currentEntity) {
+        super.setCurrentEntity(currentEntity);
+
+        if (currentEntity != null) {
+            refreshWizards(currentEntity.getChildType());
+        } else {
+            refreshWizards(null);
+        }
+
         validate();
         repaint();
         ((AktionenTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
@@ -524,7 +564,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
         @Override
         public int getRowCount() {
-            if (currentEntity != null) {
+            if ((currentEntity != null) && (((ArbeitsprotokollCustomBean)currentEntity).getN_aktionen() != null)) {
                 return ((ArbeitsprotokollCustomBean)currentEntity).getN_aktionen().size();
             } else {
                 return 0;
