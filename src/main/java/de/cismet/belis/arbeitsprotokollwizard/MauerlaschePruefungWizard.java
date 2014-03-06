@@ -16,11 +16,8 @@ import org.jdesktop.observablecollections.ObservableList;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -30,8 +27,6 @@ import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
-
-import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -133,23 +128,15 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final MauerlascheCustomBean mauerlasche = protokoll.getFk_mauerlasche();
 
-        final MauerlascheCustomBean mauerlasche = getProtokoll().getFk_mauerlasche();
-
-        final Date altPruefdatum = mauerlasche.getPruefdatum();
-        final Date neuPruefdatum = dapPruefung.getDate();
-
-        mauerlasche.setPruefdatum(neuPruefdatum);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-
-        final ArbeitsprotokollaktionCustomBean pruefdatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        pruefdatumAktion.setAenderung("Prüfdatum");
-        pruefdatumAktion.setAlt((altPruefdatum != null) ? dateFormat.format(altPruefdatum) : null);
-        pruefdatumAktion.setNeu((neuPruefdatum != null) ? dateFormat.format(neuPruefdatum) : null);
-        aktionen.add(pruefdatumAktion);
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Prüfdatum",
+                mauerlasche,
+                MauerlascheCustomBean.PROP__PRUEFDATUM,
+                dapPruefung.getDate()));
 
         final Collection<DmsUrlCustomBean> dokumente = documentPanel1.getDokumente();
         for (final DmsUrlCustomBean dokument : dokumente) {
@@ -160,7 +147,5 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
             mauerlasche.getDokumente().add(dokument);
             aktionen.add(dokumenteAktion);
         }
-
-        return aktionen;
     }
 }

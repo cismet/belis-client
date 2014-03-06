@@ -13,11 +13,7 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -110,24 +106,14 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
 
-        final TdtaStandortMastCustomBean standort = getProtokoll().getFk_standort();
-
-        final Date altRevision = standort.getRevision();
-        final Date neuRevision = dapRevision.getDate();
-
-        standort.setRevision(neuRevision);
-
-        final ArbeitsprotokollaktionCustomBean revisionAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        revisionAktion.setAenderung("Revision");
-        revisionAktion.setAlt((altRevision != null) ? dateFormat.format(altRevision) : null);
-        revisionAktion.setNeu((neuRevision != null) ? dateFormat.format(neuRevision) : null);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(revisionAktion);
-
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Revision",
+                standort,
+                TdtaStandortMastCustomBean.PROP__REVISION,
+                dapRevision.getDate()));
     }
 }

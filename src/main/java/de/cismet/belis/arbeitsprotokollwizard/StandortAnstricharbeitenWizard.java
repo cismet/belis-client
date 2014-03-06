@@ -13,11 +13,7 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -134,33 +130,19 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
 
-        final TdtaStandortMastCustomBean standort = getProtokoll().getFk_standort();
-
-        final Date altMastanstrich = standort.getMastanstrich();
-        final String altAnstrichfarbe = standort.getAnstrichfarbe();
-        final Date neuMastanstrich = dapMastanstrich.getDate();
-        final String neuAnstrichfarbe = txtAnstrichfarbe.getText();
-
-        standort.setMastanstrich(neuMastanstrich);
-        standort.setAnstrichfarbe(neuAnstrichfarbe);
-
-        final ArbeitsprotokollaktionCustomBean mastanstrichAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        mastanstrichAktion.setAenderung("Mastanstrich");
-        mastanstrichAktion.setAlt((altMastanstrich != null) ? dateFormat.format(altMastanstrich) : null);
-        mastanstrichAktion.setNeu((neuMastanstrich != null) ? dateFormat.format(neuMastanstrich) : null);
-
-        final ArbeitsprotokollaktionCustomBean anstrichfarbeAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        anstrichfarbeAktion.setAenderung("Anstrichfarbe");
-        anstrichfarbeAktion.setAlt(altAnstrichfarbe);
-        anstrichfarbeAktion.setNeu(neuAnstrichfarbe);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(mastanstrichAktion);
-        aktionen.add(anstrichfarbeAktion);
-
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Mastanstrich",
+                standort,
+                TdtaStandortMastCustomBean.PROP__MASTANSTRICH,
+                dapMastanstrich.getDate()));
+        aktionen.add(createAktion(
+                "Anstrichfarbe",
+                standort,
+                TdtaStandortMastCustomBean.PROP__ANSTRICHFARBE,
+                txtAnstrichfarbe.getText()));
     }
 }

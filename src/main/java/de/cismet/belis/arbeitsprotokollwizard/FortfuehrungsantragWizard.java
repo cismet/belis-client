@@ -13,7 +13,6 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -120,14 +119,13 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) {
         final ArbeitsprotokollaktionCustomBean aktion = ArbeitsprotokollaktionCustomBean.createNew();
         aktion.setAenderung("Sonstiges");
         aktion.setAlt(null);
         aktion.setNeu(jTextArea1.getText());
 
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
         aktionen.add(aktion);
-        return aktionen;
     }
 }

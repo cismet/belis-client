@@ -13,11 +13,7 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -112,24 +108,14 @@ public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final SchaltstelleCustomBean schaltstelle = protokoll.getFk_schaltstelle();
 
-        final SchaltstelleCustomBean schaltstelle = getProtokoll().getFk_schaltstelle();
-
-        final Date altPruefdatum = schaltstelle.getPruefdatum();
-        final Date neuPruefdatum = dapPruefung.getDate();
-
-        schaltstelle.setPruefdatum(neuPruefdatum);
-
-        final ArbeitsprotokollaktionCustomBean pruefdatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        pruefdatumAktion.setAenderung("Prüfdatum");
-        pruefdatumAktion.setAlt((altPruefdatum != null) ? dateFormat.format(altPruefdatum) : null);
-        pruefdatumAktion.setNeu((neuPruefdatum != null) ? dateFormat.format(neuPruefdatum) : null);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(pruefdatumAktion);
-
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Prüfdatum",
+                schaltstelle,
+                SchaltstelleCustomBean.PROP__PRUEFDATUM,
+                dapPruefung.getDate()));
     }
 }

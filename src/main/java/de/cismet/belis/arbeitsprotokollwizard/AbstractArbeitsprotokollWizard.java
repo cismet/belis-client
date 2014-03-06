@@ -11,19 +11,24 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
-import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EventListener;
+import java.util.Date;
 
 import javax.swing.Action;
 import javax.swing.JPanel;
 
+import de.cismet.belis.broker.BelisBroker;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 
+import de.cismet.commons.server.entity.GeoBaseEntity;
+
 import de.cismet.tools.gui.StaticSwingTools;
+
+import static de.cismet.belis.arbeitsprotokollwizard.LeuchteLeuchtenerneuerungWizard.LOG;
 
 /**
  * DOCUMENT ME!
@@ -35,8 +40,7 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
 
     //~ Instance fields --------------------------------------------------------
 
-    private ArbeitsprotokollCustomBean protokoll;
-    private Collection<ActionListener> listeners = new ArrayList<ActionListener>();
+    private Collection<ArbeitsprotokollCustomBean> protokolle;
 
     //~ Methods ----------------------------------------------------------------
 
@@ -57,10 +61,10 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
     /**
      * DOCUMENT ME!
      *
-     * @param  protokoll  DOCUMENT ME!
+     * @param  protokolle  DOCUMENT ME!
      */
-    public void setProtokoll(final ArbeitsprotokollCustomBean protokoll) {
-        this.protokoll = protokoll;
+    public void setProtokolle(final Collection<ArbeitsprotokollCustomBean> protokolle) {
+        this.protokolle = protokolle;
     }
 
     /**
@@ -68,8 +72,8 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public ArbeitsprotokollCustomBean getProtokoll() {
-        return protokoll;
+    public Collection<ArbeitsprotokollCustomBean> getProtokolle() {
+        return protokolle;
     }
 
     /**
@@ -81,10 +85,71 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
 
     /**
      * DOCUMENT ME!
+     */
+    protected void executeAktion() {
+        for (final ArbeitsprotokollCustomBean protokoll : getProtokolle()) {
+            try {
+                executeAktion(protokoll);
+            } catch (final Exception ex) {
+                LOG.error(ex, ex);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   desc      DOCUMENT ME!
+     * @param   entity    DOCUMENT ME!
+     * @param   property  DOCUMENT ME!
+     * @param   newValue  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    protected static ArbeitsprotokollaktionCustomBean createAktion(final String desc,
+            final GeoBaseEntity entity,
+            final String property,
+            final Object newValue) throws Exception {
+        final Object oldValue = entity.getProperty(property);
+        entity.setProperty(property, newValue);
+
+        final ArbeitsprotokollaktionCustomBean aktion = ArbeitsprotokollaktionCustomBean.createNew();
+        aktion.setAenderung(desc);
+        aktion.setAlt(valueToString(oldValue));
+        aktion.setNeu(valueToString(newValue));
+        return aktion;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   value  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    protected abstract Collection<ArbeitsprotokollaktionCustomBean> executeAktionen();
+    private static String valueToString(final Object value) {
+        if (value == null) {
+            return null;
+        } else if (value instanceof Date) {
+            final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            return dateFormat.format(value);
+        } else if (value instanceof Boolean) {
+            return (Boolean)value ? "Ja" : "Nein";
+        } else {
+            return value.toString();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   protokoll  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    protected abstract void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception;
 
     /**
      * DOCUMENT ME!
@@ -92,27 +157,11 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
     protected void showDialog() {
         final ArbeitsprotokollDialog dialog = new ArbeitsprotokollDialog(this, null, true);
         StaticSwingTools.showDialog(dialog);
-        for (final ActionListener listener : listeners) {
-            listener.actionPerformed(null);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  listener  DOCUMENT ME!
-     */
-    public void addListener(final ActionListener listener) {
-        listeners.add(listener);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  listener  DOCUMENT ME!
-     */
-    public void removeListener(final ActionListener listener) {
-        listeners.remove(listener);
+        final Collection<ArbeitsprotokollCustomBean> protokolle = BelisBroker.getInstance()
+                    .getDetailWidget()
+                    .getArbeitsauftragPanel()
+                    .getSelectedProtokolle();
+        BelisBroker.getInstance().getDetailWidget().getArbeitsauftragPanel().setSelectedProtokolle(protokolle);
     }
 
     /**

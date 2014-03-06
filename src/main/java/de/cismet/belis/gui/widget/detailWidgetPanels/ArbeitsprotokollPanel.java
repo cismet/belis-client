@@ -498,33 +498,11 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         }
         allWizards.addAll(BelisBroker.getInstance().getWizardsActionsForEntity(null));
         panActions.removeAll();
-        if (currentEntity != null) {
+        if (mbh.getDummyBean() != null) {
 //            if (currentEntity.getN_aktionen().isEmpty()) {
             for (final AbstractArbeitsprotokollWizard wizard : allWizards) {
                 panActions.add(new JButton(wizard.getAction()));
-                wizard.setProtokoll(currentEntity);
-                final ActionListener listener = new ActionListener() {
-
-                        @Override
-                        public void actionPerformed(final ActionEvent e) {
-                            final ActionListener listener = this;
-                            SwingUtilities.invokeLater(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        final Collection<ArbeitsprotokollCustomBean> protokolle = BelisBroker
-                                                    .getInstance().getDetailWidget().getArbeitsauftragPanel()
-                                                    .getSelectedProtokolle();
-                                        BelisBroker.getInstance()
-                                                .getDetailWidget()
-                                                .getArbeitsauftragPanel()
-                                                .setSelectedProtokolle(protokolle);
-                                        wizard.removeListener(listener);
-                                    }
-                                });
-                        }
-                    };
-                wizard.addListener(listener);
+                wizard.setProtokolle((Collection)mbh.getBeans());
             }
 //            } else {
 //            }

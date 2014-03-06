@@ -15,11 +15,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -41,6 +37,11 @@ import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
  */
 @org.openide.util.lookup.ServiceProvider(service = AbstractArbeitsprotokollWizard.class)
 public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWizard {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
+            LeuchteLeuchtenerneuerungWizard.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbxLeuchtentyp;
@@ -147,34 +148,19 @@ public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWiz
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
 
-        final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
-
-        final Date altInbetriebnahme = leuchte.getInbetriebnahmeLeuchte();
-        final TkeyLeuchtentypCustomBean altLeuchtentyp = leuchte.getLeuchtentyp();
-
-        final Date neuInbetriebnahme = dapInbetriebnahme.getDate();
-        final TkeyLeuchtentypCustomBean neuLeuchtentyp = (TkeyLeuchtentypCustomBean)cbxLeuchtentyp.getSelectedItem();
-
-        leuchte.setInbetriebnahmeLeuchte(neuInbetriebnahme);
-        leuchte.setLeuchtentyp(neuLeuchtentyp);
-
-        final ArbeitsprotokollaktionCustomBean leuchtentypAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        leuchtentypAktion.setAenderung("Leuchtentyp");
-        leuchtentypAktion.setAlt((altLeuchtentyp != null) ? altLeuchtentyp.toString() : null);
-        leuchtentypAktion.setNeu((neuLeuchtentyp != null) ? neuLeuchtentyp.toString() : null);
-
-        final ArbeitsprotokollaktionCustomBean inbetriebnahmeAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        inbetriebnahmeAktion.setAenderung("Inbetriebnahme");
-        inbetriebnahmeAktion.setAlt((altInbetriebnahme != null) ? dateFormat.format(altInbetriebnahme) : null);
-        inbetriebnahmeAktion.setNeu((neuInbetriebnahme != null) ? dateFormat.format(neuInbetriebnahme) : null);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(inbetriebnahmeAktion);
-        aktionen.add(leuchtentypAktion);
-
-        return aktionen;
+        aktionen.add(createAktion(
+                "Inbetriebnahme",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__INBETRIEBNAHME_LEUCHTE,
+                dapInbetriebnahme.getDate()));
+        aktionen.add(createAktion(
+                "Leuchtentyp",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__FK_LEUCHTTYP,
+                cbxLeuchtentyp.getSelectedItem()));
     }
 }

@@ -13,11 +13,7 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -134,34 +130,19 @@ public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokol
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
 
-        final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
-
-        final Date altErneuertAm = leuchte.getWechselvorschaltgeraet();
-        final String altVorschaltgeraet = leuchte.getVorschaltgeraet();
-
-        final Date neuErneuertAm = dapErneuertAm.getDate();
-        final String neuVorschaltgeraet = txtVorschaltgeraet.getText();
-
-        leuchte.setWechselvorschaltgeraet(neuErneuertAm);
-        leuchte.setVorschaltgeraet(neuVorschaltgeraet);
-
-        final ArbeitsprotokollaktionCustomBean erneuertAmAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        erneuertAmAktion.setAenderung("Erneuerung Vorschaltgerät");
-        erneuertAmAktion.setAlt((altErneuertAm != null) ? dateFormat.format(altErneuertAm) : null);
-        erneuertAmAktion.setNeu((neuErneuertAm != null) ? dateFormat.format(neuErneuertAm) : null);
-
-        final ArbeitsprotokollaktionCustomBean vorschaltgeraetAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        vorschaltgeraetAktion.setAenderung("Vorschaltgerät");
-        vorschaltgeraetAktion.setAlt(altVorschaltgeraet);
-        vorschaltgeraetAktion.setNeu(neuVorschaltgeraet);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(erneuertAmAktion);
-        aktionen.add(vorschaltgeraetAktion);
-
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Erneuerung Vorschaltgerät",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__WECHSELVORSCHALTGERAET,
+                dapErneuertAm.getDate()));
+        aktionen.add(createAktion(
+                "Vorschaltgerät",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__VORSCHALTGERAET,
+                txtVorschaltgeraet.getText()));
     }
 }

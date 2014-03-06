@@ -11,14 +11,9 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
-import Sirius.server.middleware.types.MetaObject;
-
 import java.awt.BorderLayout;
 
 import de.cismet.belis.broker.BelisBroker;
-
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -140,10 +135,7 @@ public class ArbeitsprotokollDialog extends javax.swing.JDialog {
      * @param  evt  DOCUMENT ME!
      */
     private void cmdExecuteAktionActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdExecuteAktionActionPerformed
-        final ArbeitsprotokollCustomBean protokoll = wizardPanel.getProtokoll();
-        for (final ArbeitsprotokollaktionCustomBean aktion : wizardPanel.executeAktionen()) {
-            protokoll.getN_aktionen().add(aktion);
-        }
+        wizardPanel.executeAktion();
         dispose();
         BelisBroker.getInstance().getDetailWidget().getArbeitsprotokollPanel().refreshAktionen();
     }                                                                                    //GEN-LAST:event_cmdExecuteAktionActionPerformed

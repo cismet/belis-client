@@ -23,7 +23,8 @@ import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
+
+import de.cismet.commons.server.entity.GeoBaseEntity;
 
 /**
  * DOCUMENT ME!
@@ -48,7 +49,7 @@ public class ReportingPosition {
      * @param  protokoll  DOCUMENT ME!
      */
     public ReportingPosition(final int nummer, final ArbeitsprotokollCustomBean protokoll) {
-        final WorkbenchEntity entity = protokoll.getChildEntity();
+        final GeoBaseEntity entity = protokoll.getChildEntity();
         name = "Position " + String.valueOf(nummer) + ": ";
         if (entity != null) {
             name += entity;

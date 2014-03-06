@@ -13,11 +13,7 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -163,48 +159,27 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
 
-        final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
-
-        final Date altLeuchteWechseldatum = leuchte.getWechseldatum();
-        final LeuchtmittelCustomBean altLeuchtmittel = leuchte.getLeuchtmittel();
-        final Double altLebensdauer = leuchte.getLebensdauer();
-
-        final Date neuLeuchteWechseldatum = dapLeuchteLeuchtmittelwechsel.getDate();
-        final LeuchtmittelCustomBean neuLeuchtmittel = (LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem();
-        Double neuLebensdauer = null;
+        Double lebensdauer = null;
         try {
-            neuLebensdauer = Double.parseDouble(txtLebensdauer.getText());
+            lebensdauer = Double.parseDouble(txtLebensdauer.getText());
         } catch (Exception e) {
-            neuLebensdauer = null;
+            lebensdauer = null;
         }
 
-        leuchte.setWechseldatum(neuLeuchteWechseldatum);
-        leuchte.setLeuchtmittel(neuLeuchtmittel);
-        leuchte.setLebensdauer(neuLebensdauer);
-
-        final ArbeitsprotokollaktionCustomBean leuchtmittelAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        leuchtmittelAktion.setAenderung("Leuchtmittel");
-        leuchtmittelAktion.setAlt((altLeuchtmittel != null) ? altLeuchtmittel.toString() : null);
-        leuchtmittelAktion.setNeu((neuLeuchtmittel != null) ? neuLeuchtmittel.toString() : null);
-
-        final ArbeitsprotokollaktionCustomBean lebensdauerAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        lebensdauerAktion.setAenderung("Lebensdauer");
-        lebensdauerAktion.setAlt((altLebensdauer != null) ? Double.toString(altLebensdauer) : null);
-        lebensdauerAktion.setNeu((neuLebensdauer != null) ? Double.toString(neuLebensdauer) : null);
-
-        final ArbeitsprotokollaktionCustomBean wechseldatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        wechseldatumAktion.setAenderung("Wechseldatum");
-        wechseldatumAktion.setAlt((altLeuchteWechseldatum != null) ? dateFormat.format(altLeuchteWechseldatum) : null);
-        wechseldatumAktion.setNeu((neuLeuchteWechseldatum != null) ? dateFormat.format(neuLeuchteWechseldatum) : null);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(wechseldatumAktion);
-        aktionen.add(leuchtmittelAktion);
-        aktionen.add(lebensdauerAktion);
-
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Wechseldatum",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__WECHSELDATUM,
+                dapLeuchteLeuchtmittelwechsel.getDate()));
+        aktionen.add(createAktion("Lebensdauer", leuchte, TdtaLeuchtenCustomBean.PROP__LEBENSDAUER, lebensdauer));
+        aktionen.add(createAktion(
+                "Leuchtmittel",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__LEUCHTMITTEL,
+                cbxLeuchtmittel.getSelectedItem()));
     }
 }

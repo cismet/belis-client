@@ -13,9 +13,6 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -130,34 +127,19 @@ public class StandortElektrischePruefungWizard extends AbstractArbeitsprotokollW
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
 
-        final TdtaStandortMastCustomBean standort = getProtokoll().getFk_standort();
-
-        final Date altElekPruefung = standort.getElek_pruefung();
-        final Boolean altErdung = standort.getErdung();
-
-        final Date neuElekPruefung = dapStandortElekPruefung.getDate();
-        final boolean neuErdung = chkErdungIO.isSelected();
-
-        standort.setElek_pruefung(neuElekPruefung);
-        standort.setErdung(neuErdung);
-
-        final ArbeitsprotokollaktionCustomBean elekPruefungAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        elekPruefungAktion.setAenderung("Elektrische Prüfung");
-        elekPruefungAktion.setAlt((altElekPruefung != null) ? dateFormat.format(altElekPruefung) : null);
-        elekPruefungAktion.setNeu((neuElekPruefung != null) ? dateFormat.format(neuElekPruefung) : null);
-
-        final ArbeitsprotokollaktionCustomBean erdungAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        erdungAktion.setAenderung("Erdung in Ordnung");
-        erdungAktion.setAlt((altErdung != null) ? (altErdung ? "Ja" : "Nein") : null);
-        erdungAktion.setNeu(neuErdung ? "Ja" : "Nein");
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(elekPruefungAktion);
-        aktionen.add(erdungAktion);
-
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Elektrische Prüfung",
+                standort,
+                TdtaStandortMastCustomBean.PROP__ELEK_PRUEFUNG,
+                dapStandortElekPruefung.getDate()));
+        aktionen.add(createAktion(
+                "Erdung in Ordnung",
+                standort,
+                TdtaStandortMastCustomBean.PROP__ERDUNG,
+                chkErdungIO.isSelected()));
     }
 }

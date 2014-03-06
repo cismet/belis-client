@@ -19,6 +19,7 @@ import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 import de.cismet.belisEE.util.EntityComparator;
 
 import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.entity.GeoBaseEntity;
 
 /**
  * DOCUMENT ME!
@@ -185,7 +186,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      *
      * @return  DOCUMENT ME!
      */
-    public WorkbenchEntity getChildEntity() {
+    public GeoBaseEntity getChildEntity() {
         if (getFk_leuchte() != null) {
             return getFk_leuchte();
         } else if (getFk_geometrie() != null) {

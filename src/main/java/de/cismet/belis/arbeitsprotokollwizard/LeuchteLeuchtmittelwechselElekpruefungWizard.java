@@ -13,9 +13,6 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -203,67 +200,38 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
-        final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
         final TdtaStandortMastCustomBean standort = leuchte.getFk_standort();
 
-        final Date altElekPruefung = standort.getElek_pruefung();
-        final Boolean altErdung = standort.getErdung();
-        final LeuchtmittelCustomBean altLeuchtmittel = leuchte.getLeuchtmittel();
-        final Double altLebensdauer = leuchte.getLebensdauer();
-        final Date altLeuchteWechseldatum = leuchte.getWechseldatum();
-
-        final Date neuElekPruefung = dapStandortElekPruefung.getDate();
-        final Date neuLeuchteWechseldatum = dapLeuchteLeuchtmittelwechsel.getDate();
-        final boolean neuErdung = chkErdungIO.isSelected();
-        final LeuchtmittelCustomBean neuLeuchtmittel = (LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem();
-        Double neuLebensdauer = null;
+        Double lebensdauer = null;
         try {
-            neuLebensdauer = Double.parseDouble(txtLebensdauer.getText());
+            lebensdauer = Double.parseDouble(txtLebensdauer.getText());
         } catch (Exception e) {
-            neuLebensdauer = null;
+            lebensdauer = null;
         }
 
-        standort.setElek_pruefung(neuElekPruefung);
-        standort.setErdung(neuErdung);
-        leuchte.setLeuchtmittel(neuLeuchtmittel);
-        leuchte.setLebensdauer(neuLebensdauer);
-        leuchte.setWechseldatum(neuLeuchteWechseldatum);
-
-        final ArbeitsprotokollaktionCustomBean elekPruefungAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        elekPruefungAktion.setAenderung("Elektrische Prüfung");
-        elekPruefungAktion.setAlt((altElekPruefung != null) ? dateFormat.format(altElekPruefung) : null);
-        elekPruefungAktion.setNeu((neuElekPruefung != null) ? dateFormat.format(neuElekPruefung) : null);
-
-        final ArbeitsprotokollaktionCustomBean erdungAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        erdungAktion.setAenderung("Erdung in Ordnung");
-        erdungAktion.setAlt((altErdung != null) ? (altErdung ? "Ja" : "Nein") : null);
-        erdungAktion.setNeu(neuErdung ? "Ja" : "Nein");
-
-        final ArbeitsprotokollaktionCustomBean wechseldatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        wechseldatumAktion.setAenderung("Wechseldatum");
-        wechseldatumAktion.setAlt((altLeuchteWechseldatum != null) ? dateFormat.format(altLeuchteWechseldatum) : null);
-        wechseldatumAktion.setNeu((neuLeuchteWechseldatum != null) ? dateFormat.format(neuLeuchteWechseldatum) : null);
-
-        final ArbeitsprotokollaktionCustomBean leuchtmittelAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        leuchtmittelAktion.setAenderung("Leuchtmittel");
-        leuchtmittelAktion.setAlt((altLeuchtmittel != null) ? altLeuchtmittel.toString() : null);
-        leuchtmittelAktion.setNeu((neuLeuchtmittel != null) ? neuLeuchtmittel.toString() : null);
-
-        final ArbeitsprotokollaktionCustomBean lebensdauerAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        lebensdauerAktion.setAenderung("Lebensdauer");
-        lebensdauerAktion.setAlt((altLebensdauer != null) ? Double.toString(altLebensdauer) : null);
-        lebensdauerAktion.setNeu((neuLebensdauer != null) ? Double.toString(neuLebensdauer) : null);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(elekPruefungAktion);
-        aktionen.add(erdungAktion);
-        aktionen.add(wechseldatumAktion);
-        aktionen.add(leuchtmittelAktion);
-        aktionen.add(lebensdauerAktion);
-
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Elektrische Prüfung",
+                standort,
+                TdtaStandortMastCustomBean.PROP__ELEK_PRUEFUNG,
+                dapStandortElekPruefung.getDate()));
+        aktionen.add(createAktion(
+                "Erdung in Ordnung",
+                standort,
+                TdtaStandortMastCustomBean.PROP__ERDUNG,
+                chkErdungIO.isSelected()));
+        aktionen.add(createAktion(
+                "Wechseldatum",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__WECHSELDATUM,
+                dapLeuchteLeuchtmittelwechsel.getDate()));
+        aktionen.add(createAktion(
+                "Leuchtmittel",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__LEUCHTMITTEL,
+                cbxLeuchtmittel.getSelectedItem()));
+        aktionen.add(createAktion("Lebensdauer", leuchte, TdtaLeuchtenCustomBean.PROP__LEBENSDAUER, lebensdauer));
     }
 }

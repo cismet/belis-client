@@ -13,11 +13,7 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -25,6 +21,8 @@ import javax.swing.Action;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+
+import static de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard.createAktion;
 
 /**
  * DOCUMENT ME!
@@ -157,47 +155,24 @@ public class StandortStandsicherheitsPruefungWizard extends AbstractArbeitsproto
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
 
-        final TdtaStandortMastCustomBean standort = getProtokoll().getFk_standort();
-
-        final Date altStandsicherheitspruefung = standort.getStandsicherheitspruefung();
-        final String altVerfahren = standort.getVerfahren();
-        final Date altNaechstesPruefdatum = standort.getNaechstes_pruefdatum();
-        final Date neuStandsicherheitspruefung = dapStandsicherheitspruefung.getDate();
-        final String neuVerfahren = txtVerfahren.getText();
-        final Date neuNaechstesPruefdatum = dapNaechstesPruefdatum.getDate();
-
-        standort.setStandsicherheitspruefung(neuStandsicherheitspruefung);
-        standort.setVerfahren(neuVerfahren);
-        standort.setNaechstes_pruefdatum(neuNaechstesPruefdatum);
-
-        final ArbeitsprotokollaktionCustomBean standsicherheitspruefungAktion = ArbeitsprotokollaktionCustomBean
-                    .createNew();
-        standsicherheitspruefungAktion.setAenderung("Standsicherheitsprüfung");
-        standsicherheitspruefungAktion.setAlt((altStandsicherheitspruefung != null)
-                ? dateFormat.format(altStandsicherheitspruefung) : null);
-        standsicherheitspruefungAktion.setNeu((neuStandsicherheitspruefung != null)
-                ? dateFormat.format(neuStandsicherheitspruefung) : null);
-
-        final ArbeitsprotokollaktionCustomBean verfahrenAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        verfahrenAktion.setAenderung("Verfahren");
-        verfahrenAktion.setAlt(altVerfahren);
-        verfahrenAktion.setNeu(neuVerfahren);
-
-        final ArbeitsprotokollaktionCustomBean naechstesPruefdatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        naechstesPruefdatumAktion.setAenderung("Nächstes Prüfdatum");
-        naechstesPruefdatumAktion.setAlt((altNaechstesPruefdatum != null) ? dateFormat.format(altNaechstesPruefdatum)
-                                                                          : null);
-        naechstesPruefdatumAktion.setNeu((neuNaechstesPruefdatum != null) ? dateFormat.format(neuNaechstesPruefdatum)
-                                                                          : null);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(standsicherheitspruefungAktion);
-        aktionen.add(verfahrenAktion);
-        aktionen.add(naechstesPruefdatumAktion);
-
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Standsicherheitsprüfung",
+                standort,
+                TdtaStandortMastCustomBean.PROP__STANDSICHERHEITSPRUEFUNG,
+                dapStandsicherheitspruefung.getDate()));
+        aktionen.add(createAktion(
+                "Verfahren",
+                standort,
+                TdtaStandortMastCustomBean.PROP__VERFAHREN,
+                txtVerfahren.getText()));
+        aktionen.add(createAktion(
+                "Nächstes Prüfdatum",
+                standort,
+                TdtaStandortMastCustomBean.PROP__NAECHSTES_PRUEFDATUM,
+                dapNaechstesPruefdatum.getDate()));
     }
 }

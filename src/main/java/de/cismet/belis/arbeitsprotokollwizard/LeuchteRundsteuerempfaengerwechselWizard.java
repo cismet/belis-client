@@ -15,11 +15,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -144,38 +140,19 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
 
-        final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
-
-        final RundsteuerempfaengerCustomBean altRundsteuerempfaenger = leuchte.getRundsteuerempfaenger();
-        final Date altEinbaudatum = leuchte.getEinbaudatum();
-
-        final Date neuEinbaudatum = dapEinbaudatum.getDate();
-        final RundsteuerempfaengerCustomBean neuRundsteuerempfaenger = (RundsteuerempfaengerCustomBean)
-            cbxRundsteuerempfaenger.getSelectedItem();
-
-        leuchte.setRundsteuerempfaenger(neuRundsteuerempfaenger);
-        leuchte.setWechseldatum(neuEinbaudatum);
-
-        final ArbeitsprotokollaktionCustomBean einbaudatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        einbaudatumAktion.setAenderung("Einbaudatum");
-        einbaudatumAktion.setAlt((altEinbaudatum != null) ? dateFormat.format(altEinbaudatum) : null);
-        einbaudatumAktion.setNeu((neuEinbaudatum != null) ? dateFormat.format(neuEinbaudatum) : null);
-
-        final ArbeitsprotokollaktionCustomBean rundsteuerempfaengerAktion = ArbeitsprotokollaktionCustomBean
-                    .createNew();
-        rundsteuerempfaengerAktion.setAenderung("Rundsteuerempfänger");
-        rundsteuerempfaengerAktion.setAlt((altRundsteuerempfaenger != null) ? altRundsteuerempfaenger.toString()
-                                                                            : null);
-        rundsteuerempfaengerAktion.setNeu((neuRundsteuerempfaenger != null) ? neuRundsteuerempfaenger.toString()
-                                                                            : null);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(einbaudatumAktion);
-        aktionen.add(rundsteuerempfaengerAktion);
-
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Einbaudatum",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__EINBAUDATUM,
+                dapEinbaudatum.getDate()));
+        aktionen.add(createAktion(
+                "Rundsteuerempfänger",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__RUNDSTEUEREMPFAENGER,
+                cbxRundsteuerempfaenger.getSelectedItem()));
     }
 }

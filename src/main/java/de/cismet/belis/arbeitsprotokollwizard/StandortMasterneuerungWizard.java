@@ -13,11 +13,7 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -134,66 +130,30 @@ public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
 
-        final TdtaStandortMastCustomBean standort = getProtokoll().getFk_standort();
-
-        final Date altInbetriebnahme = standort.getInbetriebnahmeMast();
-        final String altMontagefirma = standort.getMontagefirma();
-        final Date altStandsicherheitspruefung = standort.getStandsicherheitspruefung();
-        final String altVerfahren = standort.getVerfahren();
-        final Date altNaechstesPruefdatum = standort.getNaechstes_pruefdatum();
-
-        final Date neuInbetriebnahme = dapInbetriebnahme.getDate();
-        final String neuMontagefirma = txtMontagefirma.getText();
-        final Date neuStandsicherheitspruefung = null;
-        final String neuVerfahren = null;
-        final Date neuNaechstesPruefdatum = null;
-
-        standort.setInbetriebnahmeMast(neuInbetriebnahme);
-        standort.setMontagefirma(neuMontagefirma);
-        standort.setStandsicherheitspruefung(neuStandsicherheitspruefung);
-        standort.setVerfahren(neuVerfahren);
-        standort.setNaechstes_pruefdatum(neuNaechstesPruefdatum);
-
-        final ArbeitsprotokollaktionCustomBean inbetriebnahmeAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        inbetriebnahmeAktion.setAenderung("Inbetriebnahme");
-        inbetriebnahmeAktion.setAlt((altInbetriebnahme != null) ? dateFormat.format(altInbetriebnahme) : null);
-        inbetriebnahmeAktion.setNeu((neuInbetriebnahme != null) ? dateFormat.format(neuInbetriebnahme) : null);
-
-        final ArbeitsprotokollaktionCustomBean montagefirmaAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        montagefirmaAktion.setAenderung("Montagefirma");
-        montagefirmaAktion.setAlt(altMontagefirma);
-        montagefirmaAktion.setNeu(neuMontagefirma);
-
-        final ArbeitsprotokollaktionCustomBean standsicherheitspruefungAktion = ArbeitsprotokollaktionCustomBean
-                    .createNew();
-        standsicherheitspruefungAktion.setAenderung("Standsicherheitsprüfung");
-        standsicherheitspruefungAktion.setAlt((altStandsicherheitspruefung != null)
-                ? dateFormat.format(altStandsicherheitspruefung) : null);
-        standsicherheitspruefungAktion.setNeu((neuStandsicherheitspruefung != null)
-                ? dateFormat.format(neuStandsicherheitspruefung) : null);
-
-        final ArbeitsprotokollaktionCustomBean verfahrenAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        verfahrenAktion.setAenderung("Verfahren");
-        verfahrenAktion.setAlt(altVerfahren);
-        verfahrenAktion.setNeu(neuVerfahren);
-
-        final ArbeitsprotokollaktionCustomBean naechstesPruefdatumAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        naechstesPruefdatumAktion.setAenderung("Nächstes Prüfdatum");
-        naechstesPruefdatumAktion.setAlt((altNaechstesPruefdatum != null) ? dateFormat.format(altNaechstesPruefdatum)
-                                                                          : null);
-        naechstesPruefdatumAktion.setNeu((neuNaechstesPruefdatum != null) ? dateFormat.format(neuNaechstesPruefdatum)
-                                                                          : null);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(inbetriebnahmeAktion);
-        aktionen.add(montagefirmaAktion);
-        aktionen.add(standsicherheitspruefungAktion);
-        aktionen.add(verfahrenAktion);
-        aktionen.add(naechstesPruefdatumAktion);
-
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Inbetriebnahme",
+                standort,
+                TdtaStandortMastCustomBean.PROP__INBETRIEBNAHME_MAST,
+                dapInbetriebnahme.getDate()));
+        aktionen.add(createAktion(
+                "Montagefirma",
+                standort,
+                TdtaStandortMastCustomBean.PROP__MONTAGEFIRMA,
+                txtMontagefirma.getText()));
+        aktionen.add(createAktion(
+                "Standsicherheitsprüfung",
+                standort,
+                TdtaStandortMastCustomBean.PROP__STANDSICHERHEITSPRUEFUNG,
+                null));
+        aktionen.add(createAktion("Verfahren", standort, TdtaStandortMastCustomBean.PROP__VERFAHREN, null));
+        aktionen.add(createAktion(
+                "Nächstes Prüfdatum",
+                standort,
+                TdtaStandortMastCustomBean.PROP__NAECHSTES_PRUEFDATUM,
+                null));
     }
 }

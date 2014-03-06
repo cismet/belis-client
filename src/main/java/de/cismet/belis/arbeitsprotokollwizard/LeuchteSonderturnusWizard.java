@@ -13,11 +13,7 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -25,7 +21,6 @@ import javax.swing.Action;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -113,23 +108,14 @@ public class LeuchteSonderturnusWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected Collection<ArbeitsprotokollaktionCustomBean> executeAktionen() {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
 
-        final TdtaLeuchtenCustomBean leuchte = getProtokoll().getFk_leuchte();
-
-        final Date altSonderturnus = leuchte.getWartungszyklus();
-        final Date neuSonderturnus = dapSonderturnus.getDate();
-
-        leuchte.setWartungszyklus(neuSonderturnus);
-
-        final ArbeitsprotokollaktionCustomBean sonderturnusAktion = ArbeitsprotokollaktionCustomBean.createNew();
-        sonderturnusAktion.setAenderung("Sonderturnus");
-        sonderturnusAktion.setAlt((altSonderturnus != null) ? dateFormat.format(altSonderturnus) : null);
-        sonderturnusAktion.setNeu((neuSonderturnus != null) ? dateFormat.format(neuSonderturnus) : null);
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = new ArrayList<ArbeitsprotokollaktionCustomBean>();
-        aktionen.add(sonderturnusAktion);
-        return aktionen;
+        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
+        aktionen.add(createAktion(
+                "Sonderturnus",
+                leuchte,
+                TdtaLeuchtenCustomBean.PROP__WARTUNGSZYKLUS,
+                dapSonderturnus.getDate()));
     }
 }
