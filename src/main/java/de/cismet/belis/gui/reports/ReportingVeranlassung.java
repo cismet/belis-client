@@ -57,7 +57,7 @@ public class ReportingVeranlassung {
             bezeichnung = "manuell angelegte Positionen";
         } else {
             try {
-                nummer = "Aus Veranlassung V" + veranlassungsKey + ": ";
+                nummer = "Aus Veranlassung " + veranlassungsKey + ": ";
                 final VeranlassungSearchStatement veranlassungSearchStatement = new VeranlassungSearchStatement();
                 veranlassungSearchStatement.setNummer(veranlassungsKey);
                 veranlassungSearchStatement.setActiveObjectsOnly(false);

@@ -164,7 +164,7 @@ public class VeranlassungWindowSearch extends BelisWindowSearch {
         panActiveOnly.setLayout(new java.awt.GridBagLayout());
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(
-                new String[] { "egal", "nur offene", "nur abgearbeitete" }));
+                new String[] { "alle", "nur offene", "nur abgearbeitete" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;

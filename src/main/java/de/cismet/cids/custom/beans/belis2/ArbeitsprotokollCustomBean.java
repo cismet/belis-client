@@ -11,10 +11,16 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import java.beans.PropertyChangeEvent;
+
 import java.util.Collection;
 import java.util.Date;
 
+import de.cismet.belis.broker.CidsBroker;
+
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
+
+import de.cismet.belis2.server.search.VeranlassungsschluesselSearch;
 
 import de.cismet.belisEE.util.EntityComparator;
 
@@ -49,6 +55,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
     public static final String PROP__FK_SCHALTSTELLE = "fk_schaltstelle";
     public static final String PROP__FK_GEOMETRIE = "fk_geometrie";
     public static final String PROP__VERANLASSUNGSNUMMER = "veranlassungsnummer";
+    public static final String PROP__VERANLASSUNGSSCHLUESSEL = "veranlassungsschluessel";
     public static final String PROP__N_AKTIONEN = "n_aktionen";
 
     private static final String[] PROPERTY_NAMES = new String[] {
@@ -67,6 +74,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
             PROP__FK_SCHALTSTELLE,
             PROP__FK_GEOMETRIE,
             PROP__VERANLASSUNGSNUMMER,
+            PROP__VERANLASSUNGSSCHLUESSEL,
             PROP__N_AKTIONEN
         };
 
@@ -100,6 +108,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
     private SchaltstelleCustomBean fk_schaltstelle;
     private GeometrieCustomBean fk_geometrie;
     private String veranlassungsnummer;
+    private String veranlassungsschluessel;
 
     private Collection<ArbeitsprotokollaktionCustomBean> n_aktionen;
 
@@ -109,6 +118,8 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      * Creates a new ArbeitsprotokollCustomBean object.
      */
     public ArbeitsprotokollCustomBean() {
+        addPropertyChangeListener(this);
+        refreshVeranlassungsschlussel(getVeranlassungsnummer());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -422,6 +433,26 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      *
      * @return  DOCUMENT ME!
      */
+    public String getVeranlassungsschluessel() {
+        return veranlassungsschluessel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  veranlassungsschluessel  veranlassungsschluessel DOCUMENT ME!
+     */
+    public void setVeranlassungsschluessel(final String veranlassungsschluessel) {
+        final String old = this.veranlassungsschluessel;
+        this.veranlassungsschluessel = veranlassungsschluessel;
+        this.propertyChangeSupport.firePropertyChange(PROP__VERANLASSUNGSSCHLUESSEL, old, this.veranlassungsschluessel);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public GeometrieCustomBean getFk_geometrie() {
         return fk_geometrie;
     }
@@ -490,8 +521,8 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
     @Override
     public String getKeyString() {
         final String subfix;
-        if (getVeranlassungsnummer() != null) {
-            subfix = " (V" + getVeranlassungsnummer() + ")";
+        if (getVeranlassungsschluessel() != null) {
+            subfix = " (" + getVeranlassungsschluessel() + ")";
         } else {
             subfix = "";
         }
@@ -560,6 +591,39 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
             return 1;
         } else {
             return EntityComparator.compareTypes(this, o);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  veranlassungsnummer  DOCUMENT ME!
+     */
+    private void refreshVeranlassungsschlussel(final String veranlassungsnummer) {
+        String schluessel = null;
+        try {
+            final Collection col = CidsBroker.getInstance()
+                        .executeServerSearch(new VeranlassungsschluesselSearch(veranlassungsnummer));
+            if ((col != null) && !col.isEmpty()) {
+                final Object item = col.iterator().next();
+                if ((item != null) && (item instanceof String)) {
+                    schluessel = (String)item;
+                }
+            }
+        } catch (final Exception ex) {
+            LOG.error(ex, ex);
+        }
+        setVeranlassungsschluessel(schluessel);
+    }
+
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (!evt.getPropertyName().equals(PROP__VERANLASSUNGSSCHLUESSEL) && (metaObject != null)) {
+            super.propertyChange(evt);
+        }
+        if (evt.getSource().equals(this) && evt.getPropertyName().equals(PROP__VERANLASSUNGSNUMMER)
+                    && ((evt.getNewValue() == null) || (evt.getNewValue() instanceof String))) {
+            refreshVeranlassungsschlussel((String)evt.getNewValue());
         }
     }
 }

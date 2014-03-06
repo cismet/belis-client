@@ -525,11 +525,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
             switch (columnIndex) {
                 case 0: {
-                    if (protokoll.getVeranlassungsnummer() == null) {
-                        return null;
-                    } else {
-                        return "V" + protokoll.getVeranlassungsnummer();
-                    }
+                    return protokoll.getVeranlassungsschluessel();
                 }
                 case 1: {
                     if (entityName != null) {
