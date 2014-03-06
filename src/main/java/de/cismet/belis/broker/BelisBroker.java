@@ -2583,20 +2583,18 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         }
 
                         boolean isEditable = false;
-                        if (!currentEntities.isEmpty()) {
-                            final boolean isFromNewNode = (allSameMainNode != null)
-                                        && allSameMainNode.equals(((WorkbenchWidget)evt.getSource())
-                                            .getNewObjectsNode());
-                            final boolean isFromEditNode = (allSameMainNode != null)
-                                        && allSameMainNode.equals(((WorkbenchWidget)evt.getSource())
-                                            .getEditObjectsNode());
-                            if (isFromNewNode || isFromEditNode) {
-                                if (!((parentEntity instanceof VeranlassungCustomBean)
-                                                || (parentEntity instanceof ArbeitsprotokollCustomBean))) {
-                                    isEditable = true;
-                                }
+//                        if (!currentEntities.isEmpty()) {
+                        final boolean isFromNewNode = (allSameMainNode != null)
+                                    && allSameMainNode.equals(((WorkbenchWidget)evt.getSource()).getNewObjectsNode());
+                        final boolean isFromEditNode = (allSameMainNode != null)
+                                    && allSameMainNode.equals(((WorkbenchWidget)evt.getSource()).getEditObjectsNode());
+                        if (isFromNewNode || isFromEditNode) {
+                            if (!((parentEntity instanceof VeranlassungCustomBean)
+                                            || (parentEntity instanceof ArbeitsprotokollCustomBean))) {
+                                isEditable = true;
                             }
                         }
+//                        }
 
                         detailWidget.setCurrentEntities(currentEntities, parentEntity, isEditable);
                         final WorkbenchEntity selectedSingleEntity;
@@ -2647,6 +2645,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Count of already locked objects: " + alreadyLocked.size());
                 }
+                fireLockFinished();
                 showObjectsLockedDialog(alreadyLocked);
                 isPendingForCreateMode.set(false);
                 throw new LockingNotSuccessfulException(
