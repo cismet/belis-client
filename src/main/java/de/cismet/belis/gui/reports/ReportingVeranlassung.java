@@ -26,6 +26,8 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis2.server.search.VeranlassungSearchStatement;
 
+import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
+
 /**
  * DOCUMENT ME!
  *
@@ -57,7 +59,6 @@ public class ReportingVeranlassung {
             bezeichnung = "manuell angelegte Positionen";
         } else {
             try {
-                nummer = "Aus Veranlassung " + veranlassungsKey + ": ";
                 final VeranlassungSearchStatement veranlassungSearchStatement = new VeranlassungSearchStatement();
                 veranlassungSearchStatement.setNummer(veranlassungsKey);
                 veranlassungSearchStatement.setActiveObjectsOnly(false);
@@ -69,9 +70,11 @@ public class ReportingVeranlassung {
                                 .getMetaObject(mon.getObjectId(),
                                     mon.getClassId(),
                                     mon.getDomain());
-                    bezeichnung = String.valueOf(metaObject.getBean().getProperty("bezeichnung"));
-                    beschreibung = String.valueOf(metaObject.getBean().getProperty("beschreibung"));
-                    bemerkung = String.valueOf(metaObject.getBean().getProperty("bemerkungen"));
+                    final VeranlassungCustomBean veranlassung = (VeranlassungCustomBean)metaObject.getBean();
+                    nummer = "Aus Veranlassung " + veranlassung.getKeyString() + ": ";
+                    bezeichnung = veranlassung.getBezeichnung();
+                    beschreibung = veranlassung.getBeschreibung();
+                    bemerkung = veranlassung.getBemerkungen();
                 }
             } catch (Exception ex) {
                 Exceptions.printStackTrace(ex);

@@ -121,11 +121,11 @@ public class ReportingArbeitsauftrag {
         int zaehler = 0;
         for (final ArbeitsprotokollCustomBean position : positionen) {
             zaehler++;
-            String veranlassungsschluessel = position.getVeranlassungsschluessel();
-            if (veranlassungsschluessel == null) {
-                veranlassungsschluessel = OHNE_VERANLASSUNG;
+            String veranlassungsnummer = position.getVeranlassungsnummer();
+            if (veranlassungsnummer == null) {
+                veranlassungsnummer = OHNE_VERANLASSUNG;
             }
-            positionenNachVeranlassung.put(veranlassungsschluessel, new ReportingPosition(zaehler, position));
+            positionenNachVeranlassung.put(veranlassungsnummer, new ReportingPosition(zaehler, position));
         }
         final Iterator veranlassungenIt = positionenNachVeranlassung.keySet().iterator();
         while (veranlassungenIt.hasNext()) {
