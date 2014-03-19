@@ -1370,48 +1370,21 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     final CustomMutableTreeTableNode veranlassungNode = new CustomMutableTreeTableNode(
                             veranlassungCustomBean,
                             true);
+
                     treeTableModel.insertNodeIntoAsLastChild(veranlassungNode, refreshNode);
 
-                    for (final TdtaStandortMastCustomBean standort : veranlassungCustomBean.getAr_standorte()) {
+                    final Set<BaseEntity> subEntities = new TreeSet(new EntityComparator());
+
+                    subEntities.addAll(veranlassungCustomBean.getAr_standorte());
+                    subEntities.addAll(veranlassungCustomBean.getAr_leuchten());
+                    subEntities.addAll(veranlassungCustomBean.getAr_schaltstellen());
+                    subEntities.addAll(veranlassungCustomBean.getAr_mauerlaschen());
+                    subEntities.addAll(veranlassungCustomBean.getAr_leitungen());
+                    subEntities.addAll(veranlassungCustomBean.getAr_abzweigdosen());
+                    subEntities.addAll(veranlassungCustomBean.getAr_geometrien());
+                    for (final BaseEntity subEntity : subEntities) {
                         treeTableModel.insertNodeIntoAsLastChild(new CustomMutableTreeTableNode(
-                                standort,
-                                false),
-                            veranlassungNode);
-                    }
-                    for (final TdtaLeuchtenCustomBean leuchte : veranlassungCustomBean.getAr_leuchten()) {
-                        treeTableModel.insertNodeIntoAsLastChild(new CustomMutableTreeTableNode(
-                                leuchte,
-                                false),
-                            veranlassungNode);
-                    }
-                    for (final SchaltstelleCustomBean schaltstelle
-                                : veranlassungCustomBean.getAr_schaltstellen()) {
-                        treeTableModel.insertNodeIntoAsLastChild(new CustomMutableTreeTableNode(
-                                schaltstelle,
-                                false),
-                            veranlassungNode);
-                    }
-                    for (final MauerlascheCustomBean mauerlasche : veranlassungCustomBean.getAr_mauerlaschen()) {
-                        treeTableModel.insertNodeIntoAsLastChild(new CustomMutableTreeTableNode(
-                                mauerlasche,
-                                false),
-                            veranlassungNode);
-                    }
-                    for (final LeitungCustomBean leitung : veranlassungCustomBean.getAr_leitungen()) {
-                        treeTableModel.insertNodeIntoAsLastChild(new CustomMutableTreeTableNode(
-                                leitung,
-                                false),
-                            veranlassungNode);
-                    }
-                    for (final AbzweigdoseCustomBean abzweigdose : veranlassungCustomBean.getAr_abzweigdosen()) {
-                        treeTableModel.insertNodeIntoAsLastChild(new CustomMutableTreeTableNode(
-                                abzweigdose,
-                                false),
-                            veranlassungNode);
-                    }
-                    for (final GeometrieCustomBean geometrie : veranlassungCustomBean.getAr_geometrien()) {
-                        treeTableModel.insertNodeIntoAsLastChild(new CustomMutableTreeTableNode(
-                                geometrie,
+                                subEntity,
                                 false),
                             veranlassungNode);
                     }
