@@ -26,6 +26,10 @@ import java.io.IOException;
 
 import java.net.URL;
 
+import java.sql.Date;
+
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -111,11 +115,12 @@ public class ReportingArbeitsauftrag {
      * @param  aaBean  DOCUMENT ME!
      */
     public void init(final ArbeitsauftragCustomBean aaBean) {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         orig = aaBean;
         nummer = "Arbeitsauftrag: A" + aaBean.getNummer();
-        angelegt = "angelegt von: " + aaBean.getAngelegt_von() + " (" + String.valueOf(aaBean.getAngelegt_am()) + ")";
+        angelegt = aaBean.getAngelegt_von() + " (" + dateFormat.format(aaBean.getAngelegt_am()) + ")";
         final String an = aaBean.getZugewiesen_an();
-        zugewiesen_an = "zugewiesen an: " + ((an != null) ? an : "_____________");
+        zugewiesen_an = ((an != null) ? an : "_____________");
 
         final Collection<ArbeitsprotokollCustomBean> positionen = aaBean.getAr_protokolle();
         int zaehler = 0;
