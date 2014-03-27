@@ -13,8 +13,9 @@ package de.cismet.cids.custom.beans.belis2;
 
 import java.beans.PropertyChangeEvent;
 
+import java.sql.Date;
+
 import java.util.Collection;
-import java.util.Date;
 
 import de.cismet.belis.broker.CidsBroker;
 
@@ -375,6 +376,19 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      */
     public Date getDatum() {
         return datum;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  datum  DOCUMENT ME!
+     */
+    public void setDatum(final java.util.Date datum) {
+        if (datum == null) {
+            setDatum((Date)null);
+        } else {
+            setDatum(new Date(datum.getTime()));
+        }
     }
 
     /**

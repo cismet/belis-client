@@ -8,13 +8,9 @@
 
 import Sirius.navigator.connection.*;
 import Sirius.navigator.connection.proxy.ConnectionProxy;
-import Sirius.navigator.event.CatalogueActivationListener;
-import Sirius.navigator.event.CatalogueSelectionListener;
 import Sirius.navigator.exception.ConnectionException;
-import Sirius.navigator.resource.PropertyManager;
 import Sirius.navigator.search.dynamic.SearchDialog;
 import Sirius.navigator.types.treenode.RootTreeNode;
-import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.navigator.ui.DescriptionPane;
 import Sirius.navigator.ui.DescriptionPaneFS;
 import Sirius.navigator.ui.LayoutedContainer;
@@ -23,8 +19,9 @@ import Sirius.navigator.ui.MutablePopupMenu;
 import Sirius.navigator.ui.MutableToolBar;
 import Sirius.navigator.ui.attributes.AttributeViewer;
 import Sirius.navigator.ui.attributes.editor.AttributeEditor;
-import Sirius.navigator.ui.tree.MetaCatalogueTree;
 import Sirius.navigator.ui.tree.SearchResultsTree;
+
+import Sirius.server.middleware.types.Node;
 
 import org.jdesktop.swingx.auth.LoginService;
 
@@ -82,10 +79,10 @@ public class BrokerTester {
     public static final String CONNECTION_PROXY_CLASS =
         "Sirius.navigator.connection.proxy.DefaultConnectionProxyHandler";
 
-//    public static final String CALLSERVER_URL = "http://localhost:9917/callserver/binary";
-    public static final String CALLSERVER_URL = "https://geoportal.wuppertal.de:8084/callserver/binary";
+    public static final String CALLSERVER_URL = "http://localhost:9917/callserver/binary";
+//    public static final String CALLSERVER_URL = "https://geoportal.wuppertal.de:8084/callserver/binary";
     public static final String CALLSERVER_DOMAIN = CidsBroker.BELIS_DOMAIN;
-    public static final String CALLSERVER_USER = "JoettenK";
+    public static final String CALLSERVER_USER = "";
 //    public static final String CALLSERVER_PASSWORD = "";
     public static final String CALLSERVER_PASSWORD = "";
     public static final String CALLSERVER_GROUP = "Bearbeiter";
@@ -137,36 +134,12 @@ public class BrokerTester {
         }
 
         final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
-        final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots());
-        final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
-                rootTreeNode,
-                PropertyManager.getManager().isEditable(),
-                true,
-                PropertyManager.getManager().getMaxConnections());
-        final CatalogueSelectionListener catalogueSelectionListener = new CatalogueSelectionListener(
-                attributeViewer,
-                descriptionPane);
-        final CatalogueActivationListener catalogueActivationListener = new CatalogueActivationListener(
-                metaCatalogueTree,
-                attributeViewer,
-                descriptionPane);
-
-        metaCatalogueTree.addMouseListener(cataloguePopupMenuListener);
-        metaCatalogueTree.addTreeSelectionListener(catalogueSelectionListener);
-        metaCatalogueTree.addComponentListener(catalogueActivationListener);
-
-        ComponentRegistry.registerComponents(
-            null,
-            container,
-            menuBar,
-            toolBar,
-            popupMenu,
-            metaCatalogueTree,
-            searchResultsTree,
-            attributeViewer,
-            attributeEditor,
-            searchDialog,
-            descriptionPane);
+        final Node[] roots = SessionManager.getProxy().getRoots("BELIS2");
+        while (true) {
+            final RootTreeNode rootTreeNode = new RootTreeNode(roots);
+            LOG.fatal("test: " + rootTreeNode.getChildCount() + " / " + roots.length, new Exception());
+            Thread.sleep(1000);
+        }
     }
 
     /**

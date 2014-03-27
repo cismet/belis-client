@@ -11,8 +11,6 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
-import java.sql.Date;
-
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**

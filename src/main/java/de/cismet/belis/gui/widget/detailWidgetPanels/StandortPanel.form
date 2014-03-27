@@ -56,7 +56,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.stadtbezirk}" target="cbxStandortStadtbezirk" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.stadtbezirk}" target="cbxStandortStadtbezirk" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+            </BindingProperty>
           </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(TkeyBezirkCustomBean.TABLE)"/>
@@ -123,7 +126,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.mastart}" target="cbxStandortMastart" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.mastart}" target="cbxStandortMastart" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+            </BindingProperty>
           </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(TkeyMastartCustomBean.TABLE)"/>
@@ -142,7 +148,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.masttyp}" target="cbxStandortMasttyp" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.masttyp}" target="cbxStandortMasttyp" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+            </BindingProperty>
           </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(TkeyMasttypCustomBean.TABLE)"/>
@@ -171,7 +180,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.klassifizierung}" target="cbxStandortKlassifizierung" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.klassifizierung}" target="cbxStandortKlassifizierung" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+            </BindingProperty>
           </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(TkeyKlassifizierungCustomBean.TABLE)"/>
@@ -308,7 +320,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.unterhaltspflichtMast}" target="cbxStandortUnterhalt" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.unterhaltspflichtMast}" target="cbxStandortUnterhalt" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+            </BindingProperty>
           </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(TkeyUnterhMastCustomBean.TABLE)"/>
@@ -361,7 +376,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selected" source="Form" sourcePath="${currentEntity.verrechnungseinheit}" target="cboStandortVerrechnungseinheit" targetPath="selected" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selected" source="Form" sourcePath="${currentEntity.verrechnungseinheit}" target="cboStandortVerrechnungseinheit" targetPath="selected" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -409,6 +427,8 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.strassenschluessel}" target="cbxStandortStrassenschluessel" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new NotNullValidator(&quot;Stra&#xdf;enschl&#xfc;ssel&quot;)" type="code"/>
               </Property>
@@ -455,6 +475,8 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.kennziffer}" target="cbxStandortKennziffer" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new NotNullValidator(&quot;Kennziffer&quot;)" type="code"/>
               </Property>
@@ -540,6 +562,8 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.strassenschluessel}" target="cbxStandortStrassenschluesselNr" targetPath="selectedItem" updateStrategy="1" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
               <Property name="name" type="java.lang.String" value="strassenschluesselnr" noResource="true"/>
             </BindingProperty>
           </BindingProperties>
@@ -666,7 +690,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.anlagengruppe}" target="cbxStandortAnlagengruppe" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.anlagengruppe}" target="cbxStandortAnlagengruppe" targetPath="selectedItem" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="java.lang.Object" value="null"/>
+              <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+            </BindingProperty>
           </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(AnlagengruppeCustomBean.TABLE)"/>
@@ -760,7 +787,6 @@
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
-              <Property name="name" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -798,7 +824,10 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="selected" source="Form" sourcePath="${currentEntity.erdung}" target="cboStandortErdung" targetPath="selected" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selected" source="Form" sourcePath="${currentEntity.erdung}" target="cboStandortErdung" targetPath="selected" updateStrategy="0" immediately="false">
+              <Property name="nullValue" type="boolean" value="false"/>
+              <Property name="incompletePathValue" type="boolean" value="false"/>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -825,6 +854,7 @@
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
+              <Property name="name" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>

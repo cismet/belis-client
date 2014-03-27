@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -72,10 +74,9 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
     private Double leistung_brutto;
     private String fabrikat;
     private String lampe;
-    private Date einbaudatum;
     private Double leistung2stufe;
     private String vorschaltgeraet;
-    private Date einbau_vorschaltgeraet;
+    private Timestamp einbau_vorschaltgeraet;
     private Double leistung_reduziert;
     private Double leistung_brutto_reduziert;
     private DmsUrlCustomBean foto;
@@ -309,7 +310,7 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
      *
      * @return  DOCUMENT ME!
      */
-    public Date getEinbau_vorschaltgeraet() {
+    public Timestamp getEinbau_vorschaltgeraet() {
         return einbau_vorschaltgeraet;
     }
 
@@ -319,7 +320,20 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
      * @param  einbau_vorschaltgeraet  DOCUMENT ME!
      */
     public void setEinbau_vorschaltgeraet(final Date einbau_vorschaltgeraet) {
-        final Date old = this.einbau_vorschaltgeraet;
+        if (einbau_vorschaltgeraet == null) {
+            setEinbau_vorschaltgeraet((Timestamp)null);
+        } else {
+            setEinbau_vorschaltgeraet(new Timestamp(einbau_vorschaltgeraet.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  einbau_vorschaltgeraet  DOCUMENT ME!
+     */
+    public void setEinbau_vorschaltgeraet(final Timestamp einbau_vorschaltgeraet) {
+        final Timestamp old = this.einbau_vorschaltgeraet;
         this.einbau_vorschaltgeraet = einbau_vorschaltgeraet;
         this.propertyChangeSupport.firePropertyChange(PROP__EINBAU_VORSCHALTGERAET, old, this.einbau_vorschaltgeraet);
     }

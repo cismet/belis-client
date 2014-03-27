@@ -13,6 +13,8 @@ package de.cismet.cids.custom.beans.belis2;
 
 import java.beans.PropertyChangeEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -147,7 +149,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
     private Boolean zaehler;
     private TkeyDoppelkommandoCustomBean fk_dk1;
     private TkeyDoppelkommandoCustomBean fk_dk2;
-    private Date inbetriebnahme_leuchte;
+    private Timestamp inbetriebnahme_leuchte;
     private TdtaStandortMastCustomBean fk_standort;
     private TdtaStandortMastCustomBean fk_standort_backlink;
     private Integer lfd_nummer;
@@ -165,13 +167,13 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
     private Boolean kabeluebergangskasten_sk_ii;
     private LeuchtmittelCustomBean leuchtmittel;
     private Double lebensdauer;
-    private Date wechseldatum;
-    private Date wartungszyklus;
-    private Date wechselvorschaltgeraet;
-    private Date naechster_wechsel;
+    private Timestamp wechseldatum;
+    private Timestamp wartungszyklus;
+    private Timestamp wechselvorschaltgeraet;
+    private Timestamp naechster_wechsel;
     private String vorschaltgeraet;
     private String monteur;
-    private Date einbaudatum;
+    private Timestamp einbaudatum;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -586,7 +588,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @return  DOCUMENT ME!
      */
-    public Date getInbetriebnahme_leuchte() {
+    public Timestamp getInbetriebnahme_leuchte() {
         return inbetriebnahme_leuchte;
     }
 
@@ -596,7 +598,20 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      * @param  inbetriebnahme_leuchte  DOCUMENT ME!
      */
     public void setInbetriebnahme_leuchte(final Date inbetriebnahme_leuchte) {
-        final Date old = this.inbetriebnahme_leuchte;
+        if (inbetriebnahme_leuchte == null) {
+            setInbetriebnahme_leuchte((Timestamp)null);
+        } else {
+            setInbetriebnahme_leuchte(new Timestamp(inbetriebnahme_leuchte.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  inbetriebnahme_leuchte  DOCUMENT ME!
+     */
+    public void setInbetriebnahme_leuchte(final Timestamp inbetriebnahme_leuchte) {
+        final Timestamp old = this.inbetriebnahme_leuchte;
         this.inbetriebnahme_leuchte = inbetriebnahme_leuchte;
         this.propertyChangeSupport.firePropertyChange(PROP__INBETRIEBNAHME_LEUCHTE, old, this.inbetriebnahme_leuchte);
     }
@@ -1077,7 +1092,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @return  DOCUMENT ME!
      */
-    public Date getWechseldatum() {
+    public Timestamp getWechseldatum() {
         return wechseldatum;
     }
 
@@ -1087,7 +1102,20 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      * @param  wechseldatum  DOCUMENT ME!
      */
     public void setWechseldatum(final Date wechseldatum) {
-        final Date old = this.wechseldatum;
+        if (wechseldatum == null) {
+            setWechseldatum((Timestamp)null);
+        } else {
+            setWechseldatum(new Timestamp(wechseldatum.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wechseldatum  DOCUMENT ME!
+     */
+    public void setWechseldatum(final Timestamp wechseldatum) {
+        final Timestamp old = this.wechseldatum;
         this.wechseldatum = wechseldatum;
         this.propertyChangeSupport.firePropertyChange(PROP__WECHSELDATUM, old, this.wechseldatum);
     }
@@ -1097,7 +1125,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @return  DOCUMENT ME!
      */
-    public Date getWartungszyklus() {
+    public Timestamp getWartungszyklus() {
         return wartungszyklus;
     }
 
@@ -1107,7 +1135,20 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      * @param  wartungszyklus  DOCUMENT ME!
      */
     public void setWartungszyklus(final Date wartungszyklus) {
-        final Date old = this.wartungszyklus;
+        if (wartungszyklus == null) {
+            setWartungszyklus((Timestamp)null);
+        } else {
+            setWartungszyklus(new Timestamp(wartungszyklus.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wartungszyklus  DOCUMENT ME!
+     */
+    public void setWartungszyklus(final Timestamp wartungszyklus) {
+        final Timestamp old = this.wartungszyklus;
         this.wartungszyklus = wartungszyklus;
         this.propertyChangeSupport.firePropertyChange(PROP__WARTUNGSZYKLUS, old, this.wartungszyklus);
     }
@@ -1117,7 +1158,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @return  DOCUMENT ME!
      */
-    public Date getWechselvorschaltgeraet() {
+    public Timestamp getWechselvorschaltgeraet() {
         return wechselvorschaltgeraet;
     }
 
@@ -1127,7 +1168,20 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      * @param  wechselvorschaltgeraet  DOCUMENT ME!
      */
     public void setWechselvorschaltgeraet(final Date wechselvorschaltgeraet) {
-        final Date old = this.wechselvorschaltgeraet;
+        if (wechselvorschaltgeraet == null) {
+            setWechselvorschaltgeraet((Timestamp)null);
+        } else {
+            setWechselvorschaltgeraet(new Timestamp(wechselvorschaltgeraet.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wechselvorschaltgeraet  DOCUMENT ME!
+     */
+    public void setWechselvorschaltgeraet(final Timestamp wechselvorschaltgeraet) {
+        final Timestamp old = this.wechselvorschaltgeraet;
         this.wechselvorschaltgeraet = wechselvorschaltgeraet;
         this.propertyChangeSupport.firePropertyChange(PROP__WECHSELVORSCHALTGERAET, old, this.wechselvorschaltgeraet);
     }
@@ -1157,7 +1211,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @return  DOCUMENT ME!
      */
-    public Date getNaechster_wechsel() {
+    public Timestamp getNaechster_wechsel() {
         return naechster_wechsel;
     }
 
@@ -1167,7 +1221,20 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      * @param  naechster_wechsel  DOCUMENT ME!
      */
     public void setNaechster_wechsel(final Date naechster_wechsel) {
-        final Date old = this.naechster_wechsel;
+        if (naechster_wechsel == null) {
+            setNaechster_wechsel((Timestamp)null);
+        } else {
+            setNaechster_wechsel(new Timestamp(naechster_wechsel.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  naechster_wechsel  DOCUMENT ME!
+     */
+    public void setNaechster_wechsel(final Timestamp naechster_wechsel) {
+        final Timestamp old = this.naechster_wechsel;
         this.naechster_wechsel = naechster_wechsel;
         this.propertyChangeSupport.firePropertyChange(PROP__NAECHSTER_WECHSEL, old, this.naechster_wechsel);
     }
@@ -1197,8 +1264,32 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @return  DOCUMENT ME!
      */
-    public Date getEinbaudatum() {
+    public Timestamp getEinbaudatum() {
         return einbaudatum;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  einbaudatum  DOCUMENT ME!
+     */
+    public void setEinbaudatum(final Date einbaudatum) {
+        if (einbaudatum == null) {
+            setEinbaudatum((Timestamp)null);
+        } else {
+            setEinbaudatum(new Timestamp(einbaudatum.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  einbaudatum  monteur DOCUMENT ME!
+     */
+    public void setEinbaudatum(final Timestamp einbaudatum) {
+        final Timestamp old = this.einbaudatum;
+        this.einbaudatum = einbaudatum;
+        this.propertyChangeSupport.firePropertyChange(PROP__EINBAUDATUM, old, this.einbaudatum);
     }
 
     /**
@@ -1217,17 +1308,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      */
     public void setFk_standort_backlink(final TdtaStandortMastCustomBean fk_standort_backlink) {
         this.fk_standort_backlink = fk_standort_backlink;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  einbaudatum  monteur DOCUMENT ME!
-     */
-    public void setEinbaudatum(final Date einbaudatum) {
-        final Date old = this.einbaudatum;
-        this.einbaudatum = einbaudatum;
-        this.propertyChangeSupport.firePropertyChange(PROP__EINBAUDATUM, old, this.einbaudatum);
     }
 
     @Override

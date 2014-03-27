@@ -57,12 +57,17 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
 
     public static TkeyUnterhMastCustomBean DEFAULT_UNTERHALT;
 
-    static {
-        DEFAULT_UNTERHALT = TkeyUnterhMastCustomBean.createNew();
-        DEFAULT_UNTERHALT.setPk((Integer)0);
-        DEFAULT_UNTERHALT.setUnterhaltMast("öffentl. Beleuchtung");
-//        BelisBroker.setDefaultUnterhaltMast(curUnterhaltMast);
-    }
+//    static {
+//        try {
+    // TODO load instead of creating
+//            DEFAULT_UNTERHALT = TkeyUnterhMastCustomBean.createNew();
+//            DEFAULT_UNTERHALT.setPk((Integer)0);
+//            DEFAULT_UNTERHALT.setUnterhaltMast("öffentl. Beleuchtung");
+//            BelisBroker.setDefaultUnterhaltMast(DEFAULT_UNTERHALT);
+//        } catch (final Exception ex) {
+//            DEFAULT_UNTERHALT = null;
+//        }
+//    }
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             TdtaStandortMastCustomBean.class);

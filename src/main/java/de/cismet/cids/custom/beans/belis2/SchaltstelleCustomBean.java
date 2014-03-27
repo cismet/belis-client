@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -75,7 +77,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
 
     //~ Instance fields --------------------------------------------------------
 
-    private Date erstellungsjahr;
+    private Timestamp erstellungsjahr;
     private Integer laufende_nummer;
     private GeomCustomBean fk_geom;
     private BauartCustomBean fk_bauart;
@@ -85,11 +87,11 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
     private String zusaetzliche_standortbezeichnung;
     private String haus_nummer;
     private Collection<DmsUrlCustomBean> dokumente;
-    private Date pruefdatum;
+    private Timestamp pruefdatum;
     private DmsUrlCustomBean foto;
     private String monteur;
     private RundsteuerempfaengerCustomBean rundsteuerempfaenger;
-    private Date einbaudatum_rs;
+    private Timestamp einbaudatum_rs;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -285,7 +287,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @return  DOCUMENT ME!
      */
-    public Date getPruefdatum() {
+    public Timestamp getPruefdatum() {
         return pruefdatum;
     }
 
@@ -295,7 +297,20 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      * @param  pruefdatum  DOCUMENT ME!
      */
     public void setPruefdatum(final Date pruefdatum) {
-        final Date old = this.pruefdatum;
+        if (pruefdatum == null) {
+            setPruefdatum((Timestamp)null);
+        } else {
+            setPruefdatum(new Timestamp(pruefdatum.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  pruefdatum  DOCUMENT ME!
+     */
+    public void setPruefdatum(final Timestamp pruefdatum) {
+        final Timestamp old = this.pruefdatum;
         this.pruefdatum = pruefdatum;
         this.propertyChangeSupport.firePropertyChange(PROP__PRUEFDATUM, old, this.pruefdatum);
     }
@@ -325,7 +340,7 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @return  DOCUMENT ME!
      */
-    public Date getErstellungsjahr() {
+    public Timestamp getErstellungsjahr() {
         return erstellungsjahr;
     }
 
@@ -335,7 +350,20 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      * @param  erstellungsjahr  DOCUMENT ME!
      */
     public void setErstellungsjahr(final Date erstellungsjahr) {
-        final Date old = this.erstellungsjahr;
+        if (erstellungsjahr == null) {
+            setErstellungsjahr((Timestamp)null);
+        } else {
+            setErstellungsjahr(new Timestamp(erstellungsjahr.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  erstellungsjahr  DOCUMENT ME!
+     */
+    public void setErstellungsjahr(final Timestamp erstellungsjahr) {
+        final Timestamp old = this.erstellungsjahr;
         this.erstellungsjahr = erstellungsjahr;
         this.propertyChangeSupport.firePropertyChange(PROP__ERSTELLUNGSJAHR, old, this.erstellungsjahr);
     }
@@ -405,8 +433,21 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @return  DOCUMENT ME!
      */
-    public Date getEinbaudatum_rs() {
+    public Timestamp getEinbaudatum_rs() {
         return einbaudatum_rs;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  einbaudatum_rs  DOCUMENT ME!
+     */
+    public void setEinbaudatum_rs(final Date einbaudatum_rs) {
+        if (einbaudatum_rs == null) {
+            setEinbaudatum_rs((Timestamp)null);
+        } else {
+            setEinbaudatum_rs(new Timestamp(einbaudatum_rs.getTime()));
+        }
     }
 
     /**
@@ -414,8 +455,8 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @param  einbaudatum_rs  rundsteuerempfaenger zusaetzlicheStandortbeschreibung DOCUMENT ME!
      */
-    public void setEinbaudatum_rs(final Date einbaudatum_rs) {
-        final Date old = this.einbaudatum_rs;
+    public void setEinbaudatum_rs(final Timestamp einbaudatum_rs) {
+        final Timestamp old = this.einbaudatum_rs;
         this.einbaudatum_rs = einbaudatum_rs;
         this.propertyChangeSupport.firePropertyChange(PROP__EINBAUDATUM_RS, old, this.einbaudatum_rs);
     }

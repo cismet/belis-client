@@ -142,7 +142,10 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.fk_status}" target="cbxStatus" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                    <BindingProperty name="selectedItem" source="Form" sourcePath="${currentEntity.fk_status}" target="cbxStatus" targetPath="selectedItem" updateStrategy="0" immediately="false">
+                      <Property name="nullValue" type="java.lang.Object" value="null"/>
+                      <Property name="incompletePathValue" type="java.lang.Object" value="null"/>
+                    </BindingProperty>
                   </BindingProperties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="BelisBroker.createKeyTableComboBox(ArbeitsprotokollstatusCustomBean.TABLE)"/>

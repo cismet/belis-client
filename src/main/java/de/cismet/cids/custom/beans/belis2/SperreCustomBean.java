@@ -88,6 +88,19 @@ public class SperreCustomBean extends BaseEntity {
      *
      * @param  lock_timestamp  DOCUMENT ME!
      */
+    public void setLock_timestamp(final java.util.Date lock_timestamp) {
+        if (lock_timestamp == null) {
+            setLock_timestamp((Date)null);
+        } else {
+            setLock_timestamp(new Date(lock_timestamp.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  lock_timestamp  DOCUMENT ME!
+     */
     public void setLock_timestamp(final Date lock_timestamp) {
         final Date old = this.lock_timestamp;
         this.lock_timestamp = lock_timestamp;
@@ -197,6 +210,19 @@ public class SperreCustomBean extends BaseEntity {
      */
     public Date getTimestamp() {
         return getLock_timestamp();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  timestamp  DOCUMENT ME!
+     */
+    public void setTimestamp(final java.util.Date timestamp) {
+        if (timestamp == null) {
+            setTimestamp((Date)null);
+        } else {
+            setTimestamp(new Date(timestamp.getTime()));
+        }
     }
 
     /**

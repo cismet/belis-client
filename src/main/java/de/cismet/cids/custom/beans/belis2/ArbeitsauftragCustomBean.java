@@ -144,6 +144,19 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
      *
      * @param  angelegt_am  DOCUMENT ME!
      */
+    public void setAngelegt_am(final java.util.Date angelegt_am) {
+        if (angelegt_am == null) {
+            setAngelegt_am((Date)null);
+        } else {
+            setAngelegt_am(new Date(angelegt_am.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  angelegt_am  DOCUMENT ME!
+     */
     public void setAngelegt_am(final Date angelegt_am) {
         final Date old = this.angelegt_am;
         this.angelegt_am = angelegt_am;

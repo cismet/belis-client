@@ -86,6 +86,7 @@ import de.cismet.lookupoptions.gui.OptionsDialog;
 
 import de.cismet.security.WebAccessManager;
 
+import de.cismet.tools.StaticDebuggingTools;
 import de.cismet.tools.StaticDecimalTools;
 
 import de.cismet.tools.configuration.Configurable;
@@ -1138,6 +1139,9 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      * @param  args  DOCUMENT ME!
      */
     public static void main(final String[] args) {
+        if (StaticDebuggingTools.checkHomeForFile("cismetBeansbindingDebuggingOn")) { // NOI18N
+            System.setProperty("cismet.beansdebugging", "true");                      // NOI18N
+        }
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 
                 @Override

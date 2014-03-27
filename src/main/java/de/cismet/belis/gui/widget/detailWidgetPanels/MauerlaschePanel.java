@@ -198,6 +198,8 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.material}"),
                 cbxMauerlascheMaterial,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         cbxMauerlascheMaterial.addActionListener(new java.awt.event.ActionListener() {
@@ -241,6 +243,8 @@ public final class MauerlaschePanel extends AbstractDetailWidgetPanel<Mauerlasch
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
                 cbxMauerlascheStrassenschluessel,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         binding.setValidator(new NotNullValidator("Straßenschlüssel"));
         bindingGroup.addBinding(binding);
 

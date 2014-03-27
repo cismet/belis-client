@@ -242,6 +242,8 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_status}"),
                 cbxStatus,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

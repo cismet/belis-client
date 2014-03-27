@@ -246,7 +246,9 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
                     }
                     c.setToolTipText(failure.getValidationResult().getDescription());
                 } catch (Exception ex) {
-                    // log.debug("Error while setting tooltip", ex);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Error while setting tooltip", ex);
+                    }
                     c.setToolTipText(null);
                 }
             } else {

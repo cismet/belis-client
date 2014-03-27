@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -65,7 +67,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
 
     //~ Instance fields --------------------------------------------------------
 
-    private Date erstellungsjahr;
+    private Timestamp erstellungsjahr;
     private Integer laufende_nummer;
     private GeomCustomBean fk_geom;
     private MaterialMauerlascheCustomBean fk_material;
@@ -73,7 +75,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
     private Collection<DmsUrlCustomBean> dokumente;
     private DmsUrlCustomBean foto;
     private String monteur;
-    private Date pruefdatum;
+    private Timestamp pruefdatum;
     private String bemerkung;
 
     //~ Constructors -----------------------------------------------------------
@@ -127,7 +129,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
      *
      * @return  DOCUMENT ME!
      */
-    public Date getErstellungsjahr() {
+    public Timestamp getErstellungsjahr() {
         return erstellungsjahr;
     }
 
@@ -137,7 +139,20 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
      * @param  erstellungsjahr  DOCUMENT ME!
      */
     public void setErstellungsjahr(final Date erstellungsjahr) {
-        final Date old = this.erstellungsjahr;
+        if (erstellungsjahr == null) {
+            setErstellungsjahr((Timestamp)null);
+        } else {
+            setErstellungsjahr(new Timestamp(erstellungsjahr.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  erstellungsjahr  DOCUMENT ME!
+     */
+    public void setErstellungsjahr(final Timestamp erstellungsjahr) {
+        final Timestamp old = this.erstellungsjahr;
         this.erstellungsjahr = erstellungsjahr;
         this.propertyChangeSupport.firePropertyChange(PROP__ERSTELLUNGSJAHR, old, this.erstellungsjahr);
     }
@@ -247,7 +262,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
      *
      * @return  DOCUMENT ME!
      */
-    public Date getPruefdatum() {
+    public Timestamp getPruefdatum() {
         return pruefdatum;
     }
 
@@ -257,7 +272,20 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
      * @param  pruefdatum  DOCUMENT ME!
      */
     public void setPruefdatum(final Date pruefdatum) {
-        final Date old = this.pruefdatum;
+        if (pruefdatum == null) {
+            setPruefdatum((Timestamp)null);
+        } else {
+            setPruefdatum(new Timestamp(pruefdatum.getTime()));
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  pruefdatum  DOCUMENT ME!
+     */
+    public void setPruefdatum(final Timestamp pruefdatum) {
+        final Timestamp old = this.pruefdatum;
         this.pruefdatum = pruefdatum;
         this.propertyChangeSupport.firePropertyChange(PROP__PRUEFDATUM, old, this.pruefdatum);
     }

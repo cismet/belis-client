@@ -132,6 +132,8 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_leitungstyp}"),
                 cbxLeitungLeitungstyp,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -151,6 +153,8 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.material}"),
                 cbxLeitungMaterial,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -170,6 +174,8 @@ public final class LeitungPanel extends AbstractDetailWidgetPanel<LeitungCustomB
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.querschnitt}"),
                 cbxLeitungQuerschnitt,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
