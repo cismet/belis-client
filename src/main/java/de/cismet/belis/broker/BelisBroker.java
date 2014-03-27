@@ -90,6 +90,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.event.TreeModelEvent;
@@ -1042,7 +1043,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         || ((component instanceof JMenuItem)
                             && (((JMenuItem)component).getActionCommand() != null)
                             && (((JMenuItem)component).getActionCommand().equals("cmdSearch")
-                                || ((JMenuItem)component).getActionCommand().equals("treecommand")))) {
+                                || ((JMenuItem)component).getActionCommand().equals("treecommand")
+                                || ((((JMenuItem)component).getAccelerator() != null)
+                                    && ((JMenuItem)component).getAccelerator().equals(
+                                        KeyStroke.getKeyStroke("F5")))))) {
                 toRemoveComponents.add(component);
             }
         }
@@ -1051,8 +1055,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
 
         final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
-        Thread.sleep(1000);
-        final RootTreeNode rootTreeNode = new RootTreeNode(SessionManager.getProxy().getRoots("BELIS2"));
+        final Node[] roots = SessionManager.getProxy().getRoots("BELIS2");
+        final RootTreeNode rootTreeNode = new RootTreeNode(roots);
+        while (roots.length != rootTreeNode.getChildCount()) {
+            Thread.sleep(100);
+        }
         final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
                 rootTreeNode,
                 PropertyManager.getManager().isEditable(),
