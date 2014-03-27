@@ -150,6 +150,7 @@ public class ReportingArbeitsauftrag {
         final ArrayList<GeoBaseEntity> allOriginalFeatures = new ArrayList<GeoBaseEntity>();
         final ArrayList<Feature> annotatingFeatures = new ArrayList<Feature>();
         final HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+        mapProvider.setMinimumScaleDenomimator(500);
         final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(new BufferedImage(
                     10,
                     10,
