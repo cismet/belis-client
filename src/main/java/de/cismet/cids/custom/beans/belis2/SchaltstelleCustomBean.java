@@ -14,7 +14,6 @@ package de.cismet.cids.custom.beans.belis2;
 import java.sql.Timestamp;
 
 import java.util.Collection;
-import java.util.Date;
 
 import de.cismet.belisEE.mapicons.MapIcons;
 
@@ -296,19 +295,6 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @param  pruefdatum  DOCUMENT ME!
      */
-    public void setPruefdatum(final Date pruefdatum) {
-        if (pruefdatum == null) {
-            setPruefdatum((Timestamp)null);
-        } else {
-            setPruefdatum(new Timestamp(pruefdatum.getTime()));
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  pruefdatum  DOCUMENT ME!
-     */
     public void setPruefdatum(final Timestamp pruefdatum) {
         final Timestamp old = this.pruefdatum;
         this.pruefdatum = pruefdatum;
@@ -342,19 +328,6 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      */
     public Timestamp getErstellungsjahr() {
         return erstellungsjahr;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  erstellungsjahr  DOCUMENT ME!
-     */
-    public void setErstellungsjahr(final Date erstellungsjahr) {
-        if (erstellungsjahr == null) {
-            setErstellungsjahr((Timestamp)null);
-        } else {
-            setErstellungsjahr(new Timestamp(erstellungsjahr.getTime()));
-        }
     }
 
     /**
@@ -435,19 +408,6 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      */
     public Timestamp getEinbaudatum_rs() {
         return einbaudatum_rs;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  einbaudatum_rs  DOCUMENT ME!
-     */
-    public void setEinbaudatum_rs(final Date einbaudatum_rs) {
-        if (einbaudatum_rs == null) {
-            setEinbaudatum_rs((Timestamp)null);
-        } else {
-            setEinbaudatum_rs(new Timestamp(einbaudatum_rs.getTime()));
-        }
     }
 
     /**

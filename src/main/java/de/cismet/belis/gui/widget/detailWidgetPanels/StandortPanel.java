@@ -20,6 +20,8 @@ import javax.swing.JLabel;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.gui.TimestampToDateConverter;
+
 import de.cismet.belis.util.RendererTools;
 
 import de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean;
@@ -369,6 +371,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastanstrich}"),
                 dapStandortMastanstrich,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -397,6 +400,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastschutz}"),
                 dapStandortMastschutz,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -425,6 +429,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahme_mast}"),
                 dapStandortInbetriebnahme,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -453,6 +458,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.letzte_aenderung}"),
                 dapStandortLetzteAenderung,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -795,6 +801,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.revision}"),
                 dapStandortRevision,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -936,6 +943,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.elek_pruefung}"),
                 dapStandortElekPruefung,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -956,6 +964,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standsicherheitspruefung}"),
                 dapStandortStandsicherheitspruefung,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -1034,6 +1043,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
                 dapStandortNaechstesPruefdatum,
                 org.jdesktop.beansbinding.BeanProperty.create("date"),
                 "");
+        binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 

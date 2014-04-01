@@ -24,6 +24,8 @@ import javax.swing.JList;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.gui.TimestampToDateConverter;
+
 import de.cismet.belis.util.RendererTools;
 
 import de.cismet.cids.custom.beans.belis2.BauartCustomBean;
@@ -290,6 +292,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erstellungsjahr}"),
                 dapSchaltstelleErstellungsjahr,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -374,6 +377,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.pruefdatum}"),
                 dapPruefdatum,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -426,6 +430,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.einbaudatum_rs}"),
                 dapEinbaudatum,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

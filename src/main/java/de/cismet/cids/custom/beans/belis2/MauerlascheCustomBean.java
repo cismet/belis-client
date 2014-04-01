@@ -14,7 +14,6 @@ package de.cismet.cids.custom.beans.belis2;
 import java.sql.Timestamp;
 
 import java.util.Collection;
-import java.util.Date;
 
 import de.cismet.belisEE.mapicons.MapIcons;
 
@@ -138,19 +137,6 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
      *
      * @param  erstellungsjahr  DOCUMENT ME!
      */
-    public void setErstellungsjahr(final Date erstellungsjahr) {
-        if (erstellungsjahr == null) {
-            setErstellungsjahr((Timestamp)null);
-        } else {
-            setErstellungsjahr(new Timestamp(erstellungsjahr.getTime()));
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  erstellungsjahr  DOCUMENT ME!
-     */
     public void setErstellungsjahr(final Timestamp erstellungsjahr) {
         final Timestamp old = this.erstellungsjahr;
         this.erstellungsjahr = erstellungsjahr;
@@ -264,19 +250,6 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
      */
     public Timestamp getPruefdatum() {
         return pruefdatum;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  pruefdatum  DOCUMENT ME!
-     */
-    public void setPruefdatum(final Date pruefdatum) {
-        if (pruefdatum == null) {
-            setPruefdatum((Timestamp)null);
-        } else {
-            setPruefdatum(new Timestamp(pruefdatum.getTime()));
-        }
     }
 
     /**

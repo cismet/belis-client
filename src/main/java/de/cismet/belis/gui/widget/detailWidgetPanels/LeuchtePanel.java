@@ -24,6 +24,8 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.gui.TimestampToDateConverter;
+
 import de.cismet.belis.util.RendererTools;
 
 import de.cismet.cids.custom.beans.belis2.LeuchtmittelCustomBean;
@@ -447,6 +449,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.einbaudatum}"),
                 dapEinbaudatum,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -552,6 +555,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahmeLeuchte}"),
                 dapLeuchteInbetriebnahme,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
         bindingGroup.addBinding(binding);
 
@@ -780,6 +784,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wechseldatum}"),
                 dapLeuchtmittelwechsel,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -806,6 +811,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.naechster_wechsel}"),
                 dapNaechsterWechsel,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -832,6 +838,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wartungszyklus}"),
                 dapSonderturnus,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -858,6 +865,7 @@ public class LeuchtePanel extends AbstractDetailWidgetPanel<TdtaLeuchtenCustomBe
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.wechselvorschaltgeraet}"),
                 dapWechselVorschaltgeraet,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

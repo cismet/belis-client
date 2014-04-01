@@ -14,7 +14,6 @@ package de.cismet.cids.custom.beans.belis2;
 import java.sql.Timestamp;
 
 import java.util.Collection;
-import java.util.Date;
 
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
@@ -312,19 +311,6 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
      */
     public Timestamp getEinbau_vorschaltgeraet() {
         return einbau_vorschaltgeraet;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  einbau_vorschaltgeraet  DOCUMENT ME!
-     */
-    public void setEinbau_vorschaltgeraet(final Date einbau_vorschaltgeraet) {
-        if (einbau_vorschaltgeraet == null) {
-            setEinbau_vorschaltgeraet((Timestamp)null);
-        } else {
-            setEinbau_vorschaltgeraet(new Timestamp(einbau_vorschaltgeraet.getTime()));
-        }
     }
 
     /**

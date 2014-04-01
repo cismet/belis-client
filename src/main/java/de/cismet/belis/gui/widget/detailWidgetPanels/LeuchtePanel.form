@@ -278,7 +278,11 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.einbaudatum}" target="dapEinbaudatum" targetPath="date" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.einbaudatum}" target="dapEinbaudatum" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -385,6 +389,9 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="date" source="Form" sourcePath="${currentEntity.inbetriebnahmeLeuchte}" target="dapLeuchteInbetriebnahme" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
@@ -616,7 +623,11 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.wechseldatum}" target="dapLeuchtmittelwechsel" targetPath="date" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.wechseldatum}" target="dapLeuchtmittelwechsel" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -639,7 +650,11 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.naechster_wechsel}" target="dapNaechsterWechsel" targetPath="date" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.naechster_wechsel}" target="dapNaechsterWechsel" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -662,7 +677,11 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.wartungszyklus}" target="dapSonderturnus" targetPath="date" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.wartungszyklus}" target="dapSonderturnus" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -685,7 +704,11 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.wechselvorschaltgeraet}" target="dapWechselVorschaltgeraet" targetPath="date" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.wechselvorschaltgeraet}" target="dapWechselVorschaltgeraet" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

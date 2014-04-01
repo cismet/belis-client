@@ -16,7 +16,6 @@ import java.beans.PropertyChangeEvent;
 import java.sql.Timestamp;
 
 import java.util.Collection;
-import java.util.Date;
 
 import de.cismet.belisEE.mapicons.MapIcons;
 
@@ -597,19 +596,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @param  inbetriebnahme_leuchte  DOCUMENT ME!
      */
-    public void setInbetriebnahme_leuchte(final Date inbetriebnahme_leuchte) {
-        if (inbetriebnahme_leuchte == null) {
-            setInbetriebnahme_leuchte((Timestamp)null);
-        } else {
-            setInbetriebnahme_leuchte(new Timestamp(inbetriebnahme_leuchte.getTime()));
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  inbetriebnahme_leuchte  DOCUMENT ME!
-     */
     public void setInbetriebnahme_leuchte(final Timestamp inbetriebnahme_leuchte) {
         final Timestamp old = this.inbetriebnahme_leuchte;
         this.inbetriebnahme_leuchte = inbetriebnahme_leuchte;
@@ -871,7 +857,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @return  DOCUMENT ME!
      */
-    public Date getInbetriebnahmeLeuchte() {
+    public Timestamp getInbetriebnahmeLeuchte() {
         return getInbetriebnahme_leuchte();
     }
 
@@ -880,7 +866,7 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @param  inbetriebnahmeLeuchte  DOCUMENT ME!
      */
-    public void setInbetriebnahmeLeuchte(final Date inbetriebnahmeLeuchte) {
+    public void setInbetriebnahmeLeuchte(final Timestamp inbetriebnahmeLeuchte) {
         setInbetriebnahme_leuchte(inbetriebnahmeLeuchte);
     }
 
@@ -1101,19 +1087,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @param  wechseldatum  DOCUMENT ME!
      */
-    public void setWechseldatum(final Date wechseldatum) {
-        if (wechseldatum == null) {
-            setWechseldatum((Timestamp)null);
-        } else {
-            setWechseldatum(new Timestamp(wechseldatum.getTime()));
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  wechseldatum  DOCUMENT ME!
-     */
     public void setWechseldatum(final Timestamp wechseldatum) {
         final Timestamp old = this.wechseldatum;
         this.wechseldatum = wechseldatum;
@@ -1134,19 +1107,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @param  wartungszyklus  DOCUMENT ME!
      */
-    public void setWartungszyklus(final Date wartungszyklus) {
-        if (wartungszyklus == null) {
-            setWartungszyklus((Timestamp)null);
-        } else {
-            setWartungszyklus(new Timestamp(wartungszyklus.getTime()));
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  wartungszyklus  DOCUMENT ME!
-     */
     public void setWartungszyklus(final Timestamp wartungszyklus) {
         final Timestamp old = this.wartungszyklus;
         this.wartungszyklus = wartungszyklus;
@@ -1160,19 +1120,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      */
     public Timestamp getWechselvorschaltgeraet() {
         return wechselvorschaltgeraet;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  wechselvorschaltgeraet  DOCUMENT ME!
-     */
-    public void setWechselvorschaltgeraet(final Date wechselvorschaltgeraet) {
-        if (wechselvorschaltgeraet == null) {
-            setWechselvorschaltgeraet((Timestamp)null);
-        } else {
-            setWechselvorschaltgeraet(new Timestamp(wechselvorschaltgeraet.getTime()));
-        }
     }
 
     /**
@@ -1220,19 +1167,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      *
      * @param  naechster_wechsel  DOCUMENT ME!
      */
-    public void setNaechster_wechsel(final Date naechster_wechsel) {
-        if (naechster_wechsel == null) {
-            setNaechster_wechsel((Timestamp)null);
-        } else {
-            setNaechster_wechsel(new Timestamp(naechster_wechsel.getTime()));
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  naechster_wechsel  DOCUMENT ME!
-     */
     public void setNaechster_wechsel(final Timestamp naechster_wechsel) {
         final Timestamp old = this.naechster_wechsel;
         this.naechster_wechsel = naechster_wechsel;
@@ -1266,19 +1200,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      */
     public Timestamp getEinbaudatum() {
         return einbaudatum;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  einbaudatum  DOCUMENT ME!
-     */
-    public void setEinbaudatum(final Date einbaudatum) {
-        if (einbaudatum == null) {
-            setEinbaudatum((Timestamp)null);
-        } else {
-            setEinbaudatum(new Timestamp(einbaudatum.getTime()));
-        }
     }
 
     /**

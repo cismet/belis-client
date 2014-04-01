@@ -19,9 +19,10 @@ import java.awt.Image;
 
 import java.beans.PropertyChangeEvent;
 
+import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import de.cismet.belis.broker.CidsBroker;
@@ -36,7 +37,6 @@ import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.StandortKey;
 
 import de.cismet.cids.custom.tostringconverter.belis2.TdtaStandortMastToStringConverter;
-import de.cismet.cids.custom.tostringconverter.belis2.WorkbenchEntityToStringConverter;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -154,13 +154,13 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
     private TkeyBezirkCustomBean fk_Stadtbezirk;
     private TkeyMastartCustomBean fk_Mastart;
     private TkeyKlassifizierungCustomBean fk_klassifizierung;
-    private Date mastanstrich;
-    private Date mastschutz;
+    private Timestamp mastanstrich;
+    private Timestamp mastschutz;
     private TkeyUnterhMastCustomBean fk_unterhaltspflicht_mast;
     private TkeyMasttypCustomBean fk_masttyp;
-    private Date inbetriebnahme_mast;
+    private Timestamp inbetriebnahme_mast;
     private Boolean verrechnungseinheit;
-    private Date letzte_aenderung;
+    private Timestamp letzte_aenderung;
     private GeomCustomBean fk_geom;
     private Boolean ist_virtueller_standort;
     private String bemerkungen;
@@ -173,15 +173,15 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
     private Collection<TdtaLeuchtenCustomBean> leuchten;
 
     private String gruendung;
-    private Date elek_pruefung;
+    private Timestamp elek_pruefung;
     private Boolean erdung;
     private String monteur;
-    private Date standsicherheitspruefung;
+    private Timestamp standsicherheitspruefung;
     private String verfahren;
     private DmsUrlCustomBean foto;
-    private Date naechstes_pruefdatum;
+    private Timestamp naechstes_pruefdatum;
     private String anstrichfarbe;
-    private Date revision;
+    private Timestamp revision;
     private AnlagengruppeCustomBean anlagengruppe;
     private String anbauten;
 
@@ -379,7 +379,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @return  DOCUMENT ME!
      */
-    public Date getMastanstrich() {
+    public Timestamp getMastanstrich() {
         return mastanstrich;
     }
 
@@ -388,8 +388,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  mastanstrich  DOCUMENT ME!
      */
-    public void setMastanstrich(final Date mastanstrich) {
-        final Date old = this.mastanstrich;
+    public void setMastanstrich(final Timestamp mastanstrich) {
+        final Timestamp old = this.mastanstrich;
         this.mastanstrich = mastanstrich;
         this.propertyChangeSupport.firePropertyChange(PROP__MASTANSTRICH, old, this.mastanstrich);
     }
@@ -399,7 +399,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @return  DOCUMENT ME!
      */
-    public Date getMastschutz() {
+    public Timestamp getMastschutz() {
         return mastschutz;
     }
 
@@ -408,8 +408,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  mastschutz  DOCUMENT ME!
      */
-    public void setMastschutz(final Date mastschutz) {
-        final Date old = this.mastschutz;
+    public void setMastschutz(final Timestamp mastschutz) {
+        final Timestamp old = this.mastschutz;
         this.mastschutz = mastschutz;
         this.propertyChangeSupport.firePropertyChange(PROP__MASTSCHUTZ, old, this.mastschutz);
     }
@@ -562,7 +562,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @return  DOCUMENT ME!
      */
-    public Date getInbetriebnahme_mast() {
+    public Timestamp getInbetriebnahme_mast() {
         return inbetriebnahme_mast;
     }
 
@@ -571,8 +571,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  inbetriebnahme_mast  DOCUMENT ME!
      */
-    public void setInbetriebnahme_mast(final Date inbetriebnahme_mast) {
-        final Date old = this.inbetriebnahme_mast;
+    public void setInbetriebnahme_mast(final Timestamp inbetriebnahme_mast) {
+        final Timestamp old = this.inbetriebnahme_mast;
         this.inbetriebnahme_mast = inbetriebnahme_mast;
         this.propertyChangeSupport.firePropertyChange(PROP__INBETRIEBNAHME_MAST, old, this.inbetriebnahme_mast);
     }
@@ -591,7 +591,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @return  DOCUMENT ME!
      */
-    public Date getLetzte_aenderung() {
+    public Timestamp getLetzte_aenderung() {
         return letzte_aenderung;
     }
 
@@ -600,8 +600,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  letzte_aenderung  DOCUMENT ME!
      */
-    public void setLetzte_aenderung(final Date letzte_aenderung) {
-        final Date old = this.letzte_aenderung;
+    public void setLetzte_aenderung(final Timestamp letzte_aenderung) {
+        final Timestamp old = this.letzte_aenderung;
         this.letzte_aenderung = letzte_aenderung;
         this.propertyChangeSupport.firePropertyChange(PROP__LETZTE_AENDERUNG, old, this.letzte_aenderung);
     }
@@ -934,7 +934,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @return  DOCUMENT ME!
      */
-    public Date getInbetriebnahmeMast() {
+    public Timestamp getInbetriebnahmeMast() {
         return getInbetriebnahme_mast();
     }
 
@@ -943,7 +943,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  inbetriebnahmeMast  DOCUMENT ME!
      */
-    public void setInbetriebnahmeMast(final Date inbetriebnahmeMast) {
+    public void setInbetriebnahmeMast(final Timestamp inbetriebnahmeMast) {
         setInbetriebnahme_mast(inbetriebnahmeMast);
     }
 
@@ -952,7 +952,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @return  DOCUMENT ME!
      */
-    public Date getLetzteAenderung() {
+    public Timestamp getLetzteAenderung() {
         return getLetzte_aenderung();
     }
 
@@ -961,7 +961,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  letzteAenderung  DOCUMENT ME!
      */
-    public void setLetzteAenderung(final Date letzteAenderung) {
+    public void setLetzteAenderung(final Timestamp letzteAenderung) {
         setLetzte_aenderung(letzteAenderung);
     }
 
@@ -1100,7 +1100,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
         } else if ((evt.getSource() != null) && (evt.getSource() instanceof TdtaStandortMastCustomBean)) {
             super.propertyChange(evt);
             if (!evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP__LETZTE_AENDERUNG)) {
-                setLetzteAenderung(new Date());
+                setLetzteAenderung(new Timestamp((new java.util.Date()).getTime()));
             }
         }
     }
@@ -1140,7 +1140,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @return  DOCUMENT ME!
      */
-    public Date getElek_pruefung() {
+    public Timestamp getElek_pruefung() {
         return elek_pruefung;
     }
 
@@ -1149,8 +1149,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  elek_pruefung  DOCUMENT ME!
      */
-    public void setElek_pruefung(final Date elek_pruefung) {
-        final Date old = this.elek_pruefung;
+    public void setElek_pruefung(final Timestamp elek_pruefung) {
+        final Timestamp old = this.elek_pruefung;
         this.elek_pruefung = elek_pruefung;
         this.propertyChangeSupport.firePropertyChange(PROP__ELEK_PRUEFUNG, old, this.elek_pruefung);
     }
@@ -1200,7 +1200,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @return  DOCUMENT ME!
      */
-    public Date getStandsicherheitspruefung() {
+    public Timestamp getStandsicherheitspruefung() {
         return standsicherheitspruefung;
     }
 
@@ -1209,8 +1209,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  standsicherheitspruefung  DOCUMENT ME!
      */
-    public void setStandsicherheitspruefung(final Date standsicherheitspruefung) {
-        final Date old = this.standsicherheitspruefung;
+    public void setStandsicherheitspruefung(final Timestamp standsicherheitspruefung) {
+        final Timestamp old = this.standsicherheitspruefung;
         this.standsicherheitspruefung = standsicherheitspruefung;
         this.propertyChangeSupport.firePropertyChange(
             PROP__STANDSICHERHEITSPRUEFUNG,
@@ -1263,7 +1263,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @return  DOCUMENT ME!
      */
-    public Date getNaechstes_pruefdatum() {
+    public Timestamp getNaechstes_pruefdatum() {
         return naechstes_pruefdatum;
     }
 
@@ -1272,8 +1272,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  naechstes_pruefdatum  DOCUMENT ME!
      */
-    public void setNaechstes_pruefdatum(final Date naechstes_pruefdatum) {
-        final Date old = this.naechstes_pruefdatum;
+    public void setNaechstes_pruefdatum(final Timestamp naechstes_pruefdatum) {
+        final Timestamp old = this.naechstes_pruefdatum;
         this.naechstes_pruefdatum = naechstes_pruefdatum;
         this.propertyChangeSupport.firePropertyChange(PROP__NAECHSTES_PRUEFDATUM, old, this.naechstes_pruefdatum);
     }
@@ -1303,7 +1303,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @return  DOCUMENT ME!
      */
-    public Date getRevision() {
+    public Timestamp getRevision() {
         return revision;
     }
 
@@ -1312,8 +1312,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  revision  DOCUMENT ME!
      */
-    public void setRevision(final Date revision) {
-        final Date old = this.revision;
+    public void setRevision(final Timestamp revision) {
+        final Timestamp old = this.revision;
         this.revision = revision;
         this.propertyChangeSupport.firePropertyChange(PROP__REVISION, old, this.revision);
     }

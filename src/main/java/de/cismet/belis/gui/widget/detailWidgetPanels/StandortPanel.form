@@ -210,6 +210,9 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="date" source="Form" sourcePath="${currentEntity.mastanstrich}" target="dapStandortMastanstrich" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
@@ -237,6 +240,9 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="date" source="Form" sourcePath="${currentEntity.mastschutz}" target="dapStandortMastschutz" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
@@ -264,6 +270,9 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="date" source="Form" sourcePath="${currentEntity.inbetriebnahme_mast}" target="dapStandortInbetriebnahme" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
@@ -291,6 +300,9 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="date" source="Form" sourcePath="${currentEntity.letzte_aenderung}" target="dapStandortLetzteAenderung" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
@@ -638,6 +650,9 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="date" source="Form" sourcePath="${currentEntity.revision}" target="dapStandortRevision" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
@@ -767,6 +782,9 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="date" source="Form" sourcePath="${currentEntity.elek_pruefung}" target="dapStandortElekPruefung" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
@@ -784,6 +802,9 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="date" source="Form" sourcePath="${currentEntity.standsicherheitspruefung}" target="dapStandortStandsicherheitspruefung" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
@@ -851,6 +872,9 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="date" source="Form" sourcePath="${currentEntity.naechstes_pruefdatum}" target="dapStandortNaechstesPruefdatum" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>

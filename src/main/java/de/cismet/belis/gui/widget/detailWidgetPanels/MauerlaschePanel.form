@@ -97,9 +97,13 @@
           </Properties>
           <BindingProperties>
             <BindingProperty name="date" source="Form" sourcePath="${currentEntity.erstellungsjahr}" target="dapMauerlascheErstellungsjahr" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
               <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                 <Connection code="new DateValidator()" type="code"/>
               </Property>
+              <Property name="name" type="java.lang.String" value=""/>
             </BindingProperty>
           </BindingProperties>
           <Constraints>
@@ -195,7 +199,11 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.pruefdatum}" target="dapPruefdatum" targetPath="date" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="date" source="Form" sourcePath="${currentEntity.pruefdatum}" target="dapPruefdatum" targetPath="date" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new TimestampToDateConverter()" type="code"/>
+              </Property>
+            </BindingProperty>
           </BindingProperties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

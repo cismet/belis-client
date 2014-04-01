@@ -447,19 +447,6 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
      *
      * @param  datum  DOCUMENT ME!
      */
-    public void setDatum(final java.util.Date datum) {
-        if (datum == null) {
-            setDatum((Date)null);
-        } else {
-            setDatum(new Date(datum.getTime()));
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  datum  DOCUMENT ME!
-     */
     public void setDatum(final Date datum) {
         final Date old = this.datum;
         this.datum = datum;

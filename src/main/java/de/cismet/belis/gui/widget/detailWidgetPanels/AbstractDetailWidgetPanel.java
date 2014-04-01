@@ -155,8 +155,23 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
 //                log.debug("Validator of Binding != null. Validating Property: "+curBinding.getSourceProperty());
 //
 //            }
-                    final Binding.ValueResult result = curBinding.getTargetValueForSource();
-                    if ((result != null) && result.failed()
+                    boolean err = false;
+                    String errMessage = null;
+                    Binding.ValueResult result;
+                    try {
+                        result = curBinding.getTargetValueForSource();
+                    } catch (final Exception ex) {
+                        LOG.error(ex, ex);
+                        err = true;
+                        result = null;
+                        errMessage = ex.getMessage();
+                    }
+                    if (err) {
+                        LOG.info("Validation of property " + curBinding.getSourceProperty() + "has failed: " + result);
+                        LOG.info("Description: " + errMessage);
+                        validationMessage = errMessage;
+                        return Validatable.ERROR;
+                    } else if ((result != null) && result.failed()
                                 && (result.getFailure().getType() == Binding.SyncFailureType.VALIDATION_FAILED)) {
                         LOG.info("Validation of property " + curBinding.getSourceProperty() + "has failed: " + result);
                         LOG.info("Description: " + result.getFailure().getValidationResult().getDescription());
