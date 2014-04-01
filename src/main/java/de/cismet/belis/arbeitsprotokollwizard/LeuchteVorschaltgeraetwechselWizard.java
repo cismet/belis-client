@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -138,7 +140,7 @@ public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokol
                 "Erneuerung Vorschaltgerät",
                 leuchte,
                 TdtaLeuchtenCustomBean.PROP__WECHSELVORSCHALTGERAET,
-                dapErneuertAm.getDate()));
+                new Timestamp(dapErneuertAm.getDate().getTime())));
         aktionen.add(createAktion(
                 "Vorschaltgerät",
                 leuchte,

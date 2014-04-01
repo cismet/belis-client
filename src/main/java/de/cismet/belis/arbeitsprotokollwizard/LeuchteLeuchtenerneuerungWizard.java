@@ -15,6 +15,8 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -156,7 +158,7 @@ public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWiz
                 "Inbetriebnahme",
                 leuchte,
                 TdtaLeuchtenCustomBean.PROP__INBETRIEBNAHME_LEUCHTE,
-                dapInbetriebnahme.getDate()));
+                new Timestamp(dapInbetriebnahme.getDate().getTime())));
         aktionen.add(createAktion(
                 "Leuchtentyp",
                 leuchte,

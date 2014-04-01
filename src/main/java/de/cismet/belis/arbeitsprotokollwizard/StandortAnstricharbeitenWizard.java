@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -138,7 +140,7 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
                 "Mastanstrich",
                 standort,
                 TdtaStandortMastCustomBean.PROP__MASTANSTRICH,
-                dapMastanstrich.getDate()));
+                new Timestamp(dapMastanstrich.getDate().getTime())));
         aktionen.add(createAktion(
                 "Anstrichfarbe",
                 standort,

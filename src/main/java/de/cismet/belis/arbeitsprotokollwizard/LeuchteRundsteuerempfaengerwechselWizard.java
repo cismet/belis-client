@@ -15,6 +15,8 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -148,7 +150,7 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
                 "Einbaudatum",
                 leuchte,
                 TdtaLeuchtenCustomBean.PROP__EINBAUDATUM,
-                dapEinbaudatum.getDate()));
+                new Timestamp(dapEinbaudatum.getDate().getTime())));
         aktionen.add(createAktion(
                 "Rundsteuerempfänger",
                 leuchte,

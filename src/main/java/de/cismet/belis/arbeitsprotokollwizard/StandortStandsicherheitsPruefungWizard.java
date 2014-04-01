@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -163,7 +165,7 @@ public class StandortStandsicherheitsPruefungWizard extends AbstractArbeitsproto
                 "Standsicherheitsprüfung",
                 standort,
                 TdtaStandortMastCustomBean.PROP__STANDSICHERHEITSPRUEFUNG,
-                dapStandsicherheitspruefung.getDate()));
+                new Timestamp(dapStandsicherheitspruefung.getDate().getTime())));
         aktionen.add(createAktion(
                 "Verfahren",
                 standort,
@@ -173,6 +175,6 @@ public class StandortStandsicherheitsPruefungWizard extends AbstractArbeitsproto
                 "Nächstes Prüfdatum",
                 standort,
                 TdtaStandortMastCustomBean.PROP__NAECHSTES_PRUEFDATUM,
-                dapNaechstesPruefdatum.getDate()));
+                new Timestamp(dapNaechstesPruefdatum.getDate().getTime())));
     }
 }

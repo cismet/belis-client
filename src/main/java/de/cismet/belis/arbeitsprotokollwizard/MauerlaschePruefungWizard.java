@@ -16,6 +16,8 @@ import org.jdesktop.observablecollections.ObservableList;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -136,7 +138,7 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
                 "Prüfdatum",
                 mauerlasche,
                 MauerlascheCustomBean.PROP__PRUEFDATUM,
-                dapPruefung.getDate()));
+                new Timestamp(dapPruefung.getDate().getTime())));
 
         final Collection<DmsUrlCustomBean> dokumente = documentPanel1.getDokumente();
         for (final DmsUrlCustomBean dokument : dokumente) {

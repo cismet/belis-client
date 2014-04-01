@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -116,6 +118,6 @@ public class LeuchteSonderturnusWizard extends AbstractArbeitsprotokollWizard {
                 "Sonderturnus",
                 leuchte,
                 TdtaLeuchtenCustomBean.PROP__WARTUNGSZYKLUS,
-                dapSonderturnus.getDate()));
+                new Timestamp(dapSonderturnus.getDate().getTime())));
     }
 }

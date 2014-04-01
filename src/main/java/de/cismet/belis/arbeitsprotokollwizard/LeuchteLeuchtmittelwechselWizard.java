@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -174,7 +176,7 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
                 "Wechseldatum",
                 leuchte,
                 TdtaLeuchtenCustomBean.PROP__WECHSELDATUM,
-                dapLeuchteLeuchtmittelwechsel.getDate()));
+                new Timestamp(dapLeuchteLeuchtmittelwechsel.getDate().getTime())));
         aktionen.add(createAktion("Lebensdauer", leuchte, TdtaLeuchtenCustomBean.PROP__LEBENSDAUER, lebensdauer));
         aktionen.add(createAktion(
                 "Leuchtmittel",

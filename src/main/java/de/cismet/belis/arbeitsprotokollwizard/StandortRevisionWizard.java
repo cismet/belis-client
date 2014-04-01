@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -114,6 +116,6 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
                 "Revision",
                 standort,
                 TdtaStandortMastCustomBean.PROP__REVISION,
-                dapRevision.getDate()));
+                new Timestamp(dapRevision.getDate().getTime())));
     }
 }

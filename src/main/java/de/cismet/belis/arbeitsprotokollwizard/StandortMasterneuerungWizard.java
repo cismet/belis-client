@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -138,7 +140,7 @@ public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard
                 "Inbetriebnahme",
                 standort,
                 TdtaStandortMastCustomBean.PROP__INBETRIEBNAHME_MAST,
-                dapInbetriebnahme.getDate()));
+                new Timestamp(dapInbetriebnahme.getDate().getTime())));
         aktionen.add(createAktion(
                 "Montagefirma",
                 standort,

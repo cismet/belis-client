@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -135,7 +137,7 @@ public class StandortElektrischePruefungWizard extends AbstractArbeitsprotokollW
                 "Elektrische Prüfung",
                 standort,
                 TdtaStandortMastCustomBean.PROP__ELEK_PRUEFUNG,
-                dapStandortElekPruefung.getDate()));
+                new Timestamp(dapStandortElekPruefung.getDate().getTime())));
         aktionen.add(createAktion(
                 "Erdung in Ordnung",
                 standort,

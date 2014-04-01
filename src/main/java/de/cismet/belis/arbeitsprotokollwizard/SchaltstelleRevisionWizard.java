@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
@@ -116,6 +118,6 @@ public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard {
                 "Prüfdatum",
                 schaltstelle,
                 SchaltstelleCustomBean.PROP__PRUEFDATUM,
-                dapPruefung.getDate()));
+                new Timestamp(dapPruefung.getDate().getTime())));
     }
 }

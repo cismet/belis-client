@@ -13,6 +13,8 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
+import java.sql.Timestamp;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -216,7 +218,7 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
                 "Elektrische Prüfung",
                 standort,
                 TdtaStandortMastCustomBean.PROP__ELEK_PRUEFUNG,
-                dapStandortElekPruefung.getDate()));
+                new Timestamp(dapStandortElekPruefung.getDate().getTime())));
         aktionen.add(createAktion(
                 "Erdung in Ordnung",
                 standort,
@@ -226,7 +228,7 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
                 "Wechseldatum",
                 leuchte,
                 TdtaLeuchtenCustomBean.PROP__WECHSELDATUM,
-                dapLeuchteLeuchtmittelwechsel.getDate()));
+                new Timestamp(dapLeuchteLeuchtmittelwechsel.getDate().getTime())));
         aktionen.add(createAktion(
                 "Leuchtmittel",
                 leuchte,
