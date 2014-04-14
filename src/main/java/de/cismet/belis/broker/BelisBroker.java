@@ -331,7 +331,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 //    public static final String PROP_NEW_OBJECTS = "currentSearchResults";
     private boolean inCreateMode;
     private MapSearchControl mscPan = null;
-    private int maxSearchResults = 50;
     private SaveWaitDialog saveWaitDialog = null;
     private CancelWaitDialog cancelWaitDialog = null;
     private LockWaitDialog lockWaitDialog = null;
@@ -1296,19 +1295,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public void masterConfigure(final Element parent) {
         initToolbar();
         try {
-            final Element prefs = parent.getChild("Options");
-            try {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("MaxSearchResults: " + prefs.getChildText("MaxSearchResults"));
-                }
-                maxSearchResults = Integer.valueOf(prefs.getChildText("MaxSearchResults"));
-            } catch (Exception ex) {
-                LOG.warn("Error while reading max value for search results.Using default: " + maxSearchResults, ex);
-            }
-        } catch (Exception ex) {
-            LOG.warn("Error while reading options");
-        }
-        try {
             saveWaitDialog = new SaveWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
             cancelWaitDialog = new CancelWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
             lockWaitDialog = new LockWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
@@ -1358,19 +1344,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         doBelisBinding();
         customizeMapWidget();
         ((DefaultFeatureCollection)getMappingComponent().getFeatureCollection()).addVetoableSelectionListener(this);
-        // Configure Font for map object labels (keystring)
-        // ToDo make configurable;
-        try {
-            final Element prefs = parent.getChild("Options");
-            IconUtils.setFont(new Font(
-                    "Courier",
-                    Font.PLAIN,
-                    Integer.parseInt(prefs.getChildText("MapObjectFontSize"))));
-        } catch (Exception ex) {
-            final int defaultFontSize = 15;
-            LOG.warn("Error setting fontsize for map objects. Setting font to default: " + defaultFontSize);
-            IconUtils.setFont(new Font("Courier", Font.PLAIN, defaultFontSize));
-        }
+
+        final int defaultFontSize = 16;
+        LOG.warn("Error setting fontsize for map objects. Setting font to default: " + defaultFontSize);
+        IconUtils.setFont(new Font("Courier", Font.PLAIN, defaultFontSize));
 
         showMainApplication();
     }
@@ -2271,28 +2248,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public void setDetailWidget(final DetailWidget detailWidget) {
         this.detailWidget = detailWidget;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   searchCount  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public boolean IsGreaterMaxSearchResults(final int searchCount) {
-        if (searchCount > maxSearchResults) {
-            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
-                "Es wurden zu viele Ergebnisse gefunden: "
-                        + searchCount
-                        + ". Zulässige Anzahl sind: "
-                        + maxSearchResults
-                        + ".\nBitte verändern Sie Ihre Auswahl.",
-                "Zu viele Ergebnisse",
-                JOptionPane.INFORMATION_MESSAGE);
-            return true;
-        }
-        return false;
     }
 
     /**
