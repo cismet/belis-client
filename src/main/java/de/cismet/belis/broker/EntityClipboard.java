@@ -14,8 +14,6 @@ import java.util.List;
 
 import javax.swing.tree.TreePath;
 
-import de.cismet.belis.gui.widget.WorkbenchWidget;
-
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
 
 import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
@@ -110,7 +108,8 @@ public class EntityClipboard {
             try {
                 final CustomMutableTreeTableNode selectedNode = getSelectedNodeForPaste();
                 final Object selectedObject = selectedNode.getUserObject();
-                if (selectedObject instanceof ArbeitsauftragCustomBean) {
+                if ((selectedObject instanceof ArbeitsauftragCustomBean)
+                            && CidsBroker.getInstance().checkForEditArbeitsauftrag()) {
                     final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)selectedObject;
                     for (final CidsBean clipboardBean : clipboardBeans) {
                         if (clipboardBean instanceof VeranlassungCustomBean) {
@@ -136,7 +135,8 @@ public class EntityClipboard {
                             arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                         }
                     }
-                } else if (selectedObject instanceof VeranlassungCustomBean) {
+                } else if ((selectedObject instanceof VeranlassungCustomBean)
+                            && CidsBroker.getInstance().checkForEditVeranlassung()) {
                     final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)selectedObject;
 
                     for (final CidsBean clipboardBean : clipboardBeans) {
@@ -277,10 +277,12 @@ public class EntityClipboard {
                         .getLastPathComponent();
             if (node != null) {
                 final Object object = node.getUserObject();
-                if (object instanceof ArbeitsauftragCustomBean) {
+                if ((object instanceof ArbeitsauftragCustomBean)
+                            && CidsBroker.getInstance().checkForEditArbeitsauftrag()) {
                     return node;
                         // selectedBean = (ArbeitsauftragCustomBean)object;
-                } else if (object instanceof VeranlassungCustomBean) {
+                } else if ((object instanceof VeranlassungCustomBean)
+                            && CidsBroker.getInstance().checkForEditVeranlassung()) {
                     return node;
                         // selectedBean = (VeranlassungCustomBean)object;
                 }

@@ -28,6 +28,7 @@ import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.client.BelisClient;
 
@@ -102,9 +103,10 @@ class WorkbenchTransferHandler extends TransferHandler {
         final int dropRow = dl.getRow();
         final TreePath targetPath = tree.getPathForRow(dropRow);
         final Object userObject = ((CustomMutableTreeTableNode)targetPath.getLastPathComponent()).getUserObject();
-        if (userObject instanceof VeranlassungCustomBean) {
+        if ((userObject instanceof VeranlassungCustomBean) && CidsBroker.getInstance().checkForEditVeranlassung()) {
             return true;
-        } else if (userObject instanceof ArbeitsauftragCustomBean) {
+        } else if ((userObject instanceof ArbeitsauftragCustomBean)
+                    && CidsBroker.getInstance().checkForEditArbeitsauftrag()) {
             return true;
         } else {
             return false;

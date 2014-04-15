@@ -16,6 +16,8 @@ import java.beans.PropertyChangeEvent;
 
 import java.util.Collection;
 
+import de.cismet.belis.broker.CidsBroker;
+
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsauftragPanel;
@@ -158,14 +160,13 @@ public class DetailWidget extends BelisWidget {
      *
      * @param  currentEntities  new value of currentEntity
      * @param  parentEntity     DOCUMENT ME!
-     * @param  isEditable       DOCUMENT ME!
+     * @param  wantsToEdit      isEditable DOCUMENT ME!
      */
     public void setCurrentEntities(final Collection<WorkbenchEntity> currentEntities,
             final WorkbenchEntity parentEntity,
-            final boolean isEditable) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setCurrentEntities", new CurrentStackTrace());
-        }
+            final boolean wantsToEdit) {
+        final boolean isAllowedToEdit;
+
         this.currentEntities = currentEntities;
 
         if ((currentEntities != null) && !currentEntities.isEmpty()) {
@@ -177,111 +178,95 @@ public class DetailWidget extends BelisWidget {
         bindingGroup.unbind();
         bindingGroup.bind();
 
-        setWidgetEditable(isEditable);
-
         if (currentEntity == null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("current Entity is null");
-            }
-            showPanel(null);
-            panDokumente.setDokumente(null);
-            return;
-        }
-        if (currentEntity instanceof DocumentContainer) {
-            panDokumente.setDokumente(((DocumentContainer)currentEntity).getDokumente());
-            panMain.setTabComponentAt(1, labDokumente);
-        }
-
-        if (currentEntity instanceof TdtaStandortMastCustomBean) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CurrentEntity is Standort");
-            }
-            standortPanel.setCurrentEntity((TdtaStandortMastCustomBean)currentEntity);
-            currentDetailWidgetPanel = standortPanel;
-        } else if (currentEntity instanceof TdtaLeuchtenCustomBean) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CurrentEntity is Leuchte");
-            }
-
-            LOG.info("ParentNode: " + ((TdtaLeuchtenCustomBean)currentEntity).getFk_standort());
-            if (getBroker().getWorkbenchWidget().isParentNodeMast(
-                            getBroker().getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("ParentNode ist Mast");
-                }
-                leuchtePanel.setInheritedMastPropertiesEnabled(false);
-            } else {
-                if (getBroker().isInEditMode()) {
-                    leuchtePanel.setInheritedMastPropertiesEnabled(true);
-                }
-            }
-
-            leuchtePanel.setCurrentEntity((TdtaLeuchtenCustomBean)currentEntity);
-            currentDetailWidgetPanel = leuchtePanel;
-        } else if (currentEntity instanceof LeitungCustomBean) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CurrentEntity is Leitung");
-            }
-
-            leitungPanel.setCurrentEntity((LeitungCustomBean)currentEntity);
-            currentDetailWidgetPanel = leitungPanel;
-        } else if (currentEntity instanceof AbzweigdoseCustomBean) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CurrentEntity is Abzweigdose");
-            }
-
-            abzweigdosePanel.setCurrentEntity((AbzweigdoseCustomBean)currentEntity);
-            currentDetailWidgetPanel = abzweigdosePanel;
-        } else if (currentEntity instanceof MauerlascheCustomBean) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CurrentEntity is Mauerlasche");
-            }
-
-            mauerlaschePanel.setCurrentEntity((MauerlascheCustomBean)currentEntity);
-            currentDetailWidgetPanel = mauerlaschePanel;
-        } else if (currentEntity instanceof SchaltstelleCustomBean) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CurrentEntity is Schaltstelle");
-            }
-
-            schaltstellePanel.setCurrentEntity((SchaltstelleCustomBean)currentEntity);
-            currentDetailWidgetPanel = schaltstellePanel;
-        } else if (currentEntity instanceof VeranlassungCustomBean) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CurrentEntity is Veranlassung");
-            }
-
-            veranlassungPanel.setCurrentEntity((VeranlassungCustomBean)currentEntity);
-            currentDetailWidgetPanel = veranlassungPanel;
-        } else if (currentEntity instanceof ArbeitsauftragCustomBean) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CurrentEntity is Arbeitsauftrag");
-            }
-
-            arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)currentEntity);
-            currentDetailWidgetPanel = arbeitsauftragPanel;
-        } else if (currentEntity instanceof ArbeitsprotokollCustomBean) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("CurrentEntity is Arbeitsprotokoll");
-            }
-            if (parentEntity instanceof ArbeitsauftragCustomBean) {
-                arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
-                arbeitsauftragPanel.setSelectedProtokolle((Collection)currentEntities);
-                currentDetailWidgetPanel = arbeitsauftragPanel;
-            } else {
-                LOG.error("parent of protokoll node should be an auftrags node");
-                currentDetailWidgetPanel = null;
-            }
-        } else {
             currentDetailWidgetPanel = null;
+            isAllowedToEdit = false;
+        } else {
+            final boolean basicEditEnabled = CidsBroker.getInstance().checkForEditBasic();
+            final boolean veranlassungEditEnabled = CidsBroker.getInstance().checkForEditVeranlassung();
+            final boolean arbeitsauftragEditEnabled = CidsBroker.getInstance().checkForEditArbeitsauftrag();
+
+            if (currentEntity instanceof DocumentContainer) {
+                panDokumente.setDokumente(((DocumentContainer)currentEntity).getDokumente());
+                panMain.setTabComponentAt(1, labDokumente);
+            }
+
+            if (currentEntity instanceof TdtaStandortMastCustomBean) {
+                standortPanel.setCurrentEntity((TdtaStandortMastCustomBean)currentEntity);
+                currentDetailWidgetPanel = standortPanel;
+                isAllowedToEdit = basicEditEnabled
+                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
+                                || (parentEntity instanceof VeranlassungCustomBean));
+            } else if (currentEntity instanceof TdtaLeuchtenCustomBean) {
+                if (getBroker().getWorkbenchWidget().isParentNodeMast(
+                                getBroker().getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
+                    leuchtePanel.setInheritedMastPropertiesEnabled(false);
+                } else {
+                    if (getBroker().isInEditMode()) {
+                        leuchtePanel.setInheritedMastPropertiesEnabled(true);
+                    }
+                }
+                leuchtePanel.setCurrentEntity((TdtaLeuchtenCustomBean)currentEntity);
+                currentDetailWidgetPanel = leuchtePanel;
+                isAllowedToEdit = basicEditEnabled
+                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
+                                || (parentEntity instanceof VeranlassungCustomBean));
+            } else if (currentEntity instanceof LeitungCustomBean) {
+                leitungPanel.setCurrentEntity((LeitungCustomBean)currentEntity);
+                currentDetailWidgetPanel = leitungPanel;
+                isAllowedToEdit = basicEditEnabled
+                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
+                                || (parentEntity instanceof VeranlassungCustomBean));
+            } else if (currentEntity instanceof AbzweigdoseCustomBean) {
+                abzweigdosePanel.setCurrentEntity((AbzweigdoseCustomBean)currentEntity);
+                currentDetailWidgetPanel = abzweigdosePanel;
+                isAllowedToEdit = basicEditEnabled
+                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
+                                || (parentEntity instanceof VeranlassungCustomBean));
+            } else if (currentEntity instanceof MauerlascheCustomBean) {
+                mauerlaschePanel.setCurrentEntity((MauerlascheCustomBean)currentEntity);
+                currentDetailWidgetPanel = mauerlaschePanel;
+                isAllowedToEdit = basicEditEnabled
+                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
+                                || (parentEntity instanceof VeranlassungCustomBean));
+            } else if (currentEntity instanceof SchaltstelleCustomBean) {
+                schaltstellePanel.setCurrentEntity((SchaltstelleCustomBean)currentEntity);
+                currentDetailWidgetPanel = schaltstellePanel;
+                isAllowedToEdit = basicEditEnabled
+                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
+                                || (parentEntity instanceof VeranlassungCustomBean));
+            } else if (currentEntity instanceof VeranlassungCustomBean) {
+                veranlassungPanel.setCurrentEntity((VeranlassungCustomBean)currentEntity);
+                currentDetailWidgetPanel = veranlassungPanel;
+                isAllowedToEdit = veranlassungEditEnabled;
+            } else if (currentEntity instanceof ArbeitsauftragCustomBean) {
+                arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)currentEntity);
+                currentDetailWidgetPanel = arbeitsauftragPanel;
+                isAllowedToEdit = arbeitsauftragEditEnabled;
+            } else if (currentEntity instanceof ArbeitsprotokollCustomBean) {
+                if (parentEntity instanceof ArbeitsauftragCustomBean) {
+                    arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
+                    arbeitsauftragPanel.setSelectedProtokolle((Collection)currentEntities);
+                    currentDetailWidgetPanel = arbeitsauftragPanel;
+                    isAllowedToEdit = arbeitsauftragEditEnabled;
+                } else {
+                    currentDetailWidgetPanel = null;
+                    isAllowedToEdit = false;
+                }
+            } else {
+                currentDetailWidgetPanel = null;
+                isAllowedToEdit = false;
+            }
         }
 
+        final boolean isEnabled = wantsToEdit && isAllowedToEdit;
         if (currentDetailWidgetPanel == null) {
             panDokumente.setDokumente(null);
         } else {
             currentDetailWidgetPanel.setElementsNull();
-            currentDetailWidgetPanel.setPanelEditable(isEditable);
+            currentDetailWidgetPanel.setPanelEditable(isEnabled);
         }
+        setWidgetEditable(isEnabled);
 
         showPanel(currentDetailWidgetPanel);
         this.repaint();

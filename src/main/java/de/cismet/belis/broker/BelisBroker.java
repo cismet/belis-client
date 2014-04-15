@@ -67,7 +67,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -297,10 +296,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     protected JComponent parentComponent;
     protected JFrame parentFrame;
     // Permissions
-    protected boolean isFullReadOnlyMode = true;
-    protected boolean isCoreReadOnlyMode = true;
     // ToDo improve mechanismn
-    protected HashMap<String, Boolean> permissions = new HashMap<String, Boolean>();
     /** Creates a new instance of LagisBroker. */
     protected StatusBar statusBar;
     protected ExecutorService execService = null;
@@ -598,11 +594,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     ((ColorHighlighter)(((CompoundHighlighter)ALTERNATE_ROW_HIGHLIGHTER).getHighlighters()[0]))
                             .setBackground(ODD_ROW_DEFAULT_COLOR);
                 }
-                if (isEditable) {
-                    curWidget.setWidgetEditable(isEditable);
-                } else {
-                    curWidget.setWidgetEditable(isEditable);
-                }
+                curWidget.setWidgetEditable(isEditable);
             }
         }
     }
@@ -937,63 +929,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         return calender.getTime();
     }
 
-    /**
-     * TODO nächsten 6 methoden Sinnvoll ?? public String getUsername() { return username; } public void
-     * setUsername(String aUsername) { username = aUsername; } public String getGroup() { return group; } public void
-     * setGroup(String aGroup) { group = aGroup; } public String getDomain() { return domain; } public void
-     * setDomain(String aDomain) { domain = aDomain; } TODO is fullqualified username toDo refactor
-     *
-     * @return  DOCUMENT ME!
-     */
-    public boolean isFullReadOnlyMode() {
-        return isFullReadOnlyMode;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  isFullReadOnlyMode  DOCUMENT ME!
-     */
-    public void setFullReadOnlyMode(final boolean isFullReadOnlyMode) {
-        this.isFullReadOnlyMode = isFullReadOnlyMode;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public boolean isCoreReadOnlyMode() {
-        return isCoreReadOnlyMode;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  isCoreReadOnlyMode  DOCUMENT ME!
-     */
-    public void setCoreReadOnlyMode(final boolean isCoreReadOnlyMode) {
-        this.isCoreReadOnlyMode = isCoreReadOnlyMode;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public HashMap<String, Boolean> getPermissions() {
-        return permissions;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  permissions  DOCUMENT ME!
-     */
-    public void setPermissions(final HashMap<String, Boolean> permissions) {
-        this.permissions = permissions;
-    }
-
     @Override
     public Element getConfiguration() throws NoWriteError {
         return null;
@@ -1089,22 +1024,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             searchDialog,
             descriptionPane);
 
-        searchResultsTree.getModel().addTreeModelListener(new TreeModelListener() {
+        searchResultsTree.addPropertyChangeListener("browse", new PropertyChangeListener() {
 
                 @Override
-                public void treeNodesChanged(final TreeModelEvent e) {
-                }
-
-                @Override
-                public void treeNodesInserted(final TreeModelEvent e) {
-                }
-
-                @Override
-                public void treeNodesRemoved(final TreeModelEvent e) {
-                }
-
-                @Override
-                public void treeStructureChanged(final TreeModelEvent e) {
+                public void propertyChange(final PropertyChangeEvent evt) {
                     SwingUtilities.invokeLater(new Thread() {
 
                             @Override
@@ -1135,7 +1058,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                             }
                         });
                 }
-            });
+            }); // NOI18N
 
         setComponentRegistry(ComponentRegistry.getRegistry());
     }
@@ -1146,18 +1069,20 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public void lookupWidgets() {
         try {
             for (final BelisWidget widget : Lookup.getDefault().lookupAll(BelisWidget.class)) {
-                try {
-                    widget.setBroker(this);
-                    if (widget instanceof MapWidget) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Mapwidget found");
+                if (widget.isAllowedToShow()) {
+                    try {
+                        widget.setBroker(this);
+                        if (widget instanceof MapWidget) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Mapwidget found");
+                            }
+                            mapWidget = (MapWidget)widget;
                         }
-                        mapWidget = (MapWidget)widget;
-                    }
 
-                    addWidget(widget);
-                } catch (Exception ex) {
-                    LOG.error("Error while initializing widget", ex);
+                        addWidget(widget);
+                    } catch (Exception ex) {
+                        LOG.error("Error while initializing widget", ex);
+                    }
                 }
             }
         } catch (Throwable ex) {
@@ -1508,12 +1433,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         LOG.debug("frame available and ready to show");
                         // toDo has to be here because it must be sure that the login is over
                         LOG.debug("check read mode");
-                    }
-                    if (isFullReadOnlyMode()) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("is inFullReadOnlyMode disable edit buttions");
-                        }
-                        editButtonsToolbar.enableSwitchToModeButtons(false);
                     }
                     mapWidget.setInteractionMode();
                     frame.setVisible(true);
@@ -2476,7 +2395,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 break;
             } else if (curWidget instanceof WorkbenchWidget) {
                 workbenchWidget = (WorkbenchWidget)curWidget;
-                workbenchWidget.addTreeSeleletionListener(panCreate);
                 workbenchWidget.addPropertyChangeListener(new PropertyChangeListener() {
 
                         @Override
@@ -2544,21 +2462,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                             parentEntity = (WorkbenchEntity)allSameParentNode.getUserObject();
                         }
 
-                        boolean isEditable = false;
-//                        if (!currentEntities.isEmpty()) {
                         final boolean isFromNewNode = (allSameMainNode != null)
                                     && allSameMainNode.equals(((WorkbenchWidget)evt.getSource()).getNewObjectsNode());
                         final boolean isFromEditNode = (allSameMainNode != null)
                                     && allSameMainNode.equals(((WorkbenchWidget)evt.getSource()).getEditObjectsNode());
-                        if (isFromNewNode || isFromEditNode) {
-                            if (!((parentEntity instanceof VeranlassungCustomBean)
-                                            || (parentEntity instanceof ArbeitsprotokollCustomBean))) {
-                                isEditable = true;
-                            }
-                        }
-//                        }
 
-                        detailWidget.setCurrentEntities(currentEntities, parentEntity, isEditable);
+                        detailWidget.setCurrentEntities(currentEntities, parentEntity, isFromNewNode || isFromEditNode);
                         final WorkbenchEntity selectedSingleEntity;
                         if (currentEntities.size() == 1) {
                             final Object selectedObject = currentEntities.iterator().next();
@@ -2570,8 +2479,16 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         } else {
                             selectedSingleEntity = null;
                         }
-                        panCreate.setSelectedEntity(selectedSingleEntity);
-                        panCreate.setWidgetEditable(isEditable);
+
+                        if (isInEditMode()) {
+                            if (isFromNewNode || isFromEditNode) {
+                                panCreate.setSelectedEntity(selectedSingleEntity);
+                            } else {
+                                panCreate.setSelectedEntity(null);
+                            }
+                        } else {
+                            panCreate.setSelectedEntity(null);
+                        }
                     }
                 }
             };
@@ -2958,9 +2875,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         if (LOG.isDebugEnabled()) {
             LOG.debug("fireSearchFinished");
         }
-        if (!isFullReadOnlyMode) {
-            editButtonsToolbar.enableSwitchToModeButtons(!isInCreateMode() && !isInEditMode());
-        }
+        editButtonsToolbar.enableSwitchToModeButtons(!isInCreateMode() && !isInEditMode());
         btnReload.setEnabled(true);
         cmdPrint.setEnabled(true);
         for (final SearchControl curSearchControl : searchControls) {
@@ -3528,9 +3443,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("enable buttons");
                 }
-                if (!isFullReadOnlyMode()) {
-                    editButtonsToolbar.enableSwitchToModeButtons(true);
-                }
+                editButtonsToolbar.enableSwitchToModeButtons(true);
                 btnAcceptChanges.setEnabled(false);
                 btnDiscardChanges.setEnabled(false);
                 setTitleBarComponentpainter(DEFAULT_MODE_COLOR);

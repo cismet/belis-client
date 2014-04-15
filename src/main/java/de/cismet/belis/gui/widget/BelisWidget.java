@@ -124,4 +124,13 @@ public class BelisWidget extends AbstractWidget {
     @Override
     public void updateUIPropertyChange() {
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isAllowedToShow() {
+        return true;
+    }
 }

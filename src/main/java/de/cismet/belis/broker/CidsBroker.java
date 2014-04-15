@@ -190,6 +190,136 @@ public class CidsBroker {
     /**
      * DOCUMENT ME!
      *
+     * @return  DOCUMENT ME!
+     */
+    public boolean checkForDelete() {
+        try {
+            return getProxy().hasConfigAttr(SessionManager.getSession().getUser(), "belis.delete");
+        } catch (final Exception ex) {
+            return false;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean checkForCreateBasic() {
+        try {
+            return getProxy().hasConfigAttr(SessionManager.getSession().getUser(), "belis.create.Basic");
+        } catch (final Exception ex) {
+            return false;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean checkForEditBasic() {
+        try {
+            return getProxy().hasConfigAttr(SessionManager.getSession().getUser(), "belis.edit.Basic");
+        } catch (final Exception ex) {
+            return false;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean checkForCreateVeranlassung() {
+        try {
+            return getProxy().hasConfigAttr(SessionManager.getSession().getUser(), "belis.create.Veranlassung");
+        } catch (final Exception ex) {
+            return false;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean checkForEditVeranlassung() {
+        try {
+            return getProxy().hasConfigAttr(SessionManager.getSession().getUser(), "belis.edit.Veranlassung");
+        } catch (final Exception ex) {
+            return false;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean checkForCreateArbeitsauftrag() {
+        try {
+            return getProxy().hasConfigAttr(SessionManager.getSession().getUser(), "belis.create.Arbeitsauftrag");
+        } catch (final Exception ex) {
+            return false;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean checkForEditArbeitsauftrag() {
+        try {
+            return getProxy().hasConfigAttr(SessionManager.getSession().getUser(), "belis.edit.Arbeitsauftrag");
+        } catch (final Exception ex) {
+            return false;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean checkForEditKeytables() {
+        try {
+            return getProxy().hasConfigAttr(SessionManager.getSession().getUser(), "belis.edit.Keytables");
+        } catch (final Exception ex) {
+            return false;
+        }
+    }
+
+//    /**
+//     * DOCUMENT ME!
+//     *
+//     * @return  DOCUMENT ME!
+//     */
+//    public boolean checkForAddToArbeitsauftrag() {
+//        try {
+//            return getProxy().hasConfigAttr(SessionManager.getSession().getUser(), "belis.addTo.Arbeitsauftrag");
+//        } catch (final Exception ex) {
+//            return false;
+//        }
+//    }
+//
+//    /**
+//     * DOCUMENT ME!
+//     *
+//     * @return  DOCUMENT ME!
+//     */
+//    public boolean checkForAddToVeranlassung() {
+//        try {
+//            return getProxy().hasConfigAttr(SessionManager.getSession().getUser(), "belis.addTo.Veranlassung");
+//        } catch (final Exception ex) {
+//            return false;
+//        }
+//    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   classid   DOCUMENT ME!
      * @param   objectid  DOCUMENT ME!
      * @param   domain    DOCUMENT ME!

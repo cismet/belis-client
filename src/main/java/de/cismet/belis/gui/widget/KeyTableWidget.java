@@ -32,6 +32,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import de.cismet.belis.broker.BelisBroker;
+import de.cismet.belis.broker.CidsBroker;
 
 /**
  * DOCUMENT ME!
@@ -152,5 +153,10 @@ public class KeyTableWidget extends BelisWidget implements TreeSelectionListener
                 LOG.warn("insufficient permission to edit node " + selectedNode); // NOI18N
             }
         }
+    }
+
+    @Override
+    public boolean isAllowedToShow() {
+        return CidsBroker.getInstance().checkForEditKeytables();
     }
 }

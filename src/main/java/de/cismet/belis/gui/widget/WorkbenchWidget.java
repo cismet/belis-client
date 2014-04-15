@@ -59,6 +59,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.renderer.WorkbenchTreeTableRenderer;
 
@@ -142,6 +143,13 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     private TreePath selectedElement = null;
     private Set searchResults = null;
     private List<TreeSelectionListener> treeSelectionListener = new ArrayList<TreeSelectionListener>();
+    private final boolean basicEditEnabled;
+    private final boolean veranlassungEditEnabled;
+    private final boolean arbeitsauftragEditEnabled;
+    private final boolean basicCreateEnabled;
+    private final boolean veranlassungCreateEnabled;
+    private final boolean arbeitsauftragCreateEnabled;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTreeTable jttHitTable;
@@ -155,6 +163,13 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      */
     public WorkbenchWidget() {
         setWidgetName("Arbeitsbereich");
+
+        basicEditEnabled = CidsBroker.getInstance().checkForEditBasic();
+        veranlassungEditEnabled = CidsBroker.getInstance().checkForEditVeranlassung();
+        arbeitsauftragEditEnabled = CidsBroker.getInstance().checkForEditArbeitsauftrag();
+        basicCreateEnabled = CidsBroker.getInstance().checkForCreateBasic();
+        veranlassungCreateEnabled = CidsBroker.getInstance().checkForCreateVeranlassung();
+        arbeitsauftragCreateEnabled = CidsBroker.getInstance().checkForCreateArbeitsauftrag();
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -555,7 +570,18 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 final Collection<MutableTreeTableNode> nodes = new ArrayList<MutableTreeTableNode>();
                 for (int i = 0; i < searchResultsNode.getChildCount(); i++) {
                     final MutableTreeTableNode node = (MutableTreeTableNode)searchResultsNode.getChildAt(i);
-                    nodes.add(node);
+                    final boolean isBasicNode = (node.getUserObject() instanceof TdtaStandortMastCustomBean)
+                                || (node.getUserObject() instanceof TdtaLeuchtenCustomBean)
+                                || (node.getUserObject() instanceof MauerlascheCustomBean)
+                                || (node.getUserObject() instanceof SchaltstelleCustomBean)
+                                || (node.getUserObject() instanceof LeitungCustomBean)
+                                || (node.getUserObject() instanceof AbzweigdoseCustomBean);
+                    final boolean isVeranlassungNode = node.getUserObject() instanceof VeranlassungCustomBean;
+                    final boolean isArbeitsauftragNode = node.getUserObject() instanceof ArbeitsauftragCustomBean;
+                    if ((isBasicNode && basicEditEnabled) || (isVeranlassungNode && veranlassungEditEnabled)
+                                || (isArbeitsauftragNode && arbeitsauftragEditEnabled)) {
+                        nodes.add(node);
+                    }
                 }
                 for (final MutableTreeTableNode node : nodes) {
                     treeTableModel.insertNodeIntoAsLastChild(node, editObjectsNode);
@@ -1484,25 +1510,18 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     ((CustomMutableTreeTableNode)nodeToRemove.getParent()).getUserObject();
                 if (nodeToRemove.getUserObject() instanceof TdtaLeuchtenCustomBean) {
                     veranlassung.getAr_leuchten().remove((TdtaLeuchtenCustomBean)nodeToRemove.getUserObject());
-                    objectsToDelete.add((BaseEntity)nodeToRemove.getUserObject());
                 } else if (nodeToRemove.getUserObject() instanceof TdtaStandortMastCustomBean) {
                     veranlassung.getAr_standorte().remove((TdtaStandortMastCustomBean)nodeToRemove.getUserObject());
-                    objectsToDelete.add((BaseEntity)nodeToRemove.getUserObject());
                 } else if (nodeToRemove.getUserObject() instanceof MauerlascheCustomBean) {
                     veranlassung.getAr_mauerlaschen().remove((MauerlascheCustomBean)nodeToRemove.getUserObject());
-                    objectsToDelete.add((BaseEntity)nodeToRemove.getUserObject());
                 } else if (nodeToRemove.getUserObject() instanceof LeitungCustomBean) {
                     veranlassung.getAr_leitungen().remove((LeitungCustomBean)nodeToRemove.getUserObject());
-                    objectsToDelete.add((BaseEntity)nodeToRemove.getUserObject());
                 } else if (nodeToRemove.getUserObject() instanceof AbzweigdoseCustomBean) {
                     veranlassung.getAr_abzweigdosen().remove((AbzweigdoseCustomBean)nodeToRemove.getUserObject());
-                    objectsToDelete.add((BaseEntity)nodeToRemove.getUserObject());
                 } else if (nodeToRemove.getUserObject() instanceof SchaltstelleCustomBean) {
                     veranlassung.getAr_schaltstellen().remove((SchaltstelleCustomBean)nodeToRemove.getUserObject());
-                    objectsToDelete.add((BaseEntity)nodeToRemove.getUserObject());
                 } else if (nodeToRemove.getUserObject() instanceof GeometrieCustomBean) {
                     veranlassung.getAr_geometrien().remove((GeometrieCustomBean)nodeToRemove.getUserObject());
-                    objectsToDelete.add((BaseEntity)nodeToRemove.getUserObject());
                 }
             } else if ((nodeToRemove.getUserObject() != null) && (nodeToRemove.getParent() != null)
                         && (nodeToRemove.getParent() instanceof CustomMutableTreeTableNode)
@@ -1565,6 +1584,9 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Neither Mast Leuchte nor Hängeleuchte.");
                 }
+                if (!(entity instanceof TdtaLeuchtenCustomBean)) {
+                    objectsToDelete.add((BaseEntity)entity);
+                }
             }
             treeTableModel.removeNodeFromParent(nodeToRemove);
             // removedNodes.add(nodeToRemove);
@@ -1573,9 +1595,11 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     LOG.debug("Entity has a geometry. Removing geometry from map");
                 }
                 getBroker().getMappingComponent().getFeatureCollection().removeFeature((GeoBaseEntity)entity);
-            }
-            if (!(entity instanceof TdtaLeuchtenCustomBean)) {
-                objectsToDelete.add((BaseEntity)entity);
+            } else if ((entity instanceof ArbeitsprotokollCustomBean)
+                        && (((ArbeitsprotokollCustomBean)entity).getChildEntity().getGeometrie() != null)) {
+                getBroker().getMappingComponent()
+                        .getFeatureCollection()
+                        .removeFeature(((ArbeitsprotokollCustomBean)entity).getChildEntity());
             }
         } else {
             if (LOG.isDebugEnabled()) {
@@ -1665,24 +1689,40 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @param  entity  DOCUMENT ME!
      */
     public void addNewEntity(final BaseEntity entity) {
-        final CustomMutableTreeTableNode entityNode = new CustomMutableTreeTableNode(entity, true);
-        objectsToPersist.add((BaseEntity)entityNode.getUserObject());
-        treeTableModel.insertNodeIntoAsLastChild(entityNode, newObjectsNode);
-        selectNode(entityNode);
+        final boolean isBasic = (entity instanceof AbzweigdoseCustomBean) || (entity instanceof MauerlascheCustomBean)
+                    || (entity instanceof LeitungCustomBean) || (entity instanceof SchaltstelleCustomBean)
+                    || (entity instanceof TdtaLeuchtenCustomBean) || (entity instanceof TdtaStandortMastCustomBean);
+        final boolean isVeranlassung = (entity instanceof VeranlassungCustomBean);
+        final boolean isArbeitsauftrag = (entity instanceof ArbeitsauftragCustomBean);
+        final boolean allowed = (isBasic && basicCreateEnabled) || (isVeranlassung && veranlassungCreateEnabled)
+                    || (isArbeitsauftrag && arbeitsauftragCreateEnabled);
+
+        if (allowed) {
+            final CustomMutableTreeTableNode entityNode = new CustomMutableTreeTableNode(entity, true);
+            objectsToPersist.add((BaseEntity)entityNode.getUserObject());
+            treeTableModel.insertNodeIntoAsLastChild(entityNode, newObjectsNode);
+            selectNode(entityNode);
+        } else {
+            LOG.info("keine Rechte diese Objekt zu erzeugen");
+        }
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewLeuchte() {
-        final TdtaStandortMastCustomBean newStandort = TdtaStandortMastCustomBean.createNew();
-        newStandort.addPropertyChangeListener(this);
-        newStandort.setVirtuellerStandort(true);
-        newStandort.setVerrechnungseinheit(true);
-        // final CustomMutableTreeTableNode newStandortNode = new CustomMutableTreeTableNode(newStandort, true);
-        objectsToPersist.add(newStandort);
-        // treeTableModel.insertNodeIntoAsLastChild(newStandortNode, newObjectsNode);
-        addNewLeuchte(newStandort);
+        if (CidsBroker.getInstance().checkForCreateBasic()) {
+            final TdtaStandortMastCustomBean newStandort = TdtaStandortMastCustomBean.createNew();
+            newStandort.addPropertyChangeListener(this);
+            newStandort.setVirtuellerStandort(true);
+            newStandort.setVerrechnungseinheit(true);
+            // final CustomMutableTreeTableNode newStandortNode = new CustomMutableTreeTableNode(newStandort, true);
+            objectsToPersist.add(newStandort);
+            // treeTableModel.insertNodeIntoAsLastChild(newStandortNode, newObjectsNode);
+            addNewLeuchte(newStandort);
+        } else {
+            LOG.info("keine Rechte diese Objekt zu erzeugen");
+        }
     }
 
     /**
@@ -1691,94 +1731,99 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @param  relatedObject  DOCUMENT ME!
      */
     public void addNewLeuchte(final Object relatedObject) {
-        CustomMutableTreeTableNode nodeToAddLeuchte = null;
-        TdtaStandortMastCustomBean parent = null;
-        try {
-            final TreePath pathToRelatedObejct = treeTableModel.getPathForUserObject(relatedObject);
-            if ((pathToRelatedObejct != null)
-                        && ((pathToRelatedObejct.getLastPathComponent() != null)
+        if (CidsBroker.getInstance().checkForCreateBasic()) {
+            CustomMutableTreeTableNode nodeToAddLeuchte = null;
+            TdtaStandortMastCustomBean parent = null;
+            try {
+                final TreePath pathToRelatedObejct = treeTableModel.getPathForUserObject(relatedObject);
+                if ((pathToRelatedObejct != null)
+                            && ((pathToRelatedObejct.getLastPathComponent() != null)
+                                && (pathToRelatedObejct.getLastPathComponent() instanceof CustomMutableTreeTableNode)
+                                && (((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent())
+                                    .getUserObject() instanceof TdtaLeuchtenCustomBean))
+                            && (pathToRelatedObejct.getParentPath() != null)
+                            && (pathToRelatedObejct.getParentPath().getLastPathComponent()
+                                instanceof CustomMutableTreeTableNode)
+                            && (((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath()
+                                    .getLastPathComponent()).getUserObject() instanceof TdtaStandortMastCustomBean)) {
+                    parent = (TdtaStandortMastCustomBean)
+                        ((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath().getLastPathComponent())
+                                .getUserObject();
+                    nodeToAddLeuchte = ((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath()
+                                    .getLastPathComponent());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Related object is Leuchte (sibling)");
+                    }
+                } else if ((pathToRelatedObejct != null) && (pathToRelatedObejct.getLastPathComponent() != null)
                             && (pathToRelatedObejct.getLastPathComponent() instanceof CustomMutableTreeTableNode)
                             && (((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent())
-                                .getUserObject() instanceof TdtaLeuchtenCustomBean))
-                        && (pathToRelatedObejct.getParentPath() != null)
-                        && (pathToRelatedObejct.getParentPath().getLastPathComponent()
-                            instanceof CustomMutableTreeTableNode)
-                        && (((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath().getLastPathComponent())
-                            .getUserObject() instanceof TdtaStandortMastCustomBean)) {
-                parent = (TdtaStandortMastCustomBean)
-                    ((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath().getLastPathComponent())
-                            .getUserObject();
-                nodeToAddLeuchte = ((CustomMutableTreeTableNode)pathToRelatedObejct.getParentPath()
-                                .getLastPathComponent());
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Related object is Leuchte (sibling)");
+                                .getUserObject()
+                                instanceof TdtaStandortMastCustomBean)) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Related object is Standort (parent)");
+                    }
+                    parent = (TdtaStandortMastCustomBean)
+                        ((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent()).getUserObject();
+                    nodeToAddLeuchte = ((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent());
+                } else if (((pathToRelatedObejct == null) && (relatedObject != null)
+                                && (relatedObject instanceof TdtaStandortMastCustomBean)
+                                && ((((TdtaStandortMastCustomBean)relatedObject).isVirtuellerStandort() != null)
+                                    && ((TdtaStandortMastCustomBean)relatedObject).isVirtuellerStandort()))
+                            || !((TdtaStandortMastCustomBean)relatedObject).isStandortMast()) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Leuchte has virtual standort will be added directly to tree");
+                    }
+                    nodeToAddLeuchte = newObjectsNode;
+                    parent = (TdtaStandortMastCustomBean)relatedObject;
+                } else {
+                    LOG.warn("Can't add Leuchte relatedObject is neither Leuchte nor Standort.");
                 }
-            } else if ((pathToRelatedObejct != null) && (pathToRelatedObejct.getLastPathComponent() != null)
-                        && (pathToRelatedObejct.getLastPathComponent() instanceof CustomMutableTreeTableNode)
-                        && (((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent()).getUserObject()
-                            instanceof TdtaStandortMastCustomBean)) {
+            } catch (Exception ex) {
+                LOG.error("Error while trying to get node for related object", ex);
+            }
+            if ((nodeToAddLeuchte == null) || (parent == null)) {
+                LOG.warn("Can't add Leuchte no node or standort found. Returning.");
+                return;
+            }
+            final TdtaLeuchtenCustomBean newLeuchte = TdtaLeuchtenCustomBean.createNew();
+            if (BelisBroker.getDefaultUnterhaltLeuchte() != null) {
+                newLeuchte.setUnterhaltspflichtLeuchte(BelisBroker.getDefaultUnterhaltLeuchte());
+            }
+            if (BelisBroker.getDefaultDoppelkommando1() != null) {
+                newLeuchte.setDk1(BelisBroker.getDefaultDoppelkommando1());
+            }
+            newLeuchte.addPropertyChangeListener(this);
+            newLeuchte.addPropertyChangeListener(getBroker());
+            if (!parent.isStandortMast()) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Related object is Standort (parent)");
+                    LOG.debug("Adding propterychange listener for virtual standort");
                 }
-                parent = (TdtaStandortMastCustomBean)
-                    ((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent()).getUserObject();
-                nodeToAddLeuchte = ((CustomMutableTreeTableNode)pathToRelatedObejct.getLastPathComponent());
-            } else if (((pathToRelatedObejct == null) && (relatedObject != null)
-                            && (relatedObject instanceof TdtaStandortMastCustomBean)
-                            && ((((TdtaStandortMastCustomBean)relatedObject).isVirtuellerStandort() != null)
-                                && ((TdtaStandortMastCustomBean)relatedObject).isVirtuellerStandort()))
-                        || !((TdtaStandortMastCustomBean)relatedObject).isStandortMast()) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Leuchte has virtual standort will be added directly to tree");
-                }
-                nodeToAddLeuchte = newObjectsNode;
-                parent = (TdtaStandortMastCustomBean)relatedObject;
+                newLeuchte.addPropertyChangeListener(parent);
+                leuchteToVirtualStandortMap.put(newLeuchte, parent);
+                newLeuchte.setLeuchtennummer((Integer)0);
             } else {
-                LOG.warn("Can't add Leuchte relatedObject is neither Leuchte nor Standort.");
+                parent.addPropertyChangeListener(newLeuchte);
+                newLeuchte.setLeuchtennummer(getNextLeuchtennummer(parent));
             }
-        } catch (Exception ex) {
-            LOG.error("Error while trying to get node for related object", ex);
-        }
-        if ((nodeToAddLeuchte == null) || (parent == null)) {
-            LOG.warn("Can't add Leuchte no node or standort found. Returning.");
-            return;
-        }
-        final TdtaLeuchtenCustomBean newLeuchte = TdtaLeuchtenCustomBean.createNew();
-        if (BelisBroker.getDefaultUnterhaltLeuchte() != null) {
-            newLeuchte.setUnterhaltspflichtLeuchte(BelisBroker.getDefaultUnterhaltLeuchte());
-        }
-        if (BelisBroker.getDefaultDoppelkommando1() != null) {
-            newLeuchte.setDk1(BelisBroker.getDefaultDoppelkommando1());
-        }
-        newLeuchte.addPropertyChangeListener(this);
-        newLeuchte.addPropertyChangeListener(getBroker());
-        if (!parent.isStandortMast()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Adding propterychange listener for virtual standort");
+            parent.getLeuchten().add(newLeuchte);
+            // ToDo must also be set if these attributes are changed in the parent standort
+            newLeuchte.setFk_strassenschluessel(parent.getStrassenschluessel());
+            newLeuchte.setKennziffer(parent.getKennziffer());
+            newLeuchte.setLaufendeNummer(parent.getLaufendeNummer());
+            final CustomMutableTreeTableNode newLeuchteNode = new CustomMutableTreeTableNode(newLeuchte, false);
+            if (parent.getGeometry() != null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug(
+                        "standort has geometry. Reconsidering feature because the icon must be switched from standort without leuchte to standort with leuchte.");
+                }
+                getBroker().getMappingComponent().getFeatureCollection().removeFeature(parent);
+                getBroker().getMappingComponent().getFeatureCollection().addFeature(parent);
             }
-            newLeuchte.addPropertyChangeListener(parent);
-            leuchteToVirtualStandortMap.put(newLeuchte, parent);
-            newLeuchte.setLeuchtennummer((Integer)0);
+            treeTableModel.insertNodeIntoAsLastChild(newLeuchteNode, nodeToAddLeuchte);
+            selectNode(newLeuchteNode);
         } else {
-            parent.addPropertyChangeListener(newLeuchte);
-            newLeuchte.setLeuchtennummer(getNextLeuchtennummer(parent));
+            LOG.info("keine Rechte diese Objekt zu erzeugen");
         }
-        parent.getLeuchten().add(newLeuchte);
-        // ToDo must also be set if these attributes are changed in the parent standort
-        newLeuchte.setFk_strassenschluessel(parent.getStrassenschluessel());
-        newLeuchte.setKennziffer(parent.getKennziffer());
-        newLeuchte.setLaufendeNummer(parent.getLaufendeNummer());
-        final CustomMutableTreeTableNode newLeuchteNode = new CustomMutableTreeTableNode(newLeuchte, false);
-        if (parent.getGeometry() != null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(
-                    "standort has geometry. Reconsidering feature because the icon must be switched from standort without leuchte to standort with leuchte.");
-            }
-            getBroker().getMappingComponent().getFeatureCollection().removeFeature(parent);
-            getBroker().getMappingComponent().getFeatureCollection().addFeature(parent);
-        }
-        treeTableModel.insertNodeIntoAsLastChild(newLeuchteNode, nodeToAddLeuchte);
-        selectNode(newLeuchteNode);
     }
 
     /**
@@ -1805,35 +1850,45 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * DOCUMENT ME!
      */
     public void addNewGeometrie() {
-        final Object tmpObject = ((CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent())
-                    .getUserObject();
-        if ((tmpObject instanceof VeranlassungCustomBean) || (tmpObject instanceof ArbeitsauftragCustomBean)) {
-            final GeometrieCustomBean newGeometrie = GeometrieCustomBean.createNew();
-            newGeometrie.addPropertyChangeListener(getBroker());
-            newGeometrie.addPropertyChangeListener(this);
-            if (tmpObject instanceof VeranlassungCustomBean) {
-                final CustomMutableTreeTableNode newGeometrieNode = new CustomMutableTreeTableNode(newGeometrie, true);
-                final VeranlassungCustomBean selVeranlassung = ((VeranlassungCustomBean)tmpObject);
-                selVeranlassung.getAr_geometrien().add(newGeometrie);
-                treeTableModel.insertNodeIntoAsLastChild(
-                    newGeometrieNode,
-                    (CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent());
-                selectNode(newGeometrieNode);
-            } else if (tmpObject instanceof ArbeitsauftragCustomBean) {
-                final ArbeitsprotokollCustomBean newProtokoll = ArbeitsprotokollCustomBean.createNew();
-                final CustomMutableTreeTableNode newProtokollNode = new CustomMutableTreeTableNode(newProtokoll, true);
-                final CustomMutableTreeTableNode newGeometrieNode = new CustomMutableTreeTableNode(newGeometrie, true);
-                final ArbeitsauftragCustomBean selAuftrag = ((ArbeitsauftragCustomBean)tmpObject);
-                newProtokoll.setFk_geometrie(newGeometrie);
-                selAuftrag.getAr_protokolle().add(newProtokoll);
-                treeTableModel.insertNodeIntoAsLastChild(
-                    newProtokollNode,
-                    (CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent());
-                treeTableModel.insertNodeIntoAsLastChild(
-                    newGeometrieNode,
-                    newProtokollNode);
-                selectNode(newProtokollNode);
+        if (CidsBroker.getInstance().checkForEditVeranlassung()) {
+            final Object tmpObject = ((CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent())
+                        .getUserObject();
+            if ((tmpObject instanceof VeranlassungCustomBean) || (tmpObject instanceof ArbeitsauftragCustomBean)) {
+                final GeometrieCustomBean newGeometrie = GeometrieCustomBean.createNew();
+                newGeometrie.addPropertyChangeListener(getBroker());
+                newGeometrie.addPropertyChangeListener(this);
+                if (tmpObject instanceof VeranlassungCustomBean) {
+                    final CustomMutableTreeTableNode newGeometrieNode = new CustomMutableTreeTableNode(
+                            newGeometrie,
+                            true);
+                    final VeranlassungCustomBean selVeranlassung = ((VeranlassungCustomBean)tmpObject);
+                    selVeranlassung.getAr_geometrien().add(newGeometrie);
+                    treeTableModel.insertNodeIntoAsLastChild(
+                        newGeometrieNode,
+                        (CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent());
+                    selectNode(newGeometrieNode);
+                } else if (tmpObject instanceof ArbeitsauftragCustomBean) {
+                    final ArbeitsprotokollCustomBean newProtokoll = ArbeitsprotokollCustomBean.createNew();
+                    final CustomMutableTreeTableNode newProtokollNode = new CustomMutableTreeTableNode(
+                            newProtokoll,
+                            true);
+                    final CustomMutableTreeTableNode newGeometrieNode = new CustomMutableTreeTableNode(
+                            newGeometrie,
+                            true);
+                    final ArbeitsauftragCustomBean selAuftrag = ((ArbeitsauftragCustomBean)tmpObject);
+                    newProtokoll.setFk_geometrie(newGeometrie);
+                    selAuftrag.getAr_protokolle().add(newProtokoll);
+                    treeTableModel.insertNodeIntoAsLastChild(
+                        newProtokollNode,
+                        (CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent());
+                    treeTableModel.insertNodeIntoAsLastChild(
+                        newGeometrieNode,
+                        newProtokollNode);
+                    selectNode(newProtokollNode);
+                }
             }
+        } else {
+            LOG.info("keine Rechte diese Objekt zu erzeugen");
         }
     }
 

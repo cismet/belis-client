@@ -14,20 +14,20 @@ package de.cismet.belis.panels;
 
 import org.apache.log4j.Logger;
 
-import java.util.Collection;
-
 import javax.swing.JOptionPane;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.TreePath;
 
 import de.cismet.belis.broker.BelisBroker;
-
-import de.cismet.belis.gui.widget.WorkbenchWidget;
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
 
+import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.GeometrieCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
@@ -43,7 +43,7 @@ import de.cismet.commons.server.entity.BaseEntity;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeSelectionListener {
+public class CreateToolBar extends javax.swing.JPanel implements Editable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -76,37 +76,25 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeS
      */
     public CreateToolBar(final BelisBroker broker) {
         this.broker = broker;
+
         initComponents();
-        btnNewGeometrie.setEnabled(false);
         setWidgetEditable(false);
+//        btnNewStandort.setVisible(basicCreateEnabled);
+//        btnNewLeuchte.setVisible(basicCreateEnabled);
+//        btnNewSchaltstelle.setVisible(basicCreateEnabled);
+//        btnNewMauerlasche.setVisible(basicCreateEnabled);
+//        btnNewLeitung.setVisible(basicCreateEnabled);
+//        btnNewAbzweigdose.setVisible(basicCreateEnabled);
+//        btnNewGeometrie.setVisible(veranlassungEditEnabled);
+//        btnNewVeranlassung.setVisible(veranlassungCreateEnabled);
+//        btnNewArbeitsauftrag.setVisible(arbeitsauftragCreateEnabled);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public void setWidgetEditable(final boolean isEditable) {
-        if (!isEditable) {
-            setAllButtonsEnabled(isEditable);
-        } else {
-            checkSetButtonState();
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  isEnabled  DOCUMENT ME!
-     */
-    private void setAllButtonsEnabled(final boolean isEnabled) {
-        btnNewLeitung.setEnabled(isEnabled);
-        btnNewLeuchte.setEnabled(isEnabled);
-        btnNewMauerlasche.setEnabled(isEnabled);
-        btnNewSchaltstelle.setEnabled(isEnabled);
-        btnNewStandort.setEnabled(isEnabled);
-        btnNewAbzweigdose.setEnabled(isEnabled);
-        btnRemove.setEnabled(isEnabled);
-        btnNewVeranlassung.setEnabled(isEnabled);
-        btnNewArbeitsauftrag.setEnabled(isEnabled);
+        updateButtons(isEditable);
     }
 
     /**
@@ -116,69 +104,78 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeS
      */
     public void setSelectedEntity(final WorkbenchEntity selectedEntity) {
         this.selectedEntity = selectedEntity;
-        if (!broker.isInEditMode()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("not in edit mode");
-            }
-        } else {
-            checkSetButtonState();
-        }
+        updateButtons(broker.isInEditMode());
     }
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  isEnabled  DOCUMENT ME!
      */
-    private void checkSetButtonState() {
-        if (broker.isInCreateMode()) {
-            if (selectedEntity == null) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("current entity is null. No Entity is selected");
-                }
-                setAllButtonsEnabled(true);
-                // btnNewLeuchte.setEnabled(false);
-                btnRemove.setEnabled(false);
-            } else if (selectedEntity instanceof TdtaStandortMastCustomBean) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Current entity is Standort");
-                }
-                setAllButtonsEnabled(true);
-            } else if (selectedEntity instanceof TdtaLeuchtenCustomBean) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("currentEntities is Leuchte");
-                }
-                setAllButtonsEnabled(true);
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Current Entity is: " + selectedEntity);
-                }
-                setAllButtonsEnabled(true);
-                if (!(selectedEntity instanceof BaseEntity)) {
-                    btnRemove.setEnabled(false);
-                }
-                // btnNewLeuchte.setEnabled(false);
-            }
+    private void updateButtons(final boolean isEnabled) {
+        final boolean isInCreateMode = broker.isInCreateMode();
+        final boolean isInEditMode = broker.isInEditMode();
+
+        final boolean basicCreateEnabled = CidsBroker.getInstance().checkForCreateBasic();
+        final boolean basicEditEnabled = CidsBroker.getInstance().checkForEditBasic();
+        final boolean veranlassungCreateEnabled = CidsBroker.getInstance().checkForCreateVeranlassung();
+        final boolean veranlassungEditEnabled = CidsBroker.getInstance().checkForEditVeranlassung();
+        final boolean arbeitsauftragCreateEnabled = CidsBroker.getInstance().checkForCreateArbeitsauftrag();
+        final boolean arbeitsauftragEditEnabled = CidsBroker.getInstance().checkForEditArbeitsauftrag();
+        final boolean deleteEnabled = CidsBroker.getInstance().checkForDelete();
+
+        BaseEntity parent = null;
+        try {
+            parent = (BaseEntity)((CustomMutableTreeTableNode)broker.getWorkbenchWidget().getSelectedTreeNode()
+                            .getLastPathComponent()).getParent().getUserObject();
+        } catch (final Exception ex) {
+            parent = null;
+        }
+
+        final boolean isBasic = (selectedEntity instanceof TdtaStandortMastCustomBean)
+                    || (selectedEntity instanceof TdtaLeuchtenCustomBean)
+                    || (selectedEntity instanceof MauerlascheCustomBean)
+                    || (selectedEntity instanceof SchaltstelleCustomBean)
+                    || (selectedEntity instanceof LeitungCustomBean)
+                    || (selectedEntity instanceof AbzweigdoseCustomBean);
+        final boolean isVeranlassung = selectedEntity instanceof VeranlassungCustomBean;
+        final boolean isGeometrie = selectedEntity instanceof GeometrieCustomBean;
+        final boolean isArbeitsprotokoll = selectedEntity instanceof ArbeitsprotokollCustomBean;
+        final boolean isArbeitsauftrag = selectedEntity instanceof ArbeitsauftragCustomBean;
+        final boolean isLeuchte = selectedEntity instanceof TdtaLeuchtenCustomBean;
+        final boolean isMastOrLeuchteFromMast = (selectedEntity instanceof TdtaStandortMastCustomBean)
+                    || ((selectedEntity instanceof TdtaLeuchtenCustomBean)
+                        && broker.getWorkbenchWidget().isParentNodeMast(
+                            broker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()));
+        final boolean isParentProtokoll = parent instanceof ArbeitsprotokollCustomBean;
+        final boolean isParentVeranlassung = parent instanceof VeranlassungCustomBean;
+
+        btnNewLeitung.setEnabled(isEnabled && isInCreateMode && basicCreateEnabled);
+        btnNewMauerlasche.setEnabled(isEnabled && isInCreateMode && basicCreateEnabled);
+        btnNewSchaltstelle.setEnabled(isEnabled && isInCreateMode && basicCreateEnabled);
+        btnNewStandort.setEnabled(isEnabled && isInCreateMode && basicCreateEnabled);
+        btnNewAbzweigdose.setEnabled(isEnabled && isInCreateMode && basicCreateEnabled);
+        btnNewVeranlassung.setEnabled(isEnabled && isInCreateMode && veranlassungCreateEnabled);
+        btnNewArbeitsauftrag.setEnabled(isEnabled && isInCreateMode && arbeitsauftragCreateEnabled);
+
+        if (isInCreateMode) {
+            btnNewLeuchte.setEnabled(isEnabled && isMastOrLeuchteFromMast && basicCreateEnabled);
+            btnNewGeometrie.setEnabled(isEnabled && isVeranlassung && veranlassungCreateEnabled);
+            btnRemove.setEnabled(isEnabled && (selectedEntity instanceof BaseEntity)
+                        && !isParentProtokoll);
         } else {
-            if (selectedEntity == null) {
-                btnRemove.setEnabled(false);
-            } else {
-                if (!(selectedEntity instanceof BaseEntity)) {
-                    btnRemove.setEnabled(false);
-                } else {
-                    btnRemove.setEnabled(true);
-                }
-                if ((selectedEntity instanceof TdtaStandortMastCustomBean)
-                            || ((selectedEntity instanceof TdtaLeuchtenCustomBean)
-                                && broker.getWorkbenchWidget().isParentNodeMast(
-                                    broker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug(
-                            "current selected entity is either mast or leuchte of mast.Enabling adding of new leuchten.");
-                    }
-                    btnNewLeuchte.setEnabled(true);
-                } else {
-                    btnNewLeuchte.setEnabled(false);
-                }
-            }
+            btnNewLeuchte.setEnabled(isEnabled && (parent == null) && isMastOrLeuchteFromMast && basicCreateEnabled);
+            btnNewGeometrie.setEnabled(isEnabled && isVeranlassung && veranlassungEditEnabled);
+            btnRemove.setEnabled(isEnabled
+                        && ((isBasic && !isParentProtokoll
+                                && ((parent == null) || (parent instanceof TdtaStandortMastCustomBean))
+                                && basicEditEnabled)
+                            || (isVeranlassung && veranlassungCreateEnabled)
+                            || (isArbeitsauftrag && arbeitsauftragCreateEnabled)
+                            || (isParentVeranlassung && veranlassungEditEnabled)
+                            || (isArbeitsprotokoll && arbeitsauftragEditEnabled)
+                            || (isGeometrie && veranlassungEditEnabled))
+                        && deleteEnabled);
         }
         this.repaint();
     }
@@ -626,28 +623,5 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable, TreeS
             }
         }
         return true;
-    }
-
-    @Override
-    public void valueChanged(final TreeSelectionEvent e) {
-        boolean isCreationPossible = false;
-        final WorkbenchWidget workbench = BelisBroker.getInstance().getWorkbenchWidget();
-        final Collection<TreePath> paths = workbench.getSelectedTreeNodes();
-
-        if ((paths != null) && (paths.size() == 1)) {
-            final TreePath path = paths.toArray(new TreePath[1])[0];
-            if (path.getLastPathComponent() instanceof CustomMutableTreeTableNode) {
-                final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)path.getLastPathComponent();
-                if ((node.getUserObject() instanceof ArbeitsauftragCustomBean)
-                            || (node.getUserObject() instanceof VeranlassungCustomBean)) {
-                    if ((workbench.getCurrentMode() == WorkbenchWidget.CREATE_MODE)
-                                || (workbench.getCurrentMode() == WorkbenchWidget.EDIT_MODE)) {
-                        isCreationPossible = true;
-                    }
-                }
-            }
-        }
-
-        btnNewGeometrie.setEnabled(isCreationPossible);
     }
 }
