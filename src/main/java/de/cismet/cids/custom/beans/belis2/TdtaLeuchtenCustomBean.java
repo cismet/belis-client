@@ -956,6 +956,12 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
             } catch (final Exception ex) {
                 LOG.info("error while super.propertyChange(evt)", ex);
             }
+            if (evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP__FK_STRASSENSCHLUESSEL)) {
+                final TkeyStrassenschluesselCustomBean strsch = (TkeyStrassenschluesselCustomBean)evt.getNewValue();
+                if ((strsch != null) && strsch.getPk().equals("00429")) {
+                    setBemerkungen("/ TEST-STRASSE \\");
+                }
+            }
         }
     }
 

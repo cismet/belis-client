@@ -1102,6 +1102,12 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
             if (!evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP__LETZTE_AENDERUNG)) {
                 setLetzteAenderung(new Timestamp((new java.util.Date()).getTime()));
             }
+            if (evt.getPropertyName().equals(TdtaStandortMastCustomBean.PROP__FK_STRASSENSCHLUESSEL)) {
+                final TkeyStrassenschluesselCustomBean strsch = (TkeyStrassenschluesselCustomBean)evt.getNewValue();
+                if ((strsch != null) && strsch.getPk().equals("00429")) {
+                    setBemerkungen("/ TEST-STRASSE \\");
+                }
+            }
         }
     }
 
