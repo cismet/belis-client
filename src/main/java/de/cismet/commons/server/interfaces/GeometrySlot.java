@@ -15,6 +15,8 @@
  */
 package de.cismet.commons.server.interfaces;
 
+import de.cismet.cids.custom.beans.belis2.GeomCustomBean;
+
 import de.cismet.cismap.commons.features.StyledFeature;
 
 /**
@@ -24,4 +26,20 @@ import de.cismet.cismap.commons.features.StyledFeature;
  * @version  $Revision$, $Date$
  */
 public interface GeometrySlot extends StyledFeature {
+
+    //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    GeomCustomBean getGeometrie();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  val  DOCUMENT ME!
+     */
+    void setGeometrie(final GeomCustomBean val);
 }

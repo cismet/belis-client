@@ -38,6 +38,7 @@ public class BaseEntity extends CidsBean {
     //~ Instance fields --------------------------------------------------------
 
     private final Map<String, Object> backupProperties = new HashMap<String, Object>();
+    private boolean editAllowed = false;
 
     private Integer id;
 
@@ -72,6 +73,24 @@ public class BaseEntity extends CidsBean {
             LOG.error("error creating " + tableName + " bean", ex);
             return null;
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isEditAllowed() {
+        return editAllowed;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  editAllowed  modifiable DOCUMENT ME!
+     */
+    public void setEditAllowed(final boolean editAllowed) {
+        this.editAllowed = this.editAllowed || editAllowed;
     }
 
     /**

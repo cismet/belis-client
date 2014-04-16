@@ -29,10 +29,8 @@ import de.cismet.commons.server.interfaces.GeometrySlot;
 /**
  * DOCUMENT ME!
  *
- * @author   spuhl
  * @version  $Revision$, $Date$
  */
-//ToDo!!! why is the supperclass not working in the testeeapplication the field are inherited right
 public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
 
     //~ Static fields/initializers ---------------------------------------------
@@ -43,30 +41,11 @@ public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
 
     protected transient FeatureAnnotationSymbol mapIcon = null;
 
-//
-
-    private Boolean isEditable = false;
-    private Boolean isHidden = false;
-    // workaround
-    private Boolean modifiable = true;
+    private boolean isEditable = false;
 
     private boolean isSelectable = true;
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public abstract GeomCustomBean getGeometrie();
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  val  DOCUMENT ME!
-     */
-    public abstract void setGeometrie(final GeomCustomBean val);
 
     /**
      * DOCUMENT ME!
@@ -102,40 +81,17 @@ public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
 
     @Override
     public void hide(final boolean hiding) {
-        isHidden = hiding;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Boolean isModifiable() {
-        return modifiable;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  modifiable  DOCUMENT ME!
-     */
-    public void setModifiable(final Boolean modifiable) {
-        this.modifiable = modifiable;
     }
 
     @Override
     public boolean isEditable() {
-        if (!isModifiable()) {
+        if (!isEditAllowed()) {
             return false;
-        }
-        if (isEditable != null) {
-            return isEditable;
         } else {
-            return false;
+            return isEditable;
         }
     }
 
-    // Temporary because transient attribute seems to cause nullpointer exception
     @Override
     public boolean isHidden() {
         return false;
@@ -145,7 +101,6 @@ public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
     public void setEditable(final boolean editable) {
         isEditable = editable;
     }
-//
 
     /**
      * DOCUMENT ME!
@@ -195,7 +150,7 @@ public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
             LOG.warn("Fehler beim setzend er Geometrie", ex);
         }
     }
-//
+
     @Override
     public Paint getFillingPaint() {
         return Color.GRAY;

@@ -16,6 +16,7 @@ import java.beans.PropertyChangeEvent;
 
 import java.util.Collection;
 
+import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
@@ -40,11 +41,12 @@ import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
 import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
+import de.cismet.cismap.commons.features.Feature;
+
 import de.cismet.commons.architecture.validation.Validatable;
 
+import de.cismet.commons.server.entity.GeoBaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
-
-import de.cismet.tools.CurrentStackTrace;
 
 /**
  * DOCUMENT ME!
@@ -182,9 +184,9 @@ public class DetailWidget extends BelisWidget {
             currentDetailWidgetPanel = null;
             isAllowedToEdit = false;
         } else {
-            final boolean basicEditEnabled = CidsBroker.getInstance().checkForEditBasic();
-            final boolean veranlassungEditEnabled = CidsBroker.getInstance().checkForEditVeranlassung();
-            final boolean arbeitsauftragEditEnabled = CidsBroker.getInstance().checkForEditArbeitsauftrag();
+//            final boolean basicEditEnabled = CidsBroker.getInstance().checkForEditBasic();
+//            final boolean veranlassungEditEnabled = CidsBroker.getInstance().checkForEditVeranlassung();
+//            final boolean arbeitsauftragEditEnabled = CidsBroker.getInstance().checkForEditArbeitsauftrag();
 
             if (currentEntity instanceof DocumentContainer) {
                 panDokumente.setDokumente(((DocumentContainer)currentEntity).getDokumente());
@@ -194,9 +196,7 @@ public class DetailWidget extends BelisWidget {
             if (currentEntity instanceof TdtaStandortMastCustomBean) {
                 standortPanel.setCurrentEntity((TdtaStandortMastCustomBean)currentEntity);
                 currentDetailWidgetPanel = standortPanel;
-                isAllowedToEdit = basicEditEnabled
-                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
-                                || (parentEntity instanceof VeranlassungCustomBean));
+                isAllowedToEdit = ((TdtaStandortMastCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof TdtaLeuchtenCustomBean) {
                 if (getBroker().getWorkbenchWidget().isParentNodeMast(
                                 getBroker().getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
@@ -208,47 +208,37 @@ public class DetailWidget extends BelisWidget {
                 }
                 leuchtePanel.setCurrentEntity((TdtaLeuchtenCustomBean)currentEntity);
                 currentDetailWidgetPanel = leuchtePanel;
-                isAllowedToEdit = basicEditEnabled
-                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
-                                || (parentEntity instanceof VeranlassungCustomBean));
+                isAllowedToEdit = ((TdtaLeuchtenCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof LeitungCustomBean) {
                 leitungPanel.setCurrentEntity((LeitungCustomBean)currentEntity);
                 currentDetailWidgetPanel = leitungPanel;
-                isAllowedToEdit = basicEditEnabled
-                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
-                                || (parentEntity instanceof VeranlassungCustomBean));
+                isAllowedToEdit = ((LeitungCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof AbzweigdoseCustomBean) {
                 abzweigdosePanel.setCurrentEntity((AbzweigdoseCustomBean)currentEntity);
                 currentDetailWidgetPanel = abzweigdosePanel;
-                isAllowedToEdit = basicEditEnabled
-                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
-                                || (parentEntity instanceof VeranlassungCustomBean));
+                isAllowedToEdit = ((AbzweigdoseCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof MauerlascheCustomBean) {
                 mauerlaschePanel.setCurrentEntity((MauerlascheCustomBean)currentEntity);
                 currentDetailWidgetPanel = mauerlaschePanel;
-                isAllowedToEdit = basicEditEnabled
-                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
-                                || (parentEntity instanceof VeranlassungCustomBean));
+                isAllowedToEdit = ((MauerlascheCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof SchaltstelleCustomBean) {
                 schaltstellePanel.setCurrentEntity((SchaltstelleCustomBean)currentEntity);
                 currentDetailWidgetPanel = schaltstellePanel;
-                isAllowedToEdit = basicEditEnabled
-                            && !((parentEntity instanceof ArbeitsprotokollCustomBean)
-                                || (parentEntity instanceof VeranlassungCustomBean));
+                isAllowedToEdit = ((SchaltstelleCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof VeranlassungCustomBean) {
                 veranlassungPanel.setCurrentEntity((VeranlassungCustomBean)currentEntity);
                 currentDetailWidgetPanel = veranlassungPanel;
-                isAllowedToEdit = veranlassungEditEnabled;
+                isAllowedToEdit = ((VeranlassungCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof ArbeitsauftragCustomBean) {
                 arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)currentEntity);
                 currentDetailWidgetPanel = arbeitsauftragPanel;
-                isAllowedToEdit = arbeitsauftragEditEnabled;
+                isAllowedToEdit = ((ArbeitsauftragCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof ArbeitsprotokollCustomBean) {
                 if (parentEntity instanceof ArbeitsauftragCustomBean) {
                     arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
                     arbeitsauftragPanel.setSelectedProtokolle((Collection)currentEntities);
                     currentDetailWidgetPanel = arbeitsauftragPanel;
-                    isAllowedToEdit = arbeitsauftragEditEnabled;
+                    isAllowedToEdit = ((ArbeitsauftragCustomBean)parentEntity).isEditAllowed();
                 } else {
                     currentDetailWidgetPanel = null;
                     isAllowedToEdit = false;
