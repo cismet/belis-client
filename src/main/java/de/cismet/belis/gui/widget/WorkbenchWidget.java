@@ -564,9 +564,9 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 }
                 setCurrentMode(EDIT_MODE);
 
-                treeTableModel.removeNodeFromParent(searchResultsNode);
-                treeTableModel.insertNodeIntoAsLastChild(editObjectsNode, rootNode);
-                treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
+                final Collection<MutableTreeTableNode> expandedNodes = new ArrayList<MutableTreeTableNode>();
+                final Collection<MutableTreeTableNode> seletedNodes = new ArrayList<MutableTreeTableNode>();
+
                 final Collection<MutableTreeTableNode> nodes = new ArrayList<MutableTreeTableNode>();
                 for (int i = 0; i < searchResultsNode.getChildCount(); i++) {
                     final MutableTreeTableNode node = (MutableTreeTableNode)searchResultsNode.getChildAt(i);
@@ -581,16 +581,42 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     if ((isBasicNode && basicEditEnabled) || (isVeranlassungNode && veranlassungEditEnabled)
                                 || (isArbeitsauftragNode && arbeitsauftragEditEnabled)) {
                         nodes.add(node);
+                        final TreePath path = new TreePath(treeTableModel.getPathToRoot(node));
+                        if (jttHitTable.isExpanded(path)) {
+                            expandedNodes.add(node);
+                        }
+                    }
+                    for (final TreePath selPath : jttHitTable.getTreeSelectionModel().getSelectionPaths()) {
+                        seletedNodes.add((MutableTreeTableNode)selPath.getLastPathComponent());
                     }
                 }
+
+                treeTableModel.removeNodeFromParent(searchResultsNode);
+                treeTableModel.insertNodeIntoAsLastChild(editObjectsNode, rootNode);
+                treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
                 for (final MutableTreeTableNode node : nodes) {
                     treeTableModel.insertNodeIntoAsLastChild(node, editObjectsNode);
                     objectsToPersist.add((BaseEntity)node.getUserObject());
                 }
+                for (final MutableTreeTableNode expandedNode : expandedNodes) {
+                    jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(expandedNode)));
+                }
+                final Collection<TreePath> paths = new ArrayList<TreePath>();
+                for (final MutableTreeTableNode selecteNode : seletedNodes) {
+                    paths.add(new TreePath(treeTableModel.getPathToRoot(selecteNode)));
+                }
+                jttHitTable.getTreeSelectionModel().addSelectionPaths(paths.toArray(new TreePath[0]));
                 jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(editObjectsNode)));
             }
             jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(searchResultsNode)));
         } else {
+            final Collection<MutableTreeTableNode> expandedNodes = new ArrayList<MutableTreeTableNode>();
+            final Collection<MutableTreeTableNode> seletedNodes = new ArrayList<MutableTreeTableNode>();
+
+            for (final TreePath selPath : jttHitTable.getTreeSelectionModel().getSelectionPaths()) {
+                seletedNodes.add((MutableTreeTableNode)selPath.getLastPathComponent());
+            }
+
             if (getCurrentMode() == CREATE_MODE) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Was in create mode switching to view mode.");
@@ -618,6 +644,15 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
 
             setCurrentMode(VIEW_MODE);
             refreshSearchObjects();
+
+            for (final MutableTreeTableNode expandedNode : expandedNodes) {
+                jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(expandedNode)));
+            }
+            final Collection<TreePath> paths = new ArrayList<TreePath>();
+            for (final MutableTreeTableNode selecteNode : seletedNodes) {
+                paths.add(new TreePath(treeTableModel.getPathToRoot(selecteNode)));
+            }
+            jttHitTable.getTreeSelectionModel().addSelectionPaths(paths.toArray(new TreePath[0]));
         }
     }
 
@@ -1304,28 +1339,22 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * DOCUMENT ME!
      */
     public void refreshSearchObjects() {
-        saveSelectedElementAndUnselectAll();
         refreshNode(searchResultsNode, currentSearchResults);
-        restoreSelectedElementIfPossible();
     }
 
     /**
      * DOCUMENT ME!
      */
     public void refreshPersistObjects() {
-        saveSelectedElementAndUnselectAll();
         refreshNode(newObjectsNode, objectsToPersist);
-        restoreSelectedElementIfPossible();
     }
 
     /**
      * DOCUMENT ME!
      */
     public void refreshAll() {
-        saveSelectedElementAndUnselectAll();
         refreshNode(newObjectsNode, objectsToPersist);
         refreshNode(searchResultsNode, currentSearchResults);
-        restoreSelectedElementIfPossible();
     }
 
     /**
@@ -1457,7 +1486,6 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     && (pathToNodeToRemove.getLastPathComponent() instanceof CustomMutableTreeTableNode)) {
             final CustomMutableTreeTableNode nodeToRemove = (CustomMutableTreeTableNode)
                 pathToNodeToRemove.getLastPathComponent();
-            saveSelectedElementAndUnselectAll();
 
             if ((nodeToRemove.getUserObject() != null) && (nodeToRemove.getParent() != null)
                         && (nodeToRemove.getParent() instanceof CustomMutableTreeTableNode)
@@ -1624,22 +1652,22 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * DOCUMENT ME!
      */
     public void clearNewNode() {
-        saveSelectedElementAndUnselectAll();
+//        saveSelectedElementAndUnselectAll();
         treeTableModel.removeAllChildrenFromNode(newObjectsNode, true);
         objectsToPersist.clear();
         leuchteToVirtualStandortMap.clear();
-        restoreSelectedElementIfPossible();
+//        restoreSelectedElementIfPossible();
     }
 
     /**
      * DOCUMENT ME!
      */
     public void clearEditNode() {
-        saveSelectedElementAndUnselectAll();
+//        saveSelectedElementAndUnselectAll();
         treeTableModel.removeAllChildrenFromNode(editObjectsNode, true);
         objectsToPersist.clear();
         leuchteToVirtualStandortMap.clear();
-        restoreSelectedElementIfPossible();
+//        restoreSelectedElementIfPossible();
     }
 
     /**
@@ -1848,42 +1876,6 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             }
         } else {
             LOG.info("keine Rechte diese Objekt zu erzeugen");
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    public void saveSelectedElementAndUnselectAll() {
-        try {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("storing selection");
-            }
-            selectedElement = jttHitTable.getTreeSelectionModel().getSelectionPath();
-            jttHitTable.getTreeSelectionModel().clearSelection();
-        } catch (Exception ex) {
-            LOG.warn("Error while clearing selection", ex);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    public void restoreSelectedElementIfPossible() {
-        if (selectedElement != null) {
-            try {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("restoring selection");
-                }
-                jttHitTable.getTreeSelectionModel().setSelectionPath(selectedElement);
-            } catch (Exception ex) {
-                LOG.warn("Error while restoring selection (Maybe The objects doesn't exist anymore)", ex);
-                try {
-                    jttHitTable.getTreeSelectionModel().clearSelection();
-                } catch (Exception ex2) {
-                    LOG.warn("Error while clearing selection", ex2);
-                }
-            }
         }
     }
 
