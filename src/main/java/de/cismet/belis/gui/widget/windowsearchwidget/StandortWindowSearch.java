@@ -45,6 +45,8 @@ public class StandortWindowSearch extends BelisWindowSearch {
     private javax.swing.JComboBox cbAnlagengruppe;
     private javax.swing.JCheckBox cbElekPruefungBis;
     private javax.swing.JCheckBox cbElekPruefungVon;
+    private javax.swing.JCheckBox cbInbetriebnahmeMastBis;
+    private javax.swing.JCheckBox cbInbetriebnahmeMastVon;
     private javax.swing.JComboBox cbKlassifizierung;
     private javax.swing.JCheckBox cbMastanstrichBis;
     private javax.swing.JCheckBox cbMastanstrichVon;
@@ -62,6 +64,8 @@ public class StandortWindowSearch extends BelisWindowSearch {
     private javax.swing.JCheckBox chkUnterhaltspflichtMast;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcElekPruefungBis;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcElekPruefungVon;
+    private de.cismet.cids.editors.DefaultBindableDateChooser dcInbetriebnahmeMastBis;
+    private de.cismet.cids.editors.DefaultBindableDateChooser dcInbetriebnahmeMastVon;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcMastanstrichBis;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcMastanstrichVon;
     private de.cismet.cids.editors.DefaultBindableDateChooser dcMastschutzBis;
@@ -70,6 +74,7 @@ public class StandortWindowSearch extends BelisWindowSearch {
     private de.cismet.cids.editors.DefaultBindableDateChooser dcStandsicherheitspruefungVon;
     private javax.swing.JPanel panAnlagengruppe;
     private javax.swing.JPanel panElekPruefung;
+    private javax.swing.JPanel panInbetriebnahmeMast;
     private javax.swing.JPanel panKlassifizierung;
     private javax.swing.JPanel panMain;
     private javax.swing.JPanel panMastanstrich;
@@ -105,6 +110,11 @@ public class StandortWindowSearch extends BelisWindowSearch {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         panMain = new javax.swing.JPanel();
+        panInbetriebnahmeMast = new javax.swing.JPanel();
+        cbInbetriebnahmeMastVon = new javax.swing.JCheckBox();
+        dcInbetriebnahmeMastVon = new de.cismet.cids.editors.DefaultBindableDateChooser();
+        dcInbetriebnahmeMastBis = new de.cismet.cids.editors.DefaultBindableDateChooser();
+        cbInbetriebnahmeMastBis = new javax.swing.JCheckBox();
         panMastschutz = new javax.swing.JPanel();
         cbMastschutzVon = new javax.swing.JCheckBox();
         dcMastschutzVon = new de.cismet.cids.editors.DefaultBindableDateChooser();
@@ -143,6 +153,87 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
         panMain.setLayout(new java.awt.GridBagLayout());
 
+        panInbetriebnahmeMast.setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(
+                    StandortWindowSearch.class,
+                    "StandortWindowSearch.panInbetriebnahmeMast.border.title"))); // NOI18N
+        panInbetriebnahmeMast.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            cbInbetriebnahmeMastVon,
+            org.openide.util.NbBundle.getMessage(
+                StandortWindowSearch.class,
+                "StandortWindowSearch.cbInbetriebnahmeMastVon.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panInbetriebnahmeMast.add(cbInbetriebnahmeMastVon, gridBagConstraints);
+
+        dcInbetriebnahmeMastVon.setMaximumSize(new java.awt.Dimension(132, 25));
+        dcInbetriebnahmeMastVon.setMinimumSize(new java.awt.Dimension(132, 25));
+        dcInbetriebnahmeMastVon.setPreferredSize(new java.awt.Dimension(132, 25));
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                cbInbetriebnahmeMastVon,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                dcInbetriebnahmeMastVon,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        panInbetriebnahmeMast.add(dcInbetriebnahmeMastVon, gridBagConstraints);
+
+        dcInbetriebnahmeMastBis.setMaximumSize(new java.awt.Dimension(132, 25));
+        dcInbetriebnahmeMastBis.setMinimumSize(new java.awt.Dimension(132, 25));
+        dcInbetriebnahmeMastBis.setPreferredSize(new java.awt.Dimension(132, 25));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                cbInbetriebnahmeMastBis,
+                org.jdesktop.beansbinding.ELProperty.create("${selected}"),
+                dcInbetriebnahmeMastBis,
+                org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        panInbetriebnahmeMast.add(dcInbetriebnahmeMastBis, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            cbInbetriebnahmeMastBis,
+            org.openide.util.NbBundle.getMessage(
+                StandortWindowSearch.class,
+                "StandortWindowSearch.cbInbetriebnahmeMastBis.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        panInbetriebnahmeMast.add(cbInbetriebnahmeMastBis, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMain.add(panInbetriebnahmeMast, gridBagConstraints);
+
         panMastschutz.setBorder(javax.swing.BorderFactory.createTitledBorder(
                 org.openide.util.NbBundle.getMessage(
                     StandortWindowSearch.class,
@@ -166,7 +257,7 @@ public class StandortWindowSearch extends BelisWindowSearch {
         dcMastschutzVon.setMinimumSize(new java.awt.Dimension(132, 25));
         dcMastschutzVon.setPreferredSize(new java.awt.Dimension(132, 25));
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 cbMastschutzVon,
                 org.jdesktop.beansbinding.ELProperty.create("${selected}"),
@@ -218,6 +309,7 @@ public class StandortWindowSearch extends BelisWindowSearch {
         panMastschutz.add(cbMastschutzBis, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -299,7 +391,6 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -381,7 +472,6 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -463,7 +553,6 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -502,7 +591,6 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMain.add(panMastart, gridBagConstraints);
@@ -538,7 +626,6 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMain.add(panMasttyp, gridBagConstraints);
@@ -576,7 +663,6 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMain.add(panKlassifizierung, gridBagConstraints);
@@ -614,7 +700,6 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMain.add(panAnlagengruppe, gridBagConstraints);
@@ -652,7 +737,6 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panMain.add(panUnterhaltspflichtMast, gridBagConstraints);
@@ -664,6 +748,11 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
     @Override
     protected BelisSearchStatement createSearchStatement(final Geometry searchGeom) {
+        final String inbetriebnahmeMastVon = (cbInbetriebnahmeMastVon.isSelected())
+            ? dcInbetriebnahmeMastVon.getDate().toString() : null;
+        final String inbetriebnahmeMastBis = (cbInbetriebnahmeMastBis.isSelected())
+            ? dcInbetriebnahmeMastBis.getDate().toString() : null;
+
         final String mastschutz_von = (cbMastschutzVon.isSelected()) ? dcMastschutzVon.getDate().toString() : null;
         final String mastschutz_bis = (cbMastschutzBis.isSelected()) ? dcMastschutzBis.getDate().toString() : null;
         final String mastanstrich_von = (cbMastanstrichVon.isSelected()) ? dcMastanstrichVon.getDate().toString()
@@ -692,6 +781,7 @@ public class StandortWindowSearch extends BelisWindowSearch {
 
         final StandortSearchStatement standortSearchStatement = new StandortSearchStatement();
 
+        standortSearchStatement.setInbetriebnahme_mast(inbetriebnahmeMastVon, inbetriebnahmeMastBis);
         standortSearchStatement.setMastschutz(mastschutz_von, mastschutz_bis);
         standortSearchStatement.setMastanstrich(mastanstrich_von, mastanstrich_bis);
         standortSearchStatement.setElek_pruefung(elek_pruefung_von, elek_pruefung_bis);

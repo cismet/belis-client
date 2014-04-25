@@ -77,9 +77,8 @@ public class KeyTableWidget extends BelisWidget implements TreeSelectionListener
         super.setBroker(broker);
         initComponents();
 
-        panDescOrEdit = (PropertyManager.getManager().isEditable())
-            ? ComponentRegistry.getRegistry().getAttributeEditor()
-            : ComponentRegistry.getRegistry().getDescriptionPane();
+        panDescOrEdit = (true) ? ComponentRegistry.getRegistry().getAttributeEditor()
+                               : ComponentRegistry.getRegistry().getDescriptionPane();
 
         pnlValues.add(panDescOrEdit, PAN_DESC_OR_EDIT);
 

@@ -68,6 +68,7 @@ public class BaseEntity extends CidsBean {
             final int nextId = getNextNewId();
             entity.setId(nextId);
             entity.getMetaObject().setID(nextId);
+            entity.setEditAllowed(true);
             return entity;
         } catch (Exception ex) {
             LOG.error("error creating " + tableName + " bean", ex);

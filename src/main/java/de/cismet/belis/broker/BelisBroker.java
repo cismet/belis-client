@@ -960,6 +960,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @throws  Exception  DOCUMENT ME!
      */
     public void initComponentRegistry(final JFrame frame) throws Exception {
+        PropertyManager.getManager().setEditable(true);
+
         final SearchResultsTree searchResultsTree = new SearchResultsTree();
         final MutableToolBar toolBar = new MutableToolBar();
         final MutableMenuBar menuBar = new MutableMenuBar();
