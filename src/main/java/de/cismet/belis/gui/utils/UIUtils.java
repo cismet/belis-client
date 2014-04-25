@@ -14,6 +14,7 @@ package de.cismet.belis.gui.utils;
 import org.jdesktop.swingx.graphics.ShadowRenderer;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -31,6 +32,8 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import de.cismet.security.WebDavClient;
 
 import de.cismet.tools.gui.documents.DefaultDocument;
 import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;
@@ -197,6 +200,44 @@ public class UIUtils {
         if ((bildURL != null) && (bildURL.length() > 0)) {
             final String urlString = bildURL.trim();
             Image buffImage = new DefaultDocument(urlString, urlString).getPreview(maxPixelX, maxPixelY);
+            if (buffImage != null) {
+                if (shadowSize > 0) {
+                    // Static2DTools.getFasterScaledInstance(buffImage, width, height,
+                    // RenderingHints.VALUE_INTERPOLATION_BICUBIC, true)
+                    buffImage = generateShadow(buffImage, shadowSize);
+                }
+                bild = new ImageIcon(buffImage);
+            }
+        }
+        return bild;
+    }
+
+    /**
+     * Starts a background thread with loads the picture from the url, resizes it to the given maximums, adds a
+     * dropshadow of the given length.
+     *
+     * @param   bildURL          DOCUMENT ME!
+     * @param   maxPixelX        DOCUMENT ME!
+     * @param   maxPixelY        DOCUMENT ME!
+     * @param   shadowSize       DOCUMENT ME!
+     * @param   webDavClient     DOCUMENT ME!
+     * @param   webDavdirectory  DOCUMENT ME!
+     * @param   parent           DOCUMENT ME!
+     *
+     * @return  ImageIcon with the loaded picture
+     */
+    public static ImageIcon loadPicture(final String bildURL,
+            final int maxPixelX,
+            final int maxPixelY,
+            final int shadowSize,
+            final WebDavClient webDavClient,
+            final String webDavdirectory,
+            final Component parent) {
+        ImageIcon bild = null;
+        if ((bildURL != null) && (bildURL.length() > 0)) {
+            final String urlString = bildURL.trim();
+            Image buffImage = new DefaultDocument(urlString, urlString, webDavClient, parent, webDavdirectory)
+                        .getPreview(maxPixelX, maxPixelY);
             if (buffImage != null) {
                 if (shadowSize > 0) {
                     // Static2DTools.getFasterScaledInstance(buffImage, width, height,

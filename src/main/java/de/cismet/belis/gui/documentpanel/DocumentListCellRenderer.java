@@ -16,6 +16,8 @@ import java.awt.Component;
 
 import java.io.File;
 
+import java.net.URI;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 
-import de.cismet.belisEE.entity.DmsUrl;
+import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -99,12 +101,12 @@ public class DocumentListCellRenderer extends DefaultListCellRenderer {
             final boolean isSelected,
             final boolean cellHasFocus) {
         ImageIcon imageIcon = null;
-        if (value instanceof DmsUrl) {
-            final DmsUrl url = (DmsUrl)value;
-            final File file = url.toFile();
+        if (value instanceof DmsUrlCustomBean) {
+            final DmsUrlCustomBean url = (DmsUrlCustomBean)value;
+            final URI file = url.toUri();
             value = url.getBeschreibung();
             if (file != null) {
-                final String[] tmp = file.getName().split("\\.");
+                final String[] tmp = file.toString().split("\\.");
                 if ((tmp != null) && (tmp.length > 0)) {
                     final String extension = tmp[tmp.length - 1];
                     imageIcon = FILE_TYPE_ICONS.get(extension);

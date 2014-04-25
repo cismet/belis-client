@@ -40,8 +40,18 @@ public class BelisIcons {
                 "/de/cismet/belis/resource/icon/16/mauerlasche.png"));
     public static Icon icoNewObjects16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/16/new.png"));
+    public static Icon icoGeometrie16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/16/new.png"));
+    public static Icon icoEditObjects16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/16/edit.png"));
     public static Icon icoAbzweigdose16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/16/abzweigdose.png"));
+    public static Icon icoVeranlassung16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/16/veranlassung.png"));
+    public static Icon icoArbeitsauftrag16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/16/arbeitsauftrag.png"));
+    public static Icon icoArbeitsprotokoll16 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/16/arbeitsprotokoll.png"));
 
     public static Icon icoStandort22 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/22/standort.png"));
@@ -67,6 +77,12 @@ public class BelisIcons {
                 "/de/cismet/belis/resource/icon/22/cancel.png"));
     public static Icon icoAbzweigdose22 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/22/abzweigdose.png"));
+    public static Icon icoVeranlassung22 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/22/veranlassung.png"));
+    public static Icon icoArbeitsauftrag22 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/22/arbeitsauftrag.png"));
+    public static Icon icoArbeitsprotokoll22 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
+                "/de/cismet/belis/resource/icon/22/arbeitsprotokoll.png"));
 
     public static Icon icoError48 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/48/error.png"));

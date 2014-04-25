@@ -11,11 +11,8 @@
  */
 package de.cismet.belis.gui.search;
 
-import org.apache.commons.collections.comparators.ReverseComparator;
-
 import org.jdom.Element;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 import java.io.BufferedReader;
@@ -24,17 +21,15 @@ import java.io.InputStreamReader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 import java.util.Vector;
+
+import javax.swing.border.EmptyBorder;
 
 import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.todo.RetrieveWorker;
 
 import de.cismet.belis.util.BelisIcons;
-
-import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.wfsforms.WFSFormAdress;
@@ -78,26 +73,33 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
         panNr.setOpaque(false);
         panStr.setOpaque(false);
         chkVisualize.setSelected(false);
-        chkVisualize.setVisible(false);
+        // chkVisualize.setVisible(false);
         chkLockScale.setSelected(false);
         chkLockScale.setVisible(false);
-        jLabel1.setVisible(false);
+        // jLabel1.setVisible(false);
         jLabel2.setVisible(false);
         cmdOk.setText("");
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         // cmdOk.setSize(23, 23);
-        cmdOk.setPreferredSize(new Dimension(225, 23));
         cmdOk.setFocusable(false);
+        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
+        cmdOk.setText("Straße, Hausnummer");
+        cmdOk.setIcon(BelisIcons.icoSearch22);
+        this.setBorder(new EmptyBorder(0, 10, 0, 5));
         final GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 2, 0);
         add(cmdOk, gridBagConstraints);
-        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        cmdOk.setText("Straße, Hausnummer");
-        cmdOk.setIcon(BelisIcons.icoSearch22);
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
+        add(chkVisualize, gridBagConstraints);
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 7);
+        add(jLabel1, gridBagConstraints);
+
         addWFSFormAddressListner(this);
 //        cmdOk.addActionListener(new ActionListener() {
 //
@@ -203,12 +205,12 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
 
     @Override
     public void searchFinished() {
-        setSearchEnabled(true);
+//        setSearchEnabled(true);
     }
 
     @Override
     public void searchStarted() {
-        setSearchEnabled(false);
+//        setSearchEnabled(false);
     }
 
     // ToDo Inferface Enablelable or something
@@ -259,9 +261,6 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
             log.debug("AddressSearch started --> searching db for geometries boundingbox: " + addressBB);
         }
         broker.fireSearchStarted();
-        broker.setCurrentSearchResults(new TreeSet(
-                new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))));
-        broker.setLastSearch(new RetrieveWorker(broker, addressBB));
         broker.execute(new RetrieveWorker(broker, addressBB));
     }
 

@@ -12,23 +12,12 @@
  */
 package de.cismet.belis.gui.search;
 
-import org.apache.commons.collections.comparators.ReverseComparator;
-
-import java.util.TreeSet;
-
 import de.cismet.belis.broker.BelisBroker;
-
-import de.cismet.belis.todo.RetrieveWorker;
 
 import de.cismet.belis.util.BelisIcons;
 
-import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
-
-import de.cismet.cismap.commons.wfsforms.WFSFormFeature;
-
 import de.cismet.commons.architecture.util.ArchitectureUtils;
-//ToDo visualisation of working Progressbar --> cooler if there were something central for such events
+
 /**
  * DOCUMENT ME!
  *
@@ -39,13 +28,12 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
 
     //~ Instance fields --------------------------------------------------------
 
-    private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MapSearchControl.class);
-    private BelisBroker broker;
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton cmdOk;
-    protected javax.swing.JPanel panEmpty;
     // End of variables declaration//GEN-END:variables
+
+    private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MapSearchControl.class);
+    private BelisBroker broker;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -69,25 +57,22 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
+        final java.awt.GridBagConstraints gridBagConstraints;
 
         cmdOk = new javax.swing.JButton();
-        panEmpty = new javax.swing.JPanel();
 
-        setMinimumSize(new java.awt.Dimension(100, 25));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 3, 0, 0));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(100, 100));
         setLayout(new java.awt.GridBagLayout());
 
-        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
+        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                           // NOI18N
+        cmdOk.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/search.png"))); // NOI18N
         cmdOk.setMnemonic('P');
         cmdOk.setText("Karteninhalt");
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         cmdOk.setFocusable(false);
-        cmdOk.setMaximumSize(new java.awt.Dimension(150, 23));
-        cmdOk.setMinimumSize(new java.awt.Dimension(150, 23));
-        cmdOk.setPreferredSize(new java.awt.Dimension(150, 23));
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -98,34 +83,8 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
+        gridBagConstraints.insets = new java.awt.Insets(2, 3, 2, 3);
         add(cmdOk, gridBagConstraints);
-
-        panEmpty.setMinimumSize(new java.awt.Dimension(1, 19));
-        panEmpty.setOpaque(false);
-        panEmpty.setPreferredSize(new java.awt.Dimension(1, 19));
-
-        final javax.swing.GroupLayout panEmptyLayout = new javax.swing.GroupLayout(panEmpty);
-        panEmpty.setLayout(panEmptyLayout);
-        panEmptyLayout.setHorizontalGroup(
-            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                0,
-                Short.MAX_VALUE));
-        panEmptyLayout.setVerticalGroup(
-            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                0,
-                Short.MAX_VALUE));
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 99.0;
-        gridBagConstraints.weighty = 1.0;
-        add(panEmpty, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -145,166 +104,21 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
             log.debug("Search with boundingBox");
         }
         broker.fireSearchStarted();
-        broker.setCurrentSearchResults(new TreeSet(
-                new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))));
-        broker.setLastSearch(new RetrieveWorker(broker, broker.getMappingComponent().getCurrentBoundingBox()));
-        broker.execute(new RetrieveWorker(broker, broker.getMappingComponent().getCurrentBoundingBox()));
-//boolean history = true;
-//        MappingComponent mc=getMappingComponent();
-//        if (mc==null) {
-//            mc=CismapBroker.getInstance().getMappingComponent();
-//        }
-//        boolean scaling=!(mc.isFixedMapScale())&&!(chkLockScale.isSelected());
-//        BoundingBox bb=null;
-//        int animation=mc.getAnimationDuration();
-//        if (nr!=null) {
-//           if (scaling) {
-//                bb=new BoundingBox(nr.getJTSGeometry());
-//            }
-//            else {
-//                bb=new BoundingBox(nr.getPosition().buffer(AbstractWFSForm.FEATURE_BORDER));
-//            }
-//        }
-//        else if (strasse!=null) {
-//            if (scaling) {
-//                bb=new BoundingBox log.debug("requestRefresh(+" + component + "," + value + ")");
-//        if (lastFeature == null || !(value.getIdentifier().equals(lastFeature.getIdentifier()))) {
-//            lastFeature = value;public String getBrokerName() {
-//        return brokerName;
-//    }
-//            WFSFormQuery q = queriesByComponentName.get(component);
-//            if (q != null) {
-//                HashMap<String, String> hm = new HashMap<String, String>();
-//                hm.put(q.getQueryPlaceholder(), value.getIdentifier());
-//                requestRefresh(component, hm);
-//            }
-//        }(strasse.getJTSGeometry());
-//            }
-//            else {
-//                bb=new BoundingBox(strasse.getPosition().buffer(AbstractWFSForm.FEATURE_BORDER));
-//            }
-//        }
-//        else {
-//            return;
-//        }
-//        mc.gotoBoundingBox(bb,history,scaling,animation);
-//        chkVisualizeActionPerformed(null);
+        broker.search(broker.getMappingComponent().getCurrentBoundingBox());
     }                                                                         //GEN-LAST:event_cmdOkActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  component  DOCUMENT ME!
-     * @param  value      DOCUMENT ME!
-     */
-    public void requestRefresh(final String component, final WFSFormFeature value) {
-//        log.debug("requestRefresh(+" + component + "," + value + ")");
-//        if (lastFeature == null || !(value.getIdentifier().equals(lastFeature.getIdentifier()))) {
-//            lastFeature = value;
-//            WFSFormQuery q = queriesByComponentName.get(component);
-//            if (q != null) {
-//                HashMap<String, String> hm = new HashMap<String, String>();
-//                hm.put(q.getQueryPlaceholder(), value.getIdentifier());
-//                requestRefresh(component, hm);
-//            }
-//        }
-    }
-
-//    public class EJBComBoxModel extends AbstractListModel implements ComboBoxModel {
-//
-//        private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(EJBComBoxModel.class);
-//        private final ArrayList entities = new ArrayList();
-//        private Object selectedItem = null;
-//        private Class modelType;
-//
-//        public Object getElementAt(int index) {
-//            return entities.get(index);
-//        }
-//
-//        public EJBComBoxModel(Class modelType) {
-//            this.modelType = modelType;
-//            RetrieveWorker retrieveWorker = new RetrieveWorker();
-//            BrokerLookup.getInstance().getBrokerForName(brokerName).execute(retrieveWorker);
-//        }
-//
-//        class RetrieveWorker extends SwingWorker<Set, Void> {
-//
-//            RetrieveWorker() {
-//            }
-//
-//            protected Set doInBackground() throws Exception {
-//                //return ((BelisBroker)BrokerLookup.getInstance().getBrokerForName(brokerName)).search();
-//                //ToDo make proper
-//                //return EJBroker.getInstance().getObjectsByBoundingBox("LINESTRING("+((BelisBroker)BrokerLookup.getInstance().getBrokerForName(brokerName)).getMappingComponent().getCurrentBoundingBox()+")");
-//                return  broker.search(broker.getMappingComponent().getCurrentBoundingBox());
-//            }
-//
-//            protected void done() {
-//                broker.fireSearchFinished();
-//                if (isCancelled()) {
-//                    log.warn("retrieveWorker is canceled --> nothing to do in method done()");
-//                    return;
-//                }
-//                try {
-//                    log.debug("Ergebniss: "+get());
-//                } catch (Exception ex) {
-//                    log.error("Failure during processing RetrieveWorker results", ex);
-//                    return;
-//                }
-//            }
-//        }
 
     @Override
     public void searchFinished() {
-        setSearchEnabled(true);
+//        setSearchEnabled(true);
     }
 
     @Override
     public void searchStarted() {
-        setSearchEnabled(false);
+//        setSearchEnabled(false);
     }
 
     @Override
     public void setSearchEnabled(final boolean isSearchEnabled) {
         ArchitectureUtils.enableContainerRecursivley(this, isSearchEnabled);
     }
-
-//
-//        public int getSize() {
-//            return entities.size();
-//        }
-//
-//        public Object getSelectedItem() {
-//            return selectedItem;
-//        }
-//
-//        public void setSelectedItem(Object anItem) {
-//            selectedItem = anItem;
-//        }
-//    }
-//
-//    public class EJBRenderer extends DefaultListCellRenderer {
-//
-//        /** Creates a new instance of ReBeCboRenderer */
-//        public EJBRenderer() {
-//            super();
-//            setHorizontalAlignment(SwingConstants.CENTER);
-//        }
-//
-//        @Override
-//        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-//            Component tmpComp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-//            if (value != null && value instanceof Strassenschluessel) {
-//                setText(((Strassenschluessel) value).getStrasse());
-//            } else if (value != null && value instanceof Kennziffer) {
-//                setText(((Kennziffer) value).getBeschreibung());
-//            } else if (value != null) {
-//                setText(value.toString());
-//            } else {
-//                setText("");
-//            }
-//            setHorizontalAlignment(SwingConstants.LEFT);
-//            return tmpComp;
-//        }
-//    }
 }

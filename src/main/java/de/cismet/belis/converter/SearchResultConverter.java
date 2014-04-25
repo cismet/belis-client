@@ -16,13 +16,13 @@ import org.apache.log4j.Logger;
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
 
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Set;
 
 import de.cismet.belis.todo.CustomTreeTableModel;
 
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Standort;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 /**
  * DOCUMENT ME!
@@ -45,12 +45,13 @@ public class SearchResultConverter extends Converter<Set, CustomTreeTableModel> 
         }
         final DefaultMutableTreeTableNode root = new DefaultMutableTreeTableNode(null, true);
         for (final Object curObject : searchResults) {
-            if (curObject instanceof Standort) {
+            if (curObject instanceof TdtaStandortMastCustomBean) {
                 final DefaultMutableTreeTableNode standortNode = new DefaultMutableTreeTableNode(curObject, true);
-                final Set<Leuchte> leuchten = ((Standort)curObject).getLeuchten();
+                final Collection<TdtaLeuchtenCustomBean> leuchten = ((TdtaStandortMastCustomBean)curObject)
+                            .getLeuchten();
                 if (searchResults != null) {
                     if (leuchten != null) {
-                        for (final Leuchte curLeuchte : leuchten) {
+                        for (final TdtaLeuchtenCustomBean curLeuchte : leuchten) {
                             final DefaultMutableTreeTableNode leuchteNode = new DefaultMutableTreeTableNode(
                                     curLeuchte,
                                     false);
