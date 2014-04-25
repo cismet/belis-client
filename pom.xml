@@ -15,13 +15,6 @@
 
     <name>BelIS Client</name>
     <description>!!! description pending !!!</description>
-    <licenses>
-        <license>
-            <name>GNU General Public License</name>
-            <distribution>repo</distribution>
-            <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
-        </license>
-    </licenses>
 
     <prerequisites>
         <maven>3</maven>
@@ -84,9 +77,9 @@
             <version>1.1</version>
         </dependency>
         <dependency>
-            <groupId>org.swinglabs</groupId>
-            <artifactId>swingx</artifactId>
-            <version>0.9.7</version>
+            <groupId>de.cismet.belis</groupId>
+            <artifactId>belis-server</artifactId>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>de.cismet.cismap</groupId>

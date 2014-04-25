@@ -94,6 +94,7 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateGeometryListener
 import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
 import de.cismet.commons.architecture.validation.Validatable;
 
+import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.entity.GeoBaseEntity;
 
 /**
@@ -154,49 +155,6 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     private org.jdesktop.swingx.JXTreeTable jttHitTable;
     private javax.swing.JPanel panMain;
     // End of variables declaration//GEN-END:variables
-
-    //~ Constructors -----------------------------------------------------------
-
-    private boolean ignoreFeatureSelection = false;
-//    protected TreePath[] selectedTreeNodes = null;
-//    public static final String PROP_SELECTEDTREENODE = "selectedTreeNodes";
-    private TreePath selectedTreeNode = null;
-    private final CustomMutableTreeTableNode rootNode = new CustomMutableTreeTableNode(null, true);
-    private final CustomMutableTreeTableNode searchResultsNode = new CustomMutableTreeTableNode(null, true);
-    private final CustomMutableTreeTableNode newObjectsNode = new CustomMutableTreeTableNode(null, true);
-    private CustomTreeTableModel treeTableModel = null;
-    private HashMap<Leuchte, Standort> leuchteToVirtualStandortMap = new HashMap();
-    private HashMap<Standort, ArrayList<Leuchte>> leuchtenRemovedFromMastMap =
-        new HashMap<Standort, ArrayList<Leuchte>>();
-    private JButton btnAttachMode = new JButton();
-    private boolean isAlreadyDisabled = false;
-    private boolean tmpProcessStarted = false;
-    private boolean isSwitchTriggerEnabled = false;
-    private Set currentSearchResults = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-//    public Set getCurrentSearchResults() {
-//        return currentSearchResults;
-//    }
-//
-//    public void setCurrentSearchResults(Set currentSearchResults) {
-//        this.currentSearchResults = currentSearchResults;
-//        firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, null, currentSearchResults);
-//    }
-    // There is no need to hold the objects in an extra set only convenience
-    private Set newObjects = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-    // private Set savedObjects = new HashSet();
-    // private Set processedObjects = new HashSet();
-    private final Set removedObjects = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-    private int currentMode = 0;
-    private Feature newlyAddedFeature = null;
-    // End of variables declaration
-    private boolean isSelectedOverMap = false;
-    // ToDo Workaround because there will be exceptions if a selectedNode is moved. Should normaly not be done in the
-    // model
-    private TreePath selectedElement = null;
-    private Feature selectedFeature = null;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -436,8 +394,6 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         jttHitTable.setTransferHandler(new WorkbenchTransferHandler());
         jttHitTable.setDropMode(DropMode.ON);
     }
-
-    //~ Methods ----------------------------------------------------------------
 
     /**
      * ToDo not necessary.
