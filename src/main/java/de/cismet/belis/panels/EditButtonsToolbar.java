@@ -294,7 +294,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
             }
         } catch (Exception ex) {
             LOG.error("Fehler beim akzeptieren von Änderungen: ", ex);
-            broker.showSaveErrorDialog();
+            broker.showSaveErrorDialog(ex);
         }
     } //GEN-LAST:event_btnAcceptChangesActionPerformed
 

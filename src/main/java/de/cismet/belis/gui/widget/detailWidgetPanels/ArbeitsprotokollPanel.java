@@ -35,6 +35,7 @@ import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
 
+import de.cismet.cids.utils.multibean.EmbeddedMultiBeanDisplay;
 import de.cismet.cids.utils.multibean.MultiBeanHelper;
 
 /**
@@ -100,11 +101,23 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         initComponentToLabelMap();
         initPanel();
 
-        mbh.registerComponentForProperty(txfMonteur, ArbeitsprotokollCustomBean.PROP__MONTEUR);
-        mbh.registerComponentForProperty(dapDatum, ArbeitsprotokollCustomBean.PROP__DATUM);
-        mbh.registerComponentForProperty(cbxStatus, ArbeitsprotokollCustomBean.PROP__FK_STATUS);
-        mbh.registerComponentForProperty(txaBemerkungen, ArbeitsprotokollCustomBean.PROP__BEMERKUNG);
-        mbh.registerComponentForProperty(txaMaterial, ArbeitsprotokollCustomBean.PROP__MATERIAL);
+        EmbeddedMultiBeanDisplay.registerComponentForProperty(
+            txfMonteur,
+            ArbeitsprotokollCustomBean.PROP__MONTEUR,
+            mbh);
+        EmbeddedMultiBeanDisplay.registerComponentForProperty(dapDatum, ArbeitsprotokollCustomBean.PROP__DATUM, mbh);
+        EmbeddedMultiBeanDisplay.registerComponentForProperty(
+            cbxStatus,
+            ArbeitsprotokollCustomBean.PROP__FK_STATUS,
+            mbh);
+        EmbeddedMultiBeanDisplay.registerComponentForProperty(
+            txaBemerkungen,
+            ArbeitsprotokollCustomBean.PROP__BEMERKUNG,
+            mbh);
+        EmbeddedMultiBeanDisplay.registerComponentForProperty(
+            txaMaterial,
+            ArbeitsprotokollCustomBean.PROP__MATERIAL,
+            mbh);
     }
 
     //~ Methods ----------------------------------------------------------------

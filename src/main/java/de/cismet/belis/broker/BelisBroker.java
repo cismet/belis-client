@@ -38,6 +38,7 @@ import net.infonode.gui.componentpainter.GradientComponentPainter;
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.log4j.PropertyConfigurator;
 
+import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
@@ -45,6 +46,7 @@ import org.jdesktop.swingx.decorator.CompoundHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.jdesktop.swingx.error.ErrorInfo;
 import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
@@ -74,6 +76,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
@@ -92,8 +95,6 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
@@ -119,7 +120,6 @@ import de.cismet.belis.panels.EditButtonsToolbar;
 import de.cismet.belis.panels.FilterToolBar;
 import de.cismet.belis.panels.LockWaitDialog;
 import de.cismet.belis.panels.ReleaseWaitDialog;
-import de.cismet.belis.panels.SaveErrorDialogPanel;
 import de.cismet.belis.panels.SaveWaitDialog;
 
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
@@ -1924,13 +1924,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     /**
      * DOCUMENT ME!
-     */
-    protected void saveFailed() {
-        showSaveErrorDialog();
-    }
-
-    /**
-     * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      *
@@ -1964,13 +1957,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 }
             };
         return cancelEDTRun;
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    protected void cancelFailed() {
-        // Todo cancel failed
     }
 
     /**
@@ -2022,16 +2008,19 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  ex  DOCUMENT ME!
      */
-    public void showSaveErrorDialog() {
-        final JDialog dialog = new JDialog(StaticSwingTools.getParentFrame(getParentComponent()),
+    public void showSaveErrorDialog(final Exception ex) {
+        final ErrorInfo ei = new ErrorInfo(
                 "Fehler beim speichern...",
-                true);
-        dialog.setIconImage(((ImageIcon)BelisIcons.icoError16).getImage());
-        dialog.add(new SaveErrorDialogPanel());
-        dialog.pack();
-        dialog.setLocationRelativeTo(getParentComponent());
-        dialog.setVisible(true);
+                "<html><table width=\"250\" border=\"0\"><tr><td>Fehler beim speichern der Objekte. Ihre Änderungen konnten nicht gespeichert werden.</td></tr></table></html>",
+                null,
+                null,
+                ex,
+                Level.SEVERE,
+                null);
+        JXErrorPane.showDialog(getParentComponent(), ei);
     }
 
     /**
@@ -3454,12 +3443,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 } else if (mode == CANCEL_MODE) {
                     fireCancelFinished();
                 }
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 LOG.error("Failure during saving/refresh results", ex);
                 if (mode == SAVE_MODE) {
-                    saveFailed();
+                    showSaveErrorDialog(ex);
                 } else if (mode == CANCEL_MODE) {
-                    cancelFailed();
+                    // cancelFailed();
                 }
             } finally {
                 if (mode == SAVE_MODE) {
