@@ -526,11 +526,13 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @param  userObjects  DOCUMENT ME!
      */
     public void selectUserObjects(final Collection userObjects) {
+        jttHitTable.getTreeSelectionModel().removeTreeSelectionListener(this);
         jttHitTable.getTreeSelectionModel().clearSelection();
         for (final Object userObject : userObjects) {
             final TreePath pathToEntity = getTreeTableModel().getPathForUserObject(userObject);
             jttHitTable.getTreeSelectionModel().addSelectionPath(pathToEntity);
         }
+        jttHitTable.getTreeSelectionModel().addTreeSelectionListener(this);
     }
 
     @Override
