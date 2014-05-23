@@ -171,12 +171,19 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
             lebensdauer = null;
         }
 
+        Timestamp wechselDatum = null;
+        try {
+            wechselDatum = new Timestamp(dapLeuchteLeuchtmittelwechsel.getDate().getTime());
+        } catch (Exception e) {
+            wechselDatum = null;
+        }
+        
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
         aktionen.add(createAktion(
                 "Wechseldatum",
                 leuchte,
                 TdtaLeuchtenCustomBean.PROP__WECHSELDATUM,
-                new Timestamp(dapLeuchteLeuchtmittelwechsel.getDate().getTime())));
+                wechselDatum));
         aktionen.add(createAktion("Lebensdauer", leuchte, TdtaLeuchtenCustomBean.PROP__LEBENSDAUER, lebensdauer));
         aktionen.add(createAktion(
                 "Leuchtmittel",
