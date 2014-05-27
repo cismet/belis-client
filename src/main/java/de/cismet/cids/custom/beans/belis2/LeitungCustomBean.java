@@ -241,7 +241,7 @@ public class LeitungCustomBean extends GeoBaseEntity implements WorkbenchEntity,
 
     @Override
     public int getLineWidth() {
-        return 4;
+        return 1;
     }
 
     @Override

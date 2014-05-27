@@ -177,7 +177,7 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
         } catch (Exception e) {
             wechselDatum = null;
         }
-        
+
         final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
         aktionen.add(createAktion(
                 "Wechseldatum",

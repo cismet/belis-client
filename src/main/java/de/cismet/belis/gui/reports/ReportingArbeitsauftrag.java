@@ -37,6 +37,8 @@ import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
+import de.cismet.belis.broker.BelisBroker;
+
 import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
@@ -205,7 +207,7 @@ public class ReportingArbeitsauftrag {
                             "",
                             "",
                             null,
-                            new CustomFixedWidthStroke(2f));
+                            new CustomFixedWidthStroke(2f, BelisBroker.getInstance().getMappingComponent()));
                     dsf.setGeometry(geom);
                     dsf.setPrimaryAnnotation("  P" + position);
                     dsf.setPrimaryAnnotationPaint(Color.black);
