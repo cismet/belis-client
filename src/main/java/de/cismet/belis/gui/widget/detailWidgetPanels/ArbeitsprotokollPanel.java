@@ -14,8 +14,6 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 import org.jdesktop.beansbinding.BindingGroup;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +26,8 @@ import javax.swing.table.AbstractTableModel;
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
 import de.cismet.belis.broker.BelisBroker;
+
+import de.cismet.belis.gui.DateToDateConverter;
 
 import de.cismet.belis.util.RendererTools;
 
@@ -236,6 +236,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.datum}"),
                 dapDatum,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new DateToDateConverter());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
