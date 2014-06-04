@@ -1202,8 +1202,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         metaSearchComponentFactory.setCustomGeoSearch(new BelisTopicSearchStatement());
         setMetaSearchComponentFactory(metaSearchComponentFactory);
 
-        mappingComponent.setFeaturePrintingDpi(72);
-
         CismapBroker.getInstance().addStatusListener(new StatusListener() {
 
                 @Override
