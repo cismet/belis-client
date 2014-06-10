@@ -11,6 +11,9 @@
  */
 package de.cismet.commons.server.entity;
 
+import Sirius.server.localserver.attribute.ObjectAttribute;
+import Sirius.server.middleware.types.MetaObject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -171,29 +174,33 @@ public class BaseEntity extends CidsBean {
      * DOCUMENT ME!
      */
     public void loadBackup() {
+        final MetaObject mo = getMetaObject();
         for (final String property : getPropertyNames()) {
-            final Object object = backupProperties.get(property);
-            if (object instanceof Collection) {
-                final Collection collectionCopy = (Collection)object;
-                getBeanCollectionProperty(property).clear();
-                for (final Object collectionObject : collectionCopy) {
-                    if (collectionObject instanceof BaseEntity) {
-                        ((BaseEntity)collectionObject).loadBackup();
-                        try {
-                            getBeanCollectionProperty(property).add((BaseEntity)collectionObject);
-                        } catch (Exception ex) {
-                            LOG.error("error while setting collection copy", ex);
+            final ObjectAttribute oa = mo.getAttributeByFieldName(property);
+            if ((oa != null) && oa.isChanged()) {
+                final Object object = backupProperties.get(property);
+                if (object instanceof Collection) {
+                    final Collection collectionCopy = (Collection)object;
+                    getBeanCollectionProperty(property).clear();
+                    for (final Object collectionObject : collectionCopy) {
+                        if (collectionObject instanceof BaseEntity) {
+                            ((BaseEntity)collectionObject).loadBackup();
+                            try {
+                                getBeanCollectionProperty(property).add((BaseEntity)collectionObject);
+                            } catch (Exception ex) {
+                                LOG.error("error while setting collection copy", ex);
+                            }
                         }
                     }
-                }
-            } else {
-                if (object instanceof BaseEntity) {
-                    ((BaseEntity)object).loadBackup();
-                }
-                try {
-                    setProperty(property, object);
-                } catch (Exception ex) {
-                    LOG.error("error while setting object copy", ex);
+                } else {
+                    if (object instanceof BaseEntity) {
+                        ((BaseEntity)object).loadBackup();
+                    }
+                    try {
+                        setProperty(property, object);
+                    } catch (Exception ex) {
+                        LOG.error("error while setting object copy", ex);
+                    }
                 }
             }
         }
