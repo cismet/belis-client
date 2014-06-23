@@ -16,9 +16,6 @@ import java.beans.PropertyChangeEvent;
 
 import java.util.Collection;
 
-import de.cismet.belis.broker.BelisBroker;
-import de.cismet.belis.broker.CidsBroker;
-
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsauftragPanel;
@@ -41,11 +38,8 @@ import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
 import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
-import de.cismet.cismap.commons.features.Feature;
-
 import de.cismet.commons.architecture.validation.Validatable;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
@@ -231,6 +225,7 @@ public class DetailWidget extends BelisWidget {
                 isAllowedToEdit = ((VeranlassungCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof ArbeitsauftragCustomBean) {
                 arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)currentEntity);
+                arbeitsauftragPanel.setSelectedProtokolle(((ArbeitsauftragCustomBean)currentEntity).getAr_protokolle());
                 currentDetailWidgetPanel = arbeitsauftragPanel;
                 isAllowedToEdit = ((ArbeitsauftragCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof ArbeitsprotokollCustomBean) {

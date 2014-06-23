@@ -115,7 +115,9 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
      */
     public void setCurrentEntity(final T currentEntity) {
         final T oldCurrentEntity = this.currentEntity;
+        getBindingGroup().unbind();
         this.currentEntity = currentEntity;
+        getBindingGroup().bind();
         try {
             firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
         } catch (final Exception ex) {

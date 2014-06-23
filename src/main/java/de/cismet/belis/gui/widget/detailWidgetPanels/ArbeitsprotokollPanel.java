@@ -21,6 +21,7 @@ import java.util.Collection;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.table.AbstractTableModel;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
@@ -59,8 +60,8 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
     //~ Instance fields --------------------------------------------------------
 
-    private BelisBroker belisBroker = BelisBroker.getInstance();
     private MultiBeanHelper mbh = new MultiBeanHelper();
+    private SwingWorker previousSwingworker = null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbxStatus;
@@ -474,9 +475,39 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
      */
     public void setCurrentEntities(final Collection<ArbeitsprotokollCustomBean> currentEntities) {
         final ArbeitsprotokollCustomBean dummyBean = ArbeitsprotokollCustomBean.createNew();
-        mbh.setDummyBean(dummyBean);
-        mbh.setBeans((Collection)currentEntities);
-        super.setCurrentEntity(dummyBean);
+        setCurrentEntity(dummyBean);
+
+        if ((previousSwingworker != null) && !previousSwingworker.isDone()) {
+            previousSwingworker.cancel(true);
+        }
+        previousSwingworker = new SwingWorker<ArbeitsprotokollCustomBean, Void>() {
+
+                @Override
+                protected ArbeitsprotokollCustomBean doInBackground() throws Exception {
+                    mbh.setDummyBean(dummyBean);
+                    mbh.setBeans((Collection)currentEntities);
+                    return dummyBean;
+                }
+
+                @Override
+                protected void done() {
+                    ArbeitsprotokollCustomBean dummyBean = null;
+                    try {
+                        dummyBean = get();
+                        if (mbh.getBeans().equals(currentEntities)) {
+                            ((AktionenTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
+                        }
+                    } catch (InterruptedException ex) {
+                        mbh.setDummyBean(null);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("canceled");
+                        }
+                    } catch (final Exception ex) {
+                        LOG.warn(ex, ex);
+                    }
+                }
+            };
+        previousSwingworker.execute();
 
         boolean allSame = true;
         ArbeitsprotokollCustomBean.ChildType allSameChildType = null;
@@ -495,7 +526,6 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
         validate();
         repaint();
-        ((AktionenTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
     }
 
     /**
@@ -542,7 +572,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
     @Override
     protected BindingGroup getBindingGroup() {
-        return null;
+        return bindingGroup;
     }
 
     //~ Inner Classes ----------------------------------------------------------
