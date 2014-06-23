@@ -13,6 +13,9 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.BorderLayout;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import de.cismet.belis.broker.BelisBroker;
 
 /**
@@ -33,6 +36,7 @@ public class ArbeitsprotokollDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel panWizardWrapper;
+    private javax.swing.JProgressBar pgbDone;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -71,6 +75,7 @@ public class ArbeitsprotokollDialog extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         cmdAbortAktion = new javax.swing.JButton();
         cmdExecuteAktion = new javax.swing.JButton();
+        pgbDone = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -118,6 +123,13 @@ public class ArbeitsprotokollDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel1.add(jPanel2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel1.add(pgbDone, gridBagConstraints);
+        pgbDone.setVisible(false);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -135,10 +147,24 @@ public class ArbeitsprotokollDialog extends javax.swing.JDialog {
      * @param  evt  DOCUMENT ME!
      */
     private void cmdExecuteAktionActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdExecuteAktionActionPerformed
-        wizardPanel.executeAktion();
-        dispose();
-        BelisBroker.getInstance().getDetailWidget().getArbeitsprotokollPanel().refreshAktionen();
-    }                                                                                    //GEN-LAST:event_cmdExecuteAktionActionPerformed
+        wizardPanel.executeAktion(new PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final PropertyChangeEvent evt) {
+                    if ("start".equals(evt.getPropertyName())) {
+                        jPanel2.setVisible(false);
+                        pgbDone.setVisible(true);
+                        pgbDone.setMaximum((Integer)evt.getNewValue());
+                    } else if ("progress".equals(evt.getPropertyName())) {
+                        pgbDone.setValue((Integer)evt.getNewValue());
+                        pgbDone.setString((Integer)evt.getNewValue() + " von " + wizardPanel.getProtokolle().size());
+                    } else if ("done".equals(evt.getPropertyName())) {
+                        dispose();
+                        BelisBroker.getInstance().getDetailWidget().getArbeitsprotokollPanel().refreshAktionen();
+                    }
+                }
+            });
+    } //GEN-LAST:event_cmdExecuteAktionActionPerformed
 
     /**
      * DOCUMENT ME!

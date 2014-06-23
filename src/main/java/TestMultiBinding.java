@@ -159,7 +159,7 @@ public class TestMultiBinding {
                         final ArbeitsauftragCustomBean arbeitsauftragBean = get();
 
                         detail.getArbeitsauftragPanel().setCurrentEntity(arbeitsauftragBean);
-                        detail.getArbeitsauftragPanel().setPanelEditable(true);
+                        detail.getArbeitsauftragPanel().setEnabled(true);
                         dialog.pack();
                     } catch (final Exception ex) {
                         LOG.error(ex, ex);
