@@ -8,41 +8,26 @@
 
 import Sirius.navigator.connection.*;
 import Sirius.navigator.connection.proxy.ConnectionProxy;
-import Sirius.navigator.exception.ConnectionException;
-import Sirius.navigator.search.dynamic.SearchDialog;
-import Sirius.navigator.types.treenode.RootTreeNode;
-import Sirius.navigator.ui.DescriptionPane;
-import Sirius.navigator.ui.DescriptionPaneFS;
-import Sirius.navigator.ui.LayoutedContainer;
-import Sirius.navigator.ui.MutableMenuBar;
-import Sirius.navigator.ui.MutablePopupMenu;
-import Sirius.navigator.ui.MutableToolBar;
-import Sirius.navigator.ui.attributes.AttributeViewer;
-import Sirius.navigator.ui.attributes.editor.AttributeEditor;
-import Sirius.navigator.ui.tree.SearchResultsTree;
 
-import Sirius.server.middleware.types.Node;
+import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
 
-import org.jdesktop.swingx.auth.LoginService;
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Level;
 
-import java.awt.Component;
+import java.io.File;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.swing.JFrame;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
+import de.cismet.belis.arbeitsprotokollwizard.ArbeitsprotokollDialog;
+import de.cismet.belis.arbeitsprotokollwizard.LeuchteLeuchtmittelwechselElekpruefungWizard;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis.client.BelisClient;
+import de.cismet.belis2.server.search.ArbeitsauftragSearchStatement;
 
-import de.cismet.belis.gui.widget.ExtendedNavigatorAttributeEditorGui;
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 
-import de.cismet.cids.navigator.utils.ClassCacheMultiple;
-
-import de.cismet.tools.gui.DefaultPopupMenuListener;
 import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 
@@ -69,7 +54,7 @@ import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class BrokerTester {
+public class DeserializeTester {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -80,24 +65,19 @@ public class BrokerTester {
         "Sirius.navigator.connection.proxy.DefaultConnectionProxyHandler";
 
     public static final String CALLSERVER_URL = "http://localhost:9917/callserver/binary";
-//    public static final String CALLSERVER_URL = "https://geoportal.wuppertal.de:8084/callserver/binary";
     public static final String CALLSERVER_DOMAIN = CidsBroker.BELIS_DOMAIN;
-    public static final String CALLSERVER_USER = "";
-//    public static final String CALLSERVER_PASSWORD = "";
-    public static final String CALLSERVER_PASSWORD = "";
+    public static final String CALLSERVER_USER = "*";
+    public static final String CALLSERVER_PASSWORD = "*";
     public static final String CALLSERVER_GROUP = "Bearbeiter";
 
     //~ Constructors -----------------------------------------------------------
-
-// private Map<Integer, String> ejbFlurstueckStrings = new HashMap<Integer, String>();
-// private Map<Integer, String> mosFlurstueckStrings = new HashMap<Integer, String>();
 
     // private final Set<Key> allFlurstueckKeys = new HashSet<Key>();
 
     /**
      * Creates a new BrokerTester object.
      */
-    public BrokerTester() {
+    public DeserializeTester() {
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -105,108 +85,52 @@ public class BrokerTester {
     /**
      * DOCUMENT ME!
      *
-     * @throws  Exception  DOCUMENT ME!
-     */
-    private static void initComponentRegistry() throws Exception {
-        final SearchResultsTree searchResultsTree = new SearchResultsTree();
-        final MutableToolBar toolBar = new MutableToolBar();
-        final MutableMenuBar menuBar = new MutableMenuBar();
-        final LayoutedContainer container = new LayoutedContainer(toolBar, menuBar, true);
-        final AttributeViewer attributeViewer = new AttributeViewer();
-        final AttributeEditor attributeEditor = new ExtendedNavigatorAttributeEditorGui();
-        final SearchDialog searchDialog = null;
-
-        final DescriptionPane descriptionPane = new DescriptionPaneFS();
-        final MutablePopupMenu popupMenu = new MutablePopupMenu();
-
-        final Collection<Component> toRemoveComponents = new ArrayList<Component>();
-        for (final Component component : popupMenu.getComponents()) {
-            if ((component instanceof JSeparator)
-                        || ((component instanceof JMenuItem)
-                            && (((JMenuItem)component).getActionCommand() != null)
-                            && (((JMenuItem)component).getActionCommand().equals("cmdSearch")
-                                || ((JMenuItem)component).getActionCommand().equals("treecommand")))) {
-                toRemoveComponents.add(component);
-            }
-        }
-        for (final Component toRemoveComponent : toRemoveComponents) {
-            popupMenu.remove(toRemoveComponent);
-        }
-
-        final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
-        final Node[] roots = SessionManager.getProxy().getRoots("BELIS2");
-        while (true) {
-            final RootTreeNode rootTreeNode = new RootTreeNode(roots);
-            LOG.fatal("test: " + rootTreeNode.getChildCount() + " / " + roots.length, new Exception());
-            Thread.sleep(1000);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   frame  DOCUMENT ME!
-     *
-     * @throws  Exception  DOCUMENT ME!
-     */
-    private static void runTest(final JFrame frame) throws Exception {
-        try {
-//            final JXLoginPane login = new JXLoginPane(new WundaAuthentification(), null, null);
-//            final JXLoginPane.JXLoginDialog d = new JXLoginPane.JXLoginDialog((JFrame)null, login);
-//            StaticSwingTools.showDialog(d);
-
-            SessionManager.init(initProxy());
-            ClassCacheMultiple.setInstance(CALLSERVER_DOMAIN);
-
-            initComponentRegistry();
-
-            final TreeNodesDialog dialog = new TreeNodesDialog(frame, true);
-            new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (final InterruptedException ex) {
-                            LOG.fatal("error while sleeping", ex);
-                        }
-                        dialog.dispose();
-                    }
-                }).start();
-            StaticSwingTools.showDialog(dialog);
-
-            SessionManager.destroy();
-            Thread.sleep(500);
-        } catch (final ConnectionException ex) {
-            LOG.fatal("getRoots()", ex);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @param  args  DOCUMENT ME!
      */
     public static void main(final String[] args) {
-        Log4JQuickConfig.configure4LumbermillOnLocalhost();
+        try {
+            Log4JQuickConfig.configure4LumbermillOnLocalhost();
+            LOG.setLevel(Level.WARN);
+            CidsBroker.getInstance().setProxy(DeserializeTester.initProxy());
+            SessionManager.init(CidsBroker.getInstance().getProxy());
 
-        final JFrame frame = new JFrame();
-        frame.setVisible(true);
-        new Thread(
-            new Runnable() {
+            final DeserializeTester test = new DeserializeTester();
+            test.doTest();
+            System.exit(0);
+        } catch (Exception ex) {
+            LOG.fatal(ex, ex);
+            System.exit(1);
+        }
+    }
 
-                @Override
-                public void run() {
-                    while (true) {
-                        try {
-                            runTest(frame);
-                        } catch (Exception ex) {
-                            LOG.fatal("error while test", ex);
-                            System.exit(0);
-                        }
-                    }
-                }
-            }).start();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    private void doTest() throws Exception {
+        final ArbeitsauftragSearchStatement arbeitsauftragSearchStatement = new ArbeitsauftragSearchStatement();
+        arbeitsauftragSearchStatement.setAuftragsNummer("%5015");
+        LOG.fatal("execute search");
+        final Collection col = CidsBroker.getInstance().executeServerSearch(arbeitsauftragSearchStatement);
+        final Object object = col.iterator().next();
+        final MetaObjectNode mon = (MetaObjectNode)object;
+        final int classid = mon.getClassId();
+        final int objectid = mon.getObjectId();
+        LOG.fatal("construct metaobject");
+        final MetaObject mo = CidsBroker.getInstance().getMetaObject(classid, objectid, "BELIS2");
+        LOG.fatal("construct bean");
+        final ArbeitsauftragCustomBean aa = (ArbeitsauftragCustomBean)mo.getBean();
+        LOG.fatal("protokollaktion");
+        final LeuchteLeuchtmittelwechselElekpruefungWizard wizard = new LeuchteLeuchtmittelwechselElekpruefungWizard();
+        final ArbeitsprotokollDialog dialog = new ArbeitsprotokollDialog(wizard, null, true);
+        wizard.setProtokolle(aa.getAr_protokolle());
+        StaticSwingTools.showDialog(dialog);
+        LOG.fatal("save debugstring to to \"/home/jruiz/test.html\"");
+        FileUtils.writeStringToFile(new File("/home/jruiz/test.html"), mo.getDebugString());
+        LOG.fatal("start to persist");
+        aa.persist();
+        LOG.fatal("persisted");
     }
 
     /**
@@ -230,61 +154,5 @@ public class BrokerTester {
         final ConnectionSession session = ConnectionFactory.getFactory()
                     .createSession(connection, connectionInfo, true);
         return ConnectionFactory.getFactory().createProxy(CONNECTION_PROXY_CLASS, session);
-    }
-
-    //~ Inner Classes ----------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    public static class WundaAuthentification extends LoginService {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(
-                BelisClient.WundaAuthentification.class);
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new WundaAuthentification object.
-         */
-        public WundaAuthentification() {
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        @Override
-        public boolean authenticate(final String name, final char[] password, final String server) throws Exception {
-            try {
-                final String user = CALLSERVER_USER;
-                final String group = CALLSERVER_GROUP;
-
-                final Connection connection = ConnectionFactory.getFactory()
-                            .createConnection(CONNECTION_CLASS, CALLSERVER_URL);
-                final ConnectionSession session;
-                final ConnectionProxy proxy;
-                final ConnectionInfo connectionInfo = new ConnectionInfo();
-                connectionInfo.setCallserverURL(CALLSERVER_URL);
-                connectionInfo.setPassword(CALLSERVER_PASSWORD);
-                connectionInfo.setUserDomain(CALLSERVER_DOMAIN);
-                connectionInfo.setUsergroup(group);
-                connectionInfo.setUsergroupDomain(CALLSERVER_DOMAIN);
-                connectionInfo.setUsername(user);
-
-                session = ConnectionFactory.getFactory().createSession(connection, connectionInfo, true);
-                proxy = ConnectionFactory.getFactory().createProxy(CONNECTION_PROXY_CLASS, session);
-                SessionManager.init(proxy);
-                ClassCacheMultiple.setInstance(CALLSERVER_DOMAIN);
-
-                CidsBroker.getInstance().setProxy(proxy);
-                return true;
-            } catch (Throwable t) {
-                log.error("Fehler beim Anmelden", t);
-                return false;
-            }
-        }
     }
 }
