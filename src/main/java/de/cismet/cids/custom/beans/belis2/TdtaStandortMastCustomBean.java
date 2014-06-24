@@ -11,6 +11,10 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
+
+import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 import org.jdesktop.observablecollections.ObservableListListener;
 
@@ -23,11 +27,13 @@ import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis2.server.search.HighestLfdNummerSearch;
+import de.cismet.belis2.server.search.LeuchteSearchStatement;
 
 import de.cismet.belisEE.exception.ActionNotSuccessfulException;
 
@@ -95,7 +101,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
     public static final String PROP__LFD_NUMMER = "lfd_nummer";
     public static final String PROP__HAUS_NR = "haus_nr";
     public static final String PROP__DOKUMENTE = "dokumente";
-    public static final String PROP__LEUCHTEN = "leuchten";
     public static final String PROP__GRUENDUNG = "gruendung";
     public static final String PROP__ELEK_PRUEFUNG = "elek_pruefung";
     public static final String PROP__ERDUNG = "erdung";
@@ -132,7 +137,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
             PROP__LFD_NUMMER,
             PROP__HAUS_NR,
             PROP__DOKUMENTE,
-            PROP__LEUCHTEN,
             PROP__GRUENDUNG,
             PROP__ELEK_PRUEFUNG,
             PROP__ERDUNG,
@@ -184,6 +188,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
     private Timestamp revision;
     private AnlagengruppeCustomBean anlagengruppe;
     private String anbauten;
+
+    private final Collection<TdtaLeuchtenCustomBean> removedLeuchten = new HashSet<TdtaLeuchtenCustomBean>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -692,6 +698,26 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      * @return  DOCUMENT ME!
      */
     public Collection<TdtaLeuchtenCustomBean> getLeuchten() {
+        if (leuchten == null) {
+            final List<TdtaLeuchtenCustomBean> coll = new ArrayList<TdtaLeuchtenCustomBean>();
+            if (getId() != null) {
+                final LeuchteSearchStatement search = new LeuchteSearchStatement();
+                search.setFK_standort(getId());
+                try {
+                    final Collection<MetaObjectNode> mons = CidsBroker.getInstance().executeServerSearch(search);
+                    for (final MetaObjectNode mon : mons) {
+                        final int classid = mon.getClassId();
+                        final int objectid = mon.getObjectId();
+                        final MetaObject mo = CidsBroker.getInstance().getMetaObject(classid, objectid, "BELIS2");
+                        final TdtaLeuchtenCustomBean leuchte = (TdtaLeuchtenCustomBean)mo.getBean();
+                        coll.add(leuchte);
+                    }
+                } catch (Exception ex) {
+                    LOG.error(ex, ex);
+                }
+            }
+            setLeuchten(ObservableCollections.observableList(coll));
+        }
         return leuchten;
     }
 
@@ -700,14 +726,15 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      *
      * @param  leuchten  DOCUMENT ME!
      */
-    public void setLeuchten(final Collection<TdtaLeuchtenCustomBean> leuchten) {
+    private void setLeuchten(final Collection<TdtaLeuchtenCustomBean> leuchten) {
         if (leuchten != null) {
             for (final TdtaLeuchtenCustomBean leuchte : leuchten) {
                 if (leuchte != null) {
-                    leuchte.setFk_standort_backlink(this);
+                    leuchte.setFk_standort(this);
                 }
             }
             if (leuchten instanceof ObservableList) {
+                final TdtaStandortMastCustomBean standort = this;
                 ((ObservableList)leuchten).addObservableListListener(new ObservableListListener() {
 
                         @Override
@@ -715,8 +742,8 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
                             for (int i = index; i < (index + length); ++i) {
                                 final Object object = list.get(i);
                                 if ((object != null) && (object instanceof TdtaLeuchtenCustomBean)) {
-                                    ((TdtaLeuchtenCustomBean)object).setFk_standort_backlink(
-                                        TdtaStandortMastCustomBean.this);
+                                    final TdtaLeuchtenCustomBean leuchte = (TdtaLeuchtenCustomBean)object;
+                                    leuchte.setFk_standort(standort);
                                 }
                             }
                         }
@@ -727,7 +754,9 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
                                 final List removedList) {
                             for (final Object object : removedList) {
                                 if ((object != null) && (object instanceof TdtaLeuchtenCustomBean)) {
-                                    ((TdtaLeuchtenCustomBean)object).setFk_standort_backlink(null);
+                                    final TdtaLeuchtenCustomBean leuchte = (TdtaLeuchtenCustomBean)object;
+                                    leuchte.setFk_standort(null);
+                                    removedLeuchten.add(leuchte);
                                 }
                             }
                         }
@@ -743,9 +772,7 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
             }
         }
 
-        final Collection<TdtaLeuchtenCustomBean> old = this.leuchten;
         this.leuchten = leuchten;
-        this.propertyChangeSupport.firePropertyChange(PROP__LEUCHTEN, old, this.leuchten);
     }
 
     /**
@@ -1350,7 +1377,18 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
             determineNextLaufendenummer(1);
         }
         setLeuchtenPropertiesDependingOnStandort();
-        return super.persist();
+        final TdtaStandortMastCustomBean standort = (TdtaStandortMastCustomBean)super.persist();
+        for (final TdtaLeuchtenCustomBean leuchte : leuchten) {
+            leuchte.setFk_standort(standort);
+            leuchte.persist();
+        }
+        for (final TdtaLeuchtenCustomBean leuchte : removedLeuchten) {
+            if (leuchte.getFk_standort() == null) {
+                leuchte.persist();
+            }
+        }
+        removedLeuchten.clear();
+        return standort;
     }
 
     /**
