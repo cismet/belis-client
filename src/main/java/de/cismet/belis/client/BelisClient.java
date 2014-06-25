@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.belis.client;
 
+import Sirius.navigator.DefaultNavigatorExceptionHandler;
 import Sirius.navigator.connection.Connection;
 import Sirius.navigator.connection.ConnectionFactory;
 import Sirius.navigator.connection.ConnectionInfo;
@@ -444,6 +445,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 
             try {
                 final StatusBar statusBar = new StatusBar(broker.getMappingComponent());
+                DefaultNavigatorExceptionHandler.getInstance().addListener(statusBar.getExceptionHandlerListener());
                 broker.setStatusBar(statusBar);
                 broker.getMappingComponent().getFeatureCollection().addFeatureCollectionListener(statusBar);
                 CismapBroker.getInstance().addStatusListener(statusBar);
@@ -1131,13 +1133,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         if (StaticDebuggingTools.checkHomeForFile("cismetBeansbindingDebuggingOn")) { // NOI18N
             System.setProperty("cismet.beansdebugging", "true");                      // NOI18N
         }
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-
-                @Override
-                public void uncaughtException(final Thread t, final Throwable e) {
-                    LOG.error("Uncaught Exception in " + t, e);
-                }
-            });
+        Thread.setDefaultUncaughtExceptionHandler(DefaultNavigatorExceptionHandler.getInstance());
 
         final String intranetUse = JnlpSystemPropertyHelper.getProperty("intranetUse", "false");
         if (!intranetUse.equals("false") && !intranetUse.equals("true")) {
