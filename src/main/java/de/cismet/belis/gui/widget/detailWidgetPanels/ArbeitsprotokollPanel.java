@@ -443,6 +443,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
+        setEditable(isEditable);
         RendererTools.setEditable(dapDatum, isEditable);
         RendererTools.setEditable(cbxStatus, isEditable);
         RendererTools.setEditable(txaBemerkungen, isEditable);
@@ -497,6 +498,23 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
                         if (mbh.getBeans().equals(currentEntities)) {
                             ((AktionenTableModel)tblInfobausteine.getModel()).fireTableDataChanged();
                         }
+                        boolean allSame = true;
+                        ArbeitsprotokollCustomBean.ChildType allSameChildType = null;
+                        boolean first = true;
+                        for (final ArbeitsprotokollCustomBean protokoll : currentEntities) {
+                            if (first) {
+                                allSameChildType = protokoll.getChildType();
+                                first = false;
+                            }
+                            if (protokoll.getChildType() != allSameChildType) {
+                                allSame = false;
+                            }
+                        }
+
+                        refreshWizards(allSame ? allSameChildType : null);
+
+                        validate();
+                        repaint();
                     } catch (InterruptedException ex) {
                         mbh.setDummyBean(null);
                         if (LOG.isDebugEnabled()) {
@@ -508,24 +526,6 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
                 }
             };
         previousSwingworker.execute();
-
-        boolean allSame = true;
-        ArbeitsprotokollCustomBean.ChildType allSameChildType = null;
-        boolean first = true;
-        for (final ArbeitsprotokollCustomBean protokoll : currentEntities) {
-            if (first) {
-                allSameChildType = protokoll.getChildType();
-                first = false;
-            }
-            if (protokoll.getChildType() != allSameChildType) {
-                allSame = false;
-            }
-        }
-
-        refreshWizards(allSame ? allSameChildType : null);
-
-        validate();
-        repaint();
     }
 
     /**
@@ -547,7 +547,9 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
         if (mbh.getDummyBean() != null) {
 //            if (currentEntity.getN_aktionen().isEmpty()) {
             for (final AbstractArbeitsprotokollWizard wizard : allWizards) {
-                panActions.add(new JButton(wizard.getAction()));
+                final JButton actionButton = new JButton(wizard.getAction());
+                panActions.add(actionButton);
+                actionButton.setEnabled(isEditable());
                 wizard.setProtokolle((Collection)mbh.getBeans());
             }
 //            } else {
