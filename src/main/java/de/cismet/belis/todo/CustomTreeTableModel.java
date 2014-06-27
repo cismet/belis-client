@@ -18,6 +18,7 @@ import org.jdesktop.swingx.treetable.MutableTreeTableNode;
 import org.jdesktop.swingx.treetable.TreeTableNode;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -215,6 +216,29 @@ public class CustomTreeTableModel extends DefaultTreeTableModel {
         }
         return null;
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   userObject  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<TreePath> getPathsForUserObject(final Object userObject) {
+        final Collection<TreePath> coll = new ArrayList<TreePath>();
+        if (userObject != null) {
+            final Set<TreeTableNode> allNodes = getAllNodes(getRoot());
+            if (allNodes != null) {
+                for (final TreeTableNode curNode : allNodes) {
+                    if ((curNode.getUserObject() != null) && curNode.getUserObject().equals(userObject)) {
+                        coll.add(new TreePath(getPathToRoot(curNode)));
+                    }
+                }
+            }
+        }
+        return coll;
+    }
+
     /**
      * ToDo refactor bad performance if there are a lot of already saved objects.
      *
