@@ -56,6 +56,7 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
     boolean isTriggerd = false;
     final HashMap<JComponent, JComponent> componentToLabelMap = new HashMap<JComponent, JComponent>();
     private String validationMessage;
+    private boolean editable = true;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -115,9 +116,13 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
      */
     public void setCurrentEntity(final T currentEntity) {
         final T oldCurrentEntity = this.currentEntity;
-        getBindingGroup().unbind();
+        if (getBindingGroup() != null) {
+            getBindingGroup().unbind();
+        }
         this.currentEntity = currentEntity;
-        getBindingGroup().bind();
+        if (getBindingGroup() != null) {
+            getBindingGroup().bind();
+        }
         try {
             firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
         } catch (final Exception ex) {
@@ -215,6 +220,24 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
      */
     public String getValidationMessage() {
         return validationMessage;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isEditable() {
+        return editable;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  editable  DOCUMENT ME!
+     */
+    public void setEditable(final boolean editable) {
+        this.editable = editable;
     }
 
     //~ Inner Classes ----------------------------------------------------------
