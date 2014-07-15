@@ -404,7 +404,7 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
                     return 1;
                 } else {
                     final int compLaufNummer = getLaufende_nummer().compareTo(m.getLaufende_nummer());
-                    if (compLaufNummer == 0) {
+                    if (compLaufNummer != 0) {
                         return compLaufNummer;
                     } else {
                         if (getId() == null) {
