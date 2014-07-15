@@ -403,7 +403,16 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
                 if (m.getLaufende_nummer() == null) {
                     return 1;
                 } else {
-                    return getLaufende_nummer().compareTo(m.getLaufende_nummer());
+                    final int compLaufNummer = getLaufende_nummer().compareTo(m.getLaufende_nummer());
+                    if (compLaufNummer == 0) {
+                        return compLaufNummer;
+                    } else {
+                        if (getId() == null) {
+                            return 1;
+                        } else {
+                            return getId().compareTo(m.getId());
+                        }
+                    }
                 }
             } else {
                 return -1;
