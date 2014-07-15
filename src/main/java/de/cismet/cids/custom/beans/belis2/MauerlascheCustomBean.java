@@ -399,12 +399,25 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
     public int compareTo(final WorkbenchEntity o) {
         if (o instanceof MauerlascheCustomBean) {
             final MauerlascheCustomBean m = (MauerlascheCustomBean)o;
+            if (getStrassenschluessel() != null) {
+                if (m.getStrassenschluessel() == null) {
+                    return 1;
+                } else {
+                    final int compStrSchl = getStrassenschluessel().compareTo(m.getStrassenschluessel());
+                    if (compStrSchl != 0) {
+                        return compStrSchl;
+                    }
+                }
+            } else {
+                return -1;
+            }
+
             if (getLaufende_nummer() != null) {
                 if (m.getLaufende_nummer() == null) {
                     return 1;
                 } else {
                     final int compLaufNummer = getLaufende_nummer().compareTo(m.getLaufende_nummer());
-                    if (compLaufNummer == 0) {
+                    if (compLaufNummer != 0) {
                         return compLaufNummer;
                     } else {
                         if (getId() == null) {
