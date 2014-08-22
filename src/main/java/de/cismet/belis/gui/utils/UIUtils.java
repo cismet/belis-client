@@ -33,7 +33,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import de.cismet.security.WebDavClient;
+import de.cismet.commons.security.WebDavClient;
 
 import de.cismet.tools.gui.documents.DefaultDocument;
 import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;
