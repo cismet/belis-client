@@ -1350,14 +1350,22 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * DOCUMENT ME!
      */
     public void refreshPersistObjects() {
-        refreshNode(newObjectsNode, objectsToPersist);
+        if (BelisBroker.getInstance().isInCreateMode()) {
+            refreshNode(newObjectsNode, objectsToPersist);
+        } else {
+            refreshNode(editObjectsNode, objectsToPersist);
+        }
     }
 
     /**
      * DOCUMENT ME!
      */
     public void refreshAll() {
-        refreshNode(newObjectsNode, objectsToPersist);
+        if (BelisBroker.getInstance().isInCreateMode()) {
+            refreshNode(newObjectsNode, objectsToPersist);
+        } else {
+            refreshNode(editObjectsNode, objectsToPersist);
+        }
         refreshNode(searchResultsNode, currentSearchResults);
     }
 
