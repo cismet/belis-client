@@ -191,8 +191,6 @@ public class EntityClipboard {
                     }
                 }
                 clear();
-
-                broker.getWorkbenchWidget().refreshPersistObjects();
             } catch (Exception ex) {
                 LOG.error("error while pasting bean", ex);
             }
