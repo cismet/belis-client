@@ -12,6 +12,8 @@
  */
 package de.cismet.belis.gui.reports;
 
+import java.awt.image.BufferedImage;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -39,6 +41,7 @@ public class ReportingPosition {
     String name;
     List<ReportingAction> moeglicheAktionen = new ArrayList<ReportingAction>();
     List<ReportingStatus> moeglicheStati = new ArrayList<ReportingStatus>();
+    BufferedImage map;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -47,13 +50,15 @@ public class ReportingPosition {
      *
      * @param  nummer     DOCUMENT ME!
      * @param  protokoll  DOCUMENT ME!
+     * @param  map        DOCUMENT ME!
      */
-    public ReportingPosition(final int nummer, final ArbeitsprotokollCustomBean protokoll) {
+    public ReportingPosition(final int nummer, final ArbeitsprotokollCustomBean protokoll, final BufferedImage map) {
         final GeoBaseEntity entity = protokoll.getChildEntity();
         name = "Position " + String.valueOf(nummer) + ": ";
         if (entity != null) {
             name += entity;
         }
+        this.map = map;
 
         final Collection<AbstractArbeitsprotokollWizard> wizardActions = BelisBroker.getInstance()
                     .getWizardsActionsForEntity(protokoll.getChildType());
@@ -99,5 +104,14 @@ public class ReportingPosition {
      */
     public List<ReportingStatus> getMoeglicheStati() {
         return moeglicheStati;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public BufferedImage getMap() {
+        return map;
     }
 }

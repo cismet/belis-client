@@ -99,6 +99,7 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
+import de.cismet.belis.gui.reports.ArbeitsauftraegeReportDownload;
 import de.cismet.belis.gui.reports.BelisReporter;
 import de.cismet.belis.gui.search.AddressSearchControl;
 import de.cismet.belis.gui.search.LocationSearchControl;
@@ -169,6 +170,7 @@ import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.printing.JasperDownload;
+import de.cismet.cismap.commons.gui.printing.JasperReportDownload;
 import de.cismet.cismap.commons.gui.statusbar.StatusBar;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.interaction.StatusListener;
@@ -3291,56 +3293,55 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 "kein Arbeitsauftrag selektiert",
                 JOptionPane.INFORMATION_MESSAGE);
         } else {
-            new SwingWorker<JasperDownload, Void>() {
-
-                    final ReportSwingWorkerDialog dialog = new ReportSwingWorkerDialog(StaticSwingTools.getParentFrame(
-                                getParentComponent()),
-                            true);
-
-                    @Override
-                    protected JasperDownload doInBackground() throws Exception {
-                        SwingUtilities.invokeLater(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    StaticSwingTools.showDialog(dialog);
-                                }
-                            });
-
-                        try {
-                            final JasperDownload download = BelisReporter.getArbeitsauftragsReport(beans);
-                            return download;
-                        } catch (Exception ex) {
-                            LOG.error("error while creating ArbeitsauftragsReport", ex);
-                            return null;
-                        }
-                    }
-
-                    @Override
-                    protected void done() {
-                        try {
-                            final JasperDownload download = get();
-                            DownloadManagerDialog.instance((StaticSwingTools.getParentFrame(
-                                        getParentComponent())));
-                            DownloadManager.instance().add(download);
-//                            final JDialog downloadManager = DownloadManagerDialog.instance((StaticSwingTools
-//                                                .getParentFrame(
-//                                                    getParentComponent())));
-//                            downloadManager.pack();
-//                            StaticSwingTools.showDialog(downloadManager);
-                        } catch (final Exception ex) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("exeption while downloading Report", ex);
-                            }
-                            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
-                                "Beim Generieren des Arbeitsauftrag-Reports ist ein Fehler aufgetreten.",
-                                "Fehler beim Generieren des Reports",
-                                JOptionPane.ERROR_MESSAGE);
-                        } finally {
-                            dialog.setVisible(false);
-                        }
-                    }
-                }.execute();
+//            new SwingWorker<ArbeitsauftraegeReportDownload, Void>() {
+//
+//                    final ReportSwingWorkerDialog dialog = new ReportSwingWorkerDialog(StaticSwingTools.getParentFrame(
+//                                getParentComponent()),
+//                            true);
+//
+//                    @Override
+//                    protected ArbeitsauftraegeReportDownload doInBackground() throws Exception {
+//                        SwingUtilities.invokeLater(new Runnable() {
+//
+//                                @Override
+//                                public void run() {
+//                                    StaticSwingTools.showDialog(dialog);
+//                                }
+//                            });
+//
+//                        try {
+            final ArbeitsauftraegeReportDownload reportDownload = new ArbeitsauftraegeReportDownload(beans);
+//                            return reportDownload;
+//                        } catch (Exception ex) {
+//                            LOG.error("error while creating ArbeitsauftragsReport", ex);
+//                            return null;
+//                        }
+//                    }
+//
+//                    @Override
+//                    protected void done() {
+//                        try {
+//                            final ArbeitsauftraegeReportDownload download = get();
+            DownloadManagerDialog.instance((Component)StaticSwingTools.getParentFrame(
+                    getParentComponent()));
+            DownloadManager.instance().add(reportDownload);
+            final JDialog downloadManager = DownloadManagerDialog.instance((Component)StaticSwingTools.getParentFrame(
+                        getParentComponent()));
+            downloadManager.pack();
+            StaticSwingTools.showDialog(downloadManager);
+//                        } catch (final Exception ex) {
+//                            if (LOG.isDebugEnabled()) {
+//                                LOG.debug("exeption while downloading Report", ex);
+//                            }
+//                            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
+//                                "Beim Generieren des Arbeitsauftrag-Reports ist ein Fehler aufgetreten.",
+//                                "Fehler beim Generieren des Reports",
+//                                JOptionPane.ERROR_MESSAGE);
+//                        } finally {
+//                            dialog.setVisible(false);
+//                        }
+//                    }
+//                }.execute();
         }
     }
 
