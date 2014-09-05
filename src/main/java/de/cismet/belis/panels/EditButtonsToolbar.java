@@ -16,6 +16,7 @@ import Sirius.navigator.connection.SessionManager;
 import javax.swing.JOptionPane;
 
 import de.cismet.belis.broker.BelisBroker;
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.util.BelisIcons;
 
@@ -52,6 +53,7 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
     public EditButtonsToolbar() {
         initComponents();
         btnSwitchInEditmode.setIcon(BelisIcons.icoEdit22);
+        enableSwitchToModeButtons(true);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -241,8 +243,14 @@ public class EditButtonsToolbar extends javax.swing.JPanel {
      * @param  enable  DOCUMENT ME!
      */
     public void enableSwitchToModeButtons(final boolean enable) {
-        btnSwitchInEditmode.setEnabled(enable);
-        btnSwitchInCreateMode.setEnabled(enable);
+        btnSwitchInEditmode.setEnabled(enable
+                    && (CidsBroker.getInstance().checkForEditBasic()
+                        || CidsBroker.getInstance().checkForEditVeranlassung()
+                        || CidsBroker.getInstance().checkForEditArbeitsauftrag()));
+        btnSwitchInCreateMode.setEnabled(enable
+                    && (CidsBroker.getInstance().checkForCreateBasic()
+                        || CidsBroker.getInstance().checkForCreateVeranlassung()
+                        || CidsBroker.getInstance().checkForCreateArbeitsauftrag()));
     }
 
     /**
