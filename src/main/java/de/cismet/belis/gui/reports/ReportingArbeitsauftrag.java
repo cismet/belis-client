@@ -26,13 +26,13 @@ import java.io.IOException;
 
 import java.net.URL;
 
-import java.sql.Date;
-
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.imageio.ImageIO;
@@ -71,12 +71,19 @@ public class ReportingArbeitsauftrag {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportingArbeitsauftrag.class);
-    private static String MAP_URL;
-    private static int MAP_HEIGHT;
-    private static int MAP_WIDTH;
+
+    private static String OVERVIEWMAP_URL;
+    private static int OVERVIEWMAP_HEIGHT;
+    private static int OVERVIEWMAP_WIDTH;
+    private static double OVERVIEWMAP_BUFFER;
+
+    private static String POSITIONMAP_URL;
+    private static int POSITIONMAP_HEIGHT;
+    private static int POSITIONMAP_WIDTH;
+    private static double POSITIONMAP_BUFFER;
+
     private static int BASE_DPI;
     private static int TARGET_DPI;
-    private static double MAP_BUFFER;
     private static Font FONT = new Font("SansSerif", Font.PLAIN, 16);
 
     static {
@@ -84,12 +91,16 @@ public class ReportingArbeitsauftrag {
         try {
             prop.load(ReportingArbeitsauftrag.class.getResourceAsStream(
                     "/de/cismet/belis/reports/reporting.properties"));
-            MAP_URL = prop.getProperty("map.url");
-            MAP_WIDTH = Integer.parseInt(prop.getProperty("map.width"));
-            MAP_HEIGHT = Integer.parseInt(prop.getProperty("map.height"));
+            OVERVIEWMAP_URL = prop.getProperty("map.overview.url");
+            OVERVIEWMAP_WIDTH = Integer.parseInt(prop.getProperty("map.overview.width"));
+            OVERVIEWMAP_HEIGHT = Integer.parseInt(prop.getProperty("map.overview.height"));
+            OVERVIEWMAP_BUFFER = Double.parseDouble(prop.getProperty("map.overview.buffer"));
+            POSITIONMAP_URL = prop.getProperty("map.position.url");
+            POSITIONMAP_WIDTH = Integer.parseInt(prop.getProperty("map.position.width"));
+            POSITIONMAP_HEIGHT = Integer.parseInt(prop.getProperty("map.position.height"));
+            POSITIONMAP_BUFFER = Double.parseDouble(prop.getProperty("map.position.buffer"));
             BASE_DPI = Integer.parseInt(prop.getProperty("base.dpi"));
             TARGET_DPI = Integer.parseInt(prop.getProperty("target.dpi"));
-            MAP_BUFFER = Double.parseDouble(prop.getProperty("map.buffer"));
         } catch (Exception ex) {
             LOG.error("Error during intializing of BelisReportingParameters. No Report will be available");
         }
@@ -106,8 +117,14 @@ public class ReportingArbeitsauftrag {
     String link = "http://www.cismet.de";
     ArrayList<ReportingVeranlassung> veranlassungen = new ArrayList<ReportingVeranlassung>();
     MultiHashMap positionenNachVeranlassung = new MultiHashMap();
-//HashMap<Object, ArrayList<>
     ArbeitsauftragCustomBean orig;
+    private HeadlessMapProvider mapProvider = new HeadlessMapProvider();
+    private Map<ArbeitsprotokollCustomBean, Integer> positionNumberMap =
+        new HashMap<ArbeitsprotokollCustomBean, Integer>();
+    private Map<Integer, DefaultXStyledFeature> positionFeatureMap = new HashMap<Integer, DefaultXStyledFeature>();
+    private ArrayList<GeoBaseEntity> allOriginalFeatures;
+    private final SimpleWMS overviewMap = new SimpleWMS(new SimpleWmsGetMapUrl(OVERVIEWMAP_URL));
+    private final SimpleWMS positionMap = new SimpleWMS(new SimpleWmsGetMapUrl(POSITIONMAP_URL));
 
     //~ Methods ----------------------------------------------------------------
 
@@ -124,15 +141,28 @@ public class ReportingArbeitsauftrag {
         final String an = aaBean.getZugewiesen_an();
         zugewiesen_an = ((an != null) ? an : "_____________");
 
+        initMap();
+
         final Collection<ArbeitsprotokollCustomBean> positionen = aaBean.getAr_protokolle();
-        int zaehler = 0;
         for (final ArbeitsprotokollCustomBean position : positionen) {
-            zaehler++;
+            mapProvider = new HeadlessMapProvider();
+            mapProvider.setCenterMapOnResize(true);
+            mapProvider.addLayer(positionMap);
+            mapProvider.addFeatures(allOriginalFeatures);
+
             String veranlassungsnummer = position.getVeranlassungsnummer();
             if (veranlassungsnummer == null) {
                 veranlassungsnummer = OHNE_VERANLASSUNG;
             }
-            positionenNachVeranlassung.put(veranlassungsnummer, new ReportingPosition(zaehler, position));
+            final Integer zaehler = positionNumberMap.get(position);
+            if (zaehler != null) {
+                mapProvider.addFeature(positionFeatureMap.get(zaehler));
+
+                positionenNachVeranlassung.put(
+                    veranlassungsnummer,
+                    new ReportingPosition(zaehler, position, getPositionImageFrom(position.getChildEntity())));
+                positionFeatureMap.get(zaehler).setPrimaryAnnotationVisible(false);
+            }
         }
         final Iterator veranlassungenIt = positionenNachVeranlassung.keySet().iterator();
         while (veranlassungenIt.hasNext()) {
@@ -140,19 +170,17 @@ public class ReportingArbeitsauftrag {
             final Collection value = (Collection)positionenNachVeranlassung.get(key);
             veranlassungen.add(new ReportingVeranlassung(key, value));
         }
-        initMap();
     }
 
     /**
      * DOCUMENT ME!
      */
     private void initMap() {
-        final SimpleWMS s = new SimpleWMS(new SimpleWmsGetMapUrl(MAP_URL));
         final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)orig;
-        final ArrayList<GeoBaseEntity> allOriginalFeatures = new ArrayList<GeoBaseEntity>();
+        allOriginalFeatures = new ArrayList<GeoBaseEntity>();
         final ArrayList<Feature> annotatingFeatures = new ArrayList<Feature>();
-        final HeadlessMapProvider mapProvider = new HeadlessMapProvider();
-        mapProvider.setMinimumScaleDenomimator(500);
+        mapProvider.setCenterMapOnResize(true);
+
         final FeatureAnnotationSymbol symb = new FeatureAnnotationSymbol(new BufferedImage(
                     10,
                     10,
@@ -164,38 +192,14 @@ public class ReportingArbeitsauftrag {
         Geometry union = null;
         for (final ArbeitsprotokollCustomBean protokoll
                     : arbeitsauftragCustomBean.getAr_protokolle()) {
-            position++;
-
-            final AbzweigdoseCustomBean abzweigdose = protokoll.getFk_abzweigdose();
-            final LeitungCustomBean leitung = protokoll.getFk_leitung();
-            final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
-            final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
-            final MauerlascheCustomBean mauerlasche = protokoll.getFk_mauerlasche();
-            final SchaltstelleCustomBean schaltstelle = protokoll.getFk_schaltstelle();
-            final GeometrieCustomBean geometrie = protokoll.getFk_geometrie();
-            final GeoBaseEntity entity;
-            if (abzweigdose != null) {
-                entity = abzweigdose;
-            } else if (leitung != null) {
-                entity = leitung;
-            } else if (leuchte != null) {
-                entity = leuchte;
-            } else if (standort != null) {
-                entity = standort;
-            } else if (mauerlasche != null) {
-                entity = mauerlasche;
-            } else if (schaltstelle != null) {
-                entity = schaltstelle;
-            } else if (geometrie != null) {
-                entity = geometrie;
-            } else {
-                entity = null;
-            }
+            final GeoBaseEntity entity = protokoll.getChildEntity();
 
             if (entity != null) {
                 allOriginalFeatures.add(entity);
                 final Geometry geom = entity.getGeometry();
                 if (geom != null) {
+                    positionNumberMap.put(protokoll, ++position);
+
                     if (union == null) {
                         union = geom.getEnvelope();
                     } else {
@@ -221,37 +225,74 @@ public class ReportingArbeitsauftrag {
                     dsf.setPrimaryAnnotationFont(FONT);
                     dsf.setFeatureAnnotationSymbol(symb);
 
+                    positionFeatureMap.put(position, dsf);
+
                     annotatingFeatures.add(dsf);
                 }
             }
         }
         if (union != null) {
-            union = union.getEnvelope().buffer(MAP_BUFFER);
+            union = union.getEnvelope().buffer(OVERVIEWMAP_BUFFER);
             union.setSRID(31466);
         }
 
-        final XBoundingBox bb = new XBoundingBox(union);
-        mapProvider.setBoundingBox(bb);
-        mapProvider.addLayer(s);
+        mapProvider.addLayer(overviewMap);
         mapProvider.addFeatures(allOriginalFeatures);
         mapProvider.addFeatures(annotatingFeatures);
 
+        final XBoundingBox bb = new XBoundingBox(union);
+        mapProvider.setBoundingBox(bb);
+
         try {
-            map = (BufferedImage)mapProvider.getImageAndWait(BASE_DPI, TARGET_DPI, MAP_WIDTH, MAP_HEIGHT);
+            map = (BufferedImage)mapProvider.getImageAndWait(
+                    BASE_DPI,
+                    TARGET_DPI,
+                    OVERVIEWMAP_WIDTH,
+                    OVERVIEWMAP_HEIGHT);
         } catch (Exception ex) {
             LOG.error(ex, ex);
-            fallbackMap();
+            map = getFallbackMap();
         }
     }
 
     /**
      * DOCUMENT ME!
+     *
+     * @param   bean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
      */
-    private void fallbackMap() {
+    private BufferedImage getPositionImageFrom(final GeoBaseEntity bean) {
+        if (bean.getGeometry() != null) {
+            final Geometry geom = bean.getGeometry().getEnvelope().buffer(POSITIONMAP_BUFFER);
+            geom.setSRID(31466);
+            try {
+                mapProvider.setBoundingBox(new XBoundingBox(geom));
+                return (BufferedImage)mapProvider.getImageAndWait(
+                        BASE_DPI,
+                        TARGET_DPI,
+                        POSITIONMAP_WIDTH,
+                        POSITIONMAP_HEIGHT);
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+                return getFallbackMap();
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private BufferedImage getFallbackMap() {
         try {
-            map = ImageIO.read(new URL("http://lorempixel.com/554/219/abstract/"));
+            return ImageIO.read(new URL("http://lorempixel.com/554/219/abstract/"));
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
+            return null;
         }
     }
 
