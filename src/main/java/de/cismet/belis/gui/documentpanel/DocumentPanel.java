@@ -64,10 +64,10 @@ import de.cismet.belis.gui.utils.UIUtils;
 
 import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
 
-import de.cismet.netutil.Proxy;
-
 import de.cismet.commons.security.WebDavClient;
 import de.cismet.commons.security.WebDavHelper;
+
+import de.cismet.netutil.Proxy;
 
 import de.cismet.tools.CismetThreadPool;
 import de.cismet.tools.PasswordEncrypter;
@@ -488,7 +488,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstDocListValueChanged
+    private void lstDocListValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstDocListValueChanged
         lblPreview.setIcon(null);
         lblPreview.setText("");
         final Object toCast = lstDocList.getSelectedValue();
@@ -507,60 +507,60 @@ public final class DocumentPanel extends javax.swing.JPanel {
                 }
             }
         }
-    }//GEN-LAST:event_lstDocListValueChanged
+    }                                                                                     //GEN-LAST:event_lstDocListValueChanged
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblPreviewMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPreviewMouseClicked
+    private void lblPreviewMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblPreviewMouseClicked
         if (!evt.isPopupTrigger()) {
             downloadSelection();
         }
-    }//GEN-LAST:event_lblPreviewMouseClicked
+    }                                                                          //GEN-LAST:event_lblPreviewMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListMouseClicked(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstDocListMouseClicked
+    private void lstDocListMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMouseClicked
         if ((evt.getClickCount() > 1) && !evt.isPopupTrigger()) {
             downloadSelection();
         }
-    }//GEN-LAST:event_lstDocListMouseClicked
+    }                                                                          //GEN-LAST:event_lstDocListMouseClicked
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void miDeleteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDeleteActionPerformed
+    private void miDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_miDeleteActionPerformed
         deleteSelectedListItems();
-    }//GEN-LAST:event_miDeleteActionPerformed
+    }                                                                            //GEN-LAST:event_miDeleteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListMousePressed(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstDocListMousePressed
+    private void lstDocListMousePressed(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMousePressed
         if (evt.isPopupTrigger() && !dokumente.isEmpty() && inEditMode) {
             popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
         }
-    }//GEN-LAST:event_lstDocListMousePressed
+    }                                                                          //GEN-LAST:event_lstDocListMousePressed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListMouseReleased(final java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstDocListMouseReleased
+    private void lstDocListMouseReleased(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMouseReleased
         if (evt.isPopupTrigger() && !dokumente.isEmpty() && inEditMode) {
             popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
         }
-    }//GEN-LAST:event_lstDocListMouseReleased
+    }                                                                           //GEN-LAST:event_lstDocListMouseReleased
 
     /**
      * DOCUMENT ME!
