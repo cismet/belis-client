@@ -99,7 +99,7 @@ import javax.swing.tree.TreePath;
 
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
-import de.cismet.belis.gui.reports.ArbeitsauftraegeReportDownload;
+import de.cismet.belis.gui.reports.ArbeitsauftragReportDownload;
 import de.cismet.belis.gui.reports.BelisReporter;
 import de.cismet.belis.gui.search.AddressSearchControl;
 import de.cismet.belis.gui.search.LocationSearchControl;
@@ -3293,55 +3293,16 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 "kein Arbeitsauftrag selektiert",
                 JOptionPane.INFORMATION_MESSAGE);
         } else {
-//            new SwingWorker<ArbeitsauftraegeReportDownload, Void>() {
-//
-//                    final ReportSwingWorkerDialog dialog = new ReportSwingWorkerDialog(StaticSwingTools.getParentFrame(
-//                                getParentComponent()),
-//                            true);
-//
-//                    @Override
-//                    protected ArbeitsauftraegeReportDownload doInBackground() throws Exception {
-//                        SwingUtilities.invokeLater(new Runnable() {
-//
-//                                @Override
-//                                public void run() {
-//                                    StaticSwingTools.showDialog(dialog);
-//                                }
-//                            });
-//
-//                        try {
-            final ArbeitsauftraegeReportDownload reportDownload = new ArbeitsauftraegeReportDownload(beans);
-//                            return reportDownload;
-//                        } catch (Exception ex) {
-//                            LOG.error("error while creating ArbeitsauftragsReport", ex);
-//                            return null;
-//                        }
-//                    }
-//
-//                    @Override
-//                    protected void done() {
-//                        try {
-//                            final ArbeitsauftraegeReportDownload download = get();
             DownloadManagerDialog.instance((Component)StaticSwingTools.getParentFrame(
                     getParentComponent()));
-            DownloadManager.instance().add(reportDownload);
             final JDialog downloadManager = DownloadManagerDialog.instance((Component)StaticSwingTools.getParentFrame(
                         getParentComponent()));
             downloadManager.pack();
             StaticSwingTools.showDialog(downloadManager);
-//                        } catch (final Exception ex) {
-//                            if (LOG.isDebugEnabled()) {
-//                                LOG.debug("exeption while downloading Report", ex);
-//                            }
-//                            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
-//                                "Beim Generieren des Arbeitsauftrag-Reports ist ein Fehler aufgetreten.",
-//                                "Fehler beim Generieren des Reports",
-//                                JOptionPane.ERROR_MESSAGE);
-//                        } finally {
-//                            dialog.setVisible(false);
-//                        }
-//                    }
-//                }.execute();
+            for (final ArbeitsauftragCustomBean bean : beans) {
+                final ArbeitsauftragReportDownload reportDownload = new ArbeitsauftragReportDownload(bean);
+                DownloadManager.instance().add(reportDownload);
+            }
         }
     }
 

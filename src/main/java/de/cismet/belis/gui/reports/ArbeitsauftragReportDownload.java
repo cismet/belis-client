@@ -11,19 +11,20 @@
  */
 package de.cismet.belis.gui.reports;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
+import Sirius.navigator.connection.SessionManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import de.cismet.belis2.server.actions.ArbeitsauftragsReportRetrieverAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+
 
 import de.cismet.tools.gui.downloadmanager.AbstractCancellableDownload;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
@@ -34,23 +35,22 @@ import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
  * @author   jruiz
  * @version  $Revision$, $Date$
  */
-public class ArbeitsauftraegeReportDownload extends AbstractCancellableDownload {
+public class ArbeitsauftragReportDownload extends AbstractCancellableDownload {
 
     //~ Instance fields --------------------------------------------------------
 
-    protected JasperPrint jasperPrint;
-
-    private final List<ArbeitsauftragCustomBean> arbeitsauftraege;
+    private byte[] fileContent;
+    private final ArbeitsauftragCustomBean arbeitsauftrag;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new ArbeitsauftraegeReportDownload object.
      *
-     * @param  arbeitsauftraege  DOCUMENT ME!
+     * @param  arbeitsauftrag  DOCUMENT ME!
      */
-    public ArbeitsauftraegeReportDownload(final List<ArbeitsauftragCustomBean> arbeitsauftraege) {
-        this.arbeitsauftraege = arbeitsauftraege;
+    public ArbeitsauftragReportDownload(final ArbeitsauftragCustomBean arbeitsauftrag) {
+        this.arbeitsauftrag = arbeitsauftrag;
         final String jobname = DownloadManagerDialog.getJobname();
 
         this.directory = jobname;
@@ -72,33 +72,33 @@ public class ArbeitsauftraegeReportDownload extends AbstractCancellableDownload 
         stateChanged();
 
         try {
-            final ArrayList<ReportingArbeitsauftrag> repAuftraege = new ArrayList<ReportingArbeitsauftrag>(
-                    arbeitsauftraege.size());
-            for (final ArbeitsauftragCustomBean aa : arbeitsauftraege) {
-                final ReportingArbeitsauftrag ra = new ReportingArbeitsauftrag();
-                ra.init(aa);
-                repAuftraege.add(ra);
+            final Object ret = SessionManager.getProxy()
+                        .executeTask(
+                            ArbeitsauftragsReportRetrieverAction.TASK_NAME,
+                            "BELIS2",
+                            arbeitsauftrag.getNummer());
+
+            if (ret instanceof Exception) {
+                throw (Exception)ret;
             }
-            final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(repAuftraege);
-            final HashMap parameters = new HashMap();
-            final JasperReport jasperReport;
-            jasperReport = (JasperReport)JRLoader.loadObject(BelisReporter.class.getResourceAsStream(
-                        "/de/cismet/belis/reports/arbeitsauftraege.jasper"));
-            jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-        } catch (JRException ex) {
+
+            fileContent = (byte[])ret;
+        } catch (final Exception ex) {
             error(ex);
         }
 
-        if (jasperPrint != null) {
+        if (fileContent != null) {
             try {
                 if (!Thread.interrupted()) {
-                    exportReportFile();
+                    writeFile();
                 } else {
                     log.info("Download was interuppted");
                     deleteFile();
                     return;
                 }
-            } catch (JRException ex) {
+            } catch (final FileNotFoundException ex) {
+                error(ex);
+            } catch (final IOException ex) {
                 error(ex);
             }
         }
@@ -112,10 +112,13 @@ public class ArbeitsauftraegeReportDownload extends AbstractCancellableDownload 
     /**
      * DOCUMENT ME!
      *
-     * @throws  JRException  DOCUMENT ME!
+     * @throws  FileNotFoundException  DOCUMENT ME!
+     * @throws  IOException            DOCUMENT ME!
      */
-    protected void exportReportFile() throws JRException {
-        JasperExportManager.exportReportToPdfFile(jasperPrint, fileToSaveTo.getPath());
+    protected void writeFile() throws FileNotFoundException, IOException {
+        final OutputStream os = new BufferedOutputStream(new FileOutputStream(new File(fileToSaveTo.getPath())));
+        os.write(fileContent);
+        os.flush();
     }
 
     /**
