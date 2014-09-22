@@ -180,24 +180,24 @@ class WorkbenchTransferHandler extends TransferHandler {
         if (!canImport(support)) {
             return false;
         }
-        final JXTreeTable.DropLocation dl = (JXTreeTable.DropLocation)support.getDropLocation();
-        final JXTreeTable tree = (JXTreeTable)support.getComponent();
-        final int dropRow = dl.getRow();
-        final int[] selRows = tree.getSelectedRows();
-
         try {
+            final JXTreeTable.DropLocation dl = (JXTreeTable.DropLocation)support.getDropLocation();
+            final JXTreeTable tree = (JXTreeTable)support.getComponent();
+            final int dropRow = dl.getRow();
+            final int[] selRows = tree.getSelectedRows();
+            final Collection<CidsBean> clipboardBeans = new ArrayList<CidsBean>();
+            for (final int selRow : selRows) {
+                final CidsBean selBean = (CidsBean)
+                    ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
+                clipboardBeans.add(selBean);
+            }
+
             final TreePath path = tree.getPathForRow(dropRow);
             final CustomMutableTreeTableNode dropNode = (CustomMutableTreeTableNode)path.getLastPathComponent();
 
             final Object userObject = ((CustomMutableTreeTableNode)path.getLastPathComponent()).getUserObject();
             if (userObject instanceof VeranlassungCustomBean) {
                 final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)userObject;
-                final Collection<CidsBean> clipboardBeans = new ArrayList<CidsBean>();
-                for (final int selRow : selRows) {
-                    final CidsBean selBean = (CidsBean)
-                        ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
-                    clipboardBeans.add(selBean);
-                }
                 for (final CidsBean clipboardBean : clipboardBeans) {
                     if (clipboardBean instanceof TdtaStandortMastCustomBean) {
                         final Collection<TdtaStandortMastCustomBean> standorte =
@@ -249,9 +249,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                 }
             } else {
                 final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)userObject;
-                for (final int selRow : selRows) {
-                    final CidsBean clipboardBean = (CidsBean)
-                        ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
+                for (final CidsBean clipboardBean : clipboardBeans) {
                     if (clipboardBean instanceof VeranlassungCustomBean) {
                         final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)clipboardBean;
                         final Collection<CidsBean> allBasics = new ArrayList<CidsBean>();
