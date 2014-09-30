@@ -27,8 +27,6 @@ import javax.swing.border.EmptyBorder;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.belis.todo.RetrieveWorker;
-
 import de.cismet.belis.util.BelisIcons;
 
 import de.cismet.cismap.commons.BoundingBox;
@@ -83,22 +81,22 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
         cmdOk.setBorderPainted(false);
         // cmdOk.setSize(23, 23);
         cmdOk.setFocusable(false);
-        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        cmdOk.setText("Straße, Hausnummer");
-        cmdOk.setIcon(BelisIcons.icoSearch22);
+//        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
+//        cmdOk.setText("Straße, Hausnummer");
+        cmdOk.setIcon(BelisIcons.icoAdresseHnr22);
         this.setBorder(new EmptyBorder(0, 10, 0, 5));
-        final GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 2, 0);
-        add(cmdOk, gridBagConstraints);
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
-        add(chkVisualize, gridBagConstraints);
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 7);
-        add(jLabel1, gridBagConstraints);
+//        final GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+//        gridBagConstraints.gridx = 2;
+//        gridBagConstraints.gridy = 0;
+//        gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
+//        gridBagConstraints.insets = new java.awt.Insets(0, 5, 2, 0);
+//        add(cmdOk, gridBagConstraints);
+//        gridBagConstraints.gridx = 3;
+//        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
+//        add(chkVisualize, gridBagConstraints);
+//        gridBagConstraints.gridx = 4;
+//        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 7);
+//        add(jLabel1, gridBagConstraints);
 
         addWFSFormAddressListner(this);
 //        cmdOk.addActionListener(new ActionListener() {
@@ -260,8 +258,9 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
         if (log.isDebugEnabled()) {
             log.debug("AddressSearch started --> searching db for geometries boundingbox: " + addressBB);
         }
-        broker.fireSearchStarted();
-        broker.execute(new RetrieveWorker(broker, addressBB));
+        broker.getMappingComponent().gotoBoundingBoxWithHistory(addressBB);
+//        broker.fireSearchStarted();
+//        broker.execute(new RetrieveWorker(broker, addressBB));
     }
 
     @Override
