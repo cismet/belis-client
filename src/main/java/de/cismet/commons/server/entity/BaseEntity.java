@@ -90,6 +90,12 @@ public class BaseEntity extends CidsBean {
 
     /**
      * DOCUMENT ME!
+     */
+    public void init() {
+    }
+
+    /**
+     * DOCUMENT ME!
      *
      * @param  editAllowed  modifiable DOCUMENT ME!
      */

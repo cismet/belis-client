@@ -199,16 +199,36 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
     public TdtaStandortMastCustomBean() {
     }
 
-    /**
-     * Creates a new TdtaStandortMastCustomBean object.
-     *
-     * @param  id  DOCUMENT ME!
-     */
-    public TdtaStandortMastCustomBean(final Integer id) {
-        setId(id);
+    //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public void init() {
+        refreshLeuchten();
     }
 
-    //~ Methods ----------------------------------------------------------------
+    /**
+     * DOCUMENT ME!
+     */
+    private void refreshLeuchten() {
+        final List<TdtaLeuchtenCustomBean> coll = new ArrayList<TdtaLeuchtenCustomBean>();
+        if (getId() != null) {
+            final LeuchteSearchStatement search = new LeuchteSearchStatement();
+            search.setFK_standort(getId());
+            try {
+                final Collection<MetaObjectNode> mons = CidsBroker.getInstance().executeServerSearch(search);
+                for (final MetaObjectNode mon : mons) {
+                    final int classid = mon.getClassId();
+                    final int objectid = mon.getObjectId();
+                    final MetaObject mo = CidsBroker.getInstance().getMetaObject(classid, objectid, "BELIS2");
+                    final TdtaLeuchtenCustomBean leuchte = (TdtaLeuchtenCustomBean)mo.getBean();
+                    coll.add(leuchte);
+                }
+            } catch (Exception ex) {
+                LOG.error(ex, ex);
+            }
+        }
+        setLeuchten(ObservableCollections.observableList(coll));
+    }
 
     /**
      * DOCUMENT ME!
@@ -216,7 +236,9 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      * @return  DOCUMENT ME!
      */
     public static TdtaStandortMastCustomBean createNew() {
-        return (TdtaStandortMastCustomBean)createNew(TABLE);
+        final TdtaStandortMastCustomBean bean = (TdtaStandortMastCustomBean)createNew(TABLE);
+        bean.init();
+        return bean;
     }
 
     @Override
@@ -698,26 +720,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      * @return  DOCUMENT ME!
      */
     public Collection<TdtaLeuchtenCustomBean> getLeuchten() {
-        if (leuchten == null) {
-            final List<TdtaLeuchtenCustomBean> coll = new ArrayList<TdtaLeuchtenCustomBean>();
-            if (getId() != null) {
-                final LeuchteSearchStatement search = new LeuchteSearchStatement();
-                search.setFK_standort(getId());
-                try {
-                    final Collection<MetaObjectNode> mons = CidsBroker.getInstance().executeServerSearch(search);
-                    for (final MetaObjectNode mon : mons) {
-                        final int classid = mon.getClassId();
-                        final int objectid = mon.getObjectId();
-                        final MetaObject mo = CidsBroker.getInstance().getMetaObject(classid, objectid, "BELIS2");
-                        final TdtaLeuchtenCustomBean leuchte = (TdtaLeuchtenCustomBean)mo.getBean();
-                        coll.add(leuchte);
-                    }
-                } catch (Exception ex) {
-                    LOG.error(ex, ex);
-                }
-            }
-            setLeuchten(ObservableCollections.observableList(coll));
-        }
         return leuchten;
     }
 

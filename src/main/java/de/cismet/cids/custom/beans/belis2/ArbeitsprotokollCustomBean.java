@@ -119,8 +119,6 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      * Creates a new ArbeitsprotokollCustomBean object.
      */
     public ArbeitsprotokollCustomBean() {
-        addPropertyChangeListener(this);
-        refreshVeranlassungsschlussel(getVeranlassungsnummer());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -131,7 +129,15 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      * @return  DOCUMENT ME!
      */
     public static ArbeitsprotokollCustomBean createNew() {
-        return (ArbeitsprotokollCustomBean)createNew(TABLE);
+        final ArbeitsprotokollCustomBean bean = (ArbeitsprotokollCustomBean)createNew(TABLE);
+        bean.init();
+        return bean;
+    }
+
+    @Override
+    public void init() {
+        refreshVeranlassungsschlussel(getVeranlassungsnummer());
+        addPropertyChangeListener(this);
     }
 
     /**

@@ -85,18 +85,18 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
 //        cmdOk.setText("Straße, Hausnummer");
         cmdOk.setIcon(BelisIcons.icoAdresseHnr22);
         this.setBorder(new EmptyBorder(0, 10, 0, 5));
-//        final GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-//        gridBagConstraints.gridx = 2;
-//        gridBagConstraints.gridy = 0;
-//        gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
-//        gridBagConstraints.insets = new java.awt.Insets(0, 5, 2, 0);
-//        add(cmdOk, gridBagConstraints);
-//        gridBagConstraints.gridx = 3;
-//        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
-//        add(chkVisualize, gridBagConstraints);
-//        gridBagConstraints.gridx = 4;
-//        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 7);
-//        add(jLabel1, gridBagConstraints);
+        final GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 2, 0);
+        add(cmdOk, gridBagConstraints);
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
+        add(chkVisualize, gridBagConstraints);
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 7);
+        add(jLabel1, gridBagConstraints);
 
         addWFSFormAddressListner(this);
 //        cmdOk.addActionListener(new ActionListener() {

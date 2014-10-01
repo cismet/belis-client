@@ -53,6 +53,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -1376,102 +1377,124 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      * @param  objects      DOCUMENT ME!
      */
     public void refreshNode(final CustomMutableTreeTableNode refreshNode, final Collection<BaseEntity> objects) {
-        treeTableModel.removeAllChildrenFromNode(refreshNode, false);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("adding new SearchResults");
-        }
         if (refreshNode != null) {
-            for (final Object curObject : objects) {
-                if (curObject instanceof TdtaStandortMastCustomBean) {
-                    final TdtaStandortMastCustomBean standort = (TdtaStandortMastCustomBean)curObject;
-                    standort.setEditAllowed(basicEditEnabled);
-
-                    final CustomMutableTreeTableNode standortNode = new CustomMutableTreeTableNode(
-                            curObject,
-                            true);
-                    if (standort.isStandortMast()) {
-                        treeTableModel.insertNodeIntoAsLastChild(standortNode, refreshNode);
-                        standort.addPropertyChangeListener(this);
-                    }
-
-                    for (final TdtaLeuchtenCustomBean leuchte : standort.getLeuchten()) {
-                        leuchte.setEditAllowed(basicEditEnabled);
-                        final CustomMutableTreeTableNode leuchteNode = new CustomMutableTreeTableNode(leuchte, false);
-                        leuchte.addPropertyChangeListener(this);
-                        if (((TdtaStandortMastCustomBean)curObject).isStandortMast()) {
-                            treeTableModel.insertNodeIntoAsLastChild(leuchteNode, standortNode);
-                            standort.addPropertyChangeListener(leuchte);
-                        } else {
-                            treeTableModel.insertNodeIntoAsLastChild(leuchteNode, refreshNode);
-                            leuchteToVirtualStandortMap.put(leuchte, standort);
-                        }
-                    }
-                } else if (curObject instanceof VeranlassungCustomBean) {
-                    final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)curObject;
-                    veranlassungCustomBean.setEditAllowed(veranlassungEditEnabled);
-
-                    final CustomMutableTreeTableNode veranlassungNode = new CustomMutableTreeTableNode(
-                            veranlassungCustomBean,
-                            true);
-                    treeTableModel.insertNodeIntoAsLastChild(veranlassungNode, refreshNode);
-
-                    final Set<BaseEntity> subEntities = new TreeSet(new EntityComparator());
-                    subEntities.addAll(veranlassungCustomBean.getAr_standorte());
-                    subEntities.addAll(veranlassungCustomBean.getAr_leuchten());
-                    subEntities.addAll(veranlassungCustomBean.getAr_schaltstellen());
-                    subEntities.addAll(veranlassungCustomBean.getAr_mauerlaschen());
-                    subEntities.addAll(veranlassungCustomBean.getAr_leitungen());
-                    subEntities.addAll(veranlassungCustomBean.getAr_abzweigdosen());
-                    subEntities.addAll(veranlassungCustomBean.getAr_geometrien());
-                    for (final BaseEntity subEntity : subEntities) {
-                        subEntity.setEditAllowed((subEntity instanceof GeometrieCustomBean) && veranlassungEditEnabled);
-                        treeTableModel.insertNodeIntoAsLastChild(new CustomMutableTreeTableNode(subEntity, false),
-                            veranlassungNode);
-                    }
-                } else if (curObject instanceof ArbeitsauftragCustomBean) {
-                    final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)curObject;
-                    arbeitsauftragCustomBean.setEditAllowed(arbeitsauftragEditEnabled);
-
-                    final CustomMutableTreeTableNode arbeitsauftragNode = new CustomMutableTreeTableNode(
-                            arbeitsauftragCustomBean,
-                            true);
-                    treeTableModel.insertNodeIntoAsLastChild(arbeitsauftragNode, refreshNode);
-                    for (final ArbeitsprotokollCustomBean protokoll
-                                : arbeitsauftragCustomBean.getAr_protokolle()) {
-                        protokoll.setEditAllowed(arbeitsauftragEditEnabled);
-                        final CustomMutableTreeTableNode childNode;
-                        final GeoBaseEntity childEntity = protokoll.getChildEntity();
-                        if (childEntity != null) {
-                            childEntity.setEditAllowed(false);
-                            childNode = new CustomMutableTreeTableNode(childEntity, false);
-
-                            final CustomMutableTreeTableNode protokollNode = new CustomMutableTreeTableNode(
-                                    protokoll,
-                                    true);
-                            treeTableModel.insertNodeIntoAsLastChild(protokollNode, arbeitsauftragNode);
-                            treeTableModel.insertNodeIntoAsLastChild(childNode, protokollNode);
-                        }
-                    }
-                } else if (curObject instanceof GeoBaseEntity) {
-                    final GeoBaseEntity entity = (GeoBaseEntity)curObject;
-                    entity.setEditAllowed(basicEditEnabled);
-
-                    final CustomMutableTreeTableNode foundObject = new CustomMutableTreeTableNode(
-                            entity,
-                            true);
-                    treeTableModel.insertNodeIntoAsLastChild(foundObject, refreshNode);
-                }
-            }
+            final String before = (String)refreshNode.getUserObject();
             try {
-                jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(refreshNode)));
-            } catch (final Exception ex) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(ex, ex);
-                }
-            }
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("searchResults == null");
+                refreshNode.setUserObject("wird geladen...");
+                new SwingWorker<Void, Void>() {
+
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            treeTableModel.removeAllChildrenFromNode(refreshNode, false);
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("adding new SearchResults");
+                            }
+                            for (final Object curObject : objects) {
+                                if (curObject instanceof TdtaStandortMastCustomBean) {
+                                    final TdtaStandortMastCustomBean standort = (TdtaStandortMastCustomBean)curObject;
+                                    standort.setEditAllowed(basicEditEnabled);
+
+                                    final CustomMutableTreeTableNode standortNode = new CustomMutableTreeTableNode(
+                                            curObject,
+                                            true);
+                                    if (standort.isStandortMast()) {
+                                        treeTableModel.insertNodeIntoAsLastChild(standortNode, refreshNode);
+                                        standort.addPropertyChangeListener(WorkbenchWidget.this);
+                                    }
+
+                                    for (final TdtaLeuchtenCustomBean leuchte : standort.getLeuchten()) {
+                                        leuchte.setEditAllowed(basicEditEnabled);
+                                        final CustomMutableTreeTableNode leuchteNode = new CustomMutableTreeTableNode(
+                                                leuchte,
+                                                false);
+                                        leuchte.addPropertyChangeListener(WorkbenchWidget.this);
+                                        if (((TdtaStandortMastCustomBean)curObject).isStandortMast()) {
+                                            treeTableModel.insertNodeIntoAsLastChild(leuchteNode, standortNode);
+                                            standort.addPropertyChangeListener(leuchte);
+                                        } else {
+                                            treeTableModel.insertNodeIntoAsLastChild(leuchteNode, refreshNode);
+                                            leuchteToVirtualStandortMap.put(leuchte, standort);
+                                        }
+                                    }
+                                } else if (curObject instanceof VeranlassungCustomBean) {
+                                    final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)
+                                        curObject;
+                                    veranlassungCustomBean.setEditAllowed(veranlassungEditEnabled);
+
+                                    final CustomMutableTreeTableNode veranlassungNode = new CustomMutableTreeTableNode(
+                                            veranlassungCustomBean,
+                                            true);
+                                    treeTableModel.insertNodeIntoAsLastChild(veranlassungNode, refreshNode);
+
+                                    final Set<BaseEntity> subEntities = new TreeSet(new EntityComparator());
+                                    subEntities.addAll(veranlassungCustomBean.getAr_standorte());
+                                    subEntities.addAll(veranlassungCustomBean.getAr_leuchten());
+                                    subEntities.addAll(veranlassungCustomBean.getAr_schaltstellen());
+                                    subEntities.addAll(veranlassungCustomBean.getAr_mauerlaschen());
+                                    subEntities.addAll(veranlassungCustomBean.getAr_leitungen());
+                                    subEntities.addAll(veranlassungCustomBean.getAr_abzweigdosen());
+                                    subEntities.addAll(veranlassungCustomBean.getAr_geometrien());
+                                    for (final BaseEntity subEntity : subEntities) {
+                                        subEntity.setEditAllowed((subEntity instanceof GeometrieCustomBean)
+                                                    && veranlassungEditEnabled);
+                                        treeTableModel.insertNodeIntoAsLastChild(new CustomMutableTreeTableNode(
+                                                subEntity,
+                                                false),
+                                            veranlassungNode);
+                                    }
+                                } else if (curObject instanceof ArbeitsauftragCustomBean) {
+                                    final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)
+                                        curObject;
+                                    arbeitsauftragCustomBean.setEditAllowed(arbeitsauftragEditEnabled);
+
+                                    final CustomMutableTreeTableNode arbeitsauftragNode =
+                                        new CustomMutableTreeTableNode(
+                                            arbeitsauftragCustomBean,
+                                            true);
+                                    treeTableModel.insertNodeIntoAsLastChild(arbeitsauftragNode, refreshNode);
+                                    for (final ArbeitsprotokollCustomBean protokoll
+                                                : arbeitsauftragCustomBean.getAr_protokolle()) {
+                                        protokoll.setEditAllowed(arbeitsauftragEditEnabled);
+                                        final CustomMutableTreeTableNode childNode;
+                                        final GeoBaseEntity childEntity = protokoll.getChildEntity();
+                                        if (childEntity != null) {
+                                            childEntity.setEditAllowed(false);
+                                            childNode = new CustomMutableTreeTableNode(childEntity, false);
+
+                                            final CustomMutableTreeTableNode protokollNode =
+                                                new CustomMutableTreeTableNode(
+                                                    protokoll,
+                                                    true);
+                                            treeTableModel.insertNodeIntoAsLastChild(protokollNode, arbeitsauftragNode);
+                                            treeTableModel.insertNodeIntoAsLastChild(childNode, protokollNode);
+                                        }
+                                    }
+                                } else if (curObject instanceof GeoBaseEntity) {
+                                    final GeoBaseEntity entity = (GeoBaseEntity)curObject;
+                                    entity.setEditAllowed(basicEditEnabled);
+
+                                    final CustomMutableTreeTableNode foundObject = new CustomMutableTreeTableNode(
+                                            entity,
+                                            true);
+                                    treeTableModel.insertNodeIntoAsLastChild(foundObject, refreshNode);
+                                }
+                            }
+                            return null;
+                        }
+
+                        @Override
+                        protected void done() {
+                            try {
+                                jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(refreshNode)));
+                            } catch (final Exception ex) {
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug(ex, ex);
+                                }
+                            }
+                        }
+                    }.execute();
+            } finally {
+                refreshNode.setUserObject(before);
             }
         }
     }

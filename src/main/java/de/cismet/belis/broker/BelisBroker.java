@@ -51,6 +51,7 @@ import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
 
+import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
 import java.awt.Color;
@@ -73,6 +74,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -122,6 +124,7 @@ import de.cismet.belis.panels.FilterToolBar;
 import de.cismet.belis.panels.LockWaitDialog;
 import de.cismet.belis.panels.ReleaseWaitDialog;
 import de.cismet.belis.panels.SaveWaitDialog;
+import de.cismet.belis.panels.SearchWaitDialog;
 
 import de.cismet.belis.todo.CustomMutableTreeTableNode;
 import de.cismet.belis.todo.CustomTreeTableModel;
@@ -964,7 +967,18 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     public void initComponentRegistry(final JFrame frame) throws Exception {
         PropertyManager.getManager().setEditable(true);
 
-        final SearchResultsTree searchResultsTree = new SearchResultsTree();
+        final SearchResultsTree searchResultsTree = new SearchResultsTree() {
+
+                @Override
+                public void setResultNodes(final Node[] nodes,
+                        final boolean append,
+                        final PropertyChangeListener listener,
+                        final boolean simpleSort,
+                        final boolean sortActive) {
+                    super.setResultNodes(nodes, append, listener, simpleSort, false);
+                }
+            };
+
         final MutableToolBar toolBar = new MutableToolBar();
         final MutableMenuBar menuBar = new MutableMenuBar();
         final LayoutedContainer container = new LayoutedContainer(toolBar, menuBar, true);
@@ -1032,35 +1046,81 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                 @Override
                 public void propertyChange(final PropertyChangeEvent evt) {
-                    SwingUtilities.invokeLater(new Thread() {
+                    final List<Node> nodes = searchResultsTree.getResultNodes();
+                    if (nodes != null) {
+                        final SearchWaitDialog swd = SearchWaitDialog.getInstance();
+                        new SwingWorker<TreeSet<BaseEntity>, Void>() {
 
                             @Override
-                            public void run() {
-                                final List<Node> nodes = searchResultsTree.getResultNodes();
+                            protected TreeSet<BaseEntity> doInBackground() throws Exception {
                                 final Collection<BaseEntity> entities = new ArrayList<BaseEntity>();
-                                if ((nodes != null) && (nodes.size() > 0)) {
+                                if ((nodes.size() > 0)) {
+                                    swd.setTarget(nodes.size());
+                                    SwingUtilities.invokeLater(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                StaticSwingTools.showDialog(swd);
+                                            }
+                                        });
+
+                                    int count = 0;
                                     for (final Node node : nodes) {
+                                        if (swd.isCanceled()) {
+                                            entities.clear();
+                                            break;
+                                        }
+                                        count++;
                                         if ((node != null) && (node instanceof MetaObjectNode)) {
                                             final MetaObjectNode moNode = (MetaObjectNode)node;
-                                            final MetaObject mo = moNode.getObject();
+                                            final MetaObject mo;
+                                            if (moNode.getObject() != null) {
+                                                mo = moNode.getObject();
+                                            } else {
+                                                mo = CidsBroker.getInstance()
+                                                            .getMetaObject(
+                                                                    moNode.getClassId(),
+                                                                    moNode.getObjectId(),
+                                                                    "BELIS2");
+                                            }
                                             if (mo != null) {
+                                                swd.setValue(count);
                                                 final CidsBean bean = mo.getBean();
                                                 if (bean instanceof BaseEntity) {
+                                                    ((BaseEntity)bean).init();
                                                     entities.add((BaseEntity)bean);
                                                 }
                                             }
                                         }
                                     }
-
-                                    final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(
-                                            new ReverseComparator(new EntityComparator()));
-                                    results.addAll(entities);
-                                    setSearchResult(results);
-                                    enableSearch();
-                                    fireSearchFinished();
                                 }
+                                final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(
+                                        new ReverseComparator(new EntityComparator()));
+                                results.addAll(entities);
+                                return results;
                             }
-                        });
+
+                            @Override
+                            protected void done() {
+                                TreeSet<BaseEntity> results = null;
+                                try {
+                                    results = get();
+                                } catch (final Exception ex) {
+                                    LOG.warn("exeption whil building search result treeset", ex);
+                                }
+                                setSearchResult(results);
+                                SwingUtilities.invokeLater(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            swd.setVisible(false);
+                                        }
+                                    });
+                                enableSearch();
+                                fireSearchFinished();
+                            }
+                        }.execute();
+                    }
                 }
             }); // NOI18N
 
@@ -2119,29 +2179,29 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @param  set  DOCUMENT ME!
      */
     public void setSearchResult(final Set<BaseEntity> set) {
-        if (set != null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Search results: " + set.size());
-            }
-        } else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Search results delivered no result");
-            }
-        }
-
-        clearMap();
-        EventQueue.invokeLater(new Runnable() {
+        new SwingWorker<Void, Void>() {
 
                 @Override
-                public void run() {
-                    for (final BaseEntity entity : set) {
-                        entity.storeBackup();
+                protected Void doInBackground() throws Exception {
+                    if (set != null) {
+                        for (final BaseEntity entity : set) {
+                            entity.storeBackup();
+                        }
                     }
-                    setCurrentSearchResults(set);
-                    refreshMap();
-                    getMappingComponent().zoomToFullFeatureCollectionBounds();
+                    return null;
                 }
-            });
+
+                @Override
+                protected void done() {
+                    if (set != null) {
+                        setCurrentSearchResults(set);
+                        refreshMap();
+                        getMappingComponent().zoomToFullFeatureCollectionBounds();
+                    } else {
+                        clearMap();
+                    }
+                }
+            }.execute();
     }
 
     /**
