@@ -83,8 +83,6 @@ public class BelisIcons {
                 "/de/cismet/belis/resource/icon/22/arbeitsauftrag.png"));
     public static Icon icoArbeitsprotokoll22 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/22/arbeitsprotokoll.png"));
-    public static Icon icoAdresseHnr22 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
-                "/de/cismet/belis/resource/icon/22/adresseHnr.png"));
 
     public static Icon icoError48 = new javax.swing.ImageIcon(BelisIcons.class.getResource(
                 "/de/cismet/belis/resource/icon/48/error.png"));

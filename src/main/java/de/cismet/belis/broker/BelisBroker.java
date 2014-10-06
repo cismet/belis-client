@@ -51,7 +51,6 @@ import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
 
-import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
 import java.awt.Color;
@@ -74,7 +73,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -102,8 +100,6 @@ import javax.swing.tree.TreePath;
 import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
 
 import de.cismet.belis.gui.reports.ArbeitsauftraegeReportDownload;
-import de.cismet.belis.gui.reports.BelisReporter;
-import de.cismet.belis.gui.search.AddressSearchControl;
 import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
 import de.cismet.belis.gui.search.SearchControl;
@@ -164,7 +160,7 @@ import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
-import de.cismet.cids.utils.jasperreports.ReportSwingWorkerDialog;
+import de.cismet.cids.navigator.utils.SimpleMemoryMonitoringToolbarWidget;
 
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.features.DefaultFeatureCollection;
@@ -172,8 +168,6 @@ import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
-import de.cismet.cismap.commons.gui.printing.JasperDownload;
-import de.cismet.cismap.commons.gui.printing.JasperReportDownload;
 import de.cismet.cismap.commons.gui.statusbar.StatusBar;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 import de.cismet.cismap.commons.interaction.StatusListener;
@@ -313,7 +307,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     private final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
     private final EntityClipboard entityClipboard;
     private LayoutManager layoutManager;
-    private AddressSearchControl asPan;
     private ConfigurationManager configManager;
     private JToolBar toolbar;
     private String applicationName;
@@ -1074,6 +1067,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                                         if ((node != null) && (node instanceof MetaObjectNode)) {
                                             final MetaObjectNode moNode = (MetaObjectNode)node;
                                             final MetaObject mo;
+                                            LOG.fatal(moNode.getObjectId() + "@" + moNode.getClassId());
                                             if (moNode.getObject() != null) {
                                                 mo = moNode.getObject();
                                             } else {
@@ -2096,10 +2090,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * DOCUMENT ME!
      */
     public void customizeApplicationToolbar() {
+        getToolbar().add(new SimpleMemoryMonitoringToolbarWidget());
+        getToolbar().add(createToolBarSeperator());
         addCreateToolBar();
         addCopyPasteToolBar();
         addFilterToolbar();
-        addAddressSearch();
         addLocationSearch();
         getToolbar().add(metaSearchComponentFactory.getCmdPluginSearch());
         addSeparatorToToolbar();
@@ -2733,34 +2728,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      */
     public void setInCreateMode(final boolean isInCreateMode) {
         this.inCreateMode = isInCreateMode;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public AddressSearchControl getAddressSearch() {
-        return asPan;
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void addAddressSearch() {
-        asPan = new AddressSearchControl(this);
-        // ToDo should haben in Panels itself;
-        addSearchControl(asPan);
-        asPan.setMappingComponent(getMappingComponent());
-        getConfigManager().addConfigurable(asPan);
-        getConfigManager().configure(asPan);
-        asPan.setFocusable(false);
-        final Dimension size = new Dimension(456, 23);
-        asPan.setPreferredSize(size);
-        asPan.setMinimumSize(size);
-        asPan.setMaximumSize(size);
-        getToolbar().add(asPan);
-        addSeparatorToToolbar();
     }
 
     /**

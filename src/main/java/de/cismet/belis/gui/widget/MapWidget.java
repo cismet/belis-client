@@ -105,6 +105,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
     private ActiveLayerModel mappingModel = new ActiveLayerModel(); // {
     private boolean isEditable = true;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private de.cismet.belis.gui.search.AddressSearchControl addressSearchControl;
     private javax.swing.JButton cmdAdd;
     private javax.swing.JButton cmdAddHandle;
     private javax.swing.JButton cmdBack;
@@ -150,6 +151,9 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         super.setBroker(broker);
         mappingComponent = broker.getMappingComponent();
         initComponents();
+
+        addressSearchControl.setMappingComponent(mappingComponent);
+        broker.addSearchControl(addressSearchControl);
     }
 
     /**
@@ -356,6 +360,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         cmdFullPoly1 = new javax.swing.JButton();
         cmdBack = new JHistoryButton();
         cmdForward = new JHistoryButton();
+        addressSearchControl = new de.cismet.belis.gui.search.AddressSearchControl();
         jSeparator4 = new javax.swing.JSeparator();
         cmdWmsBackground = new javax.swing.JButton();
         cmdForeground = new javax.swing.JButton();
@@ -435,6 +440,12 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                 }
             });
         mapWidgetToolbar.add(cmdForward);
+
+        addressSearchControl.setMaximumSize(new java.awt.Dimension(290, 28));
+        addressSearchControl.setMinimumSize(new java.awt.Dimension(290, 28));
+        addressSearchControl.setName(""); // NOI18N
+        addressSearchControl.setPreferredSize(new java.awt.Dimension(290, 28));
+        mapWidgetToolbar.add(addressSearchControl);
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jSeparator4.setMaximumSize(new java.awt.Dimension(2, 32767));
@@ -680,7 +691,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(
                 org.jdesktop.layout.GroupLayout.TRAILING,
-                jPanel1Layout.createSequentialGroup().addContainerGap(497, Short.MAX_VALUE).add(
+                jPanel1Layout.createSequentialGroup().addContainerGap(892, Short.MAX_VALUE).add(
                     cmdAdd,
                     org.jdesktop.layout.GroupLayout.PREFERRED_SIZE,
                     org.jdesktop.layout.GroupLayout.DEFAULT_SIZE,
@@ -1538,6 +1549,8 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         mappingComponent.setBackgroundEnabled(true);
         mappingComponent.setInternalLayerWidgetAvailable(true);
         this.add(BorderLayout.CENTER, mappingComponent);
+
+        addressSearchControl.masterConfigure(parent);
 //        log.debug("MasterConfigure: "+this.getClass());
 //        try{
 //        Element identifier = parent.getChild("flurstueckXMLIdentifier");
@@ -1588,6 +1601,8 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 //        } catch(Exception ex){
 //            log.error("Fehler beim konfigurieren des Kartenpanels: ",ex);
 //        }
+
+        addressSearchControl.configure(parent);
     }
 
     @Override
