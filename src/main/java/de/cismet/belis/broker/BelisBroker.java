@@ -2090,8 +2090,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * DOCUMENT ME!
      */
     public void customizeApplicationToolbar() {
-        getToolbar().add(new SimpleMemoryMonitoringToolbarWidget());
-        getToolbar().add(createToolBarSeperator());
+        final SimpleMemoryMonitoringToolbarWidget memTB = new SimpleMemoryMonitoringToolbarWidget();
+        if (memTB.isVisible()) {
+            getToolbar().add(memTB);
+            getToolbar().add(createToolBarSeperator());
+        }
         addCreateToolBar();
         addCopyPasteToolBar();
         addFilterToolbar();
