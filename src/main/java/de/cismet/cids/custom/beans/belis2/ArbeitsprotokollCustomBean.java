@@ -441,6 +441,9 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      * @return  DOCUMENT ME!
      */
     public String getVeranlassungsschluessel() {
+        if (veranlassungsschluessel == null) {
+            refreshVeranlassungsschlussel(getVeranlassungsnummer());
+        }
         return veranlassungsschluessel;
     }
 
