@@ -1458,7 +1458,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                         final CustomMutableTreeTableNode childNode;
                                         final GeoBaseEntity childEntity = protokoll.getChildEntity();
                                         if (childEntity != null) {
-                                            childEntity.setEditAllowed(false);
+                                            childEntity.setEditAllowed(basicEditEnabled);
                                             childNode = new CustomMutableTreeTableNode(childEntity, false);
 
                                             final CustomMutableTreeTableNode protokollNode =
