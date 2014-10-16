@@ -40,12 +40,19 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
 
     public static final String PROP__AR_DOKUMENTE = "ar_dokumente";
     public static final String PROP__FK_GEOM = "fk_geom";
+    public static final String PROP__BEZEICHNUNG = "bezeichnung";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__AR_DOKUMENTE, PROP__FK_GEOM };
+    private static final String[] PROPERTY_NAMES = new String[] {
+            PROP__ID,
+            PROP__AR_DOKUMENTE,
+            PROP__FK_GEOM,
+            PROP__BEZEICHNUNG
+        };
 
     //~ Instance fields --------------------------------------------------------
 
     private Collection<DmsUrlCustomBean> ar_dokumente;
+    private String bezeichnung;
     private GeomCustomBean fk_geom;
 
     //~ Constructors -----------------------------------------------------------
@@ -91,6 +98,27 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
         this.ar_dokumente = dokumente;
         this.propertyChangeSupport.firePropertyChange(PROP__AR_DOKUMENTE, old, this.ar_dokumente);
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getBezeichnung() {
+        return bezeichnung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  bezeichnung  DOCUMENT ME!
+     */
+    public void setBezeichnung(final String bezeichnung) {
+        final String old = this.bezeichnung;
+        this.bezeichnung = bezeichnung;
+        this.propertyChangeSupport.firePropertyChange(PROP__BEZEICHNUNG, old, this.bezeichnung);
+    }
+
     /**
      * DOCUMENT ME!
      *
@@ -175,7 +203,7 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
 
     @Override
     public String getKeyString() {
-        return "";
+        return bezeichnung;
     }
 
     /**

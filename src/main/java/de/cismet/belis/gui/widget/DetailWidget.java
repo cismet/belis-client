@@ -20,6 +20,7 @@ import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsauftragPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsprotokollPanel;
+import de.cismet.belis.gui.widget.detailWidgetPanels.GeometriePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeitungPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.LeuchtePanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.MauerlaschePanel;
@@ -30,6 +31,7 @@ import de.cismet.belis.gui.widget.detailWidgetPanels.VeranlassungPanel;
 import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.GeometrieCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
@@ -72,6 +74,7 @@ public class DetailWidget extends BelisWidget {
     private final VeranlassungPanel veranlassungPanel;
     private final ArbeitsauftragPanel arbeitsauftragPanel;
     private final ArbeitsprotokollPanel arbeitsprotokollPanel;
+    private final GeometriePanel geometriePanel;
 
     private AbstractDetailWidgetPanel currentDetailWidgetPanel = null;
 
@@ -101,6 +104,7 @@ public class DetailWidget extends BelisWidget {
             abzweigdosePanel = new AbzweigdosePanel();
             mauerlaschePanel = new MauerlaschePanel();
             schaltstellePanel = new SchaltstellePanel();
+            geometriePanel = new GeometriePanel();
             veranlassungPanel = new VeranlassungPanel();
             arbeitsauftragPanel = new ArbeitsauftragPanel();
             arbeitsprotokollPanel = new ArbeitsprotokollPanel();
@@ -223,6 +227,10 @@ public class DetailWidget extends BelisWidget {
                 veranlassungPanel.setCurrentEntity((VeranlassungCustomBean)currentEntity);
                 currentDetailWidgetPanel = veranlassungPanel;
                 isAllowedToEdit = ((VeranlassungCustomBean)currentEntity).isEditAllowed();
+            } else if (currentEntity instanceof GeometrieCustomBean) {
+                geometriePanel.setCurrentEntity((GeometrieCustomBean)currentEntity);
+                currentDetailWidgetPanel = geometriePanel;
+                isAllowedToEdit = ((GeometrieCustomBean)currentEntity).isEditAllowed();
             } else if (currentEntity instanceof ArbeitsauftragCustomBean) {
                 arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)currentEntity);
                 arbeitsauftragPanel.setSelectedProtokolle(((ArbeitsauftragCustomBean)currentEntity).getAr_protokolle());
@@ -452,5 +460,14 @@ public class DetailWidget extends BelisWidget {
      */
     public ArbeitsprotokollPanel getArbeitsprotokollPanel() {
         return arbeitsprotokollPanel;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public GeometriePanel getGeometriePanel() {
+        return geometriePanel;
     }
 }
