@@ -1042,48 +1042,45 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     final List<Node> nodes = searchResultsTree.getResultNodes();
                     if (nodes != null) {
                         final SearchWaitDialog swd = SearchWaitDialog.getInstance();
+                        swd.init(nodes.size());
+                        SwingUtilities.invokeLater(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    StaticSwingTools.showDialog(swd);
+                                }
+                            });
+
                         new SwingWorker<TreeSet<BaseEntity>, Void>() {
 
                             @Override
                             protected TreeSet<BaseEntity> doInBackground() throws Exception {
                                 final Collection<BaseEntity> entities = new ArrayList<BaseEntity>();
-                                if ((nodes.size() > 0)) {
-                                    swd.setTarget(nodes.size());
-                                    SwingUtilities.invokeLater(new Runnable() {
-
-                                            @Override
-                                            public void run() {
-                                                StaticSwingTools.showDialog(swd);
-                                            }
-                                        });
-
-                                    int count = 0;
-                                    for (final Node node : nodes) {
-                                        if (swd.isCanceled()) {
-                                            entities.clear();
-                                            break;
+                                int count = 0;
+                                for (final Node node : nodes) {
+                                    if (swd.isCanceled()) {
+                                        entities.clear();
+                                        break;
+                                    }
+                                    count++;
+                                    if ((node != null) && (node instanceof MetaObjectNode)) {
+                                        final MetaObjectNode moNode = (MetaObjectNode)node;
+                                        final MetaObject mo;
+                                        if (moNode.getObject() != null) {
+                                            mo = moNode.getObject();
+                                        } else {
+                                            mo = CidsBroker.getInstance()
+                                                        .getMetaObject(
+                                                                moNode.getClassId(),
+                                                                moNode.getObjectId(),
+                                                                "BELIS2");
                                         }
-                                        count++;
-                                        if ((node != null) && (node instanceof MetaObjectNode)) {
-                                            final MetaObjectNode moNode = (MetaObjectNode)node;
-                                            final MetaObject mo;
-                                            LOG.fatal(moNode.getObjectId() + "@" + moNode.getClassId());
-                                            if (moNode.getObject() != null) {
-                                                mo = moNode.getObject();
-                                            } else {
-                                                mo = CidsBroker.getInstance()
-                                                            .getMetaObject(
-                                                                    moNode.getClassId(),
-                                                                    moNode.getObjectId(),
-                                                                    "BELIS2");
-                                            }
-                                            if (mo != null) {
-                                                swd.setValue(count);
-                                                final CidsBean bean = mo.getBean();
-                                                if (bean instanceof BaseEntity) {
-                                                    ((BaseEntity)bean).init();
-                                                    entities.add((BaseEntity)bean);
-                                                }
+                                        if (mo != null) {
+                                            swd.setValue(count);
+                                            final CidsBean bean = mo.getBean();
+                                            if (bean instanceof BaseEntity) {
+                                                ((BaseEntity)bean).init();
+                                                entities.add((BaseEntity)bean);
                                             }
                                         }
                                     }

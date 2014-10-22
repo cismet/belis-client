@@ -35,6 +35,8 @@ public class SearchWaitDialog extends javax.swing.JDialog {
     //~ Instance fields --------------------------------------------------------
 
     private boolean canceled = false;
+    private int target = 0;
+    private int value = 0;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -61,19 +63,31 @@ public class SearchWaitDialog extends javax.swing.JDialog {
      *
      * @param  target  DOCUMENT ME!
      */
-    public void setTarget(final int target) {
-        canceled = false;
+    public void init(final int target) {
+        this.canceled = false;
+
+        final int old = this.target;
+        this.target = target;
+        if (old != target) {
+            targetChanged();
+        }
+        setValue(0);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void targetChanged() {
         if (SwingUtilities.isEventDispatchThread()) {
             jProgressBar1.setIndeterminate(false);
             jProgressBar1.setMaximum(target);
-            jProgressBar1.setValue(0);
             updateString();
         } else {
             SwingUtilities.invokeLater(new Runnable() {
 
                     @Override
                     public void run() {
-                        setTarget(target);
+                        targetChanged();
                     }
                 });
         }
@@ -93,6 +107,17 @@ public class SearchWaitDialog extends javax.swing.JDialog {
      * @param  value  DOCUMENT ME!
      */
     public void setValue(final int value) {
+        final int old = this.value;
+        this.value = value;
+        if (old != value) {
+            valueChanged();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void valueChanged() {
         if (SwingUtilities.isEventDispatchThread()) {
             jProgressBar1.setValue(value);
             updateString();
@@ -101,7 +126,7 @@ public class SearchWaitDialog extends javax.swing.JDialog {
 
                     @Override
                     public void run() {
-                        setValue(value);
+                        valueChanged();
                     }
                 });
         }
@@ -200,16 +225,8 @@ public class SearchWaitDialog extends javax.swing.JDialog {
      * @param  evt  DOCUMENT ME!
      */
     private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton1ActionPerformed
-        setVisible(false);
+        canceled = true;
     }                                                                            //GEN-LAST:event_jButton1ActionPerformed
-
-    @Override
-    public void setVisible(final boolean visible) {
-        super.setVisible(visible); // To change body of generated methods, choose Tools | Templates.
-        if (visible == false) {
-            canceled = true;
-        }
-    }
 
     /**
      * DOCUMENT ME!
