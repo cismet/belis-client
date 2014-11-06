@@ -12,6 +12,8 @@
  */
 package de.cismet.belis.gui.widget;
 
+import java.awt.Dimension;
+
 import java.beans.PropertyChangeEvent;
 
 import java.util.Collection;
@@ -341,6 +343,7 @@ public class DetailWidget extends BelisWidget {
         setLayout(new java.awt.BorderLayout());
 
         scpMain.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        scpMain.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         panMain.addTab("", scpMain);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());

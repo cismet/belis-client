@@ -16,13 +16,10 @@ import Sirius.server.middleware.types.MetaObjectNode;
 
 import org.jdesktop.beansbinding.BindingGroup;
 
-import org.openide.util.Exceptions;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
@@ -74,7 +71,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     private javax.swing.JComboBox cbxArt;
     private javax.swing.JComboBox cbxInfobausteineTemplate;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblArbeitsauftraege;
@@ -91,6 +88,12 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
     private javax.swing.JLabel lblUserValue;
     private javax.swing.JLabel lblVeranlassung;
     private javax.swing.JPanel panContent;
+    private javax.swing.JPanel panInformationsbausteine;
+    private javax.swing.JPanel panSpacer0;
+    private javax.swing.JPanel panSpacer1;
+    private javax.swing.JPanel panSpacerBottom;
+    private javax.swing.JPanel panSpacerBottom1;
+    private javax.swing.JPanel panSpacerLeft;
     private javax.swing.JScrollPane scrBemerkungen;
     private javax.swing.JScrollPane scrBeschreibung;
     private javax.swing.JTable tblArbeitsauftraege;
@@ -131,35 +134,41 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         lblVeranlassung = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         panContent = new javax.swing.JPanel();
+        panSpacer0 = new javax.swing.JPanel();
+        panSpacer1 = new javax.swing.JPanel();
         lblNummer = new javax.swing.JLabel();
         lblNummerValue = new javax.swing.JLabel();
-        lblArt = new javax.swing.JLabel();
-        lblUser = new javax.swing.JLabel();
-        lblDatum = new javax.swing.JLabel();
         lblBezeichnung = new javax.swing.JLabel();
-        lblBeschreibung = new javax.swing.JLabel();
-        lblBemerkungen = new javax.swing.JLabel();
-        lblInformationsbausteine = new javax.swing.JLabel();
-        cbxArt = BelisBroker.createKeyTableComboBox(VeranlassungsartCustomBean.TABLE);
         txtBezeichnung = new javax.swing.JTextField();
+        lblArt = new javax.swing.JLabel();
+        cbxArt = BelisBroker.createKeyTableComboBox(VeranlassungsartCustomBean.TABLE);
+        lblBeschreibung = new javax.swing.JLabel();
         scrBeschreibung = new javax.swing.JScrollPane();
         txaBeschreibung = new javax.swing.JTextArea();
+        lblUser = new javax.swing.JLabel();
+        lblUserValue = new javax.swing.JLabel();
+        lblDatum = new javax.swing.JLabel();
+        lblDatumValue = new javax.swing.JLabel();
+        lblBemerkungen = new javax.swing.JLabel();
         scrBemerkungen = new javax.swing.JScrollPane();
         txaBemerkungen = new javax.swing.JTextArea();
-        lblUserValue = new javax.swing.JLabel();
-        lblDatumValue = new javax.swing.JLabel();
+        lblInformationsbausteine = new javax.swing.JLabel();
+        panInformationsbausteine = new javax.swing.JPanel();
+        cbxInfobausteineTemplate = BelisBroker.createKeyTableComboBox(InfobausteinTemplateCustomBean.TABLE);
+        btnTemplate = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblInfobausteine = new javax.swing.JTable();
-        cbxInfobausteineTemplate = BelisBroker.createKeyTableComboBox(InfobausteinTemplateCustomBean.TABLE);
         jPanel1 = new javax.swing.JPanel();
         btnAddInfo = new javax.swing.JButton();
         btnRemInfo = new javax.swing.JButton();
-        btnTemplate = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblArbeitsauftraege = new javax.swing.JTable();
         lblArbeitsauftraege = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        panSpacerBottom = new javax.swing.JPanel();
+        panSpacerLeft = new javax.swing.JPanel();
+        panSpacerBottom1 = new javax.swing.JPanel();
 
         lblVeranlassung.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
         lblVeranlassung.setIcon(new javax.swing.ImageIcon(
@@ -168,12 +177,60 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         setLayout(new java.awt.GridBagLayout());
 
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
         panContent.setLayout(new java.awt.GridBagLayout());
+
+        panSpacer0.setMinimumSize(DIMENSION_KEYSPACER);
+        panSpacer0.setPreferredSize(DIMENSION_KEYSPACER);
+
+        final javax.swing.GroupLayout panSpacer0Layout = new javax.swing.GroupLayout(panSpacer0);
+        panSpacer0.setLayout(panSpacer0Layout);
+        panSpacer0Layout.setHorizontalGroup(
+            panSpacer0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+        panSpacer0Layout.setVerticalGroup(
+            panSpacer0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(panSpacer0, gridBagConstraints);
+
+        panSpacer1.setName(""); // NOI18N
+        panSpacer1.setPreferredSize(new java.awt.Dimension(420, 0));
+
+        final javax.swing.GroupLayout panSpacer1Layout = new javax.swing.GroupLayout(panSpacer1);
+        panSpacer1.setLayout(panSpacer1Layout);
+        panSpacer1Layout.setHorizontalGroup(
+            panSpacer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+        panSpacer1Layout.setVerticalGroup(
+            panSpacer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panContent.add(panSpacer1, gridBagConstraints);
 
         lblNummer.setText("Nummer:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblNummer, gridBagConstraints);
@@ -191,89 +248,20 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblNummerValue, gridBagConstraints);
 
-        lblArt.setText("Grund (Art):");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblArt, gridBagConstraints);
-
-        lblUser.setText("User:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblUser, gridBagConstraints);
-
-        lblDatum.setText("Datum:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblDatum, gridBagConstraints);
-
         lblBezeichnung.setText("Bezeichnung:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblBezeichnung, gridBagConstraints);
-
-        lblBeschreibung.setText("Beschreibung:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblBeschreibung, gridBagConstraints);
-
-        lblBemerkungen.setText("Bemerkungen:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblBemerkungen, gridBagConstraints);
-
-        lblInformationsbausteine.setText("Informationsbausteine:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblInformationsbausteine, gridBagConstraints);
-
-        cbxArt.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_art}"),
-                cbxArt,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(cbxArt, gridBagConstraints);
 
         txtBezeichnung.setEnabled(false);
 
@@ -287,13 +275,48 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(txtBezeichnung, gridBagConstraints);
+
+        lblArt.setText("Grund (Art):");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblArt, gridBagConstraints);
+
+        cbxArt.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.fk_art}"),
+                cbxArt,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(cbxArt, gridBagConstraints);
+
+        lblBeschreibung.setText("Beschreibung:");
+        lblBeschreibung.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblBeschreibung, gridBagConstraints);
 
         scrBeschreibung.setEnabled(false);
 
@@ -314,13 +337,69 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(scrBeschreibung, gridBagConstraints);
+
+        lblUser.setText("User:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblUser, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.username}"),
+                lblUserValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblUserValue, gridBagConstraints);
+
+        lblDatum.setText("Datum:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblDatum, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.datum}"),
+                lblDatumValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DateToStringConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblDatumValue, gridBagConstraints);
+
+        lblBemerkungen.setText("Bemerkungen:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblBemerkungen, gridBagConstraints);
 
         scrBemerkungen.setEnabled(false);
 
@@ -341,7 +420,6 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
@@ -349,59 +427,15 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(scrBemerkungen, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.username}"),
-                lblUserValue,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
+        lblInformationsbausteine.setText("Informationsbausteine:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblUserValue, gridBagConstraints);
+        panContent.add(lblInformationsbausteine, gridBagConstraints);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.datum}"),
-                lblDatumValue,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setConverter(new DateToStringConverter());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(lblDatumValue, gridBagConstraints);
-
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(100, 200));
-
-        tblInfobausteine.setModel(new IBTableModel());
-        tblInfobausteine.setMinimumSize(new java.awt.Dimension(60, 200));
-        tblInfobausteine.setPreferredSize(new java.awt.Dimension(60, 200));
-        jScrollPane1.setViewportView(tblInfobausteine);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(jScrollPane1, gridBagConstraints);
+        panInformationsbausteine.setLayout(new java.awt.GridBagLayout());
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
@@ -413,14 +447,52 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(cbxInfobausteineTemplate, gridBagConstraints);
+        panInformationsbausteine.add(cbxInfobausteineTemplate, gridBagConstraints);
+
+        btnTemplate.setText("Vorlage hinzufügen");
+        btnTemplate.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnTemplateActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInformationsbausteine.add(btnTemplate, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(panInformationsbausteine, gridBagConstraints);
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(100, 200));
+
+        tblInfobausteine.setModel(new IBTableModel());
+        tblInfobausteine.setMinimumSize(new java.awt.Dimension(60, 200));
+        tblInfobausteine.setPreferredSize(new java.awt.Dimension(60, 200));
+        jScrollPane1.setViewportView(tblInfobausteine);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(jScrollPane1, gridBagConstraints);
 
         jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnAddInfo.setText("+");
         btnAddInfo.setMaximumSize(new java.awt.Dimension(29, 29));
@@ -450,24 +522,10 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 5);
-        panContent.add(jPanel1, gridBagConstraints);
-
-        btnTemplate.setText("Vorlage hinzufügen");
-        btnTemplate.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnTemplateActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        panContent.add(btnTemplate, gridBagConstraints);
+        panContent.add(jPanel1, gridBagConstraints);
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(100, 200));
 
@@ -477,8 +535,7 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
@@ -486,9 +543,10 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         panContent.add(jScrollPane2, gridBagConstraints);
 
         lblArbeitsauftraege.setText("Arbeitsaufträge:");
+        lblArbeitsauftraege.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(lblArbeitsauftraege, gridBagConstraints);
@@ -498,29 +556,73 @@ public class VeranlassungPanel extends AbstractDetailWidgetPanel<VeranlassungCus
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        add(panContent, gridBagConstraints);
+        jPanel3.add(panContent, gridBagConstraints);
 
-        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+        panSpacerBottom.setMinimumSize(DIMENSION_CONTENTSPACER);
+        panSpacerBottom.setPreferredSize(DIMENSION_CONTENTSPACER);
+
+        final javax.swing.GroupLayout panSpacerBottomLayout = new javax.swing.GroupLayout(panSpacerBottom);
+        panSpacerBottom.setLayout(panSpacerBottomLayout);
+        panSpacerBottomLayout.setHorizontalGroup(
+            panSpacerBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                459,
+                0,
                 Short.MAX_VALUE));
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+        panSpacerBottomLayout.setVerticalGroup(
+            panSpacerBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                205,
+                0,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        add(jPanel2, gridBagConstraints);
+        jPanel3.add(panSpacerBottom, gridBagConstraints);
+
+        add(jPanel3, new java.awt.GridBagConstraints());
+
+        final javax.swing.GroupLayout panSpacerLeftLayout = new javax.swing.GroupLayout(panSpacerLeft);
+        panSpacerLeft.setLayout(panSpacerLeftLayout);
+        panSpacerLeftLayout.setHorizontalGroup(
+            panSpacerLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+        panSpacerLeftLayout.setVerticalGroup(
+            panSpacerLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        add(panSpacerLeft, gridBagConstraints);
+
+        final javax.swing.GroupLayout panSpacerBottom1Layout = new javax.swing.GroupLayout(panSpacerBottom1);
+        panSpacerBottom1.setLayout(panSpacerBottom1Layout);
+        panSpacerBottom1Layout.setHorizontalGroup(
+            panSpacerBottom1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                379,
+                Short.MAX_VALUE));
+        panSpacerBottom1Layout.setVerticalGroup(
+            panSpacerBottom1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                64,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        add(panSpacerBottom1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents

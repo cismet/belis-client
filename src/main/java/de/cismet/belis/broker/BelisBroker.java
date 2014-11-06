@@ -3251,8 +3251,9 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @return  DOCUMENT ME!
      */
     public static DefaultBindableReferenceCombo createKeyTableComboBox(final String keyTableClassname) {
-        final DefaultBindableReferenceCombo comboBox = new DefaultBindableReferenceCombo(CidsBroker.getInstance()
-                        .getBelisMetaClass(keyTableClassname));
+        final DefaultBindableReferenceCombo comboBox = new ScrollableComboBox(CidsBroker.getInstance()
+                        .getBelisMetaClass(keyTableClassname)) {
+            };
         comboBox.setNullable(true);
         comboBox.setNullValueRepresentation("<html><i>Wert auswählen...</i></html>");
         addComboBoxToKeyTableValuesListener(comboBox, keyTableClassname);

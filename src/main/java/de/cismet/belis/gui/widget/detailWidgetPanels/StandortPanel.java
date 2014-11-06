@@ -47,67 +47,78 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StandortPanel.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox cboStandortErdung;
-    private javax.swing.JCheckBox cboStandortVerrechnungseinheit;
-    private javax.swing.JComboBox cbxStandortAnlagengruppe;
-    private javax.swing.JComboBox cbxStandortKennziffer;
-    private javax.swing.JComboBox cbxStandortKlassifizierung;
-    private javax.swing.JComboBox cbxStandortMastart;
-    private javax.swing.JComboBox cbxStandortMasttyp;
-    private javax.swing.JComboBox cbxStandortStadtbezirk;
-    private javax.swing.JComboBox cbxStandortStrassenschluessel;
-    private javax.swing.JComboBox cbxStandortStrassenschluesselNr;
-    private javax.swing.JComboBox cbxStandortUnterhalt;
-    private org.jdesktop.swingx.JXDatePicker dapStandortElekPruefung;
-    private org.jdesktop.swingx.JXDatePicker dapStandortInbetriebnahme;
-    private org.jdesktop.swingx.JXDatePicker dapStandortLetzteAenderung;
-    private org.jdesktop.swingx.JXDatePicker dapStandortMastanstrich;
-    private org.jdesktop.swingx.JXDatePicker dapStandortMastschutz;
-    private org.jdesktop.swingx.JXDatePicker dapStandortNaechstesPruefdatum;
-    private org.jdesktop.swingx.JXDatePicker dapStandortRevision;
-    private org.jdesktop.swingx.JXDatePicker dapStandortStandsicherheitspruefung;
+    private javax.swing.JPanel Mastschutz;
+    private javax.swing.JCheckBox cboErdung;
+    private javax.swing.JCheckBox cboVerrechnungseinheit;
+    private javax.swing.JComboBox cbxAnlagengruppe;
+    private javax.swing.JComboBox cbxKennziffer;
+    private javax.swing.JComboBox cbxKlassifizierung;
+    private javax.swing.JComboBox cbxMastart;
+    private javax.swing.JComboBox cbxMasttyp;
+    private javax.swing.JComboBox cbxStadtbezirk;
+    private javax.swing.JComboBox cbxStrassenschluessel;
+    private javax.swing.JComboBox cbxStrassenschluesselNr;
+    private javax.swing.JComboBox cbxUnterhalt;
+    private org.jdesktop.swingx.JXDatePicker dapElekPruefung;
+    private org.jdesktop.swingx.JXDatePicker dapInbetriebnahme;
+    private org.jdesktop.swingx.JXDatePicker dapLetzteAenderung;
+    private org.jdesktop.swingx.JXDatePicker dapMastanstrich;
+    private org.jdesktop.swingx.JXDatePicker dapMastschutz;
+    private org.jdesktop.swingx.JXDatePicker dapNaechstesPruefdatum;
+    private org.jdesktop.swingx.JXDatePicker dapRevision;
+    private org.jdesktop.swingx.JXDatePicker dapStandsicherheitspruefung;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblAnbauten;
+    private javax.swing.JLabel lblAnlagengruppe;
+    private javax.swing.JLabel lblElekPruefung;
+    private javax.swing.JLabel lblErdung;
+    private javax.swing.JLabel lblGruendung;
+    private javax.swing.JLabel lblHausnummer;
+    private javax.swing.JLabel lblInbetriebnahme;
+    private javax.swing.JLabel lblKenziffer;
+    private javax.swing.JLabel lblKlassifizierung;
+    private javax.swing.JLabel lblLaufendenummer;
+    private javax.swing.JLabel lblLetzteAenderung;
+    private javax.swing.JLabel lblMastanstrich;
+    private javax.swing.JLabel lblMastart;
+    private javax.swing.JLabel lblMastschutz;
+    private javax.swing.JLabel lblMasttyp;
+    private javax.swing.JLabel lblMontagefirma;
+    private javax.swing.JLabel lblMonteur;
+    private javax.swing.JLabel lblNaechstesPruefdatum;
+    private javax.swing.JLabel lblRevision;
+    private javax.swing.JLabel lblStadtbezirk;
     private javax.swing.JLabel lblStandort;
-    private javax.swing.JLabel lblStandortAnlagengruppe;
     private javax.swing.JLabel lblStandortAnstrichfarbe;
     private javax.swing.JLabel lblStandortBemerkung;
-    private javax.swing.JLabel lblStandortElekPruefung;
-    private javax.swing.JLabel lblStandortGruendung;
-    private javax.swing.JLabel lblStandortHausnummer;
-    private javax.swing.JLabel lblStandortInbetriebnahme;
-    private javax.swing.JLabel lblStandortKenziffer;
-    private javax.swing.JLabel lblStandortKlassifizierung;
-    private javax.swing.JLabel lblStandortLaufendenummer;
-    private javax.swing.JLabel lblStandortLetzteAenderung;
-    private javax.swing.JLabel lblStandortMastanstrich;
-    private javax.swing.JLabel lblStandortMastart;
-    private javax.swing.JLabel lblStandortMastschutz;
-    private javax.swing.JLabel lblStandortMasttyp;
-    private javax.swing.JLabel lblStandortMontagefirma;
-    private javax.swing.JLabel lblStandortMonteur;
-    private javax.swing.JLabel lblStandortNaechstesPruefdatum;
-    private javax.swing.JLabel lblStandortRevision;
-    private javax.swing.JLabel lblStandortStadtbezirk;
-    private javax.swing.JLabel lblStandortStandortangabe;
-    private javax.swing.JLabel lblStandortStandsicherheitspruefung;
-    private javax.swing.JLabel lblStandortStrassenschluessel;
-    private javax.swing.JLabel lblStandortUnterhalt;
-    private javax.swing.JLabel lblStandortVerfahren;
-    private javax.swing.JLabel lblStandortVerrechnungseinheit;
+    private javax.swing.JLabel lblStandortangabe;
+    private javax.swing.JLabel lblStandsicherheitspruefung;
+    private javax.swing.JLabel lblStrassenschluessel;
+    private javax.swing.JLabel lblUnterhalt;
+    private javax.swing.JLabel lblVerfahren;
+    private javax.swing.JLabel lblVerrechnungseinheit;
+    private javax.swing.JPanel panContent;
+    private javax.swing.JPanel panElekPruefung;
+    private javax.swing.JPanel panInbetriebnahme;
+    private javax.swing.JPanel panMastanstrich;
+    private javax.swing.JPanel panSpacer0;
+    private javax.swing.JPanel panSpacer1;
+    private javax.swing.JPanel panSpacerBottom;
+    private javax.swing.JPanel panSpacerBottom1;
+    private javax.swing.JPanel panSpacerLeft;
+    private javax.swing.JPanel panStandsicherheitspruefung;
+    private javax.swing.JPanel panStrassenschluessel;
     private javax.swing.JScrollPane scpStandortBemerkung;
     private javax.swing.JTextArea txaStandortBemerkung;
     private javax.swing.JTextField txfAnbauten;
+    private javax.swing.JTextField txfGruendung;
+    private javax.swing.JTextField txfHausnummer;
+    private javax.swing.JTextField txfLaufendenummer;
+    private javax.swing.JTextField txfMontagefirma;
+    private javax.swing.JTextField txfMonteur;
+    private javax.swing.JTextField txfStandortAngabe;
     private javax.swing.JTextField txfStandortAnstrichfarbe;
-    private javax.swing.JTextField txfStandortGruendung;
-    private javax.swing.JTextField txfStandortHausnummer;
-    private javax.swing.JTextField txfStandortLaufendenummer;
-    private javax.swing.JTextField txfStandortMontagefirma;
-    private javax.swing.JTextField txfStandortMonteur;
-    private javax.swing.JTextField txfStandortStandortAngabe;
-    private javax.swing.JTextField txfStandortVerfahren;
+    private javax.swing.JTextField txfVerfahren;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -142,65 +153,76 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         lblStandort = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        lblStandortStadtbezirk = new javax.swing.JLabel();
-        cbxStandortStadtbezirk = BelisBroker.createKeyTableComboBox(TkeyBezirkCustomBean.TABLE);
-        lblStandortHausnummer = new javax.swing.JLabel();
-        txfStandortHausnummer = new javax.swing.JTextField();
-        lblStandortMastart = new javax.swing.JLabel();
-        lblStandortMasttyp = new javax.swing.JLabel();
-        cbxStandortMastart = BelisBroker.createKeyTableComboBox(TkeyMastartCustomBean.TABLE);
-        cbxStandortMasttyp = BelisBroker.createKeyTableComboBox(TkeyMasttypCustomBean.TABLE);
-        lblStandortKlassifizierung = new javax.swing.JLabel();
-        cbxStandortKlassifizierung = BelisBroker.createKeyTableComboBox(TkeyKlassifizierungCustomBean.TABLE);
-        lblStandortMastanstrich = new javax.swing.JLabel();
-        dapStandortMastanstrich = new org.jdesktop.swingx.JXDatePicker();
-        lblStandortMastschutz = new javax.swing.JLabel();
-        dapStandortMastschutz = new org.jdesktop.swingx.JXDatePicker();
-        lblStandortInbetriebnahme = new javax.swing.JLabel();
-        dapStandortInbetriebnahme = new org.jdesktop.swingx.JXDatePicker();
-        lblStandortLetzteAenderung = new javax.swing.JLabel();
-        dapStandortLetzteAenderung = new org.jdesktop.swingx.JXDatePicker();
-        lblStandortUnterhalt = new javax.swing.JLabel();
-        cbxStandortUnterhalt = BelisBroker.createKeyTableComboBox(TkeyUnterhMastCustomBean.TABLE);
-        lblStandortMontagefirma = new javax.swing.JLabel();
-        txfStandortMontagefirma = new javax.swing.JTextField();
-        lblStandortBemerkung = new javax.swing.JLabel();
-        cboStandortVerrechnungseinheit = new javax.swing.JCheckBox();
-        scpStandortBemerkung = new javax.swing.JScrollPane();
-        txaStandortBemerkung = new javax.swing.JTextArea();
-        cbxStandortStrassenschluessel = BelisBroker.createKeyTableComboBox(TkeyStrassenschluesselCustomBean.TABLE);
-        lblStandortStrassenschluessel = new javax.swing.JLabel();
-        lblStandortKenziffer = new javax.swing.JLabel();
-        cbxStandortKennziffer = BelisBroker.createKeyTableComboBox(TkeyKennzifferCustomBean.TABLE);
-        txfStandortLaufendenummer = new javax.swing.JTextField();
-        lblStandortLaufendenummer = new javax.swing.JLabel();
-        lblStandortVerrechnungseinheit = new javax.swing.JLabel();
-        lblStandortStandortangabe = new javax.swing.JLabel();
-        txfStandortStandortAngabe = new javax.swing.JTextField();
-        cbxStandortStrassenschluesselNr = BelisBroker.createStrassenschluesselNummerComboBox();
-        lblStandortElekPruefung = new javax.swing.JLabel();
-        txfStandortGruendung = new javax.swing.JTextField();
-        lblStandortGruendung = new javax.swing.JLabel();
-        lblStandortStandsicherheitspruefung = new javax.swing.JLabel();
-        lblStandortRevision = new javax.swing.JLabel();
-        dapStandortRevision = new org.jdesktop.swingx.JXDatePicker();
-        lblStandortAnstrichfarbe = new javax.swing.JLabel();
+        panContent = new javax.swing.JPanel();
+        panSpacer0 = new javax.swing.JPanel();
+        panSpacer1 = new javax.swing.JPanel();
+        lblStrassenschluessel = new javax.swing.JLabel();
+        panStrassenschluessel = new javax.swing.JPanel();
+        cbxStrassenschluesselNr = BelisBroker.createStrassenschluesselNummerComboBox();
+        cbxStrassenschluessel = BelisBroker.createKeyTableComboBox(TkeyStrassenschluesselCustomBean.TABLE);
+        lblKenziffer = new javax.swing.JLabel();
+        cbxKennziffer = BelisBroker.createKeyTableComboBox(TkeyKennzifferCustomBean.TABLE);
+        lblLaufendenummer = new javax.swing.JLabel();
+        txfLaufendenummer = new javax.swing.JTextField();
+        lblHausnummer = new javax.swing.JLabel();
+        txfHausnummer = new javax.swing.JTextField();
+        lblStandortangabe = new javax.swing.JLabel();
+        txfStandortAngabe = new javax.swing.JTextField();
+        lblStadtbezirk = new javax.swing.JLabel();
+        cbxStadtbezirk = BelisBroker.createKeyTableComboBox(TkeyBezirkCustomBean.TABLE);
+        lblMastart = new javax.swing.JLabel();
+        cbxMastart = BelisBroker.createKeyTableComboBox(TkeyMastartCustomBean.TABLE);
+        lblMasttyp = new javax.swing.JLabel();
+        cbxMasttyp = BelisBroker.createKeyTableComboBox(TkeyMasttypCustomBean.TABLE);
+        lblKlassifizierung = new javax.swing.JLabel();
+        cbxKlassifizierung = BelisBroker.createKeyTableComboBox(TkeyKlassifizierungCustomBean.TABLE);
+        lblUnterhalt = new javax.swing.JLabel();
+        cbxUnterhalt = BelisBroker.createKeyTableComboBox(TkeyUnterhMastCustomBean.TABLE);
+        lblInbetriebnahme = new javax.swing.JLabel();
+        panInbetriebnahme = new javax.swing.JPanel();
+        dapInbetriebnahme = new org.jdesktop.swingx.JXDatePicker();
+        lblVerrechnungseinheit = new javax.swing.JLabel();
+        cboVerrechnungseinheit = new javax.swing.JCheckBox();
+        lblMastanstrich = new javax.swing.JLabel();
+        panMastanstrich = new javax.swing.JPanel();
         txfStandortAnstrichfarbe = new javax.swing.JTextField();
-        lblStandortAnlagengruppe = new javax.swing.JLabel();
-        cbxStandortAnlagengruppe = BelisBroker.createKeyTableComboBox(AnlagengruppeCustomBean.TABLE);
+        lblStandortAnstrichfarbe = new javax.swing.JLabel();
+        dapMastanstrich = new org.jdesktop.swingx.JXDatePicker();
+        lblMontagefirma = new javax.swing.JLabel();
+        txfMontagefirma = new javax.swing.JTextField();
+        lblGruendung = new javax.swing.JLabel();
+        txfGruendung = new javax.swing.JTextField();
+        lblStandsicherheitspruefung = new javax.swing.JLabel();
+        panStandsicherheitspruefung = new javax.swing.JPanel();
+        lblNaechstesPruefdatum = new javax.swing.JLabel();
+        dapNaechstesPruefdatum = new org.jdesktop.swingx.JXDatePicker();
+        dapStandsicherheitspruefung = new org.jdesktop.swingx.JXDatePicker();
+        lblVerfahren = new javax.swing.JLabel();
+        txfVerfahren = new javax.swing.JTextField();
+        lblElekPruefung = new javax.swing.JLabel();
+        panElekPruefung = new javax.swing.JPanel();
+        dapElekPruefung = new org.jdesktop.swingx.JXDatePicker();
+        lblErdung = new javax.swing.JLabel();
+        cboErdung = new javax.swing.JCheckBox();
+        lblMonteur = new javax.swing.JLabel();
+        txfMonteur = new javax.swing.JTextField();
+        lblMastschutz = new javax.swing.JLabel();
+        Mastschutz = new javax.swing.JPanel();
+        dapRevision = new org.jdesktop.swingx.JXDatePicker();
+        lblRevision = new javax.swing.JLabel();
+        dapMastschutz = new org.jdesktop.swingx.JXDatePicker();
+        lblAnlagengruppe = new javax.swing.JLabel();
+        cbxAnlagengruppe = BelisBroker.createKeyTableComboBox(AnlagengruppeCustomBean.TABLE);
         lblAnbauten = new javax.swing.JLabel();
         txfAnbauten = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        lblStandortVerfahren = new javax.swing.JLabel();
-        txfStandortVerfahren = new javax.swing.JTextField();
-        dapStandortElekPruefung = new org.jdesktop.swingx.JXDatePicker();
-        dapStandortStandsicherheitspruefung = new org.jdesktop.swingx.JXDatePicker();
-        lblStandortMonteur = new javax.swing.JLabel();
-        txfStandortMonteur = new javax.swing.JTextField();
-        cboStandortErdung = new javax.swing.JCheckBox();
-        lblStandortNaechstesPruefdatum = new javax.swing.JLabel();
-        dapStandortNaechstesPruefdatum = new org.jdesktop.swingx.JXDatePicker();
-        jPanel2 = new javax.swing.JPanel();
+        lblStandortBemerkung = new javax.swing.JLabel();
+        scpStandortBemerkung = new javax.swing.JScrollPane();
+        txaStandortBemerkung = new javax.swing.JTextArea();
+        lblLetzteAenderung = new javax.swing.JLabel();
+        dapLetzteAenderung = new org.jdesktop.swingx.JXDatePicker();
+        panSpacerBottom = new javax.swing.JPanel();
+        panSpacerLeft = new javax.swing.JPanel();
+        panSpacerBottom1 = new javax.swing.JPanel();
 
         lblStandort.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
         lblStandort.setIcon(new javax.swing.ImageIcon(
@@ -211,356 +233,829 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        lblStandortStadtbezirk.setText("Stadtbezirk:"); // NOI18N
+        panContent.setLayout(new java.awt.GridBagLayout());
+
+        panSpacer0.setMinimumSize(DIMENSION_KEYSPACER);
+        panSpacer0.setPreferredSize(DIMENSION_KEYSPACER);
+
+        final javax.swing.GroupLayout panSpacer0Layout = new javax.swing.GroupLayout(panSpacer0);
+        panSpacer0.setLayout(panSpacer0Layout);
+        panSpacer0Layout.setHorizontalGroup(
+            panSpacer0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                160,
+                Short.MAX_VALUE));
+        panSpacer0Layout.setVerticalGroup(
+            panSpacer0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                10,
+                Short.MAX_VALUE));
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortStadtbezirk, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(panSpacer0, gridBagConstraints);
 
-        cbxStandortStadtbezirk.setEnabled(false);
+        final javax.swing.GroupLayout panSpacer1Layout = new javax.swing.GroupLayout(panSpacer1);
+        panSpacer1.setLayout(panSpacer1Layout);
+        panSpacer1Layout.setHorizontalGroup(
+            panSpacer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                422,
+                Short.MAX_VALUE));
+        panSpacer1Layout.setVerticalGroup(
+            panSpacer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panContent.add(panSpacer1, gridBagConstraints);
+
+        lblStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblStrassenschluessel, gridBagConstraints);
+
+        panStrassenschluessel.setLayout(new java.awt.GridBagLayout());
+
+        cbxStrassenschluesselNr.setEnabled(false);
+        cbxStrassenschluesselNr.setMinimumSize(new java.awt.Dimension(80, 27));
+        cbxStrassenschluesselNr.setPreferredSize(new java.awt.Dimension(80, 27));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.stadtbezirk}"),
-                cbxStandortStadtbezirk,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
+                cbxStrassenschluesselNr,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "strassenschluesselnr"); // NOI18N
         binding.setSourceNullValue(null);
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cbxStandortStadtbezirk, gridBagConstraints);
+        cbxStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
 
-        lblStandortHausnummer.setText("Hausnummer:"); // NOI18N
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbxStrassenschluesselNrActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortHausnummer, gridBagConstraints);
+        panStrassenschluessel.add(cbxStrassenschluesselNr, gridBagConstraints);
 
-        txfStandortHausnummer.setEnabled(false);
+        cbxStrassenschluessel.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
+                cbxStrassenschluessel,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        binding.setValidator(new NotNullValidator("Straßenschlüssel"));
+        bindingGroup.addBinding(binding);
+
+        cbxStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    cbxStrassenschluesselActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panStrassenschluessel.add(cbxStrassenschluessel, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(panStrassenschluessel, gridBagConstraints);
+
+        lblKenziffer.setText("Kennziffer:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblKenziffer, gridBagConstraints);
+
+        cbxKennziffer.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.kennziffer}"),
+                cbxKennziffer,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        binding.setValidator(new NotNullValidator("Kennziffer"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(cbxKennziffer, gridBagConstraints);
+
+        lblLaufendenummer.setText("Laufende Nr.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblLaufendenummer, gridBagConstraints);
+
+        txfLaufendenummer.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
+                txfLaufendenummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txfLaufendenummer, gridBagConstraints);
+
+        lblHausnummer.setText("Hausnummer:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblHausnummer, gridBagConstraints);
+
+        txfHausnummer.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.hausnummer}"),
-                txfStandortHausnummer,
+                txfHausnummer,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator(5));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txfStandortHausnummer, gridBagConstraints);
+        panContent.add(txfHausnummer, gridBagConstraints);
 
-        lblStandortMastart.setText("Mastart:"); // NOI18N
+        lblStandortangabe.setText("Standortangabe:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortMastart, gridBagConstraints);
+        panContent.add(lblStandortangabe, gridBagConstraints);
 
-        lblStandortMasttyp.setText("Mast Typ:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortMasttyp, gridBagConstraints);
-
-        cbxStandortMastart.setEnabled(false);
+        txfStandortAngabe.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastart}"),
-                cbxStandortMastart,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cbxStandortMastart, gridBagConstraints);
-
-        cbxStandortMasttyp.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.masttyp}"),
-                cbxStandortMasttyp,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cbxStandortMasttyp, gridBagConstraints);
-
-        lblStandortKlassifizierung.setText("Klassifizierung:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortKlassifizierung, gridBagConstraints);
-
-        cbxStandortKlassifizierung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.klassifizierung}"),
-                cbxStandortKlassifizierung,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cbxStandortKlassifizierung, gridBagConstraints);
-
-        lblStandortMastanstrich.setText("Mastanstrich:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortMastanstrich, gridBagConstraints);
-
-        dapStandortMastanstrich.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastanstrich}"),
-                dapStandortMastanstrich,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setConverter(new TimestampToDateConverter());
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(dapStandortMastanstrich, gridBagConstraints);
-
-        lblStandortMastschutz.setText("Mastschutz:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortMastschutz, gridBagConstraints);
-
-        dapStandortMastschutz.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastschutz}"),
-                dapStandortMastschutz,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setConverter(new TimestampToDateConverter());
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(dapStandortMastschutz, gridBagConstraints);
-
-        lblStandortInbetriebnahme.setText("Inbetriebnahme:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortInbetriebnahme, gridBagConstraints);
-
-        dapStandortInbetriebnahme.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahme_mast}"),
-                dapStandortInbetriebnahme,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setConverter(new TimestampToDateConverter());
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(dapStandortInbetriebnahme, gridBagConstraints);
-
-        lblStandortLetzteAenderung.setText("Letze Änderung:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortLetzteAenderung, gridBagConstraints);
-
-        dapStandortLetzteAenderung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.letzte_aenderung}"),
-                dapStandortLetzteAenderung,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setConverter(new TimestampToDateConverter());
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 13;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(dapStandortLetzteAenderung, gridBagConstraints);
-
-        lblStandortUnterhalt.setText("Unterhalt:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortUnterhalt, gridBagConstraints);
-
-        cbxStandortUnterhalt.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtMast}"),
-                cbxStandortUnterhalt,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cbxStandortUnterhalt, gridBagConstraints);
-
-        lblStandortMontagefirma.setText("Montagefirma:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortMontagefirma, gridBagConstraints);
-
-        txfStandortMontagefirma.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.montagefirma}"),
-                txfStandortMontagefirma,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standortangabe}"),
+                txfStandortAngabe,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator());
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 15;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txfStandortMontagefirma, gridBagConstraints);
+        panContent.add(txfStandortAngabe, gridBagConstraints);
 
-        lblStandortBemerkung.setText("Bemerkung:"); // NOI18N
+        lblStadtbezirk.setText("Stadtbezirk:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 28;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortBemerkung, gridBagConstraints);
+        panContent.add(lblStadtbezirk, gridBagConstraints);
 
-        cboStandortVerrechnungseinheit.setEnabled(false);
+        cbxStadtbezirk.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.stadtbezirk}"),
+                cbxStadtbezirk,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(cbxStadtbezirk, gridBagConstraints);
+
+        lblMastart.setText("Mastart:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblMastart, gridBagConstraints);
+
+        cbxMastart.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastart}"),
+                cbxMastart,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(cbxMastart, gridBagConstraints);
+
+        lblMasttyp.setText("Mast Typ:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblMasttyp, gridBagConstraints);
+
+        cbxMasttyp.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.masttyp}"),
+                cbxMasttyp,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(cbxMasttyp, gridBagConstraints);
+
+        lblKlassifizierung.setText("Klassifizierung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblKlassifizierung, gridBagConstraints);
+
+        cbxKlassifizierung.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.klassifizierung}"),
+                cbxKlassifizierung,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(cbxKlassifizierung, gridBagConstraints);
+
+        lblUnterhalt.setText("Unterhalt:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblUnterhalt, gridBagConstraints);
+
+        cbxUnterhalt.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.unterhaltspflichtMast}"),
+                cbxUnterhalt,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(cbxUnterhalt, gridBagConstraints);
+
+        lblInbetriebnahme.setText("Inbetriebnahme:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblInbetriebnahme, gridBagConstraints);
+
+        panInbetriebnahme.setLayout(new java.awt.GridBagLayout());
+
+        dapInbetriebnahme.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.inbetriebnahme_mast}"),
+                dapInbetriebnahme,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
+        binding.setValidator(new DateValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panInbetriebnahme.add(dapInbetriebnahme, gridBagConstraints);
+
+        lblVerrechnungseinheit.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblVerrechnungseinheit.setText("V-Einheit:");                 // NOI18N
+        lblVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panInbetriebnahme.add(lblVerrechnungseinheit, gridBagConstraints);
+
+        cboVerrechnungseinheit.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.verrechnungseinheit}"),
-                cboStandortVerrechnungseinheit,
+                cboVerrechnungseinheit,
                 org.jdesktop.beansbinding.BeanProperty.create("selected"));
         binding.setSourceNullValue(false);
         binding.setSourceUnreadableValue(false);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 16;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cboStandortVerrechnungseinheit, gridBagConstraints);
+        panInbetriebnahme.add(cboVerrechnungseinheit, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(panInbetriebnahme, gridBagConstraints);
+
+        lblMastanstrich.setText("Mastanstrich:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblMastanstrich, gridBagConstraints);
+
+        panMastanstrich.setLayout(new java.awt.GridBagLayout());
+
+        txfStandortAnstrichfarbe.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anstrichfarbe}"),
+                txfStandortAnstrichfarbe,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMastanstrich.add(txfStandortAnstrichfarbe, gridBagConstraints);
+
+        lblStandortAnstrichfarbe.setText("Anstrichfarbe:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panMastanstrich.add(lblStandortAnstrichfarbe, gridBagConstraints);
+
+        dapMastanstrich.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastanstrich}"),
+                dapMastanstrich,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
+        binding.setValidator(new DateValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panMastanstrich.add(dapMastanstrich, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(panMastanstrich, gridBagConstraints);
+
+        lblMontagefirma.setText("Montagefirma:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblMontagefirma, gridBagConstraints);
+
+        txfMontagefirma.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.montagefirma}"),
+                txfMontagefirma,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setValidator(new StringMaxLengthValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txfMontagefirma, gridBagConstraints);
+
+        lblGruendung.setText("Gründung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblGruendung, gridBagConstraints);
+
+        txfGruendung.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.gruendung}"),
+                txfGruendung,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txfGruendung, gridBagConstraints);
+
+        lblStandsicherheitspruefung.setText("Standsicherheitsprfg:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblStandsicherheitspruefung, gridBagConstraints);
+
+        panStandsicherheitspruefung.setLayout(new java.awt.GridBagLayout());
+
+        lblNaechstesPruefdatum.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblNaechstesPruefdatum.setText("Nächstes Prüfdatum:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        panStandsicherheitspruefung.add(lblNaechstesPruefdatum, gridBagConstraints);
+
+        dapNaechstesPruefdatum.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.naechstes_pruefdatum}"),
+                dapNaechstesPruefdatum,
+                org.jdesktop.beansbinding.BeanProperty.create("date"),
+                "");
+        binding.setConverter(new TimestampToDateConverter());
+        binding.setValidator(new DateValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panStandsicherheitspruefung.add(dapNaechstesPruefdatum, gridBagConstraints);
+
+        dapStandsicherheitspruefung.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standsicherheitspruefung}"),
+                dapStandsicherheitspruefung,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
+        binding.setValidator(new DateValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panStandsicherheitspruefung.add(dapStandsicherheitspruefung, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(panStandsicherheitspruefung, gridBagConstraints);
+
+        lblVerfahren.setText("Verfahren:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblVerfahren, gridBagConstraints);
+
+        txfVerfahren.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.verfahren}"),
+                txfVerfahren,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txfVerfahren, gridBagConstraints);
+
+        lblElekPruefung.setText("Elektrische Prüfung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblElekPruefung, gridBagConstraints);
+
+        panElekPruefung.setLayout(new java.awt.GridBagLayout());
+
+        dapElekPruefung.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.elek_pruefung}"),
+                dapElekPruefung,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
+        binding.setValidator(new DateValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panElekPruefung.add(dapElekPruefung, gridBagConstraints);
+
+        lblErdung.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblErdung.setText("Erdung i.O.:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panElekPruefung.add(lblErdung, gridBagConstraints);
+
+        cboErdung.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erdung}"),
+                cboErdung,
+                org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        binding.setSourceNullValue(false);
+        binding.setSourceUnreadableValue(false);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panElekPruefung.add(cboErdung, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(panElekPruefung, gridBagConstraints);
+
+        lblMonteur.setText("Monteur:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblMonteur, gridBagConstraints);
+
+        txfMonteur.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.monteur}"),
+                txfMonteur,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txfMonteur, gridBagConstraints);
+
+        lblMastschutz.setText("Mastschutz:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblMastschutz, gridBagConstraints);
+
+        Mastschutz.setLayout(new java.awt.GridBagLayout());
+
+        dapRevision.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.revision}"),
+                dapRevision,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
+        binding.setValidator(new DateValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        Mastschutz.add(dapRevision, gridBagConstraints);
+
+        lblRevision.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblRevision.setText("Revision:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 5);
+        Mastschutz.add(lblRevision, gridBagConstraints);
+
+        dapMastschutz.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.mastschutz}"),
+                dapMastschutz,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
+        binding.setValidator(new DateValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        Mastschutz.add(dapMastschutz, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(Mastschutz, gridBagConstraints);
+
+        lblAnlagengruppe.setText("Anlagengruppe:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblAnlagengruppe, gridBagConstraints);
+
+        cbxAnlagengruppe.setEnabled(false);
+        cbxAnlagengruppe.setMinimumSize(new java.awt.Dimension(350, 27));
+        cbxAnlagengruppe.setName(""); // NOI18N
+        cbxAnlagengruppe.setPreferredSize(new java.awt.Dimension(350, 27));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anlagengruppe}"),
+                cbxAnlagengruppe,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(cbxAnlagengruppe, gridBagConstraints);
+
+        lblAnbauten.setText("Anbauten:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblAnbauten, gridBagConstraints);
+
+        txfAnbauten.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anbauten}"),
+                txfAnbauten,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txfAnbauten, gridBagConstraints);
+
+        lblStandortBemerkung.setText("Bemerkung:"); // NOI18N
+        lblStandortBemerkung.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblStandortBemerkung, gridBagConstraints);
 
         scpStandortBemerkung.setEnabled(false);
+        scpStandortBemerkung.setMinimumSize(new java.awt.Dimension(100, 23));
 
         txaStandortBemerkung.setColumns(20);
         txaStandortBemerkung.setRows(5);
+        txaStandortBemerkung.setMinimumSize(new java.awt.Dimension(260, 17));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -575,231 +1070,25 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 28;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(scpStandortBemerkung, gridBagConstraints);
+        panContent.add(scpStandortBemerkung, gridBagConstraints);
 
-        cbxStandortStrassenschluessel.setEnabled(false);
+        lblLetzteAenderung.setText("Letze Änderung:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblLetzteAenderung, gridBagConstraints);
+
+        dapLetzteAenderung.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
-                cbxStandortStrassenschluessel,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        binding.setValidator(new NotNullValidator("Straßenschlüssel"));
-        bindingGroup.addBinding(binding);
-
-        cbxStandortStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxStandortStrassenschluesselActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cbxStandortStrassenschluessel, gridBagConstraints);
-
-        lblStandortStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortStrassenschluessel, gridBagConstraints);
-
-        lblStandortKenziffer.setText("Kennziffer:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortKenziffer, gridBagConstraints);
-
-        cbxStandortKennziffer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.kennziffer}"),
-                cbxStandortKennziffer,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        binding.setValidator(new NotNullValidator("Kennziffer"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cbxStandortKennziffer, gridBagConstraints);
-
-        txfStandortLaufendenummer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
-                txfStandortLaufendenummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txfStandortLaufendenummer, gridBagConstraints);
-
-        lblStandortLaufendenummer.setText("Laufende Nr.:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortLaufendenummer, gridBagConstraints);
-
-        lblStandortVerrechnungseinheit.setText("V-Einheit:");                 // NOI18N
-        lblStandortVerrechnungseinheit.setToolTipText("Verrechnungseinheit"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 16;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortVerrechnungseinheit, gridBagConstraints);
-
-        lblStandortStandortangabe.setText("Standortangabe:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortStandortangabe, gridBagConstraints);
-
-        txfStandortStandortAngabe.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standortangabe}"),
-                txfStandortStandortAngabe,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txfStandortStandortAngabe, gridBagConstraints);
-
-        cbxStandortStrassenschluesselNr.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
-                cbxStandortStrassenschluesselNr,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
-                "strassenschluesselnr"); // NOI18N
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
-        cbxStandortStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxStandortStrassenschluesselNrActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cbxStandortStrassenschluesselNr, gridBagConstraints);
-
-        lblStandortElekPruefung.setText("Elektrische Prüfung:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortElekPruefung, gridBagConstraints);
-
-        txfStandortGruendung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.gruendung}"),
-                txfStandortGruendung,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 17;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txfStandortGruendung, gridBagConstraints);
-
-        lblStandortGruendung.setText("Gründung:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 17;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortGruendung, gridBagConstraints);
-
-        lblStandortStandsicherheitspruefung.setText("Standsicherheitsprüfung:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 21;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortStandsicherheitspruefung, gridBagConstraints);
-
-        lblStandortRevision.setText("Revision"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 25;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortRevision, gridBagConstraints);
-
-        dapStandortRevision.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.revision}"),
-                dapStandortRevision,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.letzte_aenderung}"),
+                dapLetzteAenderung,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
@@ -807,274 +1096,76 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 25;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(dapStandortRevision, gridBagConstraints);
-
-        lblStandortAnstrichfarbe.setText("Anstrichfarbe:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 24;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortAnstrichfarbe, gridBagConstraints);
-
-        txfStandortAnstrichfarbe.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anstrichfarbe}"),
-                txfStandortAnstrichfarbe,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 24;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txfStandortAnstrichfarbe, gridBagConstraints);
-
-        lblStandortAnlagengruppe.setText("Anlagengruppe:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 26;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortAnlagengruppe, gridBagConstraints);
-
-        cbxStandortAnlagengruppe.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anlagengruppe}"),
-                cbxStandortAnlagengruppe,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 26;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cbxStandortAnlagengruppe, gridBagConstraints);
-
-        lblAnbauten.setText("Anbauten:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 27;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblAnbauten, gridBagConstraints);
-
-        txfAnbauten.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.anbauten}"),
-                txfAnbauten,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 27;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txfAnbauten, gridBagConstraints);
-
-        jPanel4.setLayout(new java.awt.GridBagLayout());
-
-        lblStandortVerfahren.setText("Verfahren:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        jPanel4.add(lblStandortVerfahren, gridBagConstraints);
-
-        txfStandortVerfahren.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.verfahren}"),
-                txfStandortVerfahren,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        jPanel4.add(txfStandortVerfahren, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 21;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jPanel4, gridBagConstraints);
-
-        dapStandortElekPruefung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.elek_pruefung}"),
-                dapStandortElekPruefung,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setConverter(new TimestampToDateConverter());
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(dapStandortElekPruefung, gridBagConstraints);
-
-        dapStandortStandsicherheitspruefung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.standsicherheitspruefung}"),
-                dapStandortStandsicherheitspruefung,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setConverter(new TimestampToDateConverter());
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 21;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(dapStandortStandsicherheitspruefung, gridBagConstraints);
-
-        lblStandortMonteur.setText("Monteur:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 19;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortMonteur, gridBagConstraints);
-
-        txfStandortMonteur.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.monteur}"),
-                txfStandortMonteur,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 19;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txfStandortMonteur, gridBagConstraints);
-
-        cboStandortErdung.setText("Erdung i.O.");
-        cboStandortErdung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erdung}"),
-                cboStandortErdung,
-                org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        binding.setSourceNullValue(false);
-        binding.setSourceUnreadableValue(false);
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 18;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(cboStandortErdung, gridBagConstraints);
-
-        lblStandortNaechstesPruefdatum.setText("Nächstes Prüfdatum:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 22;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(lblStandortNaechstesPruefdatum, gridBagConstraints);
-
-        dapStandortNaechstesPruefdatum.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.naechstes_pruefdatum}"),
-                dapStandortNaechstesPruefdatum,
-                org.jdesktop.beansbinding.BeanProperty.create("date"),
-                "");
-        binding.setConverter(new TimestampToDateConverter());
-        binding.setValidator(new DateValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 22;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(dapStandortNaechstesPruefdatum, gridBagConstraints);
+        panContent.add(dapLetzteAenderung, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        jPanel1.add(panContent, gridBagConstraints);
+
+        panSpacerBottom.setMinimumSize(DIMENSION_CONTENTSPACER);
+        panSpacerBottom.setPreferredSize(DIMENSION_CONTENTSPACER);
+
+        final javax.swing.GroupLayout panSpacerBottomLayout = new javax.swing.GroupLayout(panSpacerBottom);
+        panSpacerBottom.setLayout(panSpacerBottomLayout);
+        panSpacerBottomLayout.setHorizontalGroup(
+            panSpacerBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                582,
+                Short.MAX_VALUE));
+        panSpacerBottomLayout.setVerticalGroup(
+            panSpacerBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel1.add(panSpacerBottom, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         add(jPanel1, gridBagConstraints);
 
-        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+        final javax.swing.GroupLayout panSpacerLeftLayout = new javax.swing.GroupLayout(panSpacerLeft);
+        panSpacerLeft.setLayout(panSpacerLeftLayout);
+        panSpacerLeftLayout.setHorizontalGroup(
+            panSpacerLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                692,
+                0,
                 Short.MAX_VALUE));
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+        panSpacerLeftLayout.setVerticalGroup(
+            panSpacerLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                285,
+                0,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        add(panSpacerLeft, gridBagConstraints);
+
+        final javax.swing.GroupLayout panSpacerBottom1Layout = new javax.swing.GroupLayout(panSpacerBottom1);
+        panSpacerBottom1.setLayout(panSpacerBottom1Layout);
+        panSpacerBottom1Layout.setHorizontalGroup(
+            panSpacerBottom1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+        panSpacerBottom1Layout.setVerticalGroup(
+            panSpacerBottom1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1082,7 +1173,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        add(jPanel2, gridBagConstraints);
+        add(panSpacerBottom1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -1092,35 +1183,35 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
      */
     @Override
     final void initComponentToLabelMap() {
-        componentToLabelMap.put(cboStandortVerrechnungseinheit, lblStandortVerrechnungseinheit);
-        componentToLabelMap.put(cbxStandortKennziffer, lblStandortKenziffer);
-        componentToLabelMap.put(cbxStandortKlassifizierung, lblStandortKlassifizierung);
-        componentToLabelMap.put(cbxStandortMastart, lblStandortMastart);
-        componentToLabelMap.put(cbxStandortMasttyp, lblStandortMasttyp);
-        componentToLabelMap.put(cbxStandortStadtbezirk, lblStandortStadtbezirk);
-        componentToLabelMap.put(cbxStandortStrassenschluessel, lblStandortStrassenschluessel);
-        componentToLabelMap.put(cbxStandortStrassenschluesselNr, lblStandortStrassenschluessel);
-        componentToLabelMap.put(cbxStandortUnterhalt, lblStandortUnterhalt);
-        componentToLabelMap.put(dapStandortInbetriebnahme, lblStandortInbetriebnahme);
-        componentToLabelMap.put(dapStandortLetzteAenderung, lblStandortLetzteAenderung);
-        componentToLabelMap.put(dapStandortMastanstrich, lblStandortMastanstrich);
-        componentToLabelMap.put(dapStandortMastschutz, lblStandortMastschutz);
+        componentToLabelMap.put(cboVerrechnungseinheit, lblVerrechnungseinheit);
+        componentToLabelMap.put(cbxKennziffer, lblKenziffer);
+        componentToLabelMap.put(cbxKlassifizierung, lblKlassifizierung);
+        componentToLabelMap.put(cbxMastart, lblMastart);
+        componentToLabelMap.put(cbxMasttyp, lblMasttyp);
+        componentToLabelMap.put(cbxStadtbezirk, lblStadtbezirk);
+        componentToLabelMap.put(cbxStrassenschluessel, lblStrassenschluessel);
+        componentToLabelMap.put(cbxStrassenschluesselNr, lblStrassenschluessel);
+        componentToLabelMap.put(cbxUnterhalt, lblUnterhalt);
+        componentToLabelMap.put(dapInbetriebnahme, lblInbetriebnahme);
+        componentToLabelMap.put(dapLetzteAenderung, lblLetzteAenderung);
+        componentToLabelMap.put(dapMastanstrich, lblMastanstrich);
+        componentToLabelMap.put(dapMastschutz, lblMastschutz);
         componentToLabelMap.put(txaStandortBemerkung, lblStandortBemerkung);
-        componentToLabelMap.put(txfStandortHausnummer, lblStandortHausnummer);
-        componentToLabelMap.put(txfStandortLaufendenummer, lblStandortLaufendenummer);
-        componentToLabelMap.put(txfStandortMontagefirma, lblStandortMontagefirma);
-        componentToLabelMap.put(txfStandortStandortAngabe, lblStandortStandortangabe);
-        componentToLabelMap.put(dapStandortElekPruefung, lblStandortElekPruefung);
-        componentToLabelMap.put(dapStandortNaechstesPruefdatum, lblStandortNaechstesPruefdatum);
-        componentToLabelMap.put(dapStandortRevision, lblStandortRevision);
-        componentToLabelMap.put(dapStandortStandsicherheitspruefung, lblStandortStandsicherheitspruefung);
+        componentToLabelMap.put(txfHausnummer, lblHausnummer);
+        componentToLabelMap.put(txfLaufendenummer, lblLaufendenummer);
+        componentToLabelMap.put(txfMontagefirma, lblMontagefirma);
+        componentToLabelMap.put(txfStandortAngabe, lblStandortangabe);
+        componentToLabelMap.put(dapElekPruefung, lblElekPruefung);
+        componentToLabelMap.put(dapNaechstesPruefdatum, lblNaechstesPruefdatum);
+        componentToLabelMap.put(dapRevision, lblRevision);
+        componentToLabelMap.put(dapStandsicherheitspruefung, lblStandsicherheitspruefung);
         componentToLabelMap.put(txfStandortAnstrichfarbe, lblStandortAnstrichfarbe);
-        componentToLabelMap.put(txfStandortGruendung, lblStandortGruendung);
-        componentToLabelMap.put(txfStandortLaufendenummer, lblStandortLaufendenummer);
-        componentToLabelMap.put(txfStandortMontagefirma, lblStandortMontagefirma);
-        componentToLabelMap.put(txfStandortMonteur, lblStandortMonteur);
-        componentToLabelMap.put(txfStandortVerfahren, lblStandortVerfahren);
-        componentToLabelMap.put(cbxStandortAnlagengruppe, lblStandortAnlagengruppe);
+        componentToLabelMap.put(txfGruendung, lblGruendung);
+        componentToLabelMap.put(txfLaufendenummer, lblLaufendenummer);
+        componentToLabelMap.put(txfMontagefirma, lblMontagefirma);
+        componentToLabelMap.put(txfMonteur, lblMonteur);
+        componentToLabelMap.put(txfVerfahren, lblVerfahren);
+        componentToLabelMap.put(cbxAnlagengruppe, lblAnlagengruppe);
         componentToLabelMap.put(txfAnbauten, lblAnbauten);
     }
 
@@ -1131,9 +1222,9 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     final void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
 
-        AutoCompleteDecorator.decorate(cbxStandortStrassenschluesselNr, new ObjectToPkConverter("pk"));
-        AutoCompleteDecorator.decorate(cbxStandortStrassenschluessel, new ObjectToKeyStringConverter());
-        AutoCompleteDecorator.decorate(cbxStandortMasttyp, new ObjectToKeyStringConverter());
+        AutoCompleteDecorator.decorate(cbxStrassenschluesselNr, new ObjectToPkConverter("pk"));
+        AutoCompleteDecorator.decorate(cbxStrassenschluessel, new ObjectToKeyStringConverter());
+        AutoCompleteDecorator.decorate(cbxMasttyp, new ObjectToKeyStringConverter());
     }
 
     /**
@@ -1141,36 +1232,36 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxStandortStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStandortStrassenschluesselActionPerformed
+    private void cbxStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
-                cbxStandortStrassenschluesselNr.setSelectedItem(cbxStandortStrassenschluessel.getSelectedItem());
+                cbxStrassenschluesselNr.setSelectedItem(cbxStrassenschluessel.getSelectedItem());
             }
         } catch (Exception ex) {
             LOG.warn("failuire while strassenschluessel ", ex);
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                 //GEN-LAST:event_cbxStandortStrassenschluesselActionPerformed
+    }                                                                                         //GEN-LAST:event_cbxStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxStandortStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStandortStrassenschluesselNrActionPerformed
+    private void cbxStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
-                cbxStandortStrassenschluessel.setSelectedItem(cbxStandortStrassenschluesselNr.getSelectedItem());
+                cbxStrassenschluessel.setSelectedItem(cbxStrassenschluesselNr.getSelectedItem());
             }
         } catch (Exception ex) {
             LOG.warn("failuire while updating strassenschluessel ", ex);
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                   //GEN-LAST:event_cbxStandortStrassenschluesselNrActionPerformed
+    }                                                                                           //GEN-LAST:event_cbxStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1179,36 +1270,36 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
      */
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        RendererTools.setEditable(cbxStandortStrassenschluessel, isEditable);
-        RendererTools.setEditable(cbxStandortStrassenschluesselNr, isEditable);
-        RendererTools.setEditable(cbxStandortKennziffer, isEditable);
-        RendererTools.setEditable(cbxStandortStadtbezirk, isEditable);
-        RendererTools.setEditable(txfStandortStandortAngabe, isEditable);
-        RendererTools.setEditable(txfStandortHausnummer, isEditable);
-        RendererTools.setEditable(cbxStandortMastart, isEditable);
-        RendererTools.setEditable(cbxStandortMasttyp, isEditable);
-        RendererTools.setEditable(cbxStandortUnterhalt, isEditable);
-        RendererTools.setEditable(cbxStandortKlassifizierung, isEditable);
-        RendererTools.setEditable(dapStandortInbetriebnahme, isEditable);
-        RendererTools.setEditable(dapStandortLetzteAenderung, isEditable);
-        RendererTools.setEditable(dapStandortMastanstrich, isEditable);
-        RendererTools.setEditable(dapStandortMastschutz, isEditable);
-        RendererTools.setEditable(txfStandortMontagefirma, isEditable);
+        RendererTools.setEditable(cbxStrassenschluessel, isEditable);
+        RendererTools.setEditable(cbxStrassenschluesselNr, isEditable);
+        RendererTools.setEditable(cbxKennziffer, isEditable);
+        RendererTools.setEditable(cbxStadtbezirk, isEditable);
+        RendererTools.setEditable(txfStandortAngabe, isEditable);
+        RendererTools.setEditable(txfHausnummer, isEditable);
+        RendererTools.setEditable(cbxMastart, isEditable);
+        RendererTools.setEditable(cbxMasttyp, isEditable);
+        RendererTools.setEditable(cbxUnterhalt, isEditable);
+        RendererTools.setEditable(cbxKlassifizierung, isEditable);
+        RendererTools.setEditable(dapInbetriebnahme, isEditable);
+        RendererTools.setEditable(dapLetzteAenderung, isEditable);
+        RendererTools.setEditable(dapMastanstrich, isEditable);
+        RendererTools.setEditable(dapMastschutz, isEditable);
+        RendererTools.setEditable(txfMontagefirma, isEditable);
         RendererTools.setEditable(txaStandortBemerkung, isEditable);
-        RendererTools.setEditable(cboStandortVerrechnungseinheit, isEditable);
-        RendererTools.setEditable(dapStandortElekPruefung, isEditable);
-        RendererTools.setEditable(dapStandortNaechstesPruefdatum, isEditable);
-        RendererTools.setEditable(dapStandortRevision, isEditable);
-        RendererTools.setEditable(dapStandortStandsicherheitspruefung, isEditable);
+        RendererTools.setEditable(cboVerrechnungseinheit, isEditable);
+        RendererTools.setEditable(dapElekPruefung, isEditable);
+        RendererTools.setEditable(dapNaechstesPruefdatum, isEditable);
+        RendererTools.setEditable(dapRevision, isEditable);
+        RendererTools.setEditable(dapStandsicherheitspruefung, isEditable);
         RendererTools.setEditable(txfStandortAnstrichfarbe, isEditable);
-        RendererTools.setEditable(txfStandortGruendung, isEditable);
-        RendererTools.setEditable(txfStandortLaufendenummer, isEditable);
-        RendererTools.setEditable(txfStandortMontagefirma, isEditable);
-        RendererTools.setEditable(txfStandortMonteur, isEditable);
-        RendererTools.setEditable(txfStandortVerfahren, isEditable);
+        RendererTools.setEditable(txfGruendung, isEditable);
+        RendererTools.setEditable(txfLaufendenummer, isEditable);
+        RendererTools.setEditable(txfMontagefirma, isEditable);
+        RendererTools.setEditable(txfMonteur, isEditable);
+        RendererTools.setEditable(txfVerfahren, isEditable);
         RendererTools.setEditable(txfAnbauten, isEditable);
-        RendererTools.setEditable(cboStandortErdung, isEditable);
-        RendererTools.setEditable(cbxStandortAnlagengruppe, isEditable);
+        RendererTools.setEditable(cboErdung, isEditable);
+        RendererTools.setEditable(cbxAnlagengruppe, isEditable);
     }
 
     /**
@@ -1217,47 +1308,47 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     @Override
     public void commitEdits() {
         try {
-            dapStandortInbetriebnahme.getEditor().commitEdit();
+            dapInbetriebnahme.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
         try {
-            dapStandortInbetriebnahme.getEditor().commitEdit();
+            dapInbetriebnahme.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
         try {
-            dapStandortLetzteAenderung.getEditor().commitEdit();
+            dapLetzteAenderung.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
         try {
-            dapStandortMastanstrich.getEditor().commitEdit();
+            dapMastanstrich.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
         try {
-            dapStandortMastschutz.getEditor().commitEdit();
+            dapMastschutz.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
         try {
-            dapStandortElekPruefung.getEditor().commitEdit();
+            dapElekPruefung.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
         try {
-            dapStandortStandsicherheitspruefung.getEditor().commitEdit();
+            dapStandsicherheitspruefung.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
         try {
-            dapStandortRevision.getEditor().commitEdit();
+            dapRevision.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
         try {
-            dapStandortNaechstesPruefdatum.getEditor().commitEdit();
+            dapNaechstesPruefdatum.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
@@ -1266,11 +1357,11 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
     @Override
     public void setElementsNull() {
         if (currentEntity.getStrassenschluessel() == null) {
-            cbxStandortStrassenschluessel.setSelectedItem(null);
-            cbxStandortStrassenschluesselNr.setSelectedItem(null);
+            cbxStrassenschluessel.setSelectedItem(null);
+            cbxStrassenschluesselNr.setSelectedItem(null);
         }
         if (currentEntity.getKennziffer() == null) {
-            cbxStandortKennziffer.setSelectedItem(null);
+            cbxKennziffer.setSelectedItem(null);
         }
     }
 
