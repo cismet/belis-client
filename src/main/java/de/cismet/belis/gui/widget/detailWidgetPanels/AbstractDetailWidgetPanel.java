@@ -18,6 +18,7 @@ import org.jdesktop.beansbinding.PropertyStateEvent;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -38,6 +39,8 @@ import de.cismet.commons.server.entity.BaseEntity;
 /**
  * DOCUMENT ME!
  *
+ * @param    <T>
+ *
  * @author   Gilles Baatz
  * @version  $Revision$, $Date$
  */
@@ -48,6 +51,8 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(
             AbstractDetailWidgetPanel.class);
     public static final String PROP_CURRENT_ENTITY = "currentEntity";
+    protected static final Dimension DIMENSION_KEYSPACER = new Dimension(150, 1);
+    protected static final Dimension DIMENSION_CONTENTSPACER = new Dimension(580, 1);
 
     //~ Instance fields --------------------------------------------------------
 

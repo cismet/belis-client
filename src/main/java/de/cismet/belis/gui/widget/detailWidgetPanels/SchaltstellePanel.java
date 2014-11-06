@@ -14,13 +14,9 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-import java.awt.Component;
-
 import java.text.ParseException;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
-import javax.swing.JList;
 
 import de.cismet.belis.broker.BelisBroker;
 
@@ -46,33 +42,39 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SchaltstellePanel.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cbxBauart;
     private javax.swing.JComboBox cbxRundsteuerempfaenger;
-    private javax.swing.JComboBox cbxSchaltstelleBauart;
-    private javax.swing.JComboBox cbxSchaltstelleStrassenschluessel;
-    private javax.swing.JComboBox cbxSchaltstelleStrassenschluesselNr;
+    private javax.swing.JComboBox cbxStrassenschluessel;
+    private javax.swing.JComboBox cbxStrassenschluesselNr;
     private org.jdesktop.swingx.JXDatePicker dapEinbaudatum;
+    private org.jdesktop.swingx.JXDatePicker dapErstellungsjahr;
     private org.jdesktop.swingx.JXDatePicker dapPruefdatum;
-    private org.jdesktop.swingx.JXDatePicker dapSchaltstelleErstellungsjahr;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblBauart;
     private javax.swing.JLabel lblEinbaudatum;
+    private javax.swing.JLabel lblErstellungsjahr;
+    private javax.swing.JLabel lblHausnummer;
+    private javax.swing.JLabel lblLaufendenummer;
     private javax.swing.JLabel lblPruefdatum;
     private javax.swing.JLabel lblRundsteuerempfaenger;
-    private javax.swing.JLabel lblSchaltstelleBauart;
     private javax.swing.JLabel lblSchaltstelleBemerkung;
-    private javax.swing.JLabel lblSchaltstelleErstellungsjahr;
-    private javax.swing.JLabel lblSchaltstelleHausnummer;
-    private javax.swing.JLabel lblSchaltstelleLaufendenummer;
     private javax.swing.JLabel lblSchaltstelleNummer;
-    private javax.swing.JLabel lblSchaltstelleStandortbezeichnung;
-    private javax.swing.JLabel lblSchaltstelleStrassenschluessel;
+    private javax.swing.JLabel lblStandortangabe;
+    private javax.swing.JLabel lblStrassenschluessel;
+    private javax.swing.JPanel panContent;
+    private javax.swing.JPanel panSpacer0;
+    private javax.swing.JPanel panSpacer1;
+    private javax.swing.JPanel panSpacerBottom;
+    private javax.swing.JPanel panSpacerBottom1;
+    private javax.swing.JPanel panSpacerLeft;
+    private javax.swing.JPanel panStrassenschluessel;
     private javax.swing.JScrollPane scpSchaltstelleBemerkung;
     private javax.swing.JTextArea txaSchaltstelleBemerkung;
-    private javax.swing.JTextField txfSchaltstelleHausnummer;
-    private javax.swing.JTextField txfSchaltstelleLaufendenummer;
+    private javax.swing.JTextField txfHausnummer;
+    private javax.swing.JTextField txfLaufendenummer;
     private javax.swing.JTextField txfSchaltstelleNummer;
-    private javax.swing.JTextField txfSchaltstelleStandortbezeichnung;
+    private javax.swing.JTextField txfStandortangabe;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -108,32 +110,38 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jLabel3 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        lblSchaltstelleStrassenschluessel = new javax.swing.JLabel();
-        cbxSchaltstelleStrassenschluesselNr = BelisBroker.createStrassenschluesselNummerComboBox();
-        cbxSchaltstelleStrassenschluessel = BelisBroker.createKeyTableComboBox(TkeyStrassenschluesselCustomBean.TABLE);
-        lblSchaltstelleLaufendenummer = new javax.swing.JLabel();
-        txfSchaltstelleLaufendenummer = new javax.swing.JTextField();
-        lblSchaltstelleHausnummer = new javax.swing.JLabel();
-        txfSchaltstelleHausnummer = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        panContent = new javax.swing.JPanel();
+        panSpacer0 = new javax.swing.JPanel();
+        panSpacer1 = new javax.swing.JPanel();
+        lblStrassenschluessel = new javax.swing.JLabel();
+        panStrassenschluessel = new javax.swing.JPanel();
+        cbxStrassenschluesselNr = BelisBroker.createStrassenschluesselNummerComboBox();
+        cbxStrassenschluessel = BelisBroker.createKeyTableComboBox(TkeyStrassenschluesselCustomBean.TABLE);
+        lblHausnummer = new javax.swing.JLabel();
+        txfHausnummer = new javax.swing.JTextField();
+        lblStandortangabe = new javax.swing.JLabel();
+        txfStandortangabe = new javax.swing.JTextField();
+        lblLaufendenummer = new javax.swing.JLabel();
+        txfLaufendenummer = new javax.swing.JTextField();
         lblSchaltstelleNummer = new javax.swing.JLabel();
         txfSchaltstelleNummer = new javax.swing.JTextField();
-        lblSchaltstelleErstellungsjahr = new javax.swing.JLabel();
-        dapSchaltstelleErstellungsjahr = new org.jdesktop.swingx.JXDatePicker();
-        lblSchaltstelleStandortbezeichnung = new javax.swing.JLabel();
-        txfSchaltstelleStandortbezeichnung = new javax.swing.JTextField();
-        lblSchaltstelleBauart = new javax.swing.JLabel();
-        cbxSchaltstelleBauart = BelisBroker.createKeyTableComboBox(BauartCustomBean.TABLE);
-        lblPruefdatum = new javax.swing.JLabel();
-        dapPruefdatum = new org.jdesktop.swingx.JXDatePicker();
+        lblBauart = new javax.swing.JLabel();
+        cbxBauart = BelisBroker.createKeyTableComboBox(BauartCustomBean.TABLE);
+        lblErstellungsjahr = new javax.swing.JLabel();
+        dapErstellungsjahr = new org.jdesktop.swingx.JXDatePicker();
         lblRundsteuerempfaenger = new javax.swing.JLabel();
         cbxRundsteuerempfaenger = BelisBroker.createKeyTableComboBox(RundsteuerempfaengerCustomBean.TABLE);
         lblEinbaudatum = new javax.swing.JLabel();
         dapEinbaudatum = new org.jdesktop.swingx.JXDatePicker();
+        lblPruefdatum = new javax.swing.JLabel();
+        dapPruefdatum = new org.jdesktop.swingx.JXDatePicker();
         lblSchaltstelleBemerkung = new javax.swing.JLabel();
         scpSchaltstelleBemerkung = new javax.swing.JScrollPane();
         txaSchaltstelleBemerkung = new javax.swing.JTextArea();
-        jPanel2 = new javax.swing.JPanel();
+        panSpacerBottom = new javax.swing.JPanel();
+        panSpacerLeft = new javax.swing.JPanel();
+        panSpacerBottom1 = new javax.swing.JPanel();
 
         jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                               // NOI18N
         jLabel3.setIcon(new javax.swing.ImageIcon(
@@ -142,120 +150,191 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
         setLayout(new java.awt.GridBagLayout());
 
-        jPanel4.setLayout(new java.awt.GridBagLayout());
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        lblSchaltstelleStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
+        panContent.setLayout(new java.awt.GridBagLayout());
+
+        panSpacer0.setMinimumSize(DIMENSION_KEYSPACER);
+        panSpacer0.setPreferredSize(DIMENSION_KEYSPACER);
+
+        final javax.swing.GroupLayout panSpacer0Layout = new javax.swing.GroupLayout(panSpacer0);
+        panSpacer0.setLayout(panSpacer0Layout);
+        panSpacer0Layout.setHorizontalGroup(
+            panSpacer0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+        panSpacer0Layout.setVerticalGroup(
+            panSpacer0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleStrassenschluessel, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(panSpacer0, gridBagConstraints);
 
-        cbxSchaltstelleStrassenschluesselNr.setEnabled(false);
-        cbxSchaltstelleStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
+        panSpacer1.setName(""); // NOI18N
+        panSpacer1.setPreferredSize(new java.awt.Dimension(420, 0));
+
+        final javax.swing.GroupLayout panSpacer1Layout = new javax.swing.GroupLayout(panSpacer1);
+        panSpacer1.setLayout(panSpacer1Layout);
+        panSpacer1Layout.setHorizontalGroup(
+            panSpacer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+        panSpacer1Layout.setVerticalGroup(
+            panSpacer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        panContent.add(panSpacer1, gridBagConstraints);
+
+        lblStrassenschluessel.setText("Straßenschlüssel:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblStrassenschluessel, gridBagConstraints);
+
+        panStrassenschluessel.setLayout(new java.awt.GridBagLayout());
+
+        cbxStrassenschluesselNr.setEnabled(false);
+        cbxStrassenschluesselNr.setMinimumSize(new java.awt.Dimension(80, 27));
+        cbxStrassenschluesselNr.setPreferredSize(new java.awt.Dimension(80, 27));
+        cbxStrassenschluesselNr.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxSchaltstelleStrassenschluesselNrActionPerformed(evt);
+                    cbxStrassenschluesselNrActionPerformed(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(cbxSchaltstelleStrassenschluesselNr, gridBagConstraints);
+        panStrassenschluessel.add(cbxStrassenschluesselNr, gridBagConstraints);
 
-        cbxSchaltstelleStrassenschluessel.setEnabled(false);
+        cbxStrassenschluessel.setEnabled(false);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.strassenschluessel}"),
-                cbxSchaltstelleStrassenschluessel,
+                cbxStrassenschluessel,
                 org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         binding.setValidator(new NotNullValidator("Straßenschlüssel"));
         bindingGroup.addBinding(binding);
 
-        cbxSchaltstelleStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
+        cbxStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
                 public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    cbxSchaltstelleStrassenschluesselActionPerformed(evt);
+                    cbxStrassenschluesselActionPerformed(evt);
                 }
             });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(cbxSchaltstelleStrassenschluessel, gridBagConstraints);
-
-        lblSchaltstelleLaufendenummer.setText("Laufende Nr.:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleLaufendenummer, gridBagConstraints);
-
-        txfSchaltstelleLaufendenummer.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
-                txfSchaltstelleLaufendenummer,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
+        panStrassenschluessel.add(cbxStrassenschluessel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(txfSchaltstelleLaufendenummer, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        panContent.add(panStrassenschluessel, gridBagConstraints);
 
-        lblSchaltstelleHausnummer.setText("Haus Nr.:"); // NOI18N
+        lblHausnummer.setText("Hausnummer:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleHausnummer, gridBagConstraints);
+        panContent.add(lblHausnummer, gridBagConstraints);
 
-        txfSchaltstelleHausnummer.setEnabled(false);
+        txfHausnummer.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.hausnummer}"),
-                txfSchaltstelleHausnummer,
+                txfHausnummer,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setValidator(new StringMaxLengthValidator(5));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(txfSchaltstelleHausnummer, gridBagConstraints);
+        panContent.add(txfHausnummer, gridBagConstraints);
+
+        lblStandortangabe.setText("Standortbez.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblStandortangabe, gridBagConstraints);
+
+        txfStandortangabe.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zusaetzlicheStandortbezeichnung}"),
+                txfStandortangabe,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setValidator(new StringMaxLengthValidator());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txfStandortangabe, gridBagConstraints);
+
+        lblLaufendenummer.setText("Laufende Nr.:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblLaufendenummer, gridBagConstraints);
+
+        txfLaufendenummer.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.laufendeNummer}"),
+                txfLaufendenummer,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(txfLaufendenummer, gridBagConstraints);
 
         lblSchaltstelleNummer.setText("Schaltstellen Nr.:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleNummer, gridBagConstraints);
+        panContent.add(lblSchaltstelleNummer, gridBagConstraints);
 
         txfSchaltstelleNummer.setEnabled(false);
 
@@ -269,28 +348,49 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(txfSchaltstelleNummer, gridBagConstraints);
+        panContent.add(txfSchaltstelleNummer, gridBagConstraints);
 
-        lblSchaltstelleErstellungsjahr.setText("Erstellungsjahr:"); // NOI18N
+        lblBauart.setText("Bauart:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleErstellungsjahr, gridBagConstraints);
+        panContent.add(lblBauart, gridBagConstraints);
 
-        dapSchaltstelleErstellungsjahr.setEnabled(false);
+        cbxBauart.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bauart}"),
+                cbxBauart,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
+                "");
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(cbxBauart, gridBagConstraints);
+
+        lblErstellungsjahr.setText("Erstellungsjahr:"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblErstellungsjahr, gridBagConstraints);
+
+        dapErstellungsjahr.setEnabled(false);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${currentEntity.erstellungsjahr}"),
-                dapSchaltstelleErstellungsjahr,
+                dapErstellungsjahr,
                 org.jdesktop.beansbinding.BeanProperty.create("date"));
         binding.setConverter(new TimestampToDateConverter());
         binding.setValidator(new DateValidator());
@@ -298,104 +398,16 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(dapSchaltstelleErstellungsjahr, gridBagConstraints);
+        panContent.add(dapErstellungsjahr, gridBagConstraints);
 
-        lblSchaltstelleStandortbezeichnung.setText("Standortbezeichnung:"); // NOI18N
+        lblRundsteuerempfaenger.setText("Rundsteuerempf.:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleStandortbezeichnung, gridBagConstraints);
-
-        txfSchaltstelleStandortbezeichnung.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zusaetzlicheStandortbezeichnung}"),
-                txfSchaltstelleStandortbezeichnung,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setValidator(new StringMaxLengthValidator());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(txfSchaltstelleStandortbezeichnung, gridBagConstraints);
-
-        lblSchaltstelleBauart.setText("Bauart:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleBauart, gridBagConstraints);
-
-        cbxSchaltstelleBauart.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.bauart}"),
-                cbxSchaltstelleBauart,
-                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"),
-                "");
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(cbxSchaltstelleBauart, gridBagConstraints);
-
-        lblPruefdatum.setText("Prüfung:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblPruefdatum, gridBagConstraints);
-
-        dapPruefdatum.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.pruefdatum}"),
-                dapPruefdatum,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        binding.setConverter(new TimestampToDateConverter());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(dapPruefdatum, gridBagConstraints);
-
-        lblRundsteuerempfaenger.setText("Rundsteuerempfänger:"); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblRundsteuerempfaenger, gridBagConstraints);
+        panContent.add(lblRundsteuerempfaenger, gridBagConstraints);
 
         cbxRundsteuerempfaenger.setEnabled(false);
 
@@ -410,17 +422,17 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(cbxRundsteuerempfaenger, gridBagConstraints);
+        panContent.add(cbxRundsteuerempfaenger, gridBagConstraints);
 
         lblEinbaudatum.setText("Einbaudatum:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblEinbaudatum, gridBagConstraints);
+        panContent.add(lblEinbaudatum, gridBagConstraints);
 
         dapEinbaudatum.setEnabled(false);
 
@@ -434,20 +446,43 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(dapEinbaudatum, gridBagConstraints);
+        panContent.add(dapEinbaudatum, gridBagConstraints);
 
-        lblSchaltstelleBemerkung.setText("Bemerkung:"); // NOI18N
+        lblPruefdatum.setText("Prüfung:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(lblSchaltstelleBemerkung, gridBagConstraints);
+        panContent.add(lblPruefdatum, gridBagConstraints);
+
+        dapPruefdatum.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.pruefdatum}"),
+                dapPruefdatum,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding.setConverter(new TimestampToDateConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(dapPruefdatum, gridBagConstraints);
+
+        lblSchaltstelleBemerkung.setText("Bemerkung:"); // NOI18N
+        lblSchaltstelleBemerkung.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panContent.add(lblSchaltstelleBemerkung, gridBagConstraints);
 
         txaSchaltstelleBemerkung.setColumns(20);
         txaSchaltstelleBemerkung.setRows(5);
@@ -466,34 +501,77 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(scpSchaltstelleBemerkung, gridBagConstraints);
+        panContent.add(scpSchaltstelleBemerkung, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        add(jPanel4, gridBagConstraints);
+        jPanel1.add(panContent, gridBagConstraints);
 
-        final javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+        panSpacerBottom.setMinimumSize(DIMENSION_CONTENTSPACER);
+        panSpacerBottom.setPreferredSize(DIMENSION_CONTENTSPACER);
+
+        final javax.swing.GroupLayout panSpacerBottomLayout = new javax.swing.GroupLayout(panSpacerBottom);
+        panSpacerBottom.setLayout(panSpacerBottomLayout);
+        panSpacerBottomLayout.setHorizontalGroup(
+            panSpacerBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                475,
+                0,
                 Short.MAX_VALUE));
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+        panSpacerBottomLayout.setVerticalGroup(
+            panSpacerBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
                 0,
-                137,
+                0,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel1.add(panSpacerBottom, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        add(jPanel1, gridBagConstraints);
+
+        final javax.swing.GroupLayout panSpacerLeftLayout = new javax.swing.GroupLayout(panSpacerLeft);
+        panSpacerLeft.setLayout(panSpacerLeftLayout);
+        panSpacerLeftLayout.setHorizontalGroup(
+            panSpacerLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+        panSpacerLeftLayout.setVerticalGroup(
+            panSpacerLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
+                Short.MAX_VALUE));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        add(panSpacerLeft, gridBagConstraints);
+
+        final javax.swing.GroupLayout panSpacerBottom1Layout = new javax.swing.GroupLayout(panSpacerBottom1);
+        panSpacerBottom1.setLayout(panSpacerBottom1Layout);
+        panSpacerBottom1Layout.setHorizontalGroup(
+            panSpacerBottom1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                585,
+                Short.MAX_VALUE));
+        panSpacerBottom1Layout.setVerticalGroup(
+            panSpacerBottom1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                0,
                 Short.MAX_VALUE));
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -501,7 +579,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        add(jPanel2, gridBagConstraints);
+        add(panSpacerBottom1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -510,8 +588,8 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     final void initPanel() {
         bindingGroup.addBindingListener(new PanelBindingListener());
 
-        AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluessel, new ObjectToKeyStringConverter());
-        AutoCompleteDecorator.decorate(cbxSchaltstelleStrassenschluesselNr, new ObjectToPkConverter("pk"));
+        AutoCompleteDecorator.decorate(cbxStrassenschluessel, new ObjectToKeyStringConverter());
+        AutoCompleteDecorator.decorate(cbxStrassenschluesselNr, new ObjectToPkConverter("pk"));
         AutoCompleteDecorator.decorate(cbxRundsteuerempfaenger, new ObjectToPkConverter("rs_typ"));
     }
 
@@ -520,38 +598,36 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxSchaltstelleStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
+    private void cbxStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStrassenschluesselActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
-                cbxSchaltstelleStrassenschluessel.setSelectedItem(cbxSchaltstelleStrassenschluesselNr
-                            .getSelectedItem());
+                cbxStrassenschluesselNr.setSelectedItem(cbxStrassenschluessel.getSelectedItem());
             }
         } catch (Exception ex) {
             LOG.warn("failuire while updating strassenschluessel ", ex);
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                       //GEN-LAST:event_cbxSchaltstelleStrassenschluesselNrActionPerformed
+    }                                                                                         //GEN-LAST:event_cbxStrassenschluesselActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbxSchaltstelleStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxSchaltstelleStrassenschluesselActionPerformed
+    private void cbxStrassenschluesselNrActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cbxStrassenschluesselNrActionPerformed
         try {
             if (!isTriggerd) {
                 isTriggerd = true;
-                cbxSchaltstelleStrassenschluesselNr.setSelectedItem(cbxSchaltstelleStrassenschluessel
-                            .getSelectedItem());
+                cbxStrassenschluessel.setSelectedItem(cbxStrassenschluesselNr.getSelectedItem());
             }
         } catch (Exception ex) {
             LOG.warn("failuire while updating strassenschluessel ", ex);
         } finally {
             isTriggerd = false;
         }
-    }                                                                                                     //GEN-LAST:event_cbxSchaltstelleStrassenschluesselActionPerformed
+    }                                                                                           //GEN-LAST:event_cbxStrassenschluesselNrActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -559,7 +635,7 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     @Override
     public void commitEdits() {
         try {
-            dapSchaltstelleErstellungsjahr.getEditor().commitEdit();
+            dapErstellungsjahr.getEditor().commitEdit();
         } catch (ParseException ex) {
             LOG.warn("Error while commiting edits: " + ex);
         }
@@ -573,22 +649,22 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
     @Override
     public void setElementsNull() {
         if (currentEntity.getStrassenschluessel() == null) {
-            cbxSchaltstelleStrassenschluessel.setSelectedItem(null);
-            cbxSchaltstelleStrassenschluesselNr.setSelectedItem(null);
+            cbxStrassenschluessel.setSelectedItem(null);
+            cbxStrassenschluesselNr.setSelectedItem(null);
         }
     }
 
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        RendererTools.setEditable(cbxSchaltstelleStrassenschluessel, isEditable);
-        RendererTools.setEditable(cbxSchaltstelleStrassenschluesselNr, isEditable);
-        RendererTools.setEditable(cbxSchaltstelleBauart, isEditable);
+        RendererTools.setEditable(cbxStrassenschluessel, isEditable);
+        RendererTools.setEditable(cbxStrassenschluesselNr, isEditable);
+        RendererTools.setEditable(cbxBauart, isEditable);
         RendererTools.setEditable(cbxRundsteuerempfaenger, isEditable);
-        RendererTools.setEditable(txfSchaltstelleHausnummer, isEditable);
-        RendererTools.setEditable(txfSchaltstelleLaufendenummer, isEditable);
+        RendererTools.setEditable(txfHausnummer, isEditable);
+        RendererTools.setEditable(txfLaufendenummer, isEditable);
         RendererTools.setEditable(txfSchaltstelleNummer, isEditable);
-        RendererTools.setEditable(txfSchaltstelleStandortbezeichnung, isEditable);
-        RendererTools.setEditable(dapSchaltstelleErstellungsjahr, isEditable);
+        RendererTools.setEditable(txfStandortangabe, isEditable);
+        RendererTools.setEditable(dapErstellungsjahr, isEditable);
         RendererTools.setEditable(txaSchaltstelleBemerkung, isEditable);
         RendererTools.setEditable(dapPruefdatum, isEditable);
         RendererTools.setEditable(dapEinbaudatum, isEditable);
@@ -596,15 +672,15 @@ public class SchaltstellePanel extends AbstractDetailWidgetPanel<SchaltstelleCus
 
     @Override
     void initComponentToLabelMap() {
-        componentToLabelMap.put(cbxSchaltstelleBauart, lblSchaltstelleBauart);
-        componentToLabelMap.put(cbxSchaltstelleStrassenschluessel, lblSchaltstelleStrassenschluessel);
-        componentToLabelMap.put(cbxSchaltstelleStrassenschluesselNr, lblSchaltstelleStrassenschluessel);
-        componentToLabelMap.put(dapSchaltstelleErstellungsjahr, lblSchaltstelleErstellungsjahr);
+        componentToLabelMap.put(cbxBauart, lblBauart);
+        componentToLabelMap.put(cbxStrassenschluessel, lblStrassenschluessel);
+        componentToLabelMap.put(cbxStrassenschluesselNr, lblStrassenschluessel);
+        componentToLabelMap.put(dapErstellungsjahr, lblErstellungsjahr);
         componentToLabelMap.put(txaSchaltstelleBemerkung, lblSchaltstelleBemerkung);
-        componentToLabelMap.put(txfSchaltstelleHausnummer, lblSchaltstelleHausnummer);
-        componentToLabelMap.put(txfSchaltstelleLaufendenummer, lblSchaltstelleLaufendenummer);
+        componentToLabelMap.put(txfHausnummer, lblHausnummer);
+        componentToLabelMap.put(txfLaufendenummer, lblLaufendenummer);
         componentToLabelMap.put(txfSchaltstelleNummer, lblSchaltstelleNummer);
-        componentToLabelMap.put(txfSchaltstelleStandortbezeichnung, lblSchaltstelleStandortbezeichnung);
+        componentToLabelMap.put(txfStandortangabe, lblStandortangabe);
         componentToLabelMap.put(dapPruefdatum, lblPruefdatum);
         componentToLabelMap.put(cbxRundsteuerempfaenger, lblRundsteuerempfaenger);
     }

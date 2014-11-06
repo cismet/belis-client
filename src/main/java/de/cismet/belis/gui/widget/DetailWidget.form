@@ -42,6 +42,7 @@
                 <EmptyBorder/>
               </Border>
             </Property>
+            <Property name="verticalScrollBarPolicy" type="int" value="22"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
