@@ -10,6 +10,7 @@ package de.cismet.belis.broker;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.event.CatalogueActivationListener;
 import Sirius.navigator.event.CatalogueSelectionListener;
+import Sirius.navigator.plugin.ui.PluginMenuItem;
 import Sirius.navigator.resource.PropertyManager;
 import Sirius.navigator.search.CidsSearchExecutor;
 import Sirius.navigator.search.dynamic.SearchDialog;
@@ -984,9 +985,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
         final Collection<Component> toRemoveComponents = new ArrayList<Component>();
         for (final Component component : popupMenu.getComponents()) {
-            if ((component instanceof JSeparator)
-                        || ((component instanceof JMenuItem)
-                            && (((JMenuItem)component).getActionCommand() != null)
+            if (((component instanceof PluginMenuItem)
+                            && ((PluginMenuItem)component).getId().equals(
+                                "Sirius.navigator.ui.MutablePopupMenu$EditObjectMethod"))
+                        || (component instanceof JSeparator)
+                        || ((component instanceof JMenuItem) && (((JMenuItem)component).getActionCommand() != null)
                             && (((JMenuItem)component).getActionCommand().equals("cmdSearch")
                                 || ((JMenuItem)component).getActionCommand().equals("treecommand")
                                 || ((((JMenuItem)component).getAccelerator() != null)
