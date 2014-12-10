@@ -1314,31 +1314,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
     }
 
     /**
-     * DOCUMENT ME!
-     *
-     * @param  notification  DOCUMENT ME!
-     */
-    public void splitPolygon(final PNotification notification) {
-        final Object o = notification.getObject();
-        if (o instanceof SplitPolygonListener) {
-            final SplitPolygonListener l = (SplitPolygonListener)o;
-            final PFeature pf = l.getFeatureClickedOn();
-            if (pf.isSplittable()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Split");
-                }
-                ((StyledFeature)pf.getFeature()).setGeometry(null);
-                final Feature[] f_arr = pf.split();
-                mappingComponent.getFeatureCollection().removeFeature(pf.getFeature());
-                f_arr[0].setEditable(true);
-                f_arr[1].setEditable(true);
-                mappingComponent.getFeatureCollection().addFeature(f_arr[0]);
-                mappingComponent.getFeatureCollection().addFeature(f_arr[1]);
-                // cmdAttachPolyToAlphadataActionPerformed(null);
-            }
-        }
-    }
-    /**
      * ToDo implement.
      *
      * @param  notification  DOCUMENT ME!
