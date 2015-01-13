@@ -1817,7 +1817,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         final CsvExportBackend backend = CsvExportBackend.getInstance();
 
         final Collection<TreePath> paths = getWorkbenchWidget().getSelectedTreeNodes();
-        if (paths != null) {
+        if (paths == null) {
+            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
+                "Es muss mindestens ein Objekt im Arbeitsbereich selektiert sein.",
+                "keine Objekte selektiert",
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
             // hauptobjekte auch aus protokolle, veranlassungen, arbeitsaufträgen heraus
             final Collection<CidsBean> mainBeans = new ArrayList<CidsBean>();
             for (final TreePath path : paths) {
