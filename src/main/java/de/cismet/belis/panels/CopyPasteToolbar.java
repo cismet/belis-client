@@ -137,9 +137,11 @@ public class CopyPasteToolbar extends javax.swing.JPanel implements Editable, En
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnPaste, gridBagConstraints);
 
+        btnExportCsv.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/table-import.png"))); // NOI18N
         btnExportCsv.setText(org.openide.util.NbBundle.getMessage(
                 CopyPasteToolbar.class,
-                "CopyPasteToolbar.btnExportCsv.text")); // NOI18N
+                "CopyPasteToolbar.btnExportCsv.text"));                                         // NOI18N
         btnExportCsv.setFocusable(false);
         btnExportCsv.addActionListener(new java.awt.event.ActionListener() {
 
@@ -158,7 +160,7 @@ public class CopyPasteToolbar extends javax.swing.JPanel implements Editable, En
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnCopyActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopyActionPerformed
+    private void btnCopyActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnCopyActionPerformed
         try {
             broker.getEntityClipboard().copy();
         } catch (Exception ex) {
@@ -166,14 +168,14 @@ public class CopyPasteToolbar extends javax.swing.JPanel implements Editable, En
                 LOG.debug("Fehler beim Kopieren in die Zwischenablage", ex);
             }
         }
-    }//GEN-LAST:event_btnCopyActionPerformed
+    }                                                                           //GEN-LAST:event_btnCopyActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnPasteActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasteActionPerformed
+    private void btnPasteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnPasteActionPerformed
         try {
             broker.getEntityClipboard().paste();
         } catch (Exception ex) {
@@ -181,14 +183,14 @@ public class CopyPasteToolbar extends javax.swing.JPanel implements Editable, En
                 LOG.debug("Fehler beim Einfügen aus der Zwischenablage", ex);
             }
         }
-    }//GEN-LAST:event_btnPasteActionPerformed
+    }                                                                            //GEN-LAST:event_btnPasteActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnExportCsvActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportCsvActionPerformed
+    private void btnExportCsvActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnExportCsvActionPerformed
         final CsvExportBackend backend = CsvExportBackend.getInstance();
 
         final Collection<TreePath> paths = broker.getWorkbenchWidget().getSelectedTreeNodes();
@@ -291,7 +293,7 @@ public class CopyPasteToolbar extends javax.swing.JPanel implements Editable, En
                 StaticSwingTools.showDialog(downloadManager);
             }
         }
-    }//GEN-LAST:event_btnExportCsvActionPerformed
+    } //GEN-LAST:event_btnExportCsvActionPerformed
 
     /**
      * DOCUMENT ME!
