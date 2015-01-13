@@ -919,7 +919,8 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      */
     private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOptionsActionPerformed
         final OptionsDialog od = new OptionsDialog(this, true);
-        StaticSwingTools.showDialog(od);
+        od.pack();
+        StaticSwingTools.showDialog(od, false);
     }                                                                              //GEN-LAST:event_mniOptionsActionPerformed
 
     /**
@@ -1258,7 +1259,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         d.setIconImage(applicationIcon);
         d.setAlwaysOnTop(true);
 
-        StaticSwingTools.showDialog(d);
+        StaticSwingTools.showDialog(d, false);
 
         handleLoginStatus(d.getStatus(), usernames, login);
     }

@@ -500,7 +500,7 @@ public class StandortPanel extends AbstractDetailWidgetPanel<TdtaStandortMastCus
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         panContent.add(cbxMastart, gridBagConstraints);
 
-        lblMasttyp.setText("Mast Typ:"); // NOI18N
+        lblMasttyp.setText("Masttyp:"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;

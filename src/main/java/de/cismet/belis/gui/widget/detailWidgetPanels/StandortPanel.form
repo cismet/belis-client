@@ -356,7 +356,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblMasttyp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Mast Typ:" noResource="true"/>
+                <Property name="text" type="java.lang.String" value="Masttyp:" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

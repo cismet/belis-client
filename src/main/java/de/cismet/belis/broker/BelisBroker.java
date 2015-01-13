@@ -27,6 +27,7 @@ import Sirius.navigator.ui.attributes.editor.AttributeEditor;
 import Sirius.navigator.ui.tree.MetaCatalogueTree;
 import Sirius.navigator.ui.tree.SearchResultsTree;
 
+import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
 import Sirius.server.middleware.types.MetaObjectNode;
 import Sirius.server.middleware.types.Node;
@@ -72,6 +73,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutorService;
@@ -201,6 +203,7 @@ import de.cismet.tools.configuration.NoWriteError;
 
 import de.cismet.tools.gui.DefaultPopupMenuListener;
 import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.downloadmanager.ByteArrayDownload;
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 
@@ -286,6 +289,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     protected JButton btnSwitchInCreateMode;
     protected JButton cmdPrint = new javax.swing.JButton();
     protected JButton cmdAAPrint = new javax.swing.JButton();
+    protected JButton cmdCsvExport = new javax.swing.JButton();
     protected JButton btnReload = new javax.swing.JButton();
     protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     protected final Collection<Clearable> clearAndDisableListeners = new ArrayList<Clearable>();
@@ -1761,11 +1765,30 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                     }
                 });
 
+            cmdCsvExport.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/de/cismet/belis/resource/icon/16/table-import.png"))); // NOI18N
+
+            cmdCsvExport.setToolTipText("Nach CSV Exportieren");
+            cmdCsvExport.setBorderPainted(false);
+            cmdCsvExport.setFocusable(false);
+            cmdCsvExport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            cmdCsvExport.setPreferredSize(size);
+            cmdCsvExport.setMinimumSize(size);
+            cmdCsvExport.setMaximumSize(size);
+            cmdCsvExport.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            cmdCsvExport.addActionListener(new java.awt.event.ActionListener() {
+
+                    @Override
+                    public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                        exportCsv();
+                    }
+                });
+
             final JPanel printPanel = new JPanel();
             printPanel.setLayout(new java.awt.GridBagLayout());
-            printPanel.setMaximumSize(new Dimension(60, 23));
-            printPanel.setMinimumSize(new Dimension(60, 23));
-            printPanel.setPreferredSize(new Dimension(60, 23));
+            printPanel.setMaximumSize(new Dimension(90, 23));
+            printPanel.setMinimumSize(new Dimension(90, 23));
+            printPanel.setPreferredSize(new Dimension(90, 23));
             final java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.gridx = 0;
             gridBagConstraints.gridy = 0;
@@ -1774,7 +1797,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
             printPanel.add(cmdPrint, gridBagConstraints);
             gridBagConstraints.gridx = 1;
             printPanel.add(cmdAAPrint, gridBagConstraints);
-            gridBagConstraints.anchor = GridBagConstraints.EAST;
+            gridBagConstraints.gridx = 2;
+            printPanel.add(cmdCsvExport, gridBagConstraints);
             toolbar.add(printPanel);
 
             addSeparatorToToolbar();
@@ -1786,6 +1810,113 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
+    private void exportCsv() {
+        final CsvExportBackend backend = CsvExportBackend.getInstance();
+
+        final Collection<TreePath> paths = getWorkbenchWidget().getSelectedTreeNodes();
+        if (paths != null) {
+            // hauptobjekte auch aus protokolle, veranlassungen, arbeitsaufträgen heraus
+            final Collection<CidsBean> mainBeans = new ArrayList<CidsBean>();
+            for (final TreePath path : paths) {
+                final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)path.getLastPathComponent();
+                if (node != null) {
+                    final Object object = node.getUserObject();
+                    if (object instanceof ArbeitsauftragCustomBean) {
+                        final ArbeitsauftragCustomBean auftrag = (ArbeitsauftragCustomBean)object;
+                        for (final ArbeitsprotokollCustomBean protokoll : auftrag.getAr_protokolle()) {
+                            final CidsBean childBean = protokoll.getChildEntity();
+                            if (!mainBeans.contains(childBean)) {
+                                mainBeans.add(childBean);
+                            }
+                        }
+                    } else if (object instanceof ArbeitsprotokollCustomBean) {
+                        final ArbeitsprotokollCustomBean protokoll = (ArbeitsprotokollCustomBean)object;
+                        final CidsBean childBean = protokoll.getChildEntity();
+                        if (!mainBeans.contains(childBean)) {
+                            mainBeans.add(childBean);
+                        }
+                    } else if (object instanceof VeranlassungCustomBean) {
+                        final VeranlassungCustomBean veranlassung = (VeranlassungCustomBean)object;
+                        final Collection<CidsBean> allChildBeans = new ArrayList<CidsBean>();
+                        allChildBeans.addAll(veranlassung.getAr_abzweigdosen());
+                        allChildBeans.addAll(veranlassung.getAr_leitungen());
+                        allChildBeans.addAll(veranlassung.getAr_leuchten());
+                        allChildBeans.addAll(veranlassung.getAr_mauerlaschen());
+                        allChildBeans.addAll(veranlassung.getAr_schaltstellen());
+                        allChildBeans.addAll(veranlassung.getAr_standorte());
+                        for (final CidsBean childBean : allChildBeans) {
+                            if (!mainBeans.contains(childBean)) {
+                                mainBeans.add(childBean);
+                            }
+                        }
+                    } else if (object instanceof CidsBean) {
+                        if (!mainBeans.contains((CidsBean)object)) {
+                            mainBeans.add((CidsBean)object);
+                        }
+                    }
+                }
+            }
+
+            // Sonderbehandlung: leuchten erzeugen auch standort und umgekehrt
+            final Collection<CidsBean> beans = new ArrayList<CidsBean>();
+            for (final CidsBean mainBean : mainBeans) {
+                if (mainBean instanceof TdtaStandortMastCustomBean) {
+                    final TdtaStandortMastCustomBean standort = (TdtaStandortMastCustomBean)mainBean;
+                    if (!beans.contains(standort)) {
+                        beans.add(standort);
+                    }
+
+                    if (standort.getLeuchten() != null) {
+                        for (final CidsBean cidsBean : standort.getLeuchten()) {
+                            if (!beans.contains(cidsBean)) {
+                                beans.add(cidsBean);
+                            }
+                        }
+                    }
+                } else if (mainBean instanceof TdtaLeuchtenCustomBean) {
+                    final TdtaLeuchtenCustomBean leuchte = (TdtaLeuchtenCustomBean)mainBean;
+                    if (!beans.contains(leuchte)) {
+                        beans.add(leuchte);
+                    }
+
+                    final TdtaStandortMastCustomBean standort = leuchte.getFk_standort();
+                    if (standort != null) {
+                        if (!beans.contains(standort)) {
+                            beans.add(standort);
+                        }
+                    }
+                } else {
+                    if (!beans.contains(mainBean)) {
+                        beans.add(mainBean);
+                    }
+                }
+            }
+
+            final Map<MetaClass, String> csvStringMap = backend.toCsvStrings(beans);
+            if (!csvStringMap.isEmpty()) {
+                if (DownloadManagerDialog.showAskingForUserTitle(getRootWindow())) {
+                    for (final MetaClass metaClass : csvStringMap.keySet()) {
+                        final String title = metaClass.getName();
+                        final String body = csvStringMap.get(metaClass);
+
+                        DownloadManager.instance()
+                                .add(new ByteArrayDownload(
+                                        body.getBytes(),
+                                        title,
+                                        DownloadManagerDialog.getJobname(),
+                                        title,
+                                        ".csv"));
+                    }
+                    final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.instance(getRootWindow());
+                    downloadManagerDialog.pack();
+                    StaticSwingTools.showDialog(downloadManagerDialog);
+                }
+            }
+        }
+    }
     /**
      * DOCUMENT ME!
      */
@@ -3353,13 +3484,13 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 //                    protected void done() {
 //                        try {
 //                            final ArbeitsauftraegeReportDownload download = get();
-            DownloadManagerDialog.instance((Component)StaticSwingTools.getParentFrame(
-                    getParentComponent()));
-            DownloadManager.instance().add(reportDownload);
-            final JDialog downloadManager = DownloadManagerDialog.instance((Component)StaticSwingTools.getParentFrame(
-                        getParentComponent()));
-            downloadManager.pack();
-            StaticSwingTools.showDialog(downloadManager);
+            final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.instance(getRootWindow());
+            if (DownloadManagerDialog.showAskingForUserTitle(getRootWindow())) {
+                DownloadManager.instance().add(reportDownload);
+
+                downloadManagerDialog.pack();
+                StaticSwingTools.showDialog(downloadManagerDialog);
+            }
 //                        } catch (final Exception ex) {
 //                            if (LOG.isDebugEnabled()) {
 //                                LOG.debug("exeption while downloading Report", ex);
