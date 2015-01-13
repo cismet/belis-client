@@ -111,6 +111,7 @@ public class CidsBroker {
      */
     public void setProxy(final ConnectionProxy proxy) {
         this.proxy = proxy;
+        CsvExportBackend.getInstance().init();
     }
 
     /**
@@ -558,7 +559,7 @@ public class CidsBroker {
      *
      * @return  DOCUMENT ME!
      */
-    private Collection getBeanCollectionForQuery(final String query, final String domain) {
+    public Collection getBeanCollectionForQuery(final String query, final String domain) {
         final MetaObject[] mos = CidsBroker.getInstance().getMetaObject(query, domain);
         final Collection<CidsBean> beans = new HashSet<CidsBean>();
         for (final MetaObject metaObject : mos) {
@@ -1020,7 +1021,10 @@ public class CidsBroker {
             sb.append(stringArray[0]);
             for (int index = 1; index < stringArray.length; index++) {
                 sb.append(delimiter);
-                sb.append(stringArray[index]);
+                final String string = stringArray[index];
+                if (string != null) {
+                    sb.append(string);
+                }
             }
             return sb.toString();
         }
