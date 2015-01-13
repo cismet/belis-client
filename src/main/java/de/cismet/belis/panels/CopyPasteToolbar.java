@@ -71,7 +71,6 @@ public class CopyPasteToolbar extends javax.swing.JPanel implements Editable, En
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCopy;
-    private javax.swing.JButton btnExportCsv;
     private javax.swing.JButton btnPaste;
     // End of variables declaration//GEN-END:variables
 
@@ -102,7 +101,6 @@ public class CopyPasteToolbar extends javax.swing.JPanel implements Editable, En
 
         btnCopy = new javax.swing.JButton();
         btnPaste = new javax.swing.JButton();
-        btnExportCsv = new javax.swing.JButton();
 
         setOpaque(false);
         setLayout(new java.awt.GridBagLayout());
@@ -136,23 +134,6 @@ public class CopyPasteToolbar extends javax.swing.JPanel implements Editable, En
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         add(btnPaste, gridBagConstraints);
-
-        btnExportCsv.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/belis/resource/icon/16/table-import.png"))); // NOI18N
-        btnExportCsv.setText(org.openide.util.NbBundle.getMessage(
-                CopyPasteToolbar.class,
-                "CopyPasteToolbar.btnExportCsv.text"));                                         // NOI18N
-        btnExportCsv.setFocusable(false);
-        btnExportCsv.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnExportCsvActionPerformed(evt);
-                }
-            });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
-        add(btnExportCsv, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -184,116 +165,6 @@ public class CopyPasteToolbar extends javax.swing.JPanel implements Editable, En
             }
         }
     }                                                                            //GEN-LAST:event_btnPasteActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void btnExportCsvActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnExportCsvActionPerformed
-        final CsvExportBackend backend = CsvExportBackend.getInstance();
-
-        final Collection<TreePath> paths = broker.getWorkbenchWidget().getSelectedTreeNodes();
-        if (paths != null) {
-            // hauptobjekte auch aus protokolle, veranlassungen, arbeitsaufträgen heraus
-            final Collection<CidsBean> mainBeans = new ArrayList<CidsBean>();
-            for (final TreePath path : paths) {
-                final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)path.getLastPathComponent();
-                if (node != null) {
-                    final Object object = node.getUserObject();
-                    if (object instanceof ArbeitsauftragCustomBean) {
-                        final ArbeitsauftragCustomBean auftrag = (ArbeitsauftragCustomBean)object;
-                        for (final ArbeitsprotokollCustomBean protokoll : auftrag.getAr_protokolle()) {
-                            final CidsBean childBean = protokoll.getChildEntity();
-                            if (!mainBeans.contains(childBean)) {
-                                mainBeans.add(childBean);
-                            }
-                        }
-                    } else if (object instanceof ArbeitsprotokollCustomBean) {
-                        final ArbeitsprotokollCustomBean protokoll = (ArbeitsprotokollCustomBean)object;
-                        final CidsBean childBean = protokoll.getChildEntity();
-                        if (!mainBeans.contains(childBean)) {
-                            mainBeans.add(childBean);
-                        }
-                    } else if (object instanceof VeranlassungCustomBean) {
-                        final VeranlassungCustomBean veranlassung = (VeranlassungCustomBean)object;
-                        final Collection<CidsBean> allChildBeans = new ArrayList<CidsBean>();
-                        allChildBeans.addAll(veranlassung.getAr_abzweigdosen());
-                        allChildBeans.addAll(veranlassung.getAr_leitungen());
-                        allChildBeans.addAll(veranlassung.getAr_leuchten());
-                        allChildBeans.addAll(veranlassung.getAr_mauerlaschen());
-                        allChildBeans.addAll(veranlassung.getAr_schaltstellen());
-                        allChildBeans.addAll(veranlassung.getAr_standorte());
-                        for (final CidsBean childBean : allChildBeans) {
-                            if (!mainBeans.contains(childBean)) {
-                                mainBeans.add(childBean);
-                            }
-                        }
-                    } else if (object instanceof CidsBean) {
-                        if (!mainBeans.contains((CidsBean)object)) {
-                            mainBeans.add((CidsBean)object);
-                        }
-                    }
-                }
-            }
-
-            // Sonderbehandlung: leuchten erzeugen auch standort und umgekehrt
-            final Collection<CidsBean> beans = new ArrayList<CidsBean>();
-            for (final CidsBean mainBean : mainBeans) {
-                if (mainBean instanceof TdtaStandortMastCustomBean) {
-                    final TdtaStandortMastCustomBean standort = (TdtaStandortMastCustomBean)mainBean;
-                    if (!beans.contains(standort)) {
-                        beans.add(standort);
-                    }
-
-                    if (standort.getLeuchten() != null) {
-                        for (final CidsBean cidsBean : standort.getLeuchten()) {
-                            if (!beans.contains(cidsBean)) {
-                                beans.add(cidsBean);
-                            }
-                        }
-                    }
-                } else if (mainBean instanceof TdtaLeuchtenCustomBean) {
-                    final TdtaLeuchtenCustomBean leuchte = (TdtaLeuchtenCustomBean)mainBean;
-                    if (!beans.contains(leuchte)) {
-                        beans.add(leuchte);
-                    }
-
-                    final TdtaStandortMastCustomBean standort = leuchte.getFk_standort();
-                    if (standort != null) {
-                        if (!beans.contains(standort)) {
-                            beans.add(standort);
-                        }
-                    }
-                } else {
-                    if (!beans.contains(mainBean)) {
-                        beans.add(mainBean);
-                    }
-                }
-            }
-
-            final Map<MetaClass, String> csvStringMap = backend.toCsvStrings(beans);
-            if (!csvStringMap.isEmpty()) {
-                final JDialog downloadManager = DownloadManagerDialog.instance((Component)StaticSwingTools
-                                .getParentFrame(
-                                    this));
-                for (final MetaClass metaClass : csvStringMap.keySet()) {
-                    final String title = metaClass.getName();
-                    final String body = csvStringMap.get(metaClass);
-
-                    DownloadManager.instance()
-                            .add(new ByteArrayDownload(
-                                    body.getBytes(),
-                                    title,
-                                    DownloadManagerDialog.getJobname(),
-                                    title,
-                                    ".csv"));
-                }
-                downloadManager.pack();
-                StaticSwingTools.showDialog(downloadManager);
-            }
-        }
-    } //GEN-LAST:event_btnExportCsvActionPerformed
 
     /**
      * DOCUMENT ME!
