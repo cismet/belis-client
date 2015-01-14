@@ -13,9 +13,7 @@
 package de.cismet.belis.gui.widget;
 
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
 
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.event.PNotification;
 import edu.umd.cs.piccolox.event.PNotificationCenter;
 import edu.umd.cs.piccolox.event.PSelectionEventHandler;
@@ -29,10 +27,8 @@ import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 
 import de.cismet.belis.broker.BelisBroker;
@@ -41,8 +37,6 @@ import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollectionEvent;
 import de.cismet.cismap.commons.features.FeatureCollectionListener;
 import de.cismet.cismap.commons.features.PureNewFeature;
-import de.cismet.cismap.commons.features.StyledFeature;
-import de.cismet.cismap.commons.features.WFSFeature;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.layerwidget.ActiveLayerModel;
 import de.cismet.cismap.commons.gui.piccolo.PFeature;
@@ -50,10 +44,6 @@ import de.cismet.cismap.commons.gui.piccolo.eventlistener.AttachFeatureListener;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateGeometryListener;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.DeleteFeatureListener;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.FeatureMoveListener;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.JoinPolygonsListener;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.SelectionListener;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.SimpleMoveListener;
-import de.cismet.cismap.commons.gui.piccolo.eventlistener.SplitPolygonListener;
 
 import de.cismet.commons.architecture.geometrySlot.GeometrySlotInformation;
 import de.cismet.commons.architecture.interfaces.NoPermissionsWidget;
@@ -62,7 +52,6 @@ import de.cismet.tools.CurrentStackTrace;
 
 import de.cismet.tools.configuration.ConfigurationManager;
 
-import de.cismet.tools.gui.StaticSwingTools;
 import de.cismet.tools.gui.historybutton.JHistoryButton;
 
 /**
@@ -73,6 +62,10 @@ import de.cismet.tools.gui.historybutton.JHistoryButton;
  */
 @org.openide.util.lookup.ServiceProvider(service = BelisWidget.class)
 public class MapWidget extends BelisWidget implements FeatureCollectionListener, NoPermissionsWidget {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MapWidget.class);
 
     //~ Enums ------------------------------------------------------------------
 
@@ -90,20 +83,15 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 
     //~ Instance fields --------------------------------------------------------
 
-    private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
     private MappingComponent mappingComponent;
     // private static final String WIDGET_NAME = "Karten Panel";
-    private boolean isSnappingEnabled = false;
-    private String gemarkungIdentifier = null;
-    private String flurIdentifier = null;
-    private String flurstueckZaehlerIdentifier = null;
-    private String flurstueckNennerIdentifier = null;
-    private ArrayList<JButton> customButtons = new ArrayList<JButton>();
+    private final ArrayList<JButton> customButtons = new ArrayList<JButton>();
     private MapMode currentMapMode = null;
     private MapMode lastMapMode = null;
     // private MappingComponent mapComponent;
-    private ActiveLayerModel mappingModel = new ActiveLayerModel(); // {
+    private final ActiveLayerModel mappingModel = new ActiveLayerModel(); // {
     private boolean isEditable = true;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.belis.gui.search.AddressSearchControl addressSearchControl;
     private javax.swing.JButton cmdAdd;
@@ -130,10 +118,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JToolBar mapWidgetToolbar;
     // End of variables declaration//GEN-END:variables
-//    @Override
-//    public String getWidgetName() {
-//        return WIDGET_NAME;
-//    }
 
     //~ Constructors -----------------------------------------------------------
 
@@ -161,60 +145,60 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
      */
     public void setToLastInteractionMode() {
         if (getLastMapMode() != null) {
-            if (log.isDebugEnabled()) {
-                log.debug("Setting MapWidget to last interactionmode...");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Setting MapWidget to last interactionmode...");
             }
             switch (getLastMapMode()) {
                 case SELECT: {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Select");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Select");
                     }
                     cmdSelectActionPerformed(null);
                     break;
                 }
                 case PAN: {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Pan");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Pan");
                     }
                     cmdPanActionPerformed(null);
                     break;
                 }
                 case ZOOM: {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Zoom");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Zoom");
                     }
                     cmdZoomActionPerformed(null);
                     break;
                 }
                 case MOVE_POLYGON: {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Move polygon");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Move polygon");
                     }
                     cmdMovePolygonActionPerformed(null);
                     break;
                 }
                 case REMOVE_POLYGON: {
-                    if (log.isDebugEnabled()) {
-                        log.debug("Remove handle");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Remove handle");
                     }
                     cmdRemovePolygonActionPerformed(null);
                     break;
                 }
                 case MEASUREMENT: {
-                    if (log.isDebugEnabled()) {
-                        log.debug("New LineString");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("New LineString");
                     }
                     cmdNewLinestringActionPerformed(null);
                     break;
                 }
                 case CUSTOM: {
-                    log.warn("Can't set to last interaction mode was custom");
+                    LOG.warn("Can't set to last interaction mode was custom");
                     break;
                 }
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("No last interaction mode. Setting mode to Select");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("No last interaction mode. Setting mode to Select");
             }
             cmdSelect.doClick();
         }
@@ -253,8 +237,8 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
      * @param  lastMapMode  DOCUMENT ME!
      */
     public void setLastMapMode(final MapMode lastMapMode) {
-        if (log.isDebugEnabled()) {
-            log.debug("setLastMapModeTo: " + lastMapMode + " was: " + getLastMapMode());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("setLastMapModeTo: " + lastMapMode + " was: " + getLastMapMode());
         }
         this.lastMapMode = lastMapMode;
     }
@@ -308,13 +292,13 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
      */
     public void setInteractionMode() {
         final String currentInteractionMode = mappingComponent.getInteractionMode();
-        if (log.isDebugEnabled()) {
-            log.debug("CurrentInteractionMode: " + currentInteractionMode, new CurrentStackTrace());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("CurrentInteractionMode: " + currentInteractionMode, new CurrentStackTrace());
         }
         if (currentInteractionMode != null) {
             if (currentInteractionMode.equals(MappingComponent.SELECT)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("InteractionMode set to SELCET");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("InteractionMode set to SELCET");
                 }
                 cmdSelectActionPerformed(null);
 //            } else if (currentInteractionMode.equals(MappingComponent.CUSTOM_FEATUREINFO)) {
@@ -322,29 +306,29 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 //                //cmdALB.setSelected(true);
 //                cmdALBActionPerformed(null);
             } else if (currentInteractionMode.equals(MappingComponent.PAN)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("InteractionMode set to PAN");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("InteractionMode set to PAN");
                 }
                 cmdPanActionPerformed(null);
             } else if (currentInteractionMode.equals(MappingComponent.NEW_POLYGON)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("InteractionMode set to NEW_POLYGON");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("InteractionMode set to NEW_POLYGON");
                     // Todo Not set beacuse of Belis
                 }
                 // cmdNewPolygonActionPerformed(null);
             } else if (currentInteractionMode.equals(MappingComponent.ZOOM)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("InteractionMode set to ZOOM");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("InteractionMode set to ZOOM");
                 }
                 cmdZoomActionPerformed(null);
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Unknown Interactionmode: " + currentInteractionMode);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Unknown Interactionmode: " + currentInteractionMode);
                 }
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("InteractionMode == null");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("InteractionMode == null");
             }
         }
     }
@@ -885,7 +869,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         if (assertMappingComponentMode(MappingComponent.MOVE_POLYGON)
                     || assertMappingComponentMode(MappingComponent.ADD_HANDLE)
                     || assertMappingComponentMode(MappingComponent.ATTACH_POLYGON_TO_ALPHADATA)
-                    || assertMappingComponentMode(MappingComponent.JOIN_POLYGONS)
                     || assertMappingComponentMode(MappingComponent.NEW_POLYGON)
                     || assertMappingComponentMode(MappingComponent.RAISE_POLYGON)
                     || assertMappingComponentMode(MappingComponent.REMOVE_POLYGON)
@@ -902,8 +885,8 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
             return;
         }
         this.isEditable = isEditable;
-        if (log.isDebugEnabled()) {
-            log.debug("MapPanel --> setComponentEditable");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("MapPanel --> setComponentEditable");
         }
         // Refactor code duplication
         if (EventQueue.isDispatchThread()) {
@@ -915,7 +898,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                 // TODO look how to easily create events (or common)
                 // ToDo LagIS same problem
                 if (assertMappingComponentIsInAnEditMode()) {
-                    log.warn(
+                    LOG.warn(
                         "Application is not in edit mode, but mapping component is in an edit mode. Setting back to Select.");
                     removeMainGroupSelection();
                     cmdSelect.setSelected(true);
@@ -923,8 +906,8 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                     cmdMoveHandleActionPerformed(null);
                 }
             }
-            if (log.isDebugEnabled()) {
-                log.debug("Anzahl Features in FeatureCollection:"
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Anzahl Features in FeatureCollection:"
                             + mappingComponent.getFeatureCollection().getFeatureCount());
             }
             // ((DefaultFeatureCollection)mappingComponent.getFeatureCollection()).setAllFeaturesEditable(isEditable);
@@ -954,7 +937,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                             // TODO is it really the best default mode ?
                             // TODO look how to easily create events (or common)
                             if (assertMappingComponentIsInAnEditMode()) {
-                                log.warn(
+                                LOG.warn(
                                     "Application is not in edit mode, but mapping component is in an edit mode. Setting back to Select.");
                                 removeMainGroupSelection();
                                 cmdSelect.setSelected(true);
@@ -962,8 +945,8 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                                 cmdMoveHandleActionPerformed(null);
                             }
                         }
-                        if (log.isDebugEnabled()) {
-                            log.debug(
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug(
                                 "Anzahl Features in FeatureCollection:"
                                         + mappingComponent.getFeatureCollection().getFeatureCount());
                         }
@@ -985,8 +968,8 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                     }
                 });
         }
-        if (log.isDebugEnabled()) {
-            log.debug("MapPanel --> setComponentEditable finished");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("MapPanel --> setComponentEditable finished");
         }
     }
 
@@ -1014,8 +997,8 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
      * @param  evt  DOCUMENT ME!
      */
     private void cmdSnapActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdSnapActionPerformed
-        if (log.isDebugEnabled()) {
-            log.debug("Set snapping Enabled: " + cmdSnap.isSelected());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Set snapping Enabled: " + cmdSnap.isSelected());
         }
         cmdSnap.setSelected(!cmdSnap.isSelected());
         // TODO CHANGE CONFIG FILE ACTION
@@ -1124,160 +1107,10 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 //            }
             }
         } catch (Exception ex) {
-            log.warn("Fehler beim featuredeleteRequest", ex);
+            LOG.warn("Fehler beim featuredeleteRequest", ex);
         }
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  notification  DOCUMENT ME!
-     */
-    public void joinPolygons(final PNotification notification) {
-        PFeature one;
-        PFeature two;
-        one = mappingComponent.getSelectedNode();
-        two = null;
-        if (log.isDebugEnabled()) {
-            log.debug("");
-        }
-        final Object o = notification.getObject();
-
-        if (o instanceof JoinPolygonsListener) {
-            final JoinPolygonsListener listener = ((JoinPolygonsListener)o);
-            final PFeature joinCandidate = listener.getFeatureRequestedForJoin();
-            if ((joinCandidate.getFeature() instanceof StyledFeature)
-                        || (joinCandidate.getFeature() instanceof PureNewFeature)) {
-                final int CTRL_MASK = 2; // TODO: HIer noch eine korrekte Konstante verwenden
-                if ((listener.getModifier() & CTRL_MASK) != 0) {
-                    if ((one != null) && (joinCandidate != one)) {
-                        if ((one.getFeature() instanceof PureNewFeature)
-                                    && (joinCandidate.getFeature() instanceof StyledFeature)) {
-                            two = one;
-
-                            one = joinCandidate;
-                            one.setSelected(true);
-                            two.setSelected(false);
-                            mappingComponent.getFeatureCollection().select(one.getFeature());
-                            // tableModel.setSelectedFlaeche((Flaeche)one.getFeature());
-                            // TODO implement or erase
-                            // fireAuswahlChanged(one.getFeature());
-                        } else {
-                            two = joinCandidate;
-                        }
-                        try {
-                            final Geometry backup = one.getFeature().getGeometry();
-                            final Geometry newGeom = one.getFeature()
-                                        .getGeometry()
-                                        .union(two.getFeature().getGeometry());
-                            if (newGeom.getGeometryType().equalsIgnoreCase("Multipolygon")) {
-                                JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(this),
-                                    "Es können nur Polygone zusammengefasst werden, die aneinander angrenzen oder sich überlappen.",
-                                    "Zusammenfassung nicht möglich",
-                                    JOptionPane.WARNING_MESSAGE,
-                                    null);
-                                return;
-                            }
-                            if (newGeom.getGeometryType().equalsIgnoreCase("Polygon")
-                                        && (((Polygon)newGeom).getNumInteriorRing() > 0)) {
-                                JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(this),
-                                    "Polygone können nur dann zusammengefasst werden, wenn dadurch kein Loch entsteht.",
-                                    "Zusammenfassung nicht möglich",
-                                    JOptionPane.WARNING_MESSAGE,
-                                    null);
-                                return;
-                            }
-                            if ((one != null) && (two != null) && (one.getFeature() instanceof StyledFeature)
-                                        && (two.getFeature() instanceof StyledFeature)) {
-                                final StyledFeature fOne = (StyledFeature)one.getFeature();
-                                final StyledFeature fTwo = (StyledFeature)two.getFeature();
-//
-//                            if((fOne instanceof Verwaltungsbereich && !(fTwo instanceof Verwaltungsbereich)) || (fTwo instanceof Verwaltungsbereich && !(fOne instanceof Verwaltungsbereich))){
-//                                JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(this),"Flächeen können nur zusammengefasst werden, wenn die Flächeenart gleich ist.","Zusammenfassung nicht möglich",JOptionPane.WARNING_MESSAGE,null );
-//                                return;
-//                            }
-//
-//                            if((fOne instanceof ReBe && !(fTwo instanceof ReBe)) || (fTwo instanceof ReBe && !(fOne instanceof ReBe))){
-//                                JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(this),"Flächeen können nur zusammengefasst werden, wenn die Flächeenart gleich ist.","Zusammenfassung nicht möglich",JOptionPane.WARNING_MESSAGE,null );
-//                                return;
-//                            }
-
-//                            if (fOne.getArt()!=fTwo.getArt()||fOne.getGrad()!=fTwo.getGrad()) {
-//                                JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(this),"Flächeen können nur zusammengefasst werden, wenn Flächeenart und Anschlussgrad gleich sind.","Zusammenfassung nicht möglich",JOptionPane.WARNING_MESSAGE,null );
-//                                return;
-//                            }
-//                            //Check machen ob eine Flächee eine Teilflächee ist
-//                            if (fOne.getAnteil()!=null || fTwo.getAnteil()!=null) {
-//                                JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(this),"Flächeen die von Teileigentum betroffen sind können nicht zusammengefasst werden.","Zusammenfassung nicht möglich",JOptionPane.WARNING_MESSAGE,null );
-//                                return;
-//                            }
-                                two.getFeature().setGeometry(null);
-                                // tableModel.removeFlaeche(fTwo);
-                                // TODO größe updaten
-
-                                // TODO make it right
-                                // fOne.setGr_grafik(new Integer((int)(newGeom.getArea())));
-// if (fOne.getBemerkung()!=null && fOne.getBemerkung().trim().length()>0) {
-// fOne.setBemerkung(fOne.getBemerkung()+"\n");
-// }
-// fOne.setBemerkung(fTwo.getJoinBackupString());
-// if (!fOne.isSperre()&&fTwo.isSperre()) {
-// fOne.setSperre(true);
-// fOne.setBem_sperre("JOIN::"+fTwo.getBem_sperre());
-// }
-// fOne.sync();
-// //tableModel.fireSelectionChanged(); TODO
-// fireAuswahlChanged(fOne);
-                            }
-//                        if (one.getFeature() instanceof Verwaltungsbereich) {
-//                            //Eine vorhandene Flächee und eine neuangelegt wurden gejoint
-//                            //((Flaeche)(one.getFeature())).sync();
-//                            //tableModel.fireSelectionChanged(); TODO
-//                            //fireAuswahlChanged((Flaeche)(one.getFeature()));
-//                        }
-                            if (log.isDebugEnabled()) {
-                                log.debug("newGeom ist vom Typ:" + newGeom.getGeometryType());
-                            }
-                            one.getFeature().setGeometry(newGeom);
-                            if (!(one.getFeature().getGeometry().equals(backup))) {
-                                two.removeFromParent();
-                                two = null;
-                            }
-                            one.visualize();
-                        } catch (Exception e) {
-                            log.error("one: " + one + "\n two: " + two, e);
-                        }
-                        return;
-                    }
-                } else {
-                    final PFeature pf = joinCandidate;
-                    if (one != null) {
-                        one.setSelected(false);
-                    }
-                    one = pf;
-                    mappingComponent.selectPFeatureManually(one);
-                    if (one.getFeature() instanceof StyledFeature) {
-                        final StyledFeature f = (StyledFeature)one.getFeature();
-                        mappingComponent.getFeatureCollection().select(f);
-                        // tableModel.setSelectedFlaeche(f);
-                        // fireAuswahlChanged(f);
-                        try {
-                            // TODO
-                            // makeRowVisible(this.jxtOverview,jxtOverview.getFilters().convertRowIndexToView(tableModel.getIndexOfFlaeche((Flaeche)f)));
-                        } catch (Exception e) {
-                            if (log.isDebugEnabled()) {
-                                log.debug("Fehler beim Scrollen der Tabelle", e);
-                            }
-                        }
-                    } else {
-                        // tableModel.setSelectedFlaeche(null);
-                        mappingComponent.getFeatureCollection().unselectAll();
-                        // fireAuswahlChanged(null);
-                    }
-                }
-            }
-        }
-    }
     /**
      * TODO MEssage to the user if a area could not be attached for example wfs areas.
      *
@@ -1285,7 +1118,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
      */
     public void attachFeatureRequested(final PNotification notification) {
         final Object o = notification.getObject();
-        log.info("Try to attach Geometry");
+        LOG.info("Try to attach Geometry");
         final AttachFeatureListener afl = (AttachFeatureListener)o;
         final PFeature pf = afl.getFeatureToAttach();
         if (pf.getFeature() instanceof PureNewFeature) {
@@ -1294,17 +1127,17 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
             if (slotInfo != null) {
                 slotInfo.getRefreshable().refresh(null);
                 mappingComponent.getFeatureCollection().removeFeature(pf.getFeature());
-                if (log.isDebugEnabled()) {
-                    log.debug("Geometrie: " + slotInfo.getOpenSlot().getGeometry() + " wird hinzugefügt");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Geometrie: " + slotInfo.getOpenSlot().getGeometry() + " wird hinzugefügt");
                 }
                 slotInfo.getOpenSlot().setEditable(true);
                 mappingComponent.getFeatureCollection().addFeature(slotInfo.getOpenSlot());
-                if (log.isDebugEnabled()) {
-                    log.debug("Geometrie wurde an element: " + slotInfo.getSlotIdentifier() + " attached");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Geometrie wurde an element: " + slotInfo.getSlotIdentifier() + " attached");
                 }
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Geometrie wurde nicht attached");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Geometrie wurde nicht attached");
                 }
             }
         }
@@ -1313,146 +1146,14 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 //    }
     }
 
-    /**
-     * ToDo implement.
-     *
-     * @param  notification  DOCUMENT ME!
-     */
-    public void coordinatesChanged(final PNotification notification) {
-//    Object o=notification.getObject();
-//    if (o instanceof SimpleMoveListener) {
-//        double x=((SimpleMoveListener)o).getXCoord();
-//        double y=((SimpleMoveListener)o).getYCoord();
-//        double scale=((SimpleMoveListener)o).getCurrentOGCScale();
-//
-//        //double test= mappingComp.getWtst().getSourceX(36)-this.mappingComp.getWtst().getSourceX(0))/mappingComp.getCamera().getViewScale();
-//        //scale +" ... "+
-//        //setgetlblCoord.setText(MappingComponent.getCoordinateString(x,y));
-//
-//    }
-////        PFeature pf=((SimpleMoveListener)o).getUnderlyingPFeature();
-////
-////        if (pf!=null&&pf.getFeature() instanceof DefaultFeatureServiceFeature &&pf.getVisible()==true&&pf.getParent()!=null&&pf.getParent().getVisible()==true) {
-////            lblInfo.setText(((DefaultFeatureServiceFeature)pf.getFeature()).getObjectName());
-////        } else if (pf!=null&&pf.getFeature() instanceof Flaeche) {
-////            String name="Kassenzeichen: "+((Flaeche)pf.getFeature()).getKassenzeichen()+"::"+((Flaeche)pf.getFeature()).getBezeichnung();
-////            lblInfo.setText(name);
-////        } else {
-////            lblInfo.setText("");
-//        }
-        // }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  notfication  DOCUMENT ME!
-     */
-    public void selectionChanged(final PNotification notfication) {
-        final Object o = notfication.getObject();
-        if ((o instanceof SelectionListener) || (o instanceof FeatureMoveListener)
-                    || (o instanceof SplitPolygonListener)) {
-            final PNode p = null;
-            PFeature pf = null;
-            if (o instanceof SelectionListener) {
-                pf = ((SelectionListener)o).getSelectedPFeature();
-                //
-                // if (pf!=null && pf.getFeature() instanceof Flaeche|| pf.getFeature() instanceof PureNewFeature) {
-                // if (((DefaultFeatureCollection)mappingComp.getFeatureCollection()).isSelected(pf.getFeature())) {
-                // if (((DefaultFeatureCollection)mappingComp.getFeatureCollection()).getSelectedFeatures().size()>1) {
-                // int index=sorter.getSortedPosition(getTableModel().getIndexOfFlaeche((Flaeche)pf.getFeature()));
-                // tblOverview.getSelectionModel().addSelectionInterval(index,index);
-                // } else {
-                // int index=sorter.getSortedPosition(getTableModel().getIndexOfFlaeche((Flaeche)pf.getFeature()));
-                // tblOverview.getSelectionModel().setSelectionInterval(index,index);
-                // }
-                // }
-                // else {
-                // int index=sorter.getSortedPosition(getTableModel().getIndexOfFlaeche((Flaeche)pf.getFeature()));
-                // tblOverview.getSelectionModel().removeSelectionInterval(index,index);
-                // }
-                // } else
-                if (cmdSelect.isSelected() && (((SelectionListener)o).getClickCount() > 1)
-                            && (pf.getFeature() instanceof WFSFeature)) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("WFSFeature selected");
-                    }
-                    // log.debug("test"+((DefaultWFSFeature)pf.getFeature()).getProperties());
-                    final WFSFeature dwf = ((WFSFeature)pf.getFeature());
-//                    if(LagisBroker.getInstance().isInEditMode()){
-//                        log.debug("Flurstück kann nicht gewechselt werden --> Editmode");
-//                        JOptionPane.showMessageDialog(LagisBroker.getInstance().getParentComponent(),"Das Flurstück kann nur gewechselt werden, wenn alle Änderungen gespeichert oder verworfen worden sind.","Wechseln nicht möglich",JOptionPane.WARNING_MESSAGE);
-//                        return;
-//                    }
-//
-                    final HashMap props = dwf.getProperties();
-                    if (log.isDebugEnabled()) {
-                        log.debug("WFSFeature properties: " + props);
-                    }
-//                    try{
-//                        if(props != null && checkIfIdentifiersAreSetProperly()){
-//                            String gem = (String)props.get(gemarkungIdentifier);
-//                            String flur =  (String)props.get(flurIdentifier);
-//                            String flurstz= (String)props.get(flurstueckZaehlerIdentifier);
-//                            String flurstn= (String)props.get(flurstueckNennerIdentifier);
-//                            if(gem != null && flur != null && flurstz != null){
-//                                Gemarkung resolvedGemarkung = LagisBroker.getInstance().getGemarkungForKey(Integer.parseInt(gem));
-//                                //TODO if this case happens it leads to bug XXX
-//                                if(resolvedGemarkung==null){
-//                                    log.debug("Gemarkung konnte nicht entschlüsselt werden");
-//                                    resolvedGemarkung = new Gemarkung();
-//                                    resolvedGemarkung.setSchluessel(Integer.parseInt(gem));
-//                                }else{
-//                                    log.debug("Gemarkung konnte entschlüsselt werden");
-//                                }
-//                                //Gemarkung cplGemarkung = EJBroker.getInstance().completeGemarkung(gemarkung);
-////                        if (cplGemarkung != null){
-////                            log.debug("gemarkung bekannt");
-////                            gemarkung = cplGemarkung;
-////                        }
-//                                FlurstueckSchluessel key = new FlurstueckSchluessel();
-//                                key.setGemarkung(resolvedGemarkung);
-//                                key.setFlur(Integer.parseInt(flur));
-//                                key.setFlurstueckZaehler(Integer.parseInt(flurstz));
-//                                if(flurstn != null){
-//                                    key.setFlurstueckNenner(Integer.parseInt(flurstn));
-//                                } else {
-//                                    key.setFlurstueckNenner(0);
-//                                }
-//                                log.debug("Schlüssel konnte konstruiert werden");
-//                                LagisBroker.getInstance().loadFlurstueck(key);
-//                            } else {
-//                                log.debug("Mindestens ein Property == null Flurstueck kann nicht ausgewählt werden");
-//                            }
-//                        } else {
-//                            log.error("Properties == null Flurstueck oder Identifier im Konfigfile nicht richtig gesetzt --> kann nicht ausgewählt werden");
-//                        }
-//                    }catch(final Exception ex){
-//                        log.error("Fehler beim laden des ausgewählten Flurstücks",ex);
-//                    }
-                }
-            }
-        }
-    }
-
     @Override
     public void refresh(final Object refreshObject) {
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    private boolean checkIfIdentifiersAreSetProperly() {
-        return ((gemarkungIdentifier != null) && (flurIdentifier != null) && (flurstueckZaehlerIdentifier != null)
-                        && (flurstueckNennerIdentifier != null));
-    }
-
     @Override
     public void masterConfigure(final Element parent) {
-        if (log.isDebugEnabled()) {
-            log.debug("MapWidget masterConfigure");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("MapWidget masterConfigure");
         }
         final ConfigurationManager configManager = getBroker().getConfigManager();
         configManager.addConfigurable((ActiveLayerModel)mappingModel);
@@ -1477,27 +1178,9 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         PNotificationCenter.defaultCenter()
                 .addListener(
                     this,
-                    "selectionChanged",
-                    SplitPolygonListener.SELECTION_CHANGED,
-                    mappingComponent.getInputListener(MappingComponent.SPLIT_POLYGON));
-        PNotificationCenter.defaultCenter()
-                .addListener(
-                    this,
-                    "splitPolygon",
-                    SplitPolygonListener.SPLIT_FINISHED,
-                    mappingComponent.getInputListener(MappingComponent.SPLIT_POLYGON));
-        PNotificationCenter.defaultCenter()
-                .addListener(
-                    this,
                     "featureDeleteRequested",
                     DeleteFeatureListener.FEATURE_DELETE_REQUEST_NOTIFICATION,
                     mappingComponent.getInputListener(MappingComponent.REMOVE_POLYGON));
-        PNotificationCenter.defaultCenter()
-                .addListener(
-                    this,
-                    "joinPolygons",
-                    JoinPolygonsListener.FEATURE_JOIN_REQUEST_NOTIFICATION,
-                    mappingComponent.getInputListener(MappingComponent.JOIN_POLYGONS));
         PNotificationCenter.defaultCenter()
                 .addListener(
                     this,
@@ -1510,12 +1193,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                     "selectionChanged",
                     FeatureMoveListener.SELECTION_CHANGED_NOTIFICATION,
                     mappingComponent.getInputListener(MappingComponent.MOVE_POLYGON));
-        PNotificationCenter.defaultCenter()
-                .addListener(
-                    this,
-                    "coordinatesChanged",
-                    SimpleMoveListener.COORDINATES_CHANGED,
-                    mappingComponent.getInputListener(MappingComponent.MOTION));
         ((JHistoryButton)cmdForward).setDirection(JHistoryButton.DIRECTION_FORWARD);
         ((JHistoryButton)cmdBack).setDirection(JHistoryButton.DIRECTION_BACKWARD);
         ((JHistoryButton)cmdForward).setHistoryModel(mappingComponent);
@@ -1546,8 +1223,8 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 
     @Override
     public void configure(final Element parent) {
-        if (log.isDebugEnabled()) {
-            log.debug("Configure: " + this.getClass());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Configure: " + this.getClass());
         }
         cmdSnap.setSelected(true);
 //                    //TODO CHANGE CONFIG FILE ACTION
@@ -1586,9 +1263,9 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 
     @Override
     public void featuresChanged(final FeatureCollectionEvent fce) {
-        if (log.isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             // try{
-            log.debug("FeatureChanged");
+            LOG.debug("FeatureChanged");
         }
 //        Collection<Feature> features =  fce.getEventFeatures();
 //        if(features != null){
@@ -1609,8 +1286,8 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 
     @Override
     public void featureSelectionChanged(final FeatureCollectionEvent fce) {
-        if (log.isDebugEnabled()) {
-            log.debug("FeatureSelection Changed");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("FeatureSelection Changed");
         }
         final Collection<Feature> features = fce.getEventFeatures();
         getBroker().fireChangeEvent(features);
