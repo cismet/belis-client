@@ -301,10 +301,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                     LOG.debug("InteractionMode set to SELCET");
                 }
                 cmdSelectActionPerformed(null);
-//            } else if (currentInteractionMode.equals(MappingComponent.CUSTOM_FEATUREINFO)) {
-//                log.debug("InteractionMode set to CUSTOM_FEATUREINFO");
-//                //cmdALB.setSelected(true);
-//                cmdALBActionPerformed(null);
             } else if (currentInteractionMode.equals(MappingComponent.PAN)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("InteractionMode set to PAN");
@@ -695,30 +691,30 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdMovePolygonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdMovePolygonActionPerformed
+    private void cmdMovePolygonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMovePolygonActionPerformed
         removeHandleGroupSelection();
         removeMainGroupSelection();
         cmdMovePolygon.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.MOVE_POLYGON);
         setLastMapMode(getCurrentMapMode());
         setCurrentMapMode(MapMode.MOVE_POLYGON);
-    }                                                                                  //GEN-LAST:event_cmdMovePolygonActionPerformed
+    }//GEN-LAST:event_cmdMovePolygonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdAddActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdAddActionPerformed
+    private void cmdAddActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddActionPerformed
         mappingComponent.showInternalLayerWidget(!mappingComponent.isInternalLayerWidgetVisible(), 500);
-    }                                                                          //GEN-LAST:event_cmdAddActionPerformed
+    }//GEN-LAST:event_cmdAddActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdRemoveHandleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdRemoveHandleActionPerformed
+    private void cmdRemoveHandleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRemoveHandleActionPerformed
         removeHandleGroupSelection();
         cmdRemoveHandle.setSelected(true);
 
@@ -727,14 +723,14 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         mappingComponent.setInteractionMode(MappingComponent.SELECT);
 
         mappingComponent.setHandleInteractionMode(MappingComponent.REMOVE_HANDLE);
-    } //GEN-LAST:event_cmdRemoveHandleActionPerformed
+    }//GEN-LAST:event_cmdRemoveHandleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdAddHandleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdAddHandleActionPerformed
+    private void cmdAddHandleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddHandleActionPerformed
         removeHandleGroupSelection();
         cmdAddHandle.setSelected(true);
 
@@ -743,14 +739,14 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         mappingComponent.setInteractionMode(MappingComponent.SELECT);
 
         mappingComponent.setHandleInteractionMode(MappingComponent.ADD_HANDLE);
-    } //GEN-LAST:event_cmdAddHandleActionPerformed
+    }//GEN-LAST:event_cmdAddHandleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdMoveHandleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdMoveHandleActionPerformed
+    private void cmdMoveHandleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMoveHandleActionPerformed
         removeHandleGroupSelection();
         cmdMoveHandle.setSelected(true);
 
@@ -759,35 +755,35 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         mappingComponent.setInteractionMode(MappingComponent.SELECT);
 
         mappingComponent.setHandleInteractionMode(MappingComponent.MOVE_HANDLE);
-    } //GEN-LAST:event_cmdMoveHandleActionPerformed
+    }//GEN-LAST:event_cmdMoveHandleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdRemovePolygonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdRemovePolygonActionPerformed
+    private void cmdRemovePolygonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRemovePolygonActionPerformed
         removeHandleGroupSelection();
         removeMainGroupSelection();
         cmdRemovePolygon.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.REMOVE_POLYGON);
         setLastMapMode(getCurrentMapMode());
         setCurrentMapMode(MapMode.REMOVE_POLYGON);
-    }                                                                                    //GEN-LAST:event_cmdRemovePolygonActionPerformed
+    }//GEN-LAST:event_cmdRemovePolygonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdSelectActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdSelectActionPerformed
+    private void cmdSelectActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSelectActionPerformed
         removeMainGroupSelection();
         cmdSelect.setSelected(true);
         setLastMapMode(getCurrentMapMode());
         mappingComponent.setInteractionMode(MappingComponent.SELECT);
         cmdMoveHandleActionPerformed(null);
         setCurrentMapMode(MapMode.SELECT);
-    }                                                                             //GEN-LAST:event_cmdSelectActionPerformed
+    }//GEN-LAST:event_cmdSelectActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -803,14 +799,14 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdPanActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdPanActionPerformed
+    private void cmdPanActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPanActionPerformed
         removeHandleGroupSelection();
         removeMainGroupSelection();
         cmdPan.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.PAN);
         setLastMapMode(getCurrentMapMode());
         setCurrentMapMode(MapMode.PAN);
-    }                                                                          //GEN-LAST:event_cmdPanActionPerformed
+    }//GEN-LAST:event_cmdPanActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -982,21 +978,21 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdZoomActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdZoomActionPerformed
+    private void cmdZoomActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdZoomActionPerformed
         removeHandleGroupSelection();
         removeMainGroupSelection();
         cmdZoom.setSelected(true);
         mappingComponent.setInteractionMode(MappingComponent.ZOOM);
         setLastMapMode(getCurrentMapMode());
         setCurrentMapMode(MapMode.ZOOM);
-    }                                                                           //GEN-LAST:event_cmdZoomActionPerformed
+    }//GEN-LAST:event_cmdZoomActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdSnapActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdSnapActionPerformed
+    private void cmdSnapActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSnapActionPerformed
         if (LOG.isDebugEnabled()) {
             LOG.debug("Set snapping Enabled: " + cmdSnap.isSelected());
         }
@@ -1007,14 +1003,14 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         mappingComponent.setSnappingEnabled(!mappingComponent.isReadOnly() && cmdSnap.isSelected());
         mappingComponent.setVisualizeSnappingEnabled(!mappingComponent.isReadOnly() && cmdSnap.isSelected());
         mappingComponent.setInGlueIdenticalPointsMode(cmdSnap.isSelected());
-    } //GEN-LAST:event_cmdSnapActionPerformed
+    }//GEN-LAST:event_cmdSnapActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdWmsBackgroundActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdWmsBackgroundActionPerformed
+    private void cmdWmsBackgroundActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdWmsBackgroundActionPerformed
         if (mappingComponent.isBackgroundEnabled()) {
             mappingComponent.setBackgroundEnabled(false);
             cmdWmsBackground.setSelected(false);
@@ -1023,49 +1019,49 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
             cmdWmsBackground.setSelected(true);
             mappingComponent.queryServices();
         }
-    }                                                                                    //GEN-LAST:event_cmdWmsBackgroundActionPerformed
+    }//GEN-LAST:event_cmdWmsBackgroundActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdForwardActionPerformed
+    private void cmdForwardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdForwardActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_cmdForwardActionPerformed
+    }//GEN-LAST:event_cmdForwardActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdBackActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdBackActionPerformed
-    }                                                                           //GEN-LAST:event_cmdBackActionPerformed
+    private void cmdBackActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBackActionPerformed
+    }//GEN-LAST:event_cmdBackActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdFullPoly1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdFullPoly1ActionPerformed
+    private void cmdFullPoly1ActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdFullPoly1ActionPerformed
         mappingComponent.zoomToSelectedNode();
-    }                                                                                //GEN-LAST:event_cmdFullPoly1ActionPerformed
+    }//GEN-LAST:event_cmdFullPoly1ActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdFullPolyActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdFullPolyActionPerformed
+    private void cmdFullPolyActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdFullPolyActionPerformed
         mappingComponent.zoomToFullFeatureCollectionBounds();
-    }                                                                               //GEN-LAST:event_cmdFullPolyActionPerformed
+    }//GEN-LAST:event_cmdFullPolyActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdForegroundActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdForegroundActionPerformed
+    private void cmdForegroundActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdForegroundActionPerformed
         if (mappingComponent.isFeatureCollectionVisible()) {
             mappingComponent.setFeatureCollectionVisibility(false);
             cmdForeground.setSelected(false);
@@ -1073,14 +1069,14 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
             mappingComponent.setFeatureCollectionVisibility(true);
             cmdForeground.setSelected(true);
         }
-    }                                                                                 //GEN-LAST:event_cmdForegroundActionPerformed
+    }//GEN-LAST:event_cmdForegroundActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cmdNewLinestringActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdNewLinestringActionPerformed
+    private void cmdNewLinestringActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdNewLinestringActionPerformed
         removeMainGroupSelection();
         cmdNewLinestring.setSelected(true);
         setLastMapMode(getCurrentMapMode());
@@ -1088,7 +1084,7 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         ((CreateGeometryListener)mappingComponent.getInputListener(MappingComponent.NEW_POLYGON)).setMode(
             CreateGeometryListener.LINESTRING);
         setCurrentMapMode(MapMode.MEASUREMENT);
-    }                                                                                    //GEN-LAST:event_cmdNewLinestringActionPerformed
+    }//GEN-LAST:event_cmdNewLinestringActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1102,9 +1098,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                 final DeleteFeatureListener dfl = (DeleteFeatureListener)o;
                 final PFeature pf = dfl.getFeatureRequestedForDeletion();
                 pf.getFeature().setGeometry(null);
-//            if(pf.getFeature() instanceof Verwaltungsbereich){
-//                log.debug("Verwaltungsbereichsgeometrie wurde gelöscht setze Flächee = 0");
-//            }
             }
         } catch (Exception ex) {
             LOG.warn("Fehler beim featuredeleteRequest", ex);
@@ -1141,9 +1134,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                 }
             }
         }
-//    } else if(pf.getFeature() instanceof Geom){
-//
-//    }
     }
 
     @Override
@@ -1181,18 +1171,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
                     "featureDeleteRequested",
                     DeleteFeatureListener.FEATURE_DELETE_REQUEST_NOTIFICATION,
                     mappingComponent.getInputListener(MappingComponent.REMOVE_POLYGON));
-        PNotificationCenter.defaultCenter()
-                .addListener(
-                    this,
-                    "selectionChanged",
-                    PSelectionEventHandler.SELECTION_CHANGED_NOTIFICATION,
-                    mappingComponent.getInputListener(MappingComponent.SELECT));
-        PNotificationCenter.defaultCenter()
-                .addListener(
-                    this,
-                    "selectionChanged",
-                    FeatureMoveListener.SELECTION_CHANGED_NOTIFICATION,
-                    mappingComponent.getInputListener(MappingComponent.MOVE_POLYGON));
         ((JHistoryButton)cmdForward).setDirection(JHistoryButton.DIRECTION_FORWARD);
         ((JHistoryButton)cmdBack).setDirection(JHistoryButton.DIRECTION_BACKWARD);
         ((JHistoryButton)cmdForward).setHistoryModel(mappingComponent);
@@ -1203,21 +1181,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
         this.add(BorderLayout.CENTER, mappingComponent);
 
         addressSearchControl.masterConfigure(parent);
-//        log.debug("MasterConfigure: "+this.getClass());
-//        try{
-//        Element identifier = parent.getChild("flurstueckXMLIdentifier");
-//        gemarkungIdentifier = identifier.getChildText("gemarkungIdentifier");
-//        log.debug("GemarkungsIdentifier: "+ gemarkungIdentifier);
-//        flurIdentifier = identifier.getChildText("flurIdentifier");
-//        log.debug("FlurIdentifier: "+ flurIdentifier);
-//        flurstueckZaehlerIdentifier = identifier.getChildText("flurstueckZaehlerIdentifier");
-//        log.debug("FlurstueckZaehlerIdentifier: "+ flurstueckZaehlerIdentifier);
-//        flurstueckNennerIdentifier = identifier.getChildText("flurstueckNennerIdentifier");
-//        log.debug("FlurstueckNennerIdentifier: "+ flurstueckNennerIdentifier);
-//        log.debug("MasterConfigure: "+this.getClass()+" erfolgreich");
-//        }catch(Exception ex){
-//            log.error("Fehler beim masterConfigure von: "+this.getClass(),ex);
-//        }
     }
     // ToDo getConfiguration ??
 
@@ -1230,29 +1193,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 //                    //TODO CHANGE CONFIG FILE ACTION
 
         mappingComponent.setSnappingEnabled(true);
-//                    mappingComponent.setVisualizeSnappingEnabled(!mappingComponent.isReadOnly()&&cmdSnap.isSelected());
-//                    mappingComponent.setInGlueIdenticalPointsMode(cmdSnap.isSelected());
-//        Element prefs=parent.getChild("cismapMappingPreferences");
-//        try{
-//            try {
-//                isSnappingEnabled=prefs.getAttribute("snapping").getBooleanValue();
-//                if(isSnappingEnabled){
-//                    cmdSnap.setSelected(isSnappingEnabled);
-//                    //TODO CHANGE CONFIG FILE ACTION
-//                    //cismapPrefs.getGlobalPrefs().setSnappingEnabled(cmdSnap.isSelected());
-//                    //cismapPrefs.getGlobalPrefs().setSnappingPreviewEnabled(cmdSnap.isSelected());
-//                    mappingComponent.setSnappingEnabled(!mappingComponent.isReadOnly()&&cmdSnap.isSelected());
-//                    mappingComponent.setVisualizeSnappingEnabled(!mappingComponent.isReadOnly()&&cmdSnap.isSelected());
-//                    mappingComponent.setInGlueIdenticalPointsMode(cmdSnap.isSelected());
-//                }
-//
-//            } catch (Exception ex) {
-//                log.warn("Fehler beim setzen des Snapping",ex);
-//            }
-//
-//        } catch(Exception ex){
-//            log.error("Fehler beim konfigurieren des Kartenpanels: ",ex);
-//        }
 
         addressSearchControl.configure(parent);
     }
@@ -1263,21 +1203,6 @@ public class MapWidget extends BelisWidget implements FeatureCollectionListener,
 
     @Override
     public void featuresChanged(final FeatureCollectionEvent fce) {
-        if (LOG.isDebugEnabled()) {
-            // try{
-            LOG.debug("FeatureChanged");
-        }
-//        Collection<Feature> features =  fce.getEventFeatures();
-//        if(features != null){
-//            for(Feature currentFeature:features){
-//                if(currentFeature instanceof Verwaltungsbereich){
-//                    ((Verwaltungsbereich)currentFeature).setFlaeche((int)currentFeature.getGeometry().getArea());
-//                }
-//            }
-//        }
-//        }catch(Exception ex){
-//            log.warn("Fehler beim featureChanged");
-//        }
     }
 
     @Override
