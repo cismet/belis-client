@@ -8,6 +8,9 @@
 package de.cismet.cids.custom.beans.belis2;
 
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.io.WKTWriter;
+
+import de.cismet.cismap.commons.CrsTransformer;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -25,12 +28,17 @@ public class GeomCustomBean extends BaseEntity {
     public static final String TABLE = "geom";
 
     public static final String PROP__GEO_FIELD = "geo_field";
+    public static final String PROP__WGS84_WKT = "wgs84_wkt";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__GEO_FIELD };
+    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__GEO_FIELD, PROP__WGS84_WKT };
 
     //~ Instance fields --------------------------------------------------------
 
+    private final WKTWriter WKT_WRITER = new WKTWriter();
+    private final int SRID_WGS84 = 4326;
+
     private Geometry geo_field;
+    private String wgs84_wkt;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -74,6 +82,15 @@ public class GeomCustomBean extends BaseEntity {
         final Geometry old = this.geo_field;
         this.geo_field = geo_field;
         this.propertyChangeSupport.firePropertyChange(PROP__GEO_FIELD, old, this.geo_field);
+
+        if (geo_field == null) {
+            setWgs84_wkt(null);
+        } else {
+            final String crs = CrsTransformer.createCrsFromSrid(SRID_WGS84);
+            final Geometry transformedGeom = CrsTransformer.transformToGivenCrs(geo_field, crs);
+            transformedGeom.setSRID(SRID_WGS84);
+            setWgs84_wkt(WKT_WRITER.write(transformedGeom));
+        }
     }
 
     /**
@@ -92,5 +109,25 @@ public class GeomCustomBean extends BaseEntity {
      */
     public void setGeomField(final Geometry geomField) {
         setGeo_field(geomField);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getWgs84_wkt() {
+        return wgs84_wkt;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wgs84_wkt  DOCUMENT ME!
+     */
+    private void setWgs84_wkt(final String wgs84_wkt) {
+        final String old = this.wgs84_wkt;
+        this.wgs84_wkt = wgs84_wkt;
+        this.propertyChangeSupport.firePropertyChange(PROP__WGS84_WKT, old, this.wgs84_wkt);
     }
 }
