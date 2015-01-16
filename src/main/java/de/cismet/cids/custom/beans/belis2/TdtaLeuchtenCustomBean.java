@@ -134,7 +134,8 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
             PROP__MONTEUR,
             PROP__NAECHSTER_WECHSEL,
             PROP__VORSCHALTGERAET,
-            PROP__EINBAUDATUM
+            PROP__EINBAUDATUM,
+            PROP__FK_STANDORT
         };
 
     //~ Instance fields --------------------------------------------------------
