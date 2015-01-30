@@ -297,6 +297,7 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
         add(_cmdOk, gridBagConstraints);
         _cmdOk.setText(null);
 
+        _chkVisualize.setSelected(true);
         _chkVisualize.setToolTipText(org.openide.util.NbBundle.getMessage(
                 AddressSearchControl.class,
                 "AddressSearchControl._chkVisualize.toolTipText"));                                  // NOI18N
@@ -310,7 +311,6 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 3);
         add(_chkVisualize, gridBagConstraints);
-        _chkVisualize.setSelected(false);
 
         _cboNr.setEditable(true);
         _cboNr.setEnabled(false);

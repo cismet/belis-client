@@ -115,7 +115,7 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Comp
     @Override
     public String toString() {
         if (getStrasse() != null) {
-            return getPk() + " - " + getStrasse();
+            return getStrasse();
         } else {
             return "";
         }
