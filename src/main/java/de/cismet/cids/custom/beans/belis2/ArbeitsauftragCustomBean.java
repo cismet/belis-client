@@ -20,6 +20,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import de.cismet.belis.broker.CidsBroker;
@@ -202,11 +204,44 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     /**
      * DOCUMENT ME!
      *
+     * @return  DOCUMENT ME!
+     */
+    public List<ArbeitsprotokollCustomBean> getSortedProtokolle() {
+        final List<ArbeitsprotokollCustomBean> sorted = new ArrayList<ArbeitsprotokollCustomBean>(ar_protokolle);
+        Collections.sort((List<ArbeitsprotokollCustomBean>)sorted,
+            new Comparator<ArbeitsprotokollCustomBean>() {
+
+                @Override
+                public int compare(final ArbeitsprotokollCustomBean o1, final ArbeitsprotokollCustomBean o2) {
+                    if ((o1.getProtokollnummer() != null) && (o2.getProtokollnummer() != null)) {
+                        return o1.getProtokollnummer().compareTo(o2.getProtokollnummer());
+                    } else if (o1.getProtokollnummer() != null) {
+                        return 1;
+                    } else if (o2.getProtokollnummer() != null) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+        return sorted;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  ar_protokolle  DOCUMENT ME!
      */
     public void setAr_protokolle(final Collection<ArbeitsprotokollCustomBean> ar_protokolle) {
         final Collection<ArbeitsprotokollCustomBean> old = this.ar_protokolle;
         this.ar_protokolle = ar_protokolle;
+        final List<ArbeitsprotokollCustomBean> sortedProtokolle = getSortedProtokolle();
+        for (int index = 0; index < sortedProtokolle.size(); index++) {
+            final ArbeitsprotokollCustomBean protokoll = sortedProtokolle.get(index);
+            if (protokoll.getProtokollnummer() == null) {
+                protokoll.setProtokollnummer(index + 1);
+            }
+        }
         this.propertyChangeSupport.firePropertyChange(PROP__AR_PROTOKOLLE, old, this.ar_protokolle);
     }
 

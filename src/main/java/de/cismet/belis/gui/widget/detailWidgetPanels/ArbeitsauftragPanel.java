@@ -14,8 +14,11 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.swingx.JXTable;
 
+import java.awt.Rectangle;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -49,6 +52,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ArbeitsauftragPanel.class);
 
     private static final String[] COLUMN_NAMES = {
+            "#",
             "Herkunft",
             "Fachobjekt",
             "Kennzeichnung",
@@ -58,6 +62,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         };
 
     private static final Class[] COLUMN_CLASSES = {
+            Integer.class,
             String.class,
             String.class,
             String.class,
@@ -72,10 +77,21 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsprotokollPanel arbeitsprotokollPanel1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblArbeitsauftrag;
     private javax.swing.JLabel lblDatum;
@@ -124,20 +140,31 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         lblArbeitsauftrag = new javax.swing.JLabel();
-        lblUserValue = new javax.swing.JLabel();
-        lblDatumValue = new javax.swing.JLabel();
-        lblDatum = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        lblNummer = new javax.swing.JLabel();
-        lblUser = new javax.swing.JLabel();
-        arbeitsprotokollPanel1 = new de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsprotokollPanel();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel14 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jPanel18 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
+        jButton8 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new JXTable();
-        jSeparator1 = new javax.swing.JSeparator();
-        lblZugewiesenAn = new javax.swing.JLabel();
+        lblNummer = new javax.swing.JLabel();
+        lblUserValue = new javax.swing.JLabel();
+        lblDatum = new javax.swing.JLabel();
         txtZugewiesenAn = new javax.swing.JTextField();
+        lblUser = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        lblDatumValue = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         lblNummerValue = new javax.swing.JLabel();
+        lblZugewiesenAn = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        arbeitsprotokollPanel1 = new de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsprotokollPanel();
 
         lblArbeitsauftrag.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
         lblArbeitsauftrag.setIcon(new javax.swing.ImageIcon(
@@ -145,6 +172,174 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         lblArbeitsauftrag.setText("Arbeitsauftrag");                                              // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
+
+        jSplitPane1.setBorder(null);
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel2.add(jPanel14, gridBagConstraints);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/search/arrow-090.png"))); // NOI18N
+        jButton2.setText(org.openide.util.NbBundle.getMessage(
+                ArbeitsauftragPanel.class,
+                "ArbeitsauftragPanel.jButton2.text"));                                                               // NOI18N
+        jButton2.setToolTipText(org.openide.util.NbBundle.getMessage(
+                ArbeitsauftragPanel.class,
+                "ArbeitsauftragPanel.jButton2.toolTipText"));                                                        // NOI18N
+        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jButton2ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        jPanel2.add(jButton2, gridBagConstraints);
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/search/arrow-270.png"))); // NOI18N
+        jButton3.setText(org.openide.util.NbBundle.getMessage(
+                ArbeitsauftragPanel.class,
+                "ArbeitsauftragPanel.jButton3.text"));                                                               // NOI18N
+        jButton3.setToolTipText(org.openide.util.NbBundle.getMessage(
+                ArbeitsauftragPanel.class,
+                "ArbeitsauftragPanel.jButton3.toolTipText"));                                                        // NOI18N
+        jButton3.setBorderPainted(false);
+        jButton3.setContentAreaFilled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jButton3ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        jPanel2.add(jButton3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel2.add(jPanel18, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel2.add(jPanel19, gridBagConstraints);
+
+        jButton8.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/search/arrow-stop-090.png"))); // NOI18N
+        jButton8.setText(org.openide.util.NbBundle.getMessage(
+                ArbeitsauftragPanel.class,
+                "ArbeitsauftragPanel.jButton8.text"));                                 // NOI18N
+        jButton8.setToolTipText(org.openide.util.NbBundle.getMessage(
+                ArbeitsauftragPanel.class,
+                "ArbeitsauftragPanel.jButton8.toolTipText"));                          // NOI18N
+        jButton8.setBorderPainted(false);
+        jButton8.setContentAreaFilled(false);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jButton8ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(jButton8, gridBagConstraints);
+        jButton8.setVisible(false);
+
+        jButton10.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/search/arrow-stop-270.png"))); // NOI18N
+        jButton10.setText(org.openide.util.NbBundle.getMessage(
+                ArbeitsauftragPanel.class,
+                "ArbeitsauftragPanel.jButton10.text"));                                // NOI18N
+        jButton10.setToolTipText(org.openide.util.NbBundle.getMessage(
+                ArbeitsauftragPanel.class,
+                "ArbeitsauftragPanel.jButton10.toolTipText"));                         // NOI18N
+        jButton10.setBorderPainted(false);
+        jButton10.setContentAreaFilled(false);
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jButton10ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(jButton10, gridBagConstraints);
+        jButton10.setVisible(false);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        jPanel3.add(jPanel2, gridBagConstraints);
+
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(17, 120));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(450, 120));
+
+        jTable1.setModel(new ProtokolleTableModel());
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jScrollPane2.setViewportView(jTable1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel3.add(jScrollPane2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel4.add(jPanel3, gridBagConstraints);
+
+        lblNummer.setText("Auftragsnummer:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblNummer, gridBagConstraints);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -161,25 +356,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lblUserValue, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.angelegt_am}"),
-                lblDatumValue,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setConverter(new DateToStringConverter());
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lblDatumValue, gridBagConstraints);
+        jPanel4.add(lblUserValue, gridBagConstraints);
 
         lblDatum.setText("angelegt am:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -188,76 +365,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lblDatum, gridBagConstraints);
-
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel2.setText("Protokolle:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 6.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 5, 5);
-        add(jLabel2, gridBagConstraints);
-
-        lblNummer.setText("Auftragsnummer:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lblNummer, gridBagConstraints);
-
-        lblUser.setText("angelegt von:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lblUser, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        add(arbeitsprotokollPanel1, gridBagConstraints);
-
-        jScrollPane2.setMinimumSize(new java.awt.Dimension(17, 120));
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(450, 120));
-
-        jTable1.setModel(new ProtokolleTableModel());
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        jScrollPane2.setViewportView(jTable1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 6.0;
-        add(jScrollPane2, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 6.0;
-        add(jSeparator1, gridBagConstraints);
-
-        lblZugewiesenAn.setText("Zugewiesen an:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lblZugewiesenAn, gridBagConstraints);
+        jPanel4.add(lblDatum, gridBagConstraints);
 
         txtZugewiesenAn.setEnabled(false);
 
@@ -276,14 +384,48 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(txtZugewiesenAn, gridBagConstraints);
+        jPanel4.add(txtZugewiesenAn, gridBagConstraints);
+
+        lblUser.setText("angelegt von:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblUser, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 6.0;
+        jPanel4.add(jSeparator1, gridBagConstraints);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.angelegt_am}"),
+                lblDatumValue,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setConverter(new DateToStringConverter());
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblDatumValue, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        add(jPanel1, gridBagConstraints);
+        jPanel4.add(jPanel1, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
@@ -302,10 +444,165 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lblNummerValue, gridBagConstraints);
+        jPanel4.add(lblNummerValue, gridBagConstraints);
+
+        lblZugewiesenAn.setText("Zugewiesen an:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(lblZugewiesenAn, gridBagConstraints);
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel2.setText("Protokolle:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 6.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 5, 5);
+        jPanel4.add(jLabel2, gridBagConstraints);
+
+        jSplitPane1.setTopComponent(jPanel4);
+        jSplitPane1.setBottomComponent(arbeitsprotokollPanel1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(jSplitPane1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  newSelectedIndices  DOCUMENT ME!
+     */
+    private void setProtokollSelection(final int[] newSelectedIndices) {
+        int viewIndex = -1;
+        jTable1.getSelectionModel().setValueIsAdjusting(true);
+        jTable1.getSelectionModel().clearSelection();
+        for (final int newSelectedIndex : newSelectedIndices) {
+            final int index = newSelectedIndex;
+            viewIndex = jTable1.convertRowIndexToView(index);
+            jTable1.getSelectionModel().addSelectionInterval(viewIndex, viewIndex);
+        }
+        jTable1.getSelectionModel().setValueIsAdjusting(false);
+        jTable1.scrollRectToVisible(jTable1.getCellRect(viewIndex, 0, true));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton2ActionPerformed
+        final int[] selectedIndices = jTable1.getSelectedRows();
+        if ((selectedIndices.length > 0) && (jTable1.convertRowIndexToModel(selectedIndices[0]) > 0)) {
+            final List<ArbeitsprotokollCustomBean> sortedProtokolle = currentEntity.getSortedProtokolle();
+
+            final int[] newSelectedIndices = new int[selectedIndices.length];
+            for (int index = 0; index < selectedIndices.length; index++) {
+                final int selectedIndex = jTable1.convertRowIndexToModel(selectedIndices[index]);
+                final int newIndex = selectedIndex - 1;
+                newSelectedIndices[index] = newIndex;
+
+                sortedProtokolle.get(selectedIndex).setProtokollnummer(newIndex + 1);
+                sortedProtokolle.get(newIndex).setProtokollnummer(selectedIndex + 1);
+
+                Collections.swap(sortedProtokolle, selectedIndex, newIndex);
+            }
+
+            setProtokollSelection(newSelectedIndices);
+        }
+    } //GEN-LAST:event_jButton2ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jButton3ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton3ActionPerformed
+        final int[] selectedIndices = jTable1.getSelectedRows();
+        if ((selectedIndices.length > 0)
+                    && (jTable1.convertRowIndexToModel(selectedIndices[selectedIndices.length - 1])
+                        < (currentEntity.getSortedProtokolle().size() - 1))) {
+            final int[] newSelectedIndices = new int[selectedIndices.length];
+
+            final List<ArbeitsprotokollCustomBean> sortedProtokolle = currentEntity.getSortedProtokolle();
+            for (int index = selectedIndices.length - 1; index >= 0; index--) {
+                final int selectedIndex = jTable1.convertRowIndexToModel(selectedIndices[index]);
+                final int newIndex = selectedIndex + 1;
+                newSelectedIndices[index] = newIndex;
+
+                sortedProtokolle.get(selectedIndex).setProtokollnummer(newIndex + 1);
+                sortedProtokolle.get(newIndex).setProtokollnummer(selectedIndex + 1);
+
+                Collections.swap(sortedProtokolle, selectedIndex, newIndex);
+            }
+
+            setProtokollSelection(newSelectedIndices);
+        }
+    } //GEN-LAST:event_jButton3ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jButton8ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton8ActionPerformed
+        final int[] selectedIndices = jTable1.getSelectedRows();
+        if ((selectedIndices.length > 0) && (jTable1.convertRowIndexToModel(selectedIndices[0]) > 0)) {
+            final int[] newSelectedIndices = new int[selectedIndices.length];
+
+            final List<ArbeitsprotokollCustomBean> sortedProtokolle = currentEntity.getSortedProtokolle();
+            for (int index = 0; index < selectedIndices.length; index++) {
+                final int selectedIndex = jTable1.convertRowIndexToModel(selectedIndices[index]);
+                final int newIndex = index;
+                newSelectedIndices[index] = newIndex;
+
+                sortedProtokolle.get(selectedIndex).setProtokollnummer(newIndex + 1);
+                sortedProtokolle.get(newIndex).setProtokollnummer(selectedIndex + 1);
+
+                Collections.swap(sortedProtokolle, selectedIndex, newIndex);
+            }
+
+            setProtokollSelection(newSelectedIndices);
+        }
+    } //GEN-LAST:event_jButton8ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jButton10ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton10ActionPerformed
+        final int[] selectedIndices = jTable1.getSelectedRows();
+        if ((selectedIndices.length > 0)
+                    && (jTable1.convertRowIndexToModel(selectedIndices[selectedIndices.length - 1])
+                        < (currentEntity.getSortedProtokolle().size() - 1))) {
+            final int[] newSelectedIndices = new int[selectedIndices.length];
+
+            final List<ArbeitsprotokollCustomBean> sortedProtokolle = currentEntity.getSortedProtokolle();
+            for (int index = selectedIndices.length - 1; index >= 0; index--) {
+                final int selectedIndex = jTable1.convertRowIndexToModel(selectedIndices[index]);
+                final int newIndex = sortedProtokolle.size() - index - 1;
+                newSelectedIndices[index] = newIndex;
+
+                sortedProtokolle.get(selectedIndex).setProtokollnummer(newIndex + 1);
+                sortedProtokolle.get(newIndex).setProtokollnummer(selectedIndex + 1);
+
+                Collections.swap(sortedProtokolle, selectedIndex, newIndex);
+            }
+
+            setProtokollSelection(newSelectedIndices);
+        }
+    } //GEN-LAST:event_jButton10ActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -365,6 +662,10 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     @Override
     public void setPanelEditable(final boolean isEditable) {
         RendererTools.setEditable(txtZugewiesenAn, isEditable);
+        jButton10.setEnabled(isEditable);
+        jButton2.setEnabled(isEditable);
+        jButton3.setEnabled(isEditable);
+        jButton8.setEnabled(isEditable);
         arbeitsprotokollPanel1.setPanelEditable(isEditable && !getSelectedProtokolle().isEmpty());
         this.isEditable = isEditable;
     }
@@ -430,10 +731,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     @Override
     public void setCurrentEntity(final ArbeitsauftragCustomBean currentEntity) {
         super.setCurrentEntity(currentEntity);
-        ((ProtokolleTableModel)jTable1.getModel()).clear();
-        if (currentEntity != null) {
-            ((ProtokolleTableModel)jTable1.getModel()).addProtokolle(currentEntity.getAr_protokolle());
-        }
+        ((ProtokolleTableModel)jTable1.getModel()).fireTableDataChanged();
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -445,10 +743,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
      */
     class ProtokolleTableModel extends AbstractTableModel {
 
-        //~ Instance fields ----------------------------------------------------
-
-        private List<ArbeitsprotokollCustomBean> protokolle = new ArrayList<ArbeitsprotokollCustomBean>();
-
         //~ Methods ------------------------------------------------------------
 
         /**
@@ -458,10 +752,10 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
          */
         @Override
         public int getRowCount() {
-            if (protokolle == null) {
+            if (currentEntity == null) {
                 return 0;
             }
-            return protokolle.size();
+            return currentEntity.getSortedProtokolle().size();
         }
 
         /**
@@ -524,33 +818,36 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
             switch (columnIndex) {
                 case 0: {
-                    return protokoll.getVeranlassungsschluessel();
+                    return protokoll.getProtokollnummer();
                 }
                 case 1: {
+                    return protokoll.getVeranlassungsschluessel();
+                }
+                case 2: {
                     if (entityName != null) {
                         return entityName;
                     } else {
                         return null;
                     }
                 }
-                case 2: {
+                case 3: {
                     if (entity != null) {
                         return entity.getKeyString();
                     } else {
                         return null;
                     }
                 }
-                case 3: {
+                case 4: {
                     return protokoll.getMonteur();
                 }
-                case 4: {
+                case 5: {
                     if (entity != null) {
                         return entity.getHumanReadablePosition();
                     } else {
                         return null;
                     }
                 }
-                case 5: {
+                case 6: {
                     if (status != null) {
                         return status.getBezeichnung();
                     } else {
@@ -561,43 +858,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
                     return null;
                 }
             }
-        }
-
-        /**
-         * DOCUMENT ME!
-         */
-        public void clear() {
-            protokolle.clear();
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  protokoll  DOCUMENT ME!
-         */
-        public void addProtokoll(final ArbeitsprotokollCustomBean protokoll) {
-            protokolle.add(protokoll);
-            fireTableDataChanged();
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  protokolle  DOCUMENT ME!
-         */
-        public void addProtokolle(final Collection<ArbeitsprotokollCustomBean> protokolle) {
-            this.protokolle.addAll(protokolle);
-            fireTableDataChanged();
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param  protokoll  DOCUMENT ME!
-         */
-        public void removeProtokoll(final ArbeitsprotokollCustomBean protokoll) {
-            protokolle.remove(protokoll);
-            fireTableDataChanged();
         }
 
         /**
@@ -632,11 +892,11 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
          * @return  DOCUMENT ME!
          */
         public int getIndexByProtokoll(final ArbeitsprotokollCustomBean protokoll) {
-            if (protokolle == null) {
+            if (currentEntity == null) {
                 return -1;
             }
             try {
-                return protokolle.indexOf(protokoll);
+                return currentEntity.getSortedProtokolle().indexOf(protokoll);
             } catch (Exception e) {
                 LOG.error("error in getIndexByProtokoll(). will return -1", e);
                 return -1;
@@ -651,11 +911,11 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
          * @return  DOCUMENT ME!
          */
         public ArbeitsprotokollCustomBean getProtokollByIndex(final int modelIndex) {
-            if (protokolle == null) {
+            if (currentEntity == null) {
                 return null;
             }
             try {
-                return (ArbeitsprotokollCustomBean)protokolle.get(modelIndex);
+                return currentEntity.getSortedProtokolle().get(modelIndex);
             } catch (Exception e) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("ArbeitsprotokollCustomBean at index " + modelIndex + " not found. will return null", e);

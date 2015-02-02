@@ -57,6 +57,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
     public static final String PROP__FK_GEOMETRIE = "fk_geometrie";
     public static final String PROP__VERANLASSUNGSNUMMER = "veranlassungsnummer";
     public static final String PROP__VERANLASSUNGSSCHLUESSEL = "veranlassungsschluessel";
+    public static final String PROP__PROTOKOLLNUMMER = "protokollnummer";
     public static final String PROP__N_AKTIONEN = "n_aktionen";
 
     private static final String[] PROPERTY_NAMES = new String[] {
@@ -76,6 +77,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
             PROP__FK_GEOMETRIE,
             PROP__VERANLASSUNGSNUMMER,
             PROP__VERANLASSUNGSSCHLUESSEL,
+            PROP__PROTOKOLLNUMMER,
             PROP__N_AKTIONEN
         };
 
@@ -110,6 +112,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
     private GeometrieCustomBean fk_geometrie;
     private String veranlassungsnummer;
     private String veranlassungsschluessel;
+    private Integer protokollnummer;
 
     private Collection<ArbeitsprotokollaktionCustomBean> n_aktionen;
 
@@ -496,6 +499,26 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
         final Collection<ArbeitsprotokollaktionCustomBean> old = this.n_aktionen;
         this.n_aktionen = n_aktionen;
         this.propertyChangeSupport.firePropertyChange(PROP__N_AKTIONEN, old, this.n_aktionen);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Integer getProtokollnummer() {
+        return protokollnummer;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  protokollnummer  DOCUMENT ME!
+     */
+    public void setProtokollnummer(final Integer protokollnummer) {
+        final Integer old = this.protokollnummer;
+        this.protokollnummer = protokollnummer;
+        this.propertyChangeSupport.firePropertyChange(PROP__PROTOKOLLNUMMER, old, this.protokollnummer);
     }
 
     /**

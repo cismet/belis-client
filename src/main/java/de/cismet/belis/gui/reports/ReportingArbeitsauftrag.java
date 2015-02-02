@@ -30,8 +30,9 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -39,15 +40,8 @@ import javax.imageio.ImageIO;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.GeometrieCustomBean;
-import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
-import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
-import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 import de.cismet.cismap.commons.HeadlessMapProvider;
 import de.cismet.cismap.commons.XBoundingBox;
@@ -119,9 +113,10 @@ public class ReportingArbeitsauftrag {
     MultiHashMap positionenNachVeranlassung = new MultiHashMap();
     ArbeitsauftragCustomBean orig;
     private HeadlessMapProvider mapProvider = new HeadlessMapProvider();
-    private Map<ArbeitsprotokollCustomBean, Integer> positionNumberMap =
+    private final Map<ArbeitsprotokollCustomBean, Integer> positionNumberMap =
         new HashMap<ArbeitsprotokollCustomBean, Integer>();
-    private Map<Integer, DefaultXStyledFeature> positionFeatureMap = new HashMap<Integer, DefaultXStyledFeature>();
+    private final Map<Integer, DefaultXStyledFeature> positionFeatureMap =
+        new HashMap<Integer, DefaultXStyledFeature>();
     private ArrayList<GeoBaseEntity> allOriginalFeatures;
     private final SimpleWMS overviewMap = new SimpleWMS(new SimpleWmsGetMapUrl(OVERVIEWMAP_URL));
     private final SimpleWMS positionMap = new SimpleWMS(new SimpleWmsGetMapUrl(POSITIONMAP_URL));
@@ -143,7 +138,7 @@ public class ReportingArbeitsauftrag {
 
         initMap();
 
-        final Collection<ArbeitsprotokollCustomBean> positionen = aaBean.getAr_protokolle();
+        final Collection<ArbeitsprotokollCustomBean> positionen = aaBean.getSortedProtokolle();
         for (final ArbeitsprotokollCustomBean position : positionen) {
             mapProvider = new HeadlessMapProvider();
             mapProvider.setCenterMapOnResize(true);
@@ -164,9 +159,10 @@ public class ReportingArbeitsauftrag {
                 positionFeatureMap.get(zaehler).setPrimaryAnnotationVisible(false);
             }
         }
-        final Iterator veranlassungenIt = positionenNachVeranlassung.keySet().iterator();
-        while (veranlassungenIt.hasNext()) {
-            final String key = (String)veranlassungenIt.next();
+
+        final List<String> keys = new ArrayList<String>(positionenNachVeranlassung.keySet());
+        Collections.sort(keys);
+        for (final String key : keys) {
             final Collection value = (Collection)positionenNachVeranlassung.get(key);
             veranlassungen.add(new ReportingVeranlassung(key, value));
         }
@@ -191,7 +187,7 @@ public class ReportingArbeitsauftrag {
         int position = 0;
         Geometry union = null;
         for (final ArbeitsprotokollCustomBean protokoll
-                    : arbeitsauftragCustomBean.getAr_protokolle()) {
+                    : arbeitsauftragCustomBean.getSortedProtokolle()) {
             final GeoBaseEntity entity = protokoll.getChildEntity();
 
             if (entity != null) {
