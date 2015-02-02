@@ -125,12 +125,14 @@ public class EntityClipboard {
                             for (final CidsBean basic : allBasics) {
                                 final ArbeitsprotokollCustomBean protokoll = broker.createProtokollFromBasic(basic);
                                 protokoll.setVeranlassungsnummer(veranlassungCustomBean.getNummer());
+                                protokoll.setProtokollnummer(arbeitsauftragCustomBean.getAr_protokolle().size() + 1);
                                 broker.addNewProtokollToAuftragNode(selectedNode, protokoll, basic);
                                 arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                             }
                         } else if ((clipboardBean instanceof WorkbenchEntity)
                                     || (clipboardBean instanceof GeometrieCustomBean)) {
                             final ArbeitsprotokollCustomBean protokoll = broker.createProtokollFromBasic(clipboardBean);
+                            protokoll.setProtokollnummer(arbeitsauftragCustomBean.getAr_protokolle().size() + 1);
                             broker.addNewProtokollToAuftragNode(selectedNode, protokoll, clipboardBean);
                             arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                         }

@@ -1453,7 +1453,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                                             true);
                                     treeTableModel.insertNodeIntoAsLastChild(arbeitsauftragNode, refreshNode);
                                     for (final ArbeitsprotokollCustomBean protokoll
-                                                : arbeitsauftragCustomBean.getAr_protokolle()) {
+                                                : arbeitsauftragCustomBean.getSortedProtokolle()) {
                                         protokoll.setEditAllowed(arbeitsauftragEditEnabled);
                                         final CustomMutableTreeTableNode childNode;
                                         final GeoBaseEntity childEntity = protokoll.getChildEntity();
@@ -1898,6 +1898,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                             newGeometrie,
                             true);
                     final ArbeitsauftragCustomBean selAuftrag = ((ArbeitsauftragCustomBean)tmpObject);
+                    newProtokoll.setProtokollnummer(selAuftrag.getAr_protokolle().size() + 1);
                     newProtokoll.setFk_geometrie(newGeometrie);
                     selAuftrag.getAr_protokolle().add(newProtokoll);
                     treeTableModel.insertNodeIntoAsLastChild(

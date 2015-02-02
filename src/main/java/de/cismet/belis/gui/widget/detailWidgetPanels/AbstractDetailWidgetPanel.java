@@ -121,17 +121,19 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
      */
     public void setCurrentEntity(final T currentEntity) {
         final T oldCurrentEntity = this.currentEntity;
-        if (getBindingGroup() != null) {
-            getBindingGroup().unbind();
-        }
-        this.currentEntity = currentEntity;
-        if (getBindingGroup() != null) {
-            getBindingGroup().bind();
-        }
-        try {
-            firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
-        } catch (final Exception ex) {
-            LOG.error(ex, ex);
+        if (oldCurrentEntity != currentEntity) {
+            if (getBindingGroup() != null) {
+                getBindingGroup().unbind();
+            }
+            this.currentEntity = currentEntity;
+            if (getBindingGroup() != null) {
+                getBindingGroup().bind();
+            }
+            try {
+                firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
+            } catch (final Exception ex) {
+                LOG.error(ex, ex);
+            }
         }
     }
 

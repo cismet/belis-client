@@ -264,6 +264,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                         for (final CidsBean basic : allBasics) {
                             final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
                                         .createProtokollFromBasic(basic);
+                            protokoll.setProtokollnummer(arbeitsauftragCustomBean.getAr_protokolle().size() + 1);
                             protokoll.setVeranlassungsnummer(veranlassungCustomBean.getNummer());
                             BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, basic);
                             arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
@@ -273,6 +274,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                                 || (clipboardBean instanceof GeometrieCustomBean)) {
                         final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
                                     .createProtokollFromBasic(clipboardBean);
+                        protokoll.setProtokollnummer(arbeitsauftragCustomBean.getAr_protokolle().size() + 1);
                         BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, clipboardBean);
                         arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                     }
