@@ -409,15 +409,10 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
      * @param  evt  DOCUMENT ME!
      */
     private void btnNewStandortActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnNewStandortActionPerformed
-        try {
-            if (!checkIfCreationPossible()) {
-                return;
-            }
-            broker.setVetoCheckEnabled(false);
-            broker.addNewStandort();
-        } finally {
-            broker.setVetoCheckEnabled(true);
+        if (!checkIfCreationPossible()) {
+            return;
         }
+        broker.addNewStandort();
     }                                                                                  //GEN-LAST:event_btnNewStandortActionPerformed
 
     /**
@@ -429,32 +424,27 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         if (!checkIfCreationPossible()) {
             return;
         }
-        try {
-            broker.setVetoCheckEnabled(false);
-            if ((selectedEntity == null)
-                        || ((selectedEntity instanceof TdtaLeuchtenCustomBean)
-                            && broker.getWorkbenchWidget().isNodeHaengeLeuchte(
-                                broker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))
-                        || !((selectedEntity instanceof TdtaStandortMastCustomBean)
-                            || (selectedEntity instanceof TdtaLeuchtenCustomBean))) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Leuchte will be created without Mast");
-                }
-                broker.addNewLeuchte();
-            } else if (((selectedEntity instanceof TdtaStandortMastCustomBean)
-                            && ((TdtaStandortMastCustomBean)selectedEntity).isStandortMast())
-                        || (selectedEntity instanceof TdtaLeuchtenCustomBean)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Leuchte will be appended to Standort");
-                }
-                broker.addNewLeuchte(selectedEntity);
-            } else {
-                LOG.warn(
-                    "Creation of Leuchte not possible selected object must either be of Standort or Leuchte or non entity: "
-                            + selectedEntity);
+        if ((selectedEntity == null)
+                    || ((selectedEntity instanceof TdtaLeuchtenCustomBean)
+                        && broker.getWorkbenchWidget().isNodeHaengeLeuchte(
+                            broker.getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent()))
+                    || !((selectedEntity instanceof TdtaStandortMastCustomBean)
+                        || (selectedEntity instanceof TdtaLeuchtenCustomBean))) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Leuchte will be created without Mast");
             }
-        } finally {
-            broker.setVetoCheckEnabled(true);
+            broker.addNewLeuchte();
+        } else if (((selectedEntity instanceof TdtaStandortMastCustomBean)
+                        && ((TdtaStandortMastCustomBean)selectedEntity).isStandortMast())
+                    || (selectedEntity instanceof TdtaLeuchtenCustomBean)) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Leuchte will be appended to Standort");
+            }
+            broker.addNewLeuchte(selectedEntity);
+        } else {
+            LOG.warn(
+                "Creation of Leuchte not possible selected object must either be of Standort or Leuchte or non entity: "
+                        + selectedEntity);
         }
     }                                                                                 //GEN-LAST:event_btnNewLeuchteActionPerformed
 
@@ -467,12 +457,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         if (!checkIfCreationPossible()) {
             return;
         }
-        try {
-            broker.setVetoCheckEnabled(false);
-            broker.addNewSchaltstelle();
-        } finally {
-            broker.setVetoCheckEnabled(true);
-        }
+        broker.addNewSchaltstelle();
     }                                                                                      //GEN-LAST:event_btnNewSchaltstelleActionPerformed
 
     /**
@@ -484,12 +469,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         if (!checkIfCreationPossible()) {
             return;
         }
-        try {
-            broker.setVetoCheckEnabled(false);
-            broker.addNewMauerlasche();
-        } finally {
-            broker.setVetoCheckEnabled(true);
-        }
+        broker.addNewMauerlasche();
     }                                                                                     //GEN-LAST:event_btnNewMauerlascheActionPerformed
 
     /**
@@ -501,12 +481,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         if (!checkIfCreationPossible()) {
             return;
         }
-        try {
-            broker.setVetoCheckEnabled(false);
-            broker.addNewLeitung();
-        } finally {
-            broker.setVetoCheckEnabled(true);
-        }
+        broker.addNewLeitung();
     }                                                                                 //GEN-LAST:event_btnNewLeitungActionPerformed
 
     /**
@@ -518,12 +493,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         if (!checkIfCreationPossible()) {
             return;
         }
-        try {
-            broker.setVetoCheckEnabled(false);
-            broker.removeSelectedEntity();
-        } finally {
-            broker.setVetoCheckEnabled(true);
-        }
+        broker.removeSelectedEntity();
     }                                                                             //GEN-LAST:event_btnRemoveActionPerformed
 
     /**
@@ -535,12 +505,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         if (!checkIfCreationPossible()) {
             return;
         }
-        try {
-            broker.setVetoCheckEnabled(false);
-            broker.addNewAbzweigdose();
-        } finally {
-            broker.setVetoCheckEnabled(true);
-        }
+        broker.addNewAbzweigdose();
     }                                                                                     //GEN-LAST:event_btnNewAbzweigdoseActionPerformed
 
     /**
@@ -552,13 +517,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         if (!checkIfCreationPossible()) {
             return;
         }
-        try {
-            broker.setVetoCheckEnabled(false);
-            broker.addNewVeranlassung();
-            broker.setFilterVeranlassung(true);
-        } finally {
-            broker.setVetoCheckEnabled(true);
-        }
+        broker.addNewVeranlassung();
+        broker.setFilterVeranlassung(true);
     }                                                                                      //GEN-LAST:event_btnNewVeranlassungActionPerformed
 
     /**
@@ -570,13 +530,8 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         if (!checkIfCreationPossible()) {
             return;
         }
-        try {
-            broker.setVetoCheckEnabled(false);
-            broker.addNewArbeitsauftrag();
-            broker.setFilterArbeitsauftrag(true);
-        } finally {
-            broker.setVetoCheckEnabled(true);
-        }
+        broker.addNewArbeitsauftrag();
+        broker.setFilterArbeitsauftrag(true);
     }                                                                                        //GEN-LAST:event_btnNewArbeitsauftragActionPerformed
 
     /**
@@ -588,12 +543,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
         if (!checkIfCreationPossible()) {
             return;
         }
-        try {
-            broker.setVetoCheckEnabled(false);
-            broker.addNewGeometrie();
-        } finally {
-            broker.setVetoCheckEnabled(true);
-        }
+        broker.addNewGeometrie();
     }                                                                                   //GEN-LAST:event_btnNewGeometrieActionPerformed
 
     /**
@@ -602,7 +552,7 @@ public class CreateToolBar extends javax.swing.JPanel implements Editable {
      * @return  DOCUMENT ME!
      */
     private boolean checkIfCreationPossible() {
-        if (broker.isVetoCheckEnabled() && !broker.validateWidgets()) {
+        if (!broker.validateWidgets()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("creationCheck: One or more widgets are invalid. Informing user.");
             }
