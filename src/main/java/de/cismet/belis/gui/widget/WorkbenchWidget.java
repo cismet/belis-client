@@ -16,7 +16,6 @@ import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.log4j.Logger;
 
 import org.jdesktop.beansbinding.BindingGroup;
-import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
@@ -27,30 +26,24 @@ import org.jdesktop.swingx.treetable.MutableTreeTableNode;
 
 import org.jdom.Element;
 
-import java.awt.AWTEvent;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.swing.DropMode;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -93,7 +86,6 @@ import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.piccolo.eventlistener.CreateGeometryListener;
 
 import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
-import de.cismet.commons.architecture.validation.Validatable;
 
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.entity.GeoBaseEntity;
@@ -134,8 +126,9 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     private final CustomMutableTreeTableNode newObjectsNode = new CustomMutableTreeTableNode(null, true);
     private final CustomMutableTreeTableNode editObjectsNode = new CustomMutableTreeTableNode(null, true);
     private CustomTreeTableModel treeTableModel = null;
-    private HashMap<TdtaLeuchtenCustomBean, TdtaStandortMastCustomBean> leuchteToVirtualStandortMap = new HashMap();
-    private JButton btnAttachMode = new JButton();
+    private final HashMap<TdtaLeuchtenCustomBean, TdtaStandortMastCustomBean> leuchteToVirtualStandortMap =
+        new HashMap();
+    private final JButton btnAttachMode = new JButton();
     private Collection<BaseEntity> currentSearchResults = new TreeSet(new ReverseComparator(new EntityComparator()));
     private Set<BaseEntity> objectsToPersist = new TreeSet(new ReverseComparator(new EntityComparator()));
     private final Collection<BaseEntity> objectsToDelete = new ArrayList<BaseEntity>();
@@ -143,13 +136,13 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
     private boolean isSelectedOverMap = false;
     private TreePath selectedElement = null;
     private Set searchResults = null;
-    private List<TreeSelectionListener> treeSelectionListener = new ArrayList<TreeSelectionListener>();
     private final boolean basicEditEnabled;
     private final boolean veranlassungEditEnabled;
     private final boolean arbeitsauftragEditEnabled;
     private final boolean basicCreateEnabled;
     private final boolean veranlassungCreateEnabled;
     private final boolean arbeitsauftragCreateEnabled;
+    private boolean treeSelectionVeto = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
@@ -287,111 +280,8 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 }
             };
 
-        final Highlighter noGeometryHighlighter = new ColorHighlighter(noGeometryPredicate, broker.red, null);
+        final Highlighter noGeometryHighlighter = new ColorHighlighter(noGeometryPredicate, BelisBroker.red, null);
         jttHitTable.addHighlighter(noGeometryHighlighter);
-        /*ToDo workaround because I can not change JXTreeTable selection models (Tree, table part does work)
-         * ToDo disable logging because there are a lot of events
-         */
-        Toolkit.getDefaultToolkit()
-                .addAWTEventListener(new AWTEventListener() {
-
-                        @Override
-                        public void eventDispatched(final AWTEvent event) {
-                            if (broker.isVetoCheckEnabled()
-                                && (broker.isInCreateMode() || broker.isInEditMode())
-                                && (((MouseEvent)event).getSource() instanceof JXTreeTable)
-                                && ((((MouseEvent)event).getID() == MouseEvent.MOUSE_PRESSED)
-                                    || (((MouseEvent)event).getID() == MouseEvent.MOUSE_CLICKED)
-                                    || (((MouseEvent)event).getID() == MouseEvent.MOUSE_RELEASED)
-                                    || (((MouseEvent)event).getID() == MouseEvent.MOUSE_DRAGGED))) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("eventDispatched: Mouse event intercepted from JXTreeTable in edit mode");
-                                }
-                                final int clickedRow = jttHitTable.rowAtPoint(((MouseEvent)event).getPoint());
-                                final int selectedRow = jttHitTable.getSelectedRow();
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("eventDispatched: clickedRow: " + clickedRow);
-                                    LOG.debug("eventDispatched: selectedRow: " + selectedRow);
-                                }
-                                if (clickedRow != selectedRow) {
-                                    if (!broker.validateWidgets()) {
-                                        if (LOG.isDebugEnabled()) {
-                                            LOG.debug(
-                                                "eventDispatched: One or more widgets are invalid. Informing user.");
-                                        }
-                                        final int anwser = broker.askUser();
-                                        if (anwser == JOptionPane.YES_OPTION) {
-                                            if (LOG.isDebugEnabled()) {
-                                                LOG.debug("User wants to cancel changes.");
-                                            }
-                                        } else {
-                                            if (LOG.isDebugEnabled()) {
-                                                LOG.debug("User wants to correct validation, consuming event.");
-                                            }
-                                            ((MouseEvent)event).consume();
-                                        }
-                                    } else {
-                                        if (LOG.isDebugEnabled()) {
-                                            LOG.debug("eventDispatched: Not consuming event. All Widgets are valid");
-                                        }
-                                    }
-                                } else {
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug(
-                                            "eventDispatched: Not consuming event. No Selection changed would be happen.");
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    AWTEvent.MOUSE_EVENT_MASK
-                    | AWTEvent.MOUSE_MOTION_EVENT_MASK);
-        Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
-
-                @Override
-                public void eventDispatched(final AWTEvent event) {
-                    if (broker.isVetoCheckEnabled()
-                                && (broker.isInCreateMode() || broker.isInEditMode())
-                                && (((KeyEvent)event).getSource() instanceof JXTreeTable)
-                                && ((((KeyEvent)event).getID() == KeyEvent.KEY_PRESSED)
-                                    || (((KeyEvent)event).getID() == KeyEvent.KEY_RELEASED)
-                                    || (((KeyEvent)event).getID() == KeyEvent.KEY_TYPED))) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("eventDispatched: Key event intercepted from JXTreeTable in edit mode");
-                        }
-                        final int keyCode = ((KeyEvent)event).getKeyCode();
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("eventDispatched: keycode: " + keyCode);
-                        }
-                        if ((keyCode == KeyEvent.VK_DOWN) || (keyCode == KeyEvent.VK_UP)) {
-                            if (!broker.validateWidgets()) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("eventDispatched: One or more widgets are invalid. Informing user.");
-                                }
-                                final int anwser = broker.askUser();
-                                if (anwser == JOptionPane.YES_OPTION) {
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug("User wants to cancel changes.");
-                                    }
-                                } else {
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug("User wants to correct validation, consuming event.");
-                                    }
-                                    ((KeyEvent)event).consume();
-                                }
-                            } else {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("eventDispatched: Not consuming event. All Widgets are valid");
-                                }
-                            }
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("eventDispatched: neither up nor down arrow key");
-                            }
-                        }
-                    }
-                }
-            }, AWTEvent.KEY_EVENT_MASK);
         jttHitTable.setTransferHandler(new WorkbenchTransferHandler());
         jttHitTable.setDropMode(DropMode.ON);
     }
@@ -459,32 +349,131 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      */
     public void setSelectedTreeNodes(final Collection<TreePath> selectedTreeNodes) {
         final Collection<TreePath> oldSelectedTreeNodes = this.selectedTreeNodes;
-        if ((this.selectedTreeNodes != null) && (selectedTreeNodes != null)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("both treenodes != null");
-            }
-            if (this.selectedTreeNodes.equals(selectedTreeNodes)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("treebnodes equals");
-                }
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("treebnodes not equals");
-                }
-            }
-        } else {
-            if ((this.selectedTreeNodes == null) && (selectedTreeNodes == null)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("both treenodes are null");
-                }
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("one of the treenodes is null");
-                }
-            }
-        }
         this.selectedTreeNodes = selectedTreeNodes;
+
         firePropertyChange(PROP_SELECTEDTREENODES, oldSelectedTreeNodes, selectedTreeNodes);
+
+        // abbruch
+        if (isTreeSelectionVeto()) {
+            setTreeSelectionVeto(false);
+            SwingUtilities.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        jttHitTable.getTreeSelectionModel()
+                                .setSelectionPaths(oldSelectedTreeNodes.toArray(new TreePath[0]));
+                    }
+                });
+        }
+
+        SwingUtilities.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        configureMapModeAccordingToSelection();
+
+                        if (isSelectedOverMap) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("feature was selected over map. No need to select it in map.");
+                            }
+                        } else {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug(
+                                    "feature was selected over table. Going to select feature in map.");
+                            }
+
+                            // ToDo method for extraction bad performance
+                            final Collection<Feature> featuresToSelect = new ArrayList();
+                            for (final TreePath path : selectedTreeNodes) {
+                                final Object currentUserObject = getUserObjectForTreePath(path);
+                                if ((currentUserObject != null)
+                                            && (currentUserObject instanceof GeoBaseEntity)
+                                            && (((GeoBaseEntity)currentUserObject).getGeometry() != null)) {
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug(
+                                            "UserObject != null and instance of StyledFeature and geometry available --> select Feature");
+                                    }
+                                    featuresToSelect.add((StyledFeature)currentUserObject);
+                                } else if (isParentNodeMast(path.getLastPathComponent())) {
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("Leuchte from mast is selected in table.");
+                                    }
+                                    final TdtaStandortMastCustomBean parentMast = getParentMast(
+                                            path.getLastPathComponent());
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("Selecting Mast in map.");
+                                    }
+                                    featuresToSelect.add((StyledFeature)parentMast);
+                                } else if (isNodeHaengeLeuchte(path.getLastPathComponent())) {
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug(
+                                            "current selected node is haengeleuchte. Selecting corresponding standort in map: ");
+                                    }
+                                    featuresToSelect.add(
+                                        leuchteToVirtualStandortMap.get((TdtaLeuchtenCustomBean)currentUserObject));
+                                } else if (currentUserObject instanceof VeranlassungCustomBean) {
+                                    final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)
+                                        currentUserObject;
+                                    featuresToSelect.addAll(veranlassungCustomBean.getAr_abzweigdosen());
+                                    featuresToSelect.addAll(veranlassungCustomBean.getAr_leitungen());
+                                    featuresToSelect.addAll(veranlassungCustomBean.getAr_leuchten());
+                                    featuresToSelect.addAll(veranlassungCustomBean.getAr_mauerlaschen());
+                                    featuresToSelect.addAll(veranlassungCustomBean.getAr_schaltstellen());
+                                    featuresToSelect.addAll(veranlassungCustomBean.getAr_standorte());
+                                    featuresToSelect.addAll(veranlassungCustomBean.getAr_geometrien());
+                                } else if (currentUserObject instanceof ArbeitsauftragCustomBean) {
+                                    final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)
+                                        currentUserObject;
+                                    for (final ArbeitsprotokollCustomBean apCustomBean
+                                                : arbeitsauftragCustomBean.getAr_protokolle()) {
+                                        if (apCustomBean.getChildEntity() != null) {
+                                            featuresToSelect.add(apCustomBean.getChildEntity());
+                                        }
+                                    }
+                                } else if (currentUserObject instanceof ArbeitsprotokollCustomBean) {
+                                    final ArbeitsprotokollCustomBean apCustomBean = (ArbeitsprotokollCustomBean)
+                                        currentUserObject;
+                                    if (apCustomBean.getChildEntity() != null) {
+                                        featuresToSelect.add(apCustomBean.getChildEntity());
+                                    }
+                                }
+                            }
+                            if (featuresToSelect.isEmpty()) {
+                                if (LOG.isDebugEnabled()) {
+                                    LOG.debug("no geometry to select --> unselect");
+                                }
+                                getBroker().addFeatureSelectionChangeIgnore(WorkbenchWidget.this);
+                                getBroker().getMappingComponent().getFeatureCollection().unselectAll();
+                            } else {
+                                getBroker().addFeatureSelectionChangeIgnore(WorkbenchWidget.this);
+                                final Runnable runnable = new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            ignoreFeatureSelection = true;
+                                            getBroker().getMappingComponent()
+                                                    .getFeatureCollection()
+                                                    .removeFeatures(featuresToSelect);
+                                            getBroker().getMappingComponent()
+                                                    .getFeatureCollection()
+                                                    .addFeatures(featuresToSelect);
+
+                                            getBroker().getMappingComponent()
+                                                    .getFeatureCollection()
+                                                    .select(featuresToSelect);
+                                            ignoreFeatureSelection = false;
+                                        }
+                                    };
+                                SwingUtilities.invokeLater(runnable);
+                            }
+                        }
+                    } finally {
+                        getBroker().removeFeatureSelectionChangeIgnore(WorkbenchWidget.this);
+                        isSelectedOverMap = false;
+                    }
+                }
+            });
     }
 
     /**
@@ -528,14 +517,18 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
      */
     public void selectUserObjects(final Collection userObjects) {
         jttHitTable.getTreeSelectionModel().removeTreeSelectionListener(this);
-        jttHitTable.getTreeSelectionModel().clearSelection();
-        for (final Object userObject : userObjects) {
-            final Collection<TreePath> pathsToEntity = getTreeTableModel().getPathsForUserObject(userObject);
-            for (final TreePath pathToEntity : pathsToEntity) {
-                jttHitTable.getTreeSelectionModel().addSelectionPath(pathToEntity);
+        try {
+            jttHitTable.getTreeSelectionModel().clearSelection();
+            for (final Object userObject : userObjects) {
+                final Collection<TreePath> pathsToEntity = getTreeTableModel().getPathsForUserObject(userObject);
+                for (final TreePath pathToEntity : pathsToEntity) {
+                    jttHitTable.getTreeSelectionModel().addSelectionPath(pathToEntity);
+                }
             }
+            setSelectedTreeNodes(Arrays.asList(jttHitTable.getTreeSelectionModel().getSelectionPaths()));
+        } finally {
+            jttHitTable.getTreeSelectionModel().addTreeSelectionListener(this);
         }
-        jttHitTable.getTreeSelectionModel().addTreeSelectionListener(this);
     }
 
     @Override
@@ -835,11 +828,28 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
 
     /**
      * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isTreeSelectionVeto() {
+        return treeSelectionVeto;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  treeSelectionVeto  DOCUMENT ME!
+     */
+    public void setTreeSelectionVeto(final boolean treeSelectionVeto) {
+        this.treeSelectionVeto = treeSelectionVeto;
+    }
+
+    /**
+     * DOCUMENT ME!
      */
     private void configureMapModeAccordingToSelection() {
         if (checkConstraintForMapModeSwitch()) {
             try {
-                getBroker().setVetoCheckEnabled(false);
                 getBroker().addFeatureSelectionChangeIgnore(this);
                 ignoreFeatureSelection = true;
                 btnAttachMode.setEnabled(true);
@@ -907,38 +917,31 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 }
             } catch (Exception ex) {
                 LOG.error("Error while configuring map. Setting map back: ", ex);
-                getBroker().setVetoCheckEnabled(true);
             } finally {
-                getBroker().setVetoCheckEnabled(true);
                 getBroker().removeFeatureSelectionChangeIgnore(this);
                 ignoreFeatureSelection = false;
             }
         } else {
-            try {
-                getBroker().setVetoCheckEnabled(false);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Constraints for ModeSwitch not fullfied");
+            }
+            if (getBroker().getMappingComponent().getInteractionMode().equals(BELIS_CREATE_MODE)) {
                 if (LOG.isDebugEnabled()) {
-                    LOG.debug("Constraints for ModeSwitch not fullfied");
+                    LOG.debug("Is already in: " + BELIS_CREATE_MODE + " mode. Switching back");
                 }
-                if (getBroker().getMappingComponent().getInteractionMode().equals(BELIS_CREATE_MODE)) {
+                // ToDo save last mode; check if the map is in this mode --> switch to select TODO maybe an
+                // intelligent mode switching policy
+                btnAttachMode.setEnabled(false);
+                if ((getBroker().getMappingComponent().getInteractionMode() != null)
+                            && getBroker().getMappingComponent().getInteractionMode().equals(BELIS_CREATE_MODE)) {
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug("Is already in: " + BELIS_CREATE_MODE + " mode. Switching back");
+                        LOG.debug(
+                            "False map mode setting is at the moment temp feature create. Mode will be set to lastmode: "
+                                    + getBroker().getMapWidget().getLastMapMode());
                     }
-                    // ToDo save last mode; check if the map is in this mode --> switch to select TODO maybe an
-                    // intelligent mode switching policy
-                    btnAttachMode.setEnabled(false);
-                    if ((getBroker().getMappingComponent().getInteractionMode() != null)
-                                && getBroker().getMappingComponent().getInteractionMode().equals(BELIS_CREATE_MODE)) {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug(
-                                "False map mode setting is at the moment temp feature create. Mode will be set to lastmode: "
-                                        + getBroker().getMapWidget().getLastMapMode());
-                        }
-                        getBroker().getMapWidget().setToLastInteractionMode();
-                        // broker.getMappingComponent().setInteractionMode(MappingComponent.SELECT);
-                    }
+                    getBroker().getMapWidget().setToLastInteractionMode();
+                    // broker.getMappingComponent().setInteractionMode(MappingComponent.SELECT);
                 }
-            } finally {
-                getBroker().setVetoCheckEnabled(true);
             }
         }
     }
@@ -997,174 +1000,17 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
         if (LOG.isDebugEnabled()) {
             LOG.debug("JTreeTable selection changend");
         }
-        SwingUtilities.invokeLater(new Runnable() {
 
-                @Override
-                public void run() {
-                    try {
-                        try {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug(
-                                    "DetailWidget is valid: "
-                                            + (Validatable.VALID == getBroker().getDetailWidget().getStatus()));
-                            }
-                        } catch (Exception ex) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Error while checking validation state of detailWidget: ", ex);
-                            }
-                        }
-
-                        final Collection<TreePath> paths = new ArrayList<TreePath>();
-                        for (int i = 0; i < jttHitTable.getSelectedRowCount(); i++) {
-                            paths.add(jttHitTable.getPathForRow(jttHitTable.getSelectedRows()[i]));
-                        }
-
-                        if (!paths.isEmpty()) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Path is added");
-                            }
-                            setSelectedTreeNodes(paths);
-                            configureMapModeAccordingToSelection();
-
-                            if (isSelectedOverMap) {
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("feature was selected over map. No need to select it in map.");
-                                }
-                            } else {
-                                getBroker().setVetoCheckEnabled(false);
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug("feature was selected over table. Going to select feature in map.");
-                                }
-
-                                // ToDo method for extraction bad performance
-                                final Collection<Feature> featuresToSelect = new ArrayList();
-                                for (final TreePath path : paths) {
-                                    final Object currentUserObject = getUserObjectForTreePath(path);
-                                    if ((currentUserObject != null) && (currentUserObject instanceof GeoBaseEntity)
-                                                && (((GeoBaseEntity)currentUserObject).getGeometry() != null)) {
-                                        if (LOG.isDebugEnabled()) {
-                                            LOG.debug(
-                                                "UserObject != null and instance of StyledFeature and geometry available --> select Feature");
-                                        }
-                                        featuresToSelect.add((StyledFeature)currentUserObject);
-                                    } else if (isParentNodeMast(path.getLastPathComponent())) {
-                                        if (LOG.isDebugEnabled()) {
-                                            LOG.debug("Leuchte from mast is selected in table.");
-                                        }
-                                        final TdtaStandortMastCustomBean parentMast = getParentMast(
-                                                path.getLastPathComponent());
-                                        if (LOG.isDebugEnabled()) {
-                                            LOG.debug("Selecting Mast in map.");
-                                        }
-                                        featuresToSelect.add((StyledFeature)parentMast);
-                                    } else if (isNodeHaengeLeuchte(path.getLastPathComponent())) {
-                                        if (LOG.isDebugEnabled()) {
-                                            LOG.debug(
-                                                "current selected node is haengeleuchte. Selecting corresponding standort in map: ");
-                                        }
-                                        featuresToSelect.add(leuchteToVirtualStandortMap.get(currentUserObject));
-                                    } else if (currentUserObject instanceof VeranlassungCustomBean) {
-                                        final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)
-                                            currentUserObject;
-                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_abzweigdosen());
-                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_leitungen());
-                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_leuchten());
-                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_mauerlaschen());
-                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_schaltstellen());
-                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_standorte());
-                                        featuresToSelect.addAll(veranlassungCustomBean.getAr_geometrien());
-                                    } else if (currentUserObject instanceof ArbeitsauftragCustomBean) {
-                                        final ArbeitsauftragCustomBean arbeitsauftragCustomBean =
-                                            (ArbeitsauftragCustomBean)currentUserObject;
-                                        for (final ArbeitsprotokollCustomBean apCustomBean
-                                                    : arbeitsauftragCustomBean.getAr_protokolle()) {
-                                            if (apCustomBean.getChildEntity() != null) {
-                                                featuresToSelect.add(apCustomBean.getChildEntity());
-                                            }
-                                        }
-                                    } else if (currentUserObject instanceof ArbeitsprotokollCustomBean) {
-                                        final ArbeitsprotokollCustomBean apCustomBean = (ArbeitsprotokollCustomBean)
-                                            currentUserObject;
-                                        if (apCustomBean.getChildEntity() != null) {
-                                            featuresToSelect.add(apCustomBean.getChildEntity());
-                                        }
-                                    }
-                                }
-                                if (featuresToSelect.isEmpty()) {
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug("no geometry to select --> unselect");
-                                    }
-                                    getBroker().addFeatureSelectionChangeIgnore(WorkbenchWidget.this);
-                                    getBroker().getMappingComponent().getFeatureCollection().unselectAll();
-                                } else {
-                                    getBroker().addFeatureSelectionChangeIgnore(WorkbenchWidget.this);
-                                    final Runnable runnable = new Runnable() {
-
-                                            @Override
-                                            public void run() {
-                                                ignoreFeatureSelection = true;
-                                                getBroker().getMappingComponent()
-                                                        .getFeatureCollection()
-                                                        .removeFeatures(featuresToSelect);
-                                                getBroker().getMappingComponent()
-                                                        .getFeatureCollection()
-                                                        .addFeatures(featuresToSelect);
-
-                                                getBroker().getMappingComponent()
-                                                        .getFeatureCollection()
-                                                        .select(featuresToSelect);
-                                                ignoreFeatureSelection = false;
-                                            }
-                                        };
-                                    SwingUtilities.invokeLater(runnable);
-                                }
-                            }
-                            return;
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Path is removed");
-                                // ToDo if a current selected node is removed
-                            }
-                        }
-                        setSelectedTreeNodes(null);
-                        configureMapModeAccordingToSelection();
-                    } finally {
-                        getBroker().setVetoCheckEnabled(true);
-                        getBroker().removeFeatureSelectionChangeIgnore(WorkbenchWidget.this);
-                        isSelectedOverMap = false;
-                        fireTreeSelectionChangedEvent(e);
-                    }
-                }
-            });
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  e  DOCUMENT ME!
-     */
-    private void fireTreeSelectionChangedEvent(final TreeSelectionEvent e) {
-        for (final TreeSelectionListener listener : treeSelectionListener) {
-            listener.valueChanged(e);
+        final Collection<TreePath> paths = new ArrayList<TreePath>();
+        for (int i = 0; i < jttHitTable.getSelectedRowCount(); i++) {
+            paths.add(jttHitTable.getPathForRow(jttHitTable.getSelectedRows()[i]));
         }
-    }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  listener  DOCUMENT ME!
-     */
-    public void addTreeSeleletionListener(final TreeSelectionListener listener) {
-        treeSelectionListener.add(listener);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  listener  DOCUMENT ME!
-     */
-    public void removeTreeSeleletionListener(final TreeSelectionListener listener) {
-        treeSelectionListener.remove(listener);
+        if (!paths.isEmpty()) {
+            setSelectedTreeNodes(paths);
+        } else {
+            setSelectedTreeNodes(null);
+        }
     }
 
     /**
@@ -1283,59 +1129,54 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             if (features.isEmpty()) {
                 return;
             }
-            try {
-                getBroker().setVetoCheckEnabled(false);
-                final Collection<TreePath> paths = new ArrayList<TreePath>();
+            final Collection<TreePath> paths = new ArrayList<TreePath>();
 
-                for (final Feature feature : features) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("currentFeature: " + feature);
+            for (final Feature feature : features) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("currentFeature: " + feature);
+                }
+                if ((feature instanceof GeoBaseEntity)
+                            && getBroker().getMappingComponent().getFeatureCollection().isSelected(feature)) {
+                    final TreePath path;
+                    if ((feature instanceof TdtaStandortMastCustomBean)
+                                && !((TdtaStandortMastCustomBean)feature).isStandortMast()
+                                && (((TdtaStandortMastCustomBean)feature).getLeuchten() != null)
+                                && (((TdtaStandortMastCustomBean)feature).getLeuchten().size() > 0)) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("virtual Standort selected, selecting depending leuchte");
+                        }
+                        path = treeTableModel.getPathForUserObject(((TdtaStandortMastCustomBean)feature).getLeuchten()
+                                        .iterator().next());
+                    } else {
+                        path = treeTableModel.getPathForUserObject(feature);
                     }
-                    if ((feature instanceof GeoBaseEntity)
-                                && getBroker().getMappingComponent().getFeatureCollection().isSelected(feature)) {
-                        final TreePath path;
-                        if ((feature instanceof TdtaStandortMastCustomBean)
-                                    && !((TdtaStandortMastCustomBean)feature).isStandortMast()
-                                    && (((TdtaStandortMastCustomBean)feature).getLeuchten() != null)
-                                    && (((TdtaStandortMastCustomBean)feature).getLeuchten().size() > 0)) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("virtual Standort selected, selecting depending leuchte");
-                            }
-                            path = treeTableModel.getPathForUserObject(((TdtaStandortMastCustomBean)feature)
-                                            .getLeuchten().iterator().next());
-                        } else {
-                            path = treeTableModel.getPathForUserObject(feature);
-                        }
 
-                        if (path != null) {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug("Path is available");
-                            }
-                            paths.add(path);
+                    if (path != null) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Path is available");
                         }
+                        paths.add(path);
                     }
                 }
+            }
 
-                jttHitTable.getSelectionModel().clearSelection();
-                final TreePath[] patharr = paths.toArray(new TreePath[0]);
-                if (paths.isEmpty()) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("No Path for feature available");
-                    }
-                } else {
-                    isSelectedOverMap = true;
-                    try {
-                        jttHitTable.getTreeSelectionModel().setSelectionPaths(patharr);
-                        final Rectangle tmp = jttHitTable.getCellRect(jttHitTable.getSelectedRow(), 0, true);
-                        if (tmp != null) {
-                            jttHitTable.scrollRectToVisible(tmp);
-                        }
-                    } catch (Exception ex) {
-                        LOG.warn("couldn't set selection", ex);
-                    }
+            jttHitTable.getSelectionModel().clearSelection();
+            final TreePath[] patharr = paths.toArray(new TreePath[0]);
+            if (paths.isEmpty()) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("No Path for feature available");
                 }
-            } finally {
-                getBroker().setVetoCheckEnabled(true);
+            } else {
+                isSelectedOverMap = true;
+                try {
+                    jttHitTable.getTreeSelectionModel().setSelectionPaths(patharr);
+                    final Rectangle tmp = jttHitTable.getCellRect(jttHitTable.getSelectedRow(), 0, true);
+                    if (tmp != null) {
+                        jttHitTable.scrollRectToVisible(tmp);
+                    }
+                } catch (Exception ex) {
+                    LOG.warn("couldn't set selection", ex);
+                }
             }
         }
     }
@@ -2032,7 +1873,6 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 try {
                     getBroker().addFeatureSelectionChangeIgnore(WorkbenchWidget.this);
                     ignoreFeatureSelection = true;
-                    getBroker().setVetoCheckEnabled(false);
                     // newFeature.setPrimaryAnnotationVisible(false);
                     // broker.getMappingComponent().reconsiderFeature(newFeature);
                     final Object tmpObject = ((CustomMutableTreeTableNode)getSelectedTreeNode().getLastPathComponent())
@@ -2053,7 +1893,6 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     getBroker().getMapWidget().setToLastInteractionMode();
                     getBroker().getMappingComponent().getFeatureCollection().select(currentSelectedFeature);
                 } finally {
-                    getBroker().setVetoCheckEnabled(true);
                     getBroker().removeFeatureSelectionChangeIgnore(WorkbenchWidget.this);
                     ignoreFeatureSelection = false;
                 }

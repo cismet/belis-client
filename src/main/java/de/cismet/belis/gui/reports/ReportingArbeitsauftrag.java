@@ -113,8 +113,6 @@ public class ReportingArbeitsauftrag {
     MultiHashMap positionenNachVeranlassung = new MultiHashMap();
     ArbeitsauftragCustomBean orig;
     private HeadlessMapProvider mapProvider = new HeadlessMapProvider();
-    private final Map<ArbeitsprotokollCustomBean, Integer> positionNumberMap =
-        new HashMap<ArbeitsprotokollCustomBean, Integer>();
     private final Map<Integer, DefaultXStyledFeature> positionFeatureMap =
         new HashMap<Integer, DefaultXStyledFeature>();
     private ArrayList<GeoBaseEntity> allOriginalFeatures;
@@ -138,6 +136,7 @@ public class ReportingArbeitsauftrag {
 
         initMap();
 
+        final List<String> keys = new ArrayList<String>();
         final Collection<ArbeitsprotokollCustomBean> positionen = aaBean.getSortedProtokolle();
         for (final ArbeitsprotokollCustomBean position : positionen) {
             mapProvider = new HeadlessMapProvider();
@@ -149,19 +148,23 @@ public class ReportingArbeitsauftrag {
             if (veranlassungsnummer == null) {
                 veranlassungsnummer = OHNE_VERANLASSUNG;
             }
-            final Integer zaehler = positionNumberMap.get(position);
-            if (zaehler != null) {
-                mapProvider.addFeature(positionFeatureMap.get(zaehler));
+            if (position.getProtokollnummer() != null) {
+                mapProvider.addFeature(positionFeatureMap.get(position.getProtokollnummer()));
 
                 positionenNachVeranlassung.put(
                     veranlassungsnummer,
-                    new ReportingPosition(zaehler, position, getPositionImageFrom(position.getChildEntity())));
-                positionFeatureMap.get(zaehler).setPrimaryAnnotationVisible(false);
+                    new ReportingPosition(
+                        position.getProtokollnummer(),
+                        position,
+                        getPositionImageFrom(position.getChildEntity())));
+                positionFeatureMap.get(position.getProtokollnummer()).setPrimaryAnnotationVisible(false);
+                if (!keys.contains(veranlassungsnummer)) {
+                    keys.add(veranlassungsnummer);
+                }
             }
         }
 
-        final List<String> keys = new ArrayList<String>(positionenNachVeranlassung.keySet());
-        Collections.sort(keys);
+//        Collections.sort(keys);
         for (final String key : keys) {
             final Collection value = (Collection)positionenNachVeranlassung.get(key);
             veranlassungen.add(new ReportingVeranlassung(key, value));
@@ -184,7 +187,6 @@ public class ReportingArbeitsauftrag {
         symb.setSweetSpotX(0.5);
         symb.setSweetSpotY(0.5);
 
-        int position = 0;
         Geometry union = null;
         for (final ArbeitsprotokollCustomBean protokoll
                     : arbeitsauftragCustomBean.getSortedProtokolle()) {
@@ -194,8 +196,6 @@ public class ReportingArbeitsauftrag {
                 allOriginalFeatures.add(entity);
                 final Geometry geom = entity.getGeometry();
                 if (geom != null) {
-                    positionNumberMap.put(protokoll, ++position);
-
                     if (union == null) {
                         union = geom.getEnvelope();
                     } else {
@@ -209,7 +209,7 @@ public class ReportingArbeitsauftrag {
                             null,
                             new CustomFixedWidthStroke(2f, BelisBroker.getInstance().getMappingComponent()));
                     dsf.setGeometry(geom);
-                    dsf.setPrimaryAnnotation("  P" + position);
+                    dsf.setPrimaryAnnotation("  P" + protokoll.getProtokollnummer());
                     dsf.setPrimaryAnnotationPaint(Color.black);
                     dsf.setPrimaryAnnotationHalo(Color.WHITE);
                     dsf.setAutoScale(true);
@@ -221,7 +221,7 @@ public class ReportingArbeitsauftrag {
                     dsf.setPrimaryAnnotationFont(FONT);
                     dsf.setFeatureAnnotationSymbol(symb);
 
-                    positionFeatureMap.put(position, dsf);
+                    positionFeatureMap.put(protokoll.getProtokollnummer(), dsf);
 
                     annotatingFeatures.add(dsf);
                 }
@@ -245,7 +245,7 @@ public class ReportingArbeitsauftrag {
                     TARGET_DPI,
                     OVERVIEWMAP_WIDTH,
                     OVERVIEWMAP_HEIGHT);
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOG.error(ex, ex);
             map = getFallbackMap();
         }

@@ -12,11 +12,19 @@
  */
 package de.cismet.belis.gui.widget;
 
+import org.openide.util.Exceptions;
+
 import java.awt.Dimension;
 
 import java.beans.PropertyChangeEvent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+
+import javax.swing.JOptionPane;
+
+import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbstractDetailWidgetPanel;
 import de.cismet.belis.gui.widget.detailWidgetPanels.AbzweigdosePanel;
@@ -45,6 +53,8 @@ import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 import de.cismet.commons.architecture.validation.Validatable;
 
 import de.cismet.commons.server.interfaces.DocumentContainer;
+
+import de.cismet.veto.VetoException;
 
 /**
  * DOCUMENT ME!
@@ -140,12 +150,27 @@ public class DetailWidget extends BelisWidget {
     /**
      * DOCUMENT ME!
      *
-     * @param  currentEntity  DOCUMENT ME!
+     * @param   currentEntity  DOCUMENT ME!
+     *
+     * @throws  VetoException  DOCUMENT ME!
      */
-    public void setCurrentEntity(final WorkbenchEntity currentEntity) {
+    public void setCurrentEntity(final WorkbenchEntity currentEntity) throws VetoException {
         final WorkbenchEntity oldCurrentEntity = this.currentEntity;
-        firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
-        this.currentEntity = currentEntity;
+
+        if (oldCurrentEntity != currentEntity) {
+            if (!getBroker().validateWidgets()) {
+                final int anwser = getBroker().askUser();
+                if (anwser != JOptionPane.YES_OPTION) {
+                    BelisBroker.getInstance().getWorkbenchWidget().setTreeSelectionVeto(true);
+                    throw new VetoException();
+                }
+            }
+
+            bindingGroup.unbind();
+            this.currentEntity = currentEntity;
+            bindingGroup.bind();
+            firePropertyChange(PROP_CURRENT_ENTITY, oldCurrentEntity, currentEntity);
+        }
     }
 
     /**
@@ -160,44 +185,42 @@ public class DetailWidget extends BelisWidget {
     /**
      * Set the value of currentEntity TODO change parameter type to DocumentContainer or BaseEntity.
      *
-     * @param  currentEntities  new value of currentEntity
-     * @param  parentEntity     DOCUMENT ME!
-     * @param  wantsToEdit      isEditable DOCUMENT ME!
+     * @param   currentEntities  new value of currentEntity
+     * @param   parentEntity     DOCUMENT ME!
+     * @param   wantsToEdit      isEditable DOCUMENT ME!
+     *
+     * @throws  VetoException  DOCUMENT ME!
      */
     public void setCurrentEntities(final Collection<WorkbenchEntity> currentEntities,
             final WorkbenchEntity parentEntity,
-            final boolean wantsToEdit) {
+            final boolean wantsToEdit) throws VetoException {
         final boolean isAllowedToEdit;
 
         this.currentEntities = currentEntities;
 
+        final WorkbenchEntity selectedEntity;
         if ((currentEntities != null) && !currentEntities.isEmpty()) {
-            setCurrentEntity(currentEntities.iterator().next());
+            selectedEntity = currentEntities.iterator().next();
         } else {
-            setCurrentEntity(null);
+            selectedEntity = null;
         }
 
-        bindingGroup.unbind();
-        bindingGroup.bind();
-
-        if (currentEntity == null) {
+        if (selectedEntity == null) {
             currentDetailWidgetPanel = null;
             isAllowedToEdit = false;
+            setCurrentEntity(null);
         } else {
 //            final boolean basicEditEnabled = CidsBroker.getInstance().checkForEditBasic();
 //            final boolean veranlassungEditEnabled = CidsBroker.getInstance().checkForEditVeranlassung();
 //            final boolean arbeitsauftragEditEnabled = CidsBroker.getInstance().checkForEditArbeitsauftrag();
 
-            if (currentEntity instanceof DocumentContainer) {
-                panDokumente.setDokumente(((DocumentContainer)currentEntity).getDokumente());
-                panMain.setTabComponentAt(1, labDokumente);
-            }
-
-            if (currentEntity instanceof TdtaStandortMastCustomBean) {
+            if (selectedEntity instanceof TdtaStandortMastCustomBean) {
+                setCurrentEntity(selectedEntity);
                 standortPanel.setCurrentEntity((TdtaStandortMastCustomBean)currentEntity);
                 currentDetailWidgetPanel = standortPanel;
                 isAllowedToEdit = ((TdtaStandortMastCustomBean)currentEntity).isEditAllowed();
-            } else if (currentEntity instanceof TdtaLeuchtenCustomBean) {
+            } else if (selectedEntity instanceof TdtaLeuchtenCustomBean) {
+                setCurrentEntity(selectedEntity);
                 if (getBroker().getWorkbenchWidget().isParentNodeMast(
                                 getBroker().getWorkbenchWidget().getSelectedTreeNode().getLastPathComponent())) {
                     leuchtePanel.setInheritedMastPropertiesEnabled(false);
@@ -209,48 +232,62 @@ public class DetailWidget extends BelisWidget {
                 leuchtePanel.setCurrentEntity((TdtaLeuchtenCustomBean)currentEntity);
                 currentDetailWidgetPanel = leuchtePanel;
                 isAllowedToEdit = ((TdtaLeuchtenCustomBean)currentEntity).isEditAllowed();
-            } else if (currentEntity instanceof LeitungCustomBean) {
+            } else if (selectedEntity instanceof LeitungCustomBean) {
+                setCurrentEntity(selectedEntity);
                 leitungPanel.setCurrentEntity((LeitungCustomBean)currentEntity);
                 currentDetailWidgetPanel = leitungPanel;
                 isAllowedToEdit = ((LeitungCustomBean)currentEntity).isEditAllowed();
-            } else if (currentEntity instanceof AbzweigdoseCustomBean) {
+            } else if (selectedEntity instanceof AbzweigdoseCustomBean) {
+                setCurrentEntity(selectedEntity);
                 abzweigdosePanel.setCurrentEntity((AbzweigdoseCustomBean)currentEntity);
                 currentDetailWidgetPanel = abzweigdosePanel;
                 isAllowedToEdit = ((AbzweigdoseCustomBean)currentEntity).isEditAllowed();
-            } else if (currentEntity instanceof MauerlascheCustomBean) {
+            } else if (selectedEntity instanceof MauerlascheCustomBean) {
+                setCurrentEntity(selectedEntity);
                 mauerlaschePanel.setCurrentEntity((MauerlascheCustomBean)currentEntity);
                 currentDetailWidgetPanel = mauerlaschePanel;
                 isAllowedToEdit = ((MauerlascheCustomBean)currentEntity).isEditAllowed();
-            } else if (currentEntity instanceof SchaltstelleCustomBean) {
+            } else if (selectedEntity instanceof SchaltstelleCustomBean) {
+                setCurrentEntity(selectedEntity);
                 schaltstellePanel.setCurrentEntity((SchaltstelleCustomBean)currentEntity);
                 currentDetailWidgetPanel = schaltstellePanel;
                 isAllowedToEdit = ((SchaltstelleCustomBean)currentEntity).isEditAllowed();
-            } else if (currentEntity instanceof VeranlassungCustomBean) {
+            } else if (selectedEntity instanceof VeranlassungCustomBean) {
+                setCurrentEntity(selectedEntity);
                 veranlassungPanel.setCurrentEntity((VeranlassungCustomBean)currentEntity);
                 currentDetailWidgetPanel = veranlassungPanel;
                 isAllowedToEdit = ((VeranlassungCustomBean)currentEntity).isEditAllowed();
-            } else if (currentEntity instanceof GeometrieCustomBean) {
+            } else if (selectedEntity instanceof GeometrieCustomBean) {
+                setCurrentEntity(selectedEntity);
                 geometriePanel.setCurrentEntity((GeometrieCustomBean)currentEntity);
                 currentDetailWidgetPanel = geometriePanel;
                 isAllowedToEdit = ((GeometrieCustomBean)currentEntity).isEditAllowed();
-            } else if (currentEntity instanceof ArbeitsauftragCustomBean) {
+            } else if (selectedEntity instanceof ArbeitsauftragCustomBean) {
+                setCurrentEntity(selectedEntity);
                 arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)currentEntity);
-                arbeitsauftragPanel.setSelectedProtokolle(((ArbeitsauftragCustomBean)currentEntity).getAr_protokolle());
                 currentDetailWidgetPanel = arbeitsauftragPanel;
                 isAllowedToEdit = ((ArbeitsauftragCustomBean)currentEntity).isEditAllowed();
-            } else if (currentEntity instanceof ArbeitsprotokollCustomBean) {
+            } else if (selectedEntity instanceof ArbeitsprotokollCustomBean) {
                 if (parentEntity instanceof ArbeitsauftragCustomBean) {
+                    setCurrentEntity(parentEntity);
                     arbeitsauftragPanel.setCurrentEntity((ArbeitsauftragCustomBean)parentEntity);
                     arbeitsauftragPanel.setSelectedProtokolle((Collection)currentEntities);
                     currentDetailWidgetPanel = arbeitsauftragPanel;
                     isAllowedToEdit = ((ArbeitsauftragCustomBean)parentEntity).isEditAllowed();
                 } else {
+                    setCurrentEntity(null);
                     currentDetailWidgetPanel = null;
                     isAllowedToEdit = false;
                 }
             } else {
+                setCurrentEntity(null);
                 currentDetailWidgetPanel = null;
                 isAllowedToEdit = false;
+            }
+
+            if (currentEntity instanceof DocumentContainer) {
+                panDokumente.setDokumente(((DocumentContainer)currentEntity).getDokumente());
+                panMain.setTabComponentAt(1, labDokumente);
             }
         }
 
@@ -287,7 +324,10 @@ public class DetailWidget extends BelisWidget {
     @Override
     public void clearComponent() {
         super.clearComponent();
-        setCurrentEntities(null, null, false);
+        try {
+            setCurrentEntities(null, null, false);
+        } catch (VetoException ex) {
+        }
     }
 
     @Override

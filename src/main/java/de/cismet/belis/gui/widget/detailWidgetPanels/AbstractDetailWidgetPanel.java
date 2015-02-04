@@ -117,6 +117,15 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
     /**
      * DOCUMENT ME!
      *
+     * @param  validationMessage  DOCUMENT ME!
+     */
+    protected void setValidationMessage(final String validationMessage) {
+        this.validationMessage = validationMessage;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  currentEntity  DOCUMENT ME!
      */
     public void setCurrentEntity(final T currentEntity) {
@@ -183,13 +192,13 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
                     if (err) {
                         LOG.info("Validation of property " + curBinding.getSourceProperty() + "has failed: " + result);
                         LOG.info("Description: " + errMessage);
-                        validationMessage = errMessage;
+                        setValidationMessage(errMessage);
                         return Validatable.ERROR;
                     } else if ((result != null) && result.failed()
                                 && (result.getFailure().getType() == Binding.SyncFailureType.VALIDATION_FAILED)) {
                         LOG.info("Validation of property " + curBinding.getSourceProperty() + "has failed: " + result);
                         LOG.info("Description: " + result.getFailure().getValidationResult().getDescription());
-                        validationMessage = result.getFailure().getValidationResult().getDescription();
+                        setValidationMessage(result.getFailure().getValidationResult().getDescription());
                         return Validatable.ERROR;
                     } else {
                         LOG.info("Validation of property " + curBinding.getSourceProperty() + "is valid: " + result);
@@ -216,7 +225,7 @@ public abstract class AbstractDetailWidgetPanel<T extends BaseEntity> extends JP
                 }
             }
         }
-        validationMessage = "";
+        setValidationMessage("");
         return Validatable.VALID;
     }
 

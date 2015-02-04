@@ -14,14 +14,13 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.swingx.JXTable;
 
-import java.awt.Rectangle;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -37,6 +36,8 @@ import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
+
+import de.cismet.commons.architecture.validation.Validatable;
 
 /**
  * DOCUMENT ME!
@@ -496,6 +497,30 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         jTable1.scrollRectToVisible(jTable1.getCellRect(viewIndex, 0, true));
     }
 
+    @Override
+    public int getStatus() {
+        final List<String> veranlassungen = new ArrayList<String>(currentEntity.getAr_protokolle().size());
+        boolean error = false;
+        for (final ArbeitsprotokollCustomBean protokoll : currentEntity.getSortedProtokolle()) {
+            final String nummer = protokoll.getVeranlassungsnummer();
+            if (veranlassungen.contains(nummer)
+                        && ((nummer == null) ? (veranlassungen.get(veranlassungen.size() - 1) != null)
+                                             : (!nummer.equals(veranlassungen.get(veranlassungen.size() - 1))))) {
+                error = true;
+                break;
+            } else {
+                veranlassungen.add(nummer);
+            }
+        }
+        if (error) {
+            setValidationMessage("Nicht gruppierte Veranlassungen im Arbeitsauftrag " + currentEntity.getNummer()
+                        + " (selbe Herkunft mehrfach vorhanden, aber nicht aufeinanderfolgend).");
+            return Validatable.ERROR;
+        } else {
+            return Validatable.VALID;
+        }
+    }
+
     /**
      * DOCUMENT ME!
      *
@@ -707,18 +732,31 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     @Override
     public void valueChanged(final ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
-            final Collection<ArbeitsprotokollCustomBean> protokolle = getSelectedProtokolle();
+            jTable1.getSelectionModel().removeListSelectionListener(this);
+            try {
+                final Collection<ArbeitsprotokollCustomBean> protokolle = getSelectedProtokolle();
 
-            if (!protokolle.isEmpty()) {
-                BelisBroker.getInstance().getWorkbenchWidget().selectUserObjects(protokolle);
-                arbeitsprotokollPanel1.setCurrentEntities(protokolle);
-                arbeitsprotokollPanel1.setPanelEditable(isEditable);
-            } else {
-                final Collection col = new ArrayList();
-                col.add(currentEntity);
-                BelisBroker.getInstance().getWorkbenchWidget().selectUserObjects(col);
-                arbeitsprotokollPanel1.setCurrentEntity(null);
-                arbeitsprotokollPanel1.setPanelEditable(false);
+                if (!protokolle.isEmpty()) {
+                    BelisBroker.getInstance().getWorkbenchWidget().selectUserObjects(protokolle);
+                    SwingUtilities.invokeLater(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                jTable1.requestFocus();
+                            }
+                        });
+
+                    arbeitsprotokollPanel1.setCurrentEntities(protokolle);
+                    arbeitsprotokollPanel1.setPanelEditable(isEditable);
+                } else {
+                    final Collection col = new ArrayList();
+                    col.add(currentEntity);
+                    BelisBroker.getInstance().getWorkbenchWidget().selectUserObjects(col);
+                    arbeitsprotokollPanel1.setCurrentEntity(null);
+                    arbeitsprotokollPanel1.setPanelEditable(false);
+                }
+            } finally {
+                jTable1.getSelectionModel().addListSelectionListener(this);
             }
         }
     }

@@ -53,6 +53,7 @@ import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
 
+import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
 import java.awt.Color;
@@ -208,7 +209,6 @@ import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 
 import de.cismet.veto.VetoException;
-import de.cismet.veto.VetoListener;
 
 /**
  * DOCUMENT ME!
@@ -217,7 +217,7 @@ import de.cismet.veto.VetoListener;
  * @version  $Revision$, $Date$
  */
 //Logging
-public class BelisBroker implements SearchController, PropertyChangeListener, VetoListener, Configurable {
+public class BelisBroker implements SearchController, PropertyChangeListener, Configurable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -337,7 +337,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
     private RetrieveWorker lastSearch = null;
     private DetailWidget detailWidget;
     private LeitungstypCustomBean lastLeitungstyp = null;
-    private boolean vetoCheckEnabled = true;
     private TkeyStrassenschluesselCustomBean lastMauerlascheStrassenschluessel;
     // I Think the single components should register the properties they want to bind and broker only binds them that
     // would be fine bind Workbench to Details maybe if another applications needs the same feature or if it is used
@@ -563,28 +562,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
 
                     @Override
                     public void run() {
-                        for (final BelisWidget curWidget : widgets) {
-                            // ToDo locking
-                            if (isEditable) {
-                                ((ColorHighlighter)
-                                    (((CompoundHighlighter)ALTERNATE_ROW_HIGHLIGHTER).getHighlighters()[0]))
-                                        .setBackground(ODD_ROW_EDIT_COLOR);
-                            } else {
-                                ((ColorHighlighter)
-                                    (((CompoundHighlighter)ALTERNATE_ROW_HIGHLIGHTER).getHighlighters()[0]))
-                                        .setBackground(ODD_ROW_DEFAULT_COLOR);
-                            }
-                            if (isEditable) {
-                                curWidget.setWidgetEditable(isEditable);
-                            } else {
-                                curWidget.setWidgetEditable(isEditable);
-                            }
-                        }
+                        setWidgetsEditable(isEditable);
                     }
                 });
         } else {
             for (final BelisWidget curWidget : widgets) {
-                // ToDo locking
                 if (isEditable) {
                     // ALTERNATE_ROW_HIGHLIGHTER = HighlighterFactory.createAlternateStriping(ODD_ROW_EDIT_COLOR,
                     // EVEN_ROW_COLOR);
@@ -835,6 +817,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
      * @param  isSwitchedInEditMode  DOCUMENT ME!
      */
     protected void switchInEditMode(final boolean isSwitchedInEditMode) {
+        cmdAAPrint.setEnabled(!isSwitchedInEditMode);
         if (isSwitchedInEditMode) {
             disableSearch();
             if (isInCreateMode()) {
@@ -1330,7 +1313,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         }
         doBelisBinding();
         customizeMapWidget();
-        ((DefaultFeatureCollection)getMappingComponent().getFeatureCollection()).addVetoableSelectionListener(this);
 
         final int defaultFontSize = 16;
         LOG.warn("Error setting fontsize for map objects. Setting font to default: " + defaultFontSize);
@@ -2582,15 +2564,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 break;
             } else if (curWidget instanceof WorkbenchWidget) {
                 workbenchWidget = (WorkbenchWidget)curWidget;
-                workbenchWidget.addPropertyChangeListener(new PropertyChangeListener() {
-
-                        @Override
-                        public void propertyChange(final PropertyChangeEvent evt) {
-                            if (evt.getPropertyName().equals(WorkbenchWidget.PROP_SELECTEDTREENODES)) {
-                                copyPasteToolbar.clipboardChanged();
-                            }
-                        }
-                    });
             } else if (curWidget instanceof DetailWidget) {
                 detailWidget = (DetailWidget)curWidget;
             }
@@ -2654,7 +2627,17 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                         final boolean isFromEditNode = (allSameMainNode != null)
                                     && allSameMainNode.equals(((WorkbenchWidget)evt.getSource()).getEditObjectsNode());
 
-                        detailWidget.setCurrentEntities(currentEntities, parentEntity, isFromNewNode || isFromEditNode);
+                        try {
+                            detailWidget.setCurrentEntities(
+                                currentEntities,
+                                parentEntity,
+                                isFromNewNode
+                                        || isFromEditNode);
+                        } catch (VetoException ex) {
+                            return;
+                        }
+                        copyPasteToolbar.clipboardChanged();
+
                         final WorkbenchEntity selectedSingleEntity;
                         if (currentEntities.size() == 1) {
                             final Object selectedObject = currentEntities.iterator().next();
@@ -3177,42 +3160,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
         this.lastLeitungstyp = lastLeitungstyp;
     }
 
-    // should only be one mechanismn not three broker,creationtoolbar,worbenchwidget (Method)
-    @Override
-    public void veto() throws VetoException {
-        if ((isInCreateMode() || isInEditMode()) && isVetoCheckEnabled()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(
-                    "selectionVetoCheck: User is in edit mode and wants to change the current object over the map.",
-                    new CurrentStackTrace());
-            }
-            // ToDo create convenience method isInValidState or areAllWidgetValid
-            if (!validateWidgets()) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("selectionVetoCheck: One or more widgets are invalid. Informing user.");
-                }
-                final int answer = askUser();
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("answer: " + answer);
-                }
-                if (answer == JOptionPane.YES_OPTION) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("selectionVetoCheck: User wants to cancel changes.");
-                    }
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("selectionVetoCheck: User wants to correct validation, throwing veto exception.");
-                    }
-                    throw new VetoException();
-                }
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("selectionVetoCheck: No veto all Widgets are valid.");
-                }
-            }
-        }
-    }
-
     /**
      * DOCUMENT ME!
      *
@@ -3236,27 +3183,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Ve
                 null,
                 options,
                 string2);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public boolean isVetoCheckEnabled() {
-        return vetoCheckEnabled;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  vetoCheckEnabled  DOCUMENT ME!
-     */
-    public void setVetoCheckEnabled(final boolean vetoCheckEnabled) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("setVetoCheckto: " + vetoCheckEnabled, new CurrentStackTrace());
-        }
-        this.vetoCheckEnabled = vetoCheckEnabled;
     }
 
     /**
