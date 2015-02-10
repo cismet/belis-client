@@ -564,7 +564,12 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 setCurrentMode(EDIT_MODE);
 
                 final Collection<MutableTreeTableNode> expandedNodes = new ArrayList<MutableTreeTableNode>();
-                final Collection<MutableTreeTableNode> seletedNodes = new ArrayList<MutableTreeTableNode>();
+                final Collection<Object> seletedUserObjects = new ArrayList<Object>();
+
+                for (final TreePath selPath : jttHitTable.getTreeSelectionModel().getSelectionPaths()) {
+                    seletedUserObjects.add(((CustomMutableTreeTableNode)selPath.getLastPathComponent())
+                                .getUserObject());
+                }
 
                 final Collection<MutableTreeTableNode> nodes = new ArrayList<MutableTreeTableNode>();
                 for (int i = 0; i < searchResultsNode.getChildCount(); i++) {
@@ -585,9 +590,6 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                             expandedNodes.add(node);
                         }
                     }
-                    for (final TreePath selPath : jttHitTable.getTreeSelectionModel().getSelectionPaths()) {
-                        seletedNodes.add((MutableTreeTableNode)selPath.getLastPathComponent());
-                    }
                 }
 
                 treeTableModel.removeNodeFromParent(searchResultsNode);
@@ -600,11 +602,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 for (final MutableTreeTableNode expandedNode : expandedNodes) {
                     jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(expandedNode)));
                 }
-                final Collection<TreePath> paths = new ArrayList<TreePath>();
-                for (final MutableTreeTableNode selecteNode : seletedNodes) {
-                    paths.add(new TreePath(treeTableModel.getPathToRoot(selecteNode)));
-                }
-                jttHitTable.getTreeSelectionModel().addSelectionPaths(paths.toArray(new TreePath[0]));
+                selectUserObjects(seletedUserObjects);
                 jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(editObjectsNode)));
             }
             jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(searchResultsNode)));
