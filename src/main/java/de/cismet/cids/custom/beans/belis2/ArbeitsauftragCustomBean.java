@@ -13,6 +13,11 @@ package de.cismet.cids.custom.beans.belis2;
 
 import Sirius.navigator.connection.SessionManager;
 
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.io.WKTWriter;
+
 import java.sql.Date;
 
 import java.text.DecimalFormat;
@@ -32,7 +37,10 @@ import de.cismet.belis2.server.search.NextArbeitsauftragNummerSearch;
 
 import de.cismet.belisEE.util.EntityComparator;
 
+import de.cismet.cismap.commons.CrsTransformer;
+
 import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.entity.GeoBaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
 /**
@@ -54,6 +62,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     public static final String PROP__NUMMER = "nummer";
     public static final String PROP__AR_PROTOKOLLE = "ar_protokolle";
     public static final String PROP__ZUGEWIESEN_AN = "zugewiesen_an";
+    public static final String PROP__BOUNDINGBOX_WGS84 = "boundingbox_wgs84";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -61,10 +70,14 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
             PROP__ANGELEGT_AM,
             PROP__NUMMER,
             PROP__AR_PROTOKOLLE,
-            PROP__ZUGEWIESEN_AN
+            PROP__ZUGEWIESEN_AN,
+            PROP__BOUNDINGBOX_WGS84
         };
 
     //~ Instance fields --------------------------------------------------------
+
+    private final WKTWriter WKT_WRITER = new WKTWriter();
+    private final int SRID_WGS84 = 4326;
 
     private String angelegt_von;
     private String zugewiesen_an;
@@ -243,6 +256,44 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
             }
         }
         this.propertyChangeSupport.firePropertyChange(PROP__AR_PROTOKOLLE, old, this.ar_protokolle);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  boundingbox_geom  DOCUMENT ME!
+     */
+    public void setBoundingbox_wgs84(final String boundingbox_geom) {
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getBoundingbox_wgs84() {
+        final List<Geometry> geoms = new ArrayList<Geometry>(getAr_protokolle().size());
+        for (final ArbeitsprotokollCustomBean protBean : getAr_protokolle()) {
+            final GeoBaseEntity child = protBean.getChildEntity();
+            if (child != null) {
+                final Geometry childGeometry = child.getGeometry();
+                if (childGeometry != null) {
+                    geoms.add(childGeometry);
+                }
+            }
+        }
+
+        if (!geoms.isEmpty()) {
+            final Geometry geomColl = new GeometryCollection(
+                    GeometryFactory.toGeometryArray(geoms),
+                    geoms.get(0).getFactory());
+            final String crs = CrsTransformer.createCrsFromSrid(SRID_WGS84);
+            final Geometry transformedGeom = CrsTransformer.transformToGivenCrs(geomColl.getEnvelope(), crs);
+            transformedGeom.setSRID(SRID_WGS84);
+            return WKT_WRITER.write(transformedGeom);
+        } else {
+            return null;
+        }
     }
 
     @Override
