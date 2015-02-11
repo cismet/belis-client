@@ -550,7 +550,11 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("removing node:" + searchResultsNode);
                 }
-                treeTableModel.removeNodeFromParent(searchResultsNode);
+                try {
+                    treeTableModel.removeNodeFromParent(searchResultsNode);
+                } catch (final Exception ex) {
+                    LOG.warn("could not remove node from parent", ex);
+                }
                 treeTableModel.insertNodeIntoAsLastChild(newObjectsNode, rootNode);
                 treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
 
@@ -566,9 +570,11 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 final Collection<MutableTreeTableNode> expandedNodes = new ArrayList<MutableTreeTableNode>();
                 final Collection<Object> seletedUserObjects = new ArrayList<Object>();
 
-                for (final TreePath selPath : jttHitTable.getTreeSelectionModel().getSelectionPaths()) {
-                    seletedUserObjects.add(((CustomMutableTreeTableNode)selPath.getLastPathComponent())
-                                .getUserObject());
+                if (jttHitTable.getTreeSelectionModel().getSelectionPaths() != null) {
+                    for (final TreePath selPath : jttHitTable.getTreeSelectionModel().getSelectionPaths()) {
+                        seletedUserObjects.add(((CustomMutableTreeTableNode)selPath.getLastPathComponent())
+                                    .getUserObject());
+                    }
                 }
 
                 final Collection<MutableTreeTableNode> nodes = new ArrayList<MutableTreeTableNode>();
@@ -592,7 +598,11 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     }
                 }
 
-                treeTableModel.removeNodeFromParent(searchResultsNode);
+                try {
+                    treeTableModel.removeNodeFromParent(searchResultsNode);
+                } catch (final Exception ex) {
+                    LOG.warn("could not remove node from parent", ex);
+                }
                 treeTableModel.insertNodeIntoAsLastChild(editObjectsNode, rootNode);
                 treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
                 for (final MutableTreeTableNode node : nodes) {
@@ -610,8 +620,10 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             final Collection<MutableTreeTableNode> expandedNodes = new ArrayList<MutableTreeTableNode>();
             final Collection<MutableTreeTableNode> seletedNodes = new ArrayList<MutableTreeTableNode>();
 
-            for (final TreePath selPath : jttHitTable.getTreeSelectionModel().getSelectionPaths()) {
-                seletedNodes.add((MutableTreeTableNode)selPath.getLastPathComponent());
+            if (jttHitTable.getTreeSelectionModel().getSelectionPaths() != null) {
+                for (final TreePath selPath : jttHitTable.getTreeSelectionModel().getSelectionPaths()) {
+                    seletedNodes.add((MutableTreeTableNode)selPath.getLastPathComponent());
+                }
             }
 
             if (getCurrentMode() == CREATE_MODE) {
@@ -621,8 +633,16 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("removing node:" + newObjectsNode);
                 }
-                treeTableModel.removeNodeFromParent(newObjectsNode);
-                treeTableModel.removeNodeFromParent(searchResultsNode);
+                try {
+                    treeTableModel.removeNodeFromParent(newObjectsNode);
+                } catch (final Exception ex) {
+                    LOG.warn("could not remove node from parent", ex);
+                }
+                try {
+                    treeTableModel.removeNodeFromParent(searchResultsNode);
+                } catch (final Exception ex) {
+                    LOG.warn("could not remove node from parent", ex);
+                }
                 treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
 
                 jttHitTable.expandPath(new TreePath(treeTableModel.getPathToRoot(searchResultsNode)));
@@ -632,7 +652,11 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 }
 
                 treeTableModel.removeAllChildrenFromNode(editObjectsNode, false);
-                treeTableModel.removeNodeFromParent(editObjectsNode);
+                try {
+                    treeTableModel.removeNodeFromParent(editObjectsNode);
+                } catch (final Exception ex) {
+                    LOG.warn("could not remove node from parent", ex);
+                }
                 objectsToPersist.clear();
                 if (treeTableModel.getPathForUserObject(searchResultsNode.getUserObject()) == null) {
                     treeTableModel.insertNodeIntoAsLastChild(searchResultsNode, rootNode);
@@ -647,7 +671,9 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             }
             final Collection<TreePath> paths = new ArrayList<TreePath>();
             for (final MutableTreeTableNode selecteNode : seletedNodes) {
-                paths.add(new TreePath(treeTableModel.getPathToRoot(selecteNode)));
+                if (selecteNode != null) {
+                    paths.add(new TreePath(treeTableModel.getPathToRoot(selecteNode)));
+                }
             }
             jttHitTable.getTreeSelectionModel().addSelectionPaths(paths.toArray(new TreePath[0]));
         }
@@ -1450,7 +1476,11 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                     objectsToDelete.add((BaseEntity)entity);
                 }
             }
-            treeTableModel.removeNodeFromParent(nodeToRemove);
+            try {
+                treeTableModel.removeNodeFromParent(nodeToRemove);
+            } catch (final Exception ex) {
+                LOG.warn("could not remove node from parent", ex);
+            }
             // removedNodes.add(nodeToRemove);
             if ((entity instanceof GeoBaseEntity) && (((GeoBaseEntity)entity).getGeometrie() != null)) {
                 if (LOG.isDebugEnabled()) {
