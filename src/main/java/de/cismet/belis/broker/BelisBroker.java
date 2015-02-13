@@ -3469,6 +3469,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                 @Override
                 public void keyTableChanged() {
                     try {
+                        if (comboBox.getMetaClass() == null) {
+                            final MetaClass mc = CidsBroker.getInstance().getBelisMetaClass(keyTableClassname);
+                            comboBox.setMetaClass(mc);
+                        }
                         comboBox.reload(true);
                     } catch (final Exception ex) {
                         LOG.warn("exception while comboBox.reload(true)", ex);

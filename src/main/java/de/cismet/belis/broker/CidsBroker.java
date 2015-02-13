@@ -347,7 +347,7 @@ public class CidsBroker {
         Collection<KeyTableListener> listeners = keyTableListeners.get(className.toLowerCase());
         if (listeners == null) {
             listeners = new ArrayList<KeyTableListener>();
-            keyTableListeners.put(className, listeners);
+            keyTableListeners.put(className.toLowerCase(), listeners);
         }
         listeners.add(listener);
     }
@@ -355,15 +355,15 @@ public class CidsBroker {
     /**
      * DOCUMENT ME!
      *
-     * @param  classname  DOCUMENT ME!
+     * @param  className  DOCUMENT ME!
      * @param  listener   DOCUMENT ME!
      */
-    public void removeListenerForKeyTableChange(final String classname, final KeyTableListener listener) {
-        final Collection<KeyTableListener> listeners = keyTableListeners.get(classname.toLowerCase());
+    public void removeListenerForKeyTableChange(final String className, final KeyTableListener listener) {
+        final Collection<KeyTableListener> listeners = keyTableListeners.get(className.toLowerCase());
         if (listeners != null) {
             listeners.remove(listener);
             if (listeners.isEmpty()) {
-                keyTableListeners.remove(classname);
+                keyTableListeners.remove(className.toLowerCase());
             }
         }
     }
