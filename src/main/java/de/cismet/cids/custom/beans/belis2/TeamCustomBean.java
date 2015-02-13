@@ -24,7 +24,7 @@ public class TeamCustomBean extends BaseEntity {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TeamCustomBean.class);
 
-    public static final String TABLE = "team";
+    public static final String TABLE = "Team";
 
     public static final String PROP__NAME = "name";
 
