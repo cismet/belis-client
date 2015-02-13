@@ -25,6 +25,28 @@ import de.cismet.commons.server.entity.BaseEntity;
  */
 public class ObjectToKeyStringConverter extends ObjectToStringConverter {
 
+    //~ Instance fields --------------------------------------------------------
+
+    private final String nullString;
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new ObjectToKeyStringConverter object.
+     */
+    public ObjectToKeyStringConverter() {
+        this(null);
+    }
+
+    /**
+     * Creates a new ObjectToKeyStringConverter object.
+     *
+     * @param  nullString  DOCUMENT ME!
+     */
+    public ObjectToKeyStringConverter(final String nullString) {
+        this.nullString = nullString;
+    }
+
     //~ Methods ----------------------------------------------------------------
 
     @Override
@@ -32,7 +54,7 @@ public class ObjectToKeyStringConverter extends ObjectToStringConverter {
         if ((item != null) && (item instanceof BaseEntity)) {
             return ((BaseEntity)item).toString();
         } else {
-            return null;
+            return nullString;
         }
     }
 }

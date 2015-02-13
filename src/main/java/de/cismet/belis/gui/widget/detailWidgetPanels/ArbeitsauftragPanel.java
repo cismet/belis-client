@@ -35,6 +35,7 @@ import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.TeamCustomBean;
 import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.commons.architecture.validation.Validatable;
@@ -78,6 +79,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsprotokollPanel arbeitsprotokollPanel1;
+    private javax.swing.JComboBox cbxZugewiesenAn;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -102,7 +104,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     private javax.swing.JLabel lblUser;
     private javax.swing.JLabel lblUserValue;
     private javax.swing.JLabel lblZugewiesenAn;
-    private javax.swing.JTextField txtZugewiesenAn;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -157,7 +158,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         lblNummer = new javax.swing.JLabel();
         lblUserValue = new javax.swing.JLabel();
         lblDatum = new javax.swing.JLabel();
-        txtZugewiesenAn = new javax.swing.JTextField();
         lblUser = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblDatumValue = new javax.swing.JLabel();
@@ -165,6 +165,10 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         lblNummerValue = new javax.swing.JLabel();
         lblZugewiesenAn = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        cbxZugewiesenAn = BelisBroker.createKeyTableComboBox(
+                TeamCustomBean.TABLE,
+                "<html><i>Wert auswählen...</i></html>",
+                false);
         arbeitsprotokollPanel1 = new de.cismet.belis.gui.widget.detailWidgetPanels.ArbeitsprotokollPanel();
 
         lblArbeitsauftrag.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                       // NOI18N
@@ -368,25 +372,6 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(lblDatum, gridBagConstraints);
 
-        txtZugewiesenAn.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zugewiesen_an}"),
-                txtZugewiesenAn,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel4.add(txtZugewiesenAn, gridBagConstraints);
-
         lblUser.setText("angelegt von:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -466,6 +451,27 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
         gridBagConstraints.weightx = 6.0;
         gridBagConstraints.insets = new java.awt.Insets(20, 5, 5, 5);
         jPanel4.add(jLabel2, gridBagConstraints);
+
+        cbxZugewiesenAn.setEnabled(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${currentEntity.zugewiesen_an}"),
+                cbxZugewiesenAn,
+                org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding.setSourceNullValue(null);
+        binding.setSourceUnreadableValue(null);
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(cbxZugewiesenAn, gridBagConstraints);
 
         jSplitPane1.setTopComponent(jPanel4);
         jSplitPane1.setBottomComponent(arbeitsprotokollPanel1);
@@ -634,6 +640,16 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
      */
     @Override
     final void initPanel() {
+//        AutoCompleteDecorator.decorate(cbxZugewiesenAn);
+//        cbxZugewiesenAn.addActionListener(new ActionListener() {
+//
+//                @Override
+//                public void actionPerformed(final ActionEvent e) {
+//                    if (cbxZugewiesenAn.getSelectedItem() == null) {
+//                        ((ComboBoxEditorTextField)cbxZugewiesenAn.getEditor().getEditorComponent()).setText("");
+//                    }
+//                }
+//            });
     }
 
     /**
@@ -686,7 +702,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
      */
     @Override
     public void setPanelEditable(final boolean isEditable) {
-        RendererTools.setEditable(txtZugewiesenAn, isEditable);
+        RendererTools.setEditable(cbxZugewiesenAn, isEditable);
         jButton10.setEnabled(isEditable);
         jButton2.setEnabled(isEditable);
         jButton3.setEnabled(isEditable);
@@ -770,6 +786,14 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
     public void setCurrentEntity(final ArbeitsauftragCustomBean currentEntity) {
         super.setCurrentEntity(currentEntity);
         ((ProtokolleTableModel)jTable1.getModel()).fireTableDataChanged();
+
+        if (currentEntity != null) {
+            final Object o = currentEntity.getZugewiesen_an();
+            if (o == null) {
+                cbxZugewiesenAn.setSelectedItem(null);
+                cbxZugewiesenAn.getEditor();
+            }
+        }
     }
 
     //~ Inner Classes ----------------------------------------------------------

@@ -80,7 +80,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     private final int SRID_WGS84 = 4326;
 
     private String angelegt_von;
-    private String zugewiesen_an;
+    private TeamCustomBean zugewiesen_an;
     private Date angelegt_am;
     private String nummer;
     private Collection<ArbeitsprotokollCustomBean> ar_protokolle;
@@ -170,7 +170,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
      *
      * @return  DOCUMENT ME!
      */
-    public String getZugewiesen_an() {
+    public TeamCustomBean getZugewiesen_an() {
         return zugewiesen_an;
     }
 
@@ -179,8 +179,8 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
      *
      * @param  zugewiesen_an  nummer DOCUMENT ME!
      */
-    public void setZugewiesen_an(final String zugewiesen_an) {
-        final String old = this.zugewiesen_an;
+    public void setZugewiesen_an(final TeamCustomBean zugewiesen_an) {
+        final TeamCustomBean old = this.zugewiesen_an;
         this.zugewiesen_an = zugewiesen_an;
         this.propertyChangeSupport.firePropertyChange(PROP__ZUGEWIESEN_AN, old, this.zugewiesen_an);
     }

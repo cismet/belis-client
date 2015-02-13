@@ -131,7 +131,7 @@ public class ReportingArbeitsauftrag {
         orig = aaBean;
         nummer = "Arbeitsauftrag: A" + aaBean.getNummer();
         angelegt = aaBean.getAngelegt_von() + " (" + dateFormat.format(aaBean.getAngelegt_am()) + ")";
-        final String an = aaBean.getZugewiesen_an();
+        final String an = (aaBean.getZugewiesen_an() == null) ? null : aaBean.getZugewiesen_an().getName();
         zugewiesen_an = ((an != null) ? an : "_____________");
 
         initMap();
