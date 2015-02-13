@@ -13,8 +13,19 @@ package de.cismet.belis.gui.widget.windowsearchwidget;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import de.cismet.belis.broker.BelisBroker;
+
 import de.cismet.belis2.server.search.ArbeitsauftragSearchStatement;
 import de.cismet.belis2.server.search.BelisSearchStatement;
+
+import de.cismet.cids.custom.beans.belis2.TeamCustomBean;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
 
@@ -33,6 +44,7 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
             ArbeitsauftragWindowSearch.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cbxZugewiesenAn;
     private javax.swing.JCheckBox chkAngelegtAmBis;
     private javax.swing.JCheckBox chkAngelegtAmVon;
     private javax.swing.JCheckBox chkAngelegtVon;
@@ -49,7 +61,6 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
     private javax.swing.JPanel panZugewiesenAn;
     private javax.swing.JTextField txtAngelegtVon;
     private javax.swing.JTextField txtAuftragsnummer;
-    private javax.swing.JTextField txtZugewiesenAn;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -62,6 +73,17 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         super(Mode.ARBEITSAUFTRAG, "Arbeitsaufträge");
         initComponents();
         initWithThisSpecificPanel(panTest);
+
+        AutoCompleteDecorator.decorate(cbxZugewiesenAn);
+        cbxZugewiesenAn.addKeyListener(new KeyAdapter() {
+
+                @Override
+                public void keyTyped(final KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                        cbxZugewiesenAn.setSelectedItem(null);
+                    }
+                }
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -71,7 +93,9 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         final String angelegtAmVon = (chkAngelegtAmVon.isSelected()) ? dcAngelegtAmVon.getDate().toString() : null;
         final String angelegtAmBis = (chkAngelegtAmBis.isSelected()) ? dcAngelegtAmBis.getDate().toString() : null;
         final String angelegtVon = (chkAngelegtVon.isSelected()) ? txtAngelegtVon.getText() : null;
-        final String zugewiesenAn = (chkZugewiesenAn.isSelected()) ? txtZugewiesenAn.getText() : null;
+        final Integer zugewiesenAn = (chkZugewiesenAn.isSelected())
+            ? ((CidsBean)cbxZugewiesenAn.getSelectedItem()).getMetaObject().getId() : null;
+
         final String auftragsNummer = (chkAuftragsnummer.isSelected()) ? txtAuftragsnummer.getText() : null;
 
         final ArbeitsauftragSearchStatement arbeitsauftragSearchStatement = new ArbeitsauftragSearchStatement();
@@ -104,7 +128,7 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         txtAuftragsnummer = new javax.swing.JTextField();
         panZugewiesenAn = new javax.swing.JPanel();
         chkZugewiesenAn = new javax.swing.JCheckBox();
-        txtZugewiesenAn = new javax.swing.JTextField();
+        cbxZugewiesenAn = BelisBroker.createKeyTableComboBox(TeamCustomBean.TABLE);
         panAngelegtAm = new javax.swing.JPanel();
         chkAngelegtAmVon = new javax.swing.JCheckBox();
         dcAngelegtAmVon = new de.cismet.cids.editors.DefaultBindableDateChooser();
@@ -194,23 +218,22 @@ public class ArbeitsauftragWindowSearch extends BelisWindowSearch {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
         panZugewiesenAn.add(chkZugewiesenAn, gridBagConstraints);
 
-        txtZugewiesenAn.setText(org.openide.util.NbBundle.getMessage(
-                ArbeitsauftragWindowSearch.class,
-                "ArbeitsauftragWindowSearch.txtZugewiesenAn.text")); // NOI18N
-
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
                 chkZugewiesenAn,
                 org.jdesktop.beansbinding.ELProperty.create("${selected}"),
-                txtZugewiesenAn,
+                cbxZugewiesenAn,
                 org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
-        panZugewiesenAn.add(txtZugewiesenAn, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        panZugewiesenAn.add(cbxZugewiesenAn, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
