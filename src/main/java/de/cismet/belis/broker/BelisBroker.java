@@ -837,6 +837,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
     public void setInEditMode(final boolean inEditMode) {
         final boolean old = this.inEditMode;
         this.inEditMode = inEditMode;
+        editButtonsToolbar.enableSwitchToModeButtons(!inEditMode);
         propertyChangeSupport.firePropertyChange(PROP_IN_EDIT_MODE, old, inEditMode);
     }
     // ToDo to specific I think
