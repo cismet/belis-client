@@ -720,6 +720,9 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      * @return  DOCUMENT ME!
      */
     public Collection<TdtaLeuchtenCustomBean> getLeuchten() {
+        if (leuchten == null) {
+            refreshLeuchten();
+        }
         return leuchten;
     }
 
