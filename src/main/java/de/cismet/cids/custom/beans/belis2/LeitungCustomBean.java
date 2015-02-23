@@ -40,6 +40,7 @@ public class LeitungCustomBean extends GeoBaseEntity implements WorkbenchEntity,
     public static final String PROP__FK_MATERIAL = "fk_material";
     public static final String PROP__FK_QUERSCHNITT = "fk_querschnitt";
     public static final String PROP__FK_LEITUNGSTYP = "fk_leitungstyp";
+    public static final String PROP__LAENGE = "laenge";
     public static final String PROP__DOKUMENTE = "dokumente";
 
     private static final String[] PROPERTY_NAMES = new String[] {
@@ -48,6 +49,7 @@ public class LeitungCustomBean extends GeoBaseEntity implements WorkbenchEntity,
             PROP__FK_MATERIAL,
             PROP__FK_QUERSCHNITT,
             PROP__FK_LEITUNGSTYP,
+            PROP__LAENGE,
             PROP__DOKUMENTE
         };
 
@@ -192,6 +194,25 @@ public class LeitungCustomBean extends GeoBaseEntity implements WorkbenchEntity,
      */
     public MaterialLeitungCustomBean getMaterial() {
         return getFk_material();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Double getLaenge() {
+        if ((getFk_geom() != null) && (getFk_geom().getGeo_field() != null)) {
+            return getFk_geom().getGeo_field().getLength();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void setLaenge() {
     }
 
     /**
