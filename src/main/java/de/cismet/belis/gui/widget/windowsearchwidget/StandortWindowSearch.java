@@ -26,16 +26,14 @@ import de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
-
 /**
  * DOCUMENT ME!
  *
  * @author   mroncoroni
  * @version  $Revision$, $Date$
  */
-@org.openide.util.lookup.ServiceProvider(service = CidsWindowSearch.class)
-public class StandortWindowSearch extends BelisWindowSearch {
+@org.openide.util.lookup.ServiceProvider(service = BelisWindowSearch.class)
+public class StandortWindowSearch extends BelisEntityWindowSearch {
 
     //~ Static fields/initializers ---------------------------------------------
 

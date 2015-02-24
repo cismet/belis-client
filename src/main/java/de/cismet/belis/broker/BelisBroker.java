@@ -114,6 +114,7 @@ import de.cismet.belis.gui.widget.ExtendedNavigatorAttributeEditorGui;
 import de.cismet.belis.gui.widget.KeyTableListener;
 import de.cismet.belis.gui.widget.MapWidget;
 import de.cismet.belis.gui.widget.WorkbenchWidget;
+import de.cismet.belis.gui.widget.windowsearchwidget.QuerySearchResultsWindowSearch;
 
 import de.cismet.belis.panels.AlreadyLockedObjectsPanel;
 import de.cismet.belis.panels.CancelWaitDialog;
@@ -165,6 +166,8 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.editors.DefaultBindableReferenceCombo;
 
 import de.cismet.cids.navigator.utils.SimpleMemoryMonitoringToolbarWidget;
+
+import de.cismet.cids.search.SearchQuerySearchMethod;
 
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.features.DefaultFeatureCollection;
@@ -366,6 +369,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
     private boolean filterVeranlassung = false;
     private boolean filterArbeitsauftrag = false;
     private SperreCustomBean sperre = null;
+    private QuerySearchResultsWindowSearch querySearchResultsWindowSearch;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -412,6 +416,15 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
      */
     public MetaSearchHelper getMetaSearchComponentFactory() {
         return metaSearchComponentFactory;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  querySearchResultsWindowSearch  DOCUMENT ME!
+     */
+    public void setQuerySearchResultsWindowSearch(final QuerySearchResultsWindowSearch querySearchResultsWindowSearch) {
+        this.querySearchResultsWindowSearch = querySearchResultsWindowSearch;
     }
 
     /**
@@ -1030,78 +1043,85 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
 
                 @Override
                 public void propertyChange(final PropertyChangeEvent evt) {
-                    final List<Node> nodes = searchResultsTree.getResultNodes();
-                    if (nodes != null) {
-                        final SearchWaitDialog swd = SearchWaitDialog.getInstance();
-                        swd.init(nodes.size());
-                        SwingUtilities.invokeLater(new Runnable() {
+                    if ((querySearchResultsWindowSearch == null)
+                                || !(querySearchResultsWindowSearch.getQuerySearchResultsActionPanel().getQuerySearch()
+                                    .getSelectedMethod() instanceof SearchQuerySearchMethod)
+                                || !((SearchQuerySearchMethod)
+                                    querySearchResultsWindowSearch.getQuerySearchResultsActionPanel().getQuerySearch()
+                                    .getSelectedMethod()).isSearching()) {
+                        final List<Node> nodes = searchResultsTree.getResultNodes();
+                        if (nodes != null) {
+                            final SearchWaitDialog swd = SearchWaitDialog.getInstance();
+                            swd.init(nodes.size());
+                            SwingUtilities.invokeLater(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        StaticSwingTools.showDialog(swd);
+                                    }
+                                });
+
+                            new SwingWorker<TreeSet<BaseEntity>, Void>() {
 
                                 @Override
-                                public void run() {
-                                    StaticSwingTools.showDialog(swd);
-                                }
-                            });
-
-                        new SwingWorker<TreeSet<BaseEntity>, Void>() {
-
-                            @Override
-                            protected TreeSet<BaseEntity> doInBackground() throws Exception {
-                                final Collection<BaseEntity> entities = new ArrayList<BaseEntity>();
-                                int count = 0;
-                                for (final Node node : nodes) {
-                                    if (swd.isCanceled()) {
-                                        entities.clear();
-                                        break;
-                                    }
-                                    count++;
-                                    if ((node != null) && (node instanceof MetaObjectNode)) {
-                                        final MetaObjectNode moNode = (MetaObjectNode)node;
-                                        final MetaObject mo;
-                                        if (moNode.getObject() != null) {
-                                            mo = moNode.getObject();
-                                        } else {
-                                            mo = CidsBroker.getInstance()
-                                                        .getMetaObject(
-                                                                moNode.getClassId(),
-                                                                moNode.getObjectId(),
-                                                                "BELIS2");
+                                protected TreeSet<BaseEntity> doInBackground() throws Exception {
+                                    final Collection<BaseEntity> entities = new ArrayList<BaseEntity>();
+                                    int count = 0;
+                                    for (final Node node : nodes) {
+                                        if (swd.isCanceled()) {
+                                            entities.clear();
+                                            break;
                                         }
-                                        if (mo != null) {
-                                            swd.setValue(count);
-                                            final CidsBean bean = mo.getBean();
-                                            if (bean instanceof BaseEntity) {
-                                                ((BaseEntity)bean).init();
-                                                entities.add((BaseEntity)bean);
+                                        count++;
+                                        if ((node != null) && (node instanceof MetaObjectNode)) {
+                                            final MetaObjectNode moNode = (MetaObjectNode)node;
+                                            final MetaObject mo;
+                                            if (moNode.getObject() != null) {
+                                                mo = moNode.getObject();
+                                            } else {
+                                                mo = CidsBroker.getInstance()
+                                                            .getMetaObject(
+                                                                    moNode.getClassId(),
+                                                                    moNode.getObjectId(),
+                                                                    "BELIS2");
+                                            }
+                                            if (mo != null) {
+                                                swd.setValue(count);
+                                                final CidsBean bean = mo.getBean();
+                                                if (bean instanceof BaseEntity) {
+                                                    ((BaseEntity)bean).init();
+                                                    entities.add((BaseEntity)bean);
+                                                }
                                             }
                                         }
                                     }
+                                    final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(
+                                            new ReverseComparator(new EntityComparator()));
+                                    results.addAll(entities);
+                                    return results;
                                 }
-                                final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(
-                                        new ReverseComparator(new EntityComparator()));
-                                results.addAll(entities);
-                                return results;
-                            }
 
-                            @Override
-                            protected void done() {
-                                TreeSet<BaseEntity> results = null;
-                                try {
-                                    results = get();
-                                } catch (final Exception ex) {
-                                    LOG.warn("exeption whil building search result treeset", ex);
+                                @Override
+                                protected void done() {
+                                    TreeSet<BaseEntity> results = null;
+                                    try {
+                                        results = get();
+                                    } catch (final Exception ex) {
+                                        LOG.warn("exeption whil building search result treeset", ex);
+                                    }
+                                    setSearchResult(results);
+                                    SwingUtilities.invokeLater(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                swd.setVisible(false);
+                                            }
+                                        });
+                                    enableSearch();
+                                    fireSearchFinished();
                                 }
-                                setSearchResult(results);
-                                SwingUtilities.invokeLater(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            swd.setVisible(false);
-                                        }
-                                    });
-                                enableSearch();
-                                fireSearchFinished();
-                            }
-                        }.execute();
+                            }.execute();
+                        }
                     }
                 }
             }); // NOI18N

@@ -23,7 +23,7 @@ import de.cismet.belis2.server.search.MauerlascheSearchStatement;
  * @version  $Revision$, $Date$
  */
 //@org.openide.util.lookup.ServiceProvider(service = BelisWindowSearch.class)
-public class MauerlascheWindowSearch extends BelisWindowSearch {
+public class MauerlascheWindowSearch extends BelisEntityWindowSearch {
 
     //~ Static fields/initializers ---------------------------------------------
 
