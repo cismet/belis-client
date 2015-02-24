@@ -22,16 +22,14 @@ import de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
-
 /**
  * DOCUMENT ME!
  *
  * @author   mroncoroni
  * @version  $Revision$, $Date$
  */
-@org.openide.util.lookup.ServiceProvider(service = CidsWindowSearch.class)
-public class VeranlassungWindowSearch extends BelisWindowSearch {
+@org.openide.util.lookup.ServiceProvider(service = BelisWindowSearch.class)
+public class VeranlassungWindowSearch extends BelisEntityWindowSearch {
 
     //~ Static fields/initializers ---------------------------------------------
 

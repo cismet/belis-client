@@ -21,7 +21,8 @@ import java.util.Collection;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
+import de.cismet.belis.gui.widget.windowsearchwidget.BelisEntityWindowSearch;
+import de.cismet.belis.gui.widget.windowsearchwidget.BelisWindowSearch;
 
 /**
  * DOCUMENT ME!
@@ -57,14 +58,14 @@ public class WindowSearchWidget extends BelisWidget {
     public void setBroker(final BelisBroker broker) {
         initComponents();
 
-        final Collection<? extends CidsWindowSearch> windowSearches = Lookup.getDefault()
-                    .lookupAll(CidsWindowSearch.class);
+        final Collection<? extends BelisWindowSearch> windowSearches = Lookup.getDefault()
+                    .lookupAll(BelisWindowSearch.class);
 
         if (!windowSearches.isEmpty()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Initializing " + windowSearches.size() + " window searches.");
             }
-            for (final CidsWindowSearch windowSearch : windowSearches) {
+            for (final BelisWindowSearch windowSearch : windowSearches) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Initializing window search '" + windowSearch.getName() + "'.");
                 }

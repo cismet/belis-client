@@ -7,7 +7,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Art">
-              <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.panArt.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.panArt.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -30,49 +30,49 @@
             <Component class="javax.swing.JCheckBox" name="chkStandort">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.chkStandort.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.chkStandort.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="chkSchaltstelle">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.chkSchaltstelle.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.chkSchaltstelle.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="chkMauerlasche">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.chkMauerlasche.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.chkMauerlasche.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="chkAbzweigdose">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.chkAbzweigdose.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.chkAbzweigdose.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="chkLeitung">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.chkLeitung.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.chkLeitung.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="chkArbeitsauftrag">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.chkArbeitsauftrag.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.chkArbeitsauftrag.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="chkVeranlassung">
               <Properties>
                 <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.chkVeranlassung.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.chkVeranlassung.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </Properties>
             </Component>
@@ -87,7 +87,7 @@
         <Component class="javax.swing.JCheckBox" name="chkStreetAndNumber">
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-              <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.chkStreetAndNumber.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+              <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.chkStreetAndNumber.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Constraints>
@@ -168,14 +168,14 @@
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Position">
-                          <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.panPosition.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString PropertyName="titleX" bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.panPosition.border.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
                     </Property>
                   </Properties>
                   <AccessibilityProperties>
                     <Property name="AccessibleContext.accessibleName" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                      <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.panPosition.AccessibleContext.accessibleName" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                      <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.panPosition.AccessibleContext.accessibleName" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                     </Property>
                   </AccessibilityProperties>
                   <Constraints>
@@ -189,7 +189,7 @@
                     <Component class="javax.swing.JCheckBox" name="chkMap">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                          <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisWindowSearch.chkMap.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                          <ResourceString bundle="de/cismet/belis/gui/widget/windowsearchwidget/Bundle.properties" key="BelisEntityWindowSearch.chkMap.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                         </Property>
                       </Properties>
                       <Constraints>

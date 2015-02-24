@@ -11,16 +11,14 @@
  */
 package de.cismet.belis.gui.widget.windowsearchwidget;
 
-import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
-
 /**
  * DOCUMENT ME!
  *
  * @author   mroncoroni
  * @version  $Revision$, $Date$
  */
-//@org.openide.util.lookup.ServiceProvider(service = CidsWindowSearch.class)
-public class AbzweigdoseWindowSearch extends BelisWindowSearch {
+//@org.openide.util.lookup.ServiceProvider(service = BelisWindowSearch.class)
+public class AbzweigdoseWindowSearch extends BelisEntityWindowSearch {
 
     //~ Static fields/initializers ---------------------------------------------
 
