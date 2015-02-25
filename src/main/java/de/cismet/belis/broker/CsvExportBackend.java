@@ -63,12 +63,12 @@ public class CsvExportBackend {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final transient Logger LOG = Logger.getLogger(CsvExportBackend.class);
-    private static final String CSV_EXPORT = "CsvExport";
-    private static final String CSV_EXPORT_KEYVALUE_SEPARATOR = ":";
-    private static final String CSV_EXPORT_SEPARATOR = ",";
-    private static final String CSV_SEPARATOR = ";";
-    private static CsvExportBackend INSTANCE;
+    public static final transient Logger LOG = Logger.getLogger(CsvExportBackend.class);
+    public static final String CSV_EXPORT = "CsvExport";
+    public static final String CSV_EXPORT_KEYVALUE_SEPARATOR = ":";
+    public static final String CSV_EXPORT_SEPARATOR = ",";
+    public static final String CSV_SEPARATOR = ";";
+    public static CsvExportBackend INSTANCE;
 
     public static final String CONNECTION_CLASS = "Sirius.navigator.connection.RESTfulConnection";
     public static final String CONNECTION_PROXY_CLASS =
@@ -135,6 +135,15 @@ public class CsvExportBackend {
     /**
      * DOCUMENT ME!
      *
+     * @return  DOCUMENT ME!
+     */
+    public Multimap<MetaClass, String> getMcPropkeyMap() {
+        return mcPropkeyMap;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   bean  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
@@ -179,7 +188,7 @@ public class CsvExportBackend {
         final String[] fieldNames = new String[propkeys.size()];
         for (int i = 0; i < propkeys.size(); i++) {
             final String propkey = propkeys.get(i);
-            final String[] propkeyArr = propkey.split(":");
+            final String[] propkeyArr = propkey.split(CSV_EXPORT_KEYVALUE_SEPARATOR);
             fieldNames[i] = propkeyArr[0];
         }
         return fieldNames;
