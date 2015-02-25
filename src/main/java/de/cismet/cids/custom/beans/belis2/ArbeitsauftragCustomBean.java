@@ -62,7 +62,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     public static final String PROP__NUMMER = "nummer";
     public static final String PROP__AR_PROTOKOLLE = "ar_protokolle";
     public static final String PROP__ZUGEWIESEN_AN = "zugewiesen_an";
-    public static final String PROP__BOUNDINGBOX_WGS84 = "boundingbox_wgs84";
+    public static final String PROP__AUSDEHNUNG_WGS84 = "ausdehnung_wgs84";
 
     private static final String[] PROPERTY_NAMES = new String[] {
             PROP__ID,
@@ -71,13 +71,14 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
             PROP__NUMMER,
             PROP__AR_PROTOKOLLE,
             PROP__ZUGEWIESEN_AN,
-            PROP__BOUNDINGBOX_WGS84
+            PROP__AUSDEHNUNG_WGS84
         };
 
     //~ Instance fields --------------------------------------------------------
 
     private final WKTWriter WKT_WRITER = new WKTWriter();
     private final int SRID_WGS84 = 4326;
+    private final int AUSDEHNUNG_BUFFER = 25;
 
     private String angelegt_von;
     private TeamCustomBean zugewiesen_an;
@@ -261,9 +262,9 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     /**
      * DOCUMENT ME!
      *
-     * @param  boundingbox_geom  DOCUMENT ME!
+     * @param  ausdehnung_wgs84  DOCUMENT ME!
      */
-    public void setBoundingbox_wgs84(final String boundingbox_geom) {
+    public void setAusdehnung_wgs84(final String ausdehnung_wgs84) {
     }
 
     /**
@@ -271,14 +272,14 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
      *
      * @return  DOCUMENT ME!
      */
-    public String getBoundingbox_wgs84() {
+    public String getAusdehnung_wgs84() {
         final List<Geometry> geoms = new ArrayList<Geometry>(getAr_protokolle().size());
         for (final ArbeitsprotokollCustomBean protBean : getAr_protokolle()) {
             final GeoBaseEntity child = protBean.getChildEntity();
             if (child != null) {
                 final Geometry childGeometry = child.getGeometry();
                 if (childGeometry != null) {
-                    geoms.add(childGeometry);
+                    geoms.add(childGeometry.buffer(AUSDEHNUNG_BUFFER));
                 }
             }
         }
@@ -288,7 +289,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
                     GeometryFactory.toGeometryArray(geoms),
                     geoms.get(0).getFactory());
             final String crs = CrsTransformer.createCrsFromSrid(SRID_WGS84);
-            final Geometry transformedGeom = CrsTransformer.transformToGivenCrs(geomColl.getEnvelope(), crs);
+            final Geometry transformedGeom = CrsTransformer.transformToGivenCrs(geomColl.convexHull(), crs);
             transformedGeom.setSRID(SRID_WGS84);
             return WKT_WRITER.write(transformedGeom);
         } else {
