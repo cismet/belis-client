@@ -31,7 +31,7 @@ public class BelisCreateSearchGeometryListener extends MetaSearchFollowingCreate
 
     //~ Instance fields --------------------------------------------------------
 
-    private final BelisWindowSearch ws;
+    private final BelisEntityWindowSearch ws;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -43,7 +43,7 @@ public class BelisCreateSearchGeometryListener extends MetaSearchFollowingCreate
      * @param  inputListenerName  DOCUMENT ME!
      */
     public BelisCreateSearchGeometryListener(final MappingComponent mc,
-            final BelisWindowSearch ws,
+            final BelisEntityWindowSearch ws,
             final String inputListenerName) {
         super(mc, inputListenerName);
 

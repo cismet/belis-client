@@ -18,7 +18,7 @@ package de.cismet.belis.gui.widget.windowsearchwidget;
  * @version  $Revision$, $Date$
  */
 //@org.openide.util.lookup.ServiceProvider(service = CidsWindowSearch.class)
-public class SchaltstelleWindowSearch extends BelisWindowSearch {
+public class SchaltstelleWindowSearch extends BelisEntityWindowSearch {
 
     //~ Static fields/initializers ---------------------------------------------
 
