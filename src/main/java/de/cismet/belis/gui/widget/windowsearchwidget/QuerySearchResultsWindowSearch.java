@@ -129,6 +129,7 @@ public class QuerySearchResultsWindowSearch extends JPanel implements BelisWindo
                     CidsSearchExecutor.searchAndDisplayResultsWithDialog(search);
                 }
             });
+
         actions.add(new QuerySearchResultsAction() {
 
                 @Override
@@ -155,7 +156,7 @@ public class QuerySearchResultsWindowSearch extends JPanel implements BelisWindo
                                 CidsBroker.BELIS_DOMAIN,
                                 fields,
                                 getWhereCause());
-                        search.setDateFormat("dd.MM.yyyy");
+                        search.setDateFormat("dd.MM.yy");
                         search.setBooleanFormat(new String[] { "nein", "ja" });
                         DownloadManager.instance()
                                 .add(
@@ -173,6 +174,7 @@ public class QuerySearchResultsWindowSearch extends JPanel implements BelisWindo
                 }
             });
         initComponents();
+        querySearchResultsActionPanel1.setDateFormat("dd.MM.yy");
 
         final HashMap<String, String> test = new HashMap<String, String>();
 
