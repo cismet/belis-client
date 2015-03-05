@@ -8,6 +8,8 @@
 package de.cismet.cids.custom.beans.belis2;
 
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 import com.vividsolutions.jts.io.WKTWriter;
 
 import de.cismet.cismap.commons.CrsTransformer;
@@ -35,7 +37,9 @@ public class GeomCustomBean extends BaseEntity {
     //~ Instance fields --------------------------------------------------------
 
     private final WKTWriter WKT_WRITER = new WKTWriter();
+    private final WKTReader WKT_READER = new WKTReader();
     private final int SRID_WGS84 = 4326;
+    private final int SRID_EPSG31466 = -1;
 
     private Geometry geo_field;
     private String wgs84_wkt;
@@ -79,18 +83,27 @@ public class GeomCustomBean extends BaseEntity {
      * @param  geo_field  DOCUMENT ME!
      */
     public void setGeo_field(final Geometry geo_field) {
-        final Geometry old = this.geo_field;
-        this.geo_field = geo_field;
-        this.propertyChangeSupport.firePropertyChange(PROP__GEO_FIELD, old, this.geo_field);
+        simpleSetGeo_field(geo_field);
 
         if (geo_field == null) {
-            setWgs84_wkt(null);
+            simpleSetWgs84_wkt(null);
         } else {
             final String crs = CrsTransformer.createCrsFromSrid(SRID_WGS84);
             final Geometry transformedGeom = CrsTransformer.transformToGivenCrs(geo_field, crs);
             transformedGeom.setSRID(SRID_WGS84);
-            setWgs84_wkt(WKT_WRITER.write(transformedGeom));
+            simpleSetWgs84_wkt(WKT_WRITER.write(transformedGeom));
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  geo_field  DOCUMENT ME!
+     */
+    public void simpleSetGeo_field(final Geometry geo_field) {
+        final Geometry old = this.geo_field;
+        this.geo_field = geo_field;
+        this.propertyChangeSupport.firePropertyChange(PROP__GEO_FIELD, old, this.geo_field);
     }
 
     /**
@@ -125,7 +138,33 @@ public class GeomCustomBean extends BaseEntity {
      *
      * @param  wgs84_wkt  DOCUMENT ME!
      */
-    private void setWgs84_wkt(final String wgs84_wkt) {
+    public void setWgs84_wkt(final String wgs84_wkt) {
+        simpleSetWgs84_wkt(wgs84_wkt);
+
+        if (wgs84_wkt == null) {
+            simpleSetGeo_field(null);
+        } else {
+            try {
+                final Geometry fromWkt = WKT_READER.read(wgs84_wkt);
+                fromWkt.setSRID(SRID_WGS84);
+
+                final String crs = CrsTransformer.createCrsFromSrid(SRID_EPSG31466);
+                final Geometry transformedGeom = CrsTransformer.transformToGivenCrs(fromWkt, crs);
+                transformedGeom.setSRID(SRID_EPSG31466);
+
+                simpleSetGeo_field(transformedGeom);
+            } catch (ParseException ex) {
+                simpleSetGeo_field(null);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  wgs84_wkt  DOCUMENT ME!
+     */
+    private void simpleSetWgs84_wkt(final String wgs84_wkt) {
         final String old = this.wgs84_wkt;
         this.wgs84_wkt = wgs84_wkt;
         this.propertyChangeSupport.firePropertyChange(PROP__WGS84_WKT, old, this.wgs84_wkt);
