@@ -29,8 +29,6 @@ public class TkeyBezirkCustomBean extends BaseEntity {
     public static final String PROP__BEZIRK = "bezirk";
     public static final String PROP__PK = "pk";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZIRK, PROP__PK };
-
     //~ Instance fields --------------------------------------------------------
 
     private String bezirk;
@@ -42,6 +40,11 @@ public class TkeyBezirkCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyBezirkCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__BEZIRK,
+                PROP__PK
+            });
     }
 
     /**
@@ -62,11 +65,6 @@ public class TkeyBezirkCustomBean extends BaseEntity {
      */
     public static TkeyBezirkCustomBean createNew() {
         return (TkeyBezirkCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

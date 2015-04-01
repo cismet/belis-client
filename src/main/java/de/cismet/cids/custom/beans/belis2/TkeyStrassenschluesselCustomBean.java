@@ -32,8 +32,6 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Comp
     public static final String PROP__STRASSE = "strasse";
     public static final String PROP__PK = "pk";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__STRASSE, PROP__PK };
-
     //~ Instance fields --------------------------------------------------------
 
     private String strasse;
@@ -45,6 +43,11 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Comp
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyStrassenschluesselCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__STRASSE,
+                PROP__PK
+            });
     }
 
     /**
@@ -65,11 +68,6 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Comp
      */
     public static TkeyStrassenschluesselCustomBean createNew() {
         return (TkeyStrassenschluesselCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

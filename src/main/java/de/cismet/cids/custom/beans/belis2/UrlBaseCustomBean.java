@@ -26,13 +26,6 @@ public class UrlBaseCustomBean extends BaseEntity {
     public static final String PROP__PATH = "path";
     public static final String PROP__SERVER = "server";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__PROT_PREFIX,
-            PROP__PATH,
-            PROP__SERVER
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private String prot_prefix;
@@ -45,6 +38,12 @@ public class UrlBaseCustomBean extends BaseEntity {
      * Creates a new UrlBaseCustomBean object.
      */
     public UrlBaseCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__PROT_PREFIX,
+                PROP__PATH,
+                PROP__SERVER
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -56,11 +55,6 @@ public class UrlBaseCustomBean extends BaseEntity {
      */
     public static UrlBaseCustomBean createNew() {
         return (UrlBaseCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

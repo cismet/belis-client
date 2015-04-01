@@ -32,8 +32,6 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
     public static final String PROP__KLASSIFIZIERUNG = "klassifizierung";
     public static final String PROP__PK = "pk";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__KLASSIFIZIERUNG, PROP__PK };
-
     //~ Instance fields --------------------------------------------------------
 
     private String klassifizierung;
@@ -45,6 +43,11 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyKlassifizierungCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__KLASSIFIZIERUNG,
+                PROP__PK
+            });
     }
 
     /**
@@ -65,11 +68,6 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
      */
     public static TkeyKlassifizierungCustomBean createNew() {
         return (TkeyKlassifizierungCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

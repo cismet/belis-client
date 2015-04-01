@@ -36,9 +36,10 @@ import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.TeamCustomBean;
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.commons.architecture.validation.Validatable;
+
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!

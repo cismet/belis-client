@@ -39,16 +39,15 @@ import de.cismet.belisEE.util.EntityComparator;
 
 import de.cismet.cismap.commons.CrsTransformer;
 
-import de.cismet.commons.server.entity.BaseEntity;
-import de.cismet.commons.server.entity.GeoBaseEntity;
-import de.cismet.commons.server.interfaces.DocumentContainer;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentContainer, WorkbenchEntity {
+public class ArbeitsauftragCustomBean extends WorkbenchEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -63,16 +62,6 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     public static final String PROP__AR_PROTOKOLLE = "ar_protokolle";
     public static final String PROP__ZUGEWIESEN_AN = "zugewiesen_an";
     public static final String PROP__AUSDEHNUNG_WGS84 = "ausdehnung_wgs84";
-
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__ANGELEGT_VON,
-            PROP__ANGELEGT_AM,
-            PROP__NUMMER,
-            PROP__AR_PROTOKOLLE,
-            PROP__ZUGEWIESEN_AN,
-            PROP__AUSDEHNUNG_WGS84
-        };
 
     //~ Instance fields --------------------------------------------------------
 
@@ -93,6 +82,15 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
      * Creates a new VeranlassungCustomBean object.
      */
     public ArbeitsauftragCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__ANGELEGT_VON,
+                PROP__ANGELEGT_AM,
+                PROP__NUMMER,
+                PROP__AR_PROTOKOLLE,
+                PROP__ZUGEWIESEN_AN,
+                PROP__AUSDEHNUNG_WGS84
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -119,11 +117,6 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
         }
 
         return arbeitsauftragCustomBean;
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**
@@ -265,6 +258,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
      * @param  ausdehnung_wgs84  DOCUMENT ME!
      */
     public void setAusdehnung_wgs84(final String ausdehnung_wgs84) {
+        LOG.fatal("test");
     }
 
     /**
@@ -275,7 +269,7 @@ public class ArbeitsauftragCustomBean extends BaseEntity implements DocumentCont
     public String getAusdehnung_wgs84() {
         final List<Geometry> geoms = new ArrayList<Geometry>(getAr_protokolle().size());
         for (final ArbeitsprotokollCustomBean protBean : getAr_protokolle()) {
-            final GeoBaseEntity child = protBean.getChildEntity();
+            final WorkbenchFeatureEntity child = protBean.getChildEntity();
             if (child != null) {
                 final Geometry childGeometry = child.getGeometry();
                 if (childGeometry != null) {

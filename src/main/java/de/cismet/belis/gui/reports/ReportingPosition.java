@@ -26,7 +26,7 @@ import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
@@ -53,7 +53,7 @@ public class ReportingPosition {
      * @param  map        DOCUMENT ME!
      */
     public ReportingPosition(final int nummer, final ArbeitsprotokollCustomBean protokoll, final BufferedImage map) {
-        final GeoBaseEntity entity = protokoll.getChildEntity();
+        final WorkbenchFeatureEntity entity = protokoll.getChildEntity();
         name = "Position " + String.valueOf(nummer) + ": ";
         if (entity != null) {
             name += entity;

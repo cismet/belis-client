@@ -35,14 +35,6 @@ public class SperreCustomBean extends BaseEntity {
     public static final String PROP__N_SPERRE_ENTITIES = "n_sperre_entities";
     public static final String PROP__ADDITIONAL_INFO = "additional_info";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__LOCK_TIMESTAMP,
-            PROP__USER_STRING,
-            PROP__N_SPERRE_ENTITIES,
-            PROP__ADDITIONAL_INFO
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private Date lock_timestamp;
@@ -56,6 +48,13 @@ public class SperreCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public SperreCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__LOCK_TIMESTAMP,
+                PROP__USER_STRING,
+                PROP__N_SPERRE_ENTITIES,
+                PROP__ADDITIONAL_INFO
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -67,11 +66,6 @@ public class SperreCustomBean extends BaseEntity {
      */
     public static SperreCustomBean createNew() {
         return (SperreCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

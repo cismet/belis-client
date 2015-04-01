@@ -25,15 +25,15 @@ import de.cismet.cids.custom.tostringconverter.belis2.TdtaLeuchtenToStringConver
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
-import de.cismet.commons.server.interfaces.DocumentContainer;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEntity, DocumentContainer {
+public class TdtaLeuchtenCustomBean extends WorkbenchFeatureEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -101,43 +101,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
     public static final String PROP__NAECHSTER_WECHSEL = "naechster_wechsel";
     public static final String PROP__EINBAUDATUM = "einbaudatum";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__PLZ,
-            PROP__FK_STRASSENSCHLUESSEL,
-            PROP__FK_ENERGIELIEFERANT,
-            PROP__RUNDSTEUEREMPFAENGER,
-            PROP__FK_LEUCHTTYP,
-            PROP__FK_UNTERHALTSPFLICHT_LEUCHTE,
-            PROP__ZAEHLER,
-            PROP__FK_DK1,
-            PROP__FK_DK2,
-            PROP__INBETRIEBNAHME_LEUCHTE,
-            PROP__LFD_NUMMER,
-            PROP__ANZAHL_2DK,
-            PROP__FK_KENNZIFFER,
-            PROP__LEUCHTENNUMMER,
-            PROP__MONTAGEFIRMA_LEUCHTE,
-            PROP__SCHALTSTELLE,
-            PROP__ANZAHL_1DK,
-            PROP__STADTBEZIRK,
-            PROP__BEMERKUNGEN,
-            PROP__DOKUMENTE,
-            PROP__ANSCHLUSSLEISTUNG_1DK,
-            PROP__ANSCHLUSSLEISTUNG_2DK,
-            PROP__KABELUEBERGANGSKASTEN_SK_II,
-            PROP__LEUCHTMITTEL,
-            PROP__LEBENSDAUER,
-            PROP__WECHSELDATUM,
-            PROP__WARTUNGSZYKLUS,
-            PROP__WECHSELVORSCHALTGERAET,
-            PROP__MONTEUR,
-            PROP__NAECHSTER_WECHSEL,
-            PROP__VORSCHALTGERAET,
-            PROP__EINBAUDATUM,
-            PROP__FK_STANDORT
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private String plz;
@@ -180,6 +143,42 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TdtaLeuchtenCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__PLZ,
+                PROP__FK_STRASSENSCHLUESSEL,
+                PROP__FK_ENERGIELIEFERANT,
+                PROP__RUNDSTEUEREMPFAENGER,
+                PROP__FK_LEUCHTTYP,
+                PROP__FK_UNTERHALTSPFLICHT_LEUCHTE,
+                PROP__ZAEHLER,
+                PROP__FK_DK1,
+                PROP__FK_DK2,
+                PROP__INBETRIEBNAHME_LEUCHTE,
+                PROP__LFD_NUMMER,
+                PROP__ANZAHL_2DK,
+                PROP__FK_KENNZIFFER,
+                PROP__LEUCHTENNUMMER,
+                PROP__MONTAGEFIRMA_LEUCHTE,
+                PROP__SCHALTSTELLE,
+                PROP__ANZAHL_1DK,
+                PROP__STADTBEZIRK,
+                PROP__BEMERKUNGEN,
+                PROP__DOKUMENTE,
+                PROP__ANSCHLUSSLEISTUNG_1DK,
+                PROP__ANSCHLUSSLEISTUNG_2DK,
+                PROP__KABELUEBERGANGSKASTEN_SK_II,
+                PROP__LEUCHTMITTEL,
+                PROP__LEBENSDAUER,
+                PROP__WECHSELDATUM,
+                PROP__WARTUNGSZYKLUS,
+                PROP__WECHSELVORSCHALTGERAET,
+                PROP__MONTEUR,
+                PROP__NAECHSTER_WECHSEL,
+                PROP__VORSCHALTGERAET,
+                PROP__EINBAUDATUM,
+                PROP__FK_STANDORT
+            });
     }
 
     /**
@@ -200,11 +199,6 @@ public class TdtaLeuchtenCustomBean extends GeoBaseEntity implements WorkbenchEn
      */
     public static TdtaLeuchtenCustomBean createNew() {
         return (TdtaLeuchtenCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

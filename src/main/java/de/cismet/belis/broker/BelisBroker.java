@@ -159,7 +159,6 @@ import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -195,7 +194,8 @@ import de.cismet.commons.architecture.plugin.AbstractPlugin;
 import de.cismet.commons.architecture.validation.Validatable;
 
 import de.cismet.commons.server.entity.BaseEntity;
-import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 import de.cismet.commons2.architecture.layout.LayoutManager;
 
@@ -329,7 +329,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
         new ArrayList<FeatureSelectionChangedListener>();
     private AlreadyLockedObjectsPanel lockPanel = null;
     // Todo maybe deliver mapWidget by default so the derived broker has direct access and don't have to search
-    private Set<BaseEntity> currentSearchResults = new TreeSet(new ReverseComparator(new EntityComparator()));
+    private Set<WorkbenchEntity> currentSearchResults = new TreeSet(new ReverseComparator(new EntityComparator()));
 //    public static final String PROP_NEW_OBJECTS = "currentSearchResults";
     private boolean inCreateMode;
     private MapSearchControl mscPan = null;
@@ -345,7 +345,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
     // would be fine bind Workbench to Details maybe if another applications needs the same feature or if it is used
     // more often throughout the application ToDo if there is need for more special binding generalize this with static
     // binding methods (e.g. Master/Slave or other mechanismn)
-    private final ArrayList<GeoBaseEntity> currentFeatures = new ArrayList<GeoBaseEntity>();
+    private final ArrayList<WorkbenchFeatureEntity> currentFeatures = new ArrayList<WorkbenchFeatureEntity>();
     // Todo outsource in panel, the advantage is that it is easier to edit --> you can use the gui builder
     // And don't know if it is good to have fix item in the toolbar
     private EditButtonsToolbar editButtonsToolbar;
@@ -1061,11 +1061,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                                     }
                                 });
 
-                            new SwingWorker<TreeSet<BaseEntity>, Void>() {
+                            new SwingWorker<TreeSet<WorkbenchEntity>, Void>() {
 
                                 @Override
-                                protected TreeSet<BaseEntity> doInBackground() throws Exception {
-                                    final Collection<BaseEntity> entities = new ArrayList<BaseEntity>();
+                                protected TreeSet<WorkbenchEntity> doInBackground() throws Exception {
+                                    final Collection<WorkbenchEntity> entities = new ArrayList<WorkbenchEntity>();
                                     int count = 0;
                                     for (final Node node : nodes) {
                                         if (swd.isCanceled()) {
@@ -1090,12 +1090,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                                                 final CidsBean bean = mo.getBean();
                                                 if (bean instanceof BaseEntity) {
                                                     ((BaseEntity)bean).init();
-                                                    entities.add((BaseEntity)bean);
+                                                    entities.add((WorkbenchEntity)bean);
                                                 }
                                             }
                                         }
                                     }
-                                    final TreeSet<BaseEntity> results = new TreeSet<BaseEntity>(
+                                    final TreeSet<WorkbenchEntity> results = new TreeSet<WorkbenchEntity>(
                                             new ReverseComparator(new EntityComparator()));
                                     results.addAll(entities);
                                     return results;
@@ -1103,7 +1103,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
 
                                 @Override
                                 protected void done() {
-                                    TreeSet<BaseEntity> results = null;
+                                    TreeSet<WorkbenchEntity> results = null;
                                     try {
                                         results = get();
                                     } catch (final Exception ex) {
@@ -1165,7 +1165,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
      */
     public void addNewProtokollToAuftragNode(final CustomMutableTreeTableNode arbeitsauftragNode,
             final ArbeitsprotokollCustomBean protokoll,
-            final CidsBean basic) {
+            final WorkbenchEntity basic) {
         final CustomTreeTableModel treeModel = BelisBroker.getInstance().getWorkbenchWidget().getTreeTableModel();
 
         final CustomMutableTreeTableNode newBasicNode = new CustomMutableTreeTableNode(basic, true);
@@ -1186,7 +1186,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
      * @param  veranlassungNode  DOCUMENT ME!
      * @param  basic             DOCUMENT ME!
      */
-    public void addNewBasicToVeranlassungNode(final CustomMutableTreeTableNode veranlassungNode, final CidsBean basic) {
+    public void addNewBasicToVeranlassungNode(final CustomMutableTreeTableNode veranlassungNode,
+            final WorkbenchEntity basic) {
         final CustomTreeTableModel treeModel = BelisBroker.getInstance().getWorkbenchWidget().getTreeTableModel();
         final CustomMutableTreeTableNode newNode = new CustomMutableTreeTableNode(basic, true);
         treeModel.insertNodeIntoAsLastChild(newNode, veranlassungNode);
@@ -1199,7 +1200,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
      *
      * @return  DOCUMENT ME!
      */
-    public ArbeitsprotokollCustomBean createProtokollFromBasic(final CidsBean basic) {
+    public ArbeitsprotokollCustomBean createProtokollFromBasic(final WorkbenchEntity basic) {
         final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
         if (basic instanceof AbzweigdoseCustomBean) {
             protokoll.setFk_abzweigdose((AbzweigdoseCustomBean)basic);
@@ -1827,7 +1828,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                 JOptionPane.INFORMATION_MESSAGE);
         } else {
             // hauptobjekte auch aus protokolle, veranlassungen, arbeitsaufträgen heraus
-            final Collection<CidsBean> mainBeans = new ArrayList<CidsBean>();
+            final Collection<WorkbenchEntity> mainBeans = new ArrayList<WorkbenchEntity>();
             for (final TreePath path : paths) {
                 final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)path.getLastPathComponent();
                 if (node != null) {
@@ -1835,42 +1836,42 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                     if (object instanceof ArbeitsauftragCustomBean) {
                         final ArbeitsauftragCustomBean auftrag = (ArbeitsauftragCustomBean)object;
                         for (final ArbeitsprotokollCustomBean protokoll : auftrag.getAr_protokolle()) {
-                            final CidsBean childBean = protokoll.getChildEntity();
+                            final WorkbenchEntity childBean = protokoll.getChildEntity();
                             if (!mainBeans.contains(childBean)) {
                                 mainBeans.add(childBean);
                             }
                         }
                     } else if (object instanceof ArbeitsprotokollCustomBean) {
                         final ArbeitsprotokollCustomBean protokoll = (ArbeitsprotokollCustomBean)object;
-                        final CidsBean childBean = protokoll.getChildEntity();
+                        final WorkbenchEntity childBean = protokoll.getChildEntity();
                         if (!mainBeans.contains(childBean)) {
                             mainBeans.add(childBean);
                         }
                     } else if (object instanceof VeranlassungCustomBean) {
                         final VeranlassungCustomBean veranlassung = (VeranlassungCustomBean)object;
-                        final Collection<CidsBean> allChildBeans = new ArrayList<CidsBean>();
+                        final Collection<WorkbenchEntity> allChildBeans = new ArrayList<WorkbenchEntity>();
                         allChildBeans.addAll(veranlassung.getAr_abzweigdosen());
                         allChildBeans.addAll(veranlassung.getAr_leitungen());
                         allChildBeans.addAll(veranlassung.getAr_leuchten());
                         allChildBeans.addAll(veranlassung.getAr_mauerlaschen());
                         allChildBeans.addAll(veranlassung.getAr_schaltstellen());
                         allChildBeans.addAll(veranlassung.getAr_standorte());
-                        for (final CidsBean childBean : allChildBeans) {
+                        for (final WorkbenchEntity childBean : allChildBeans) {
                             if (!mainBeans.contains(childBean)) {
                                 mainBeans.add(childBean);
                             }
                         }
-                    } else if (object instanceof CidsBean) {
-                        if (!mainBeans.contains((CidsBean)object)) {
-                            mainBeans.add((CidsBean)object);
+                    } else if (object instanceof WorkbenchEntity) {
+                        if (!mainBeans.contains((WorkbenchEntity)object)) {
+                            mainBeans.add((WorkbenchEntity)object);
                         }
                     }
                 }
             }
 
             // Sonderbehandlung: leuchten erzeugen auch standort und umgekehrt
-            final Collection<CidsBean> beans = new ArrayList<CidsBean>();
-            for (final CidsBean mainBean : mainBeans) {
+            final Collection<WorkbenchEntity> beans = new ArrayList<WorkbenchEntity>();
+            for (final WorkbenchEntity mainBean : mainBeans) {
                 if (mainBean instanceof TdtaStandortMastCustomBean) {
                     final TdtaStandortMastCustomBean standort = (TdtaStandortMastCustomBean)mainBean;
                     if (!beans.contains(standort)) {
@@ -1878,7 +1879,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                     }
 
                     if (standort.getLeuchten() != null) {
-                        for (final CidsBean cidsBean : standort.getLeuchten()) {
+                        for (final WorkbenchEntity cidsBean : standort.getLeuchten()) {
                             if (!beans.contains(cidsBean)) {
                                 beans.add(cidsBean);
                             }
@@ -1903,7 +1904,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                 }
             }
 
-            final Map<MetaClass, String> csvStringMap = backend.toCsvStrings(beans);
+            final Map<MetaClass, String> csvStringMap = backend.toCsvStrings((Collection)beans);
             if (!csvStringMap.isEmpty()) {
                 if (DownloadManagerDialog.showAskingForUserTitle(getRootWindow())) {
                     for (final MetaClass metaClass : csvStringMap.keySet()) {
@@ -2087,11 +2088,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
             LOG.debug(workbenchWidget.getObjectsToDelete().size() + " Objects to delete");
         }
 
-        final Collection<BaseEntity> persistedObjects = CidsBroker.getInstance()
+        final Collection<WorkbenchEntity> persistedObjects = CidsBroker.getInstance()
                     .saveObjects(workbenchWidget.getObjectsToPersist());
         getCurrentSearchResults().addAll(persistedObjects);
         if (!isInCreateMode()) {
-            final Collection<BaseEntity> objectsToDelete = workbenchWidget.getObjectsToDelete();
+            final Collection<WorkbenchEntity> objectsToDelete = workbenchWidget.getObjectsToDelete();
             CidsBroker.getInstance().deleteEntities(objectsToDelete);
             getCurrentSearchResults().removeAll(objectsToDelete);
         }
@@ -2184,8 +2185,8 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                         final Object userObj =
                             ((AbstractMutableTreeTableNode)ttable.getPathForRow(componentAdapter.row)
                                         .getLastPathComponent()).getUserObject();
-                        if ((userObj != null) && (userObj instanceof GeoBaseEntity)) {
-                            return ((GeoBaseEntity)userObj).getGeometry() == null;
+                        if ((userObj != null) && (userObj instanceof WorkbenchFeatureEntity)) {
+                            return ((WorkbenchFeatureEntity)userObj).getGeometry() == null;
                         }
                     } catch (Exception ex) {
                         LOG.error("Exception in Highlighter: ", ex);
@@ -2286,7 +2287,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
      *
      * @return  DOCUMENT ME!
      */
-    public Set<BaseEntity> getCurrentSearchResults() {
+    public Set<WorkbenchEntity> getCurrentSearchResults() {
         return currentSearchResults;
     }
 
@@ -2295,11 +2296,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
      *
      * @param  currentSearchResults  DOCUMENT ME!
      */
-    public void setCurrentSearchResults(final Set<BaseEntity> currentSearchResults) {
+    public void setCurrentSearchResults(final Set<WorkbenchEntity> currentSearchResults) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("setSearchResults");
         }
-        final Set<BaseEntity> old = this.currentSearchResults;
+        final Set<WorkbenchEntity> old = this.currentSearchResults;
         this.currentSearchResults = currentSearchResults;
         if ((this.currentSearchResults != null) && (currentSearchResults != null)
                     && this.currentSearchResults.equals(currentSearchResults)) {
@@ -2315,13 +2316,13 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
      *
      * @param  set  DOCUMENT ME!
      */
-    public void setSearchResult(final Set<BaseEntity> set) {
+    public void setSearchResult(final Set<WorkbenchEntity> set) {
         new SwingWorker<Void, Void>() {
 
                 @Override
                 protected Void doInBackground() throws Exception {
                     if (set != null) {
-                        for (final BaseEntity entity : set) {
+                        for (final WorkbenchEntity entity : set) {
                             entity.storeBackup();
                         }
                     }
@@ -2764,10 +2765,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
             final FeatureCollection featureCollection = getMappingComponent().getFeatureCollection();
             if (featureCollection != null) {
                 for (final Feature curFeature : featureCollection.getAllFeatures()) {
-                    if (curFeature instanceof GeoBaseEntity) {
-                        ((GeoBaseEntity)curFeature).setSelectable(selectable);
+                    if (curFeature instanceof WorkbenchFeatureEntity) {
+                        ((WorkbenchFeatureEntity)curFeature).setSelectable(selectable);
                         getMappingComponent().getFeatureCollection().reconsiderFeature(curFeature);
-                        currentFeatures.add((GeoBaseEntity)curFeature);
+                        currentFeatures.add((WorkbenchFeatureEntity)curFeature);
                     }
                 }
             }
@@ -2776,7 +2777,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                 LOG.debug("restoring features");
             }
             if (currentFeatures.size() > 0) {
-                for (final GeoBaseEntity curFeature : currentFeatures) {
+                for (final WorkbenchFeatureEntity curFeature : currentFeatures) {
                     curFeature.setSelectable(selectable);
                     getMappingComponent().getFeatureCollection().reconsiderFeature(curFeature);
                 }

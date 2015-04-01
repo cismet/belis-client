@@ -31,11 +31,11 @@ import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.commons.architecture.interfaces.Editable;
 
 import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!

@@ -30,13 +30,6 @@ public class SperreEntityCustomBean extends BaseEntity {
     public static final String PROP__CLASS_ID = "class_id";
     public static final String PROP__FK_SPERRE = "fk_sperre";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__OBJECT_ID,
-            PROP__CLASS_ID,
-            PROP__FK_SPERRE
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private Integer object_id;
@@ -49,6 +42,12 @@ public class SperreEntityCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public SperreEntityCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__OBJECT_ID,
+                PROP__CLASS_ID,
+                PROP__FK_SPERRE
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -60,11 +59,6 @@ public class SperreEntityCustomBean extends BaseEntity {
      */
     public static SperreEntityCustomBean createNew() {
         return (SperreEntityCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

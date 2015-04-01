@@ -28,11 +28,6 @@ public class TeamCustomBean extends BaseEntity {
 
     public static final String PROP__NAME = "name";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__NAME
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private String name;
@@ -43,6 +38,8 @@ public class TeamCustomBean extends BaseEntity {
      * Creates a new TeamCustomBean object.
      */
     public TeamCustomBean() {
+        addPropertyNames(
+            new String[] { PROP__NAME });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -54,11 +51,6 @@ public class TeamCustomBean extends BaseEntity {
      */
     public static TeamCustomBean createNew() {
         return (TeamCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

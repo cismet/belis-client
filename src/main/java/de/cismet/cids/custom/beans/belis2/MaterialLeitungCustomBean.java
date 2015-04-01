@@ -29,8 +29,6 @@ public class MaterialLeitungCustomBean extends BaseEntity {
 
     public static final String PROP__BEZEICHNUNG = "bezeichnung";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZEICHNUNG };
-
     //~ Instance fields --------------------------------------------------------
 
     private String bezeichnung;
@@ -41,6 +39,8 @@ public class MaterialLeitungCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public MaterialLeitungCustomBean() {
+        addPropertyNames(
+            new String[] { PROP__BEZEICHNUNG });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -52,11 +52,6 @@ public class MaterialLeitungCustomBean extends BaseEntity {
      */
     public static MaterialLeitungCustomBean createNew() {
         return (MaterialLeitungCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

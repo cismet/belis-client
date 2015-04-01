@@ -20,15 +20,15 @@ import de.cismet.belisEE.util.EntityComparator;
 
 import de.cismet.cids.custom.tostringconverter.belis2.LeitungToStringConverter;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
-import de.cismet.commons.server.interfaces.DocumentContainer;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class LeitungCustomBean extends GeoBaseEntity implements WorkbenchEntity, DocumentContainer {
+public class LeitungCustomBean extends WorkbenchFeatureEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -42,16 +42,6 @@ public class LeitungCustomBean extends GeoBaseEntity implements WorkbenchEntity,
     public static final String PROP__FK_LEITUNGSTYP = "fk_leitungstyp";
     public static final String PROP__LAENGE = "laenge";
     public static final String PROP__DOKUMENTE = "dokumente";
-
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__FK_GEOM,
-            PROP__FK_MATERIAL,
-            PROP__FK_QUERSCHNITT,
-            PROP__FK_LEITUNGSTYP,
-            PROP__LAENGE,
-            PROP__DOKUMENTE
-        };
 
     //~ Instance fields --------------------------------------------------------
 
@@ -67,6 +57,15 @@ public class LeitungCustomBean extends GeoBaseEntity implements WorkbenchEntity,
      * Creates a new AbzweigdoseCustomBean object.
      */
     public LeitungCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__FK_GEOM,
+                PROP__FK_MATERIAL,
+                PROP__FK_QUERSCHNITT,
+                PROP__FK_LEITUNGSTYP,
+                PROP__LAENGE,
+                PROP__DOKUMENTE
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -78,11 +77,6 @@ public class LeitungCustomBean extends GeoBaseEntity implements WorkbenchEntity,
      */
     public static LeitungCustomBean createNew() {
         return (LeitungCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

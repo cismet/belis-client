@@ -32,8 +32,6 @@ public class TkeyUnterhMastCustomBean extends BaseEntity {
     public static final String PROP__UNTERHALT_MAST = "unterhalt_mast";
     public static final String PROP__PK = "pk";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__UNTERHALT_MAST, PROP__PK };
-
     //~ Instance fields --------------------------------------------------------
 
     private String unterhalt_mast;
@@ -45,6 +43,11 @@ public class TkeyUnterhMastCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyUnterhMastCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__UNTERHALT_MAST,
+                PROP__PK
+            });
     }
 
     /**
@@ -65,11 +68,6 @@ public class TkeyUnterhMastCustomBean extends BaseEntity {
      */
     public static TkeyUnterhMastCustomBean createNew() {
         return (TkeyUnterhMastCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

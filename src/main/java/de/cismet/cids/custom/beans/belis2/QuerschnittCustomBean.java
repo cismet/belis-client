@@ -28,8 +28,6 @@ public class QuerschnittCustomBean extends BaseEntity {
 
     public static final String PROP__GROESSE = "groesse";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__GROESSE };
-
     //~ Instance fields --------------------------------------------------------
 
     private Double groesse;
@@ -40,6 +38,8 @@ public class QuerschnittCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public QuerschnittCustomBean() {
+        addPropertyNames(
+            new String[] { PROP__GROESSE });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -51,11 +51,6 @@ public class QuerschnittCustomBean extends BaseEntity {
      */
     public static QuerschnittCustomBean createNew() {
         return (QuerschnittCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

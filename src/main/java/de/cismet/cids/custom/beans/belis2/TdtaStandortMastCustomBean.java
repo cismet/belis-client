@@ -49,15 +49,15 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 import de.cismet.cismap.commons.tools.IconUtils;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
-import de.cismet.commons.server.interfaces.DocumentContainer;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class TdtaStandortMastCustomBean extends GeoBaseEntity implements WorkbenchEntity, DocumentContainer {
+public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -114,43 +114,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
     public static final String PROP__ANLAGENGRUPPE = "anlagengruppe";
     public static final String PROP__ANBAUTEN = "anbauten";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__PLZ,
-            PROP__FK_STRASSENSCHLUESSEL,
-            PROP__FK_STADTBEZIRK,
-            PROP__FK_MASTART,
-            PROP__FK_KLASSIFIZIERUNG,
-            PROP__MASTANSTRICH,
-            PROP__MASTSCHUTZ,
-            PROP__FK_UNTERHALTSPFLICHT_MAST,
-            PROP__FK_MASTTYP,
-            PROP__INBETRIEBNAHME_MAST,
-            PROP__VERRECHNUNGSEINHEIT,
-            PROP__LETZTE_AENDERUNG,
-            PROP__FK_GEOM,
-            PROP__IST_VIRTUELLER_STANDORT,
-            PROP__BEMERKUNGEN,
-            PROP__MONTAGEFIRMA,
-            PROP__STANDORTANGABE,
-            PROP__FK_KENNZIFFER,
-            PROP__LFD_NUMMER,
-            PROP__HAUS_NR,
-            PROP__DOKUMENTE,
-            PROP__GRUENDUNG,
-            PROP__ELEK_PRUEFUNG,
-            PROP__ERDUNG,
-            PROP__MONTEUR,
-            PROP__STANDSICHERHEITSPRUEFUNG,
-            PROP__VERFAHREN,
-            PROP__FOTO,
-            PROP__NAECHSTES_PRUEFDATUM,
-            PROP__ANSTRICHFARBE,
-            PROP__REVISION,
-            PROP__ANLAGENGRUPPE,
-            PROP__ANBAUTEN
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private String plz;
@@ -197,6 +160,42 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TdtaStandortMastCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__PLZ,
+                PROP__FK_STRASSENSCHLUESSEL,
+                PROP__FK_STADTBEZIRK,
+                PROP__FK_MASTART,
+                PROP__FK_KLASSIFIZIERUNG,
+                PROP__MASTANSTRICH,
+                PROP__MASTSCHUTZ,
+                PROP__FK_UNTERHALTSPFLICHT_MAST,
+                PROP__FK_MASTTYP,
+                PROP__INBETRIEBNAHME_MAST,
+                PROP__VERRECHNUNGSEINHEIT,
+                PROP__LETZTE_AENDERUNG,
+                PROP__FK_GEOM,
+                PROP__IST_VIRTUELLER_STANDORT,
+                PROP__BEMERKUNGEN,
+                PROP__MONTAGEFIRMA,
+                PROP__STANDORTANGABE,
+                PROP__FK_KENNZIFFER,
+                PROP__LFD_NUMMER,
+                PROP__HAUS_NR,
+                PROP__DOKUMENTE,
+                PROP__GRUENDUNG,
+                PROP__ELEK_PRUEFUNG,
+                PROP__ERDUNG,
+                PROP__MONTEUR,
+                PROP__STANDSICHERHEITSPRUEFUNG,
+                PROP__VERFAHREN,
+                PROP__FOTO,
+                PROP__NAECHSTES_PRUEFDATUM,
+                PROP__ANSTRICHFARBE,
+                PROP__REVISION,
+                PROP__ANLAGENGRUPPE,
+                PROP__ANBAUTEN
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -239,11 +238,6 @@ public class TdtaStandortMastCustomBean extends GeoBaseEntity implements Workben
         final TdtaStandortMastCustomBean bean = (TdtaStandortMastCustomBean)createNew(TABLE);
         bean.init();
         return bean;
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

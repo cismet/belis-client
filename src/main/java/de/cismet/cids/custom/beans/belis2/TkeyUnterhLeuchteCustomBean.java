@@ -31,15 +31,8 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity {
     public static final String PROP__UNTERHALTSPFLICHTIGER_LEUCHTE = "unterhaltspflichtiger_leuchte";
     public static final String PROP__PK = "pk";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__UNTERHALTSPFLICHTIGER_LEUCHTE,
-            PROP__PK
-        };
-
     //~ Instance fields --------------------------------------------------------
 
-    private Integer id;
     private String unterhaltspflichtiger_leuchte;
     private Integer pk;
 
@@ -49,6 +42,11 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyUnterhLeuchteCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__UNTERHALTSPFLICHTIGER_LEUCHTE,
+                PROP__PK
+            });
     }
 
     /**
@@ -69,11 +67,6 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity {
      */
     public static TkeyUnterhLeuchteCustomBean createNew() {
         return (TkeyUnterhLeuchteCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

@@ -35,14 +35,6 @@ public class DmsUrlCustomBean extends BaseEntity {
     public static final String PROP__DESCRIPTION = "description";
     public static final String PROP__NAME = "name";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__TYP,
-            PROP__URL_ID,
-            PROP__DESCRIPTION,
-            PROP__NAME
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private Integer typ;
@@ -56,6 +48,13 @@ public class DmsUrlCustomBean extends BaseEntity {
      * Creates a new BauartCustomBean object.
      */
     public DmsUrlCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__TYP,
+                PROP__URL_ID,
+                PROP__DESCRIPTION,
+                PROP__NAME
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -67,11 +66,6 @@ public class DmsUrlCustomBean extends BaseEntity {
      */
     public static DmsUrlCustomBean createNew() {
         return (DmsUrlCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**
