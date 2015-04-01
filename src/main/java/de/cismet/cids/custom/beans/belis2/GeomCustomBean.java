@@ -32,8 +32,6 @@ public class GeomCustomBean extends BaseEntity {
     public static final String PROP__GEO_FIELD = "geo_field";
     public static final String PROP__WGS84_WKT = "wgs84_wkt";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__GEO_FIELD, PROP__WGS84_WKT };
-
     //~ Instance fields --------------------------------------------------------
 
     private final WKTWriter WKT_WRITER = new WKTWriter();
@@ -50,6 +48,11 @@ public class GeomCustomBean extends BaseEntity {
      * Creates a new BauartCustomBean object.
      */
     public GeomCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__GEO_FIELD,
+                PROP__WGS84_WKT
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -61,11 +64,6 @@ public class GeomCustomBean extends BaseEntity {
      */
     public static GeomCustomBean createNew() {
         return (GeomCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

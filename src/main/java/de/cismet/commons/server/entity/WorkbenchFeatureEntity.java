@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import de.cismet.cids.custom.beans.belis2.GeomCustomBean;
 
 import de.cismet.cismap.commons.CrsTransformer;
+import de.cismet.cismap.commons.features.StyledFeature;
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 import de.cismet.cismap.commons.interaction.CismapBroker;
 
@@ -31,11 +32,11 @@ import de.cismet.commons.server.interfaces.GeometrySlot;
  *
  * @version  $Revision$, $Date$
  */
-public abstract class GeoBaseEntity extends BaseEntity implements GeometrySlot {
+public abstract class WorkbenchFeatureEntity extends WorkbenchEntity implements GeometrySlot, StyledFeature {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeoBaseEntity.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WorkbenchFeatureEntity.class);
 
     //~ Instance fields --------------------------------------------------------
 

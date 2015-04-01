@@ -47,24 +47,6 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
     public static final String PROP__DOKUMENTE = "dokumente";
     public static final String PROP__TYPENBEZEICHNUNG = "typenbezeichnung";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__LEUCHTENTYP,
-            PROP__BESTUECKUNG,
-            PROP__LEISTUNG,
-            PROP__LEISTUNG_BRUTTO,
-            PROP__FABRIKAT,
-            PROP__LAMPE,
-            PROP__LEISTUNG2STUFE,
-            PROP__VORSCHALTGERAET,
-            PROP__EINBAU_VORSCHALTGERAET,
-            PROP__LEISTUNG_REDUZIERT,
-            PROP__LEISTUNG_BRUTTO_REDUZIERT,
-            PROP__FOTO,
-            PROP__DOKUMENTE,
-            PROP__TYPENBEZEICHNUNG
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private String leuchtentyp;
@@ -88,6 +70,23 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyLeuchtentypCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__LEUCHTENTYP,
+                PROP__BESTUECKUNG,
+                PROP__LEISTUNG,
+                PROP__LEISTUNG_BRUTTO,
+                PROP__FABRIKAT,
+                PROP__LAMPE,
+                PROP__LEISTUNG2STUFE,
+                PROP__VORSCHALTGERAET,
+                PROP__EINBAU_VORSCHALTGERAET,
+                PROP__LEISTUNG_REDUZIERT,
+                PROP__LEISTUNG_BRUTTO_REDUZIERT,
+                PROP__FOTO,
+                PROP__DOKUMENTE,
+                PROP__TYPENBEZEICHNUNG
+            });
     }
 
     /**
@@ -110,11 +109,6 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
      */
     public static TkeyLeuchtentypCustomBean createNew() {
         return (TkeyLeuchtentypCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

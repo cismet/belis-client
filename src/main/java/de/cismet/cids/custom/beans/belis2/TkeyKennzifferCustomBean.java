@@ -32,8 +32,6 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Comparable<T
     public static final String PROP__BESCHREIBUNG = "beschreibung";
     public static final String PROP__KENNZIFFER = "kennziffer";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BESCHREIBUNG, PROP__KENNZIFFER };
-
     //~ Instance fields --------------------------------------------------------
 
     private String beschreibung;
@@ -45,6 +43,11 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Comparable<T
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyKennzifferCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__BESCHREIBUNG,
+                PROP__KENNZIFFER
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -69,11 +72,6 @@ public class TkeyKennzifferCustomBean extends BaseEntity implements Comparable<T
         final TkeyKennzifferCustomBean newBean = createNew();
         newBean.setKennziffer(kennziffer);
         return newBean;
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

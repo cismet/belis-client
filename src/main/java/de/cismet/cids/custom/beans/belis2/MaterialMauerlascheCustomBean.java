@@ -29,8 +29,6 @@ public class MaterialMauerlascheCustomBean extends BaseEntity {
 
     public static final String PROP__BEZEICHNUNG = "bezeichnung";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZEICHNUNG };
-
     //~ Instance fields --------------------------------------------------------
 
     private String bezeichnung;
@@ -41,6 +39,8 @@ public class MaterialMauerlascheCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public MaterialMauerlascheCustomBean() {
+        addPropertyNames(
+            new String[] { PROP__BEZEICHNUNG });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -52,11 +52,6 @@ public class MaterialMauerlascheCustomBean extends BaseEntity {
      */
     public static MaterialMauerlascheCustomBean createNew() {
         return (MaterialMauerlascheCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

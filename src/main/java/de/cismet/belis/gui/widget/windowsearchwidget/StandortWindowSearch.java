@@ -24,7 +24,7 @@ import de.cismet.cids.custom.beans.belis2.TkeyMastartCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyMasttypCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean;
 
-import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.commons.server.entity.BaseEntity;
 
 /**
  * DOCUMENT ME!
@@ -767,15 +767,15 @@ public class StandortWindowSearch extends BelisEntityWindowSearch {
             ? dcStandsicherheitspruefungBis.getDate().toString() : null;
 
         final Integer mastart = (chkMastart.isSelected())
-            ? ((CidsBean)cbMastart.getSelectedItem()).getMetaObject().getId() : null;
+            ? ((BaseEntity)cbMastart.getSelectedItem()).getMetaObject().getId() : null;
         final Integer masttyp = (chkMasttyp.isSelected())
-            ? ((CidsBean)cbMasttyp.getSelectedItem()).getMetaObject().getId() : null;
+            ? ((BaseEntity)cbMasttyp.getSelectedItem()).getMetaObject().getId() : null;
         final Integer klassifizierung = (chkKlassifizierung.isSelected())
-            ? ((CidsBean)cbKlassifizierung.getSelectedItem()).getMetaObject().getId() : null;
+            ? ((BaseEntity)cbKlassifizierung.getSelectedItem()).getMetaObject().getId() : null;
         final Integer anlagengruppe = (chkAnlagengruppe.isSelected())
-            ? ((CidsBean)cbAnlagengruppe.getSelectedItem()).getMetaObject().getId() : null;
+            ? ((BaseEntity)cbAnlagengruppe.getSelectedItem()).getMetaObject().getId() : null;
         final Integer unterhaltspflicht_mast = (chkUnterhaltspflichtMast.isSelected())
-            ? ((CidsBean)cbUnterhaltspflichtMast.getSelectedItem()).getMetaObject().getId() : null;
+            ? ((BaseEntity)cbUnterhaltspflichtMast.getSelectedItem()).getMetaObject().getId() : null;
 
         final StandortSearchStatement standortSearchStatement = new StandortSearchStatement();
 

@@ -35,13 +35,6 @@ public class InfobausteinTemplateCustomBean extends BaseEntity {
     public static final String PROP__SCHLUESSEL = "schluessel";
     public static final String PROP__AR_BAUSTEINE = "ar_bausteine";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__BEZEICHNUNG,
-            PROP__SCHLUESSEL,
-            PROP__AR_BAUSTEINE
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private String bezeichnung;
@@ -54,6 +47,12 @@ public class InfobausteinTemplateCustomBean extends BaseEntity {
      * Creates a new VeranlassungCustomBean object.
      */
     public InfobausteinTemplateCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__BEZEICHNUNG,
+                PROP__SCHLUESSEL,
+                PROP__AR_BAUSTEINE
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -65,11 +64,6 @@ public class InfobausteinTemplateCustomBean extends BaseEntity {
      */
     public static InfobausteinTemplateCustomBean createNew() {
         return (InfobausteinTemplateCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

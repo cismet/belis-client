@@ -30,8 +30,6 @@ public class TkeyDoppelkommandoCustomBean extends BaseEntity {
     public static final String PROP__BESCHREIBUNG = "beschreibung";
     public static final String PROP__PK = "pk";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BESCHREIBUNG, PROP__PK };
-
     //~ Instance fields --------------------------------------------------------
 
     private String beschreibung;
@@ -43,6 +41,11 @@ public class TkeyDoppelkommandoCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyDoppelkommandoCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__BESCHREIBUNG,
+                PROP__PK
+            });
     }
 
     /**
@@ -63,11 +66,6 @@ public class TkeyDoppelkommandoCustomBean extends BaseEntity {
      */
     public static TkeyDoppelkommandoCustomBean createNew() {
         return (TkeyDoppelkommandoCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

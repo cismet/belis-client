@@ -52,7 +52,7 @@ import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWMS;
 import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
@@ -115,7 +115,7 @@ public class ReportingArbeitsauftrag {
     private HeadlessMapProvider mapProvider = new HeadlessMapProvider();
     private final Map<Integer, DefaultXStyledFeature> positionFeatureMap =
         new HashMap<Integer, DefaultXStyledFeature>();
-    private ArrayList<GeoBaseEntity> allOriginalFeatures;
+    private ArrayList<WorkbenchFeatureEntity> allOriginalFeatures;
     private final SimpleWMS overviewMap = new SimpleWMS(new SimpleWmsGetMapUrl(OVERVIEWMAP_URL));
     private final SimpleWMS positionMap = new SimpleWMS(new SimpleWmsGetMapUrl(POSITIONMAP_URL));
 
@@ -176,7 +176,7 @@ public class ReportingArbeitsauftrag {
      */
     private void initMap() {
         final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)orig;
-        allOriginalFeatures = new ArrayList<GeoBaseEntity>();
+        allOriginalFeatures = new ArrayList<WorkbenchFeatureEntity>();
         final ArrayList<Feature> annotatingFeatures = new ArrayList<Feature>();
         mapProvider.setCenterMapOnResize(true);
 
@@ -190,7 +190,7 @@ public class ReportingArbeitsauftrag {
         Geometry union = null;
         for (final ArbeitsprotokollCustomBean protokoll
                     : arbeitsauftragCustomBean.getSortedProtokolle()) {
-            final GeoBaseEntity entity = protokoll.getChildEntity();
+            final WorkbenchFeatureEntity entity = protokoll.getChildEntity();
 
             if (entity != null) {
                 allOriginalFeatures.add(entity);
@@ -258,7 +258,7 @@ public class ReportingArbeitsauftrag {
      *
      * @return  DOCUMENT ME!
      */
-    private BufferedImage getPositionImageFrom(final GeoBaseEntity bean) {
+    private BufferedImage getPositionImageFrom(final WorkbenchFeatureEntity bean) {
         if (bean.getGeometry() != null) {
             final Geometry geom = bean.getGeometry().getEnvelope().buffer(POSITIONMAP_BUFFER);
             geom.setSRID(31466);

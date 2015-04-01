@@ -52,6 +52,7 @@ import de.cismet.cids.server.search.CidsServerSearch;
 import de.cismet.cismap.commons.BoundingBox;
 
 import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!
@@ -727,29 +728,29 @@ public class CidsBroker {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    public Collection<BaseEntity> saveObjects(final Collection<BaseEntity> objectsToSave)
+    public Collection<WorkbenchEntity> saveObjects(final Collection<WorkbenchEntity> objectsToSave)
             throws ActionNotSuccessfulException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("save objects");
         }
 
-        final TreeSet<BaseEntity> savedEntities = new TreeSet(new ReverseComparator(new EntityComparator()));
-        final ArrayList<BaseEntity> errornousEntities = new ArrayList<BaseEntity>();
+        final TreeSet<WorkbenchEntity> savedEntities = new TreeSet(new ReverseComparator(new EntityComparator()));
+        final ArrayList<WorkbenchEntity> errornousEntities = new ArrayList<WorkbenchEntity>();
         try {
             if (objectsToSave != null) {
-                for (final BaseEntity curEntity : objectsToSave) {
+                for (final WorkbenchEntity curEntity : objectsToSave) {
                     try {
                         if (curEntity != null) {
                             if (curEntity.getId() == null) {
                                 if (LOG.isDebugEnabled()) {
                                     LOG.debug("Entity Id is not set --> persisting entity (create).");
                                 }
-                                savedEntities.add((BaseEntity)curEntity.persist());
+                                savedEntities.add((WorkbenchEntity)curEntity.persist());
                             } else {
                                 if (LOG.isDebugEnabled()) {
                                     LOG.debug("Entity Id is set --> merge entity (update).");
                                 }
-                                savedEntities.add((BaseEntity)curEntity.persist());
+                                savedEntities.add((WorkbenchEntity)curEntity.persist());
                             }
                         }
                     } catch (Exception ex) {
@@ -896,7 +897,7 @@ public class CidsBroker {
      *
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      */
-    public void deleteEntities(final Collection<BaseEntity> objectsToDelete) throws ActionNotSuccessfulException {
+    public void deleteEntities(final Collection<WorkbenchEntity> objectsToDelete) throws ActionNotSuccessfulException {
         try {
             if (objectsToDelete != null) {
                 for (final BaseEntity objectToDelete : objectsToDelete) {
@@ -959,7 +960,7 @@ public class CidsBroker {
      * @throws  ActionNotSuccessfulException  DOCUMENT ME!
      * @throws  LockAlreadyExistsException    DOCUMENT ME!
      */
-    public SperreCustomBean lockEntities(final Collection<BaseEntity> objectsToLock, final String userString)
+    public SperreCustomBean lockEntities(final Collection<WorkbenchEntity> objectsToLock, final String userString)
             throws ActionNotSuccessfulException, LockAlreadyExistsException {
         try {
             if (objectsToLock != null) {
@@ -1037,7 +1038,7 @@ public class CidsBroker {
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<SperreCustomBean> checkIfLocked(final Collection<BaseEntity> objectToCheck) {
+    public Collection<SperreCustomBean> checkIfLocked(final Collection<WorkbenchEntity> objectToCheck) {
         final Collection<SperreCustomBean> locks = new ArrayList<SperreCustomBean>();
 
         final Collection<String> whereList = new ArrayList<String>();

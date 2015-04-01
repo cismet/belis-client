@@ -33,15 +33,6 @@ public class RundsteuerempfaengerCustomBean extends BaseEntity {
     public static final String PROP__PROGRAMM = "programm";
     public static final String PROP__FOTO = "foto";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__HERRSTELLER_RS,
-            PROP__RS_TYP,
-            PROP__ANSCHLUSSWERT,
-            PROP__PROGRAMM,
-            PROP__FOTO
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private String herrsteller_rs;
@@ -56,6 +47,14 @@ public class RundsteuerempfaengerCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public RundsteuerempfaengerCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__HERRSTELLER_RS,
+                PROP__RS_TYP,
+                PROP__ANSCHLUSSWERT,
+                PROP__PROGRAMM,
+                PROP__FOTO
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -67,11 +66,6 @@ public class RundsteuerempfaengerCustomBean extends BaseEntity {
      */
     public static RundsteuerempfaengerCustomBean createNew() {
         return (RundsteuerempfaengerCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

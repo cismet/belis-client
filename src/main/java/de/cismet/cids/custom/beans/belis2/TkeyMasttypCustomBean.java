@@ -37,17 +37,6 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
     public static final String PROP__DOKUMENTE = "dokumente";
     public static final String PROP__FOTO = "foto";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__MASTTYP,
-            PROP__BEZEICHNUNG,
-            PROP__LPH,
-            PROP__HERSTELLER,
-            PROP__WANDSTAERKE,
-            PROP__DOKUMENTE,
-            PROP__FOTO
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private String masttyp;
@@ -64,6 +53,16 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyMasttypCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__MASTTYP,
+                PROP__BEZEICHNUNG,
+                PROP__LPH,
+                PROP__HERSTELLER,
+                PROP__WANDSTAERKE,
+                PROP__DOKUMENTE,
+                PROP__FOTO
+            });
     }
 
     /**
@@ -84,11 +83,6 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
      */
     public static TkeyMasttypCustomBean createNew() {
         return (TkeyMasttypCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

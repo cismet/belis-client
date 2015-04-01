@@ -32,12 +32,6 @@ public class ArbeitsprotokollstatusCustomBean extends BaseEntity {
     public static final String PROP__BEZEICHNUNG = "bezeichnung";
     public static final String PROP__SCHLUESSEL = "schluessel";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__BEZEICHNUNG,
-            PROP__SCHLUESSEL
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private String bezeichnung;
@@ -49,6 +43,11 @@ public class ArbeitsprotokollstatusCustomBean extends BaseEntity {
      * Creates a new VeranlassungCustomBean object.
      */
     public ArbeitsprotokollstatusCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__BEZEICHNUNG,
+                PROP__SCHLUESSEL
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -60,11 +59,6 @@ public class ArbeitsprotokollstatusCustomBean extends BaseEntity {
      */
     public static ArbeitsprotokollstatusCustomBean createNew() {
         return (ArbeitsprotokollstatusCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

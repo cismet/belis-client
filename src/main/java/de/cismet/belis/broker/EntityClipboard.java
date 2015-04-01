@@ -26,9 +26,8 @@ import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
-import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!
@@ -39,12 +38,12 @@ public class EntityClipboard {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntityClipboard.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntityClipboard.class);
 
     //~ Instance fields --------------------------------------------------------
 
-    private Collection<CidsBean> clipboardBeans = new ArrayList<CidsBean>();
-    private List<EntityClipboardListener> listeners = new ArrayList<EntityClipboardListener>();
+    private final Collection<WorkbenchEntity> clipboardBeans = new ArrayList<WorkbenchEntity>();
+    private final List<EntityClipboardListener> listeners = new ArrayList<EntityClipboardListener>();
     private final BelisBroker broker;
 
     //~ Constructors -----------------------------------------------------------
@@ -96,7 +95,7 @@ public class EntityClipboard {
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<CidsBean> getClipboardBeans() {
+    public Collection<WorkbenchEntity> getClipboardBeans() {
         return clipboardBeans;
     }
 
@@ -111,9 +110,9 @@ public class EntityClipboard {
                 if ((selectedObject instanceof ArbeitsauftragCustomBean)
                             && CidsBroker.getInstance().checkForEditArbeitsauftrag()) {
                     final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)selectedObject;
-                    for (final CidsBean clipboardBean : clipboardBeans) {
+                    for (final WorkbenchEntity clipboardBean : clipboardBeans) {
                         if (clipboardBean instanceof VeranlassungCustomBean) {
-                            final Collection<CidsBean> allBasics = new HashSet<CidsBean>();
+                            final Collection<WorkbenchEntity> allBasics = new HashSet<WorkbenchEntity>();
                             final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)clipboardBean;
                             allBasics.addAll(veranlassungCustomBean.getAr_abzweigdosen());
                             allBasics.addAll(veranlassungCustomBean.getAr_leitungen());
@@ -122,15 +121,14 @@ public class EntityClipboard {
                             allBasics.addAll(veranlassungCustomBean.getAr_schaltstellen());
                             allBasics.addAll(veranlassungCustomBean.getAr_geometrien());
                             allBasics.addAll(veranlassungCustomBean.getAr_standorte());
-                            for (final CidsBean basic : allBasics) {
+                            for (final WorkbenchEntity basic : allBasics) {
                                 final ArbeitsprotokollCustomBean protokoll = broker.createProtokollFromBasic(basic);
                                 protokoll.setVeranlassungsnummer(veranlassungCustomBean.getNummer());
                                 protokoll.setProtokollnummer(arbeitsauftragCustomBean.getAr_protokolle().size() + 1);
                                 broker.addNewProtokollToAuftragNode(selectedNode, protokoll, basic);
                                 arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                             }
-                        } else if ((clipboardBean instanceof WorkbenchEntity)
-                                    || (clipboardBean instanceof GeometrieCustomBean)) {
+                        } else {
                             final ArbeitsprotokollCustomBean protokoll = broker.createProtokollFromBasic(clipboardBean);
                             protokoll.setProtokollnummer(arbeitsauftragCustomBean.getAr_protokolle().size() + 1);
                             broker.addNewProtokollToAuftragNode(selectedNode, protokoll, clipboardBean);
@@ -141,7 +139,7 @@ public class EntityClipboard {
                             && CidsBroker.getInstance().checkForEditVeranlassung()) {
                     final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)selectedObject;
 
-                    for (final CidsBean clipboardBean : clipboardBeans) {
+                    for (final WorkbenchEntity clipboardBean : clipboardBeans) {
                         if (clipboardBean instanceof TdtaStandortMastCustomBean) {
                             final Collection<TdtaStandortMastCustomBean> standorte =
                                 veranlassungCustomBean.getAr_standorte();
@@ -215,7 +213,7 @@ public class EntityClipboard {
      *
      * @throws  Exception  DOCUMENT ME!
      */
-    public CidsBean createPastedBean(final CidsBean clipboardBean) throws Exception {
+    public WorkbenchEntity createPastedBean(final WorkbenchEntity clipboardBean) throws Exception {
         return null;
     }
 
@@ -244,8 +242,8 @@ public class EntityClipboard {
      *
      * @return  DOCUMENT ME!
      */
-    private Collection<CidsBean> getSelectedBeansForCopy() {
-        final Collection<CidsBean> beans = new ArrayList<CidsBean>();
+    private Collection<WorkbenchEntity> getSelectedBeansForCopy() {
+        final Collection<WorkbenchEntity> beans = new ArrayList<WorkbenchEntity>();
         final Collection<TreePath> paths = broker.getWorkbenchWidget().getSelectedTreeNodes();
         if (paths != null) {
             for (final TreePath path : paths) {
@@ -256,7 +254,7 @@ public class EntityClipboard {
                                 || (broker.isFilterNormal()
                                     && ((object instanceof WorkbenchEntity)
                                         || (object instanceof GeometrieCustomBean)))) {
-                        beans.add((CidsBean)object);
+                        beans.add((WorkbenchEntity)object);
                     }
                 }
             }
@@ -299,11 +297,11 @@ public class EntityClipboard {
      */
     public boolean copy() {
         if (isCopyable()) {
-            final Collection<CidsBean> selectedBeans = getSelectedBeansForCopy();
+            final Collection<WorkbenchEntity> selectedBeans = getSelectedBeansForCopy();
             if ((selectedBeans != null) && !selectedBeans.isEmpty()) {
                 try {
                     clipboardBeans.clear();
-                    for (final CidsBean cidsBean : selectedBeans) {
+                    for (final WorkbenchEntity cidsBean : selectedBeans) {
                         this.clipboardBeans.add(cidsBean);
                     }
                     fireClipboardChanged();

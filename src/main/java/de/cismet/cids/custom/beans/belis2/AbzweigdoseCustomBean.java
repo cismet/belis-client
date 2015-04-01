@@ -21,15 +21,15 @@ import de.cismet.cids.custom.tostringconverter.belis2.AbzweigdoseToStringConvert
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
-import de.cismet.commons.server.interfaces.DocumentContainer;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class AbzweigdoseCustomBean extends GeoBaseEntity implements WorkbenchEntity, DocumentContainer {
+public class AbzweigdoseCustomBean extends WorkbenchFeatureEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -39,8 +39,6 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements WorkbenchEnt
 
     public static final String PROP__DOKUMENTE = "dokumente";
     public static final String PROP__FK_GEOM = "fk_geom";
-
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__DOKUMENTE, PROP__FK_GEOM };
 
     //~ Instance fields --------------------------------------------------------
 
@@ -53,6 +51,11 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements WorkbenchEnt
      * Creates a new AbzweigdoseCustomBean object.
      */
     public AbzweigdoseCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__DOKUMENTE,
+                PROP__FK_GEOM
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -64,11 +67,6 @@ public class AbzweigdoseCustomBean extends GeoBaseEntity implements WorkbenchEnt
      */
     public static AbzweigdoseCustomBean createNew() {
         return (AbzweigdoseCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

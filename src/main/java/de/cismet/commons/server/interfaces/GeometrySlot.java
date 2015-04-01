@@ -25,7 +25,7 @@ import de.cismet.cismap.commons.features.StyledFeature;
  * @author   Puhl
  * @version  $Revision$, $Date$
  */
-public interface GeometrySlot extends StyledFeature {
+public interface GeometrySlot {
 
     //~ Methods ----------------------------------------------------------------
 

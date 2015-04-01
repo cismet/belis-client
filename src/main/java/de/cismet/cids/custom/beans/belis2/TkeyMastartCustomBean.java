@@ -29,8 +29,6 @@ public class TkeyMastartCustomBean extends BaseEntity {
     public static final String PROP__MASTART = "mastart";
     public static final String PROP__PK = "pk";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__MASTART, PROP__PK };
-
     //~ Instance fields --------------------------------------------------------
 
     private String mastart;
@@ -42,6 +40,11 @@ public class TkeyMastartCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyMastartCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__MASTART,
+                PROP__PK
+            });
     }
 
     /**
@@ -73,11 +76,6 @@ public class TkeyMastartCustomBean extends BaseEntity {
      */
     public static TkeyMastartCustomBean createNew() {
         return (TkeyMastartCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

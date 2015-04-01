@@ -26,7 +26,7 @@ import javax.swing.SwingWorker;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 import de.cismet.tools.gui.StaticSwingTools;
 
@@ -137,7 +137,7 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
      * @throws  Exception  DOCUMENT ME!
      */
     protected static ArbeitsprotokollaktionCustomBean createAktion(final String desc,
-            final GeoBaseEntity entity,
+            final WorkbenchFeatureEntity entity,
             final String property,
             final Object newValue) throws Exception {
         final Object oldValue = entity.getProperty(property);

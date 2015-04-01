@@ -22,15 +22,15 @@ import de.cismet.belisEE.util.EntityComparator;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
-import de.cismet.commons.server.interfaces.DocumentContainer;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContainer, WorkbenchEntity {
+public class GeometrieCustomBean extends WorkbenchFeatureEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -41,13 +41,6 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
     public static final String PROP__AR_DOKUMENTE = "ar_dokumente";
     public static final String PROP__FK_GEOM = "fk_geom";
     public static final String PROP__BEZEICHNUNG = "bezeichnung";
-
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__AR_DOKUMENTE,
-            PROP__FK_GEOM,
-            PROP__BEZEICHNUNG
-        };
 
     //~ Instance fields --------------------------------------------------------
 
@@ -61,6 +54,12 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
      * Creates a new AbzweigdoseCustomBean object.
      */
     public GeometrieCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__AR_DOKUMENTE,
+                PROP__FK_GEOM,
+                PROP__BEZEICHNUNG
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -72,11 +71,6 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
      */
     public static GeometrieCustomBean createNew() {
         return (GeometrieCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**
@@ -215,8 +209,8 @@ public class GeometrieCustomBean extends GeoBaseEntity implements DocumentContai
      */
     @Override
     public int compareTo(final WorkbenchEntity o) {
-        if (o instanceof GeomCustomBean) {
-            final GeomCustomBean g = (GeomCustomBean)o;
+        if (o instanceof GeometrieCustomBean) {
+            final GeometrieCustomBean g = (GeometrieCustomBean)o;
             return 1;
         } else {
             return EntityComparator.compareTypes(this, o);

@@ -23,9 +23,9 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
-
 import de.cismet.cids.tools.CustomToStringConverter;
+
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!

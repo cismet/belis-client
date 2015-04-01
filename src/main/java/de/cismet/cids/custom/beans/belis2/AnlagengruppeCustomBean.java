@@ -30,12 +30,6 @@ public class AnlagengruppeCustomBean extends BaseEntity {
     public static final String PROP__NUMMER = "nummer";
     public static final String PROP__BEZEICHNUNG = "bezeichnung";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__NUMMER,
-            PROP__BEZEICHNUNG
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private Integer nummer;
@@ -47,6 +41,11 @@ public class AnlagengruppeCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public AnlagengruppeCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__NUMMER,
+                PROP__BEZEICHNUNG
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -58,11 +57,6 @@ public class AnlagengruppeCustomBean extends BaseEntity {
      */
     public static AnlagengruppeCustomBean createNew() {
         return (AnlagengruppeCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**
