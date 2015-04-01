@@ -900,7 +900,7 @@ public class CidsBroker {
     public void deleteEntities(final Collection<WorkbenchEntity> objectsToDelete) throws ActionNotSuccessfulException {
         try {
             if (objectsToDelete != null) {
-                for (final BaseEntity objectToDelete : objectsToDelete) {
+                for (final WorkbenchEntity objectToDelete : objectsToDelete) {
                     if (objectToDelete != null) {
                         objectToDelete.delete();
                         objectToDelete.persist();
