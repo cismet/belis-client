@@ -55,7 +55,6 @@ public abstract class BaseEntity extends CidsBean {
      */
     public BaseEntity() {
         addPropertyName(PROP__ID);
-        this.propertyNames.addAll(propertyNames);
     }
 
     //~ Methods ----------------------------------------------------------------

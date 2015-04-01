@@ -2096,7 +2096,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
             CidsBroker.getInstance().deleteEntities(objectsToDelete);
             getCurrentSearchResults().removeAll(objectsToDelete);
         }
-        for (final BaseEntity entity : getCurrentSearchResults()) {
+        for (final WorkbenchEntity entity : getCurrentSearchResults()) {
             entity.storeBackup();
         }
         workbenchWidget.getObjectsToDelete().clear();
