@@ -553,35 +553,45 @@ public class ArbeitsprotokollCustomBean extends WorkbenchEntity {
      */
     @Override
     public String getKeyString() {
-        final String subfix;
-        if (getVeranlassungsschluessel() != null) {
-            subfix = " (" + getVeranlassungsschluessel() + ")";
-        } else {
-            subfix = "";
-        }
-
+        final String type;
+        final WorkbenchEntity entity;
         if (getFk_abzweigdose() != null) {
-            return "Abzweigdose" + subfix;
+            entity = getFk_abzweigdose();
+            type = "Abzweigdose";
         } else if (getFk_leitung() != null) {
-            return "Leitung" + subfix;
+            entity = getFk_leitung();
+            type = "Leitung";
         } else if (getFk_leuchte() != null) {
-            return "Leuchte" + subfix;
+            entity = getFk_leuchte();
+            type = "Leuchte";
         } else if (getFk_mauerlasche() != null) {
-            return "Mauerlasche" + subfix;
+            entity = getFk_mauerlasche();
+            type = "Mauerlasche";
         } else if (getFk_schaltstelle() != null) {
-            return "Schaltstelle" + subfix;
+            entity = getFk_schaltstelle();
+            type = "Schaltstelle";
         } else if (getFk_geometrie() != null) {
-            return "Geometrie" + subfix;
+            entity = getFk_geometrie();
+            type = "Geometrie";
         } else if (getFk_standort() != null) {
             final TdtaStandortMastCustomBean standort = getFk_standort();
+            entity = standort;
             if (standort.isStandortMast()) {
-                return "Mast" + subfix;
+                type = "Mast";
             } else {
-                return "Standort" + subfix;
+                type = "Standort";
             }
         } else {
             return "";
         }
+        final String prefix = (entity.isDeleted()) ? "<html><strike>" : "";
+        final String suffix;
+        if (getVeranlassungsschluessel() != null) {
+            suffix = " (" + getVeranlassungsschluessel() + ")";
+        } else {
+            suffix = "";
+        }
+        return prefix + type + suffix;
     }
 
     /**
