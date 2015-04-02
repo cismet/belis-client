@@ -1391,7 +1391,7 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                 ? (WorkbenchEntity)parentEntity : null;
 
             final WorkbenchEntity workbenchEntity = (WorkbenchEntity)entity;
-            if ((parentNode != null) && (workbenchEntity instanceof VeranlassungCustomBean)) {
+            if (parentEntity instanceof VeranlassungCustomBean) {
                 final VeranlassungCustomBean veranlassung = (VeranlassungCustomBean)workbenchEntity;
                 if (workbenchEntity instanceof TdtaLeuchtenCustomBean) {
                     veranlassung.getAr_leuchten().remove((TdtaLeuchtenCustomBean)workbenchEntity);
@@ -1418,10 +1418,15 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
                         && (parentWorkbenchEntity instanceof TdtaStandortMastCustomBean)) {
                 final TdtaStandortMastCustomBean mast = (TdtaStandortMastCustomBean)parentWorkbenchEntity;
                 final TdtaLeuchtenCustomBean leuchte = (TdtaLeuchtenCustomBean)workbenchEntity;
-                mast.getLeuchten().remove(leuchte);
+                objectsToDelete.add(leuchte);
                 if (mast.getLeuchten().isEmpty()) {
                     getBroker().getMappingComponent().getFeatureCollection().reconsiderFeature(mast);
                 }
+            } else if (workbenchEntity instanceof TdtaStandortMastCustomBean) {
+                for (final WorkbenchEntity leuchte : ((TdtaStandortMastCustomBean)workbenchEntity).getLeuchten()) {
+                    objectsToDelete.add(leuchte);
+                }
+                objectsToDelete.add(workbenchEntity);
             } else if (isNodeHaengeLeuchte(nodeToRemove)) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Node which will be removed is a haengeleuchte. Removing also virtual Standort");
