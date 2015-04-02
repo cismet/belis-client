@@ -902,8 +902,8 @@ public class CidsBroker {
             if (objectsToDelete != null) {
                 for (final WorkbenchEntity objectToDelete : objectsToDelete) {
                     if (objectToDelete != null) {
-                        objectToDelete.delete();
                         objectToDelete.setIs_deleted(Boolean.TRUE);
+                        objectToDelete.persist();
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("deleting of entity successful");
                         }
