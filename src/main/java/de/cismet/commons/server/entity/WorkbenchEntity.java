@@ -65,6 +65,15 @@ public abstract class WorkbenchEntity extends BaseEntity implements Comparable<W
     /**
      * DOCUMENT ME!
      *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isDeleted() {
+        return (getIs_deleted() != null) && (getIs_deleted() == true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  is_deleted  DOCUMENT ME!
      */
     public void setIs_deleted(final Boolean is_deleted) {
