@@ -18,6 +18,9 @@ import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.io.WKTWriter;
 
+import org.jdesktop.observablecollections.ObservableList;
+import org.jdesktop.observablecollections.ObservableListListener;
+
 import java.sql.Date;
 
 import java.text.DecimalFormat;
@@ -240,6 +243,42 @@ public class ArbeitsauftragCustomBean extends WorkbenchEntity {
      * @param  ar_protokolle  DOCUMENT ME!
      */
     public void setAr_protokolle(final Collection<ArbeitsprotokollCustomBean> ar_protokolle) {
+        if (ar_protokolle != null) {
+            if (ar_protokolle instanceof ObservableList) {
+                ((ObservableList)ar_protokolle).addObservableListListener(new ObservableListListener() {
+
+                        @Override
+                        public void listElementsAdded(final ObservableList list, final int index, final int length) {
+                            for (int i = index; i < (index + length); i++) {
+                                final Object object = list.get(i);
+                                if ((object != null) && (object instanceof ArbeitsprotokollCustomBean)) {
+                                    final ArbeitsprotokollCustomBean protokoll = (ArbeitsprotokollCustomBean)object;
+                                    protokoll.setProtokollnummer(i + 1);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void listElementsRemoved(final ObservableList list,
+                                final int index,
+                                final List removedList) {
+                            final List<ArbeitsprotokollCustomBean> protokolle = getSortedProtokolle();
+                            for (int i = 0; i < protokolle.size(); i++) {
+                                protokolle.get(i).setProtokollnummer(i + 1);
+                            }
+                        }
+
+                        @Override
+                        public void listElementReplaced(final ObservableList ol, final int i, final Object o) {
+                        }
+
+                        @Override
+                        public void listElementPropertyChanged(final ObservableList ol, final int i) {
+                        }
+                    });
+            }
+        }
+
         final Collection<ArbeitsprotokollCustomBean> old = this.ar_protokolle;
         this.ar_protokolle = ar_protokolle;
         final List<ArbeitsprotokollCustomBean> sortedProtokolle = getSortedProtokolle();
@@ -258,7 +297,6 @@ public class ArbeitsauftragCustomBean extends WorkbenchEntity {
      * @param  ausdehnung_wgs84  DOCUMENT ME!
      */
     public void setAusdehnung_wgs84(final String ausdehnung_wgs84) {
-        LOG.fatal("test");
     }
 
     /**
