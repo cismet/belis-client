@@ -34,6 +34,8 @@ import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
 
+import de.cismet.commons.server.entity.WorkbenchEntity;
+
 /**
  * DOCUMENT ME!
  *
@@ -60,37 +62,43 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
         if (value != null) {
             if (value instanceof CustomMutableTreeTableNode) {
                 final Object userObject = ((CustomMutableTreeTableNode)value).getUserObject();
-                if (userObject instanceof TdtaStandortMastCustomBean) {
-                    final Integer laufendeNummer = ((TdtaStandortMastCustomBean)userObject).getLaufendeNummer();
-                    setText((laufendeNummer != null) ? Integer.toString(laufendeNummer) : "");
-                    setIcon(BelisIcons.icoStandort16);
-                } else if (userObject instanceof TdtaLeuchtenCustomBean) {
-                    setText("Leuchte");
-                    setIcon(BelisIcons.icoLeuchte16);
-                } else if (userObject instanceof MauerlascheCustomBean) {
-                    setText("Mauerlasche");
-                    setIcon(BelisIcons.icoMauerlasche16);
-                } else if (userObject instanceof SchaltstelleCustomBean) {
-                    setText("Schaltstelle");
-                    setIcon(BelisIcons.icoSchaltstelle16);
-                } else if (userObject instanceof LeitungCustomBean) {
-                    setText("Leitung");
-                    setIcon(BelisIcons.icoLeitung16);
-                } else if (userObject instanceof AbzweigdoseCustomBean) {
-                    setText("Abzweigdose/Zugkasten");
-                    setIcon(BelisIcons.icoAbzweigdose16);
-                } else if (userObject instanceof VeranlassungCustomBean) {
-                    setText("Veranlassung");
-                    setIcon(BelisIcons.icoVeranlassung16);
-                } else if (userObject instanceof ArbeitsauftragCustomBean) {
-                    setText("Arbeitsauftrag");
-                    setIcon(BelisIcons.icoArbeitsauftrag16);
-                } else if (userObject instanceof ArbeitsprotokollCustomBean) {
-                    setText("Arbeitsprotokoll");
-                    setIcon(BelisIcons.icoArbeitsprotokoll16);
-                } else if (userObject instanceof GeometrieCustomBean) {
-                    setText("Geometrie");
-                    setIcon(BelisIcons.icoGeometrie16);
+                if (userObject instanceof WorkbenchEntity) {
+                    final WorkbenchEntity entity = (WorkbenchEntity)userObject;
+                    final String prefix = (entity.isDeleted()) ? "<html><strike>" : "";
+                    if (userObject instanceof TdtaStandortMastCustomBean) {
+                        final Integer laufendeNummer = ((TdtaStandortMastCustomBean)userObject).getLaufendeNummer();
+                        setText(prefix + ((laufendeNummer != null) ? Integer.toString(laufendeNummer) : ""));
+                        setIcon(BelisIcons.icoStandort16);
+                    } else if (userObject instanceof TdtaLeuchtenCustomBean) {
+                        setText(prefix + "Leuchte");
+                        setIcon(BelisIcons.icoLeuchte16);
+                    } else if (userObject instanceof MauerlascheCustomBean) {
+                        setText(prefix + "Mauerlasche");
+                        setIcon(BelisIcons.icoMauerlasche16);
+                    } else if (userObject instanceof SchaltstelleCustomBean) {
+                        setText(prefix + "Schaltstelle");
+                        setIcon(BelisIcons.icoSchaltstelle16);
+                    } else if (userObject instanceof LeitungCustomBean) {
+                        setText(prefix + "Leitung");
+                        setIcon(BelisIcons.icoLeitung16);
+                    } else if (userObject instanceof AbzweigdoseCustomBean) {
+                        setText(prefix + "Abzweigdose/Zugkasten");
+                        setIcon(BelisIcons.icoAbzweigdose16);
+                    } else if (userObject instanceof VeranlassungCustomBean) {
+                        setText(prefix + "Veranlassung");
+                        setIcon(BelisIcons.icoVeranlassung16);
+                    } else if (userObject instanceof ArbeitsauftragCustomBean) {
+                        setText(prefix + "Arbeitsauftrag");
+                        setIcon(BelisIcons.icoArbeitsauftrag16);
+                    } else if (userObject instanceof ArbeitsprotokollCustomBean) {
+                        setText(prefix + "Arbeitsprotokoll");
+                        setIcon(BelisIcons.icoArbeitsprotokoll16);
+                    } else if (userObject instanceof GeometrieCustomBean) {
+                        setText(prefix + "Geometrie");
+                        setIcon(BelisIcons.icoGeometrie16);
+                    } else {
+                        setText("Unbekannter Typ");
+                    }
                 } else if (userObject instanceof String) {
                     if (userObject.equals(CustomTreeTableModel.HIT_NODE)) {
                         setText(((CustomMutableTreeTableNode)value).getChildCount() + " Suchergebnisse");

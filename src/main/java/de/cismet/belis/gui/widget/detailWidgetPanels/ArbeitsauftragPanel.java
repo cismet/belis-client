@@ -888,7 +888,8 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
                 }
                 case 2: {
                     if (entityName != null) {
-                        return entityName;
+                        final String prefix = ((entity != null) && entity.isDeleted()) ? "<html><strike>" : "";
+                        return prefix + entityName;
                     } else {
                         return null;
                     }
