@@ -13,9 +13,8 @@ package de.cismet.belis.gui.widget.detailWidgetPanels;
 
 import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
-
 import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!

@@ -34,14 +34,6 @@ public class ArbeitsprotokollaktionCustomBean extends BaseEntity {
     public static final String PROP__ALT = "alt";
     public static final String PROP__NEU = "neu";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__FK_PROTOKOLL,
-            PROP__AENDERUNG,
-            PROP__ALT,
-            PROP__NEU
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private ArbeitsprotokollCustomBean fk_protokoll;
@@ -55,6 +47,13 @@ public class ArbeitsprotokollaktionCustomBean extends BaseEntity {
      * Creates a new ArbeitsprotokollCustomBean object.
      */
     public ArbeitsprotokollaktionCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__FK_PROTOKOLL,
+                PROP__AENDERUNG,
+                PROP__ALT,
+                PROP__NEU
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -66,11 +65,6 @@ public class ArbeitsprotokollaktionCustomBean extends BaseEntity {
      */
     public static ArbeitsprotokollaktionCustomBean createNew() {
         return (ArbeitsprotokollaktionCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

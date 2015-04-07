@@ -45,9 +45,10 @@ import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!
@@ -185,9 +186,9 @@ class WorkbenchTransferHandler extends TransferHandler {
             final JXTreeTable tree = (JXTreeTable)support.getComponent();
             final int dropRow = dl.getRow();
             final int[] selRows = tree.getSelectedRows();
-            final Collection<CidsBean> clipboardBeans = new ArrayList<CidsBean>();
+            final Collection<WorkbenchEntity> clipboardBeans = new ArrayList<WorkbenchEntity>();
             for (final int selRow : selRows) {
-                final CidsBean selBean = (CidsBean)
+                final WorkbenchEntity selBean = (WorkbenchEntity)
                     ((CustomMutableTreeTableNode)tree.getPathForRow(selRow).getLastPathComponent()).getUserObject();
                 clipboardBeans.add(selBean);
             }
@@ -198,7 +199,7 @@ class WorkbenchTransferHandler extends TransferHandler {
             final Object userObject = ((CustomMutableTreeTableNode)path.getLastPathComponent()).getUserObject();
             if (userObject instanceof VeranlassungCustomBean) {
                 final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)userObject;
-                for (final CidsBean clipboardBean : clipboardBeans) {
+                for (final WorkbenchEntity clipboardBean : clipboardBeans) {
                     if (clipboardBean instanceof TdtaStandortMastCustomBean) {
                         final Collection<TdtaStandortMastCustomBean> standorte =
                             veranlassungCustomBean.getAr_standorte();
@@ -249,10 +250,10 @@ class WorkbenchTransferHandler extends TransferHandler {
                 }
             } else {
                 final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)userObject;
-                for (final CidsBean clipboardBean : clipboardBeans) {
+                for (final WorkbenchEntity clipboardBean : clipboardBeans) {
                     if (clipboardBean instanceof VeranlassungCustomBean) {
                         final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)clipboardBean;
-                        final Collection<CidsBean> allBasics = new ArrayList<CidsBean>();
+                        final Collection<WorkbenchEntity> allBasics = new ArrayList<WorkbenchEntity>();
                         allBasics.addAll(veranlassungCustomBean.getAr_abzweigdosen());
                         allBasics.addAll(veranlassungCustomBean.getAr_leitungen());
                         allBasics.addAll(veranlassungCustomBean.getAr_leuchten());
@@ -261,7 +262,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                         allBasics.addAll(veranlassungCustomBean.getAr_standorte());
                         allBasics.addAll(veranlassungCustomBean.getAr_geometrien());
 
-                        for (final CidsBean basic : allBasics) {
+                        for (final WorkbenchEntity basic : allBasics) {
                             final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
                                         .createProtokollFromBasic(basic);
                             protokoll.setProtokollnummer(arbeitsauftragCustomBean.getAr_protokolle().size() + 1);
@@ -269,9 +270,7 @@ class WorkbenchTransferHandler extends TransferHandler {
                             BelisBroker.getInstance().addNewProtokollToAuftragNode(dropNode, protokoll, basic);
                             arbeitsauftragCustomBean.getAr_protokolle().add(protokoll);
                         }
-                    } else if ((clipboardBean instanceof WorkbenchEntity)
-                                || (clipboardBean instanceof SchaltstelleCustomBean)
-                                || (clipboardBean instanceof GeometrieCustomBean)) {
+                    } else {
                         final ArbeitsprotokollCustomBean protokoll = BelisBroker.getInstance()
                                     .createProtokollFromBasic(clipboardBean);
                         protokoll.setProtokollnummer(arbeitsauftragCustomBean.getAr_protokolle().size() + 1);

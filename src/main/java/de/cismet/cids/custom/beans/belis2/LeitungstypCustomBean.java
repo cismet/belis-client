@@ -28,8 +28,6 @@ public class LeitungstypCustomBean extends BaseEntity {
 
     public static final String PROP__BEZEICHNUNG = "bezeichnung";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZEICHNUNG };
-
     //~ Instance fields --------------------------------------------------------
 
     private String bezeichnung;
@@ -40,6 +38,8 @@ public class LeitungstypCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public LeitungstypCustomBean() {
+        addPropertyNames(
+            new String[] { PROP__BEZEICHNUNG });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -51,11 +51,6 @@ public class LeitungstypCustomBean extends BaseEntity {
      */
     public static LeitungstypCustomBean createNew() {
         return (LeitungstypCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

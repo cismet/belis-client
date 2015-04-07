@@ -25,8 +25,6 @@ public class LeuchtmittelCustomBean extends BaseEntity {
     public static final String PROP__HERSTELLER = "hersteller";
     public static final String PROP__LICHTFARBE = "lichtfarbe";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__HERSTELLER, PROP__LICHTFARBE };
-
     //~ Instance fields --------------------------------------------------------
 
     private String hersteller;
@@ -38,6 +36,11 @@ public class LeuchtmittelCustomBean extends BaseEntity {
      * Creates a new BauartCustomBean object.
      */
     public LeuchtmittelCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__HERSTELLER,
+                PROP__LICHTFARBE
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -49,11 +52,6 @@ public class LeuchtmittelCustomBean extends BaseEntity {
      */
     public static LeuchtmittelCustomBean createNew() {
         return (LeuchtmittelCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

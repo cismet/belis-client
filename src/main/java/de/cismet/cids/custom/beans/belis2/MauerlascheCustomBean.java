@@ -23,15 +23,15 @@ import de.cismet.cids.custom.tostringconverter.belis2.MauerlascheToStringConvert
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
-import de.cismet.commons.server.interfaces.DocumentContainer;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEntity, DocumentContainer {
+public class MauerlascheCustomBean extends WorkbenchFeatureEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -49,20 +49,6 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
     public static final String PROP__MONTEUR = "monteur";
     public static final String PROP__PRUEFDATUM = "pruefdatum";
     public static final String PROP__BEMERKUNG = "bemerkung";
-
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__ERSTELLUNGSJAHR,
-            PROP__LAUFENDE_NUMMER,
-            PROP__FK_GEOM,
-            PROP__FK_MATERIAL,
-            PROP__FK_STRASSENSCHLUESSEL,
-            PROP__DOKUMENTE,
-            PROP__FOTO,
-            PROP__MONTEUR,
-            PROP__PRUEFDATUM,
-            PROP__BEMERKUNG
-        };
 
     //~ Instance fields --------------------------------------------------------
 
@@ -83,6 +69,19 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
      * Creates a new AbzweigdoseCustomBean object.
      */
     public MauerlascheCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__ERSTELLUNGSJAHR,
+                PROP__LAUFENDE_NUMMER,
+                PROP__FK_GEOM,
+                PROP__FK_MATERIAL,
+                PROP__FK_STRASSENSCHLUESSEL,
+                PROP__DOKUMENTE,
+                PROP__FOTO,
+                PROP__MONTEUR,
+                PROP__PRUEFDATUM,
+                PROP__BEMERKUNG
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -94,11 +93,6 @@ public class MauerlascheCustomBean extends GeoBaseEntity implements WorkbenchEnt
      */
     public static MauerlascheCustomBean createNew() {
         return (MauerlascheCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

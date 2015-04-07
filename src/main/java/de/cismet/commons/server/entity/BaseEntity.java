@@ -15,6 +15,7 @@ import Sirius.server.localserver.attribute.ObjectAttribute;
 import Sirius.server.middleware.types.MetaObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   spuhl
  * @version  $Revision$, $Date$
  */
-public class BaseEntity extends CidsBean {
+public abstract class BaseEntity extends CidsBean {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -40,10 +41,21 @@ public class BaseEntity extends CidsBean {
 
     //~ Instance fields --------------------------------------------------------
 
+    private final Collection<String> propertyNames = new ArrayList<String>();
+
     private final Map<String, Object> backupProperties = new HashMap<String, Object>();
     private boolean editAllowed = false;
 
     private Integer id;
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new BaseEntity object.
+     */
+    public BaseEntity() {
+        addPropertyName(PROP__ID);
+    }
 
     //~ Methods ----------------------------------------------------------------
 
@@ -210,5 +222,28 @@ public class BaseEntity extends CidsBean {
                 }
             }
         }
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return propertyNames.toArray(new String[0]);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  propertyName  DOCUMENT ME!
+     */
+    protected final void addPropertyName(final String propertyName) {
+        this.propertyNames.add(propertyName);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  propertyNames  DOCUMENT ME!
+     */
+    protected final void addPropertyNames(final String[] propertyNames) {
+        this.propertyNames.addAll(Arrays.asList(propertyNames));
     }
 }

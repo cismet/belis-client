@@ -31,13 +31,13 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belisEE.util.EntityComparator;
 
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cismap.commons.features.Feature;
 
 import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!

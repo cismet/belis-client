@@ -30,8 +30,6 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity {
     public static final String PROP__ENERGIELIEFERANT = "energielieferant";
     public static final String PROP__PK = "pk";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__ENERGIELIEFERANT, PROP__PK };
-
     //~ Instance fields --------------------------------------------------------
 
     private String energielieferant;
@@ -43,6 +41,11 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity {
      * Creates a new AbzweigdoseCustomBean object.
      */
     public TkeyEnergielieferantCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__ENERGIELIEFERANT,
+                PROP__PK
+            });
     }
 
     /**
@@ -63,11 +66,6 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity {
      */
     public static TkeyEnergielieferantCustomBean createNew() {
         return (TkeyEnergielieferantCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

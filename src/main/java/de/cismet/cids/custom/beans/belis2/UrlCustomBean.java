@@ -28,8 +28,6 @@ public class UrlCustomBean extends BaseEntity {
     public static final String PROP__URL_BASE_ID = "url_base_id";
     public static final String PROP__OBJECT_NAME = "object_name";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__URL_BASE_ID, PROP__OBJECT_NAME };
-
     //~ Instance fields --------------------------------------------------------
 
     private UrlBaseCustomBean url_base_id;
@@ -41,6 +39,11 @@ public class UrlCustomBean extends BaseEntity {
      * Creates a new UrlCustomBean object.
      */
     public UrlCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__URL_BASE_ID,
+                PROP__OBJECT_NAME
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -52,11 +55,6 @@ public class UrlCustomBean extends BaseEntity {
      */
     public static UrlCustomBean createNew() {
         return (UrlCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

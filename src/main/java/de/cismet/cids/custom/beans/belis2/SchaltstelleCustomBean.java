@@ -23,15 +23,15 @@ import de.cismet.cids.custom.tostringconverter.belis2.SchaltstelleToStringConver
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
-import de.cismet.commons.server.interfaces.DocumentContainer;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEntity, DocumentContainer {
+public class SchaltstelleCustomBean extends WorkbenchFeatureEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -54,25 +54,6 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
     public static final String PROP__MONTEUR = "monteur";
     public static final String PROP__RUNDSTEUEREMPFAENGER = "rundsteuerempfaenger";
     public static final String PROP__EINBAUDATUM_RS = "einbaudatum_rs";
-
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__ERSTELLUNGSJAHR,
-            PROP__LAUFENDE_NUMMER,
-            PROP__FK_GEOM,
-            PROP__FK_BAUART,
-            PROP__FK_STRASSENSCHLUESSEL,
-            PROP__BEMERKUNG,
-            PROP__SCHALTSTELLEN_NUMMER,
-            PROP__ZUSAETZLICHE_STANDORTBEZEICHNUNG,
-            PROP__HAUS_NUMMER,
-            PROP__DOKUMENTE,
-            PROP__PRUEFDATUM,
-            PROP__FOTO,
-            PROP__MONTEUR,
-            PROP__RUNDSTEUEREMPFAENGER,
-            PROP__EINBAUDATUM_RS
-        };
 
     //~ Instance fields --------------------------------------------------------
 
@@ -98,6 +79,24 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      * Creates a new AbzweigdoseCustomBean object.
      */
     public SchaltstelleCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__ERSTELLUNGSJAHR,
+                PROP__LAUFENDE_NUMMER,
+                PROP__FK_GEOM,
+                PROP__FK_BAUART,
+                PROP__FK_STRASSENSCHLUESSEL,
+                PROP__BEMERKUNG,
+                PROP__SCHALTSTELLEN_NUMMER,
+                PROP__ZUSAETZLICHE_STANDORTBEZEICHNUNG,
+                PROP__HAUS_NUMMER,
+                PROP__DOKUMENTE,
+                PROP__PRUEFDATUM,
+                PROP__FOTO,
+                PROP__MONTEUR,
+                PROP__RUNDSTEUEREMPFAENGER,
+                PROP__EINBAUDATUM_RS
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -109,11 +108,6 @@ public class SchaltstelleCustomBean extends GeoBaseEntity implements WorkbenchEn
      */
     public static SchaltstelleCustomBean createNew() {
         return (SchaltstelleCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

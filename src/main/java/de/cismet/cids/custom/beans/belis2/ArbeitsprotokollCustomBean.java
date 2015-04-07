@@ -25,15 +25,15 @@ import de.cismet.belis2.server.search.VeranlassungsschluesselSearch;
 
 import de.cismet.belisEE.util.EntityComparator;
 
-import de.cismet.commons.server.entity.BaseEntity;
-import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchEntity {
+public class ArbeitsprotokollCustomBean extends WorkbenchEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -59,27 +59,6 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
     public static final String PROP__VERANLASSUNGSSCHLUESSEL = "veranlassungsschluessel";
     public static final String PROP__PROTOKOLLNUMMER = "protokollnummer";
     public static final String PROP__N_AKTIONEN = "n_aktionen";
-
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__MATERIAL,
-            PROP__MONTEUR,
-            PROP__BEMERKUNG,
-            PROP__DEFEKT,
-            PROP__DATUM,
-            PROP__FK_STATUS,
-            PROP__FK_STANDORT,
-            PROP__FK_MAUERLASCHE,
-            PROP__FK_LEUCHTE,
-            PROP__FK_LEITUNG,
-            PROP__FK_ABZWEIGDOSE,
-            PROP__FK_SCHALTSTELLE,
-            PROP__FK_GEOMETRIE,
-            PROP__VERANLASSUNGSNUMMER,
-            PROP__VERANLASSUNGSSCHLUESSEL,
-            PROP__PROTOKOLLNUMMER,
-            PROP__N_AKTIONEN
-        };
 
     //~ Enums ------------------------------------------------------------------
 
@@ -122,9 +101,40 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      * Creates a new ArbeitsprotokollCustomBean object.
      */
     public ArbeitsprotokollCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__MATERIAL,
+                PROP__MONTEUR,
+                PROP__BEMERKUNG,
+                PROP__DEFEKT,
+                PROP__DATUM,
+                PROP__FK_STATUS,
+                PROP__FK_STANDORT,
+                PROP__FK_MAUERLASCHE,
+                PROP__FK_LEUCHTE,
+                PROP__FK_LEITUNG,
+                PROP__FK_ABZWEIGDOSE,
+                PROP__FK_SCHALTSTELLE,
+                PROP__FK_GEOMETRIE,
+                PROP__VERANLASSUNGSNUMMER,
+                PROP__VERANLASSUNGSSCHLUESSEL,
+                PROP__PROTOKOLLNUMMER,
+                PROP__N_AKTIONEN
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public Collection<DmsUrlCustomBean> getDokumente() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+    }
+
+    @Override
+    public void setDokumente(final Collection<DmsUrlCustomBean> urls) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     /**
      * DOCUMENT ME!
@@ -141,16 +151,6 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
     public void init() {
         refreshVeranlassungsschlussel(getVeranlassungsnummer());
         addPropertyChangeListener(this);
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**
@@ -207,7 +207,7 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      *
      * @return  DOCUMENT ME!
      */
-    public GeoBaseEntity getChildEntity() {
+    public WorkbenchFeatureEntity getChildEntity() {
         if (getFk_leuchte() != null) {
             return getFk_leuchte();
         } else if (getFk_geometrie() != null) {
@@ -553,35 +553,45 @@ public class ArbeitsprotokollCustomBean extends BaseEntity implements WorkbenchE
      */
     @Override
     public String getKeyString() {
-        final String subfix;
-        if (getVeranlassungsschluessel() != null) {
-            subfix = " (" + getVeranlassungsschluessel() + ")";
-        } else {
-            subfix = "";
-        }
-
+        final String type;
+        final WorkbenchEntity entity;
         if (getFk_abzweigdose() != null) {
-            return "Abzweigdose" + subfix;
+            entity = getFk_abzweigdose();
+            type = "Abzweigdose";
         } else if (getFk_leitung() != null) {
-            return "Leitung" + subfix;
+            entity = getFk_leitung();
+            type = "Leitung";
         } else if (getFk_leuchte() != null) {
-            return "Leuchte" + subfix;
+            entity = getFk_leuchte();
+            type = "Leuchte";
         } else if (getFk_mauerlasche() != null) {
-            return "Mauerlasche" + subfix;
+            entity = getFk_mauerlasche();
+            type = "Mauerlasche";
         } else if (getFk_schaltstelle() != null) {
-            return "Schaltstelle" + subfix;
+            entity = getFk_schaltstelle();
+            type = "Schaltstelle";
         } else if (getFk_geometrie() != null) {
-            return "Geometrie" + subfix;
+            entity = getFk_geometrie();
+            type = "Geometrie";
         } else if (getFk_standort() != null) {
             final TdtaStandortMastCustomBean standort = getFk_standort();
+            entity = standort;
             if (standort.isStandortMast()) {
-                return "Mast" + subfix;
+                type = "Mast";
             } else {
-                return "Standort" + subfix;
+                type = "Standort";
             }
         } else {
             return "";
         }
+        final String prefix = (entity.isDeleted()) ? "<html><strike>" : "";
+        final String suffix;
+        if (getVeranlassungsschluessel() != null) {
+            suffix = " (" + getVeranlassungsschluessel() + ")";
+        } else {
+            suffix = "";
+        }
+        return prefix + type + suffix;
     }
 
     /**

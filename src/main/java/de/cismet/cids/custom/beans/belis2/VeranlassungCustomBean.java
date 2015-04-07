@@ -28,15 +28,14 @@ import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.belis2.server.search.NextVeranlassungNummerSearch;
 
-import de.cismet.commons.server.entity.BaseEntity;
-import de.cismet.commons.server.interfaces.DocumentContainer;
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!
  *
  * @version  $Revision$, $Date$
  */
-public class VeranlassungCustomBean extends BaseEntity implements DocumentContainer, WorkbenchEntity {
+public class VeranlassungCustomBean extends WorkbenchEntity {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -61,27 +60,6 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
     public static final String PROP__DATUM = "datum";
     public static final String PROP__FK_ART = "fk_art";
     public static final String PROP__FK_INFOBAUSTEIN_TEMPLATE = "fk_infobaustein_template";
-
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__AR_SCHALTSTELLEN,
-            PROP__AR_INFOBAUSTEINE,
-            PROP__AR_STANDORTE,
-            PROP__AR_MAUERLASCHEN,
-            PROP__AR_LEITUNGEN,
-            PROP__AR_LEUCHTEN,
-            PROP__AR_ABZWEIGDOSEN,
-            PROP__AR_DOKUMENTE,
-            PROP__AR_GEOMETRIEN,
-            PROP__USERNAME,
-            PROP__NUMMER,
-            PROP__BEZEICHNUNG,
-            PROP__BEMERKUNGEN,
-            PROP__BESCHREIBUNG,
-            PROP__DATUM,
-            PROP__FK_ART,
-            PROP__FK_INFOBAUSTEIN_TEMPLATE
-        };
 
     //~ Instance fields --------------------------------------------------------
 
@@ -110,6 +88,26 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
      * Creates a new VeranlassungCustomBean object.
      */
     public VeranlassungCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__AR_SCHALTSTELLEN,
+                PROP__AR_INFOBAUSTEINE,
+                PROP__AR_STANDORTE,
+                PROP__AR_MAUERLASCHEN,
+                PROP__AR_LEITUNGEN,
+                PROP__AR_LEUCHTEN,
+                PROP__AR_ABZWEIGDOSEN,
+                PROP__AR_DOKUMENTE,
+                PROP__AR_GEOMETRIEN,
+                PROP__USERNAME,
+                PROP__NUMMER,
+                PROP__BEZEICHNUNG,
+                PROP__BEMERKUNGEN,
+                PROP__BESCHREIBUNG,
+                PROP__DATUM,
+                PROP__FK_ART,
+                PROP__FK_INFOBAUSTEIN_TEMPLATE
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -136,11 +134,6 @@ public class VeranlassungCustomBean extends BaseEntity implements DocumentContai
         }
 
         return veranlassungCustomBean;
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     @Override

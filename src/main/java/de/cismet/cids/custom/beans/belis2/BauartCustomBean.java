@@ -28,8 +28,6 @@ public class BauartCustomBean extends BaseEntity {
 
     public static final String PROP__BEZEICHNUNG = "bezeichnung";
 
-    private static final String[] PROPERTY_NAMES = new String[] { PROP__ID, PROP__BEZEICHNUNG };
-
     //~ Instance fields --------------------------------------------------------
 
     private String bezeichnung;
@@ -40,6 +38,8 @@ public class BauartCustomBean extends BaseEntity {
      * Creates a new BauartCustomBean object.
      */
     public BauartCustomBean() {
+        addPropertyNames(
+            new String[] { PROP__BEZEICHNUNG });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -51,11 +51,6 @@ public class BauartCustomBean extends BaseEntity {
      */
     public static BauartCustomBean createNew() {
         return (BauartCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

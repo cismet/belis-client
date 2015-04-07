@@ -34,14 +34,6 @@ public class InfobausteinCustomBean extends BaseEntity {
     public static final String PROP__PFLICHTFELD = "pflichtfeld";
     public static final String PROP__WERT = "wert";
 
-    private static final String[] PROPERTY_NAMES = new String[] {
-            PROP__ID,
-            PROP__BEZEICHNUNG,
-            PROP__SCHLUESSEL,
-            PROP__PFLICHTFELD,
-            PROP__WERT
-        };
-
     //~ Instance fields --------------------------------------------------------
 
     private String bezeichnung;
@@ -55,6 +47,13 @@ public class InfobausteinCustomBean extends BaseEntity {
      * Creates a new VeranlassungCustomBean object.
      */
     public InfobausteinCustomBean() {
+        addPropertyNames(
+            new String[] {
+                PROP__BEZEICHNUNG,
+                PROP__SCHLUESSEL,
+                PROP__PFLICHTFELD,
+                PROP__WERT
+            });
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -66,11 +65,6 @@ public class InfobausteinCustomBean extends BaseEntity {
      */
     public static InfobausteinCustomBean createNew() {
         return (InfobausteinCustomBean)createNew(TABLE);
-    }
-
-    @Override
-    public String[] getPropertyNames() {
-        return PROPERTY_NAMES;
     }
 
     /**

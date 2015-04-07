@@ -48,10 +48,10 @@ import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
-import de.cismet.cids.custom.beans.belis2.WorkbenchEntity;
 
 import de.cismet.commons.architecture.validation.Validatable;
 
+import de.cismet.commons.server.entity.WorkbenchEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
 import de.cismet.veto.VetoException;
@@ -156,6 +156,10 @@ public class DetailWidget extends BelisWidget {
      */
     public void setCurrentEntity(final WorkbenchEntity currentEntity) throws VetoException {
         final WorkbenchEntity oldCurrentEntity = this.currentEntity;
+        try {
+            ((de.cismet.cids.dynamics.CidsBean)currentEntity).setProperty("ausdehnung_wgs84", null);
+        } catch (final Exception ex) {
+        }
 
         if (oldCurrentEntity != currentEntity) {
             if (!getBroker().validateWidgets()) {
