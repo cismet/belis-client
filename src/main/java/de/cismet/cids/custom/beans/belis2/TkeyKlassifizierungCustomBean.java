@@ -11,7 +11,7 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
-import java.util.Locale;
+import de.cismet.cids.custom.tostringconverter.belis2.TkeyKlassifizierungToStringConverter;
 
 import de.cismet.commons.server.entity.BaseEntity;
 

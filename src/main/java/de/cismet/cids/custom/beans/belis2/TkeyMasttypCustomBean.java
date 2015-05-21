@@ -13,6 +13,8 @@ package de.cismet.cids.custom.beans.belis2;
 
 import java.util.Collection;
 
+import de.cismet.cids.custom.tostringconverter.belis2.TkeyMasttypToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
 

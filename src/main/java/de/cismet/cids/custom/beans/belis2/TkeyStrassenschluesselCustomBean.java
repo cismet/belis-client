@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import de.cismet.cids.custom.tostringconverter.belis2.TkeyStrassenschluesselToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;

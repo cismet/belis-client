@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.beans.belis2;
 
+import de.cismet.cids.custom.tostringconverter.belis2.LeuchtmittelToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
