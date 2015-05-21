@@ -16,8 +16,6 @@ import org.jdesktop.observablecollections.ObservableList;
 
 import java.awt.event.ActionEvent;
 
-import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,10 +23,15 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis2.server.action.ProtokollAction;
+import de.cismet.belis2.server.action.mauerlasche.MauerlaschenpruefungProtokollAction;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
-import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
+
+import de.cismet.cids.server.actions.ServerActionParameter;
 
 /**
  * DOCUMENT ME!
@@ -131,23 +134,27 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
 
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        final MauerlascheCustomBean mauerlasche = protokoll.getFk_mauerlasche();
+        final Collection<ServerActionParameter> serverActionParameters = new ArrayList<ServerActionParameter>();
 
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
-        aktionen.add(createAktion(
-                "Prüfdatum",
-                mauerlasche,
-                MauerlascheCustomBean.PROP__PRUEFDATUM,
-                new Timestamp(dapPruefung.getDate().getTime())));
+        serverActionParameters.add(new ServerActionParameter(
+                ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                Integer.toString(protokoll.getId())));
+        serverActionParameters.add(new ServerActionParameter(
+                MauerlaschenpruefungProtokollAction.ParameterType.PRUEFDATUM.toString(),
+                Long.toString(dapPruefung.getDate().getTime())));
 
-        final Collection<DmsUrlCustomBean> dokumente = documentPanel1.getDokumente();
-        for (final DmsUrlCustomBean dokument : dokumente) {
-            final ArbeitsprotokollaktionCustomBean dokumenteAktion = ArbeitsprotokollaktionCustomBean.createNew();
-            dokumenteAktion.setAenderung("neues Dokument");
-            dokumenteAktion.setAlt(null);
-            dokumenteAktion.setNeu(dokument.getBeschreibung());
-            mauerlasche.getDokumente().add(dokument);
-            aktionen.add(dokumenteAktion);
+        for (final DmsUrlCustomBean dokument : documentPanel1.getDokumente()) {
+            final String url = dokument.toUri().toString();
+            final String beschreibung = dokument.getBeschreibung();
+            final String urlMitBeschreibung = url + "\n" + beschreibung;
+            serverActionParameters.add(new ServerActionParameter(
+                    MauerlaschenpruefungProtokollAction.ParameterType.DOKUMENT.toString(),
+                    urlMitBeschreibung));
         }
+
+        CidsBroker.getInstance()
+                .executeServerAction(new MauerlaschenpruefungProtokollAction().getTaskName(),
+                    null,
+                    serverActionParameters.toArray(new ServerActionParameter[0]));
     }
 }

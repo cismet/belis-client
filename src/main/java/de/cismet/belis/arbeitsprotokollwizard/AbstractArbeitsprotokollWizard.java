@@ -23,6 +23,7 @@ import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 
@@ -42,6 +43,7 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
 
     //~ Instance fields --------------------------------------------------------
 
+    private ArbeitsauftragCustomBean arbeitsauftrag;
     private Collection<ArbeitsprotokollCustomBean> protokolle;
 
     //~ Methods ----------------------------------------------------------------
@@ -76,6 +78,24 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
      */
     public Collection<ArbeitsprotokollCustomBean> getProtokolle() {
         return protokolle;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ArbeitsauftragCustomBean getArbeitsauftrag() {
+        return arbeitsauftrag;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  arbeitsauftrag  DOCUMENT ME!
+     */
+    public void setArbeitsauftrag(final ArbeitsauftragCustomBean arbeitsauftrag) {
+        this.arbeitsauftrag = arbeitsauftrag;
     }
 
     /**

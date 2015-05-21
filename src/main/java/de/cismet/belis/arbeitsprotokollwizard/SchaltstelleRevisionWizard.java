@@ -13,16 +13,17 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.sql.Timestamp;
-
-import java.util.Collection;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis2.server.action.ProtokollAction;
+import de.cismet.belis2.server.action.schaltstelle.SchaltstellenrevisionProtokollAction;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
-import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
+
+import de.cismet.cids.server.actions.ServerActionParameter;
 
 /**
  * DOCUMENT ME!
@@ -111,13 +112,14 @@ public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard {
 
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        final SchaltstelleCustomBean schaltstelle = protokoll.getFk_schaltstelle();
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
-        aktionen.add(createAktion(
-                "Prüfdatum",
-                schaltstelle,
-                SchaltstelleCustomBean.PROP__PRUEFDATUM,
-                new Timestamp(dapPruefung.getDate().getTime())));
+        CidsBroker.getInstance()
+                .executeServerAction(new SchaltstellenrevisionProtokollAction().getTaskName(),
+                    null,
+                    new ServerActionParameter(
+                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        Integer.toString(protokoll.getId())),
+                    new ServerActionParameter(
+                        SchaltstellenrevisionProtokollAction.ParameterType.PRUEFDATUM.toString(),
+                        Long.toString(dapPruefung.getDate().getTime())));
     }
 }
