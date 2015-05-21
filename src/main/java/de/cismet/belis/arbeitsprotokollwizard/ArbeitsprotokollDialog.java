@@ -16,7 +16,14 @@ import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import de.cismet.belis.broker.BelisBroker;
+
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!
@@ -159,8 +166,10 @@ public class ArbeitsprotokollDialog extends javax.swing.JDialog {
                         pgbDone.setValue((Integer)evt.getNewValue());
                         pgbDone.setString((Integer)evt.getNewValue() + " von " + wizardPanel.getProtokolle().size());
                     } else if ("done".equals(evt.getPropertyName())) {
+                        BelisBroker.getInstance()
+                                .getWorkbenchWidget()
+                                .reloadSearchResultEntity(wizardPanel.getArbeitsauftrag());
                         dispose();
-                        BelisBroker.getInstance().getDetailWidget().getArbeitsprotokollPanel().refreshAktionen();
                     }
                 }
             });

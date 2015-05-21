@@ -13,16 +13,17 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.sql.Timestamp;
-
-import java.util.Collection;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis2.server.action.ProtokollAction;
+import de.cismet.belis2.server.action.standort.AnstricharbeitenProtokollAction;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+
+import de.cismet.cids.server.actions.ServerActionParameter;
 
 /**
  * DOCUMENT ME!
@@ -133,18 +134,17 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
 
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
-        aktionen.add(createAktion(
-                "Mastanstrich",
-                standort,
-                TdtaStandortMastCustomBean.PROP__MASTANSTRICH,
-                new Timestamp(dapMastanstrich.getDate().getTime())));
-        aktionen.add(createAktion(
-                "Anstrichfarbe",
-                standort,
-                TdtaStandortMastCustomBean.PROP__ANSTRICHFARBE,
-                txtAnstrichfarbe.getText()));
+        CidsBroker.getInstance()
+                .executeServerAction(new AnstricharbeitenProtokollAction().getTaskName(),
+                    null,
+                    new ServerActionParameter(
+                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        Integer.toString(protokoll.getId())),
+                    new ServerActionParameter(
+                        AnstricharbeitenProtokollAction.ParameterType.ANSTRICHDATUM.toString(),
+                        Long.toString(dapMastanstrich.getDate().getTime())),
+                    new ServerActionParameter(
+                        AnstricharbeitenProtokollAction.ParameterType.ANSTRICHFARBE.toString(),
+                        txtAnstrichfarbe.getText()));
     }
 }

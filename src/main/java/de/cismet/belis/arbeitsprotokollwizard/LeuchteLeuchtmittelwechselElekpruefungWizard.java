@@ -13,21 +13,21 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.sql.Timestamp;
-
-import java.util.Collection;
 import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import de.cismet.belis.broker.BelisBroker;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis2.server.action.ProtokollAction;
+import de.cismet.belis2.server.action.leuchte.LeuchtmittelwechselElekpruefungProtokollAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeuchtmittelCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+
+import de.cismet.cids.server.actions.ServerActionParameter;
 
 /**
  * DOCUMENT ME!
@@ -203,9 +203,6 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
 
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
-        final TdtaStandortMastCustomBean standort = leuchte.getFk_standort();
-
         Double lebensdauer = null;
         try {
             lebensdauer = Double.parseDouble(txtLebensdauer.getText());
@@ -213,27 +210,26 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
             lebensdauer = null;
         }
 
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
-        aktionen.add(createAktion(
-                "Elektrische Prüfung",
-                standort,
-                TdtaStandortMastCustomBean.PROP__ELEK_PRUEFUNG,
-                new Timestamp(dapStandortElekPruefung.getDate().getTime())));
-        aktionen.add(createAktion(
-                "Erdung in Ordnung",
-                standort,
-                TdtaStandortMastCustomBean.PROP__ERDUNG,
-                chkErdungIO.isSelected()));
-        aktionen.add(createAktion(
-                "Wechseldatum",
-                leuchte,
-                TdtaLeuchtenCustomBean.PROP__WECHSELDATUM,
-                new Timestamp(dapLeuchteLeuchtmittelwechsel.getDate().getTime())));
-        aktionen.add(createAktion(
-                "Leuchtmittel",
-                leuchte,
-                TdtaLeuchtenCustomBean.PROP__LEUCHTMITTEL,
-                cbxLeuchtmittel.getSelectedItem()));
-        aktionen.add(createAktion("Lebensdauer", leuchte, TdtaLeuchtenCustomBean.PROP__LEBENSDAUER, lebensdauer));
+        CidsBroker.getInstance()
+                .executeServerAction(new LeuchtmittelwechselElekpruefungProtokollAction().getTaskName(),
+                    null,
+                    new ServerActionParameter(
+                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        Integer.toString(protokoll.getId())),
+                    new ServerActionParameter(
+                        LeuchtmittelwechselElekpruefungProtokollAction.ParameterType.PRUEFDATUM.toString(),
+                        Long.toString(dapStandortElekPruefung.getDate().getTime())),
+                    new ServerActionParameter(
+                        LeuchtmittelwechselElekpruefungProtokollAction.ParameterType.ERDUNG_IN_ORDNUNG.toString(),
+                        chkErdungIO.isSelected() ? "ja" : "nein"),
+                    new ServerActionParameter(
+                        LeuchtmittelwechselElekpruefungProtokollAction.ParameterType.WECHSELDATUM.toString(),
+                        Long.toString(dapLeuchteLeuchtmittelwechsel.getDate().getTime())),
+                    new ServerActionParameter(
+                        LeuchtmittelwechselElekpruefungProtokollAction.ParameterType.LEUCHTMITTEL.toString(),
+                        Integer.toString(((LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem()).getId())),
+                    new ServerActionParameter(
+                        LeuchtmittelwechselElekpruefungProtokollAction.ParameterType.LEBENSDAUER.toString(),
+                        Double.toString(lebensdauer)));
     }
 }

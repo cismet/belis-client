@@ -12,6 +12,8 @@
  */
 package de.cismet.belis.gui.widget;
 
+import Sirius.server.middleware.types.MetaObject;
+
 import org.apache.commons.collections.comparators.ReverseComparator;
 import org.apache.log4j.Logger;
 
@@ -1243,6 +1245,29 @@ public class WorkbenchWidget extends BelisWidget implements TreeSelectionListene
             refreshNode(editObjectsNode, objectsToPersist);
         }
         refreshNode(searchResultsNode, currentSearchResults);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  entity  DOCUMENT ME!
+     */
+    public void reloadSearchResultEntity(final WorkbenchEntity entity) {
+        final MetaObject mo = CidsBroker.getInstance()
+                    .getMetaObject(entity.getMetaObject().getClassID(),
+                        entity.getMetaObject().getID(),
+                        CidsBroker.BELIS_DOMAIN);
+        final WorkbenchEntity reloadedEntity = (WorkbenchEntity)mo.getBean();
+
+        final Collection<WorkbenchEntity> newSearchResults = new ArrayList<WorkbenchEntity>();
+        for (final WorkbenchEntity currentSearchResultEntity : currentSearchResults) {
+            if (currentSearchResultEntity.equals(entity)) {
+                newSearchResults.add(reloadedEntity);
+            } else {
+                newSearchResults.add(currentSearchResultEntity);
+            }
+        }
+        setCurrentSearchResults(newSearchResults);
     }
 
     /**

@@ -11,15 +11,21 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
-import java.awt.event.ActionEvent;
+import Sirius.navigator.exception.ConnectionException;
 
-import java.util.Collection;
+import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis2.server.action.FortfuehrungsantragProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAction;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
+
+import de.cismet.cids.server.actions.ServerActionParameter;
 
 /**
  * DOCUMENT ME!
@@ -119,13 +125,15 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) {
-        final ArbeitsprotokollaktionCustomBean aktion = ArbeitsprotokollaktionCustomBean.createNew();
-        aktion.setAenderung("Sonstiges");
-        aktion.setAlt(null);
-        aktion.setNeu(jTextArea1.getText());
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
-        aktionen.add(aktion);
+    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws ConnectionException {
+        CidsBroker.getInstance()
+                .executeServerAction(new FortfuehrungsantragProtokollAction().getTaskName(),
+                    null,
+                    new ServerActionParameter(
+                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        Integer.toString(protokoll.getId())),
+                    new ServerActionParameter(
+                        FortfuehrungsantragProtokollAction.ParameterType.BEMERKUNG.toString(),
+                        jTextArea1.getText()));
     }
 }

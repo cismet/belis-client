@@ -32,6 +32,7 @@ import de.cismet.belis.gui.DateToDateConverter;
 
 import de.cismet.belis.util.RendererTools;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollstatusCustomBean;
@@ -62,6 +63,7 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
 
     private MultiBeanHelper mbh = new MultiBeanHelper();
     private SwingWorker previousSwingworker = null;
+    private ArbeitsauftragCustomBean currentArbeitsauftrag;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbxStatus;
@@ -472,12 +474,14 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
     /**
      * DOCUMENT ME!
      *
-     * @param  currentEntities  DOCUMENT ME!
+     * @param  currentArbeitsauftrag  DOCUMENT ME!
+     * @param  currentEntities        DOCUMENT ME!
      */
-    public void setCurrentEntities(final Collection<ArbeitsprotokollCustomBean> currentEntities) {
+    public void setCurrentEntities(final ArbeitsauftragCustomBean currentArbeitsauftrag,
+            final Collection<ArbeitsprotokollCustomBean> currentEntities) {
         final ArbeitsprotokollCustomBean dummyBean = ArbeitsprotokollCustomBean.createNew();
         setCurrentEntity(dummyBean);
-
+        this.currentArbeitsauftrag = currentArbeitsauftrag;
         if ((previousSwingworker != null) && !previousSwingworker.isDone()) {
             previousSwingworker.cancel(true);
         }
@@ -549,7 +553,8 @@ public class ArbeitsprotokollPanel extends AbstractDetailWidgetPanel<Arbeitsprot
             for (final AbstractArbeitsprotokollWizard wizard : allWizards) {
                 final JButton actionButton = new JButton(wizard.getAction());
                 panActions.add(actionButton);
-                actionButton.setEnabled(isEditable());
+                actionButton.setEnabled(!isEditable());
+                wizard.setArbeitsauftrag(currentArbeitsauftrag);
                 wizard.setProtokolle((Collection)mbh.getBeans());
             }
 //            } else {

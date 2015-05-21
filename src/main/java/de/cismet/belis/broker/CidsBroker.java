@@ -47,6 +47,7 @@ import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.server.actions.ServerActionParameter;
 import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cismap.commons.BoundingBox;
@@ -113,6 +114,23 @@ public class CidsBroker {
     public void setProxy(final ConnectionProxy proxy) {
         this.proxy = proxy;
         CsvExportBackend.getInstance().init();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   taskname  DOCUMENT ME!
+     * @param   body      DOCUMENT ME!
+     * @param   params    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ConnectionException  DOCUMENT ME!
+     */
+    public Object executeServerAction(final String taskname, final Object body, final ServerActionParameter... params)
+            throws ConnectionException {
+        final Object result = getProxy().executeTask(taskname, BELIS_DOMAIN, body, params);
+        return result;
     }
 
     /**
