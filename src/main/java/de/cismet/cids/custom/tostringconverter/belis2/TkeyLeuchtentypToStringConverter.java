@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,9 +37,12 @@ public class TkeyLeuchtentypToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        if (cidsBean == null) {
-            return null;
+        final String leuchtentyp = (String)cidsBean.getProperty("leuchtentyp");
+        final String fabrikat = (String)cidsBean.getProperty("fabrikat");
+        if (leuchtentyp != null) {
+            return leuchtentyp + ((fabrikat != null) ? (" " + fabrikat) : "");
+        } else {
+            return "";
         }
-        return ((TkeyLeuchtentypCustomBean)cidsBean).toString();
     }
 }

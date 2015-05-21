@@ -13,6 +13,8 @@ package de.cismet.cids.custom.beans.belis2;
 
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
+import de.cismet.cids.custom.tostringconverter.belis2.VeranlassungsartToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -108,6 +110,6 @@ public class VeranlassungsartCustomBean extends BaseEntity {
      */
     @Override
     public String toString() {
-        return getBezeichnung();
+        return new VeranlassungsartToStringConverter().convert(metaObject);
     }
 }

@@ -20,6 +20,8 @@ import de.cismet.belisEE.mapicons.MapIcons;
 
 import de.cismet.belisEE.util.EntityComparator;
 
+import de.cismet.cids.custom.tostringconverter.belis2.GeometrieToStringConverter;
+
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
 import de.cismet.commons.server.entity.WorkbenchEntity;
@@ -190,16 +192,6 @@ public class GeometrieCustomBean extends WorkbenchFeatureEntity {
         setFk_geom(geometrie);
     }
 
-    @Override
-    public String getHumanReadablePosition() {
-        return "";
-    }
-
-    @Override
-    public String getKeyString() {
-        return bezeichnung;
-    }
-
     /**
      * DOCUMENT ME!
      *
@@ -220,5 +212,15 @@ public class GeometrieCustomBean extends WorkbenchFeatureEntity {
     @Override
     public String toString() {
         return "Geometrie";
+    }
+
+    @Override
+    public String getHumanReadablePosition() {
+        return new GeometrieToStringConverter().getHumanReadablePosition(this);
+    }
+
+    @Override
+    public String getKeyString() {
+        return new GeometrieToStringConverter().getKeyString(this);
     }
 }

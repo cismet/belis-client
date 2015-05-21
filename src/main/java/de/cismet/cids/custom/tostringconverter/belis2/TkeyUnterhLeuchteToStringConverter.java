@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,6 +37,7 @@ public class TkeyUnterhLeuchteToStringConverter extends CustomToStringConverter 
 
     @Override
     public String createString() {
-        return ((TkeyUnterhLeuchteCustomBean)cidsBean).getUnterhaltspflichtigeLeuchte();
+        return (cidsBean.getProperty("unterhaltspflichtiger_leuchte") != null)
+            ? (String)cidsBean.getProperty("unterhaltspflichtiger_leuchte") : "";
     }
 }

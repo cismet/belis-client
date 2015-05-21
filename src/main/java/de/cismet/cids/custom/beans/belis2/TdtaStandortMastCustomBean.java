@@ -1006,27 +1006,6 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
     }
 
     @Override
-    public String getKeyString() {
-        final Collection<String> strings = new ArrayList<String>();
-        if ((getMasttyp() != null) && (getMasttyp().getMasttyp() != null)) {
-            strings.add(getMasttyp().getMasttyp());
-        }
-        if ((getMastart() != null) && (getMastart().getMastart() != null)) {
-            strings.add(getMastart().getMastart());
-        }
-        return CidsBroker.implode(strings.toArray(new String[0]), ", ");
-    }
-
-    @Override
-    public String getHumanReadablePosition() {
-        if ((getStrassenschluessel() != null) && (getStrassenschluessel().getStrasse() != null)) {
-            return getStrassenschluessel().getStrasse();
-        } else {
-            return "";
-        }
-    }
-
-    @Override
     public FeatureAnnotationSymbol getPointAnnotationSymbol() {
         final List<Integer> nums = new ArrayList<Integer>(6);
 //        if (mapIcon != null) {
@@ -1535,5 +1514,15 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         } else {
             return EntityComparator.compareTypes(this, o);
         }
+    }
+
+    @Override
+    public String getHumanReadablePosition() {
+        return new TdtaStandortMastToStringConverter().getHumanReadablePosition(this);
+    }
+
+    @Override
+    public String getKeyString() {
+        return new TdtaStandortMastToStringConverter().getKeyString(this);
     }
 }

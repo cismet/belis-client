@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.BauartCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,6 +37,6 @@ public class BauartToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return ((BauartCustomBean)cidsBean).getBezeichnung();
+        return (String)cidsBean.getProperty("bezeichnung");
     }
 }

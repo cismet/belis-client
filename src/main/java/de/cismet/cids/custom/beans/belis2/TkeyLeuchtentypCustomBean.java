@@ -15,6 +15,8 @@ import java.sql.Timestamp;
 
 import java.util.Collection;
 
+import de.cismet.cids.custom.tostringconverter.belis2.TkeyLeuchtentypToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.interfaces.DocumentContainer;
 
@@ -291,11 +293,7 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
 
     @Override
     public String toString() {
-        if (getLeuchtentyp() != null) {
-            return getLeuchtentyp() + ((getFabrikat() != null) ? (" " + getFabrikat()) : "");
-        } else {
-            return "";
-        }
+        return new TkeyLeuchtentypToStringConverter().convert(metaObject);
     }
 
     /**

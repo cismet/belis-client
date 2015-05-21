@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,6 +37,6 @@ public class TkeyDoppelkommandoToStringConverter extends CustomToStringConverter
 
     @Override
     public String createString() {
-        return ((TkeyDoppelkommandoCustomBean)cidsBean).getBeschreibung();
+        return (String)cidsBean.getProperty("beschreibung");
     }
 }

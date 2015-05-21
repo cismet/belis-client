@@ -40,6 +40,10 @@ import de.cismet.belis2.server.search.NextArbeitsauftragNummerSearch;
 
 import de.cismet.belisEE.util.EntityComparator;
 
+import de.cismet.cids.custom.tostringconverter.belis2.ArbeitsauftragToStringConverter;
+import de.cismet.cids.custom.tostringconverter.belis2.ArbeitsprotokollToStringConverter;
+import de.cismet.cids.custom.tostringconverter.belis2.ArbeitsprotokollstatusToStringConverter;
+
 import de.cismet.cismap.commons.CrsTransformer;
 
 import de.cismet.commons.server.entity.WorkbenchEntity;
@@ -359,16 +363,11 @@ public class ArbeitsauftragCustomBean extends WorkbenchEntity {
 
     @Override
     public String getHumanReadablePosition() {
-        return "";
+        return new ArbeitsauftragToStringConverter().getHumanReadablePosition(this);
     }
 
     @Override
     public String getKeyString() {
-        final Collection<String> strings = new ArrayList<String>();
-        strings.add("A");
-        if (getNummer() != null) {
-            strings.add(getNummer());
-        }
-        return CidsBroker.implode(strings.toArray(new String[0]), "");
+        return new ArbeitsauftragToStringConverter().getKeyString(this);
     }
 }

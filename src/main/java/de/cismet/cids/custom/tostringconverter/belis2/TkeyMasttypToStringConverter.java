@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TkeyMasttypCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,6 +37,8 @@ public class TkeyMasttypToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return ((TkeyMasttypCustomBean)cidsBean).toString();
+        final String bezeichnung = (String)cidsBean.getProperty("bezeichnung");
+        return (cidsBean.getProperty("masttyp") != null)
+            ? ((String)cidsBean.getProperty("masttyp") + ((bezeichnung != null) ? (" " + bezeichnung) : "")) : "";
     }
 }

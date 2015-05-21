@@ -23,7 +23,7 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean;
+import java.util.Locale;
 
 import de.cismet.cids.tools.CustomToStringConverter;
 
@@ -39,6 +39,7 @@ public class TkeyUnterhMastToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return ((TkeyUnterhMastCustomBean)cidsBean).getUnterhaltMast();
+        return (cidsBean.getProperty("unterhalt_mast") != null)
+            ? ((String)cidsBean.getProperty("unterhalt_mast")).toLowerCase(Locale.GERMAN) : "";
     }
 }

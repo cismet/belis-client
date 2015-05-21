@@ -23,7 +23,10 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.tools.CustomToStringConverter;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -31,12 +34,33 @@ import de.cismet.cids.tools.CustomToStringConverter;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class LeuchtmittelToStringConverter extends CustomToStringConverter {
+public class VeranlassungToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
+    public String getKeyString(final CidsBean cidsBean) {
+        final Collection<String> strings = new ArrayList<String>();
+        strings.add("V");
+        if (cidsBean.getProperty("nummer") != null) {
+            strings.add((String)cidsBean.getProperty("nummer"));
+        }
+        final CidsBean art = (CidsBean)cidsBean.getProperty("fk_art");
+        if (art != null) {
+            strings.add((String)art.getProperty("schluessel"));
+        } else {
+            strings.add("_");
+        }
+        return implode(strings.toArray(new String[0]), "");
+    }
+
+    @Override
+    public String getHumanReadablePosition(final CidsBean cidsBean) {
+        return null;
+    }
+
+    @Override
     public String createString() {
-        return cidsBean.getProperty("hersteller") + " " + cidsBean.getProperty("lichtfarbe");
+        return "Veranlassung" + super.createString();
     }
 }

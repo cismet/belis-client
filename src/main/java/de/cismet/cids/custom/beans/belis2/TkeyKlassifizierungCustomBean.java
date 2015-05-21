@@ -11,7 +11,7 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
-import java.util.Locale;
+import de.cismet.cids.custom.tostringconverter.belis2.TkeyKlassifizierungToStringConverter;
 
 import de.cismet.commons.server.entity.BaseEntity;
 
@@ -112,11 +112,7 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
 
     @Override
     public String toString() {
-        if (getKlassifizierung() != null) {
-            return getKlassifizierung().toLowerCase(Locale.GERMAN);
-        } else {
-            return "";
-        }
+        return new TkeyKlassifizierungToStringConverter().convert(metaObject);
     }
 
 //    @Override

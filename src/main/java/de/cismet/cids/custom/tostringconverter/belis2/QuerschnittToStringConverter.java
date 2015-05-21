@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.QuerschnittCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,6 +37,6 @@ public class QuerschnittToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return Double.toString(((QuerschnittCustomBean)cidsBean).getGroesse());
+        return ((Double)cidsBean.getProperty("groesse")).toString();
     }
 }

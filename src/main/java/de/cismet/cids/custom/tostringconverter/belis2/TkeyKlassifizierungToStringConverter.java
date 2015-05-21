@@ -23,7 +23,7 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TkeyKlassifizierungCustomBean;
+import java.util.Locale;
 
 import de.cismet.cids.tools.CustomToStringConverter;
 
@@ -39,6 +39,10 @@ public class TkeyKlassifizierungToStringConverter extends CustomToStringConverte
 
     @Override
     public String createString() {
-        return ((TkeyKlassifizierungCustomBean)cidsBean).getKlassifizierung();
+        if (cidsBean.getProperty("klassifizierung") != null) {
+            return ((String)cidsBean.getProperty("klassifizierung")).toLowerCase(Locale.GERMAN);
+        } else {
+            return "";
+        }
     }
 }
