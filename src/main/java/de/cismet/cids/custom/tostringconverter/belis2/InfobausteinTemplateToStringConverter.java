@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.InfobausteinTemplateCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,7 +37,6 @@ public class InfobausteinTemplateToStringConverter extends CustomToStringConvert
 
     @Override
     public String createString() {
-        final InfobausteinTemplateCustomBean infobausteinTemplate = ((InfobausteinTemplateCustomBean)cidsBean);
-        return infobausteinTemplate.getBezeichnung();
+        return (String)cidsBean.getProperty("bezeichung");
     }
 }

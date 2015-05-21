@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.MaterialMauerlascheCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,6 +37,6 @@ public class MaterialMauerlascheToStringConverter extends CustomToStringConverte
 
     @Override
     public String createString() {
-        return ((MaterialMauerlascheCustomBean)cidsBean).getBezeichnung();
+        return (String)cidsBean.getProperty("bezeichung");
     }
 }

@@ -107,13 +107,4 @@ public class TkeyEnergielieferantCustomBean extends BaseEntity {
         this.energielieferant = energielieferant;
         this.propertyChangeSupport.firePropertyChange(PROP__ENERGIELIEFERANT, old, this.energielieferant);
     }
-
-    @Override
-    public String toString() {
-        if (getEnergielieferant() != null) {
-            return getEnergielieferant();
-        } else {
-            return "";
-        }
-    }
 }

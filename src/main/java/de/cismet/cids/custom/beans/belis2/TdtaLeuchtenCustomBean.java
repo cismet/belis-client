@@ -861,41 +861,6 @@ public class TdtaLeuchtenCustomBean extends WorkbenchFeatureEntity {
     }
 
     @Override
-    public String toString() {
-        return new TdtaLeuchtenToStringConverter().convert(this.getMetaObject());
-    }
-
-    @Override
-    public String getKeyString() {
-        String leuchtennummer = "";
-        String leuchtentyp = "";
-        if (getLaufendeNummer() != null) {
-            leuchtennummer = getLaufendeNummer().toString();
-        }
-        if ((getLeuchtentyp() != null) && (getLeuchtentyp().getLeuchtentyp() != null)) {
-            leuchtentyp = getLeuchtentyp().getLeuchtentyp();
-        }
-        if ((leuchtennummer.length() > 0) && (leuchtentyp.length() > 0)) {
-            return leuchtennummer + ", " + leuchtentyp;
-        } else if (leuchtennummer.length() > 0) {
-            return leuchtennummer;
-        } else if (leuchtentyp.length() > 0) {
-            return leuchtentyp;
-        } else {
-            return "";
-        }
-    }
-
-    @Override
-    public String getHumanReadablePosition() {
-        if ((getStrassenschluessel() != null) && (getStrassenschluessel().getStrasse() != null)) {
-            return getStrassenschluessel().getStrasse();
-        } else {
-            return "";
-        }
-    }
-
-    @Override
     public FeatureAnnotationSymbol getPointAnnotationSymbol() {
         if (mapIcon != null) {
             return mapIcon;
@@ -1258,5 +1223,15 @@ public class TdtaLeuchtenCustomBean extends WorkbenchFeatureEntity {
         } else {
             return EntityComparator.compareTypes(this, o);
         }
+    }
+
+    @Override
+    public String getKeyString() {
+        return new TdtaLeuchtenToStringConverter().getKeyString(this);
+    }
+
+    @Override
+    public String getHumanReadablePosition() {
+        return new TdtaLeuchtenToStringConverter().getHumanReadablePosition(this);
     }
 }

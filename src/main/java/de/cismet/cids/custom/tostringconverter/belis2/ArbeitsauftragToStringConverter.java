@@ -23,7 +23,10 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.tools.CustomToStringConverter;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -31,12 +34,29 @@ import de.cismet.cids.tools.CustomToStringConverter;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class LeuchtmittelToStringConverter extends CustomToStringConverter {
+public class ArbeitsauftragToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
+    public String getHumanReadablePosition(final CidsBean cidsBean) {
+        return "";
+    }
+
+    @Override
+    public String getKeyString(final CidsBean cidsBean) {
+        final Collection<String> strings = new ArrayList<String>();
+        strings.add("A");
+
+        final String nummer = (String)cidsBean.getProperty("nummer");
+        if (nummer != null) {
+            strings.add(nummer);
+        }
+        return implode(strings.toArray(new String[0]), "");
+    }
+
+    @Override
     public String createString() {
-        return cidsBean.getProperty("hersteller") + " " + cidsBean.getProperty("lichtfarbe");
+        return "Arbeitsprotokoll " + cidsBean.getProperty("id");
     }
 }

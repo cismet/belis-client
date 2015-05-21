@@ -93,9 +93,4 @@ public class LeuchtmittelCustomBean extends BaseEntity {
         this.lichtfarbe = lichtfarbe;
         this.propertyChangeSupport.firePropertyChange(PROP__LICHTFARBE, old, this.lichtfarbe);
     }
-
-    @Override
-    public String toString() {
-        return getHersteller() + " " + getLichtfarbe();
-    }
 }

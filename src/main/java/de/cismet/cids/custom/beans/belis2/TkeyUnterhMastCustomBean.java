@@ -127,13 +127,4 @@ public class TkeyUnterhMastCustomBean extends BaseEntity {
     public void setUnterhaltMast(final String unterhaltMast) {
         setUnterhalt_mast(unterhaltMast);
     }
-
-    @Override
-    public String toString() {
-        if (getUnterhaltMast() != null) {
-            return getUnterhaltMast().toLowerCase(Locale.GERMAN);
-        } else {
-            return "";
-        }
-    }
 }

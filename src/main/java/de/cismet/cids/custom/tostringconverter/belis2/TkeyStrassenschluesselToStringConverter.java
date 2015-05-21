@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,6 +37,6 @@ public class TkeyStrassenschluesselToStringConverter extends CustomToStringConve
 
     @Override
     public String createString() {
-        return ((TkeyStrassenschluesselCustomBean)cidsBean).toString();
+        return (cidsBean.getProperty("strasse") != null) ? (String)cidsBean.getProperty("strasse") : "";
     }
 }

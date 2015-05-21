@@ -161,9 +161,4 @@ public class UrlBaseCustomBean extends BaseEntity {
     public String getCompleteURLBase() {
         return getProtPrefix() + getServer() + getPfad();
     }
-
-    @Override
-    public String toString() {
-        return "UrlBase[id=" + getId() + "]";
-    }
 }

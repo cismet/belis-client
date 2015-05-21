@@ -165,15 +165,6 @@ public class TkeyMasttypCustomBean extends BaseEntity implements DocumentContain
         this.propertyChangeSupport.firePropertyChange(PROP__WANDSTAERKE, old, this.wandstaerke);
     }
 
-    @Override
-    public String toString() {
-        if (getMasttyp() != null) {
-            return getMasttyp() + ((getBezeichnung() != null) ? (" " + getBezeichnung()) : "");
-        } else {
-            return "";
-        }
-    }
-
     /**
      * DOCUMENT ME!
      *

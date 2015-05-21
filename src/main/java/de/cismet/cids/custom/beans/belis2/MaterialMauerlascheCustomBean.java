@@ -73,13 +73,4 @@ public class MaterialMauerlascheCustomBean extends BaseEntity {
         this.bezeichnung = bezeichnung;
         this.propertyChangeSupport.firePropertyChange(PROP__BEZEICHNUNG, old, this.bezeichnung);
     }
-
-    @Override
-    public String toString() {
-        if (getBezeichnung() != null) {
-            return getBezeichnung();
-        } else {
-            return "";
-        }
-    }
 }

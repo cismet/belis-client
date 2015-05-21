@@ -129,13 +129,4 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity {
     public void setUnterhaltspflichtigeLeuchte(final String unterhaltspflichtigeLeuchte) {
         setUnterhaltspflichtiger_leuchte(unterhaltspflichtigeLeuchte);
     }
-
-    @Override
-    public String toString() {
-        if (getUnterhaltspflichtigeLeuchte() != null) {
-            return getUnterhaltspflichtigeLeuchte();
-        } else {
-            return "";
-        }
-    }
 }

@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.AnlagengruppeCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,6 +37,10 @@ public class AnlagengruppeToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return ((AnlagengruppeCustomBean)cidsBean).toString();
+        if (cidsBean.getProperty("bezeichung") != null) {
+            return cidsBean.getProperty("nummer") + " - " + cidsBean.getProperty("bezeichung");
+        } else {
+            return "";
+        }
     }
 }

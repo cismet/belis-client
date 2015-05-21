@@ -23,6 +23,8 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
+import de.cismet.cids.dynamics.CidsBean;
+
 /**
  * DOCUMENT ME!
  *
@@ -32,6 +34,19 @@ package de.cismet.cids.custom.tostringconverter.belis2;
 public class SchaltstelleToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public String getKeyString(final CidsBean cidsBean) {
+        final String schaltstellenNummer = (String)cidsBean.getProperty("schaltstellen_nummer");
+        return (schaltstellenNummer != null) ? schaltstellenNummer : "";
+    }
+
+    @Override
+    public String getHumanReadablePosition(final CidsBean cidsBean) {
+        final CidsBean strassenshluessel = (CidsBean)cidsBean.getProperty("fk_strassenschluessel");
+        final String strasse = (strassenshluessel != null) ? (String)strassenshluessel.getProperty("strasse") : "";
+        return strasse;
+    }
 
     @Override
     public String createString() {

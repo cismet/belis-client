@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TkeyKennzifferCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,13 +37,14 @@ public class TkeyKennzifferToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        final TkeyKennzifferCustomBean k = (TkeyKennzifferCustomBean)cidsBean;
-        if ((k.getKennziffer() != null) && (k.getBeschreibung() != null)) {
-            return k.getKennziffer() + " - " + k.getBeschreibung();
-        } else if (k.getKennziffer() != null) {
-            return k.getKennziffer() + " - Keine Beschreibung vorhanden.";
-        } else if (k.getBeschreibung() != null) {
-            return "Keine ID - " + k.getBeschreibung();
+        final Integer kennziffer = (Integer)cidsBean.getProperty("kennziffer");
+        final String beschreibung = (String)cidsBean.getProperty("beschreibung");
+        if ((kennziffer != null) && (beschreibung != null)) {
+            return kennziffer + " - " + beschreibung;
+        } else if (kennziffer != null) {
+            return kennziffer + " - Keine Beschreibung vorhanden.";
+        } else if (beschreibung != null) {
+            return "Keine ID - " + beschreibung;
         } else {
             return "";
         }

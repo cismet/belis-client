@@ -524,29 +524,6 @@ public class SchaltstelleCustomBean extends WorkbenchFeatureEntity {
     }
 
     @Override
-    public String toString() {
-        return new SchaltstelleToStringConverter().convert(this.getMetaObject());
-    }
-
-    @Override
-    public String getKeyString() {
-        String schaltellennummer = "";
-        if (getSchaltstellenNummer() != null) {
-            schaltellennummer = getSchaltstellenNummer();
-        }
-        return schaltellennummer;
-    }
-
-    @Override
-    public String getHumanReadablePosition() {
-        if ((getStrassenschluessel() != null) && (getStrassenschluessel().getStrasse() != null)) {
-            return getStrassenschluessel().getStrasse();
-        } else {
-            return "";
-        }
-    }
-
-    @Override
     public FeatureAnnotationSymbol getPointAnnotationSymbol() {
         if (mapIcon != null) {
             return mapIcon;
@@ -583,5 +560,15 @@ public class SchaltstelleCustomBean extends WorkbenchFeatureEntity {
         } else {
             return EntityComparator.compareTypes(this, o);
         }
+    }
+
+    @Override
+    public String getKeyString() {
+        return new SchaltstelleToStringConverter().getKeyString(this);
+    }
+
+    @Override
+    public String getHumanReadablePosition() {
+        return new SchaltstelleToStringConverter().getHumanReadablePosition(this);
     }
 }

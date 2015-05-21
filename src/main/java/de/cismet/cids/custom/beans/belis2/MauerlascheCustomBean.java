@@ -352,15 +352,6 @@ public class MauerlascheCustomBean extends WorkbenchFeatureEntity {
     }
 
     @Override
-    public String getHumanReadablePosition() {
-        if ((getStrassenschluessel() != null) && (getStrassenschluessel().getStrasse() != null)) {
-            return getStrassenschluessel().getStrasse();
-        } else {
-            return "";
-        }
-    }
-
-    @Override
     public FeatureAnnotationSymbol getPointAnnotationSymbol() {
         if (mapIcon != null) {
             return mapIcon;
@@ -430,16 +421,12 @@ public class MauerlascheCustomBean extends WorkbenchFeatureEntity {
     }
 
     @Override
-    public String getKeyString() {
-        String laufendeNummer = "";
-        if (getLaufende_nummer() != null) {
-            laufendeNummer = getLaufende_nummer().toString();
-        }
-        return laufendeNummer;
+    public String getHumanReadablePosition() {
+        return new MauerlascheToStringConverter().getHumanReadablePosition(this);
     }
 
     @Override
-    public String toString() {
-        return new MauerlascheToStringConverter().convert(this.getMetaObject());
+    public String getKeyString() {
+        return new MauerlascheToStringConverter().getKeyString(this);
     }
 }

@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TkeyMastartCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,6 +37,6 @@ public class TkeyMastartToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return ((TkeyMastartCustomBean)cidsBean).getMastart();
+        return (cidsBean.getProperty("mastart") != null) ? (String)cidsBean.getProperty("mastart") : "";
     }
 }

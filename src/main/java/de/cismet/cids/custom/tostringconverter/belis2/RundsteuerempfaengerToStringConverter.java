@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,9 +37,6 @@ public class RundsteuerempfaengerToStringConverter extends CustomToStringConvert
 
     @Override
     public String createString() {
-        if (cidsBean == null) {
-            return null;
-        }
-        return ((RundsteuerempfaengerCustomBean)cidsBean).getRs_typ();
+        return (cidsBean.getProperty("rs_typ") != null) ? (String)cidsBean.getProperty("rs_typ") : "";
     }
 }

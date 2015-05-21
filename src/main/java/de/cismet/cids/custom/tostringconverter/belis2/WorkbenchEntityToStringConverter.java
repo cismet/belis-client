@@ -23,9 +23,9 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.tools.CustomToStringConverter;
+import de.cismet.cids.dynamics.CidsBean;
 
-import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
  * DOCUMENT ME!
@@ -33,14 +33,39 @@ import de.cismet.commons.server.entity.WorkbenchEntity;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class WorkbenchEntityToStringConverter extends CustomToStringConverter {
+public abstract class WorkbenchEntityToStringConverter extends CustomToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   stringArray  DOCUMENT ME!
+     * @param   delimiter    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static String implode(final String[] stringArray, final String delimiter) {
+        if (stringArray.length == 0) {
+            return "";
+        } else {
+            final StringBuilder sb = new StringBuilder();
+            sb.append(stringArray[0]);
+            for (int index = 1; index < stringArray.length; index++) {
+                sb.append(delimiter);
+                final String string = stringArray[index];
+                if (string != null) {
+                    sb.append(string);
+                }
+            }
+            return sb.toString();
+        }
+    }
+
     @Override
     public String createString() {
-        final String keyString = ((WorkbenchEntity)cidsBean).getKeyString();
-        final String humanReadablePosition = ((WorkbenchEntity)cidsBean).getHumanReadablePosition();
+        final String keyString = getKeyString(cidsBean);
+        final String humanReadablePosition = getHumanReadablePosition(cidsBean);
         if (!keyString.isEmpty() || !humanReadablePosition.isEmpty()) {
             return " -" + ((!keyString.isEmpty()) ? (" " + keyString) : "")
                         + ((!humanReadablePosition.isEmpty()) ? (" (" + humanReadablePosition + ")") : "");
@@ -48,4 +73,21 @@ public class WorkbenchEntityToStringConverter extends CustomToStringConverter {
             return "";
         }
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   cidsBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public abstract String getHumanReadablePosition(final CidsBean cidsBean);
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   cidsBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public abstract String getKeyString(final CidsBean cidsBean);
 }

@@ -991,11 +991,6 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         setLetzte_aenderung(letzteAenderung);
     }
 
-    @Override
-    public String toString() {
-        return new TdtaStandortMastToStringConverter().convert(this.getMetaObject());
-    }
-
     /**
      * DOCUMENT ME!
      *
@@ -1003,27 +998,6 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
      */
     public StandortKey getStandortKey() {
         return new StandortKey(getStrassenschluessel(), getKennziffer(), getLaufendeNummer());
-    }
-
-    @Override
-    public String getKeyString() {
-        final Collection<String> strings = new ArrayList<String>();
-        if ((getMasttyp() != null) && (getMasttyp().getMasttyp() != null)) {
-            strings.add(getMasttyp().getMasttyp());
-        }
-        if ((getMastart() != null) && (getMastart().getMastart() != null)) {
-            strings.add(getMastart().getMastart());
-        }
-        return CidsBroker.implode(strings.toArray(new String[0]), ", ");
-    }
-
-    @Override
-    public String getHumanReadablePosition() {
-        if ((getStrassenschluessel() != null) && (getStrassenschluessel().getStrasse() != null)) {
-            return getStrassenschluessel().getStrasse();
-        } else {
-            return "";
-        }
     }
 
     @Override
@@ -1535,5 +1509,15 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         } else {
             return EntityComparator.compareTypes(this, o);
         }
+    }
+
+    @Override
+    public String getKeyString() {
+        return new TdtaStandortMastToStringConverter().getKeyString(this);
+    }
+
+    @Override
+    public String getHumanReadablePosition() {
+        return new TdtaStandortMastToStringConverter().getHumanReadablePosition(this);
     }
 }

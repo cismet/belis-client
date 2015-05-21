@@ -111,15 +111,6 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Comp
     }
 
     @Override
-    public String toString() {
-        if (getStrasse() != null) {
-            return getStrasse();
-        } else {
-            return "";
-        }
-    }
-
-    @Override
     public int compareTo(final BaseEntity o) {
         if (o instanceof TkeyStrassenschluesselCustomBean) {
             return AlphanumComparator.getInstance().compare(this.pk, ((TkeyStrassenschluesselCustomBean)o).getPk());

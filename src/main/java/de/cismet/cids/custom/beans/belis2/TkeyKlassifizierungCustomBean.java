@@ -110,15 +110,6 @@ public class TkeyKlassifizierungCustomBean extends BaseEntity {
         this.propertyChangeSupport.firePropertyChange(PROP__KLASSIFIZIERUNG, old, this.klassifizierung);
     }
 
-    @Override
-    public String toString() {
-        if (getKlassifizierung() != null) {
-            return getKlassifizierung().toLowerCase(Locale.GERMAN);
-        } else {
-            return "";
-        }
-    }
-
 //    @Override
 //    public String getCompareCriteriaString() {
 //        // Workaround: 'keine Angabe' is ordered on the first place

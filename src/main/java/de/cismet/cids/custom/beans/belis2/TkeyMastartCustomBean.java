@@ -117,13 +117,4 @@ public class TkeyMastartCustomBean extends BaseEntity {
         this.mastart = mastart;
         this.propertyChangeSupport.firePropertyChange(PROP__MASTART, old, this.mastart);
     }
-
-    @Override
-    public String toString() {
-        if (getMastart() != null) {
-            return getMastart();
-        } else {
-            return "";
-        }
-    }
 }

@@ -23,6 +23,8 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
+import de.cismet.cids.dynamics.CidsBean;
+
 /**
  * DOCUMENT ME!
  *
@@ -32,6 +34,16 @@ package de.cismet.cids.custom.tostringconverter.belis2;
 public class AbzweigdoseToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public String getHumanReadablePosition(final CidsBean cidsBean) {
+        return "";
+    }
+
+    @Override
+    public String getKeyString(final CidsBean cidsBean) {
+        return "";
+    }
 
     @Override
     public String createString() {

@@ -98,13 +98,4 @@ public class AnlagengruppeCustomBean extends BaseEntity {
         this.nummer = nummer;
         this.propertyChangeSupport.firePropertyChange(PROP__NUMMER, old, this.nummer);
     }
-
-    @Override
-    public String toString() {
-        if (getBezeichnung() != null) {
-            return getNummer() + " - " + getBezeichnung();
-        } else {
-            return "";
-        }
-    }
 }

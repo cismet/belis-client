@@ -23,6 +23,8 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
+import de.cismet.cids.dynamics.CidsBean;
+
 /**
  * DOCUMENT ME!
  *
@@ -32,6 +34,19 @@ package de.cismet.cids.custom.tostringconverter.belis2;
 public class LeitungToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public String getKeyString(final CidsBean cidsBean) {
+        final CidsBean leitungstyp = (CidsBean)cidsBean.getProperty("fk_leitungstyp");
+        final String leitungstypBezeichnung = (leitungstyp != null) ? (String)leitungstyp.getProperty("bezeichnung")
+                                                                    : "";
+        return leitungstypBezeichnung;
+    }
+
+    @Override
+    public String getHumanReadablePosition(final CidsBean cidsBean) {
+        return "";
+    }
 
     @Override
     public String createString() {

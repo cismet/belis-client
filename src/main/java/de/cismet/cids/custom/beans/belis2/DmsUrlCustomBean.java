@@ -226,11 +226,6 @@ public class DmsUrlCustomBean extends BaseEntity {
         return null;
     }
 
-    @Override
-    public String toString() {
-        return "DmsUrl[id=" + getId() + "]";
-    }
-
     /**
      * DOCUMENT ME!
      *

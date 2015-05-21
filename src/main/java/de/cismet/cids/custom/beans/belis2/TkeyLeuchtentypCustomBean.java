@@ -289,15 +289,6 @@ public class TkeyLeuchtentypCustomBean extends BaseEntity implements DocumentCon
         this.propertyChangeSupport.firePropertyChange(PROP__VORSCHALTGERAET, old, this.vorschaltgeraet);
     }
 
-    @Override
-    public String toString() {
-        if (getLeuchtentyp() != null) {
-            return getLeuchtentyp() + ((getFabrikat() != null) ? (" " + getFabrikat()) : "");
-        } else {
-            return "";
-        }
-    }
-
     /**
      * DOCUMENT ME!
      *

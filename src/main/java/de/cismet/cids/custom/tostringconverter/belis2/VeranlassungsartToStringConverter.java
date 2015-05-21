@@ -23,8 +23,6 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.VeranlassungsartCustomBean;
-
 import de.cismet.cids.tools.CustomToStringConverter;
 
 /**
@@ -39,7 +37,6 @@ public class VeranlassungsartToStringConverter extends CustomToStringConverter {
 
     @Override
     public String createString() {
-        return ((VeranlassungsartCustomBean)cidsBean).getSchluessel() + " - "
-                    + ((VeranlassungsartCustomBean)cidsBean).getBezeichnung();
+        return cidsBean.getProperty("schluessel") + " - " + cidsBean.getProperty("bezeichnung");
     }
 }

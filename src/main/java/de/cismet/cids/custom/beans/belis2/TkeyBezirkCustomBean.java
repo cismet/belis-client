@@ -107,15 +107,6 @@ public class TkeyBezirkCustomBean extends BaseEntity {
         this.propertyChangeSupport.firePropertyChange(PROP__BEZIRK, old, this.bezirk);
     }
 
-    @Override
-    public String toString() {
-        if (getBezirk() != null) {
-            return getBezirk();
-        } else {
-            return "";
-        }
-    }
-
 //    @Override
 //    public String getCompareCriteriaString() {
 //        // Workaround: 'BISHER NICHT ZUGEORDNET' is ordered on the first place

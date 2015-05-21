@@ -23,7 +23,7 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.tools.CustomToStringConverter;
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -31,12 +31,22 @@ import de.cismet.cids.tools.CustomToStringConverter;
  * @author   thorsten
  * @version  $Revision$, $Date$
  */
-public class LeuchtmittelToStringConverter extends CustomToStringConverter {
+public class GeometrieToStringConverter extends WorkbenchEntityToStringConverter {
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
+    public String getHumanReadablePosition(final CidsBean cidsBean) {
+        return "";
+    }
+
+    @Override
+    public String getKeyString(final CidsBean cidsBean) {
+        return (String)cidsBean.getProperty("bezeichnung");
+    }
+
+    @Override
     public String createString() {
-        return cidsBean.getProperty("hersteller") + " " + cidsBean.getProperty("lichtfarbe");
+        return "Geometrie";
     }
 }

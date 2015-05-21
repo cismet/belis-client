@@ -167,13 +167,4 @@ public class RundsteuerempfaengerCustomBean extends BaseEntity {
         this.programm = programm;
         this.propertyChangeSupport.firePropertyChange(PROP__PROGRAMM, old, this.programm);
     }
-
-    @Override
-    public String toString() {
-        if (getRs_typ() != null) {
-            return getRs_typ();
-        } else {
-            return "";
-        }
-    }
 }

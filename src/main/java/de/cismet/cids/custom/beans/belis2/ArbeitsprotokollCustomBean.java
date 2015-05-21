@@ -25,6 +25,8 @@ import de.cismet.belis2.server.search.VeranlassungsschluesselSearch;
 
 import de.cismet.belisEE.util.EntityComparator;
 
+import de.cismet.cids.custom.tostringconverter.belis2.ArbeitsprotokollToStringConverter;
+
 import de.cismet.commons.server.entity.WorkbenchEntity;
 import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
@@ -549,78 +551,6 @@ public class ArbeitsprotokollCustomBean extends WorkbenchEntity {
     /**
      * DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
-     */
-    @Override
-    public String getKeyString() {
-        final String type;
-        final WorkbenchEntity entity;
-        if (getFk_abzweigdose() != null) {
-            entity = getFk_abzweigdose();
-            type = "Abzweigdose";
-        } else if (getFk_leitung() != null) {
-            entity = getFk_leitung();
-            type = "Leitung";
-        } else if (getFk_leuchte() != null) {
-            entity = getFk_leuchte();
-            type = "Leuchte";
-        } else if (getFk_mauerlasche() != null) {
-            entity = getFk_mauerlasche();
-            type = "Mauerlasche";
-        } else if (getFk_schaltstelle() != null) {
-            entity = getFk_schaltstelle();
-            type = "Schaltstelle";
-        } else if (getFk_geometrie() != null) {
-            entity = getFk_geometrie();
-            type = "Geometrie";
-        } else if (getFk_standort() != null) {
-            final TdtaStandortMastCustomBean standort = getFk_standort();
-            entity = standort;
-            if (standort.isStandortMast()) {
-                type = "Mast";
-            } else {
-                type = "Standort";
-            }
-        } else {
-            return "";
-        }
-        final String prefix = (entity.isDeleted()) ? "<html><strike>" : "";
-        final String suffix;
-        if (getVeranlassungsschluessel() != null) {
-            suffix = " (" + getVeranlassungsschluessel() + ")";
-        } else {
-            suffix = "";
-        }
-        return prefix + type + suffix;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    @Override
-    public String getHumanReadablePosition() {
-        if (getFk_abzweigdose() != null) {
-            return getFk_abzweigdose().getHumanReadablePosition();
-        } else if (getFk_leitung() != null) {
-            return getFk_leitung().getHumanReadablePosition();
-        } else if (getFk_leuchte() != null) {
-            return getFk_leuchte().getHumanReadablePosition();
-        } else if (getFk_mauerlasche() != null) {
-            return getFk_mauerlasche().getHumanReadablePosition();
-        } else if (getFk_schaltstelle() != null) {
-            return getFk_schaltstelle().getHumanReadablePosition();
-        } else if (getFk_standort() != null) {
-            return getFk_standort().getHumanReadablePosition();
-        } else {
-            return "";
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @param   o  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
@@ -668,5 +598,25 @@ public class ArbeitsprotokollCustomBean extends WorkbenchEntity {
                     && ((evt.getNewValue() == null) || (evt.getNewValue() instanceof String))) {
             refreshVeranlassungsschlussel((String)evt.getNewValue());
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public String getKeyString() {
+        return new ArbeitsprotokollToStringConverter().getKeyString(this);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public String getHumanReadablePosition() {
+        return new ArbeitsprotokollToStringConverter().getHumanReadablePosition(this);
     }
 }

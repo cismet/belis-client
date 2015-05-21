@@ -23,7 +23,10 @@
  */
 package de.cismet.cids.custom.tostringconverter.belis2;
 
-import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -36,7 +39,28 @@ public class TdtaStandortMastToStringConverter extends WorkbenchEntityToStringCo
     //~ Methods ----------------------------------------------------------------
 
     @Override
+    public String getKeyString(final CidsBean cidsBean) {
+        final Collection<String> strings = new ArrayList<String>();
+        final CidsBean masttyp = (CidsBean)cidsBean.getProperty("fk_masttyp");
+        if ((masttyp != null) && (masttyp.getProperty("masttyp") != null)) {
+            strings.add((String)masttyp.getProperty("masttyp"));
+        }
+        final CidsBean mastart = (CidsBean)cidsBean.getProperty("fk_mastart");
+        if ((mastart != null) && (mastart.getProperty("mastart") != null)) {
+            strings.add((String)mastart.getProperty("mastart"));
+        }
+        return implode(strings.toArray(new String[0]), ", ");
+    }
+
+    @Override
+    public String getHumanReadablePosition(final CidsBean cidsBean) {
+        final CidsBean strassenshluessel = (CidsBean)cidsBean.getProperty("fk_strassenschluessel");
+        final String strasse = (strassenshluessel != null) ? (String)strassenshluessel.getProperty("strasse") : "";
+        return strasse;
+    }
+
+    @Override
     public String createString() {
-        return "Mast " + ((TdtaStandortMastCustomBean)cidsBean).getLaufendeNummer() + super.createString();
+        return "Mast " + ((Integer)cidsBean.getProperty("lfd_nummer")).toString() + super.createString();
     }
 }
