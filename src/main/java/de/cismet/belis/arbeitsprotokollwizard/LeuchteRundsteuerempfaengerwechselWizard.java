@@ -23,8 +23,8 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.leuchte.RundsteuerempfaengerwechselProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollLeuchteRundsteuerempfaengerwechselServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
@@ -144,16 +144,17 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         CidsBroker.getInstance()
-                .executeServerAction(new RundsteuerempfaengerwechselProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollLeuchteRundsteuerempfaengerwechselServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        RundsteuerempfaengerwechselProtokollAction.ParameterType.EINBAUDATUM.toString(),
+                        ProtokollLeuchteRundsteuerempfaengerwechselServerAction.ParameterType.EINBAUDATUM.toString(),
                         Long.toString(dapEinbaudatum.getDate().getTime())),
                     new ServerActionParameter(
-                        RundsteuerempfaengerwechselProtokollAction.ParameterType.RUNDSTEUEREMPFAENGER.toString(),
+                        ProtokollLeuchteRundsteuerempfaengerwechselServerAction.ParameterType.RUNDSTEUEREMPFAENGER
+                            .toString(),
                         Integer.toString(
                             ((RundsteuerempfaengerCustomBean)cbxRundsteuerempfaenger.getSelectedItem()).getId())));
     }

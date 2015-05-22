@@ -18,8 +18,8 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.standort.StandortrevisionProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollStandortRevisionServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
@@ -111,13 +111,13 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         CidsBroker.getInstance()
-                .executeServerAction(new StandortrevisionProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollStandortRevisionServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        StandortrevisionProtokollAction.ParameterType.REVISIONSDATUM.toString(),
+                        ProtokollStandortRevisionServerAction.ParameterType.REVISIONSDATUM.toString(),
                         Long.toString(dapRevision.getDate().getTime())));
     }
 }

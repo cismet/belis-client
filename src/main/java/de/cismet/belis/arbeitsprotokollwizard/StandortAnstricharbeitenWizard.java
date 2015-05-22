@@ -18,8 +18,8 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.standort.AnstricharbeitenProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollStandortAnstricharbeitenServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
@@ -135,16 +135,16 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         CidsBroker.getInstance()
-                .executeServerAction(new AnstricharbeitenProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollStandortAnstricharbeitenServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        AnstricharbeitenProtokollAction.ParameterType.ANSTRICHDATUM.toString(),
+                        ProtokollStandortAnstricharbeitenServerAction.ParameterType.ANSTRICHDATUM.toString(),
                         Long.toString(dapMastanstrich.getDate().getTime())),
                     new ServerActionParameter(
-                        AnstricharbeitenProtokollAction.ParameterType.ANSTRICHFARBE.toString(),
+                        ProtokollStandortAnstricharbeitenServerAction.ParameterType.ANSTRICHFARBE.toString(),
                         txtAnstrichfarbe.getText()));
     }
 }

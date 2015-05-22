@@ -21,8 +21,8 @@ import javax.swing.Action;
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.leuchte.LeuchtmittelwechselElekpruefungProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeuchtmittelCustomBean;
@@ -211,25 +211,29 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
         }
 
         CidsBroker.getInstance()
-                .executeServerAction(new LeuchtmittelwechselElekpruefungProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        LeuchtmittelwechselElekpruefungProtokollAction.ParameterType.PRUEFDATUM.toString(),
+                        ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.PRUEFDATUM.toString(),
                         Long.toString(dapStandortElekPruefung.getDate().getTime())),
                     new ServerActionParameter(
-                        LeuchtmittelwechselElekpruefungProtokollAction.ParameterType.ERDUNG_IN_ORDNUNG.toString(),
+                        ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.ERDUNG_IN_ORDNUNG
+                            .toString(),
                         chkErdungIO.isSelected() ? "ja" : "nein"),
                     new ServerActionParameter(
-                        LeuchtmittelwechselElekpruefungProtokollAction.ParameterType.WECHSELDATUM.toString(),
+                        ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.WECHSELDATUM
+                            .toString(),
                         Long.toString(dapLeuchteLeuchtmittelwechsel.getDate().getTime())),
                     new ServerActionParameter(
-                        LeuchtmittelwechselElekpruefungProtokollAction.ParameterType.LEUCHTMITTEL.toString(),
+                        ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.LEUCHTMITTEL
+                            .toString(),
                         Integer.toString(((LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem()).getId())),
                     new ServerActionParameter(
-                        LeuchtmittelwechselElekpruefungProtokollAction.ParameterType.LEBENSDAUER.toString(),
+                        ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.LEBENSDAUER
+                            .toString(),
                         Double.toString(lebensdauer)));
     }
 }

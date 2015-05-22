@@ -18,8 +18,8 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.schaltstelle.SchaltstellenrevisionProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollSchaltstelleRevisionServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
@@ -113,13 +113,13 @@ public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard {
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         CidsBroker.getInstance()
-                .executeServerAction(new SchaltstellenrevisionProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollSchaltstelleRevisionServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        SchaltstellenrevisionProtokollAction.ParameterType.PRUEFDATUM.toString(),
+                        ProtokollSchaltstelleRevisionServerAction.ParameterType.PRUEFDATUM.toString(),
                         Long.toString(dapPruefung.getDate().getTime())));
     }
 }

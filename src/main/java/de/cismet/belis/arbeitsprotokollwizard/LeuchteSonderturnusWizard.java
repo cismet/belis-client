@@ -18,8 +18,8 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.leuchte.SonderturnusProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollLeuchteSonderturnusServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
@@ -113,13 +113,13 @@ public class LeuchteSonderturnusWizard extends AbstractArbeitsprotokollWizard {
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         CidsBroker.getInstance()
-                .executeServerAction(new SonderturnusProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollLeuchteSonderturnusServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        SonderturnusProtokollAction.ParameterType.DATUM.toString(),
+                        ProtokollLeuchteSonderturnusServerAction.ParameterType.DATUM.toString(),
                         Long.toString(dapSonderturnus.getDate().getTime())));
     }
 }

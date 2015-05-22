@@ -18,8 +18,8 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.leuchte.VorschaltgeraetwechselProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollLeuchteVorschaltgeraetwechselServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
@@ -135,16 +135,16 @@ public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokol
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         CidsBroker.getInstance()
-                .executeServerAction(new VorschaltgeraetwechselProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollLeuchteVorschaltgeraetwechselServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        VorschaltgeraetwechselProtokollAction.ParameterType.WECHSELDATUM.toString(),
+                        ProtokollLeuchteVorschaltgeraetwechselServerAction.ParameterType.WECHSELDATUM.toString(),
                         Long.toString(dapErneuertAm.getDate().getTime())),
                     new ServerActionParameter(
-                        VorschaltgeraetwechselProtokollAction.ParameterType.VORSCHALTGERAET.toString(),
+                        ProtokollLeuchteVorschaltgeraetwechselServerAction.ParameterType.VORSCHALTGERAET.toString(),
                         txtVorschaltgeraet.getText()));
     }
 }

@@ -25,8 +25,8 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.mauerlasche.MauerlaschenpruefungProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollMauerlaschePruefungServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
@@ -137,10 +137,10 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
         final Collection<ServerActionParameter> serverActionParameters = new ArrayList<ServerActionParameter>();
 
         serverActionParameters.add(new ServerActionParameter(
-                ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                 Integer.toString(protokoll.getId())));
         serverActionParameters.add(new ServerActionParameter(
-                MauerlaschenpruefungProtokollAction.ParameterType.PRUEFDATUM.toString(),
+                ProtokollMauerlaschePruefungServerAction.ParameterType.PRUEFDATUM.toString(),
                 Long.toString(dapPruefung.getDate().getTime())));
 
         for (final DmsUrlCustomBean dokument : documentPanel1.getDokumente()) {
@@ -148,12 +148,12 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
             final String beschreibung = dokument.getBeschreibung();
             final String urlMitBeschreibung = url + "\n" + beschreibung;
             serverActionParameters.add(new ServerActionParameter(
-                    MauerlaschenpruefungProtokollAction.ParameterType.DOKUMENT.toString(),
+                    ProtokollMauerlaschePruefungServerAction.ParameterType.DOKUMENT.toString(),
                     urlMitBeschreibung));
         }
 
         CidsBroker.getInstance()
-                .executeServerAction(new MauerlaschenpruefungProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollMauerlaschePruefungServerAction().getTaskName(),
                     null,
                     serverActionParameters.toArray(new ServerActionParameter[0]));
     }

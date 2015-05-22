@@ -23,8 +23,8 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.standort.ElektrischePruefungProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollStandortElektrischePruefungServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
@@ -138,16 +138,16 @@ public class StandortElektrischePruefungWizard extends AbstractArbeitsprotokollW
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         CidsBroker.getInstance()
-                .executeServerAction(new ElektrischePruefungProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollStandortElektrischePruefungServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        ElektrischePruefungProtokollAction.ParameterType.PRUEFDATUM.toString(),
+                        ProtokollStandortElektrischePruefungServerAction.ParameterType.PRUEFDATUM.toString(),
                         Long.toString(dapStandortElekPruefung.getDate().getTime())),
                     new ServerActionParameter(
-                        ElektrischePruefungProtokollAction.ParameterType.ERDUNG_IN_ORDNUNG.toString(),
+                        ProtokollStandortElektrischePruefungServerAction.ParameterType.ERDUNG_IN_ORDNUNG.toString(),
                         chkErdungIO.isSelected() ? "ja" : "nein"));
 
         final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
