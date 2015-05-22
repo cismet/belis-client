@@ -20,8 +20,8 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.FortfuehrungsantragProtokollAction;
-import de.cismet.belis2.server.action.ProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollFortfuehrungsantragServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
@@ -127,13 +127,13 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws ConnectionException {
         CidsBroker.getInstance()
-                .executeServerAction(new FortfuehrungsantragProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollFortfuehrungsantragServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        FortfuehrungsantragProtokollAction.ParameterType.BEMERKUNG.toString(),
+                        ProtokollFortfuehrungsantragServerAction.ParameterType.BEMERKUNG.toString(),
                         jTextArea1.getText()));
     }
 }

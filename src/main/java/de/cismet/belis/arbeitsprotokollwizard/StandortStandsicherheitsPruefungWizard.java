@@ -18,8 +18,8 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.standort.StandsicherheitspruefungProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollStandortStandsicherheitspruefungServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
@@ -158,19 +158,20 @@ public class StandortStandsicherheitsPruefungWizard extends AbstractArbeitsproto
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         CidsBroker.getInstance()
-                .executeServerAction(new StandsicherheitspruefungProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollStandortStandsicherheitspruefungServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        StandsicherheitspruefungProtokollAction.ParameterType.PRUEFDATUM.toString(),
+                        ProtokollStandortStandsicherheitspruefungServerAction.ParameterType.PRUEFDATUM.toString(),
                         Long.toString(dapStandsicherheitspruefung.getDate().getTime())),
                     new ServerActionParameter(
-                        StandsicherheitspruefungProtokollAction.ParameterType.VERFAHREN.toString(),
+                        ProtokollStandortStandsicherheitspruefungServerAction.ParameterType.VERFAHREN.toString(),
                         txtVerfahren.getText()),
                     new ServerActionParameter(
-                        StandsicherheitspruefungProtokollAction.ParameterType.NAECHSTES_PRUEFDATUM.toString(),
+                        ProtokollStandortStandsicherheitspruefungServerAction.ParameterType.NAECHSTES_PRUEFDATUM
+                            .toString(),
                         Long.toString(dapNaechstesPruefdatum.getDate().getTime())));
     }
 }

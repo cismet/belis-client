@@ -13,20 +13,14 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.sql.Timestamp;
-
-import java.util.Collection;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import de.cismet.belis.broker.BelisBroker;
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.FortfuehrungsantragProtokollAction;
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.leuchte.LeuchtmittelwechselElekpruefungProtokollAction;
-import de.cismet.belis2.server.action.leuchte.LeuchtmittelwechselProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollLeuchteLeuchtmittelwechselServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeuchtmittelCustomBean;
@@ -179,19 +173,19 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
         }
 
         CidsBroker.getInstance()
-                .executeServerAction(new LeuchtmittelwechselProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollLeuchteLeuchtmittelwechselServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        LeuchtmittelwechselProtokollAction.ParameterType.WECHSELDATUM.toString(),
+                        ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.WECHSELDATUM.toString(),
                         Long.toString(dapLeuchteLeuchtmittelwechsel.getDate().getTime())),
                     new ServerActionParameter(
-                        LeuchtmittelwechselProtokollAction.ParameterType.LEUCHTMITTEL.toString(),
+                        ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.LEUCHTMITTEL.toString(),
                         Integer.toString(((LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem()).getId())),
                     new ServerActionParameter(
-                        LeuchtmittelwechselProtokollAction.ParameterType.LEBENSDAUER.toString(),
+                        ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.LEBENSDAUER.toString(),
                         Double.toString(lebensdauer)));
     }
 }

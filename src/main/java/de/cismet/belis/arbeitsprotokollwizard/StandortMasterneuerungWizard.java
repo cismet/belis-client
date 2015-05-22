@@ -18,8 +18,8 @@ import javax.swing.Action;
 
 import de.cismet.belis.broker.CidsBroker;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.standort.MasterneuerungProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollStandortMasterneuerungServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
@@ -135,16 +135,16 @@ public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         CidsBroker.getInstance()
-                .executeServerAction(new MasterneuerungProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollStandortMasterneuerungServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        MasterneuerungProtokollAction.ParameterType.INBETRIEBNAHMEDATUM.toString(),
+                        ProtokollStandortMasterneuerungServerAction.ParameterType.INBETRIEBNAHMEDATUM.toString(),
                         Long.toString(dapInbetriebnahme.getDate().getTime())),
                     new ServerActionParameter(
-                        MasterneuerungProtokollAction.ParameterType.MONTAGEFIRMA.toString(),
+                        ProtokollStandortMasterneuerungServerAction.ParameterType.MONTAGEFIRMA.toString(),
                         txtMontagefirma.getText()));
     }
 }

@@ -23,8 +23,8 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 
-import de.cismet.belis2.server.action.ProtokollAction;
-import de.cismet.belis2.server.action.leuchte.LeuchtenerneuerungProtokollAction;
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollLeuchteLeuchtenerneuerungServerAction;
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.TkeyLeuchtentypCustomBean;
@@ -152,16 +152,16 @@ public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWiz
     @Override
     protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         CidsBroker.getInstance()
-                .executeServerAction(new LeuchtenerneuerungProtokollAction().getTaskName(),
+                .executeServerAction(new ProtokollLeuchteLeuchtenerneuerungServerAction().getTaskName(),
                     null,
                     new ServerActionParameter(
-                        ProtokollAction.ParameterType.PROTOKOLL_ID.toString(),
+                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
                         Integer.toString(protokoll.getId())),
                     new ServerActionParameter(
-                        LeuchtenerneuerungProtokollAction.ParameterType.INBETRIEBNAHMEDATUM.toString(),
+                        ProtokollLeuchteLeuchtenerneuerungServerAction.ParameterType.INBETRIEBNAHMEDATUM.toString(),
                         Long.toString(dapInbetriebnahme.getDate().getTime())),
                     new ServerActionParameter(
-                        LeuchtenerneuerungProtokollAction.ParameterType.LEUCHTENTYP.toString(),
+                        ProtokollLeuchteLeuchtenerneuerungServerAction.ParameterType.LEUCHTENTYP.toString(),
                         Integer.toString(((TkeyLeuchtentypCustomBean)cbxLeuchtentyp.getSelectedItem()).getId())));
     }
 }
