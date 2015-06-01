@@ -142,20 +142,21 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollLeuchteRundsteuerempfaengerwechselServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteRundsteuerempfaengerwechselServerAction.ParameterType.EINBAUDATUM.toString(),
-                        Long.toString(dapEinbaudatum.getDate().getTime())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteRundsteuerempfaengerwechselServerAction.ParameterType.RUNDSTEUEREMPFAENGER
-                            .toString(),
-                        Integer.toString(
-                            ((RundsteuerempfaengerCustomBean)cbxRundsteuerempfaenger.getSelectedItem()).getId())));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollLeuchteRundsteuerempfaengerwechselServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteRundsteuerempfaengerwechselServerAction.ParameterType.EINBAUDATUM
+                                .toString(),
+                            Long.toString(dapEinbaudatum.getDate().getTime())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteRundsteuerempfaengerwechselServerAction.ParameterType.RUNDSTEUEREMPFAENGER
+                                .toString(),
+                            Integer.toString(
+                                ((RundsteuerempfaengerCustomBean)cbxRundsteuerempfaenger.getSelectedItem()).getId())));
     }
 }

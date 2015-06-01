@@ -133,18 +133,18 @@ public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollStandortMasterneuerungServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollStandortMasterneuerungServerAction.ParameterType.INBETRIEBNAHMEDATUM.toString(),
-                        Long.toString(dapInbetriebnahme.getDate().getTime())),
-                    new ServerActionParameter(
-                        ProtokollStandortMasterneuerungServerAction.ParameterType.MONTAGEFIRMA.toString(),
-                        txtMontagefirma.getText()));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollStandortMasterneuerungServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollStandortMasterneuerungServerAction.ParameterType.INBETRIEBNAHMEDATUM.toString(),
+                            Long.toString(dapInbetriebnahme.getDate().getTime())),
+                        new ServerActionParameter(
+                            ProtokollStandortMasterneuerungServerAction.ParameterType.MONTAGEFIRMA.toString(),
+                            txtMontagefirma.getText()));
     }
 }

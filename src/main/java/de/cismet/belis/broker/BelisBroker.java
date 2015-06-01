@@ -137,9 +137,8 @@ import de.cismet.belis2.server.search.ArbeitsauftragSearchStatement;
 import de.cismet.belis2.server.search.BelisLocationSearchStatement;
 import de.cismet.belis2.server.search.BelisSearchStatement;
 import de.cismet.belis2.server.search.BelisTopicSearchStatement;
-
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
-import de.cismet.belisEE.exception.LockAlreadyExistsException;
+import de.cismet.belis2.server.utils.ActionNotSuccessfulException;
+import de.cismet.belis2.server.utils.LockAlreadyExistsException;
 
 import de.cismet.belisEE.util.EntityComparator;
 
@@ -2712,7 +2711,13 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
             } catch (LockAlreadyExistsException ex) {
                 LOG.info("Some of the objects are already locked", ex);
                 isPendingForCreateMode.set(false);
-                final Collection<SperreCustomBean> alreadyLocked = ex.getAlreadyExisingLocks();
+                final Collection<SperreCustomBean> alreadyLocked = new ArrayList<SperreCustomBean>();
+                for (final MetaObjectNode mon : ex.getAlreadyExisingLocks()) {
+                    alreadyLocked.add((SperreCustomBean)CidsBroker.getInstance().getMetaObject(
+                            mon.getClassId(),
+                            mon.getObjectId(),
+                            "BELIS2").getBean());
+                }
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Count of already locked objects: " + alreadyLocked.size());
                 }

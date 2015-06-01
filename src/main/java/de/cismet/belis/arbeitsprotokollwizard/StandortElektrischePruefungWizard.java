@@ -136,32 +136,18 @@ public class StandortElektrischePruefungWizard extends AbstractArbeitsprotokollW
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollStandortElektrischePruefungServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollStandortElektrischePruefungServerAction.ParameterType.PRUEFDATUM.toString(),
-                        Long.toString(dapStandortElekPruefung.getDate().getTime())),
-                    new ServerActionParameter(
-                        ProtokollStandortElektrischePruefungServerAction.ParameterType.ERDUNG_IN_ORDNUNG.toString(),
-                        chkErdungIO.isSelected() ? "ja" : "nein"));
-
-        final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
-        aktionen.add(createAktion(
-                "Elektrische Prüfung",
-                standort,
-                TdtaStandortMastCustomBean.PROP__ELEK_PRUEFUNG,
-                new Timestamp(dapStandortElekPruefung.getDate().getTime())));
-        aktionen.add(createAktion(
-                "Erdung in Ordnung",
-                standort,
-                TdtaStandortMastCustomBean.PROP__ERDUNG,
-                chkErdungIO.isSelected()));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollStandortElektrischePruefungServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollStandortElektrischePruefungServerAction.ParameterType.PRUEFDATUM.toString(),
+                            Long.toString(dapStandortElekPruefung.getDate().getTime())),
+                        new ServerActionParameter(
+                            ProtokollStandortElektrischePruefungServerAction.ParameterType.ERDUNG_IN_ORDNUNG.toString(),
+                            chkErdungIO.isSelected() ? "ja" : "nein"));
     }
 }

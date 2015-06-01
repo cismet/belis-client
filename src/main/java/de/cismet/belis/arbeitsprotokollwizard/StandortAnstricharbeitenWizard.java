@@ -133,18 +133,18 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollStandortAnstricharbeitenServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollStandortAnstricharbeitenServerAction.ParameterType.ANSTRICHDATUM.toString(),
-                        Long.toString(dapMastanstrich.getDate().getTime())),
-                    new ServerActionParameter(
-                        ProtokollStandortAnstricharbeitenServerAction.ParameterType.ANSTRICHFARBE.toString(),
-                        txtAnstrichfarbe.getText()));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollStandortAnstricharbeitenServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollStandortAnstricharbeitenServerAction.ParameterType.ANSTRICHDATUM.toString(),
+                            Long.toString(dapMastanstrich.getDate().getTime())),
+                        new ServerActionParameter(
+                            ProtokollStandortAnstricharbeitenServerAction.ParameterType.ANSTRICHFARBE.toString(),
+                            txtAnstrichfarbe.getText()));
     }
 }

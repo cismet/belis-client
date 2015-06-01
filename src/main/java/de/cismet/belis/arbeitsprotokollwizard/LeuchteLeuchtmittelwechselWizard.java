@@ -24,7 +24,6 @@ import de.cismet.belis2.server.action.ProtokollAktion.ProtokollLeuchteLeuchtmitt
 
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.LeuchtmittelCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
 
@@ -162,9 +161,7 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
-
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         Double lebensdauer = null;
         try {
             lebensdauer = Double.parseDouble(txtLebensdauer.getText());
@@ -172,20 +169,20 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
             lebensdauer = null;
         }
 
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollLeuchteLeuchtmittelwechselServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.WECHSELDATUM.toString(),
-                        Long.toString(dapLeuchteLeuchtmittelwechsel.getDate().getTime())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.LEUCHTMITTEL.toString(),
-                        Integer.toString(((LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem()).getId())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.LEBENSDAUER.toString(),
-                        Double.toString(lebensdauer)));
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollLeuchteLeuchtmittelwechselServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.WECHSELDATUM.toString(),
+                            Long.toString(dapLeuchteLeuchtmittelwechsel.getDate().getTime())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.LEUCHTMITTEL.toString(),
+                            Integer.toString(((LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem()).getId())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.LEBENSDAUER.toString(),
+                            Double.toString(lebensdauer)));
     }
 }
