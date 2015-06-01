@@ -202,7 +202,7 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         Double lebensdauer = null;
         try {
             lebensdauer = Double.parseDouble(txtLebensdauer.getText());
@@ -210,30 +210,32 @@ public class LeuchteLeuchtmittelwechselElekpruefungWizard extends AbstractArbeit
             lebensdauer = null;
         }
 
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.PRUEFDATUM.toString(),
-                        Long.toString(dapStandortElekPruefung.getDate().getTime())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.ERDUNG_IN_ORDNUNG
-                            .toString(),
-                        chkErdungIO.isSelected() ? "ja" : "nein"),
-                    new ServerActionParameter(
-                        ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.WECHSELDATUM
-                            .toString(),
-                        Long.toString(dapLeuchteLeuchtmittelwechsel.getDate().getTime())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.LEUCHTMITTEL
-                            .toString(),
-                        Integer.toString(((LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem()).getId())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.LEBENSDAUER
-                            .toString(),
-                        Double.toString(lebensdauer)));
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction()
+                        .getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.PRUEFDATUM
+                                .toString(),
+                            Long.toString(dapStandortElekPruefung.getDate().getTime())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.ERDUNG_IN_ORDNUNG
+                                .toString(),
+                            chkErdungIO.isSelected() ? "ja" : "nein"),
+                        new ServerActionParameter(
+                            ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.WECHSELDATUM
+                                .toString(),
+                            Long.toString(dapLeuchteLeuchtmittelwechsel.getDate().getTime())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.LEUCHTMITTEL
+                                .toString(),
+                            Integer.toString(((LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem()).getId())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteLeuchtmittelwechselElekpruefungServerAction.ParameterType.LEBENSDAUER
+                                .toString(),
+                            Double.toString(lebensdauer)));
     }
 }

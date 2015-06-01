@@ -133,7 +133,7 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
         final Collection<ServerActionParameter> serverActionParameters = new ArrayList<ServerActionParameter>();
 
         serverActionParameters.add(new ServerActionParameter(
@@ -152,9 +152,9 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
                     urlMitBeschreibung));
         }
 
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollMauerlaschePruefungServerAction().getTaskName(),
-                    null,
-                    serverActionParameters.toArray(new ServerActionParameter[0]));
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollMauerlaschePruefungServerAction().getTaskName(),
+                        null,
+                        serverActionParameters.toArray(new ServerActionParameter[0]));
     }
 }

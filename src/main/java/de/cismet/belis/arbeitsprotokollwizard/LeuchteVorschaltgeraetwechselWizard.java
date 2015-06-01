@@ -133,18 +133,18 @@ public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokol
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollLeuchteVorschaltgeraetwechselServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteVorschaltgeraetwechselServerAction.ParameterType.WECHSELDATUM.toString(),
-                        Long.toString(dapErneuertAm.getDate().getTime())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteVorschaltgeraetwechselServerAction.ParameterType.VORSCHALTGERAET.toString(),
-                        txtVorschaltgeraet.getText()));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollLeuchteVorschaltgeraetwechselServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteVorschaltgeraetwechselServerAction.ParameterType.WECHSELDATUM.toString(),
+                            Long.toString(dapErneuertAm.getDate().getTime())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteVorschaltgeraetwechselServerAction.ParameterType.VORSCHALTGERAET.toString(),
+                            txtVorschaltgeraet.getText()));
     }
 }

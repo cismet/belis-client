@@ -15,6 +15,8 @@ import Sirius.navigator.exception.ConnectionException;
 
 import java.awt.event.ActionEvent;
 
+import java.util.Collection;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
@@ -125,15 +127,15 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws ConnectionException {
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollFortfuehrungsantragServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollFortfuehrungsantragServerAction.ParameterType.BEMERKUNG.toString(),
-                        jTextArea1.getText()));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws ConnectionException {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollFortfuehrungsantragServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollFortfuehrungsantragServerAction.ParameterType.BEMERKUNG.toString(),
+                            jTextArea1.getText()));
     }
 }

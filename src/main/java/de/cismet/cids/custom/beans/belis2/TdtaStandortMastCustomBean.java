@@ -34,8 +34,7 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis2.server.search.HighestLfdNummerSearch;
 import de.cismet.belis2.server.search.LeuchteSearchStatement;
-
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
+import de.cismet.belis2.server.utils.ActionNotSuccessfulException;
 
 import de.cismet.belisEE.mapicons.MapIcons;
 

@@ -109,15 +109,15 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollStandortRevisionServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollStandortRevisionServerAction.ParameterType.REVISIONSDATUM.toString(),
-                        Long.toString(dapRevision.getDate().getTime())));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollStandortRevisionServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollStandortRevisionServerAction.ParameterType.REVISIONSDATUM.toString(),
+                            Long.toString(dapRevision.getDate().getTime())));
     }
 }

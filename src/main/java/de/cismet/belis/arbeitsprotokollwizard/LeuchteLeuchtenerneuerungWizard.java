@@ -150,18 +150,18 @@ public class LeuchteLeuchtenerneuerungWizard extends AbstractArbeitsprotokollWiz
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollLeuchteLeuchtenerneuerungServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteLeuchtenerneuerungServerAction.ParameterType.INBETRIEBNAHMEDATUM.toString(),
-                        Long.toString(dapInbetriebnahme.getDate().getTime())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteLeuchtenerneuerungServerAction.ParameterType.LEUCHTENTYP.toString(),
-                        Integer.toString(((TkeyLeuchtentypCustomBean)cbxLeuchtentyp.getSelectedItem()).getId())));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollLeuchteLeuchtenerneuerungServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteLeuchtenerneuerungServerAction.ParameterType.INBETRIEBNAHMEDATUM.toString(),
+                            Long.toString(dapInbetriebnahme.getDate().getTime())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteLeuchtenerneuerungServerAction.ParameterType.LEUCHTENTYP.toString(),
+                            Integer.toString(((TkeyLeuchtentypCustomBean)cbxLeuchtentyp.getSelectedItem()).getId())));
     }
 }

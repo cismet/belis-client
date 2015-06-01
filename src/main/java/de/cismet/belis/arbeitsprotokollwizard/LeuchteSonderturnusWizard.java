@@ -111,15 +111,15 @@ public class LeuchteSonderturnusWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        CidsBroker.getInstance()
-                .executeServerAction(new ProtokollLeuchteSonderturnusServerAction().getTaskName(),
-                    null,
-                    new ServerActionParameter(
-                        AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                        Integer.toString(protokoll.getId())),
-                    new ServerActionParameter(
-                        ProtokollLeuchteSonderturnusServerAction.ParameterType.DATUM.toString(),
-                        Long.toString(dapSonderturnus.getDate().getTime())));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollLeuchteSonderturnusServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            Integer.toString(protokoll.getId())),
+                        new ServerActionParameter(
+                            ProtokollLeuchteSonderturnusServerAction.ParameterType.DATUM.toString(),
+                            Long.toString(dapSonderturnus.getDate().getTime())));
     }
 }
