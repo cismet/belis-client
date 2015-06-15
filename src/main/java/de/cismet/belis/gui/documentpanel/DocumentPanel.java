@@ -262,16 +262,32 @@ public final class DocumentPanel extends javax.swing.JPanel {
                     filename = name.substring(0, name.lastIndexOf("."));
                 }
 
-                DownloadManager.instance()
-                        .add(new WebDavDownload(
+                final String path = WEB_DAV_DIRECTORY + WebDavHelper.encodeURL(file);
+                if (WebDavHelper.isUrlAccessible(
                                 webDavClient,
                                 WEB_DAV_DIRECTORY
-                                + WebDavHelper.encodeURL(file),
-                                jobname,
-                                filename
-                                + extension,
-                                filename,
-                                extension));
+                                + WebDavHelper.encodeURL(file))) {
+                    DownloadManager.instance()
+                            .add(new WebDavDownload(
+                                    webDavClient,
+                                    path,
+                                    jobname,
+                                    filename
+                                    + extension,
+                                    filename,
+                                    extension));
+                } else {
+                    DownloadManager.instance()
+                            .add(new WebDavDownload(
+                                    webDavClient,
+                                    path
+                                    + ".thumbnail.jpg",
+                                    jobname,
+                                    filename
+                                    + extension,
+                                    filename,
+                                    extension));
+                }
             }
         }
     }
