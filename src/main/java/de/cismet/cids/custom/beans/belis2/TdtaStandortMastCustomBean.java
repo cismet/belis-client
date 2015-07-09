@@ -199,6 +199,9 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     public void init() {
         refreshLeuchten();
@@ -211,7 +214,7 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         final List<TdtaLeuchtenCustomBean> coll = new ArrayList<TdtaLeuchtenCustomBean>();
         if (getId() != null) {
             final LeuchteSearchStatement search = new LeuchteSearchStatement();
-            search.setFK_standort(getId());
+            search.setFk_standort_id(getId());
             try {
                 final Collection<MetaObjectNode> mons = CidsBroker.getInstance().executeServerSearch(search);
                 for (final MetaObjectNode mon : mons) {
@@ -999,6 +1002,11 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         return new StandortKey(getStrassenschluessel(), getKennziffer(), getLaufendeNummer());
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public FeatureAnnotationSymbol getPointAnnotationSymbol() {
         final List<Integer> nums = new ArrayList<Integer>(6);
@@ -1070,6 +1078,11 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         if (LOG.isDebugEnabled()) {
@@ -1110,11 +1123,21 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public GeomCustomBean getGeometrie() {
         return getFk_geom();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  geometrie  DOCUMENT ME!
+     */
     @Override
     public void setGeometrie(final GeomCustomBean geometrie) {
         setFk_geom(geometrie);
@@ -1343,6 +1366,13 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         this.propertyChangeSupport.firePropertyChange(PROP__ANLAGENGRUPPE, old, this.anlagengruppe);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
     @Override
     public CidsBean persist() throws Exception {
         if (getLaufendeNummer() == null) {
@@ -1510,11 +1540,21 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getKeyString() {
         return new TdtaStandortMastToStringConverter().getKeyString(this);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getHumanReadablePosition() {
         return new TdtaStandortMastToStringConverter().getHumanReadablePosition(this);
