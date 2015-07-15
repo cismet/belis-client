@@ -117,9 +117,10 @@ public class LeuchteSonderturnusWizard extends AbstractArbeitsprotokollWizard {
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollLeuchteSonderturnusServerAction.ParameterType.DATUM.toString(),
-                            Long.toString(dapSonderturnus.getDate().getTime())));
+                            (dapSonderturnus.getDate() != null) ? Long.toString(dapSonderturnus.getDate().getTime())
+                                                                : null));
     }
 }

@@ -142,10 +142,11 @@ public class StandortElektrischePruefungWizard extends AbstractArbeitsprotokollW
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollStandortElektrischePruefungServerAction.ParameterType.PRUEFDATUM.toString(),
-                            Long.toString(dapStandortElekPruefung.getDate().getTime())),
+                            (dapStandortElekPruefung.getDate() != null)
+                                ? Long.toString(dapStandortElekPruefung.getDate().getTime()) : null),
                         new ServerActionParameter(
                             ProtokollStandortElektrischePruefungServerAction.ParameterType.ERDUNG_IN_ORDNUNG.toString(),
                             chkErdungIO.isSelected() ? "ja" : "nein"));

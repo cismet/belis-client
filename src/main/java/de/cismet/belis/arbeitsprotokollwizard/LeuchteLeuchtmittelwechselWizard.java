@@ -174,15 +174,18 @@ public class LeuchteLeuchtmittelwechselWizard extends AbstractArbeitsprotokollWi
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.WECHSELDATUM.toString(),
-                            Long.toString(dapLeuchteLeuchtmittelwechsel.getDate().getTime())),
+                            (dapLeuchteLeuchtmittelwechsel.getDate() != null)
+                                ? Long.toString(dapLeuchteLeuchtmittelwechsel.getDate().getTime()) : null),
                         new ServerActionParameter(
                             ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.LEUCHTMITTEL.toString(),
-                            Integer.toString(((LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem()).getId())),
+                            (cbxLeuchtmittel.getSelectedItem() != null)
+                                ? Integer.toString(
+                                    ((LeuchtmittelCustomBean)cbxLeuchtmittel.getSelectedItem()).getId()) : null),
                         new ServerActionParameter(
                             ProtokollLeuchteLeuchtmittelwechselServerAction.ParameterType.LEBENSDAUER.toString(),
-                            Double.toString(lebensdauer)));
+                            (lebensdauer != null) ? Double.toString(lebensdauer) : null));
     }
 }

@@ -139,10 +139,11 @@ public class StandortAnstricharbeitenWizard extends AbstractArbeitsprotokollWiza
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollStandortAnstricharbeitenServerAction.ParameterType.ANSTRICHDATUM.toString(),
-                            Long.toString(dapMastanstrich.getDate().getTime())),
+                            (dapMastanstrich.getDate() != null) ? Long.toString(dapMastanstrich.getDate().getTime())
+                                                                : null),
                         new ServerActionParameter(
                             ProtokollStandortAnstricharbeitenServerAction.ParameterType.ANSTRICHFARBE.toString(),
                             txtAnstrichfarbe.getText()));
