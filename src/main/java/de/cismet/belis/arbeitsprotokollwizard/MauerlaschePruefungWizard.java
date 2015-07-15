@@ -138,10 +138,10 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
 
         serverActionParameters.add(new ServerActionParameter(
                 AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                Integer.toString(protokoll.getId())));
+                (protokoll != null) ? Integer.toString(protokoll.getId()) : null));
         serverActionParameters.add(new ServerActionParameter(
                 ProtokollMauerlaschePruefungServerAction.ParameterType.PRUEFDATUM.toString(),
-                Long.toString(dapPruefung.getDate().getTime())));
+                (dapPruefung.getDate() != null) ? Long.toString(dapPruefung.getDate().getTime()) : null));
 
         for (final DmsUrlCustomBean dokument : documentPanel1.getDokumente()) {
             final String url = dokument.toUri().toString();

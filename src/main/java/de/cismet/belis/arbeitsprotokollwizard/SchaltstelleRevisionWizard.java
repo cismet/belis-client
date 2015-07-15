@@ -117,9 +117,9 @@ public class SchaltstelleRevisionWizard extends AbstractArbeitsprotokollWizard {
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollSchaltstelleRevisionServerAction.ParameterType.PRUEFDATUM.toString(),
-                            Long.toString(dapPruefung.getDate().getTime())));
+                            (dapPruefung.getDate() != null) ? Long.toString(dapPruefung.getDate().getTime()) : null));
     }
 }

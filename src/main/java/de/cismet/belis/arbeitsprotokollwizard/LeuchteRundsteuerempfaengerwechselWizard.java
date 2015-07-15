@@ -148,15 +148,18 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollLeuchteRundsteuerempfaengerwechselServerAction.ParameterType.EINBAUDATUM
                                 .toString(),
-                            Long.toString(dapEinbaudatum.getDate().getTime())),
+                            (dapEinbaudatum.getDate() != null) ? Long.toString(dapEinbaudatum.getDate().getTime())
+                                                               : null),
                         new ServerActionParameter(
                             ProtokollLeuchteRundsteuerempfaengerwechselServerAction.ParameterType.RUNDSTEUEREMPFAENGER
                                 .toString(),
-                            Integer.toString(
-                                ((RundsteuerempfaengerCustomBean)cbxRundsteuerempfaenger.getSelectedItem()).getId())));
+                            (cbxRundsteuerempfaenger.getSelectedItem() != null)
+                                ? Integer.toString(
+                                    ((RundsteuerempfaengerCustomBean)cbxRundsteuerempfaenger.getSelectedItem()).getId())
+                                : null));
     }
 }

@@ -139,10 +139,10 @@ public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokol
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollLeuchteVorschaltgeraetwechselServerAction.ParameterType.WECHSELDATUM.toString(),
-                            Long.toString(dapErneuertAm.getDate().getTime())),
+                            (dapErneuertAm.getDate() != null) ? Long.toString(dapErneuertAm.getDate().getTime()) : null),
                         new ServerActionParameter(
                             ProtokollLeuchteVorschaltgeraetwechselServerAction.ParameterType.VORSCHALTGERAET.toString(),
                             txtVorschaltgeraet.getText()));

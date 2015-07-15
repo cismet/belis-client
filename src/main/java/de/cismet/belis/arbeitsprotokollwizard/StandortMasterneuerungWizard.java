@@ -139,10 +139,11 @@ public class StandortMasterneuerungWizard extends AbstractArbeitsprotokollWizard
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollStandortMasterneuerungServerAction.ParameterType.INBETRIEBNAHMEDATUM.toString(),
-                            Long.toString(dapInbetriebnahme.getDate().getTime())),
+                            (dapInbetriebnahme.getDate() != null) ? Long.toString(
+                                dapInbetriebnahme.getDate().getTime()) : null),
                         new ServerActionParameter(
                             ProtokollStandortMasterneuerungServerAction.ParameterType.MONTAGEFIRMA.toString(),
                             txtMontagefirma.getText()));

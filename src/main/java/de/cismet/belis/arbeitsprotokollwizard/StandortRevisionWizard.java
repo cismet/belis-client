@@ -115,9 +115,9 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollStandortRevisionServerAction.ParameterType.REVISIONSDATUM.toString(),
-                            Long.toString(dapRevision.getDate().getTime())));
+                            (dapRevision.getDate() != null) ? Long.toString(dapRevision.getDate().getTime()) : null));
     }
 }

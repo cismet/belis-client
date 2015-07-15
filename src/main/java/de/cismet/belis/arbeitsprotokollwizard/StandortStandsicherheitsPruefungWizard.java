@@ -162,16 +162,18 @@ public class StandortStandsicherheitsPruefungWizard extends AbstractArbeitsproto
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollStandortStandsicherheitspruefungServerAction.ParameterType.PRUEFDATUM.toString(),
-                            Long.toString(dapStandsicherheitspruefung.getDate().getTime())),
+                            (dapStandsicherheitspruefung.getDate() != null)
+                                ? Long.toString(dapStandsicherheitspruefung.getDate().getTime()) : null),
                         new ServerActionParameter(
                             ProtokollStandortStandsicherheitspruefungServerAction.ParameterType.VERFAHREN.toString(),
                             txtVerfahren.getText()),
                         new ServerActionParameter(
                             ProtokollStandortStandsicherheitspruefungServerAction.ParameterType.NAECHSTES_PRUEFDATUM
                                 .toString(),
-                            Long.toString(dapNaechstesPruefdatum.getDate().getTime())));
+                            (dapNaechstesPruefdatum.getDate() != null)
+                                ? Long.toString(dapNaechstesPruefdatum.getDate().getTime()) : null));
     }
 }

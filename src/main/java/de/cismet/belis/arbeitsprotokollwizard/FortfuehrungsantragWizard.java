@@ -133,7 +133,7 @@ public class FortfuehrungsantragWizard extends AbstractArbeitsprotokollWizard {
                         null,
                         new ServerActionParameter(
                             AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
-                            Integer.toString(protokoll.getId())),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
                         new ServerActionParameter(
                             ProtokollFortfuehrungsantragServerAction.ParameterType.BEMERKUNG.toString(),
                             jTextArea1.getText()));
