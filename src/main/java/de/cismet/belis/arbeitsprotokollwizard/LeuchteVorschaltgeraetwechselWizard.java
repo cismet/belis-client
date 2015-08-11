@@ -13,16 +13,17 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.sql.Timestamp;
-
-import java.util.Collection;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollLeuchteVorschaltgeraetwechselServerAction;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+
+import de.cismet.cids.server.actions.ServerActionParameter;
 
 /**
  * DOCUMENT ME!
@@ -132,19 +133,18 @@ public class LeuchteVorschaltgeraetwechselWizard extends AbstractArbeitsprotokol
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
-        aktionen.add(createAktion(
-                "Erneuerung Vorschaltgerät",
-                leuchte,
-                TdtaLeuchtenCustomBean.PROP__WECHSELVORSCHALTGERAET,
-                new Timestamp(dapErneuertAm.getDate().getTime())));
-        aktionen.add(createAktion(
-                "Vorschaltgerät",
-                leuchte,
-                TdtaLeuchtenCustomBean.PROP__VORSCHALTGERAET,
-                txtVorschaltgeraet.getText()));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollLeuchteVorschaltgeraetwechselServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
+                        new ServerActionParameter(
+                            ProtokollLeuchteVorschaltgeraetwechselServerAction.ParameterType.WECHSELDATUM.toString(),
+                            (dapErneuertAm.getDate() != null) ? Long.toString(dapErneuertAm.getDate().getTime()) : null),
+                        new ServerActionParameter(
+                            ProtokollLeuchteVorschaltgeraetwechselServerAction.ParameterType.VORSCHALTGERAET.toString(),
+                            txtVorschaltgeraet.getText()));
     }
 }

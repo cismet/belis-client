@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import de.cismet.cids.custom.tostringconverter.belis2.TkeyStrassenschluesselToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 import de.cismet.tools.gui.jtable.sorting.AlphanumComparator;
@@ -108,15 +110,6 @@ public class TkeyStrassenschluesselCustomBean extends BaseEntity implements Comp
         final String old = this.strasse;
         this.strasse = strasse;
         this.propertyChangeSupport.firePropertyChange(PROP__STRASSE, old, this.strasse);
-    }
-
-    @Override
-    public String toString() {
-        if (getStrasse() != null) {
-            return getStrasse();
-        } else {
-            return "";
-        }
     }
 
     @Override

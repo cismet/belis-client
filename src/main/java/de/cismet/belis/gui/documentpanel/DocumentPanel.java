@@ -22,14 +22,20 @@ import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.net.MalformedURLException;
@@ -45,6 +51,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
+import javax.imageio.ImageIO;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
@@ -55,6 +63,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
+import javax.swing.ProgressMonitorInputStream;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
@@ -262,16 +271,32 @@ public final class DocumentPanel extends javax.swing.JPanel {
                     filename = name.substring(0, name.lastIndexOf("."));
                 }
 
-                DownloadManager.instance()
-                        .add(new WebDavDownload(
+                final String path = WEB_DAV_DIRECTORY + WebDavHelper.encodeURL(file);
+                if (WebDavHelper.isUrlAccessible(
                                 webDavClient,
                                 WEB_DAV_DIRECTORY
-                                + WebDavHelper.encodeURL(file),
-                                jobname,
-                                filename
-                                + extension,
-                                filename,
-                                extension));
+                                + WebDavHelper.encodeURL(file))) {
+                    DownloadManager.instance()
+                            .add(new WebDavDownload(
+                                    webDavClient,
+                                    path,
+                                    jobname,
+                                    filename
+                                    + extension,
+                                    filename,
+                                    extension));
+                } else {
+                    DownloadManager.instance()
+                            .add(new WebDavDownload(
+                                    webDavClient,
+                                    path
+                                    + ".thumbnail.jpg",
+                                    jobname,
+                                    filename
+                                    + extension,
+                                    filename,
+                                    extension));
+                }
             }
         }
     }
@@ -944,6 +969,33 @@ public final class DocumentPanel extends javax.swing.JPanel {
                         webDavClient,
                         DocumentPanel.this);
                     newBeans.add(DmsUrlCustomBean.createDmsURLFromLink(WEB_DAV_DIRECTORY + webFileName, doc.getName()));
+
+                    try {
+                        final BufferedImage img = ImageIO.read(new BufferedInputStream(new FileInputStream(imageFile)));
+                        final double ratio = img.getWidth() / (double)img.getHeight();
+
+                        final int newHeight = (int)(300 / ratio);
+                        final Image scaledImg = img.getScaledInstance(300, newHeight, Image.SCALE_SMOOTH);
+                        final BufferedImage thumbnail = new BufferedImage(300, newHeight, BufferedImage.TYPE_INT_RGB);
+                        thumbnail.createGraphics().drawImage(scaledImg, 0, 0, null);
+
+                        final String[] fileNameSplit = webFileName.split("\\.");
+                        final String endung = fileNameSplit[fileNameSplit.length - 1];
+
+                        final File tempFile = File.createTempFile(webFileName, endung);
+                        ImageIO.write(thumbnail, endung, new FileOutputStream(tempFile));
+
+                        WebDavHelper.uploadFileToWebDAV(
+                            webFileName
+                                    + ".thumbnail."
+                                    + endung,
+                            tempFile,
+                            WEB_DAV_DIRECTORY,
+                            webDavClient,
+                            null);
+                    } catch (final Exception ex) {
+                        log.error(ex, ex);
+                    }
                 }
                 return newBeans;
             } finally {

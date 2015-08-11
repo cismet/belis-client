@@ -17,7 +17,6 @@ import java.sql.Date;
 
 import java.text.DecimalFormat;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +26,8 @@ import de.cismet.belis.broker.CidsBroker;
 import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.belis2.server.search.NextVeranlassungNummerSearch;
+
+import de.cismet.cids.custom.tostringconverter.belis2.VeranlassungToStringConverter;
 
 import de.cismet.commons.server.entity.WorkbenchEntity;
 
@@ -489,21 +490,6 @@ public class VeranlassungCustomBean extends WorkbenchEntity {
             this.fk_infobaustein_template);
     }
 
-    @Override
-    public String getKeyString() {
-        final Collection<String> strings = new ArrayList<String>();
-        strings.add("V");
-        if (getNummer() != null) {
-            strings.add(getNummer());
-        }
-        if (getFk_art() != null) {
-            strings.add(getFk_art().getSchluessel());
-        } else {
-            strings.add("_");
-        }
-        return CidsBroker.implode(strings.toArray(new String[0]), "");
-    }
-
     /**
      * DOCUMENT ME!
      *
@@ -523,6 +509,11 @@ public class VeranlassungCustomBean extends WorkbenchEntity {
 
     @Override
     public String getHumanReadablePosition() {
-        return null;
+        return new VeranlassungToStringConverter().getHumanReadablePosition(this);
+    }
+
+    @Override
+    public String getKeyString() {
+        return new VeranlassungToStringConverter().getKeyString(this);
     }
 }

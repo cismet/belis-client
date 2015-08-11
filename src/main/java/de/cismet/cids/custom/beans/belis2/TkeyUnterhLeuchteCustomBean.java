@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import de.cismet.cids.custom.tostringconverter.belis2.TkeyUnterhLeuchteToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -128,14 +130,5 @@ public class TkeyUnterhLeuchteCustomBean extends BaseEntity {
      */
     public void setUnterhaltspflichtigeLeuchte(final String unterhaltspflichtigeLeuchte) {
         setUnterhaltspflichtiger_leuchte(unterhaltspflichtigeLeuchte);
-    }
-
-    @Override
-    public String toString() {
-        if (getUnterhaltspflichtigeLeuchte() != null) {
-            return getUnterhaltspflichtigeLeuchte();
-        } else {
-            return "";
-        }
     }
 }

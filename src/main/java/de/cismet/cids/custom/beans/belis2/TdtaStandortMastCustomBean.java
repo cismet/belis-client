@@ -34,8 +34,7 @@ import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis2.server.search.HighestLfdNummerSearch;
 import de.cismet.belis2.server.search.LeuchteSearchStatement;
-
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
+import de.cismet.belis2.server.utils.ActionNotSuccessfulException;
 
 import de.cismet.belisEE.mapicons.MapIcons;
 
@@ -200,6 +199,9 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     public void init() {
         refreshLeuchten();
@@ -212,7 +214,7 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         final List<TdtaLeuchtenCustomBean> coll = new ArrayList<TdtaLeuchtenCustomBean>();
         if (getId() != null) {
             final LeuchteSearchStatement search = new LeuchteSearchStatement();
-            search.setFK_standort(getId());
+            search.setFk_standort_id(getId());
             try {
                 final Collection<MetaObjectNode> mons = CidsBroker.getInstance().executeServerSearch(search);
                 for (final MetaObjectNode mon : mons) {
@@ -991,11 +993,6 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         setLetzte_aenderung(letzteAenderung);
     }
 
-    @Override
-    public String toString() {
-        return new TdtaStandortMastToStringConverter().convert(this.getMetaObject());
-    }
-
     /**
      * DOCUMENT ME!
      *
@@ -1005,27 +1002,11 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         return new StandortKey(getStrassenschluessel(), getKennziffer(), getLaufendeNummer());
     }
 
-    @Override
-    public String getKeyString() {
-        final Collection<String> strings = new ArrayList<String>();
-        if ((getMasttyp() != null) && (getMasttyp().getMasttyp() != null)) {
-            strings.add(getMasttyp().getMasttyp());
-        }
-        if ((getMastart() != null) && (getMastart().getMastart() != null)) {
-            strings.add(getMastart().getMastart());
-        }
-        return CidsBroker.implode(strings.toArray(new String[0]), ", ");
-    }
-
-    @Override
-    public String getHumanReadablePosition() {
-        if ((getStrassenschluessel() != null) && (getStrassenschluessel().getStrasse() != null)) {
-            return getStrassenschluessel().getStrasse();
-        } else {
-            return "";
-        }
-    }
-
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public FeatureAnnotationSymbol getPointAnnotationSymbol() {
         final List<Integer> nums = new ArrayList<Integer>(6);
@@ -1097,6 +1078,11 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         if (LOG.isDebugEnabled()) {
@@ -1137,11 +1123,21 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public GeomCustomBean getGeometrie() {
         return getFk_geom();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  geometrie  DOCUMENT ME!
+     */
     @Override
     public void setGeometrie(final GeomCustomBean geometrie) {
         setFk_geom(geometrie);
@@ -1370,6 +1366,13 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         this.propertyChangeSupport.firePropertyChange(PROP__ANLAGENGRUPPE, old, this.anlagengruppe);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
     @Override
     public CidsBean persist() throws Exception {
         if (getLaufendeNummer() == null) {
@@ -1535,5 +1538,25 @@ public class TdtaStandortMastCustomBean extends WorkbenchFeatureEntity {
         } else {
             return EntityComparator.compareTypes(this, o);
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public String getKeyString() {
+        return new TdtaStandortMastToStringConverter().getKeyString(this);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @Override
+    public String getHumanReadablePosition() {
+        return new TdtaStandortMastToStringConverter().getHumanReadablePosition(this);
     }
 }

@@ -151,16 +151,11 @@ public class AbzweigdoseCustomBean extends WorkbenchFeatureEntity {
 
     @Override
     public String getHumanReadablePosition() {
-        return "";
+        return new AbzweigdoseToStringConverter().getHumanReadablePosition(this);
     }
 
     @Override
     public String getKeyString() {
-        return "";
-    }
-
-    @Override
-    public String toString() {
-        return new AbzweigdoseToStringConverter().convert(this.getMetaObject());
+        return new AbzweigdoseToStringConverter().getKeyString(this);
     }
 }

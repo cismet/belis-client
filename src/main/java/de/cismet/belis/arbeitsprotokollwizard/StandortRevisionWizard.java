@@ -13,16 +13,17 @@ package de.cismet.belis.arbeitsprotokollwizard;
 
 import java.awt.event.ActionEvent;
 
-import java.sql.Timestamp;
-
-import java.util.Collection;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollStandortRevisionServerAction;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+
+import de.cismet.cids.server.actions.ServerActionParameter;
 
 /**
  * DOCUMENT ME!
@@ -108,14 +109,15 @@ public class StandortRevisionWizard extends AbstractArbeitsprotokollWizard {
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        final TdtaStandortMastCustomBean standort = protokoll.getFk_standort();
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
-        aktionen.add(createAktion(
-                "Revision",
-                standort,
-                TdtaStandortMastCustomBean.PROP__REVISION,
-                new Timestamp(dapRevision.getDate().getTime())));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollStandortRevisionServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
+                        new ServerActionParameter(
+                            ProtokollStandortRevisionServerAction.ParameterType.REVISIONSDATUM.toString(),
+                            (dapRevision.getDate() != null) ? Long.toString(dapRevision.getDate().getTime()) : null));
     }
 }

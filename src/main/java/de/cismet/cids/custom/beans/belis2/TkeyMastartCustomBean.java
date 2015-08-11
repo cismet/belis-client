@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import de.cismet.cids.custom.tostringconverter.belis2.TkeyMastartToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -116,14 +118,5 @@ public class TkeyMastartCustomBean extends BaseEntity {
         final String old = this.mastart;
         this.mastart = mastart;
         this.propertyChangeSupport.firePropertyChange(PROP__MASTART, old, this.mastart);
-    }
-
-    @Override
-    public String toString() {
-        if (getMastart() != null) {
-            return getMastart();
-        } else {
-            return "";
-        }
     }
 }

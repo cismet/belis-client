@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import de.cismet.cids.custom.tostringconverter.belis2.TkeyBezirkToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -105,15 +107,6 @@ public class TkeyBezirkCustomBean extends BaseEntity {
         final String old = this.bezirk;
         this.bezirk = bezirk;
         this.propertyChangeSupport.firePropertyChange(PROP__BEZIRK, old, this.bezirk);
-    }
-
-    @Override
-    public String toString() {
-        if (getBezirk() != null) {
-            return getBezirk();
-        } else {
-            return "";
-        }
     }
 
 //    @Override

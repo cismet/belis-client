@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import de.cismet.cids.custom.tostringconverter.belis2.AnlagengruppeToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -97,14 +99,5 @@ public class AnlagengruppeCustomBean extends BaseEntity {
         final Integer old = this.nummer;
         this.nummer = nummer;
         this.propertyChangeSupport.firePropertyChange(PROP__NUMMER, old, this.nummer);
-    }
-
-    @Override
-    public String toString() {
-        if (getBezeichnung() != null) {
-            return getNummer() + " - " + getBezeichnung();
-        } else {
-            return "";
-        }
     }
 }

@@ -155,7 +155,8 @@ public class QuerySearchResultsWindowSearch extends JPanel implements BelisWindo
                                 getMetaClass().getTableName(),
                                 CidsBroker.BELIS_DOMAIN,
                                 fields,
-                                getWhereCause());
+                                getWhereCause(),
+                                "id");
                         search.setDateFormat("dd.MM.yy");
                         search.setBooleanFormat(new String[] { "nein", "ja" });
                         DownloadManager.instance()

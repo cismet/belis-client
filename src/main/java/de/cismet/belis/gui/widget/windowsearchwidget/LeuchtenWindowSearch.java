@@ -581,6 +581,13 @@ public class LeuchtenWindowSearch extends BelisEntityWindowSearch {
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   searchGeom  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     protected BelisSearchStatement createSearchStatement(final Geometry searchGeom) {
         final String inbetriebnahmeLeuchteVon = (cbInbetriebnahmeLeuchteVon.isSelected())
@@ -608,11 +615,11 @@ public class LeuchtenWindowSearch extends BelisEntityWindowSearch {
         leuchteSearchStatement.setInbetriebnahme_leuchte(inbetriebnahmeLeuchteVon, inbetriebnahmeLeuchteBis);
         leuchteSearchStatement.setWechseldatum(wechseldatumVon, wechseldatumBis);
         leuchteSearchStatement.setNaechster_wechsel(naechsterWechselVon, naechsterWechselBis);
-        leuchteSearchStatement.setFk_leuchttyp(leuchtentyp);
-        leuchteSearchStatement.setRundsteuerempfaenger(rundsteuerempfaenger);
+        leuchteSearchStatement.setFk_leuchttyp_id(leuchtentyp);
+        leuchteSearchStatement.setFk_rundsteuerempfaenger_id(rundsteuerempfaenger);
         leuchteSearchStatement.setSchaltstelle(schaltstelle);
-        leuchteSearchStatement.setFk_dk1(anschlussleistung1dk);
-        leuchteSearchStatement.setFk_dk2(anschlussleistung2dk);
+        leuchteSearchStatement.setFk_dk1_id(anschlussleistung1dk);
+        leuchteSearchStatement.setFk_dk2_id(anschlussleistung2dk);
 
         leuchteSearchStatement.setGeometry(searchGeom);
         return leuchteSearchStatement;

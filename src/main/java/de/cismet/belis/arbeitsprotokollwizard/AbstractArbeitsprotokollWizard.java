@@ -11,6 +11,8 @@
  */
 package de.cismet.belis.arbeitsprotokollwizard;
 
+import Sirius.server.middleware.types.MetaObjectNode;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -23,6 +25,9 @@ import javax.swing.Action;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import de.cismet.belis2.server.utils.LockAlreadyExistsException;
+
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 
@@ -42,6 +47,7 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
 
     //~ Instance fields --------------------------------------------------------
 
+    private ArbeitsauftragCustomBean arbeitsauftrag;
     private Collection<ArbeitsprotokollCustomBean> protokolle;
 
     //~ Methods ----------------------------------------------------------------
@@ -83,12 +89,32 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
      *
      * @return  DOCUMENT ME!
      */
+    public ArbeitsauftragCustomBean getArbeitsauftrag() {
+        return arbeitsauftrag;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  arbeitsauftrag  DOCUMENT ME!
+     */
+    public void setArbeitsauftrag(final ArbeitsauftragCustomBean arbeitsauftrag) {
+        this.arbeitsauftrag = arbeitsauftrag;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public abstract Action getAction();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  listener  DOCUMENT ME!
+     * @param   listener  DOCUMENT ME!
+     *
+     * @throws  LockAlreadyExistsException  DOCUMENT ME!
      */
     protected void executeAktion(final PropertyChangeListener listener) {
         final Collection<ArbeitsprotokollCustomBean> protokolle = getProtokolle();
@@ -100,13 +126,19 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
                 protected Void doInBackground() throws Exception {
                     int index = 0;
                     for (final ArbeitsprotokollCustomBean protokoll : protokolle) {
+                        Object result = null;
                         try {
                             listener.propertyChange(new PropertyChangeEvent(this, "progress", null, index));
-                            executeAktion(protokoll);
+                            result = executeAktion(protokoll);
                         } catch (final Exception ex) {
                             LOG.error(ex, ex);
                         }
                         index++;
+                        if (result instanceof Collection) {
+                            throw new LockAlreadyExistsException(
+                                "A lock for the desired object is already existing",
+                                (Collection<MetaObjectNode>)result);
+                        }
                     }
                     return null;
                 }
@@ -175,9 +207,11 @@ public abstract class AbstractArbeitsprotokollWizard extends JPanel {
      *
      * @param   protokoll  DOCUMENT ME!
      *
+     * @return  DOCUMENT ME!
+     *
      * @throws  Exception  DOCUMENT ME!
      */
-    protected abstract void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception;
+    protected abstract Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception;
 
     /**
      * DOCUMENT ME!

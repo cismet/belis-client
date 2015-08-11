@@ -763,7 +763,7 @@ public class ArbeitsauftragPanel extends AbstractDetailWidgetPanel<Arbeitsauftra
                             }
                         });
 
-                    arbeitsprotokollPanel1.setCurrentEntities(protokolle);
+                    arbeitsprotokollPanel1.setCurrentEntities(currentEntity, protokolle);
                     arbeitsprotokollPanel1.setPanelEditable(isEditable);
                 } else {
                     final Collection col = new ArrayList();

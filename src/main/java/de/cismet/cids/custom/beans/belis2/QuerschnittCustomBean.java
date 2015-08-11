@@ -72,13 +72,4 @@ public class QuerschnittCustomBean extends BaseEntity {
         this.groesse = groesse;
         this.propertyChangeSupport.firePropertyChange(PROP__GROESSE, old, this.groesse);
     }
-
-    @Override
-    public String toString() {
-        if (getGroesse() != null) {
-            return getGroesse().toString();
-        } else {
-            return "";
-        }
-    }
 }

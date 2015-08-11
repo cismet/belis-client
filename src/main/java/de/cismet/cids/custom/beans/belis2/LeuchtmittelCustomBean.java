@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.beans.belis2;
 
+import de.cismet.cids.custom.tostringconverter.belis2.LeuchtmittelToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -92,10 +94,5 @@ public class LeuchtmittelCustomBean extends BaseEntity {
         final String old = this.lichtfarbe;
         this.lichtfarbe = lichtfarbe;
         this.propertyChangeSupport.firePropertyChange(PROP__LICHTFARBE, old, this.lichtfarbe);
-    }
-
-    @Override
-    public String toString() {
-        return getHersteller() + " " + getLichtfarbe();
     }
 }

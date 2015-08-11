@@ -15,21 +15,21 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import java.awt.event.ActionEvent;
 
-import java.sql.Timestamp;
-
-import java.util.Collection;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import de.cismet.belis.broker.BelisBroker;
+import de.cismet.belis.broker.CidsBroker;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 
+import de.cismet.belis2.server.action.ProtokollAktion.AbstractProtokollServerAction;
+import de.cismet.belis2.server.action.ProtokollAktion.ProtokollLeuchteRundsteuerempfaengerwechselServerAction;
+
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
-import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollaktionCustomBean;
 import de.cismet.cids.custom.beans.belis2.RundsteuerempfaengerCustomBean;
-import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+
+import de.cismet.cids.server.actions.ServerActionParameter;
 
 /**
  * DOCUMENT ME!
@@ -142,19 +142,24 @@ public class LeuchteRundsteuerempfaengerwechselWizard extends AbstractArbeitspro
     }
 
     @Override
-    protected void executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
-        final TdtaLeuchtenCustomBean leuchte = protokoll.getFk_leuchte();
-
-        final Collection<ArbeitsprotokollaktionCustomBean> aktionen = protokoll.getN_aktionen();
-        aktionen.add(createAktion(
-                "Einbaudatum",
-                leuchte,
-                TdtaLeuchtenCustomBean.PROP__EINBAUDATUM,
-                new Timestamp(dapEinbaudatum.getDate().getTime())));
-        aktionen.add(createAktion(
-                "Rundsteuerempfänger",
-                leuchte,
-                TdtaLeuchtenCustomBean.PROP__RUNDSTEUEREMPFAENGER,
-                cbxRundsteuerempfaenger.getSelectedItem()));
+    protected Object executeAktion(final ArbeitsprotokollCustomBean protokoll) throws Exception {
+        return CidsBroker.getInstance()
+                    .executeServerAction(new ProtokollLeuchteRundsteuerempfaengerwechselServerAction().getTaskName(),
+                        null,
+                        new ServerActionParameter(
+                            AbstractProtokollServerAction.ParameterType.PROTOKOLL_ID.toString(),
+                            (protokoll != null) ? Integer.toString(protokoll.getId()) : null),
+                        new ServerActionParameter(
+                            ProtokollLeuchteRundsteuerempfaengerwechselServerAction.ParameterType.EINBAUDATUM
+                                .toString(),
+                            (dapEinbaudatum.getDate() != null) ? Long.toString(dapEinbaudatum.getDate().getTime())
+                                                               : null),
+                        new ServerActionParameter(
+                            ProtokollLeuchteRundsteuerempfaengerwechselServerAction.ParameterType.RUNDSTEUEREMPFAENGER
+                                .toString(),
+                            (cbxRundsteuerempfaenger.getSelectedItem() != null)
+                                ? Integer.toString(
+                                    ((RundsteuerempfaengerCustomBean)cbxRundsteuerempfaenger.getSelectedItem()).getId())
+                                : null));
     }
 }

@@ -17,10 +17,9 @@ import Sirius.navigator.exception.ConnectionException;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
 
 import org.apache.commons.collections.comparators.ReverseComparator;
-
-import java.sql.Date;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,20 +32,24 @@ import de.cismet.belis.commons.constants.BelisMetaClassConstants;
 
 import de.cismet.belis.gui.widget.KeyTableListener;
 
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
-import de.cismet.belisEE.exception.LockAlreadyExistsException;
+import de.cismet.belis2.server.action.LockEntitiesServerAction;
+import de.cismet.belis2.server.search.LockedEntitySearch;
+import de.cismet.belis2.server.utils.ActionNotSuccessfulException;
+import de.cismet.belis2.server.utils.LockAlreadyExistsException;
 
 import de.cismet.belisEE.util.EntityComparator;
 import de.cismet.belisEE.util.StandortKey;
 
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
 import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
-import de.cismet.cids.custom.beans.belis2.SperreEntityCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 
 import de.cismet.cids.dynamics.CidsBean;
 
+import de.cismet.cids.server.actions.ServerActionParameter;
 import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cismap.commons.BoundingBox;
@@ -113,6 +116,23 @@ public class CidsBroker {
     public void setProxy(final ConnectionProxy proxy) {
         this.proxy = proxy;
         CsvExportBackend.getInstance().init();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   taskname  DOCUMENT ME!
+     * @param   body      DOCUMENT ME!
+     * @param   params    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  ConnectionException  DOCUMENT ME!
+     */
+    public Object executeServerAction(final String taskname, final Object body, final ServerActionParameter... params)
+            throws ConnectionException {
+        final Object result = getProxy().executeTask(taskname, BELIS_DOMAIN, body, params);
+        return result;
     }
 
     /**
@@ -962,46 +982,51 @@ public class CidsBroker {
      */
     public SperreCustomBean lockEntities(final Collection<WorkbenchEntity> objectsToLock, final String userString)
             throws ActionNotSuccessfulException, LockAlreadyExistsException {
-        try {
-            if (objectsToLock != null) {
-                final Collection<SperreCustomBean> locks = checkIfLocked(objectsToLock);
-                if ((locks != null) && !locks.isEmpty()) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("A lock for the desired object is already existing");
-                    }
-                    // ToDo internationalise
-                    throw new LockAlreadyExistsException(
-                        "A lock for the desired object is already existing",
-                        locks);
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("There is no Lock for the object");
-                    }
+        final Collection<ServerActionParameter> entityKeySAP = new ArrayList<ServerActionParameter>();
 
-                    final SperreCustomBean newLock = SperreCustomBean.createNew();
-                    newLock.setTimestamp(new Date(new java.util.Date().getTime()));
-                    newLock.setUserString(userString);
-                    for (final BaseEntity objectToLock : objectsToLock) {
-                        final SperreEntityCustomBean newLockEntity = SperreEntityCustomBean.createNew();
-                        newLockEntity.setClassId(objectToLock.getMetaObject().getMetaClass().getId());
-                        newLockEntity.setObjectId(objectToLock.getId());
-                        newLock.getN_sperre_entities().add(newLockEntity);
+        final Collection<WorkbenchEntity> lockAlso = new ArrayList<WorkbenchEntity>();
+        for (final WorkbenchEntity objectToLock : objectsToLock) {
+            if (objectToLock instanceof ArbeitsauftragCustomBean) {
+                final ArbeitsauftragCustomBean arbeitsauftrag = (ArbeitsauftragCustomBean)objectToLock;
+                for (final ArbeitsprotokollCustomBean protokoll : arbeitsauftrag.getAr_protokolle()) {
+                    lockAlso.add(protokoll);
+                    final WorkbenchEntity childEntity = protokoll.getChildEntity();
+                    if (childEntity != null) {
+                        lockAlso.add(childEntity);
                     }
-                    return (SperreCustomBean)newLock.persist();
                 }
-            } else {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("The objectcollection to lock is null");
-                }
-                throw new ActionNotSuccessfulException("The objectcollection to lock is null");
             }
-        } catch (ActionNotSuccessfulException e) {
-            throw e;
-        } catch (LockAlreadyExistsException e) {
-            throw e;
-        } catch (final Exception ex) {
-            LOG.error("Exception while creating lock", ex);
-            throw new ActionNotSuccessfulException("Exception while creating lock", ex);
+        }
+
+        objectsToLock.addAll(lockAlso);
+
+        for (final WorkbenchEntity objectToLock : objectsToLock) {
+            entityKeySAP.add(new ServerActionParameter(
+                    LockEntitiesServerAction.ParameterType.ENTITY_KEY.name(),
+                    objectToLock.getId()
+                            + "@"
+                            + objectToLock.getMetaObject().getClassID()));
+        }
+
+        final Object ret;
+        try {
+            ret = executeServerAction(new LockEntitiesServerAction().getTaskName(),
+                    null,
+                    entityKeySAP.toArray(new ServerActionParameter[0]));
+        } catch (ConnectionException ex) {
+            throw new ActionNotSuccessfulException(ex.getMessage(), ex);
+        }
+        if (ret instanceof ActionNotSuccessfulException) {
+            throw (ActionNotSuccessfulException)ret;
+        } else if (ret instanceof LockAlreadyExistsException) {
+            throw (LockAlreadyExistsException)ret;
+        } else {
+            return (SperreCustomBean)CidsBroker.getInstance()
+                        .getMetaObject(
+                                ((MetaObjectNode)ret).getClassId(),
+                                ((MetaObjectNode)ret).getObjectId(),
+                                "BELIS2")
+                        .getBean();
         }
     }
 
@@ -1034,54 +1059,30 @@ public class CidsBroker {
     /**
      * DOCUMENT ME!
      *
-     * @param   objectToCheck  lockedObjects DOCUMENT ME!
+     * @param   objectsToCheck  lockedObjects DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  java.lang.Exception
      */
-    public Collection<SperreCustomBean> checkIfLocked(final Collection<WorkbenchEntity> objectToCheck) {
-        final Collection<SperreCustomBean> locks = new ArrayList<SperreCustomBean>();
+    public Collection<SperreCustomBean> checkIfLocked(final Collection<WorkbenchEntity> objectsToCheck)
+            throws Exception {
+        final Collection<String> entityKeys = new ArrayList<String>();
+        for (final WorkbenchEntity objectToCheck : objectsToCheck) {
+            entityKeys.add(objectToCheck.getId() + "@" + objectToCheck.getMetaObject().getClassID());
+        }
+        final Collection<MetaObjectNode> mons = (Collection<MetaObjectNode>)executeServerSearch(new LockedEntitySearch(
+                    entityKeys));
 
-        final Collection<String> whereList = new ArrayList<String>();
-        for (final BaseEntity lockedObject : objectToCheck) {
-            if (lockedObject != null) {
-                if (lockedObject.getMetaObject().getStatus() == MetaObject.NEW) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Entity is not yet persisted. Therefore it is surely not locked");
-                    }
-                } else {
-                    whereList.add("(class_id = " + lockedObject.getMetaObject().getMetaClass().getId()
-                                + " AND object_id = " + lockedObject.getId() + ")");
-                }
-            } else {
-                LOG.warn("Entity is null. could not check if its locked");
+        final Collection<SperreCustomBean> beanColl = new ArrayList<SperreCustomBean>();
+        for (final MetaObjectNode mon : mons) {
+            final MetaObject mo = CidsBroker.getInstance().getMetaObject(mon.getClassId(), mon.getObjectId(), "BELIS2");
+            if (mo != null) {
+                beanColl.add((SperreCustomBean)mo.getBean());
             }
         }
 
-        if (whereList.isEmpty()) {
-            return locks;
-        }
-
-        final String whereSnippet = implode(whereList.toArray(new String[0]), " OR ");
-        final MetaClass mcSperre = getMetaClass(SperreCustomBean.TABLE, BELIS_DOMAIN);
-        final MetaClass mcSperreEntity = getMetaClass(SperreEntityCustomBean.TABLE, BELIS_DOMAIN);
-        final String query = "SELECT DISTINCT " + mcSperre.getID() + ", " + mcSperre.getTableName() + "."
-                    + mcSperre.getPrimaryKey() + ", lock_timestamp" + " "
-                    + "FROM " + mcSperre.getTableName() + ", " + mcSperreEntity.getTableName() + " "
-                    + "WHERE sperre.id = fk_sperre AND " + whereSnippet + " "
-                    + "ORDER BY lock_timestamp;";
-        final MetaObject[] mos = getMetaObject(query, BELIS_DOMAIN);
-
-        if (mos != null) {
-            for (final MetaObject mo : mos) {
-                final SperreCustomBean lock = (SperreCustomBean)mo.getBean();
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("A lock for the desired object is already existing and is hold by: "
-                                + lock.getUserString());
-                }
-                locks.add(lock);
-            }
-        }
-        return locks;
+        return beanColl;
     }
 
     /**

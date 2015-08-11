@@ -146,9 +146,4 @@ public class UrlCustomBean extends BaseEntity {
     public void setObjektname(final String objektname) {
         setObject_name(objektname);
     }
-
-    @Override
-    public String toString() {
-        return "Url[id=" + getId() + "]";
-    }
 }

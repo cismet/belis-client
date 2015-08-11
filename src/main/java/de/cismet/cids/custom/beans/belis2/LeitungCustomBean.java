@@ -276,15 +276,6 @@ public class LeitungCustomBean extends WorkbenchFeatureEntity {
     }
 
     @Override
-    public String getKeyString() {
-        String leitungstyp = "";
-        if ((getLeitungstyp() != null) && (getLeitungstyp().getBezeichnung() != null)) {
-            leitungstyp = getLeitungstyp().getBezeichnung();
-        }
-        return leitungstyp;
-    }
-
-    @Override
     public GeomCustomBean getGeometrie() {
         return getFk_geom();
     }
@@ -312,12 +303,12 @@ public class LeitungCustomBean extends WorkbenchFeatureEntity {
     }
 
     @Override
-    public String getHumanReadablePosition() {
-        return "";
+    public String getKeyString() {
+        return new LeitungToStringConverter().getKeyString(this);
     }
 
     @Override
-    public String toString() {
-        return new LeitungToStringConverter().convert(this.getMetaObject());
+    public String getHumanReadablePosition() {
+        return new LeitungToStringConverter().getHumanReadablePosition(this);
     }
 }

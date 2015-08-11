@@ -11,6 +11,8 @@
  */
 package de.cismet.cids.custom.beans.belis2;
 
+import de.cismet.cids.custom.tostringconverter.belis2.RundsteuerempfaengerToStringConverter;
+
 import de.cismet.commons.server.entity.BaseEntity;
 
 /**
@@ -166,14 +168,5 @@ public class RundsteuerempfaengerCustomBean extends BaseEntity {
         final String old = this.programm;
         this.programm = programm;
         this.propertyChangeSupport.firePropertyChange(PROP__PROGRAMM, old, this.programm);
-    }
-
-    @Override
-    public String toString() {
-        if (getRs_typ() != null) {
-            return getRs_typ();
-        } else {
-            return "";
-        }
     }
 }
