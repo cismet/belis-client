@@ -1033,6 +1033,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
             popupMenu,
             metaCatalogueTree,
             searchResultsTree,
+            null,
             attributeViewer,
             attributeEditor,
             searchDialog,
