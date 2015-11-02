@@ -51,7 +51,7 @@ public class ArbeitsauftraegeReportDownload extends AbstractCancellableDownload 
      */
     public ArbeitsauftraegeReportDownload(final List<ArbeitsauftragCustomBean> arbeitsauftraege) {
         this.arbeitsauftraege = arbeitsauftraege;
-        final String jobname = DownloadManagerDialog.getJobname();
+        final String jobname = DownloadManagerDialog.getInstance().getJobName();
 
         this.directory = jobname;
         this.title = "Belis-AA";

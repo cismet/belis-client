@@ -1915,13 +1915,13 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                                 .add(new ByteArrayDownload(
                                         body.getBytes(),
                                         title,
-                                        DownloadManagerDialog.getJobname(),
+                                        DownloadManagerDialog.getInstance().getJobName(),
                                         title,
                                         ".csv"));
                     }
-                    final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.instance(getRootWindow());
+                    final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.getInstance();
                     downloadManagerDialog.pack();
-                    StaticSwingTools.showDialog(downloadManagerDialog);
+                    StaticSwingTools.showDialog(getRootWindow(), downloadManagerDialog, true);
                 }
             }
         }
@@ -3461,12 +3461,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
 //                    protected void done() {
 //                        try {
 //                            final ArbeitsauftraegeReportDownload download = get();
-            final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.instance(getRootWindow());
-            if (DownloadManagerDialog.showAskingForUserTitle(getRootWindow())) {
+            final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.getInstance();
+            if (DownloadManagerDialog.getInstance().showAskingForUserTitleDialog(getRootWindow())) {
                 DownloadManager.instance().add(reportDownload);
 
                 downloadManagerDialog.pack();
-                StaticSwingTools.showDialog(downloadManagerDialog);
+                StaticSwingTools.showDialog(getRootWindow(), downloadManagerDialog, true);
             }
 //                        } catch (final Exception ex) {
 //                            if (LOG.isDebugEnabled()) {
