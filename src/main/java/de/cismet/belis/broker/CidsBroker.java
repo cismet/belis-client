@@ -53,6 +53,7 @@ import de.cismet.cids.server.actions.ServerActionParameter;
 import de.cismet.cids.server.search.CidsServerSearch;
 
 import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.CrsTransformer;
 
 import de.cismet.commons.server.entity.BaseEntity;
 import de.cismet.commons.server.entity.WorkbenchEntity;
@@ -960,7 +961,7 @@ public class CidsBroker {
                         + " UNION SELECT 29, id, fk_geom FROM tdta_standort_mast) AS geom_objects, geom"
                         + " WHERE geom.id = geom_objects.fk_geom AND envelope(ST_geometryfromtext('"
                         + bb.getGeometryFromTextLineString()
-                        + "', -1)) && geom.geo_field",
+                        + "', " + CrsTransformer.getCurrentSrid() + ")) && geom.geo_field",
                 BELIS_DOMAIN);
         if (LOG.isDebugEnabled()) {
             LOG.debug("found: " + curClassResults);
@@ -1001,11 +1002,13 @@ public class CidsBroker {
         objectsToLock.addAll(lockAlso);
 
         for (final WorkbenchEntity objectToLock : objectsToLock) {
-            entityKeySAP.add(new ServerActionParameter(
-                    LockEntitiesServerAction.ParameterType.ENTITY_KEY.name(),
-                    objectToLock.getId()
-                            + "@"
-                            + objectToLock.getMetaObject().getClassID()));
+            if ((objectToLock.getId() != null) && (objectToLock.getMetaObject().getClassID() >= 0)) {
+                entityKeySAP.add(new ServerActionParameter(
+                        LockEntitiesServerAction.ParameterType.ENTITY_KEY.name(),
+                        objectToLock.getId()
+                                + "@"
+                                + objectToLock.getMetaObject().getClassID()));
+            }
         }
 
         final Object ret;

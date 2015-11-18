@@ -168,6 +168,7 @@ import de.cismet.cids.navigator.utils.SimpleMemoryMonitoringToolbarWidget;
 import de.cismet.cids.search.SearchQuerySearchMethod;
 
 import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.DefaultFeatureCollection;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
@@ -2398,7 +2399,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                     isFilterNormal(),
                     isFilterVeranlassung(),
                     isFilterArbeitsauftrag());
-            belisSearchStatement.setGeometry(bb.getGeometry(-1));
+            final int srid = CrsTransformer.extractSridFromCrs(CismapBroker.getInstance().getMappingComponent()
+                            .getMappingModel().getSrs().getCode());
+            final Geometry searchGeom = CrsTransformer.transformToDefaultCrs(bb.getGeometry(srid));
+            belisSearchStatement.setGeometry(searchGeom);
             CidsSearchExecutor.searchAndDisplayResultsWithDialog(belisSearchStatement);
         } catch (Exception ex) {
             LOG.error("Exception while searching boundingbox: ", ex);
