@@ -37,7 +37,6 @@ public class GeomCustomBean extends BaseEntity {
     private final WKTWriter WKT_WRITER = new WKTWriter();
     private final WKTReader WKT_READER = new WKTReader();
     private final int SRID_WGS84 = 4326;
-    private final int SRID_EPSG31466 = -1;
 
     private Geometry geo_field;
     private String wgs84_wkt;
@@ -146,9 +145,10 @@ public class GeomCustomBean extends BaseEntity {
                 final Geometry fromWkt = WKT_READER.read(wgs84_wkt);
                 fromWkt.setSRID(SRID_WGS84);
 
-                final String crs = CrsTransformer.createCrsFromSrid(SRID_EPSG31466);
+                final int currentSrid = CrsTransformer.getCurrentSrid();
+                final String crs = CrsTransformer.createCrsFromSrid(currentSrid);
                 final Geometry transformedGeom = CrsTransformer.transformToGivenCrs(fromWkt, crs);
-                transformedGeom.setSRID(SRID_EPSG31466);
+                transformedGeom.setSRID(currentSrid);
 
                 simpleSetGeo_field(transformedGeom);
             } catch (ParseException ex) {
