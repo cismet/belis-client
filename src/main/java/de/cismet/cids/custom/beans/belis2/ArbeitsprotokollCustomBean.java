@@ -584,7 +584,7 @@ public class ArbeitsprotokollCustomBean extends WorkbenchEntity {
                 }
             }
         } catch (final Exception ex) {
-            LOG.error(ex, ex);
+            LOG.warn("Problem during the refresh of the Veranlassungsschluessel (no problem if in legacy core", ex);
         }
         setVeranlassungsschluessel(schluessel);
     }
