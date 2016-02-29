@@ -30,7 +30,6 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +42,7 @@ import de.cismet.belis.broker.BelisBroker;
 import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
 import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
 
+import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.HeadlessMapProvider;
 import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.features.DefaultXStyledFeature;
@@ -229,7 +229,7 @@ public class ReportingArbeitsauftrag {
         }
         if (union != null) {
             union = union.getEnvelope().buffer(OVERVIEWMAP_BUFFER);
-            union.setSRID(31466);
+            union.setSRID(CrsTransformer.getCurrentSrid());
         }
 
         mapProvider.addLayer(overviewMap);
@@ -261,7 +261,7 @@ public class ReportingArbeitsauftrag {
     private BufferedImage getPositionImageFrom(final WorkbenchFeatureEntity bean) {
         if (bean.getGeometry() != null) {
             final Geometry geom = bean.getGeometry().getEnvelope().buffer(POSITIONMAP_BUFFER);
-            geom.setSRID(31466);
+            geom.setSRID(CrsTransformer.getCurrentSrid());
             try {
                 mapProvider.setBoundingBox(new XBoundingBox(geom));
                 return (BufferedImage)mapProvider.getImageAndWait(

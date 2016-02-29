@@ -188,7 +188,7 @@ public class BelisReporter {
         jasperReport = (JasperReport)JRLoader.loadObject(BelisReporter.class.getResourceAsStream(
                     "/de/cismet/belis/reports/arbeitsauftraege.jasper"));
         jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-        final String jobname = DownloadManagerDialog.getJobname();
+        final String jobname = DownloadManagerDialog.getInstance().getJobName();
         return new JasperDownload(jasperPrint, jobname, "Belis-AA", "belis.aa");
     }
 }

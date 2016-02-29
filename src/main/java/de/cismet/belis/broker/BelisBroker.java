@@ -167,6 +167,7 @@ import de.cismet.cids.navigator.utils.SimpleMemoryMonitoringToolbarWidget;
 import de.cismet.cids.search.SearchQuerySearchMethod;
 
 import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.DefaultFeatureCollection;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
@@ -1912,13 +1913,13 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                                 .add(new ByteArrayDownload(
                                         body.getBytes(),
                                         title,
-                                        DownloadManagerDialog.getJobname(),
+                                        DownloadManagerDialog.getInstance().getJobName(),
                                         title,
                                         ".csv"));
                     }
-                    final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.instance(getRootWindow());
+                    final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.getInstance();
                     downloadManagerDialog.pack();
-                    StaticSwingTools.showDialog(downloadManagerDialog);
+                    StaticSwingTools.showDialog(getRootWindow(), downloadManagerDialog, true);
                 }
             }
         }
@@ -2395,7 +2396,10 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                     isFilterNormal(),
                     isFilterVeranlassung(),
                     isFilterArbeitsauftrag());
-            belisSearchStatement.setGeometry(bb.getGeometry(-1));
+            final int srid = CrsTransformer.extractSridFromCrs(CismapBroker.getInstance().getMappingComponent()
+                            .getMappingModel().getSrs().getCode());
+            final Geometry searchGeom = CrsTransformer.transformToDefaultCrs(bb.getGeometry(srid));
+            belisSearchStatement.setGeometry(searchGeom);
             CidsSearchExecutor.searchAndDisplayResultsWithDialog(belisSearchStatement);
         } catch (Exception ex) {
             LOG.error("Exception while searching boundingbox: ", ex);
@@ -3458,12 +3462,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
 //                    protected void done() {
 //                        try {
 //                            final ArbeitsauftraegeReportDownload download = get();
-            final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.instance(getRootWindow());
-            if (DownloadManagerDialog.showAskingForUserTitle(getRootWindow())) {
+            final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.getInstance();
+            if (DownloadManagerDialog.getInstance().showAskingForUserTitleDialog(getRootWindow())) {
                 DownloadManager.instance().add(reportDownload);
 
                 downloadManagerDialog.pack();
-                StaticSwingTools.showDialog(downloadManagerDialog);
+                StaticSwingTools.showDialog(getRootWindow(), downloadManagerDialog, true);
             }
 //                        } catch (final Exception ex) {
 //                            if (LOG.isDebugEnabled()) {

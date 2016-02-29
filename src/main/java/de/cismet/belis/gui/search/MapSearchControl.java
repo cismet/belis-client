@@ -104,7 +104,7 @@ public class MapSearchControl extends javax.swing.JPanel implements SearchContro
             log.debug("Search with boundingBox");
         }
         broker.fireSearchStarted();
-        broker.search(broker.getMappingComponent().getCurrentBoundingBox());
+        broker.search(broker.getMappingComponent().getCurrentBoundingBoxFromCamera());
     }                                                                         //GEN-LAST:event_cmdOkActionPerformed
 
     @Override

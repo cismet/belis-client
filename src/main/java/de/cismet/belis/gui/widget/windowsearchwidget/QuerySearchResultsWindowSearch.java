@@ -164,13 +164,12 @@ public class QuerySearchResultsWindowSearch extends JPanel implements BelisWindo
                                     new CsvExportSearchDownload(
                                         search,
                                         title,
-                                        DownloadManagerDialog.getJobname(),
+                                        DownloadManagerDialog.getInstance().getJobName(),
                                         title,
                                         header));
-                        final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.instance(
-                                StaticSwingTools.getParentFrame(QuerySearchResultsWindowSearch.this));
-                        downloadManagerDialog.pack();
-                        StaticSwingTools.showDialog(downloadManagerDialog);
+                        final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.getInstance();
+                        StaticSwingTools.showDialog(
+                                StaticSwingTools.getParentFrame(QuerySearchResultsWindowSearch.this), downloadManagerDialog, true);
                     }
                 }
             });
