@@ -12,7 +12,7 @@
         <properties>
             <jalopy.skip>true</jalopy.skip>
             <exec.classpathScope>runtime</exec.classpathScope>
-            <exec.args>-Ddirectory.extension=Belis2 -Xms256m -Xmx1024m -Duser.country=DE -classpath ${de.cismet.cids.classpath} -Duser.language=de -Djnlp.callserverhost=http://localhost:9917/callserver/binary -Djnlp.domain=BELIS2 de.cismet.belis.client.BelisClient</exec.args>
+            <exec.args>-Ddirectory.extension=Belis2 -Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=8990,suspend=n -Xms256m -Xmx1024m -Duser.country=DE -classpath ${de.cismet.cids.classpath} -Duser.language=de -Djnlp.callserverhost=http://localhost:9917/callserver/binary -Djnlp.domain=BELIS2 de.cismet.belis.client.BelisClient</exec.args>
             <exec.executable>java</exec.executable>
         </properties>
     </action>

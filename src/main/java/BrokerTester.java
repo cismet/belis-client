@@ -9,7 +9,6 @@
 import Sirius.navigator.connection.*;
 import Sirius.navigator.connection.proxy.ConnectionProxy;
 import Sirius.navigator.exception.ConnectionException;
-import Sirius.navigator.search.dynamic.SearchDialog;
 import Sirius.navigator.types.treenode.RootTreeNode;
 import Sirius.navigator.ui.DescriptionPane;
 import Sirius.navigator.ui.DescriptionPaneFS;
@@ -114,7 +113,6 @@ public class BrokerTester {
         final LayoutedContainer container = new LayoutedContainer(toolBar, menuBar, true);
         final AttributeViewer attributeViewer = new AttributeViewer();
         final AttributeEditor attributeEditor = new ExtendedNavigatorAttributeEditorGui();
-        final SearchDialog searchDialog = null;
 
         final DescriptionPane descriptionPane = new DescriptionPaneFS();
         final MutablePopupMenu popupMenu = new MutablePopupMenu();

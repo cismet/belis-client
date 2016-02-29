@@ -13,7 +13,6 @@ import Sirius.navigator.event.CatalogueSelectionListener;
 import Sirius.navigator.plugin.ui.PluginMenuItem;
 import Sirius.navigator.resource.PropertyManager;
 import Sirius.navigator.search.CidsSearchExecutor;
-import Sirius.navigator.search.dynamic.SearchDialog;
 import Sirius.navigator.types.treenode.RootTreeNode;
 import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.navigator.ui.DescriptionPane;
@@ -978,7 +977,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
         final LayoutedContainer container = new LayoutedContainer(toolBar, menuBar, true);
         final AttributeViewer attributeViewer = new AttributeViewer();
         final AttributeEditor attributeEditor = new ExtendedNavigatorAttributeEditorGui();
-        final SearchDialog searchDialog = null;
 
         final DescriptionPane descriptionPane = new DescriptionPaneFS();
         final MutablePopupMenu popupMenu = new MutablePopupMenu();
@@ -1036,7 +1034,6 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
             null,
             attributeViewer,
             attributeEditor,
-            searchDialog,
             descriptionPane);
 
         searchResultsTree.addPropertyChangeListener("browse", new PropertyChangeListener() {
