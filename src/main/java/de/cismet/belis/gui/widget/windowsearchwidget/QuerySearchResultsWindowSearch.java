@@ -169,7 +169,9 @@ public class QuerySearchResultsWindowSearch extends JPanel implements BelisWindo
                                         header));
                         final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.getInstance();
                         StaticSwingTools.showDialog(
-                                StaticSwingTools.getParentFrame(QuerySearchResultsWindowSearch.this), downloadManagerDialog, true);
+                            StaticSwingTools.getParentFrame(QuerySearchResultsWindowSearch.this),
+                            downloadManagerDialog,
+                            true);
                     }
                 }
             });

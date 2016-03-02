@@ -961,7 +961,9 @@ public class CidsBroker {
                         + " UNION SELECT 29, id, fk_geom FROM tdta_standort_mast) AS geom_objects, geom"
                         + " WHERE geom.id = geom_objects.fk_geom AND envelope(ST_geometryfromtext('"
                         + bb.getGeometryFromTextLineString()
-                        + "', " + CrsTransformer.getCurrentSrid() + ")) && geom.geo_field",
+                        + "', "
+                        + CrsTransformer.getCurrentSrid()
+                        + ")) && geom.geo_field",
                 BELIS_DOMAIN);
         if (LOG.isDebugEnabled()) {
             LOG.debug("found: " + curClassResults);
