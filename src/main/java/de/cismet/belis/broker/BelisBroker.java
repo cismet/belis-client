@@ -317,6 +317,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
     private ConfigurationManager configManager;
     private JToolBar toolbar;
     private String applicationName;
+    private String totd;
     private StatusBar statusbar;
     private boolean statusBarEnabled = true;
     private String account;
@@ -1542,6 +1543,24 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
      */
     public void setApplicatioName(final String applicationName) {
         this.applicationName = applicationName;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  totd  DOCUMENT ME!
+     */
+    public void setTotd(final String totd) {
+        this.totd = totd;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getTotd() {
+        return totd;
     }
 
     /**
