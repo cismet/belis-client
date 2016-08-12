@@ -1757,13 +1757,7 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
 
                     @Override
                     public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                        final String oldMode = getMappingComponent().getInteractionMode();
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("oldInteractionMode:" + oldMode);
-                        }
-                        // Enumeration en = cmdGroupPrimaryInteractionMode.getElements();
-                        // togInvisible.setSelected(true);
-                        getMappingComponent().showPrintingSettingsDialog(oldMode);
+                        getMappingComponent().showPrintingSettingsDialog();
                     }
                 });
 
