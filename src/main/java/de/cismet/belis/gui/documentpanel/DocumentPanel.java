@@ -32,11 +32,11 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringReader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -44,7 +44,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ResourceBundle;
+import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -63,16 +63,19 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
-import javax.swing.ProgressMonitorInputStream;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.TransferHandler;
 import javax.swing.TransferHandler.TransferSupport;
 
+import de.cismet.belis.broker.CidsBroker;
+
 import de.cismet.belis.gui.utils.UIUtils;
 
+import de.cismet.belis2.server.utils.BelisServerResources;
+
 import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
+import de.cismet.cids.custom.wunda_blau.search.actions.GetServerResourceServerAction;
 
 import de.cismet.commons.security.WebDavClient;
 import de.cismet.commons.security.WebDavHelper;
@@ -125,10 +128,19 @@ public final class DocumentPanel extends javax.swing.JPanel {
         String user = null;
         String webDavRoot = null;
         try {
-            final ResourceBundle bundle = ResourceBundle.getBundle("WebDavBelis");
-            pass = bundle.getString("password");
-            user = bundle.getString("username");
-            webDavRoot = bundle.getString("url");
+            final Object ret = CidsBroker.getInstance()
+                        .executeServerAction(
+                            GetServerResourceServerAction.TASK_NAME,
+                            BelisServerResources.WEBDAV.getValue());
+            if (ret instanceof Exception) {
+                throw (Exception)ret;
+            }
+            final Properties properties = new Properties();
+            properties.load(new StringReader((String)ret));
+
+            pass = properties.getProperty("password");
+            user = properties.getProperty("username");
+            webDavRoot = properties.getProperty("url");
 
             if ((pass != null) && pass.startsWith(PasswordEncrypter.CRYPT_PREFIX)) {
                 pass = PasswordEncrypter.decryptString(pass);
