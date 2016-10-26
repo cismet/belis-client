@@ -75,7 +75,8 @@ import de.cismet.belis.gui.utils.UIUtils;
 import de.cismet.belis2.server.utils.BelisServerResources;
 
 import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
-import de.cismet.cids.custom.wunda_blau.search.actions.GetServerResourceServerAction;
+
+import de.cismet.cids.server.actions.GetServerResourceServerAction;
 
 import de.cismet.commons.security.WebDavClient;
 import de.cismet.commons.security.WebDavHelper;
