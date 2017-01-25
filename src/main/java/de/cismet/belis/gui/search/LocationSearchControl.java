@@ -12,18 +12,7 @@
  */
 package de.cismet.belis.gui.search;
 
-import org.apache.commons.collections.comparators.ReverseComparator;
-
-import java.util.TreeSet;
-
 import de.cismet.belis.broker.BelisBroker;
-
-import de.cismet.belis.todo.RetrieveWorker;
-
-import de.cismet.belis.util.BelisIcons;
-
-import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cismap.commons.wfsforms.WFSFormFeature;
 
@@ -38,14 +27,16 @@ import de.cismet.commons.architecture.util.ArchitectureUtils;
  */
 public class LocationSearchControl extends javax.swing.JPanel implements SearchControl {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LocationSearchControl.class);
+
     //~ Instance fields --------------------------------------------------------
 
-    private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(LocationSearchControl.class);
     private BelisBroker broker;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton cmdOk;
-    protected javax.swing.JPanel panEmpty;
     protected javax.swing.JPanel panEmpty1;
     private javax.swing.JTextField txfKennziffer;
     private javax.swing.JTextField txfLaufendenummer;
@@ -62,7 +53,6 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
     public LocationSearchControl(final BelisBroker broker) {
         this.broker = broker;
         initComponents();
-        cmdOk.setIcon(BelisIcons.icoSearch22);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -81,7 +71,6 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         cmdOk = new javax.swing.JButton();
         txfStrassenschluessel = new javax.swing.JTextField();
         txfKennziffer = new javax.swing.JTextField();
-        panEmpty = new javax.swing.JPanel();
 
         panEmpty1.setMinimumSize(new java.awt.Dimension(1, 19));
         panEmpty1.setOpaque(false);
@@ -99,9 +88,7 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
                 25,
                 Short.MAX_VALUE));
 
-        setMinimumSize(new java.awt.Dimension(250, 25));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(250, 100));
         setLayout(new java.awt.GridBagLayout());
 
         txfLaufendenummer.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -111,20 +98,18 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 2;
-        gridBagConstraints.weightx = 30.0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 0);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 0, 2);
         add(txfLaufendenummer, gridBagConstraints);
 
-        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
+        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13));                           // NOI18N
+        cmdOk.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/22/search.png"))); // NOI18N
         cmdOk.setMnemonic('P');
         cmdOk.setText("Objektschlüssel");
         cmdOk.setBorder(null);
         cmdOk.setBorderPainted(false);
         cmdOk.setFocusable(false);
-        cmdOk.setMaximumSize(new java.awt.Dimension(139, 23));
-        cmdOk.setMinimumSize(new java.awt.Dimension(139, 23));
-        cmdOk.setPreferredSize(new java.awt.Dimension(139, 23));
         cmdOk.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -135,73 +120,31 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 2);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 3);
         add(cmdOk, gridBagConstraints);
 
         txfStrassenschluessel.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txfStrassenschluessel.setMaximumSize(new java.awt.Dimension(2147483647, 18));
-        txfStrassenschluessel.setMinimumSize(new java.awt.Dimension(10, 18));
+        txfStrassenschluessel.setMinimumSize(new java.awt.Dimension(50, 18));
         txfStrassenschluessel.setPreferredSize(new java.awt.Dimension(65, 18));
-        txfStrassenschluessel.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    txfStrassenschluesselActionPerformed(evt);
-                }
-            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 44;
-        gridBagConstraints.weightx = 30.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(2, 3, 0, 2);
         add(txfStrassenschluessel, gridBagConstraints);
 
         txfKennziffer.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txfKennziffer.setMaximumSize(new java.awt.Dimension(2147483647, 18));
-        txfKennziffer.setMinimumSize(new java.awt.Dimension(18, 18));
-        txfKennziffer.setPreferredSize(new java.awt.Dimension(20, 18));
-        txfKennziffer.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    txfKennzifferActionPerformed(evt);
-                }
-            });
+        txfKennziffer.setMinimumSize(new java.awt.Dimension(25, 18));
+        txfKennziffer.setPreferredSize(new java.awt.Dimension(30, 18));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 3;
-        gridBagConstraints.weightx = 30.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 0);
-        add(txfKennziffer, gridBagConstraints);
-
-        panEmpty.setMinimumSize(new java.awt.Dimension(1, 19));
-        panEmpty.setOpaque(false);
-        panEmpty.setPreferredSize(new java.awt.Dimension(1, 19));
-
-        final javax.swing.GroupLayout panEmptyLayout = new javax.swing.GroupLayout(panEmpty);
-        panEmpty.setLayout(panEmptyLayout);
-        panEmptyLayout.setHorizontalGroup(
-            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                0,
-                Short.MAX_VALUE));
-        panEmptyLayout.setVerticalGroup(
-            panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
-                0,
-                0,
-                Short.MAX_VALUE));
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 99.0;
-        gridBagConstraints.weighty = 1.0;
-        add(panEmpty, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 0, 2);
+        add(txfKennziffer, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -211,50 +154,24 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
      */
     private void cmdOkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_cmdOkActionPerformed
         broker.fireSearchStarted();
-        broker.setCurrentSearchResults(new TreeSet(
-                new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))));
-        broker.setLastSearch(new RetrieveWorker(
-                broker,
-                txfStrassenschluessel.getText(),
-                txfKennziffer.getText(),
-                txfLaufendenummer.getText()));
-        broker.execute(new RetrieveWorker(
-                broker,
-                txfStrassenschluessel.getText(),
-                txfKennziffer.getText(),
-                txfLaufendenummer.getText()));
-        // boolean history = true; MappingComponent mc=getMappingComponent(); if (mc==null) {
-        // mc=CismapBroker.getInstance().getMappingComponent(); } boolean
-        // scaling=!(mc.isFixedMapScale())&&!(chkLockScale.isSelected()); BoundingBox bb=null; int
-        // animation=mc.getAnimationDuration(); if (nr!=null) { if (scaling) { bb=new BoundingBox(nr.getJTSGeometry());
-        // } else { bb=new BoundingBox(nr.getPosition().buffer(AbstractWFSForm.FEATURE_BORDER)); } } else if
-        // (strasse!=null) { if (scaling) { bb=new BoundingBox log.debug("requestRefresh(+" + component + "," + value +
-        // ")"); if (lastFeature == null || !(value.getIdentifier().equals(lastFeature.getIdentifier()))) { lastFeature
-        // = value;public String getBrokerName() { return brokerName; } WFSFormQuery q =
-        // queriesByComponentName.get(component); if (q != null) { HashMap<String, String> hm = new HashMap<String,
-        // String>(); hm.put(q.getQueryPlaceholder(), value.getIdentifier()); requestRefresh(component, hm); }
-        // }(strasse.getJTSGeometry()); } else { bb=new
-        // BoundingBox(strasse.getPosition().buffer(AbstractWFSForm.FEATURE_BORDER)); } } else { return; }
-        // mc.gotoBoundingBox(bb,history,scaling,animation); chkVisualizeActionPerformed(null);
-    }                                                                         //GEN-LAST:event_cmdOkActionPerformed
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void txfKennzifferActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txfKennzifferActionPerformed
-// TODO add your handling code here:
-    } //GEN-LAST:event_txfKennzifferActionPerformed
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void txfStrassenschluesselActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_txfStrassenschluesselActionPerformed
-// TODO add your handling code here:
-    } //GEN-LAST:event_txfStrassenschluesselActionPerformed
+        final String strassenschluessel = (txfStrassenschluessel.getText().isEmpty()) ? null
+                                                                                      : txfStrassenschluessel.getText();
+        Integer kennziffer = null;
+        try {
+            kennziffer = (txfKennziffer.getText().isEmpty()) ? null : Integer.parseInt(txfKennziffer.getText());
+        } catch (final Exception ex) {
+            LOG.info("error while parsing kennziffer", ex);
+        }
+        Integer laufendeNummer = null;
+        try {
+            laufendeNummer = (txfLaufendenummer.getText().isEmpty()) ? null
+                                                                     : Integer.parseInt(txfLaufendenummer.getText());
+        } catch (final Exception ex) {
+            LOG.info("error while parsing laufende Nummer", ex);
+        }
+        broker.search(strassenschluessel, kennziffer, laufendeNummer);
+    } //GEN-LAST:event_cmdOkActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -263,87 +180,20 @@ public class LocationSearchControl extends javax.swing.JPanel implements SearchC
      * @param  value      DOCUMENT ME!
      */
     public void requestRefresh(final String component, final WFSFormFeature value) {
-//        log.debug("requestRefresh(+" + component + "," + value + ")");
-//        if (lastFeature == null || !(value.getIdentifier().equals(lastFeature.getIdentifier()))) {
-//            lastFeature = value;
-//            WFSFormQuery q = queriesByComponentName.get(component);
-//            if (q != null) {
-//                HashMap<String, String> hm = new HashMap<String, String>();
-//                hm.put(q.getQueryPlaceholder(), value.getIdentifier());
-//                requestRefresh(component, hm);
-//            }
-//        }
     }
-
-//    public class EJBComBoxModel extends AbstractListModel implements ComboBoxModel {
-//
-//        private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(EJBComBoxModel.class);
-//        private final ArrayList entities = new ArrayList();
-//        private Object selectedItem = null;
-//        private Class modelType;
-//
-//        public Object getElementAt(int index) {
-//            return entities.get(index);
-//        }
-//
-//        public EJBComBoxModel(Class modelType) {
-//            this.modelType = modelType;
-//            RetrieveWorker retrieveWorker = new RetrieveWorker();
-//            BrokerLookup.getInstance().getBrokerForName(brokerName).execute(retrieveWorker);
-//        }
-//
 
     @Override
     public void searchFinished() {
-        setSearchEnabled(true);
+//        setSearchEnabled(true);
     }
 
     @Override
     public void searchStarted() {
-        setSearchEnabled(false);
+//        setSearchEnabled(false);
     }
 
     @Override
     public void setSearchEnabled(final boolean isSearchEnabled) {
         ArchitectureUtils.enableContainerRecursivley(this, isSearchEnabled);
     }
-
-//
-//        public int getSize() {
-//            return entities.size();
-//        }
-//
-//        public Object getSelectedItem() {
-//            return selectedItem;
-//        }
-//
-//        public void setSelectedItem(Object anItem) {
-//            selectedItem = anItem;
-//        }
-//    }
-//
-//    public class EJBRenderer extends DefaultListCellRenderer {
-//
-//        /** Creates a new instance of ReBeCboRenderer */
-//        public EJBRenderer() {
-//            super();
-//            setHorizontalAlignment(SwingConstants.CENTER);
-//        }
-//
-//        @Override
-//        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-//            Component tmpComp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-//            if (value != null && value instanceof Strassenschluessel) {
-//                setText(((Strassenschluessel) value).getStrasse());
-//            } else if (value != null && value instanceof Kennziffer) {
-//                setText(((Kennziffer) value).getBeschreibung());
-//            } else if (value != null) {
-//                setText(value.toString());
-//            } else {
-//                setText("");
-//            }
-//            setHorizontalAlignment(SwingConstants.LEFT);
-//            return tmpComp;
-//        }
-//    }
 }

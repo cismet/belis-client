@@ -5,98 +5,212 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * LagisBroker.java
- *
- * Created on 20. April 2007, 13:16
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
 package de.cismet.belis.broker;
 
-import org.apache.commons.collections.comparators.ReverseComparator;
+import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.event.CatalogueActivationListener;
+import Sirius.navigator.event.CatalogueSelectionListener;
+import Sirius.navigator.plugin.ui.PluginMenuItem;
+import Sirius.navigator.resource.PropertyManager;
+import Sirius.navigator.search.CidsSearchExecutor;
+import Sirius.navigator.types.treenode.RootTreeNode;
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.DescriptionPane;
+import Sirius.navigator.ui.DescriptionPaneFS;
+import Sirius.navigator.ui.LayoutedContainer;
+import Sirius.navigator.ui.MutableMenuBar;
+import Sirius.navigator.ui.MutablePopupMenu;
+import Sirius.navigator.ui.MutableToolBar;
+import Sirius.navigator.ui.attributes.AttributeViewer;
+import Sirius.navigator.ui.attributes.editor.AttributeEditor;
+import Sirius.navigator.ui.tree.MetaCatalogueTree;
+import Sirius.navigator.ui.tree.SearchResultsTree;
 
-import org.jdesktop.beansbinding.BindingGroup;
-import org.jdesktop.swingx.search.TreeSearchable;
+import Sirius.server.middleware.types.MetaClass;
+import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.middleware.types.MetaObjectNode;
+import Sirius.server.middleware.types.Node;
+
+import com.vividsolutions.jts.geom.Geometry;
+
+import net.infonode.docking.RootWindow;
+import net.infonode.gui.componentpainter.GradientComponentPainter;
+
+import org.apache.commons.collections.comparators.ReverseComparator;
+import org.apache.log4j.PropertyConfigurator;
+
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
+import org.jdesktop.swingx.decorator.ComponentAdapter;
+import org.jdesktop.swingx.decorator.CompoundHighlighter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.decorator.Highlighter;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.jdesktop.swingx.error.ErrorInfo;
+import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
 
+import org.openide.util.Exceptions;
+import org.openide.util.Lookup;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.tree.TreePath;
 
-import de.cismet.belis.gui.search.AddressSearchControl;
+import de.cismet.belis.arbeitsprotokollwizard.AbstractArbeitsprotokollWizard;
+
+import de.cismet.belis.gui.reports.ArbeitsauftraegeReportDownload;
 import de.cismet.belis.gui.search.LocationSearchControl;
 import de.cismet.belis.gui.search.MapSearchControl;
 import de.cismet.belis.gui.search.SearchControl;
 import de.cismet.belis.gui.search.SearchController;
+import de.cismet.belis.gui.widget.BelisWidget;
 import de.cismet.belis.gui.widget.DetailWidget;
+import de.cismet.belis.gui.widget.ExtendedNavigatorAttributeEditorGui;
+import de.cismet.belis.gui.widget.KeyTableListener;
+import de.cismet.belis.gui.widget.MapWidget;
 import de.cismet.belis.gui.widget.WorkbenchWidget;
+import de.cismet.belis.gui.widget.windowsearchwidget.QuerySearchResultsWindowSearch;
 
 import de.cismet.belis.panels.AlreadyLockedObjectsPanel;
 import de.cismet.belis.panels.CancelWaitDialog;
+import de.cismet.belis.panels.CopyPasteToolbar;
 import de.cismet.belis.panels.CreateToolBar;
-import de.cismet.belis.panels.SaveErrorDialogPanel;
+import de.cismet.belis.panels.EditButtonsToolbar;
+import de.cismet.belis.panels.FilterToolBar;
+import de.cismet.belis.panels.LockWaitDialog;
+import de.cismet.belis.panels.ReleaseWaitDialog;
 import de.cismet.belis.panels.SaveWaitDialog;
 import de.cismet.belis.panels.SearchWaitDialog;
 
+import de.cismet.belis.todo.CustomMutableTreeTableNode;
+import de.cismet.belis.todo.CustomTreeTableModel;
 import de.cismet.belis.todo.RetrieveWorker;
 
 import de.cismet.belis.util.BelisIcons;
 
-import de.cismet.belisEE.entity.Doppelkommando;
-import de.cismet.belisEE.entity.Leitung;
-import de.cismet.belisEE.entity.Leitungstyp;
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Lock;
-import de.cismet.belisEE.entity.Mauerlasche;
-import de.cismet.belisEE.entity.Standort;
-import de.cismet.belisEE.entity.Strassenschluessel;
-import de.cismet.belisEE.entity.UnterhaltLeuchte;
-import de.cismet.belisEE.entity.UnterhaltMast;
-
-import de.cismet.belisEE.exception.ActionNotSuccessfulException;
-import de.cismet.belisEE.exception.LockAlreadyExistsException;
+import de.cismet.belis2.server.search.ArbeitsauftragSearchStatement;
+import de.cismet.belis2.server.search.BelisLocationSearchStatement;
+import de.cismet.belis2.server.search.BelisSearchStatement;
+import de.cismet.belis2.server.search.BelisTopicSearchStatement;
+import de.cismet.belis2.server.utils.ActionNotSuccessfulException;
+import de.cismet.belis2.server.utils.LockAlreadyExistsException;
 
 import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
+
+import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.GeometrieCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeitungstypCustomBean;
+import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyDoppelkommandoCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyStrassenschluesselCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyUnterhLeuchteCustomBean;
+import de.cismet.cids.custom.beans.belis2.TkeyUnterhMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
+
+import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.cids.editors.DefaultBindableReferenceCombo;
+
+import de.cismet.cids.navigator.utils.SimpleMemoryMonitoringToolbarWidget;
+
+import de.cismet.cids.search.SearchQuerySearchMethod;
 
 import de.cismet.cismap.commons.BoundingBox;
+import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.features.DefaultFeatureCollection;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.StyledFeature;
+import de.cismet.cismap.commons.gui.MappingComponent;
+import de.cismet.cismap.commons.gui.statusbar.StatusBar;
+import de.cismet.cismap.commons.interaction.CismapBroker;
+import de.cismet.cismap.commons.interaction.StatusListener;
+import de.cismet.cismap.commons.interaction.events.StatusEvent;
 import de.cismet.cismap.commons.tools.IconUtils;
 
-import de.cismet.commons.architecture.broker.AdvancedPluginBroker;
-import de.cismet.commons.architecture.exception.LockingNotSuccessfulException;
-import de.cismet.commons.architecture.exception.UnlockingNotSuccessfulException;
-import de.cismet.commons.architecture.interfaces.Widget;
-import de.cismet.commons.architecture.widget.MapWidget;
+import de.cismet.cismap.navigatorplugin.MetaSearchHelper;
 
-import de.cismet.commons.server.entity.GeoBaseEntity;
+import de.cismet.commons.architecture.exception.LockingNotSuccessfulException;
+import de.cismet.commons.architecture.geometrySlot.GeometrySlot;
+import de.cismet.commons.architecture.geometrySlot.GeometrySlotInformation;
+import de.cismet.commons.architecture.geometrySlot.GeometrySlotProvider;
+import de.cismet.commons.architecture.interfaces.Clearable;
+import de.cismet.commons.architecture.interfaces.Editable;
+import de.cismet.commons.architecture.interfaces.FeatureSelectionChangedListener;
+import de.cismet.commons.architecture.interfaces.ObjectChangeListener;
+import de.cismet.commons.architecture.plugin.AbstractPlugin;
+import de.cismet.commons.architecture.validation.Validatable;
+
+import de.cismet.commons.server.entity.BaseEntity;
+import de.cismet.commons.server.entity.WorkbenchEntity;
+import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
+
+import de.cismet.commons2.architecture.layout.LayoutManager;
 
 import de.cismet.tools.CurrentStackTrace;
 
+import de.cismet.tools.configuration.Configurable;
+import de.cismet.tools.configuration.ConfigurationManager;
+import de.cismet.tools.configuration.NoWriteError;
+
+import de.cismet.tools.gui.DefaultPopupMenuListener;
 import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.downloadmanager.ByteArrayDownload;
+import de.cismet.tools.gui.downloadmanager.DownloadManager;
+import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 
 import de.cismet.veto.VetoException;
-import de.cismet.veto.VetoListener;
 
 /**
  * DOCUMENT ME!
@@ -104,73 +218,2087 @@ import de.cismet.veto.VetoListener;
  * @author   Puhl
  * @version  $Revision$, $Date$
  */
-public class BelisBroker extends AdvancedPluginBroker implements SearchController,
-    PropertyChangeListener,
-    VetoListener { // implements FlurstueckChangeObserver, Configurable {
+//Logging
+public class BelisBroker implements SearchController, PropertyChangeListener, Configurable {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BelisBroker.class);
+    private static BelisBroker INSTANCE;
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BelisBroker.class);
+    // ToDo depper ?
+    // COLORS
+    // ToDo another class
+    public static final Color yellow = new Color(231, 223, 84);
+    public static final Color red = new Color(219, 96, 96);
+    public static final Color blue = new Color(124, 160, 221);
+    public static final String PROP_IN_EDIT_MODE = "inEditMode";
+    public static final String PROP_FILTER_NORMAL = "filterNormal";
+    public static final String PROP_FILTER_VERANLASSUNG = "filterVeranlassung";
+    public static final String PROP_FILTER_ARBEITSAUFTRAG = "filterArbeitsauftrag";
+
+    // ToDo check
+    public static final Color gray = Color.LIGHT_GRAY;
+    // JXTable
+    public static final int alphaValue = 255;
+    // TODO Perhaps a bit (blasser) brighter public static Color ODD_ROW_DEFAULT_COLOR = new
+    // Color(blue.getRed()+119,blue.getGreen()+88,blue.getBlue()+33,alphaValue);
+    public static final Color ODD_ROW_DEFAULT_COLOR = new Color(blue.getRed() + 113,
+            blue.getGreen()
+                    + 79,
+            blue.getBlue()
+                    + 14,
+            alphaValue);
+    // public static final Color ODD_ROW_DEFAULT_COLOR = new Color(,,,alphaValue); public static final Color
+    // ODD_ROW_DEFAULT_COLOR = new Color(blue.getRed()+119,blue.getGreen()+82,blue.getBlue()+34,alphaValue); public
+    // static Color ODD_ROW_EDIT_COLOR = new Color(red.getRed()+36,red.getGreen()+146,red.getBlue()+152,alphaValue);
+    public static final Color ODD_ROW_EDIT_COLOR = new Color(red.getRed() + 25,
+            red.getGreen()
+                    + 143,
+            red.getBlue()
+                    + 143,
+            alphaValue);
+    public static final Color ODD_ROW_LOCK_COLOR = new Color(yellow.getRed() + 23,
+            yellow.getGreen()
+                    + 31,
+            yellow.getBlue()
+                    + 134,
+            alphaValue);
+    // public static final Color ODD_ROW_COLOR = new Color(252,84,114,120);
+    public static final Color EVEN_ROW_COLOR = Color.WHITE;
+    public static final Color FOREGROUND_ROW_COLOR = Color.BLACK;
+    public static Highlighter ALTERNATE_ROW_HIGHLIGHTER = HighlighterFactory.createAlternateStriping(
+            ODD_ROW_DEFAULT_COLOR,
+            EVEN_ROW_COLOR);
+    // ToDo more general configurable public static final AlternateRowHighlighter ALTERNATE_ROW_HIGHLIGHTER_EDIT = new
+    // AlternateRowHighlighter(ODD_ROW_EDIT_COLOR, EVEN_ROW_COLOR, FOREGROUND_ROW_COLOR); TitleColors
+    public static final Color EDIT_MODE_COLOR = red;
+    public static final Color DEFAULT_MODE_COLOR = blue;
+    // ToDo outsource
+    private static GregorianCalendar calender = new GregorianCalendar();
     public static final String PROP_CURRENT_SEARCH_RESULTS = "currentSearchResults";
-    private static UnterhaltMast defaultUnterhaltMast = null;
-    private static UnterhaltLeuchte defaultUnterhaltLeuchte = null;
-    private static Doppelkommando defaultDoppelkommando1 = null;
+    private static TkeyUnterhMastCustomBean defaultUnterhaltMast = null;
+    private static TkeyUnterhLeuchteCustomBean defaultUnterhaltLeuchte = null;
+    private static TkeyDoppelkommandoCustomBean defaultDoppelkommando1 = null;
     public static final String[] jxDatePickerFormats = new String[] { "dd.MM.yyyy", "ddMMyy", "ddMMyyyy" };
 
     //~ Instance fields --------------------------------------------------------
 
+    // this is ugly there should be a default toolbar ......
+    public AtomicBoolean isPendingForCreateMode = new AtomicBoolean(false);
+
+    protected JButton btnDiscardChanges;
+    protected JButton btnAcceptChanges;
     protected JButton btnSwitchInCreateMode;
-    final CreateToolBar panCreate = new CreateToolBar(this);
-    WorkbenchWidget workbenchWidget = null;
-    final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
+    protected JButton cmdPrint = new javax.swing.JButton();
+    protected JButton cmdAAPrint = new javax.swing.JButton();
+    protected JButton cmdCsvExport = new javax.swing.JButton();
+    protected JButton btnReload = new javax.swing.JButton();
+    protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    protected final Collection<Clearable> clearAndDisableListeners = new ArrayList<Clearable>();
+    protected MapWidget mapWidget = null;
+    protected final Collection<BelisWidget> widgets = new ArrayList<BelisWidget>();
+    // ToDo make proper --> syncron with widgets
+    protected final Collection<Editable> editables = new ArrayList<Editable>();
+    protected JComponent parentComponent;
+    protected JFrame parentFrame;
+    // Permissions
+    // ToDo improve mechanismn
+    /** Creates a new instance of LagisBroker. */
+    protected StatusBar statusBar;
+    protected ExecutorService execService = null;
+    protected String currentValidationErrorMessage = null;
+    private WorkbenchWidget workbenchWidget = null;
+    private final CreateToolBar panCreate;
+    private final FilterToolBar panFilter;
+    private final CopyPasteToolbar copyPasteToolbar;
+    private final ArrayList<SearchControl> searchControls = new ArrayList<SearchControl>();
+    private final EntityClipboard entityClipboard;
+    private LayoutManager layoutManager;
+    private ConfigurationManager configManager;
+    private JToolBar toolbar;
+    private String applicationName;
+    private String totd;
+    private StatusBar statusbar;
+    private boolean statusBarEnabled = true;
+    private String account;
+    private String loggingProperties;
+    // public static final Color grey = new Color(225, 226, 225);
+    // ToDo perhaps outsource
+    private boolean inEditMode = false;
+    private ArrayList<FeatureSelectionChangedListener> featureSelectionChangedIgnoredWidgets =
+        new ArrayList<FeatureSelectionChangedListener>();
     private AlreadyLockedObjectsPanel lockPanel = null;
     // Todo maybe deliver mapWidget by default so the derived broker has direct access and don't have to search
-    private MapWidget mapWidget = null;
-    private Set currentSearchResults = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
-    private Set newObjects = new TreeSet(new ReverseComparator(
-                new EntityComparator(new ReverseComparator(new LeuchteComparator()))));
+    private Set<WorkbenchEntity> currentSearchResults = new TreeSet(new ReverseComparator(new EntityComparator()));
 //    public static final String PROP_NEW_OBJECTS = "currentSearchResults";
     private boolean inCreateMode;
     private MapSearchControl mscPan = null;
-    private int maxSearchResults = 50;
-    private SearchWaitDialog searchWaitDialog = null;
     private SaveWaitDialog saveWaitDialog = null;
     private CancelWaitDialog cancelWaitDialog = null;
+    private LockWaitDialog lockWaitDialog = null;
+    private ReleaseWaitDialog releaseWaitDialog = null;
     private RetrieveWorker lastSearch = null;
     private DetailWidget detailWidget;
-    private Leitungstyp lastLeitungstyp = null;
-    private boolean vetoCheckEnabled = true;
-    private Strassenschluessel lastMauerlascheStrassenschluessel;
-    private BindingGroup bindingGroup2 = new BindingGroup();
+    private LeitungstypCustomBean lastLeitungstyp = null;
+    private TkeyStrassenschluesselCustomBean lastMauerlascheStrassenschluessel;
     // I Think the single components should register the properties they want to bind and broker only binds them that
     // would be fine bind Workbench to Details maybe if another applications needs the same feature or if it is used
     // more often throughout the application ToDo if there is need for more special binding generalize this with static
     // binding methods (e.g. Master/Slave or other mechanismn)
-    private final ArrayList<GeoBaseEntity> currentFeatures = new ArrayList<GeoBaseEntity>();
-    // this is ugly there should be a default toolbar ......
-    private boolean isPendingForCreateMode = false;
+    private final ArrayList<WorkbenchFeatureEntity> currentFeatures = new ArrayList<WorkbenchFeatureEntity>();
+    // Todo outsource in panel, the advantage is that it is easier to edit --> you can use the gui builder
+    // And don't know if it is good to have fix item in the toolbar
+    private EditButtonsToolbar editButtonsToolbar;
+    private MetaSearchHelper metaSearchComponentFactory;
+    private ComponentRegistry componentRegistry;
+    private Collection<AbstractArbeitsprotokollWizard> leuchtenWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard>();
+    private Collection<AbstractArbeitsprotokollWizard> standorteWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard>();
+    private Collection<AbstractArbeitsprotokollWizard> mauerlascheWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard>();
+    private Collection<AbstractArbeitsprotokollWizard> leitungWizards = new ArrayList<AbstractArbeitsprotokollWizard>();
+    private Collection<AbstractArbeitsprotokollWizard> abzweigdoseWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard>();
+    private Collection<AbstractArbeitsprotokollWizard> schaltstelleWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard>();
+    private Collection<AbstractArbeitsprotokollWizard> allgemeineWizards =
+        new ArrayList<AbstractArbeitsprotokollWizard>();
+
+    private boolean filterNormal = true;
+    private boolean filterVeranlassung = false;
+    private boolean filterArbeitsauftrag = false;
+    private SperreCustomBean sperre = null;
+    private QuerySearchResultsWindowSearch querySearchResultsWindowSearch;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new BelisBroker object.
+     * ToDo FIX.
      */
-    public BelisBroker() {
-        super();
-        if (log.isDebugEnabled()) {
-            log.debug("Constructor:" + BelisBroker.class.getName());
-        }
+    private BelisBroker() {
+        execService = Executors.newCachedThreadPool();
+
+        entityClipboard = new EntityClipboard(this);
+
+        panCreate = new CreateToolBar(this);
+        panFilter = new FilterToolBar(this);
+        copyPasteToolbar = new CopyPasteToolbar(this);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static BelisBroker getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new BelisBroker();
+        }
+        return INSTANCE;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  metaSearchComponentFactory  DOCUMENT ME!
+     */
+    public void setMetaSearchComponentFactory(final MetaSearchHelper metaSearchComponentFactory) {
+        this.metaSearchComponentFactory = metaSearchComponentFactory;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MetaSearchHelper getMetaSearchComponentFactory() {
+        return metaSearchComponentFactory;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  querySearchResultsWindowSearch  DOCUMENT ME!
+     */
+    public void setQuerySearchResultsWindowSearch(final QuerySearchResultsWindowSearch querySearchResultsWindowSearch) {
+        this.querySearchResultsWindowSearch = querySearchResultsWindowSearch;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  widget  DOCUMENT ME!
+     */
+    public void addWidget(final BelisWidget widget) {
+        widgets.add(widget);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<BelisWidget> getWidgets() {
+        return widgets;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   entity  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<AbstractArbeitsprotokollWizard> getWizardsActionsForEntity(
+            final ArbeitsprotokollCustomBean.ChildType entity) {
+        if (entity == null) {
+            return (Collection<AbstractArbeitsprotokollWizard>)allgemeineWizards;
+        } else {
+            switch (entity) {
+                case ABZWEIGDOSE: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)abzweigdoseWizards;
+                }
+                case STANDORT: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)standorteWizards;
+                }
+                case LEUCHTE: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)leuchtenWizards;
+                }
+                case MAUERLASCHE: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)mauerlascheWizards;
+                }
+                case SCHALTSTELLE: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)schaltstelleWizards;
+                }
+                case LEITUNG: {
+                    return (Collection<AbstractArbeitsprotokollWizard>)leitungWizards;
+                }
+                default: {
+                    return null;
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void resetWidgets() {
+        if (!EventQueue.isDispatchThread()) {
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Lagis Broker : Reset widgets");
+                        }
+                        for (final BelisWidget tmp : widgets) {
+                            tmp.clearComponent();
+                            tmp.setWidgetEditable(false);
+                        }
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Lagis Broker : Reset widgets durch");
+                        }
+                    }
+                });
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Lagis Broker : Reset widgets");
+        }
+        for (final BelisWidget tmp : widgets) {
+            tmp.clearComponent();
+            tmp.setWidgetEditable(false);
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Lagis Broker : Reset widgets durch");
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  isEditable  DOCUMENT ME!
+     */
+    public synchronized void setComponentsEditable(final boolean isEditable) {
+        try {
+            if (EventQueue.isDispatchThread()) {
+                setWidgetsEditable(isEditable);
+                for (final Editable curEditable : editables) {
+                    curEditable.setWidgetEditable(isEditable);
+                }
+            } else {
+                EventQueue.invokeAndWait(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            setComponentsEditable(isEditable);
+                        }
+                    });
+            }
+        } catch (Exception ex) {
+            LOG.error("Error while setting Components editable: ", ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  editable  DOCUMENT ME!
+     */
+    public void addEditable(final Editable editable) {
+        editables.add(editable);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  editable  DOCUMENT ME!
+     */
+    public void removeEditable(final Editable editable) {
+        editables.remove(editable);
+    }
+
+    /**
+     * ToDo --> no double code see BelisBroker or use Framework.
+     *
+     * @param  isEditable  DOCUMENT ME!
+     */
+    public synchronized void setWidgetsEditable(final boolean isEditable) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Setze Widgets editable: " + isEditable);
+        }
+        if (!EventQueue.isDispatchThread()) {
+            EventQueue.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        setWidgetsEditable(isEditable);
+                    }
+                });
+        } else {
+            for (final BelisWidget curWidget : widgets) {
+                if (isEditable) {
+                    // ALTERNATE_ROW_HIGHLIGHTER = HighlighterFactory.createAlternateStriping(ODD_ROW_EDIT_COLOR,
+                    // EVEN_ROW_COLOR);
+                    ((ColorHighlighter)(((CompoundHighlighter)ALTERNATE_ROW_HIGHLIGHTER).getHighlighters()[0]))
+                            .setBackground(ODD_ROW_EDIT_COLOR);
+                    // ALTERNATE_ROW_HIGHLIGHTER.setOddRowBackground(ODD_ROW_EDIT_COLOR);
+                } else {
+                    // ALTERNATE_ROW_HIGHLIGHTER = HighlighterFactory.createAlternateStriping(ODD_ROW_DEFAULT_COLOR,
+                    // EVEN_ROW_COLOR); ALTERNATE_ROW_HIGHLIGHTER.setOddRowBackground(ODD_ROW_DEFAULT_COLOR);
+                    ((ColorHighlighter)(((CompoundHighlighter)ALTERNATE_ROW_HIGHLIGHTER).getHighlighters()[0]))
+                            .setBackground(ODD_ROW_DEFAULT_COLOR);
+                }
+                curWidget.setWidgetEditable(isEditable);
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   geom  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public GeometrySlotInformation assignGeometry(final Geometry geom) {
+        final GeometrySlotInformation[] openSlots = collectGeometrySlots();
+        switch (openSlots.length) {
+            case 0: {
+                JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getMappingComponent()),
+                    "Es ist kein Element vorhanden dem eine Fläche zugeordnet werden kann\noder die entsprechenden Rechte sind nicht ausreichend",
+                    "Geometrie zuordnen",
+                    JOptionPane.INFORMATION_MESSAGE);
+                return null;
+            }
+            case 1: {
+                final int anwser = JOptionPane.showConfirmDialog(StaticSwingTools.getParentFrame(getMappingComponent()),
+                        "Es ist genau ein Element vorhanden, dem eine Fläche zugeordnet werden kann:\n\n"
+                                + "    "
+                                + openSlots[0]
+                                + "\n\nSoll die Geometrie diesem dem Element hinzugefügt werden ?",
+                        "Geometrie zuordnen",
+                        JOptionPane.YES_NO_OPTION);
+                if (anwser == JOptionPane.YES_OPTION) {
+                    final GeometrySlot slotGeom = openSlots[0].getOpenSlot();
+                    if (slotGeom != null) {
+                        slotGeom.setGeometry(geom);
+                    } else {
+                        // TODO create concept how to determine the color of geomentities
+                        // slotGeom = new Geom();
+                        slotGeom.setGeometry(geom);
+                        // openSlots[0].getOpenSlot().setGeometrie(slotGeom);
+                    }
+                    return openSlots[0];
+                } else {
+                    return null;
+                }
+            }
+            default: {
+                final GeometrySlotInformation selectedSlot = (GeometrySlotInformation)JOptionPane.showInputDialog(
+                        StaticSwingTools.getParentFrame(getMappingComponent()),
+                        "Bitte wählen Sie das Element, dem Sie die Geometrie zuordnen möchten:\n",
+                        "Geometrie zuordnen",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        openSlots,
+                        openSlots[0]);
+                if (selectedSlot != null) {
+                    final GeometrySlot slotGeom = selectedSlot.getOpenSlot();
+                    if (slotGeom != null) {
+                        slotGeom.setGeometry(geom);
+                    } else {
+                        // TODO create concept how to determine the color of geomentities
+                        // slotGeom = new Geom();
+                        slotGeom.setGeometry(geom);
+                        // selectedSlot.getOpenSlot().setGeometrie(slotGeom);
+                    }
+                    return selectedSlot;
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected GeometrySlotInformation[] collectGeometrySlots() {
+        final Collection<GeometrySlotInformation> openSlots = new ArrayList<GeometrySlotInformation>();
+        for (final BelisWidget curWidget : widgets) {
+            if (curWidget instanceof GeometrySlotProvider) {
+                openSlots.addAll(((GeometrySlotProvider)curWidget).getSlotInformation());
+            }
+        }
+        return openSlots.toArray(new GeometrySlotInformation[openSlots.size()]);
+    }
+
+    /**
+     * TODO REFACTOR real event Implement proper events not direkt Collection ToDo good ChangeObserver.
+     *
+     * @param  event  DOCUMENT ME!
+     */
+    public void fireChangeEvent(final Object event) {
+        for (final BelisWidget curWidget : widgets) {
+            if ((curWidget instanceof FeatureSelectionChangedListener) && (event instanceof Collection)) {
+                if (!featureSelectionChangedIgnoredWidgets.contains((FeatureSelectionChangedListener)curWidget)) {
+                    ((FeatureSelectionChangedListener)curWidget).featureSelectionChanged((Collection<Feature>)event);
+                } else {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Widget: " + curWidget.getWidgetName()
+                                    + " is in ignoredList no featureSelectionChanged");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  ignore  DOCUMENT ME!
+     */
+    public void addFeatureSelectionChangeIgnore(final FeatureSelectionChangedListener ignore) {
+        if (ignore != null) {
+            featureSelectionChangedIgnoredWidgets.add(ignore);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  ignore  DOCUMENT ME!
+     */
+    public void removeFeatureSelectionChangeIgnore(final FeatureSelectionChangedListener ignore) {
+        if (ignore != null) {
+            featureSelectionChangedIgnoredWidgets.remove(ignore);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   ignore  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isFeatureSelectionChangeIgnoreRegistered(final FeatureSelectionChangedListener ignore) {
+        return featureSelectionChangedIgnoredWidgets.contains(ignore);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MappingComponent getMappingComponent() {
+        return CismapBroker.getInstance().getMappingComponent();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  aMappingComponent  DOCUMENT ME!
+     */
+    public void setMappingComponent(final MappingComponent aMappingComponent) {
+        CismapBroker.getInstance().setMappingComponent(aMappingComponent);
+    }
+
+    /**
+     * ToDo boolean method parameter.
+     *
+     * @throws  Exception  LockingNotSuccessfulException DOCUMENT ME!
+     */
+    public void switchEditMode() throws Exception {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("switchEditMode");
+        }
+        if (isInEditMode()) {
+            switchInEditMode(false);
+            setComponentsEditable(false);
+            if (isInCreateMode()) {
+                workbenchWidget.clearNewNode();
+            } else {
+                workbenchWidget.clearEditNode();
+            }
+            new SwingWorker<Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        fireReleaseStarted();
+                        releaseLock();
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            setInEditMode(false);
+                            getMappingComponent().setReadOnly(true);
+                        } finally {
+                            fireReleaseFinished();
+                        }
+                    }
+                }.execute();
+        } else {
+            setTitleBarComponentpainter(BelisBroker.EDIT_MODE_COLOR);
+            editButtonsToolbar.enableSwitchToModeButtons(false);
+            switchInEditMode(true);
+            new SwingWorker<Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        fireLockStarted();
+                        acquireLock();
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            try {
+                                get();
+                            } catch (Exception e) {
+                                LOG.error("Problem while switching to Edit Mode", e);
+                                switchInEditMode(false);
+                                setTitleBarComponentpainter(BelisBroker.DEFAULT_MODE_COLOR);
+                                editButtonsToolbar.enableSwitchToModeButtons(true);
+                                return;
+                            }
+                            setInEditMode(true);
+                            setComponentsEditable(true);
+                            getMappingComponent().setReadOnly(false);
+                            btnAcceptChanges.setEnabled(true);
+                            btnDiscardChanges.setEnabled(true);
+                        } finally {
+                            fireLockFinished();
+                        }
+                    }
+                }.execute();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  isSwitchedInEditMode  DOCUMENT ME!
+     */
+    protected void switchInEditMode(final boolean isSwitchedInEditMode) {
+        cmdAAPrint.setEnabled(!isSwitchedInEditMode);
+        if (isSwitchedInEditMode) {
+            disableSearch();
+            if (isInCreateMode()) {
+                setAllFeaturesSelectable(false);
+            }
+        } else {
+            enableSearch();
+            setAllFeaturesSelectable(true);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  inEditMode  DOCUMENT ME!
+     */
+    public void setInEditMode(final boolean inEditMode) {
+        final boolean old = this.inEditMode;
+        this.inEditMode = inEditMode;
+        editButtonsToolbar.enableSwitchToModeButtons(!inEditMode);
+        propertyChangeSupport.firePropertyChange(PROP_IN_EDIT_MODE, old, inEditMode);
+    }
+    // ToDo to specific I think
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isInEditMode() {
+        // return currentSperre != null;
+        return inEditMode;
+    }
+
+    /**
+     * ToDo change getValidationMessage not the right method how should the developer know.
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean validateWidgets() {
+        for (final BelisWidget currentWidget : widgets) {
+            if (currentWidget.getStatus() == Validatable.ERROR) {
+                currentValidationErrorMessage = currentWidget.getValidationMessage();
+                if (currentValidationErrorMessage == null) {
+                    currentValidationErrorMessage = "Kein Fehlertext vorhanden";
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public JComponent getParentComponent() {
+        return parentComponent;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  parentComponent  DOCUMENT ME!
+     */
+    public void setParentComponent(final JComponent parentComponent) {
+        this.parentComponent = parentComponent;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  refreshingObject  DOCUMENT ME!
+     */
+    public void refreshWidgets(final Object refreshingObject) {
+        for (final BelisWidget curRefreshable : widgets) {
+            curRefreshable.refresh(refreshingObject);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   date  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getDateWithoutTime(final Date date) {
+        calender.setTime(date);
+        calender.set(GregorianCalendar.HOUR, 0);
+        calender.set(GregorianCalendar.MINUTE, 0);
+        calender.set(GregorianCalendar.SECOND, 0);
+        calender.set(GregorianCalendar.MILLISECOND, 0);
+        calender.set(GregorianCalendar.AM_PM, GregorianCalendar.AM);
+        return calender.getTime();
+    }
+
+    @Override
+    public Element getConfiguration() throws NoWriteError {
+        return null;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ComponentRegistry getComponentRegistry() {
+        return componentRegistry;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  componentRegistry  DOCUMENT ME!
+     */
+    public void setComponentRegistry(final ComponentRegistry componentRegistry) {
+        this.componentRegistry = componentRegistry;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   frame  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public void initComponentRegistry(final JFrame frame) throws Exception {
+        PropertyManager.getManager().setEditable(true);
+
+        final SearchResultsTree searchResultsTree = new SearchResultsTree() {
+
+                @Override
+                public void setResultNodes(final Node[] nodes,
+                        final boolean append,
+                        final PropertyChangeListener listener,
+                        final boolean simpleSort,
+                        final boolean sortActive) {
+                    super.setResultNodes(nodes, append, listener, simpleSort, false);
+                }
+            };
+
+        final MutableToolBar toolBar = new MutableToolBar();
+        final MutableMenuBar menuBar = new MutableMenuBar();
+        final LayoutedContainer container = new LayoutedContainer(toolBar, menuBar, true);
+        final AttributeViewer attributeViewer = new AttributeViewer();
+        final AttributeEditor attributeEditor = new ExtendedNavigatorAttributeEditorGui();
+
+        final DescriptionPane descriptionPane = new DescriptionPaneFS();
+        final MutablePopupMenu popupMenu = new MutablePopupMenu();
+
+        final Collection<Component> toRemoveComponents = new ArrayList<Component>();
+        for (final Component component : popupMenu.getComponents()) {
+            if (((component instanceof PluginMenuItem)
+                            && ((PluginMenuItem)component).getId().equals(
+                                "Sirius.navigator.ui.MutablePopupMenu$EditObjectMethod"))
+                        || (component instanceof JSeparator)
+                        || ((component instanceof JMenuItem) && (((JMenuItem)component).getActionCommand() != null)
+                            && (((JMenuItem)component).getActionCommand().equals("cmdSearch")
+                                || ((JMenuItem)component).getActionCommand().equals("treecommand")
+                                || ((((JMenuItem)component).getAccelerator() != null)
+                                    && ((JMenuItem)component).getAccelerator().equals(
+                                        KeyStroke.getKeyStroke("F5")))))) {
+                toRemoveComponents.add(component);
+            }
+        }
+        for (final Component toRemoveComponent : toRemoveComponents) {
+            popupMenu.remove(toRemoveComponent);
+        }
+
+        final DefaultPopupMenuListener cataloguePopupMenuListener = new DefaultPopupMenuListener(popupMenu);
+        final Node[] roots = SessionManager.getProxy().getRoots("BELIS2");
+        final RootTreeNode rootTreeNode = new RootTreeNode(roots);
+        while (roots.length != rootTreeNode.getChildCount()) {
+            Thread.sleep(100);
+        }
+        final MetaCatalogueTree metaCatalogueTree = new MetaCatalogueTree(
+                rootTreeNode,
+                PropertyManager.getManager().isEditable(),
+                true,
+                PropertyManager.getManager().getMaxConnections());
+        final CatalogueSelectionListener catalogueSelectionListener = new CatalogueSelectionListener(
+                attributeViewer,
+                descriptionPane);
+        final CatalogueActivationListener catalogueActivationListener = new CatalogueActivationListener(
+                metaCatalogueTree,
+                attributeViewer,
+                descriptionPane);
+
+        metaCatalogueTree.addMouseListener(cataloguePopupMenuListener);
+        metaCatalogueTree.addTreeSelectionListener(catalogueSelectionListener);
+        metaCatalogueTree.addComponentListener(catalogueActivationListener);
+
+        ComponentRegistry.registerComponents(
+            frame,
+            container,
+            menuBar,
+            toolBar,
+            popupMenu,
+            metaCatalogueTree,
+            searchResultsTree,
+            null,
+            attributeViewer,
+            attributeEditor,
+            descriptionPane);
+
+        searchResultsTree.addPropertyChangeListener("browse", new PropertyChangeListener() {
+
+                @Override
+                public void propertyChange(final PropertyChangeEvent evt) {
+                    if ((querySearchResultsWindowSearch == null)
+                                || !(querySearchResultsWindowSearch.getQuerySearchResultsActionPanel().getQuerySearch()
+                                    .getSelectedMethod() instanceof SearchQuerySearchMethod)
+                                || !((SearchQuerySearchMethod)
+                                    querySearchResultsWindowSearch.getQuerySearchResultsActionPanel().getQuerySearch()
+                                    .getSelectedMethod()).isSearching()) {
+                        final List<Node> nodes = searchResultsTree.getResultNodes();
+                        if (nodes != null) {
+                            final SearchWaitDialog swd = SearchWaitDialog.getInstance();
+                            swd.init(nodes.size());
+                            SwingUtilities.invokeLater(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        StaticSwingTools.showDialog(swd);
+                                    }
+                                });
+
+                            new SwingWorker<TreeSet<WorkbenchEntity>, Void>() {
+
+                                @Override
+                                protected TreeSet<WorkbenchEntity> doInBackground() throws Exception {
+                                    final Collection<WorkbenchEntity> entities = new ArrayList<WorkbenchEntity>();
+                                    int count = 0;
+                                    for (final Node node : nodes) {
+                                        if (swd.isCanceled()) {
+                                            entities.clear();
+                                            break;
+                                        }
+                                        count++;
+                                        if ((node != null) && (node instanceof MetaObjectNode)) {
+                                            final MetaObjectNode moNode = (MetaObjectNode)node;
+                                            final MetaObject mo;
+                                            if (moNode.getObject() != null) {
+                                                mo = moNode.getObject();
+                                            } else {
+                                                mo = CidsBroker.getInstance()
+                                                            .getMetaObject(
+                                                                    moNode.getClassId(),
+                                                                    moNode.getObjectId(),
+                                                                    "BELIS2");
+                                            }
+                                            if (mo != null) {
+                                                swd.setValue(count);
+                                                final CidsBean bean = mo.getBean();
+                                                if (bean instanceof BaseEntity) {
+                                                    ((BaseEntity)bean).init();
+                                                    entities.add((WorkbenchEntity)bean);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    final TreeSet<WorkbenchEntity> results = new TreeSet<WorkbenchEntity>(
+                                            new ReverseComparator(new EntityComparator()));
+                                    results.addAll(entities);
+                                    return results;
+                                }
+
+                                @Override
+                                protected void done() {
+                                    TreeSet<WorkbenchEntity> results = null;
+                                    try {
+                                        results = get();
+                                    } catch (final Exception ex) {
+                                        LOG.warn("exeption whil building search result treeset", ex);
+                                    }
+                                    setSearchResult(results);
+                                    SwingUtilities.invokeLater(new Runnable() {
+
+                                            @Override
+                                            public void run() {
+                                                swd.setVisible(false);
+                                            }
+                                        });
+                                    enableSearch();
+                                    fireSearchFinished();
+                                }
+                            }.execute();
+                        }
+                    }
+                }
+            }); // NOI18N
+
+        setComponentRegistry(ComponentRegistry.getRegistry());
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void lookupWidgets() {
+        try {
+            for (final BelisWidget widget : Lookup.getDefault().lookupAll(BelisWidget.class)) {
+                if (widget.isAllowedToShow()) {
+                    try {
+                        widget.setBroker(this);
+                        if (widget instanceof MapWidget) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Mapwidget found");
+                            }
+                            mapWidget = (MapWidget)widget;
+                        }
+
+                        addWidget(widget);
+                    } catch (Exception ex) {
+                        LOG.error("Error while initializing widget", ex);
+                    }
+                }
+            }
+        } catch (Throwable ex) {
+            LOG.error("Error while lookup of widgets", ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  arbeitsauftragNode  DOCUMENT ME!
+     * @param  protokoll           DOCUMENT ME!
+     * @param  basic               DOCUMENT ME!
+     */
+    public void addNewProtokollToAuftragNode(final CustomMutableTreeTableNode arbeitsauftragNode,
+            final ArbeitsprotokollCustomBean protokoll,
+            final WorkbenchEntity basic) {
+        final CustomTreeTableModel treeModel = BelisBroker.getInstance().getWorkbenchWidget().getTreeTableModel();
+
+        final CustomMutableTreeTableNode newBasicNode = new CustomMutableTreeTableNode(basic, true);
+        final CustomMutableTreeTableNode newProtokollNode = new CustomMutableTreeTableNode(
+                protokoll,
+                true);
+        treeModel.insertNodeIntoAsLastChild(
+            newProtokollNode,
+            arbeitsauftragNode);
+        treeModel.insertNodeIntoAsLastChild(
+            newBasicNode,
+            newProtokollNode);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  veranlassungNode  DOCUMENT ME!
+     * @param  basic             DOCUMENT ME!
+     */
+    public void addNewBasicToVeranlassungNode(final CustomMutableTreeTableNode veranlassungNode,
+            final WorkbenchEntity basic) {
+        final CustomTreeTableModel treeModel = BelisBroker.getInstance().getWorkbenchWidget().getTreeTableModel();
+        final CustomMutableTreeTableNode newNode = new CustomMutableTreeTableNode(basic, true);
+        treeModel.insertNodeIntoAsLastChild(newNode, veranlassungNode);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   basic  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ArbeitsprotokollCustomBean createProtokollFromBasic(final WorkbenchEntity basic) {
+        final ArbeitsprotokollCustomBean protokoll = ArbeitsprotokollCustomBean.createNew();
+        if (basic instanceof AbzweigdoseCustomBean) {
+            protokoll.setFk_abzweigdose((AbzweigdoseCustomBean)basic);
+        } else if (basic instanceof MauerlascheCustomBean) {
+            protokoll.setFk_mauerlasche((MauerlascheCustomBean)basic);
+        } else if (basic instanceof LeitungCustomBean) {
+            protokoll.setFk_leitung((LeitungCustomBean)basic);
+        } else if (basic instanceof SchaltstelleCustomBean) {
+            protokoll.setFk_schaltstelle((SchaltstelleCustomBean)basic);
+        } else if (basic instanceof TdtaLeuchtenCustomBean) {
+            protokoll.setFk_leuchte((TdtaLeuchtenCustomBean)basic);
+        } else if (basic instanceof TdtaStandortMastCustomBean) {
+            protokoll.setFk_standort((TdtaStandortMastCustomBean)basic);
+        } else if (basic instanceof GeometrieCustomBean) {
+            protokoll.setFk_geometrie((GeometrieCustomBean)basic);
+        }
+        return protokoll;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void lookupProtokollWizards() {
+        try {
+            for (final AbstractArbeitsprotokollWizard wizard
+                        : Lookup.getDefault().lookupAll(AbstractArbeitsprotokollWizard.class)) {
+                try {
+                    if (wizard.getEntityClass() == null) {
+                        allgemeineWizards.add(wizard);
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.LEUCHTE)) {
+                        leuchtenWizards.add(wizard);
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.STANDORT)) {
+                        standorteWizards.add(wizard);
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.ABZWEIGDOSE)) {
+                        abzweigdoseWizards.add(wizard);
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.MAUERLASCHE)) {
+                        mauerlascheWizards.add(wizard);
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.SCHALTSTELLE)) {
+                        schaltstelleWizards.add(wizard);
+                    } else if (wizard.getEntityClass().equals(ArbeitsprotokollCustomBean.ChildType.LEITUNG)) {
+                        leitungWizards.add(wizard);
+                    }
+                } catch (Exception ex) {
+                    LOG.error("Error while initializing wizard", ex);
+                }
+            }
+        } catch (Throwable ex) {
+            LOG.error("Error while lookup of widgets", ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void initMappingComponent() {
+        final MappingComponent mappingComponent = new MappingComponent();
+        final MetaSearchHelper metaSearchComponentFactory = MetaSearchHelper.createNewInstance(
+                true,
+                MappingComponent.CREATE_SEARCH_POLYGON,
+                mappingComponent,
+                null);
+
+        setMappingComponent(mappingComponent);
+        metaSearchComponentFactory.setCustomGeoSearch(new BelisTopicSearchStatement());
+        setMetaSearchComponentFactory(metaSearchComponentFactory);
+
+        CismapBroker.getInstance().addStatusListener(new StatusListener() {
+
+                @Override
+                public void statusValueChanged(final StatusEvent e) {
+                    if (e.getName().equals(StatusEvent.MAPPING_MODE)) {
+                        if (e.getValue().equals(MappingComponent.CREATE_SEARCH_POLYGON)) {
+                            metaSearchComponentFactory.getCmdPluginSearch().setSelected(true);
+                            getMapWidget().setCustomMapMode();
+                        } else {
+                            metaSearchComponentFactory.getCmdPluginSearch().setSelected(false);
+                        }
+                    }
+                }
+            });
+    }
+
+    @Override
+    public void masterConfigure(final Element parent) {
+        initToolbar();
+        try {
+            saveWaitDialog = new SaveWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
+            cancelWaitDialog = new CancelWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
+            lockWaitDialog = new LockWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
+            releaseWaitDialog = new ReleaseWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
+        } catch (final Exception ex) {
+            LOG.warn("Error while creating search and wait dialog", ex);
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("masterConfigure: " + BelisBroker.class.getName());
+        }
+
+        /*
+         * <emailConfiguration username="" password="" senderAddress="sebastian.puhl@cismet.de"
+         * smtpHost="smtp.uni-saarland.de"> <neuesKommunalesFinanzmanagement>
+         * <receiver>sebastian.puhl@cismet.de</receiver> </neuesKommunalesFinanzmanagement> <failures>
+         * <receiver>sebastian.puhl@cismet.de</receiver> </failures> </emailConfiguration>
+         */
+
+        try {
+            try {
+                final Element loggingConf = parent.getChild("Logging");
+                loggingProperties = loggingConf.getChildText("LoggingProperties");
+                initLog4J();
+            } catch (final Exception ex) {
+                LOG.error("Error while configuring logging", ex);
+            }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("masterConfigure: " + BelisBroker.class.getName());
+            }
+            configManager.addConfigurable(metaSearchComponentFactory);
+            configManager.configure(metaSearchComponentFactory);
+            for (final BelisWidget widget : getWidgets()) {
+                configManager.addConfigurable(widget);
+                configManager.configure(widget);
+            }
+            customizeApplication();
+        } catch (Exception ex) {
+            LOG.error("Fehler beim konfigurieren des Lagis Brokers: ", ex);
+        }
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("masterConfigure:" + BelisBroker.class.getName());
+        }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Configure Belis specific borker");
+        }
+        doBelisBinding();
+        customizeMapWidget();
+
+        final int defaultFontSize = 16;
+        LOG.warn("Error setting fontsize for map objects. Setting font to default: " + defaultFontSize);
+        IconUtils.setFont(new Font("Courier", Font.PLAIN, defaultFontSize));
+
+        showMainApplication();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MapWidget getMapWidget() {
+        return mapWidget;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  mapWidget  DOCUMENT ME!
+     */
+    public void setMapWidget(final MapWidget mapWidget) {
+        this.mapWidget = mapWidget;
+    }
+
+    @Override
+    public void configure(final Element parent) {
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getCurrentValidationErrorMessage() {
+        return currentValidationErrorMessage;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public StatusBar getStatusBar() {
+        return statusBar;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  statusBar  DOCUMENT ME!
+     */
+    public void setStatusBar(final StatusBar statusBar) {
+        this.statusBar = statusBar;
+    }
+
+    /**
+     * TODO configurieren ob es ausgeführt werden soll oder nicht z.B. boolean
+     */
+    public void warnIfThreadIsNotEDT() {
+        if (!EventQueue.isDispatchThread()) {
+            LOG.fatal("current Thread is not EDT, but should be --> look", new CurrentStackTrace());
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void warnIfThreadIsEDT() {
+        if (EventQueue.isDispatchThread()) {
+            LOG.fatal("current Thread is EDT, but should not --> look", new CurrentStackTrace());
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  workerThread  DOCUMENT ME!
+     */
+    public void execute(final SwingWorker workerThread) {
+        try {
+            execService.submit(workerThread);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("SwingWorker an Threadpool übermittelt");
+            }
+        } catch (Exception ex) {
+            LOG.fatal("Fehler beim starten eines Swingworkers", ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   changeListener  DOCUMENT ME!
+     *
+     * @throws  UnsupportedOperationException  DOCUMENT ME!
+     */
+    public void fireChangeFinished(final ObjectChangeListener changeListener) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void initLog4J() {
+        try {
+            PropertyConfigurator.configure(BelisBroker.class.getResource(loggingProperties));
+            LOG.info("Log4J System erfolgreich konfiguriert");
+        } catch (Exception ex) {
+            System.err.println("Fehler bei Log4J Initialisierung");
+        }
+    }
+
+    /**
+     * Add PropertyChangeListener.
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void addPropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Remove PropertyChangeListener.
+     *
+     * @param  listener  DOCUMENT ME!
+     */
+    public void removePropertyChangeListener(final PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    /**
+     * public JFrame getParentFrame() { return parentFrame; } public void setParentFrame(JFrame parentFrame) {
+     * this.parentFrame = parentFrame; }.
+     */
+    public void showMainApplication() {
+        final Thread t = new Thread() {
+
+                @Override
+                public void run() {
+                    Frame frame = StaticSwingTools.getParentFrame(getParentComponent());
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("MainApplication frame: " + frame);
+                    }
+                    while ((frame == null)
+                                || ((frame instanceof AbstractPlugin) && !((AbstractPlugin)frame).isReadyToShow())) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("frame is null or not ready going to sleep");
+                        }
+                        try {
+                            this.sleep(1000);
+                            frame = StaticSwingTools.getParentFrame(getParentComponent());
+                        } catch (InterruptedException ex) {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Sleep was interuppted running again.");
+                            }
+                            run();
+                        }
+                    }
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("frame available and ready to show");
+                        // toDo has to be here because it must be sure that the login is over
+                        LOG.debug("check read mode");
+                    }
+                    mapWidget.setInteractionMode();
+                    frame.setVisible(true);
+                }
+            };
+        t.start();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getAccountName() {
+        if (account == null) {
+            LOG.fatal("Benutzername unvollständig: " + account);
+        }
+        return account;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  aAccount  DOCUMENT ME!
+     */
+    public void setAccountName(final String aAccount) {
+        account = aAccount;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ConfigurationManager getConfigManager() {
+        return configManager;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  applicationName  DOCUMENT ME!
+     */
+    public void setApplicatioName(final String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  totd  DOCUMENT ME!
+     */
+    public void setTotd(final String totd) {
+        this.totd = totd;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getTotd() {
+        return totd;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  configManager  DOCUMENT ME!
+     */
+    public void setConfigManager(final ConfigurationManager configManager) {
+        this.configManager = configManager;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public LayoutManager getLayoutManager() {
+        return layoutManager;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  layoutManager  DOCUMENT ME!
+     */
+    public void setLayoutManager(final LayoutManager layoutManager) {
+        this.layoutManager = layoutManager;
+    }
+
+    /**
+     * if there is more need --> Listener.
+     */
+    public void pluginConstructionDone() {
+        try {
+            final Runnable layoutRun = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        layoutManager.configureInfoNodeDocking();
+                        layoutManager.doLayoutInfoNodeDefaultFile();
+                    }
+                };
+            if (EventQueue.isDispatchThread()) {
+                layoutRun.run();
+            } else {
+                EventQueue.invokeLater(layoutRun);
+            }
+        } catch (Exception ex) {
+            LOG.error("Error while setting layout: ", ex);
+        }
+        // getMappingComponent().unlock();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public RootWindow getRootWindow() {
+        return layoutManager.getRootWindow();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  color  DOCUMENT ME!
+     */
+    public void setTitleBarComponentpainter(final Color color) {
+        getRootWindow().getRootWindowProperties()
+                .getViewProperties()
+                .getViewTitleBarProperties()
+                .getNormalProperties()
+                .getShapedPanelProperties()
+                .setComponentPainter(new GradientComponentPainter(
+                        color,
+                        new Color(236, 233, 216),
+                        color,
+                        new Color(236, 233, 216)));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  left   DOCUMENT ME!
+     * @param  right  DOCUMENT ME!
+     */
+    public void setTitleBarComponentpainter(final Color left, final Color right) {
+        getRootWindow().getRootWindowProperties()
+                .getViewProperties()
+                .getViewTitleBarProperties()
+                .getNormalProperties()
+                .getShapedPanelProperties()
+                .setComponentPainter(new GradientComponentPainter(left, right, left, right));
+    } // ToDo outsource in Toolbarmanager
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public JButton getBtnAcceptChanges() {
+        return btnAcceptChanges;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  btnAcceptChanges  DOCUMENT ME!
+     */
+    public void setBtnAcceptChanges(final JButton btnAcceptChanges) {
+        this.btnAcceptChanges = btnAcceptChanges;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public JButton getBtnDiscardChanges() {
+        return btnDiscardChanges;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  btnDiscardChanges  DOCUMENT ME!
+     */
+    public void setBtnDiscardChanges(final JButton btnDiscardChanges) {
+        this.btnDiscardChanges = btnDiscardChanges;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public JButton getBtnReloadFlurstueck() {
+        return btnReload;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  btnReloadFlurstueck  DOCUMENT ME!
+     */
+    public void setBtnReloadFlurstueck(final JButton btnReloadFlurstueck) {
+        this.btnReload = btnReloadFlurstueck;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  btnSwitchInCreateMode  DOCUMENT ME!
+     */
+    public void setBtnSwitchInCreateMode(final JButton btnSwitchInCreateMode) {
+        this.btnSwitchInCreateMode = btnSwitchInCreateMode;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void initToolbar() {
+        try {
+            toolbar = new javax.swing.JToolBar();
+            toolbar.setBorderPainted(false);
+            toolbar.setRollover(true);
+
+            editButtonsToolbar = new EditButtonsToolbar();
+            getToolbar().add(editButtonsToolbar);
+            addSeparatorToToolbar();
+
+            cmdPrint.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/frameprint.png"))); // NOI18N
+
+            cmdPrint.setToolTipText("Drucken");
+            cmdPrint.setBorderPainted(false);
+            cmdPrint.setFocusable(false);
+            cmdPrint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            final Dimension size = new Dimension(30, 23);
+            cmdPrint.setPreferredSize(size);
+            cmdPrint.setMinimumSize(size);
+            cmdPrint.setMaximumSize(size);
+            cmdPrint.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            cmdPrint.addActionListener(new java.awt.event.ActionListener() {
+
+                    @Override
+                    public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                        getMappingComponent().showPrintingSettingsDialog();
+                    }
+                });
+
+            cmdAAPrint.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/de/cismet/belis/resource/icon/22/printAA.png"))); // NOI18N
+
+            cmdAAPrint.setToolTipText("Arbeitsauftrags-Report");
+            cmdAAPrint.setBorderPainted(false);
+            cmdAAPrint.setFocusable(false);
+            cmdAAPrint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            cmdAAPrint.setPreferredSize(size);
+            cmdAAPrint.setMinimumSize(size);
+            cmdAAPrint.setMaximumSize(size);
+            cmdAAPrint.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            cmdAAPrint.addActionListener(new java.awt.event.ActionListener() {
+
+                    @Override
+                    public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                        printReport();
+                    }
+                });
+
+            cmdCsvExport.setIcon(new javax.swing.ImageIcon(
+                    getClass().getResource("/de/cismet/belis/resource/icon/16/table-import.png"))); // NOI18N
+
+            cmdCsvExport.setToolTipText("Nach CSV Exportieren");
+            cmdCsvExport.setBorderPainted(false);
+            cmdCsvExport.setFocusable(false);
+            cmdCsvExport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            cmdCsvExport.setPreferredSize(size);
+            cmdCsvExport.setMinimumSize(size);
+            cmdCsvExport.setMaximumSize(size);
+            cmdCsvExport.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            cmdCsvExport.addActionListener(new java.awt.event.ActionListener() {
+
+                    @Override
+                    public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                        exportCsv();
+                    }
+                });
+
+            final JPanel printPanel = new JPanel();
+            printPanel.setLayout(new java.awt.GridBagLayout());
+            printPanel.setMaximumSize(new Dimension(90, 23));
+            printPanel.setMinimumSize(new Dimension(90, 23));
+            printPanel.setPreferredSize(new Dimension(90, 23));
+            final java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 0;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+            gridBagConstraints.anchor = GridBagConstraints.WEST;
+            printPanel.add(cmdPrint, gridBagConstraints);
+            gridBagConstraints.gridx = 1;
+            printPanel.add(cmdAAPrint, gridBagConstraints);
+            gridBagConstraints.gridx = 2;
+            printPanel.add(cmdCsvExport, gridBagConstraints);
+            toolbar.add(printPanel);
+
+            addSeparatorToToolbar();
+        } catch (Exception ex) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Exception while initializing toolbar");
+            }
+            LOG.error("Exception while initializing toolbar.", ex);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void exportCsv() {
+        final CsvExportBackend backend = CsvExportBackend.getInstance();
+
+        final Collection<TreePath> paths = getWorkbenchWidget().getSelectedTreeNodes();
+        if (paths == null) {
+            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
+                "Es muss mindestens ein Objekt im Arbeitsbereich selektiert sein.",
+                "keine Objekte selektiert",
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            // hauptobjekte auch aus protokolle, veranlassungen, arbeitsaufträgen heraus
+            final Collection<WorkbenchEntity> mainBeans = new ArrayList<WorkbenchEntity>();
+            for (final TreePath path : paths) {
+                final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)path.getLastPathComponent();
+                if (node != null) {
+                    final Object object = node.getUserObject();
+                    if (object instanceof ArbeitsauftragCustomBean) {
+                        final ArbeitsauftragCustomBean auftrag = (ArbeitsauftragCustomBean)object;
+                        for (final ArbeitsprotokollCustomBean protokoll : auftrag.getAr_protokolle()) {
+                            final WorkbenchEntity childBean = protokoll.getChildEntity();
+                            if (!mainBeans.contains(childBean)) {
+                                mainBeans.add(childBean);
+                            }
+                        }
+                    } else if (object instanceof ArbeitsprotokollCustomBean) {
+                        final ArbeitsprotokollCustomBean protokoll = (ArbeitsprotokollCustomBean)object;
+                        final WorkbenchEntity childBean = protokoll.getChildEntity();
+                        if (!mainBeans.contains(childBean)) {
+                            mainBeans.add(childBean);
+                        }
+                    } else if (object instanceof VeranlassungCustomBean) {
+                        final VeranlassungCustomBean veranlassung = (VeranlassungCustomBean)object;
+                        final Collection<WorkbenchEntity> allChildBeans = new ArrayList<WorkbenchEntity>();
+                        allChildBeans.addAll(veranlassung.getAr_abzweigdosen());
+                        allChildBeans.addAll(veranlassung.getAr_leitungen());
+                        allChildBeans.addAll(veranlassung.getAr_leuchten());
+                        allChildBeans.addAll(veranlassung.getAr_mauerlaschen());
+                        allChildBeans.addAll(veranlassung.getAr_schaltstellen());
+                        allChildBeans.addAll(veranlassung.getAr_standorte());
+                        for (final WorkbenchEntity childBean : allChildBeans) {
+                            if (!mainBeans.contains(childBean)) {
+                                mainBeans.add(childBean);
+                            }
+                        }
+                    } else if (object instanceof WorkbenchEntity) {
+                        if (!mainBeans.contains((WorkbenchEntity)object)) {
+                            mainBeans.add((WorkbenchEntity)object);
+                        }
+                    }
+                }
+            }
+
+            // Sonderbehandlung: leuchten erzeugen auch standort und umgekehrt
+            final Collection<WorkbenchEntity> beans = new ArrayList<WorkbenchEntity>();
+            for (final WorkbenchEntity mainBean : mainBeans) {
+                if (mainBean instanceof TdtaStandortMastCustomBean) {
+                    final TdtaStandortMastCustomBean standort = (TdtaStandortMastCustomBean)mainBean;
+                    if (!beans.contains(standort)) {
+                        beans.add(standort);
+                    }
+
+                    if (standort.getLeuchten() != null) {
+                        for (final WorkbenchEntity cidsBean : standort.getLeuchten()) {
+                            if (!beans.contains(cidsBean)) {
+                                beans.add(cidsBean);
+                            }
+                        }
+                    }
+                } else if (mainBean instanceof TdtaLeuchtenCustomBean) {
+                    final TdtaLeuchtenCustomBean leuchte = (TdtaLeuchtenCustomBean)mainBean;
+                    if (!beans.contains(leuchte)) {
+                        beans.add(leuchte);
+                    }
+
+                    final TdtaStandortMastCustomBean standort = leuchte.getFk_standort();
+                    if (standort != null) {
+                        if (!beans.contains(standort)) {
+                            beans.add(standort);
+                        }
+                    }
+                } else {
+                    if (!beans.contains(mainBean)) {
+                        beans.add(mainBean);
+                    }
+                }
+            }
+
+            final Map<MetaClass, String> csvStringMap = backend.toCsvStrings((Collection)beans);
+            if (!csvStringMap.isEmpty()) {
+                if (DownloadManagerDialog.showAskingForUserTitle(getRootWindow())) {
+                    for (final MetaClass metaClass : csvStringMap.keySet()) {
+                        final String title = metaClass.getName();
+                        final String body = csvStringMap.get(metaClass);
+
+                        DownloadManager.instance()
+                                .add(new ByteArrayDownload(
+                                        body.getBytes(),
+                                        title,
+                                        DownloadManagerDialog.getInstance().getJobName(),
+                                        title,
+                                        ".csv"));
+                    }
+                    final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.getInstance();
+                    downloadManagerDialog.pack();
+                    StaticSwingTools.showDialog(getRootWindow(), downloadManagerDialog, true);
+                }
+            }
+        }
+    }
+    /**
+     * DOCUMENT ME!
+     */
+    public void fireSaveStartedAndExecuteSaveCancelWorker() {
+        fireSaveStarted();
+        execute(new SaveCancelWorker(SaveCancelWorker.SAVE_MODE));
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void fireCancelStartedAndExecuteSaveCancelWorker() {
+        fireCancelStarted();
+        execute(new SaveCancelWorker(SaveCancelWorker.CANCEL_MODE));
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireSaveFinished() {
+        saveWaitDialog.setVisible(false);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireCancelFinished() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    cancelWaitDialog.setVisible(false);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireCancelStarted() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    cancelWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
+                    cancelWaitDialog.setVisible(true);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireLockFinished() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    lockWaitDialog.setVisible(false);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireLockStarted() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    lockWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
+                    lockWaitDialog.setVisible(true);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireReleaseFinished() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    releaseWaitDialog.setVisible(false);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireReleaseStarted() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    releaseWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
+                    releaseWaitDialog.setVisible(true);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void fireSaveStarted() {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    saveWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
+                    saveWaitDialog.setVisible(true);
+                }
+            });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public JToolBar getToolbar() {
+        return toolbar;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void addSeparatorToToolbar() {
+        getToolbar().add(createToolBarSeperator());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public JSeparator createToolBarSeperator() {
+        final JSeparator tmpSeperator = new JSeparator();
+        tmpSeperator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        tmpSeperator.setMaximumSize(new Dimension(2, 32767));
+        tmpSeperator.setMinimumSize(new Dimension(2, 25));
+        tmpSeperator.setPreferredSize(new Dimension(2, 23));
+        return tmpSeperator;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public Runnable saveWorkbench() throws Exception {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("save");
+            LOG.debug(workbenchWidget.getObjectsToPersist().size() + " Objects to save");
+            LOG.debug(workbenchWidget.getObjectsToDelete().size() + " Objects to delete");
+        }
+
+        final Collection<WorkbenchEntity> persistedObjects = CidsBroker.getInstance()
+                    .saveObjects(workbenchWidget.getObjectsToPersist());
+        getCurrentSearchResults().addAll(persistedObjects);
+        if (!isInCreateMode()) {
+            final Collection<WorkbenchEntity> objectsToDelete = workbenchWidget.getObjectsToDelete();
+            CidsBroker.getInstance().deleteEntities(objectsToDelete);
+            getCurrentSearchResults().removeAll(objectsToDelete);
+        }
+        for (final WorkbenchEntity entity : getCurrentSearchResults()) {
+            entity.storeBackup();
+        }
+        workbenchWidget.getObjectsToDelete().clear();
+        if (isInCreateMode()) {
+            workbenchWidget.clearNewNode();
+        } else {
+            workbenchWidget.clearEditNode();
+        }
+
+        final Runnable runnable = new Runnable() {
+
+                @Override
+                public void run() {
+                    workbenchWidget.refreshAll();
+                    refreshMap();
+                }
+            };
+
+        return runnable;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    protected Runnable cancelWorkbench() throws Exception {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("cancel");
+        }
+
+        if (!isInCreateMode()) {
+            getCurrentSearchResults().addAll(workbenchWidget.getObjectsToDelete());
+            for (final BaseEntity entity : workbenchWidget.getObjectsToPersist()) {
+                entity.loadBackup();
+            }
+            getCurrentSearchResults().addAll(workbenchWidget.getObjectsToPersist());
+        }
+        workbenchWidget.getObjectsToDelete().clear();
+        if (isInCreateMode()) {
+            workbenchWidget.clearNewNode();
+        } else {
+            workbenchWidget.clearEditNode();
+        }
+
+        final Runnable cancelEDTRun = new Runnable() {
+
+                @Override
+                public void run() {
+                    workbenchWidget.refreshAll();
+                    refreshMap();
+                }
+            };
+        return cancelEDTRun;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   ttable  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public JXTreeTable decorateWithAlternateHighlighting(final JXTreeTable ttable) {
+        ttable.addHighlighter(ALTERNATE_ROW_HIGHLIGHTER);
+        return ttable;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   ttable  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public JXTreeTable decorateWithNoGeometryHighlighter(final JXTreeTable ttable) {
+        final HighlightPredicate noGeometryPredicate = new HighlightPredicate() {
+
+                @Override
+                public boolean isHighlighted(final Component renderer, final ComponentAdapter componentAdapter) {
+                    // int displayedIndex = componentAdapter.row;
+                    // nt modelIndex = ((JXTreeTable) ttable).getFilters().convertRowIndexToModel(displayedIndex);
+                    try {
+                        final Object userObj =
+                            ((AbstractMutableTreeTableNode)ttable.getPathForRow(componentAdapter.row)
+                                        .getLastPathComponent()).getUserObject();
+                        if ((userObj != null) && (userObj instanceof WorkbenchFeatureEntity)) {
+                            return ((WorkbenchFeatureEntity)userObj).getGeometry() == null;
+                        }
+                    } catch (Exception ex) {
+                        LOG.error("Exception in Highlighter: ", ex);
+                    }
+                    return false;
+                        // ReBe r = model.get//tableModel.getReBeAtRow(modelIndex);
+                        // return r != null && r.getGeometry() == null;
+                }
+            };
+
+        final Highlighter noGeometryHighlighter = new ColorHighlighter(noGeometryPredicate, BelisBroker.gray, null);
+        ttable.addHighlighter(noGeometryHighlighter);
+        return ttable;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  ex  DOCUMENT ME!
+     */
+    public void showSaveErrorDialog(final Exception ex) {
+        final ErrorInfo ei = new ErrorInfo(
+                "Fehler beim speichern...",
+                "<html><table width=\"250\" border=\"0\"><tr><td>Fehler beim speichern der Objekte. Ihre Änderungen konnten nicht gespeichert werden.</td></tr></table></html>",
+                null,
+                null,
+                ex,
+                Level.SEVERE,
+                null);
+        JXErrorPane.showDialog(getParentComponent(), ei);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void customizeApplication() {
+        customizeApplicationToolbar();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void customizeApplicationToolbar() {
+        final SimpleMemoryMonitoringToolbarWidget memTB = new SimpleMemoryMonitoringToolbarWidget();
+        if (memTB.isVisible()) {
+            getToolbar().add(memTB);
+            getToolbar().add(createToolBarSeperator());
+        }
+        addCreateToolBar();
+        addCopyPasteToolBar();
+        addFilterToolbar();
+        addLocationSearch();
+        getToolbar().add(metaSearchComponentFactory.getCmdPluginSearch());
+        addSeparatorToToolbar();
+        addMapSearchControl();
+        btnAcceptChanges.setIcon(BelisIcons.icoAccept22);
+        btnDiscardChanges.setIcon(BelisIcons.icoCancel22);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public StatusBar getStatusbar() {
+        return statusbar;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  statusbar  DOCUMENT ME!
+     */
+    public void setStatusbar(final StatusBar statusbar) {
+        this.statusbar = statusbar;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isStatusBarEnabled() {
+        return statusBarEnabled;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  isStatusBarEnabled  DOCUMENT ME!
+     */
+    public void setStatusBarEnabled(final boolean isStatusBarEnabled) {
+        this.statusBarEnabled = isStatusBarEnabled;
+    }
 
     /**
      * final JButton btnStandort = new JButton("ST");
      *
      * @return  DOCUMENT ME!
      */
-    public Set getCurrentSearchResults() {
+    public Set<WorkbenchEntity> getCurrentSearchResults() {
         return currentSearchResults;
     }
 
@@ -179,82 +2307,50 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  currentSearchResults  DOCUMENT ME!
      */
-    public void setCurrentSearchResults(final Set currentSearchResults) {
-        if (log.isDebugEnabled()) {
-            log.debug("setSearchResults");
+    public void setCurrentSearchResults(final Set<WorkbenchEntity> currentSearchResults) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("setSearchResults");
         }
+        final Set<WorkbenchEntity> old = this.currentSearchResults;
+        this.currentSearchResults = currentSearchResults;
         if ((this.currentSearchResults != null) && (currentSearchResults != null)
                     && this.currentSearchResults.equals(currentSearchResults)) {
-            log.fatal("Sets are equals no propertyChange doing manually refresh --> ToDo fix me");
-            this.currentSearchResults = currentSearchResults;
-            refreshWidgets(getCurrentSearchResults());
-        } else {
-            this.currentSearchResults = currentSearchResults;
+            LOG.warn("Sets are equals no propertyChange doing manually refresh --> ToDo fix me");
+            refreshWidgets(currentSearchResults);
         }
         // ToDo why is it not working if I use null there is no equals check ???
-        propertyChangeSupport.firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, null, currentSearchResults);
+        propertyChangeSupport.firePropertyChange(PROP_CURRENT_SEARCH_RESULTS, old, currentSearchResults);
     }
-    // ToDo refactor
-    // ToDo Backgroundthtread;
 
     /**
      * DOCUMENT ME!
      *
-     * @param   strassenschluessel  DOCUMENT ME!
-     * @param   kennziffer          DOCUMENT ME!
-     * @param   laufendenummer      DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
+     * @param  set  DOCUMENT ME!
      */
-    public Set search(final String strassenschluessel, final Short kennziffer, final Short laufendenummer)
-            throws ActionNotSuccessfulException {
-        // ToDo remove method
-        clearMap();
-        final Set result = EJBroker.getInstance().getObjectsByKey(strassenschluessel, kennziffer, laufendenummer);
-        // ToDo should be checked if is in EDT
-        if (result != null) {
-            if (log.isDebugEnabled()) {
-                log.debug("Search results: " + result.size());
-            }
-        } else {
-            if (log.isDebugEnabled()) {
-                log.debug("Search results delivered no result");
-            }
-        }
-        final Set tmp = result;
-        EventQueue.invokeLater(new Runnable() {
+    public void setSearchResult(final Set<WorkbenchEntity> set) {
+        new SwingWorker<Void, Void>() {
 
                 @Override
-                public void run() {
-                    if ((tmp != null) && !IsGreaterMaxSearchResults(tmp.size())) {
-                        setCurrentSearchResults(tmp);
-                        // ToDo PropertyChangeListener;
+                protected Void doInBackground() throws Exception {
+                    if (set != null) {
+                        for (final WorkbenchEntity entity : set) {
+                            entity.storeBackup();
+                        }
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    if (set != null) {
+                        setCurrentSearchResults(set);
                         refreshMap();
-                        mappingComponent.zoomToFullFeatureCollectionBounds();
+                        getMappingComponent().zoomToFullFeatureCollectionBounds();
+                    } else {
+                        clearMap();
                     }
                 }
-            });
-        return result;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public RetrieveWorker getLastSearch() {
-        return lastSearch;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  lastSearch  DOCUMENT ME!
-     */
-    public void setLastSearch(final RetrieveWorker lastSearch) {
-        this.lastSearch = lastSearch;
+            }.execute();
     }
 
     /**
@@ -278,111 +2374,152 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
     /**
      * DOCUMENT ME!
      *
-     * @param   searchCount  DOCUMENT ME!
+     * @param   veranlassungsnummer  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public boolean IsGreaterMaxSearchResults(final int searchCount) {
-        if (searchCount > maxSearchResults) {
-            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
-                "Es wurden zu viele Ergebnisse gefunden: "
-                        + searchCount
-                        + ". Zulässige Anzahl sind: "
-                        + maxSearchResults
-                        + ".\nBitte verändern Sie Ihre Auswahl.",
-                "Zu viele Ergebnisse",
-                JOptionPane.INFORMATION_MESSAGE);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param   bb  DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     *
-     * @throws  ActionNotSuccessfulException  DOCUMENT ME!
-     */
-    public Set search(final BoundingBox bb) throws ActionNotSuccessfulException {
-        Set result = null;
+    public Collection searchForArbeitsprotokolleOfVeralassung(final String veranlassungsnummer) {
+        final ArbeitsauftragSearchStatement searchStatement = new ArbeitsauftragSearchStatement();
+        searchStatement.setVeranlassungsNummer(veranlassungsnummer);
+        searchStatement.setActiveObjectsOnly(false);
+        searchStatement.setWorkedoffObjectsOnly(false);
         try {
-            clearMap();
-            result = EJBroker.getInstance().getObjectsByBoundingBox(bb);
-            if (result != null) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Search results: " + result.size());
-                }
-            } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Search results delivered no result");
-                }
-            }
-            final Set tmp = result;
-            EventQueue.invokeAndWait(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if ((tmp != null) && !IsGreaterMaxSearchResults(tmp.size())) {
-                            if (log.isDebugEnabled()) {
-                                log.debug(tmp);
-                            }
-                            setCurrentSearchResults(tmp);
-                            // ToDo PropertyChangeListener;
-                            refreshMap();
-                        }
-                    }
-                });
-        } catch (Exception ex) {
-            log.error("Exception while searching boundingbox: ", ex);
-            return new TreeSet();
+            final Collection res = SessionManager.getProxy()
+                        .customServerSearch(SessionManager.getSession().getUser(), searchStatement);
+            return res;
+        } catch (final Exception ex) {
+            return null;
         }
-        return result;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param  searchResults  DOCUMENT ME!
+     * @param  bb  DOCUMENT ME!
      */
-    private void addEntityRecursiveToMap(final Set searchResults) {
-        final ArrayList<Feature> featuresToAdd = new ArrayList<Feature>();
+    public void search(final BoundingBox bb) {
+        try {
+            disableSearch();
+            final BelisSearchStatement belisSearchStatement = new BelisSearchStatement(
+                    isFilterNormal(),
+                    false,
+                    isFilterNormal(),
+                    isFilterNormal(),
+                    isFilterNormal(),
+                    isFilterNormal(),
+                    isFilterVeranlassung(),
+                    isFilterArbeitsauftrag());
+            final int srid = CrsTransformer.extractSridFromCrs(CismapBroker.getInstance().getMappingComponent()
+                            .getMappingModel().getSrs().getCode());
+            final Geometry searchGeom = CrsTransformer.transformToDefaultCrs(bb.getGeometry(srid));
+            belisSearchStatement.setGeometry(searchGeom);
+            CidsSearchExecutor.searchAndDisplayResultsWithDialog(belisSearchStatement);
+        } catch (Exception ex) {
+            LOG.error("Exception while searching boundingbox: ", ex);
+            enableSearch();
+            fireSearchFinished();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  strassenschluessel  DOCUMENT ME!
+     * @param  kennziffer          DOCUMENT ME!
+     * @param  laufendeNummer      DOCUMENT ME!
+     */
+    public void search(final String strassenschluessel, final Integer kennziffer, final Integer laufendeNummer) {
+        try {
+            disableSearch();
+            final BelisLocationSearchStatement searchStatement = new BelisLocationSearchStatement(
+                    strassenschluessel,
+                    kennziffer,
+                    laufendeNummer);
+            CidsSearchExecutor.searchAndDisplayResultsWithDialog(searchStatement);
+        } catch (Exception ex) {
+            LOG.error("Exception while searching by location: ", ex);
+            enableSearch();
+            fireSearchFinished();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   searchResults  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    private Collection<Feature> addEntityRecursiveToMap(final Collection searchResults) {
+        final Collection<Feature> featuresToAdd = new HashSet<Feature>();
         if (searchResults != null) {
             for (final Object currentResult : searchResults) {
-                if ((currentResult instanceof StyledFeature)
+                if ((currentResult instanceof VeranlassungCustomBean)) {
+                    final VeranlassungCustomBean veranlassungCustomBean = (VeranlassungCustomBean)currentResult;
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_geometrien()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_abzweigdosen()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_leitungen()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_leuchten()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_mauerlaschen()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_schaltstellen()));
+                    featuresToAdd.addAll(addEntityRecursiveToMap(veranlassungCustomBean.getAr_standorte()));
+                } else if ((currentResult instanceof ArbeitsauftragCustomBean)) {
+                    final ArbeitsauftragCustomBean arbeitsauftragCustomBean = (ArbeitsauftragCustomBean)currentResult;
+                    for (final ArbeitsprotokollCustomBean protokoll : arbeitsauftragCustomBean.getAr_protokolle()) {
+                        if (protokoll.getFk_abzweigdose() != null) {
+                            featuresToAdd.add(protokoll.getFk_abzweigdose());
+                        }
+                        if (protokoll.getFk_leitung() != null) {
+                            featuresToAdd.add(protokoll.getFk_leitung());
+                        }
+                        if (protokoll.getFk_leuchte() != null) {
+                            featuresToAdd.add(protokoll.getFk_leuchte());
+                        }
+                        if (protokoll.getFk_mauerlasche() != null) {
+                            featuresToAdd.add(protokoll.getFk_mauerlasche());
+                        }
+                        if (protokoll.getFk_schaltstelle() != null) {
+                            featuresToAdd.add(protokoll.getFk_schaltstelle());
+                        }
+                        if (protokoll.getFk_standort() != null) {
+                            featuresToAdd.add(protokoll.getFk_standort());
+                        }
+                        if (protokoll.getFk_geometrie() != null) {
+                            featuresToAdd.add(protokoll.getFk_geometrie());
+                        }
+                    }
+                } else if ((currentResult instanceof StyledFeature)
                             && (((StyledFeature)currentResult).getGeometry() != null)) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("SearchResult is Styled Feature and geometry != null --> adding feature to map.");
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("SearchResult is Styled Feature and geometry != null --> adding feature to map.");
                     }
                     featuresToAdd.add((StyledFeature)currentResult);
                     // getMappingComponent().getFeatureCollection().addFeature((StyledFeature) currentResult);
-                    if ((currentResult instanceof Standort) && (((Standort)currentResult).getLeuchten() != null)) {
-                        if (log.isDebugEnabled()) {
-                            log.debug(
+                    if ((currentResult instanceof TdtaStandortMastCustomBean)
+                                && (((TdtaStandortMastCustomBean)currentResult).getLeuchten() != null)) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug(
                                 "SearchResult is instance of Standort and owns Leuchte objects --> also adding to Map");
                         }
-                        addEntityRecursiveToMap(((Standort)currentResult).getLeuchten());
+                        featuresToAdd.addAll(addEntityRecursiveToMap(
+                                ((TdtaStandortMastCustomBean)currentResult).getLeuchten()));
                     }
-                    if (currentResult instanceof Leitung) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("SearchResult is instance of Leitung. Setting PropertyChangeListener");
+                    if (currentResult instanceof LeitungCustomBean) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("SearchResult is instance of Leitung. Setting PropertyChangeListener");
                         }
-                        ((Leitung)currentResult).addPropertyChangeListener(this);
+                        ((LeitungCustomBean)currentResult).addPropertyChangeListener(this);
                     }
-                    if (currentResult instanceof Mauerlasche) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("SearchResult is instance of Leitung. Setting PropertyChangeListener");
+                    if (currentResult instanceof MauerlascheCustomBean) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("SearchResult is instance of Leitung. Setting PropertyChangeListener");
                         }
-                        ((Mauerlasche)currentResult).addPropertyChangeListener(this);
+                        ((MauerlascheCustomBean)currentResult).addPropertyChangeListener(this);
                     }
                 }
             }
-            if (featuresToAdd.size() > 0) {
-                getMappingComponent().getFeatureCollection().substituteFeatures(featuresToAdd);
-            }
         }
+        return featuresToAdd;
     }
 
     /**
@@ -402,7 +2539,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
                     });
             }
         } catch (Exception ex) {
-            log.error("Error while clearing map: ", ex);
+            LOG.error("Error while clearing map: ", ex);
         }
     }
 
@@ -411,27 +2548,23 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      */
     private void refreshMap() {
         if (getCurrentSearchResults() != null) {
-            if (log.isDebugEnabled()) {
-                log.debug("refreshMap (features): " + getCurrentSearchResults().size());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("refreshMap (features): " + getCurrentSearchResults().size());
             }
-            if (log.isDebugEnabled()) {
-                log.debug("refreshMap featureCollection: "
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("refreshMap featureCollection: "
                             + getMappingComponent().getFeatureCollection().getFeatureCount());
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("refreshMap no results");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("refreshMap no results");
             }
         }
         try {
             if (EventQueue.isDispatchThread()) {
                 getMappingComponent().getFeatureCollection().removeAllFeatures();
-                addEntityRecursiveToMap(getCurrentSearchResults());
-//                if(getMappingComponent().getFeatureCollection().getAllFeatures() != null){
-//                    for(Feature curFeatrue:getMappingComponent().getFeatureCollection().getAllFeatures()){
-//                        getMappingComponent().getFeatureCollection().reconsiderFeature(curFeatrue);
-//                    }
-//                }
+                getMappingComponent().getFeatureCollection()
+                        .substituteFeatures(addEntityRecursiveToMap(getCurrentSearchResults()));
             } else {
                 EventQueue.invokeAndWait(new Runnable() {
 
@@ -442,7 +2575,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
                     });
             }
         } catch (Exception ex) {
-            log.error("Error while refreshińg map: ", ex);
+            LOG.error("Error while refreshińg map: ", ex);
         }
     }
 
@@ -457,230 +2590,194 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
 
     /**
      * DOCUMENT ME!
-     *
-     * @param  workbenchWidget  DOCUMENT ME!
-     */
-    public void setWorkbenchWidget(final WorkbenchWidget workbenchWidget) {
-        this.workbenchWidget = workbenchWidget;
-    }
-
-    @Override
-    public void masterConfigure(final Element parent) {
-        System.out.println("conifgure glassfish");
-        try {
-            final Element prefs = parent.getChild("GlassfishSetup");
-            try {
-                if (log.isDebugEnabled()) {
-                    log.debug("Glassfishhost: " + prefs.getChildText("Host"));
-                }
-                System.setProperty("org.omg.CORBA.ORBInitialHost", prefs.getChildText("Host"));
-            } catch (Exception ex) {
-                log.warn("Fehler beim lesen des Glassfish Hosts", ex);
-            }
-            try {
-                if (log.isDebugEnabled()) {
-                    log.debug("Glassfisport: " + prefs.getChildText("OrbPort"));
-                }
-                System.setProperty("org.omg.CORBA.ORBInitialPort", prefs.getChildText("OrbPort"));
-            } catch (Exception ex) {
-                log.warn("Fehler beim lesen des Glassfish Ports", ex);
-            }
-        } catch (Exception ex) {
-            log.warn("Error while configuring Glassfish");
-        }
-        try {
-            final Element prefs = parent.getChild("Options");
-            try {
-                if (log.isDebugEnabled()) {
-                    log.debug("MaxSearchResults: " + prefs.getChildText("MaxSearchResults"));
-                }
-                maxSearchResults = Integer.valueOf(prefs.getChildText("MaxSearchResults"));
-            } catch (Exception ex) {
-                log.warn("Error while reading max value for search results.Using default: " + maxSearchResults, ex);
-            }
-        } catch (Exception ex) {
-            log.warn("Error while reading options");
-        }
-        try {
-            searchWaitDialog = new SearchWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
-            saveWaitDialog = new SaveWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
-            cancelWaitDialog = new CancelWaitDialog(StaticSwingTools.getParentFrame(getParentComponent()), true);
-        } catch (Exception ex) {
-            log.warn("Error while creating search and wait dialog");
-        }
-        super.masterConfigure(parent);
-        if (log.isDebugEnabled()) {
-            log.debug("masterConfigure:" + BelisBroker.class.getName());
-        }
-        if (log.isDebugEnabled()) {
-            log.debug("Configure Belis specific borker");
-        }
-        doBelisBinding();
-        customizeMapWidget();
-        ((DefaultFeatureCollection)getMappingComponent().getFeatureCollection()).addVetoableSelectionListener(this);
-        // Configure Font for map object labels (keystring)
-        // ToDo make configurable;
-        try {
-            final Element prefs = parent.getChild("Options");
-            IconUtils.setFont(new Font(
-                    "Courier",
-                    Font.PLAIN,
-                    Integer.parseInt(prefs.getChildText("MapObjectFontSize"))));
-        } catch (Exception ex) {
-            final int defaultFontSize = 15;
-            log.warn("Error setting fontsize for map objects. Setting font to default: " + defaultFontSize);
-            IconUtils.setFont(new Font("Courier", Font.PLAIN, defaultFontSize));
-        }
-    } // ToDo
-
-    /**
-     * DOCUMENT ME!
      */
     private void doBelisBinding() {
-        if (log.isDebugEnabled()) {
-            log.debug("DoBelisBinding()");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("DoBelisBinding()");
         }
-        WorkbenchWidget wWidget = null;
-        DetailWidget dWidget = null;
-        for (final Widget curWidget : getWidgets()) {
-            if ((wWidget != null) && (dWidget != null)) {
+        for (final BelisWidget curWidget : getWidgets()) {
+            if ((workbenchWidget != null) && (detailWidget != null)) {
                 break;
             } else if (curWidget instanceof WorkbenchWidget) {
                 workbenchWidget = (WorkbenchWidget)curWidget;
-                wWidget = (WorkbenchWidget)curWidget;
             } else if (curWidget instanceof DetailWidget) {
-                dWidget = (DetailWidget)curWidget;
                 detailWidget = (DetailWidget)curWidget;
             }
         }
-        if ((wWidget == null) || (dWidget == null)) {
-            log.warn("Workbench Widget could not be bound to Detail Widget because one of them == null");
+        if ((workbenchWidget == null) || (detailWidget == null)) {
+            LOG.warn("Workbench Widget could not be bound to Detail Widget because one of them == null");
         }
 
-        final BindingGroup bindingGroup = new BindingGroup();
+        final PropertyChangeListener listener = new PropertyChangeListener() {
 
-//         BindingGroup bindingGroup2 = new BindingGroup();
+                @Override
+                public void propertyChange(final PropertyChangeEvent evt) {
+                    if (evt.getPropertyName().equals(WorkbenchWidget.PROP_SELECTEDTREENODES)) {
+                        final Collection<WorkbenchEntity> currentEntities = new ArrayList<WorkbenchEntity>();
+                        WorkbenchEntity parentEntity = null;
 
-//        //SearchResultWidgets binding
-//        for(Widget curWidget:getWidgets()){
-//            if(curWidget instanceof SearchResultWidget){
-//                log.debug("Bind SearchResultWidget: "+curWidget.getWidgetName()+" to currentSearchResultProperty of BelisBroker");
-//                  final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentSearchResults}"), ((SearchResultWidget)curWidget), org.jdesktop.beansbinding.BeanProperty.create("${searchResults}"));
-//                  bindingGroup.addBinding(binding);
-//            }
-//        }
-        // Editbutton binding
-//        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${currentSearchResults != null}"),btnSwitchInEditmode, org.jdesktop.beansbinding.BeanProperty.create("visible"));
-//        bindingGroup2.addBinding(binding);
-        // ToDo should only be read
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                wWidget,
-                org.jdesktop.beansbinding.ELProperty.create("${selectedTreeNode.lastPathComponent.userObject}"),
-                dWidget,
-                org.jdesktop.beansbinding.BeanProperty.create("currentEntity"));
-//        org.jdesktop.beansbinding.Binding binding2 = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, wWidget, org.jdesktop.beansbinding.ELProperty.create("${selectedTreeNode.lastPathComponent.userObject.class}"),mappingComponent, org.jdesktop.beansbinding.BeanProperty.create("inputEventListener["+getMappingComponent().NEW_POLYGON+"].geometryFeatureClass"));
-//        getMappingComponent().getInputEventListener();
-        binding.setSourceUnreadableValue(null);
-//        binding2.setSourceUnreadableValue(null);
-        wWidget.addPropertyChangeListener("selectedTreeNode", dWidget);
-//        bindingGroup.addBinding(binding2);
-        bindingGroup.addBinding(binding);
-        // CreateToolbar binding
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                wWidget,
-                org.jdesktop.beansbinding.ELProperty.create("${selectedTreeNode.lastPathComponent.userObject}"),
-                panCreate,
-                org.jdesktop.beansbinding.BeanProperty.create("currentEntity"));
-        binding.setSourceUnreadableValue(null);
-        bindingGroup.addBinding(binding);
-        bindingGroup.bind();
-//        bindingGroup2.bind();
+                        boolean first = true;
+                        boolean allSameParent = true;
+                        boolean allSameType = true;
+                        CustomMutableTreeTableNode allSameParentNode = null;
+                        Object allSameMainNode = null;
+                        Class allSameTypeClass = null;
+                        if (((WorkbenchWidget)evt.getSource()).getSelectedTreeNodes() != null) {
+                            for (final TreePath treePath : ((WorkbenchWidget)evt.getSource()).getSelectedTreeNodes()) {
+                                final Object currentMainNode = treePath.getPathComponent(1);
+                                final CustomMutableTreeTableNode currentParentNode = (CustomMutableTreeTableNode)
+                                    treePath.getParentPath().getLastPathComponent();
+                                final Object currentUserObject =
+                                    ((CustomMutableTreeTableNode)treePath.getLastPathComponent()).getUserObject();
+                                final Class currentClass = currentUserObject.getClass();
+                                if (first) {
+                                    allSameParentNode = currentParentNode;
+                                    allSameMainNode = currentMainNode;
+                                    allSameTypeClass = currentClass;
+                                    first = false;
+                                }
+                                if (currentParentNode != allSameParentNode) {
+                                    allSameParent = false;
+                                }
+                                if ((currentClass != allSameTypeClass)) {
+                                    allSameType = false;
+                                }
+                                if (currentUserObject instanceof WorkbenchEntity) {
+                                    currentEntities.add((WorkbenchEntity)currentUserObject);
+                                }
+                            }
+                        }
+
+                        if (!allSameType || (allSameTypeClass == null)
+                                    || ((currentEntities.size() > 1)
+                                        && !allSameTypeClass.equals(ArbeitsprotokollCustomBean.class))) {
+                            currentEntities.clear();
+                        }
+                        if (!currentEntities.isEmpty() && allSameParent && (allSameParentNode != null)
+                                    && (allSameParentNode.getUserObject() instanceof WorkbenchEntity)) {
+                            parentEntity = (WorkbenchEntity)allSameParentNode.getUserObject();
+                        }
+
+                        final boolean isFromNewNode = (allSameMainNode != null)
+                                    && allSameMainNode.equals(((WorkbenchWidget)evt.getSource()).getNewObjectsNode());
+                        final boolean isFromEditNode = (allSameMainNode != null)
+                                    && allSameMainNode.equals(((WorkbenchWidget)evt.getSource()).getEditObjectsNode());
+
+                        try {
+                            detailWidget.setCurrentEntities(
+                                currentEntities,
+                                parentEntity,
+                                isFromNewNode
+                                        || isFromEditNode);
+                        } catch (VetoException ex) {
+                            return;
+                        }
+                        copyPasteToolbar.clipboardChanged();
+
+                        final WorkbenchEntity selectedSingleEntity;
+                        if (currentEntities.size() == 1) {
+                            final Object selectedObject = currentEntities.iterator().next();
+                            if ((selectedObject != null) && (selectedObject instanceof WorkbenchEntity)) {
+                                selectedSingleEntity = (WorkbenchEntity)selectedObject;
+                            } else {
+                                selectedSingleEntity = null;
+                            }
+                        } else {
+                            selectedSingleEntity = null;
+                        }
+
+                        if (isInEditMode()) {
+                            if (isFromNewNode || isFromEditNode) {
+                                panCreate.setSelectedEntity(selectedSingleEntity);
+                            } else {
+                                panCreate.setSelectedEntity(null);
+                            }
+                        } else {
+                            panCreate.setSelectedEntity(null);
+                        }
+                    }
+                }
+            };
+        if (workbenchWidget != null) {
+            workbenchWidget.addPropertyChangeListener(listener);
+        }
     }
 
-    // ToDo more than ugly with the isPendingForCreate must somehow inserted in Framework
-    @Override
-    public void acquireLock() throws LockingNotSuccessfulException {
-        super.acquireLock();
+    /**
+     * ToDo more than ugly with the isPendingForCreate must somehow inserted in Framework.
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public void acquireLock() throws Exception {
         // ToDo should be some notification for edit mode this is not the right place
-        if (isPendingForCreateMode) {
+        if (isPendingForCreateMode.get()) {
             setInCreateMode(true);
-            isPendingForCreateMode = false;
+            isPendingForCreateMode.set(false);
         }
         if (!isInCreateMode()) {
             try {
-                EJBroker.getInstance().lockEntity(currentSearchResults, getAccountName());
+                releaseLock();
+                sperre = CidsBroker.getInstance().lockEntities(currentSearchResults, getAccountName());
             } catch (ActionNotSuccessfulException ex) {
-                log.error("Error while creating lock:", ex);
-                isPendingForCreateMode = false;
-                throw new LockingNotSuccessfulException(
+                LOG.error("Error while creating lock:", ex);
+                isPendingForCreateMode.set(false);
+                throw new Exception(
                     "Sperren konnten nicht angelegt werden, wechseln in Editmodus nicht möglich");
             } catch (LockAlreadyExistsException ex) {
-                log.info("Some of the objects are already locked", ex);
-                isPendingForCreateMode = false;
-                final ArrayList<Lock> alreadyLocked = ex.getAlreadyExisingLocks();
-                if (log.isDebugEnabled()) {
-                    log.debug("Count of already locked objects: " + alreadyLocked.size());
+                LOG.info("Some of the objects are already locked", ex);
+                isPendingForCreateMode.set(false);
+                final Collection<SperreCustomBean> alreadyLocked = new ArrayList<SperreCustomBean>();
+                for (final MetaObjectNode mon : ex.getAlreadyExisingLocks()) {
+                    alreadyLocked.add((SperreCustomBean)CidsBroker.getInstance().getMetaObject(
+                            mon.getClassId(),
+                            mon.getObjectId(),
+                            "BELIS2").getBean());
                 }
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Count of already locked objects: " + alreadyLocked.size());
+                }
+                fireLockFinished();
                 showObjectsLockedDialog(alreadyLocked);
-                isPendingForCreateMode = false;
+                isPendingForCreateMode.set(false);
                 throw new LockingNotSuccessfulException(
                     "Einige der Objekte konnten nicht gesperrt werden, weil sie schon gesperrt sind");
             }
         } else {
-            log.info("Create Modus no locks necessary");
+            LOG.info("Create Modus no locks necessary");
         }
     }
 
-    @Override
-    public void releaseLock() throws UnlockingNotSuccessfulException {
-        super.releaseLock();
+    /**
+     * DOCUMENT ME!
+     *
+     * @throws  Exception  DOCUMENT ME!
+     */
+    public void releaseLock() throws Exception {
         setInCreateMode(false);
         if (!isInCreateMode()) {
-            final Set unsuccessfulObjects = null;
             try {
-                // ToDo problem with unlocking of entities not locked by this user
-                EJBroker.getInstance().unlockEntity(currentSearchResults);
+                if (sperre != null) {
+                    CidsBroker.getInstance().unlock(sperre);
+                    sperre = null;
+                }
             } catch (ActionNotSuccessfulException ex) {
-                log.error("Error while unlocking locked objects:", ex);
-                throw new UnlockingNotSuccessfulException("Angelegte sperren konnten nicht gelöst werden.");
-            }
-            if ((unsuccessfulObjects != null) && (unsuccessfulObjects.size() != 0)) {
-                // ToDo what to do ? Error to the user and go
-                log.error("Some of the objects couldn't be unlocked posting to the user");
+                LOG.error("Error while unlocking locked objects:", ex);
+                throw new Exception("Angelegte sperren konnten nicht gelöst werden.");
             }
         } else {
-            log.info("Create Modus no locks necessary");
+            LOG.info("Create Modus no locks necessary");
         }
         // ToDo should be some notification for edit mode this is not the right place
     }
 
-    @Override
-    protected void switchInEditMode(final boolean isSwitchedInEditMode) {
-        super.switchInEditMode(isSwitchedInEditMode);
-        if (isSwitchedInEditMode) {
-            disableSearch();
-            if (isInCreateMode()) {
-                setAllFeaturesSelectable(false);
-            }
-        } else {
-            enableSearch();
-            // if (isInCreateMode()) {
-            setAllFeaturesSelectable(true);
-            // }
-            // ToDo disabled Functionality 04.05.2009
-            // workbenchWidget.clearNewObjects();
-        }
-    }
     /**
      * ToDo better over currentSearch results.
      *
      * @param  selectable  DOCUMENT ME!
      */
     private void setAllFeaturesSelectable(final boolean selectable) {
-        if (log.isDebugEnabled()) {
-            log.debug("setAllFeaturesNotEditable()");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("setAllFeaturesNotEditable()");
         }
         if (!selectable) {
             getMappingComponent().getFeatureCollection().unselectAll();
@@ -688,19 +2785,19 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
             final FeatureCollection featureCollection = getMappingComponent().getFeatureCollection();
             if (featureCollection != null) {
                 for (final Feature curFeature : featureCollection.getAllFeatures()) {
-                    if (curFeature instanceof GeoBaseEntity) {
-                        ((GeoBaseEntity)curFeature).setSelectable(selectable);
+                    if (curFeature instanceof WorkbenchFeatureEntity) {
+                        ((WorkbenchFeatureEntity)curFeature).setSelectable(selectable);
                         getMappingComponent().getFeatureCollection().reconsiderFeature(curFeature);
-                        currentFeatures.add((GeoBaseEntity)curFeature);
+                        currentFeatures.add((WorkbenchFeatureEntity)curFeature);
                     }
                 }
             }
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("restoring features");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("restoring features");
             }
             if (currentFeatures.size() > 0) {
-                for (final GeoBaseEntity curFeature : currentFeatures) {
+                for (final WorkbenchFeatureEntity curFeature : currentFeatures) {
                     curFeature.setSelectable(selectable);
                     getMappingComponent().getFeatureCollection().reconsiderFeature(curFeature);
                 }
@@ -711,207 +2808,22 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
     /**
      * DOCUMENT ME!
      *
-     * @param  lockedObjects  DOCUMENT ME!
+     * @param  locks  DOCUMENT ME!
      */
-    private void showObjectsLockedDialog(final ArrayList<Lock> lockedObjects) {
+    private void showObjectsLockedDialog(final Collection<SperreCustomBean> locks) {
         final JDialog dialog = new JDialog(StaticSwingTools.getParentFrame(getParentComponent()),
                 "Gesperrte Objekte...",
                 true);
         if (lockPanel == null) {
-            lockPanel = new AlreadyLockedObjectsPanel(lockedObjects);
+            lockPanel = new AlreadyLockedObjectsPanel(locks);
         } else {
-            lockPanel.setLockedObjects(lockedObjects);
+            lockPanel.setLocks(locks);
         }
         dialog.setIconImage(((ImageIcon)BelisIcons.icoError16).getImage());
         dialog.add(lockPanel);
         dialog.pack();
         dialog.setLocationRelativeTo(getParentComponent());
         dialog.setVisible(true);
-    }
-
-    @Override
-    protected void showSaveErrorDialog() {
-        super.showSaveErrorDialog();
-        final JDialog dialog = new JDialog(StaticSwingTools.getParentFrame(getParentComponent()),
-                "Fehler beim speichern...",
-                true);
-        dialog.setIconImage(((ImageIcon)BelisIcons.icoError16).getImage());
-        dialog.add(new SaveErrorDialogPanel());
-        dialog.pack();
-        dialog.setLocationRelativeTo(getParentComponent());
-        dialog.setVisible(true);
-    }
-
-    @Override
-    protected void fireCancelFinished() {
-        EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    cancelWaitDialog.setVisible(false);
-                }
-            });
-    }
-
-    @Override
-    protected void fireCancelStarted() {
-        EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    cancelWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
-                    cancelWaitDialog.setVisible(true);
-                }
-            });
-    }
-
-    @Override
-    protected void fireSaveFinished() {
-        saveWaitDialog.setVisible(false);
-    }
-
-    @Override
-    protected void fireSaveStarted() {
-        EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    saveWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
-                    saveWaitDialog.setVisible(true);
-                }
-            });
-    }
-
-    // ToDo idea mabey a method where the instance above collects the objects to save Set objectsToSave
-    // ToDo in Background
-    // ToDo would be couler if the swingworker would get the runnable and execute it in edt
-    @Override
-    public Runnable save() throws Exception {
-        if (log.isDebugEnabled()) {
-            log.debug("save");
-        }
-        final Runnable superRun = super.save();
-        if (isInCreateMode()) {
-            if (log.isDebugEnabled()) {
-                log.debug(workbenchWidget.getNewObjects().size() + " Objects to Save");
-            }
-            EJBroker.getInstance().saveObjects(workbenchWidget.getNewObjects(), getAccountName());
-        } else {
-            if (log.isDebugEnabled()) {
-                log.debug(getCurrentSearchResults().size() + " Objects to Save");
-            }
-            EJBroker.getInstance().saveObjects(getCurrentSearchResults(), getAccountName());
-        }
-
-        EJBroker.getInstance().deleteEntities(workbenchWidget.getObjectsToRemove(), getAccountName());
-        if (log.isDebugEnabled()) {
-            log.debug("Changes are saved");
-        }
-        // EJBroker.getInstance().refreshObjects(workbenchWidget.getNewObjects());
-        final Runnable saveEDTRun = new Runnable() {
-
-                @Override
-                public void run() {
-                    if (superRun != null) {
-                        superRun.run();
-                    }
-                }
-            };
-
-        EventQueue.invokeAndWait(new Runnable() {
-
-                @Override
-                public void run() {
-                    workbenchWidget.objectsRemoved();
-                    if (isInCreateMode()) {
-                        workbenchWidget.clearNewObjects();
-                        // ToDo search Map for Objects
-                    } else {
-                    }
-                    // ToDo disabled Functionality 04.05.2009
-                    // workbenchWidget.moveNewObjectsAfterSave();
-                    if (isInCreateMode()) {
-                        setCurrentSearchResults(new TreeSet());
-                    }
-                }
-            });
-        if (isInCreateMode()) {
-            if (log.isDebugEnabled()) {
-                log.debug("refreshing SearchResults. Doing mapsearch");
-            }
-            try {
-                search(getMappingComponent().getCurrentBoundingBox());
-            } catch (ActionNotSuccessfulException ex) {
-                log.error("Error while doing mapsearch");
-            }
-        } else {
-            if (log.isDebugEnabled()) {
-                log.debug("not in createmode");
-            }
-        }
-        return saveEDTRun;
-    }
-
-//    //ToDo ugly
-//    public void startMapSearch(){
-//        mscPan.startMapSearch();
-//    }
-    // ToDo PropertyChangeListner + backgroundworker
-    @Override
-    protected Runnable cancel() throws Exception {
-        if (log.isDebugEnabled()) {
-            log.debug("cancel");
-        }
-        try {
-            workbenchWidget.saveSelectedElementAndUnselectAll();
-            final Runnable superRun = super.cancel();
-//            Set tmpResults = null;
-            if (!isInCreateMode() && (lastSearch != null)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("is not in create mode. Refreshing search results with last search");
-                }
-                if (lastSearch.getBoundingBox() != null) {
-                    search(lastSearch.getBoundingBox());
-                } else {
-                    search(lastSearch.getStrassenschluessel(),
-                        lastSearch.getKennziffer(),
-                        lastSearch.getLaufendenummer());
-                }
-            }
-//            final Set refreshedSearchResults = tmpResults;
-
-            // ToDo Refresh the already persited new objects;
-            // result.add(new Standort((int)(10000*Math.random())));
-            final Runnable cancelEDTRun = new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (superRun != null) {
-                            superRun.run();
-                        }
-                        if (!isInCreateMode()) {
-                            // ToDo After this statement there is a exception console (case there are search results and
-                            // the edit modus is cancled) setCurrentSearchResults(refreshedSearchResults);
-                            workbenchWidget.restoreRemovedObjects();
-                        } else {
-                            if (log.isDebugEnabled()) {
-                                log.debug("is in create mode");
-                            }
-                            workbenchWidget.clearNewObjects();
-                        }
-                        // refreshMap();
-                        workbenchWidget.restoreSelectedElementIfPossible();
-                        if (log.isDebugEnabled()) {
-                            log.debug("Objects are refreshed");
-                        }
-                    }
-                };
-            // runOrEDTDispatch(cancelEDTRun);
-            return cancelEDTRun;
-        } catch (ActionNotSuccessfulException ex) {
-            log.error("Error while refreshing objects: " + ex);
-            return null;
-        }
     }
 
     /**
@@ -922,57 +2834,45 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
     public static void runOrEDTDispatch(final Runnable runnable) {
         if (runnable != null) {
             if (EventQueue.isDispatchThread()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Thread is EDT. Execute run");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Thread is EDT. Execute run");
                 }
                 runnable.run();
             } else {
-                log.info("Thread is not EDT. InvokeLater");
+                LOG.info("Thread is not EDT. InvokeLater");
                 EventQueue.invokeLater(runnable);
             }
         }
-    }
-
-    @Override
-    protected void cancelFailed() {
-        super.cancelFailed();
-    }
-
-    // ToDo maybe better to catch exceptions in save and rethrow them ? than this method
-    @Override
-    protected void saveFailed() {
-        super.saveFailed();
     }
 
     /**
      * DOCUMENT ME!
      */
     private void customizeMapWidget() {
-        if (log.isDebugEnabled()) {
-            log.debug("Customizing MapWidget");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Customizing MapWidget");
         }
-        final Vector<Widget> widgets = getWidgets();
+        final Collection<BelisWidget> widgets = getWidgets();
         MapWidget mapWidget = null;
         if (widgets != null) {
-            for (final Widget curWidget : widgets) {
+            for (final BelisWidget curWidget : widgets) {
                 if ((curWidget != null) && (curWidget instanceof MapWidget)) {
                     mapWidget = (MapWidget)curWidget;
                 }
             }
             if (mapWidget != null) {
-                if (log.isDebugEnabled()) {
-                    log.debug("MapWidget found");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("MapWidget found");
                 }
                 this.mapWidget = mapWidget;
 //                addBelisSpecificControlsToMapWidget();
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("Can't customize MapWidget not found");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Can't customize MapWidget not found");
                 }
-                return;
             }
         } else {
-            log.warn("There are no widgets");
+            LOG.warn("There are no widgets");
         }
     }
 
@@ -994,92 +2894,6 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
         this.inCreateMode = isInCreateMode;
     }
 
-//    private void addBelisSpecificControlsToMapWidget() {
-//        if (mapWidget != null) {
-//            log.debug("adding Belis specific controls");
-//            final JToolBar mapWidgetToolbar = mapWidget.getMapWidgetToolbar();
-//
-//
-////            //addLeuchte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly.png"))); // NOI18N
-////            btnLeuchte.setToolTipText("Neue Leuchte");
-////            btnLeuchte.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-////            //addLeuchte.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly_selected.png"))); // NOI18N
-////            btnLeuchte.addActionListener(new java.awt.event.ActionListener() {
-////
-////                public void actionPerformed(java.awt.event.ActionEvent evt) {
-////                    setDigitizeMode();
-////                    btnLeuchte.setSelected(true);
-////                    setCorrectFeatureClass();
-////                }
-////            });
-////            mapWidgetToolbar.add(btnLeuchte);
-////
-////            //addLeuchte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly.png"))); // NOI18N
-////            btnStandort.setToolTipText("Neuer Standort");
-////            btnStandort.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
-////            //addLeuchte.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/commons/architecture/resource/icon/toolbar/newPoly_selected.png"))); // NOI18N
-////            btnStandort.addActionListener(new java.awt.event.ActionListener() {
-////
-////                public void actionPerformed(java.awt.event.ActionEvent evt) {
-////                    setDigitizeMode();
-////                    btnStandort.setSelected(true);
-////                    setCorrectFeatureClass();
-////                }
-////            });
-////            mapWidgetToolbar.add(btnStandort);
-//        } else {
-//            log.warn("adding of Belis specific controls not possible beaucse mapwidget not found !");
-//        }
-//    }
-//        private void setDigitizeMode() {
-//        mapWidget.removeMainGroupSelection();
-//        getMappingComponent().setInteractionMode(getMappingComponent().NEW_POLYGON);
-//    }
-
-//    private void setCorrectFeatureClass() {
-////        Class f = null;
-////        if (btnLeuchte.isSelected()) {
-////            ((CreateGeometryListener) getMappingComponent().getInputListener(getMappingComponent().NEW_POLYGON)).setMode(CreateGeometryListener.POINT);
-////            f = Leuchte.class;
-////        } else if (btnStandort.isSelected()) {
-////            ((CreateGeometryListener) getMappingComponent().getInputListener(getMappingComponent().NEW_POLYGON)).setMode(CreateGeometryListener.POINT);
-////            f = Standort.class;
-////        } else {
-////            f = Leuchte.class;
-////        }
-////        ((CreateGeometryListener) getMappingComponent().getInputListener(getMappingComponent().NEW_POLYGON)).setGeometryFeatureClass(f);
-//        bindingGroup2.bind();
-//        bindingGroup2.unbind();
-//    }
-    // Toolbar
-    @Override
-    public void customizeApplicationToolbar() {
-        addAddressSearch();
-        addLocationSearch();
-        addMapSearchControl();
-        addCreateToolBar();
-        btnAcceptChanges.setIcon(BelisIcons.icoAccept22);
-        btnDiscardChanges.setIcon(BelisIcons.icoCancel22);
-        btnSwitchInEditmode.setIcon(BelisIcons.icoEdit22);
-    }
-
-    /**
-     * DOCUMENT ME!
-     */
-    private void addAddressSearch() {
-        final AddressSearchControl asPan = new AddressSearchControl(this);
-        // ToDo should haben in Panels itself;
-        addSearchControl(asPan);
-        asPan.setMappingComponent(getMappingComponent());
-        getConfigManager().addConfigurable(asPan);
-        getConfigManager().configure(asPan);
-        asPan.setFocusable(false);
-        asPan.setPreferredSize(new java.awt.Dimension(450, 23));
-        getToolbar().add(asPan);
-        // ToDo ugly winning;
-        addSeparatorToToolbar();
-    }
-
     /**
      * DOCUMENT ME!
      */
@@ -1087,7 +2901,6 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
         final LocationSearchControl lsPan = new LocationSearchControl(this);
         lsPan.setFocusable(false);
         addSearchControl(lsPan);
-        lsPan.setPreferredSize(new java.awt.Dimension(250, 23));
         getToolbar().add(lsPan);
         addSeparatorToToolbar();
     }
@@ -1099,7 +2912,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
         mscPan = new MapSearchControl(this);
         addSearchControl(mscPan);
         mscPan.setFocusable(false);
-        mscPan.setPreferredSize(new java.awt.Dimension(150, 23));
+        mscPan.setPreferredSize(new Dimension(150, 23));
         getToolbar().add(mscPan);
     }
 
@@ -1107,18 +2920,42 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      * DOCUMENT ME!
      */
     private void addCreateToolBar() {
-        addEdtiable(panCreate);
-        panCreate.setFocusable(false);
-        getToolbar().add(panCreate, 4);
-        getToolbar().add(createToolBarSeperator(), 5);
+        addEditable(panCreate);
+        getToolbar().add(panCreate);
+        getToolbar().add(createToolBarSeperator());
     }
+
+    /**
+     * DOCUMENT ME!
+     */
+    private void addFilterToolbar() {
+        getToolbar().add(panFilter);
+        getToolbar().add(createToolBarSeperator());
+    }
+
     // ToDo mayby better to operate on the
 
     /**
      * DOCUMENT ME!
      */
+    private void addCopyPasteToolBar() {
+        addEditable(copyPasteToolbar);
+        getToolbar().add(copyPasteToolbar);
+        getToolbar().add(createToolBarSeperator());
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     public void addNewStandort() {
-        workbenchWidget.selectNode(workbenchWidget.addNewStandort());
+        final TdtaStandortMastCustomBean newStandort = TdtaStandortMastCustomBean.createNew();
+        newStandort.setVerrechnungseinheit(true);
+
+        if (BelisBroker.getDefaultUnterhaltMast() != null) {
+            newStandort.setUnterhaltspflichtMast(BelisBroker.getDefaultUnterhaltMast());
+        }
+        newStandort.addPropertyChangeListener(workbenchWidget);
+        workbenchWidget.addNewEntity(newStandort);
     }
 
     /**
@@ -1127,51 +2964,83 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      * @param  relatedObject  DOCUMENT ME!
      */
     public void addNewLeuchte(final Object relatedObject) {
-        workbenchWidget.selectNode(workbenchWidget.addNewLeuchte(relatedObject));
+        workbenchWidget.addNewLeuchte(relatedObject);
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewLeuchte() {
-        workbenchWidget.selectNode(workbenchWidget.addNewLeuchte());
+        workbenchWidget.addNewLeuchte();
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewMauerlasche() {
-        workbenchWidget.selectNode(workbenchWidget.addNewMauerlasche());
+        final MauerlascheCustomBean newMauerlasche = MauerlascheCustomBean.createNew();
+        newMauerlasche.setStrassenschluessel(getLastMauerlascheStrassenschluessel());
+        newMauerlasche.addPropertyChangeListener(this);
+        newMauerlasche.addPropertyChangeListener(workbenchWidget);
+        workbenchWidget.addNewEntity(newMauerlasche);
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewSchaltstelle() {
-        workbenchWidget.selectNode(workbenchWidget.addNewSchaltstelle());
+        final SchaltstelleCustomBean newSchaltstelle = SchaltstelleCustomBean.createNew();
+        newSchaltstelle.addPropertyChangeListener(workbenchWidget);
+        workbenchWidget.addNewEntity(newSchaltstelle);
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewLeitung() {
-        workbenchWidget.selectNode(workbenchWidget.addNewLeitung());
+        final LeitungCustomBean newLeitung = LeitungCustomBean.createNew();
+        newLeitung.setLeitungstyp(getLastLeitungstyp());
+        newLeitung.addPropertyChangeListener(this);
+        newLeitung.addPropertyChangeListener(workbenchWidget);
+        workbenchWidget.addNewEntity(newLeitung);
     }
 
     /**
      * DOCUMENT ME!
      */
     public void addNewAbzweigdose() {
-        workbenchWidget.selectNode(workbenchWidget.addNewAbzweigdose());
+        final AbzweigdoseCustomBean newAbzweigdose = AbzweigdoseCustomBean.createNew();
+        workbenchWidget.addNewEntity(newAbzweigdose);
     }
 
     /**
      * DOCUMENT ME!
-     *
-     * @param  entity  DOCUMENT ME!
      */
-    public void removeEntity(final Object entity) {
-        workbenchWidget.removeEntity(entity);
+    public void addNewVeranlassung() {
+        final VeranlassungCustomBean newVeranlassung = VeranlassungCustomBean.createNew();
+        workbenchWidget.addNewEntity(newVeranlassung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void addNewGeometrie() {
+        workbenchWidget.addNewGeometrie();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void addNewArbeitsauftrag() {
+        final ArbeitsauftragCustomBean newArbeitsauftrag = ArbeitsauftragCustomBean.createNew();
+        workbenchWidget.addNewEntity(newArbeitsauftrag);
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void removeSelectedEntity() {
+        workbenchWidget.removeSelectedEntity();
     }
 
     @Override
@@ -1179,29 +3048,18 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
         if (searchControl != null) {
             searchControls.add(searchControl);
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("searchControl is null can't be add.");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("searchControl is null can't be add.");
             }
         }
     }
 
     @Override
     public synchronized void fireSearchFinished() {
-        if (log.isDebugEnabled()) {
-            log.debug("fireSearchFinished");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("fireSearchFinished");
         }
-        EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    searchWaitDialog.setVisible(false);
-                }
-            });
-        if (!isFullReadOnlyMode) {
-            for (final JButton curControl : editControls) {
-                curControl.setEnabled(true);
-            }
-        }
+        editButtonsToolbar.enableSwitchToModeButtons(!isInCreateMode() && !isInEditMode());
         btnReload.setEnabled(true);
         cmdPrint.setEnabled(true);
         for (final SearchControl curSearchControl : searchControls) {
@@ -1211,20 +3069,11 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
 
     @Override
     public synchronized void fireSearchStarted() {
-        if (log.isDebugEnabled()) {
-            log.debug("fireSearchStarted");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("fireSearchStarted");
         }
-        EventQueue.invokeLater(new Runnable() {
+        editButtonsToolbar.enableSwitchToModeButtons(false);
 
-                @Override
-                public void run() {
-                    searchWaitDialog.setLocationRelativeTo(StaticSwingTools.getParentFrame(getParentComponent()));
-                    searchWaitDialog.setVisible(true);
-                }
-            });
-        for (final JButton curControl : editControls) {
-            curControl.setEnabled(false);
-        }
         btnReload.setEnabled(false);
         cmdPrint.setEnabled(false);
         for (final SearchControl curSearchControl : searchControls) {
@@ -1237,8 +3086,8 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
         if (searchControl != null) {
             searchControls.remove(searchControl);
         } else {
-            if (log.isDebugEnabled()) {
-                log.debug("searchControl is null can't be removed.");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("searchControl is null can't be removed.");
             }
         }
     }
@@ -1255,62 +3104,64 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
 
     @Override
     public synchronized void setSearchEnabled(final boolean isSearchEnabled) {
-        if (log.isDebugEnabled()) {
-            log.debug("setSearchEnabled " + isSearchEnabled);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("setSearchEnabled " + isSearchEnabled);
         }
-        for (final SearchControl curSearchControl : searchControls) {
-            curSearchControl.setSearchEnabled(isSearchEnabled);
-        }
+//        for (final SearchControl curSearchControl : searchControls) {
+//            curSearchControl.setSearchEnabled(isSearchEnabled);
+//        }
     } // public Set getNewObjects() {
 
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
-        if (log.isDebugEnabled()) {
-            log.debug("PropertyChangeEvent");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("PropertyChangeEvent");
         }
         if ((evt != null) && (evt.getPropertyName() != null)) {
-            if (evt.getPropertyName().equals(Leitung.PROP_LEITUNGSTYP) && (evt.getSource() != null)
-                        && (evt.getSource() instanceof Leitung)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("LeitungsTyp Changed");
+            if (evt.getPropertyName().equals(LeitungCustomBean.PROP__FK_LEITUNGSTYP) && (evt.getSource() != null)
+                        && (evt.getSource() instanceof LeitungCustomBean)) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("LeitungsTyp Changed");
                 }
-                lastLeitungstyp = (Leitungstyp)evt.getNewValue();
-                getMappingComponent().getFeatureCollection().reconsiderFeature((Leitung)evt.getSource());
-            } else if (evt.getPropertyName().equals(Leuchte.PROP_LEUCHTENNUMMER) && (evt.getSource() != null)
-                        && (evt.getSource() instanceof Leuchte)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Leuchtennummer changed");
+                lastLeitungstyp = (LeitungstypCustomBean)evt.getNewValue();
+                getMappingComponent().getFeatureCollection().reconsiderFeature((LeitungCustomBean)evt.getSource());
+            } else if (evt.getPropertyName().equals(TdtaLeuchtenCustomBean.PROP__LEUCHTENNUMMER)
+                        && (evt.getSource() != null)
+                        && (evt.getSource() instanceof TdtaLeuchtenCustomBean)) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Leuchtennummer changed");
                 }
                 final TreePath pathToLeuchte = workbenchWidget.getTreeTableModel()
                             .getPathForUserObject(evt.getSource());
-                Standort parentMast = null;
+                TdtaStandortMastCustomBean parentMast = null;
                 if (pathToLeuchte != null) {
                     parentMast = workbenchWidget.getParentMast(pathToLeuchte.getLastPathComponent());
                 }
                 if (parentMast != null) {
                     getMappingComponent().getFeatureCollection().reconsiderFeature(parentMast);
                 } else {
-                    final Standort virtualStandort = workbenchWidget.getVirtualStandortForLeuchte((Leuchte)
-                            evt.getSource());
+                    final TdtaStandortMastCustomBean virtualStandort = workbenchWidget.getVirtualStandortForLeuchte(
+                            (TdtaLeuchtenCustomBean)evt.getSource());
                     if (virtualStandort != null) {
                         getMappingComponent().getFeatureCollection().reconsiderFeature(virtualStandort);
                     } else {
-                        log.warn("Leuchte is neither Hängeleuchte nor attached to a mast. Can't update label in map");
+                        LOG.warn("Leuchte is neither Hängeleuchte nor attached to a mast. Can't update label in map");
                     }
                 }
-            } else if (evt.getPropertyName().equals(Mauerlasche.PROP_STRASSENSCHLUESSEL) && (evt.getSource() != null)
-                        && (evt.getSource() instanceof Mauerlasche)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Mauerlasche Straßßenschlüssel Changed");
+            } else if (evt.getPropertyName().equals(MauerlascheCustomBean.PROP__FK_STRASSENSCHLUESSEL)
+                        && (evt.getSource() != null)
+                        && (evt.getSource() instanceof MauerlascheCustomBean)) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Mauerlasche Straßßenschlüssel Changed");
                 }
-                lastMauerlascheStrassenschluessel = (Strassenschluessel)evt.getNewValue();
+                lastMauerlascheStrassenschluessel = (TkeyStrassenschluesselCustomBean)evt.getNewValue();
             } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("PropertyChange not recognized from BelisBroker.");
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("PropertyChange not recognized from BelisBroker.");
                 }
             }
         } else {
-            log.warn("PropertyChangeEvent or PropertyName == null");
+            LOG.warn("PropertyChangeEvent or PropertyName == null");
         }
     }
 
@@ -1319,7 +3170,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @return  DOCUMENT ME!
      */
-    public Strassenschluessel getLastMauerlascheStrassenschluessel() {
+    public TkeyStrassenschluesselCustomBean getLastMauerlascheStrassenschluessel() {
         return lastMauerlascheStrassenschluessel;
     }
 
@@ -1328,7 +3179,8 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  lastMauerlascheStrassenschluessel  DOCUMENT ME!
      */
-    public void setLastMauerlascheStrassenschluessel(final Strassenschluessel lastMauerlascheStrassenschluessel) {
+    public void setLastMauerlascheStrassenschluessel(
+            final TkeyStrassenschluesselCustomBean lastMauerlascheStrassenschluessel) {
         this.lastMauerlascheStrassenschluessel = lastMauerlascheStrassenschluessel;
     }
 
@@ -1337,7 +3189,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @return  DOCUMENT ME!
      */
-    public Leitungstyp getLastLeitungstyp() {
+    public LeitungstypCustomBean getLastLeitungstyp() {
         return lastLeitungstyp;
     }
 
@@ -1346,91 +3198,8 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  lastLeitungstyp  DOCUMENT ME!
      */
-    public void setLastLeitungstyp(final Leitungstyp lastLeitungstyp) {
+    public void setLastLeitungstyp(final LeitungstypCustomBean lastLeitungstyp) {
         this.lastLeitungstyp = lastLeitungstyp;
-    }
-
-    @Override
-    protected ArrayList<JButton> getEditButtons() {
-        final ArrayList parentButtons = super.getEditButtons();
-        btnSwitchInCreateMode = new javax.swing.JButton();
-        editControls.add(btnSwitchInCreateMode);
-        btnSwitchInCreateMode.setIcon(BelisIcons.icoCreate22); // NOI18N
-        // btnSwitchInEditmode.setEnabled(false);
-        btnSwitchInCreateMode.setToolTipText("Anlegenmodus");
-        btnSwitchInCreateMode.setBorderPainted(false);
-        btnSwitchInCreateMode.setFocusable(false);
-        btnSwitchInCreateMode.setPreferredSize(new java.awt.Dimension(23, 23));
-        btnSwitchInCreateMode.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("try to switch in createmode", new CurrentStackTrace());
-                    }
-                    try {
-                        isPendingForCreateMode = true;
-                        switchEditMode();
-                        for (final JButton curControl : editControls) {
-                            curControl.setEnabled(false);
-                        }
-                        btnAcceptChanges.setEnabled(true);
-                        btnDiscardChanges.setEnabled(true);
-                        setTitleBarComponentpainter(EDIT_MODE_COLOR); //
-                        // ToDo CreateFlag
-                    } catch (Exception ex) {
-                        if (log.isDebugEnabled()) {
-                            log.debug("Fehler beim anlegen der Sperre", ex);
-                        }
-                    }
-
-                    getMappingComponent().setReadOnly(false);
-                    if (log.isDebugEnabled()) {
-                        log.debug("ist im Editiermodus: " + isInEditMode());
-                    }
-                    if (log.isDebugEnabled()) {
-                        log.debug("ist im Createmodus: " + isInCreateMode());
-                    }
-                }
-            });
-        parentButtons.add(1, btnSwitchInCreateMode);
-        return parentButtons;
-    }
-
-    // should only be one mechanismn not three broker,creationtoolbar,worbenchwidget (Method)
-    @Override
-    public void veto() throws VetoException {
-        if ((isInCreateMode() || isInEditMode()) && isVetoCheckEnabled()) {
-            if (log.isDebugEnabled()) {
-                log.debug(
-                    "selectionVetoCheck: User is in edit mode and wants to change the current object over the map.",
-                    new CurrentStackTrace());
-            }
-            // ToDo create convenience method isInValidState or areAllWidgetValid
-            if (!validateWidgets()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("selectionVetoCheck: One or more widgets are invalid. Informing user.");
-                }
-                final int answer = askUser();
-                if (log.isDebugEnabled()) {
-                    log.debug("answer: " + answer);
-                }
-                if (answer == JOptionPane.YES_OPTION) {
-                    if (log.isDebugEnabled()) {
-                        log.debug("selectionVetoCheck: User wants to cancel changes.");
-                    }
-                } else {
-                    if (log.isDebugEnabled()) {
-                        log.debug("selectionVetoCheck: User wants to correct validation, throwing veto exception.");
-                    }
-                    throw new VetoException();
-                }
-            } else {
-                if (log.isDebugEnabled()) {
-                    log.debug("selectionVetoCheck: No veto all Widgets are valid.");
-                }
-            }
-        }
     }
 
     /**
@@ -1463,28 +3232,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @return  DOCUMENT ME!
      */
-    public boolean isVetoCheckEnabled() {
-        return vetoCheckEnabled;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  vetoCheckEnabled  DOCUMENT ME!
-     */
-    public void setVetoCheckEnabled(final boolean vetoCheckEnabled) {
-        if (log.isDebugEnabled()) {
-            log.debug("setVetoCheckto: " + vetoCheckEnabled, new CurrentStackTrace());
-        }
-        this.vetoCheckEnabled = vetoCheckEnabled;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public static UnterhaltLeuchte getDefaultUnterhaltLeuchte() {
+    public static TkeyUnterhLeuchteCustomBean getDefaultUnterhaltLeuchte() {
         return defaultUnterhaltLeuchte;
     }
 
@@ -1493,7 +3241,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  defaultUnterhaltLeuchte  DOCUMENT ME!
      */
-    public static void setDefaultUnterhaltLeuchte(final UnterhaltLeuchte defaultUnterhaltLeuchte) {
+    public static void setDefaultUnterhaltLeuchte(final TkeyUnterhLeuchteCustomBean defaultUnterhaltLeuchte) {
         BelisBroker.defaultUnterhaltLeuchte = defaultUnterhaltLeuchte;
     }
 
@@ -1502,7 +3250,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @return  DOCUMENT ME!
      */
-    public static UnterhaltMast getDefaultUnterhaltMast() {
+    public static TkeyUnterhMastCustomBean getDefaultUnterhaltMast() {
         return defaultUnterhaltMast;
     }
 
@@ -1511,7 +3259,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  defaultUnterhaltMast  DOCUMENT ME!
      */
-    public static void setDefaultUnterhaltMast(final UnterhaltMast defaultUnterhaltMast) {
+    public static void setDefaultUnterhaltMast(final TkeyUnterhMastCustomBean defaultUnterhaltMast) {
         BelisBroker.defaultUnterhaltMast = defaultUnterhaltMast;
     }
 
@@ -1520,7 +3268,7 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @return  DOCUMENT ME!
      */
-    public static Doppelkommando getDefaultDoppelkommando1() {
+    public static TkeyDoppelkommandoCustomBean getDefaultDoppelkommando1() {
         return defaultDoppelkommando1;
     }
 
@@ -1529,18 +3277,344 @@ public class BelisBroker extends AdvancedPluginBroker implements SearchControlle
      *
      * @param  defaultDoppelkommando1  DOCUMENT ME!
      */
-    public static void setDefaultDoppelkommando1(final Doppelkommando defaultDoppelkommando1) {
+    public static void setDefaultDoppelkommando1(final TkeyDoppelkommandoCustomBean defaultDoppelkommando1) {
         BelisBroker.defaultDoppelkommando1 = defaultDoppelkommando1;
     }
-//    @Override
-//    public void fireListSelectionVeto() throws EventVetoedException {
-//        log.debug("VetoSelection");
-//    }
-//        return newObjects;
-//    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public EntityClipboard getEntityClipboard() {
+        return entityClipboard;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isFilterNormal() {
+        return filterNormal;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  filterNormal  DOCUMENT ME!
+     */
+    public void setFilterNormal(final boolean filterNormal) {
+        final boolean old = this.filterNormal;
+        this.filterNormal = filterNormal;
+        propertyChangeSupport.firePropertyChange(PROP_FILTER_NORMAL, old, filterNormal);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isFilterVeranlassung() {
+        return filterVeranlassung;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  filterVeranlassung  DOCUMENT ME!
+     */
+    public void setFilterVeranlassung(final boolean filterVeranlassung) {
+        final boolean old = this.filterVeranlassung;
+        this.filterVeranlassung = filterVeranlassung;
+        propertyChangeSupport.firePropertyChange(PROP_FILTER_VERANLASSUNG, old, filterVeranlassung);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean isFilterArbeitsauftrag() {
+        return filterArbeitsauftrag;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  filterArbeitsauftrag  DOCUMENT ME!
+     */
+    public void setFilterArbeitsauftrag(final boolean filterArbeitsauftrag) {
+        final boolean old = this.filterArbeitsauftrag;
+        this.filterArbeitsauftrag = filterArbeitsauftrag;
+        propertyChangeSupport.firePropertyChange(PROP_FILTER_ARBEITSAUFTRAG, old, filterArbeitsauftrag);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   keyTableClassname  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static DefaultBindableReferenceCombo createKeyTableComboBox(final String keyTableClassname) {
+        return createKeyTableComboBox(keyTableClassname, "<html><i>Wert auswählen...</i></html>", true);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   keyTableClassname  DOCUMENT ME!
+     * @param   nullString         DOCUMENT ME!
+     * @param   scrollable         DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static DefaultBindableReferenceCombo createKeyTableComboBox(final String keyTableClassname,
+            final String nullString,
+            final boolean scrollable) {
+        final DefaultBindableReferenceCombo comboBox;
+        if (scrollable) {
+            comboBox = new ScrollableComboBox(CidsBroker.getInstance().getBelisMetaClass(keyTableClassname));
+        } else {
+            comboBox = new DefaultBindableReferenceCombo(CidsBroker.getInstance().getBelisMetaClass(keyTableClassname));
+        }
+        comboBox.setNullable(true);
+        comboBox.setNullValueRepresentation(nullString);
+        addComboBoxToKeyTableValuesListener(comboBox, keyTableClassname);
+        return comboBox;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public static JComboBox createStrassenschluesselNummerComboBox() {
+        final DefaultBindableReferenceCombo comboBox = new DefaultBindableReferenceCombo(CidsBroker.getInstance()
+                        .getBelisMetaClass(TkeyStrassenschluesselCustomBean.TABLE),
+                "pk");
+        comboBox.setNullable(true);
+        comboBox.setNullValueRepresentation("<html><i>Wert auswählen...</i></html>");
+        addComboBoxToKeyTableValuesListener(comboBox, TkeyStrassenschluesselCustomBean.TABLE);
+        comboBox.setRenderer(new DefaultListCellRenderer() {
+
+                @Override
+                public Component getListCellRendererComponent(final JList list,
+                        final Object value,
+                        final int index,
+                        final boolean isSelected,
+                        final boolean cellHasFocus) {
+                    final Component ret = super.getListCellRendererComponent(
+                            list,
+                            value,
+                            index,
+                            isSelected,
+                            cellHasFocus);
+                    if ((value == null) && (ret instanceof JLabel)) {
+                        ((JLabel)ret).setText(comboBox.getNullValueRepresentation());
+                    } else if ((value instanceof TkeyStrassenschluesselCustomBean) && (ret instanceof JLabel)) {
+                        ((JLabel)ret).setText(((TkeyStrassenschluesselCustomBean)value).getPk());
+                    }
+                    return ret;
+                }
+            });
+        return comboBox;
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void printReport() {
+        final ArrayList<ArbeitsauftragCustomBean> beans = new ArrayList<ArbeitsauftragCustomBean>();
+        final Collection<TreePath> paths = getWorkbenchWidget().getSelectedTreeNodes();
+        if (paths != null) {
+            for (final TreePath path : paths) {
+                final CustomMutableTreeTableNode node = (CustomMutableTreeTableNode)path.getLastPathComponent();
+                if (node != null) {
+                    final Object object = node.getUserObject();
+                    if (object instanceof ArbeitsauftragCustomBean) {
+                        beans.add((ArbeitsauftragCustomBean)object);
+                    }
+                }
+            }
+        }
+
+        if (beans.isEmpty()) {
+            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
+                "Es muss mindestens ein Arbeitsauftrag im Arbeitsbereich selektiert sein.",
+                "kein Arbeitsauftrag selektiert",
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
+//            new SwingWorker<ArbeitsauftraegeReportDownload, Void>() {
 //
-//    public void setNewObjects(Set newObjects) {
-//        this.newObjects = newObjects;
-//        propertyChangeSupport.firePropertyChange(PROP_NEW_OBJECTS, null, newObjects);
-//    }
+//                    final ReportSwingWorkerDialog dialog = new ReportSwingWorkerDialog(StaticSwingTools.getParentFrame(
+//                                getParentComponent()),
+//                            true);
+//
+//                    @Override
+//                    protected ArbeitsauftraegeReportDownload doInBackground() throws Exception {
+//                        SwingUtilities.invokeLater(new Runnable() {
+//
+//                                @Override
+//                                public void run() {
+//                                    StaticSwingTools.showDialog(dialog);
+//                                }
+//                            });
+//
+//                        try {
+            final ArbeitsauftraegeReportDownload reportDownload = new ArbeitsauftraegeReportDownload(beans);
+//                            return reportDownload;
+//                        } catch (Exception ex) {
+//                            LOG.error("error while creating ArbeitsauftragsReport", ex);
+//                            return null;
+//                        }
+//                    }
+//
+//                    @Override
+//                    protected void done() {
+//                        try {
+//                            final ArbeitsauftraegeReportDownload download = get();
+            final DownloadManagerDialog downloadManagerDialog = DownloadManagerDialog.getInstance();
+            if (DownloadManagerDialog.getInstance().showAskingForUserTitleDialog(getRootWindow())) {
+                DownloadManager.instance().add(reportDownload);
+
+                downloadManagerDialog.pack();
+                StaticSwingTools.showDialog(getRootWindow(), downloadManagerDialog, true);
+            }
+//                        } catch (final Exception ex) {
+//                            if (LOG.isDebugEnabled()) {
+//                                LOG.debug("exeption while downloading Report", ex);
+//                            }
+//                            JOptionPane.showMessageDialog(StaticSwingTools.getParentFrame(getParentComponent()),
+//                                "Beim Generieren des Arbeitsauftrag-Reports ist ein Fehler aufgetreten.",
+//                                "Fehler beim Generieren des Reports",
+//                                JOptionPane.ERROR_MESSAGE);
+//                        } finally {
+//                            dialog.setVisible(false);
+//                        }
+//                    }
+//                }.execute();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  comboBox           DOCUMENT ME!
+     * @param  keyTableClassname  DOCUMENT ME!
+     */
+    private static void addComboBoxToKeyTableValuesListener(final DefaultBindableReferenceCombo comboBox,
+            final String keyTableClassname) {
+        CidsBroker.getInstance().addListenerForKeyTableChange(keyTableClassname, new KeyTableListener() {
+
+                @Override
+                public void keyTableChanged() {
+                    try {
+                        if (comboBox.getMetaClass() == null) {
+                            final MetaClass mc = CidsBroker.getInstance().getBelisMetaClass(keyTableClassname);
+                            comboBox.setMetaClass(mc);
+                        }
+                        comboBox.reload(true);
+                    } catch (final Exception ex) {
+                        LOG.warn("exception while comboBox.reload(true)", ex);
+                    }
+                }
+            });
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    class SaveCancelWorker extends SwingWorker<Runnable, Void> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        public static final int SAVE_MODE = 0;
+        public static final int CANCEL_MODE = 1;
+
+        //~ Instance fields ----------------------------------------------------
+
+        private int mode;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new SaveCancelWorker object.
+         *
+         * @param  mode  DOCUMENT ME!
+         */
+        SaveCancelWorker(final int mode) {
+            this.mode = mode;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        protected Runnable doInBackground() throws Exception {
+            if (mode == SAVE_MODE) {
+                return saveWorkbench();
+            } else if (mode == CANCEL_MODE) {
+                return cancelWorkbench();
+            } else {
+                LOG.warn("Mode is unkown.");
+                return null;
+            }
+        }
+
+        @Override
+        protected void done() {
+            if (isCancelled()) {
+                LOG.warn("SaveUpdateWorker is canceled --> nothing to do in method done()");
+                return;
+            }
+            try {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("done");
+                }
+                final Runnable resultRun = get();
+                if (resultRun != null) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("result runnable != null will be executed");
+                    }
+                    resultRun.run();
+                } else {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("result runnable == null. Can't execute");
+                    }
+                }
+                getMappingComponent().setReadOnly(true);
+                switchEditMode();
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("enable buttons");
+                }
+                editButtonsToolbar.enableSwitchToModeButtons(true);
+                btnAcceptChanges.setEnabled(false);
+                btnDiscardChanges.setEnabled(false);
+                setTitleBarComponentpainter(DEFAULT_MODE_COLOR);
+                if (mode == SAVE_MODE) {
+                    fireSaveFinished();
+                } else if (mode == CANCEL_MODE) {
+                    fireCancelFinished();
+                }
+            } catch (final Exception ex) {
+                LOG.error("Failure during saving/refresh results", ex);
+                if (mode == SAVE_MODE) {
+                    showSaveErrorDialog(ex);
+                } else if (mode == CANCEL_MODE) {
+                    // cancelFailed();
+                }
+            } finally {
+                if (mode == SAVE_MODE) {
+                    fireSaveFinished();
+                } else if (mode == CANCEL_MODE) {
+                    fireCancelFinished();
+                }
+            }
+        }
+    }
 }

@@ -23,12 +23,18 @@ import de.cismet.belis.todo.CustomTreeTableModel;
 
 import de.cismet.belis.util.BelisIcons;
 
-import de.cismet.belisEE.entity.Abzweigdose;
-import de.cismet.belisEE.entity.Leitung;
-import de.cismet.belisEE.entity.Leuchte;
-import de.cismet.belisEE.entity.Mauerlasche;
-import de.cismet.belisEE.entity.Schaltstelle;
-import de.cismet.belisEE.entity.Standort;
+import de.cismet.cids.custom.beans.belis2.AbzweigdoseCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsauftragCustomBean;
+import de.cismet.cids.custom.beans.belis2.ArbeitsprotokollCustomBean;
+import de.cismet.cids.custom.beans.belis2.GeometrieCustomBean;
+import de.cismet.cids.custom.beans.belis2.LeitungCustomBean;
+import de.cismet.cids.custom.beans.belis2.MauerlascheCustomBean;
+import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
+import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
+import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
+
+import de.cismet.commons.server.entity.WorkbenchEntity;
 
 /**
  * DOCUMENT ME!
@@ -56,57 +62,63 @@ public class WorkbenchTreeTableRenderer extends DefaultTreeCellRenderer {
         if (value != null) {
             if (value instanceof CustomMutableTreeTableNode) {
                 final Object userObject = ((CustomMutableTreeTableNode)value).getUserObject();
-                if (userObject instanceof Standort) {
-                    if (((Standort)userObject).isStandortMast()) {
-                        setText("Mast");
-                        // setToolTipText("Mast");
+                if (userObject instanceof WorkbenchEntity) {
+                    final WorkbenchEntity entity = (WorkbenchEntity)userObject;
+                    final String prefix = (entity.isDeleted()) ? "<html><strike>" : "";
+                    if (userObject instanceof TdtaStandortMastCustomBean) {
+                        final Integer laufendeNummer = ((TdtaStandortMastCustomBean)userObject).getLaufendeNummer();
+                        setText(prefix + ((laufendeNummer != null) ? Integer.toString(laufendeNummer) : ""));
+                        setIcon(BelisIcons.icoStandort16);
+                    } else if (userObject instanceof TdtaLeuchtenCustomBean) {
+                        setText(prefix + "Leuchte");
+                        setIcon(BelisIcons.icoLeuchte16);
+                    } else if (userObject instanceof MauerlascheCustomBean) {
+                        setText(prefix + "Mauerlasche");
+                        setIcon(BelisIcons.icoMauerlasche16);
+                    } else if (userObject instanceof SchaltstelleCustomBean) {
+                        setText(prefix + "Schaltstelle");
+                        setIcon(BelisIcons.icoSchaltstelle16);
+                    } else if (userObject instanceof LeitungCustomBean) {
+                        setText(prefix + "Leitung");
+                        setIcon(BelisIcons.icoLeitung16);
+                    } else if (userObject instanceof AbzweigdoseCustomBean) {
+                        setText(prefix + "Abzweigdose/Zugkasten");
+                        setIcon(BelisIcons.icoAbzweigdose16);
+                    } else if (userObject instanceof VeranlassungCustomBean) {
+                        setText(prefix + "Veranlassung");
+                        setIcon(BelisIcons.icoVeranlassung16);
+                    } else if (userObject instanceof ArbeitsauftragCustomBean) {
+                        setText(prefix + "Arbeitsauftrag");
+                        setIcon(BelisIcons.icoArbeitsauftrag16);
+                    } else if (userObject instanceof ArbeitsprotokollCustomBean) {
+                        setText(prefix + "Arbeitsprotokoll");
+                        setIcon(BelisIcons.icoArbeitsprotokoll16);
+                    } else if (userObject instanceof GeometrieCustomBean) {
+                        setText(prefix + "Geometrie");
+                        setIcon(BelisIcons.icoGeometrie16);
                     } else {
-                        setText("Standort");
-                        // setToolTipText("Standort");
+                        setText("Unbekannter Typ");
                     }
-                    setIcon(BelisIcons.icoStandort16);
-                } else if (userObject instanceof Leuchte) {
-                    setText("Leuchte");
-                    // setToolTipText("Leuchte");
-                    setIcon(BelisIcons.icoLeuchte16);
-                } else if (userObject instanceof Mauerlasche) {
-                    setText("Mauerlasche");
-                    // setToolTipText("Mauerlasche");
-                    setIcon(BelisIcons.icoMauerlasche16);
-                } else if (userObject instanceof Schaltstelle) {
-                    setText("Schaltstelle");
-                    // setToolTipText("Schaltstelle");
-                    setIcon(BelisIcons.icoSchaltstelle16);
-                } else if (userObject instanceof Leitung) {
-                    setText("Leitung");
-                    // setToolTipText("Leitung");
-                    // ToDo Leitung icon
-                    setIcon(BelisIcons.icoLeitung16);
-                } else if (userObject instanceof Abzweigdose) {
-                    setText("Abzweigdose/Zugkasten");
-                    // setToolTipText("Leitung");
-                    // ToDo Leitung icon
-                    setIcon(BelisIcons.icoAbzweigdose16);
                 } else if (userObject instanceof String) {
-                    if (userObject != null) {
-                        if (userObject.equals(CustomTreeTableModel.HIT_NODE)) {
-                            setText(((CustomMutableTreeTableNode)value).getChildCount() + " Suchergebnisse");
-                            // setToolTipText("Suchergebnisse");
-                            setIcon(BelisIcons.icoSuchergebnisse16);
+                    if (userObject.equals(CustomTreeTableModel.HIT_NODE)) {
+                        setText(((CustomMutableTreeTableNode)value).getChildCount() + " Suchergebnisse");
+                        // setToolTipText("Suchergebnisse");
+                        setIcon(BelisIcons.icoSuchergebnisse16);
 //ToDo disabled Functionality 04.05.2009
-                            // } else if(userObject.equals(CustomTreeTableModel.PROCESSED_NODE)){
+                        // } else if(userObject.equals(CustomTreeTableModel.PROCESSED_NODE)){
 //                            setText(((CustomMutableTreeTableNode)value).getChildCount()+" Bearbeitete Objekte");
 //                            setIcon(BelisIcons.icoBearbeiteteObjekte16);
-                        } else if (userObject.equals(CustomTreeTableModel.NEW_OBJECT_NODE)) {
-                            setText(((CustomMutableTreeTableNode)value).getChildCount() + " Neue Objekte");
-                            // setToolTipText("Neue Objekte");
-                            setIcon(BelisIcons.icoNewObjects16);
-                        } else {
-                            setText("Unbekannter Typ");
-                            setToolTipText("Unbekannter Typ");
-                        }
+                    } else if (userObject.equals(CustomTreeTableModel.NEW_OBJECT_NODE)) {
+                        setText(((CustomMutableTreeTableNode)value).getChildCount() + " Neue Objekte");
+                        // setToolTipText("Neue Objekte");
+                        setIcon(BelisIcons.icoNewObjects16);
+                    } else if (userObject.equals(CustomTreeTableModel.EDIT_OBJECT_NODE)) {
+                        setText(((CustomMutableTreeTableNode)value).getChildCount() + " Objekte zum Bearbeiten");
+                        // setToolTipText("Neue Objekte");
+                        setIcon(BelisIcons.icoEditObjects16);
                     } else {
-                        setText("");
+                        setText("Unbekannter Typ");
+                        setToolTipText("Unbekannter Typ");
                     }
                 } else {
                     setText("Unbekannter Typ");

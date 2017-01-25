@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<field name="nummer" class="java.lang.String"/>
+	<field name="bezeichnung" class="java.lang.String"/>
+	<field name="beschreibung" class="java.lang.String"/>
+	<field name="bemerkung" class="java.lang.String"/>
+	<field name="positionen" class="java.util.List"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="134" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="-20" y="0" width="595" height="20" backcolor="#F4F4F4"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nummer}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="58" width="100" height="14">
+					<printWhenExpression><![CDATA[new Boolean($F{bemerkung}!=null)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[Bemerkung:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="20" width="555" height="20">
+					<printWhenExpression><![CDATA[new Boolean($F{bezeichnung}!=null)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{bezeichnung}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="38" width="555" height="20">
+					<printWhenExpression><![CDATA[new Boolean($F{beschreibung}!=null)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{beschreibung}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="72" width="555" height="37">
+					<printWhenExpression><![CDATA[new Boolean($F{bemerkung}!=null)]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{bemerkung}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="-10" y="111" width="574" height="21"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{positionen})]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["de/cismet/belis/reports/positionen.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

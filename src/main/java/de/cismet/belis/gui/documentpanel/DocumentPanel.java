@@ -18,36 +18,43 @@ package de.cismet.belis.gui.documentpanel;
 
 import org.apache.log4j.Logger;
 
-import org.jdesktop.beansbinding.Converter;
-import org.jdesktop.observablecollections.ObservableCollections;
-import org.jdesktop.observablecollections.ObservableList;
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.error.ErrorInfo;
 
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringReader;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+
+import javax.imageio.ImageIO;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
@@ -61,11 +68,29 @@ import javax.swing.Timer;
 import javax.swing.TransferHandler;
 import javax.swing.TransferHandler.TransferSupport;
 
+import de.cismet.belis.broker.CidsBroker;
+
 import de.cismet.belis.gui.utils.UIUtils;
 
-import de.cismet.belisEE.entity.DmsUrl;
+import de.cismet.belis2.server.utils.BelisServerResources;
 
-import de.cismet.tools.gui.documents.DocumentListModel;
+import de.cismet.cids.custom.beans.belis2.DmsUrlCustomBean;
+
+import de.cismet.cids.server.actions.GetServerResourceServerAction;
+
+import de.cismet.commons.security.WebDavClient;
+import de.cismet.commons.security.WebDavHelper;
+
+import de.cismet.netutil.Proxy;
+
+import de.cismet.tools.CismetThreadPool;
+import de.cismet.tools.PasswordEncrypter;
+
+import de.cismet.tools.gui.StaticSwingTools;
+import de.cismet.tools.gui.WaitDialog;
+import de.cismet.tools.gui.downloadmanager.DownloadManager;
+import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
+import de.cismet.tools.gui.downloadmanager.WebDavDownload;
 
 /**
  * DOCUMENT ME!
@@ -88,6 +113,9 @@ public final class DocumentPanel extends javax.swing.JPanel {
     public static final String EXTENSIONS = "\\.(jpg|jpeg|gif|png|pdf|html|doc|xls|txt)";
     private static final Icon IDLE_ICON;
     private static final Icon[] BUSY_ICONS;
+    private static final String WEB_DAV_USER;
+    private static final String WEB_DAV_PASSWORD;
+    private static final String WEB_DAV_DIRECTORY;
 
     static {
         // Prepare the icons
@@ -96,22 +124,50 @@ public final class DocumentPanel extends javax.swing.JPanel {
             BUSY_ICONS[i] = new ImageIcon(DocumentPanel.class.getResource(ICON_RES_PATH + "busy-icon" + i + ".png"));
         }
         IDLE_ICON = new ImageIcon(DocumentPanel.class.getResource(ICON_RES_PATH + "idle-icon.png"));
+
+        String pass = null;
+        String user = null;
+        String webDavRoot = null;
+        try {
+            final Object ret = CidsBroker.getInstance()
+                        .executeServerAction(
+                            GetServerResourceServerAction.TASK_NAME,
+                            BelisServerResources.WEBDAV.getValue());
+            if (ret instanceof Exception) {
+                throw (Exception)ret;
+            }
+            final Properties properties = new Properties();
+            properties.load(new StringReader((String)ret));
+
+            pass = properties.getProperty("password");
+            user = properties.getProperty("username");
+            webDavRoot = properties.getProperty("url");
+
+            if ((pass != null) && pass.startsWith(PasswordEncrypter.CRYPT_PREFIX)) {
+                pass = PasswordEncrypter.decryptString(pass);
+            }
+        } catch (final Exception ex) {
+        } finally {
+            WEB_DAV_PASSWORD = pass;
+            WEB_DAV_USER = user;
+            WEB_DAV_DIRECTORY = webDavRoot;
+        }
     }
 
     //~ Instance fields --------------------------------------------------------
 
-    ObservableList model;
-    SyncedSetArrayList al = null;
+    private Collection<DmsUrlCustomBean> removeNewAddedFotoBean = new ArrayList<DmsUrlCustomBean>();
+
     // --
     // private final DefaultListModel docListModel;
     private final Timer busyIconTimer;
     private int busyIconIndex = 0;
     private SwingWorker<ImageIcon, Void> previewWorker;
-    // private DocumentContainer currentEntity = null;
-    private Set<DmsUrl> dokumente = null;
+    private Collection<DmsUrlCustomBean> dokumente = null;
     private boolean inEditMode = false;
+    private WebDavClient webDavClient;
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify
     private javax.swing.JLabel lblAbsolutePath;
     private javax.swing.JLabel lblPreview;
     private javax.swing.JLabel lblStatus;
@@ -125,18 +181,13 @@ public final class DocumentPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane scpDocList;
     private javax.swing.JScrollPane scpPreview;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new DocumentPanel object.
      */
-// public DocumentPanel(final Collection<DmsUrl> listFiles) {
-// this();
-// setDocumentList(listFiles);
-// lstDocList.setSelectedIndex(lstDocList.getFirstVisibleIndex());
-// }
     /**
      * Creates a new DocumentPanel object.
      */
@@ -180,6 +231,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
                     }
                 });
         lblStatus.setIcon(IDLE_ICON);
+        this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -189,7 +241,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public Set<DmsUrl> getDokumente() {
+    public Collection<DmsUrlCustomBean> getDokumente() {
         return dokumente;
     }
 
@@ -198,7 +250,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      *
      * @param  dokumente  DOCUMENT ME!
      */
-    public void setDokumente(final Set<DmsUrl> dokumente) {
+    public void setDokumente(final Collection<DmsUrlCustomBean> dokumente) {
         if (log.isDebugEnabled()) {
             log.debug("setDokumente");
         }
@@ -207,32 +259,56 @@ public final class DocumentPanel extends javax.swing.JPanel {
         bindingGroup.unbind();
         bindingGroup.bind();
     }
-    // --
 
-//    public void setCurrentEntity(final DocumentContainer dc) {
-//        this.currentEntity = dc;
-//    }
-//
-//    public DocumentContainer getCurrentEntity() {
-//        return this.currentEntity;
-//    }
     /**
      * DOCUMENT ME!
      */
-//    public void setDocumentList(final Collection<DmsUrl> urls) {
-//        docListModel.removeAllElements();
-//        for (final DmsUrl f : urls) {
-//            docListModel.addElement(f);
-//        }
-//    }
-    private void openSelectionInBrowser() {
+    private void downloadSelection() {
         final Object sel = lstDocList.getSelectedValue();
-        if (sel instanceof DmsUrl) {
-            final DmsUrl dmsUrl = (DmsUrl)sel;
-            if (dmsUrl.getUrl() != null) {
-                final URL u = dmsUrl.getUrl().getURL();
-                if (u != null) {
-                    UIUtils.openURL(u.toString());
+        if (sel instanceof DmsUrlCustomBean) {
+            final DmsUrlCustomBean bean = (DmsUrlCustomBean)sel;
+            if (DownloadManagerDialog.getInstance().showAskingForUserTitleDialog(this)) {
+                final String jobname = DownloadManagerDialog.getInstance().getJobName();
+                final String name = bean.getDescription();
+                final String file = bean.toUri().getPath().substring(bean.toUri().getPath().lastIndexOf("/") + 1);
+                final String fserverName = bean.toUri()
+                            .getPath()
+                            .substring(bean.toUri().getPath().lastIndexOf("/") + 1);
+                String extension = "";
+                if (fserverName.lastIndexOf(".") != -1) {
+                    extension = fserverName.substring(fserverName.lastIndexOf("."));
+                }
+                String filename = name;
+
+                if (name.lastIndexOf(".") != -1) {
+                    filename = name.substring(0, name.lastIndexOf("."));
+                }
+
+                final String path = WEB_DAV_DIRECTORY + WebDavHelper.encodeURL(file);
+                if (WebDavHelper.isUrlAccessible(
+                                webDavClient,
+                                WEB_DAV_DIRECTORY
+                                + WebDavHelper.encodeURL(file))) {
+                    DownloadManager.instance()
+                            .add(new WebDavDownload(
+                                    webDavClient,
+                                    path,
+                                    jobname,
+                                    filename
+                                    + extension,
+                                    filename,
+                                    extension));
+                } else {
+                    DownloadManager.instance()
+                            .add(new WebDavDownload(
+                                    webDavClient,
+                                    path
+                                    + ".thumbnail.jpg",
+                                    jobname,
+                                    filename
+                                    + extension,
+                                    filename,
+                                    extension));
                 }
             }
         }
@@ -241,27 +317,46 @@ public final class DocumentPanel extends javax.swing.JPanel {
     /**
      * DOCUMENT ME!
      *
-     * @param  urlString  DOCUMENT ME!
+     * @param   urlString  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
      */
-    private void addURLtoList(final String urlString) {
+    private String addURLtoList(final String urlString) {
         if (log.isDebugEnabled()) {
-            log.debug("addURLToList set: " + getDokumente() + " arrayList: " + al + " observable: " + model);
+            log.debug("addURLToList set: " + getDokumente());
         }
+        final String docName = urlString.substring(urlString.lastIndexOf("/") + 1);
         final String description = JOptionPane.showInputDialog(
                 DocumentPanel.this,
                 "Welche Beschriftung soll der Link haben?",
-                urlString);
+                docName);
         if ((description != null) && (description.length() > 0)) {
             // docListModel.addElement(DmsUrl.createDmsURLFromLink(urlString, description));
-            model.add(DmsUrl.createDmsURLFromLink(urlString, description));
+            if (log.isDebugEnabled()) {
+                log.debug("addURLToList: " + getDokumente());
+            }
+            return description;
         } else {
             // cancel case
-            return;
+            return null;
         }
-        if (log.isDebugEnabled()) {
-            log.debug("addURLToList: " + getDokumente());
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  fileList  DOCUMENT ME!
+     */
+    public void addFiles(final List<DocumentStruct> fileList) {
+        if ((fileList != null) && (fileList.size() > 0)) {
+            final WaitDialog wd = new WaitDialog(
+                    StaticSwingTools.getParentFrame(this),
+                    true,
+                    "Speichere Dokument",
+                    null);
+            CismetThreadPool.execute(new DocumentUploadWorker(fileList, wd));
+            StaticSwingTools.showDialog(wd);
         }
-        // System.out.println(currentEntity.getDokumente());
     }
 
     /**
@@ -271,21 +366,16 @@ public final class DocumentPanel extends javax.swing.JPanel {
         if (log.isDebugEnabled()) {
             log.debug("deleteSelectedListItems: " + getDokumente());
         }
-        final int[] sel = lstDocList.getSelectedIndices();
-        if ((sel != null) && (sel.length > 0)) {
-            // iterate in inverted order for save delete!
-            for (int i = sel.length - 1; i > -1; --i) {
-                // docListModel.remove(sel[i]);
-                model.remove(sel[i]);
-            }
-            final SwingWorker<?, ?> sw = previewWorker;
-            if (sw != null) {
-                sw.cancel(true);
-            }
-            lblPreview.setIcon(null);
-            lblPreview.setText("");
-            lstDocList.setSelectedIndex(lstDocList.getFirstVisibleIndex());
+        for (final Object sel : lstDocList.getSelectedValuesList()) {
+            dokumente.remove(sel);
         }
+        final SwingWorker<?, ?> sw = previewWorker;
+        if (sw != null) {
+            sw.cancel(true);
+        }
+        lblPreview.setIcon(null);
+        lblPreview.setText("");
+        lstDocList.setSelectedIndex(lstDocList.getFirstVisibleIndex());
         if (log.isDebugEnabled()) {
             log.debug("deleteSelectedListItems: " + getDokumente());
         }
@@ -296,7 +386,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
      * content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
@@ -358,7 +448,6 @@ public final class DocumentPanel extends javax.swing.JPanel {
                         this,
                         eLProperty,
                         lstDocList);
-        jListBinding.setConverter(new SetToListConverter());
         bindingGroup.addBinding(jListBinding);
 
         lstDocList.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -431,86 +520,86 @@ public final class DocumentPanel extends javax.swing.JPanel {
         add(panPreviewScp, gridBagConstraints);
 
         bindingGroup.bind();
-    } // </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_lstDocListValueChanged
+    private void lstDocListValueChanged(final javax.swing.event.ListSelectionEvent evt) {
         lblPreview.setIcon(null);
         lblPreview.setText("");
         final Object toCast = lstDocList.getSelectedValue();
         if (toCast != null) {
-            if (toCast instanceof DmsUrl) {
-                final DmsUrl url = (DmsUrl)toCast;
-                final File document = url.toFile();
+            if (toCast instanceof DmsUrlCustomBean) {
+                final DmsUrlCustomBean url = (DmsUrlCustomBean)toCast;
+                final String document = url.toUri().getPath().substring(url.toUri().getPath().lastIndexOf("/") + 1);
                 if (document != null) {
                     busyIconTimer.start();
                     final SwingWorker<ImageIcon, Void> oldWorker = previewWorker;
                     if (oldWorker != null) {
                         oldWorker.cancel(true);
                     }
-                    previewWorker = new PreviewWorker(document);
+                    previewWorker = new PreviewWorker(document, url.toUri().toString());
                     THREAD_EXECUTOR.execute(previewWorker);
                 }
             }
         }
-    }                                                                                     //GEN-LAST:event_lstDocListValueChanged
+    }
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lblPreviewMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lblPreviewMouseClicked
+    private void lblPreviewMouseClicked(final java.awt.event.MouseEvent evt) {
         if (!evt.isPopupTrigger()) {
-            openSelectionInBrowser();
+            downloadSelection();
         }
-    }                                                                          //GEN-LAST:event_lblPreviewMouseClicked
+    }
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListMouseClicked(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMouseClicked
+    private void lstDocListMouseClicked(final java.awt.event.MouseEvent evt) {
         if ((evt.getClickCount() > 1) && !evt.isPopupTrigger()) {
-            openSelectionInBrowser();
+            downloadSelection();
         }
-    }                                                                          //GEN-LAST:event_lstDocListMouseClicked
+    }
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void miDeleteActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_miDeleteActionPerformed
+    private void miDeleteActionPerformed(final java.awt.event.ActionEvent evt) {
         deleteSelectedListItems();
-    }                                                                            //GEN-LAST:event_miDeleteActionPerformed
+    }
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListMousePressed(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMousePressed
-        if (evt.isPopupTrigger() && !model.isEmpty() && inEditMode) {
+    private void lstDocListMousePressed(final java.awt.event.MouseEvent evt) {
+        if (evt.isPopupTrigger() && !dokumente.isEmpty() && inEditMode) {
             popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
         }
-    }                                                                          //GEN-LAST:event_lstDocListMousePressed
+    }
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void lstDocListMouseReleased(final java.awt.event.MouseEvent evt) { //GEN-FIRST:event_lstDocListMouseReleased
-        if (evt.isPopupTrigger() && !model.isEmpty() && inEditMode) {
+    private void lstDocListMouseReleased(final java.awt.event.MouseEvent evt) {
+        if (evt.isPopupTrigger() && !dokumente.isEmpty() && inEditMode) {
             popMenu.show(evt.getComponent(), evt.getX(), evt.getY());
         }
-    }                                                                           //GEN-LAST:event_lstDocListMouseReleased
+    }
 
     /**
      * DOCUMENT ME!
@@ -537,6 +626,23 @@ public final class DocumentPanel extends javax.swing.JPanel {
      */
     public void setEditable(final boolean editable) {
         inEditMode = editable;
+    }
+
+    @Override
+    public void setOpaque(final boolean isOpaque) {
+        super.setOpaque(isOpaque);
+        if (panList != null) {
+            panList.setOpaque(isOpaque);
+        }
+        if (panStatus != null) {
+            panStatus.setOpaque(isOpaque);
+        }
+        if (panPreviewIntern != null) {
+            panPreviewIntern.setOpaque(isOpaque);
+        }
+        if (panPreviewScp != null) {
+            panPreviewScp.setOpaque(isOpaque);
+        }
     }
 
     //~ Inner Classes ----------------------------------------------------------
@@ -584,10 +690,10 @@ public final class DocumentPanel extends javax.swing.JPanel {
                         public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException,
                             IOException {
                             final Object[] vals = lstDocList.getSelectedValues();
-                            final List<DmsUrl> urlList = new ArrayList<DmsUrl>();
+                            final List<DmsUrlCustomBean> urlList = new ArrayList<DmsUrlCustomBean>();
                             for (final Object o : vals) {
-                                if (o instanceof DmsUrl) {
-                                    urlList.add((DmsUrl)o);
+                                if (o instanceof DmsUrlCustomBean) {
+                                    urlList.add((DmsUrlCustomBean)o);
                                 }
                             }
                             return urlList;
@@ -627,12 +733,18 @@ public final class DocumentPanel extends javax.swing.JPanel {
                             final List mp = (List)possibleFileList;
 //                            lstDocList.setEnabled(false);
                             // TODO add to list, erst File -> DmsUrl, dann adden
+                            final List<DocumentStruct> docList = new ArrayList<DocumentStruct>();
                             for (final Object o : mp) {
                                 if (o instanceof File) {
                                     final File f = (File)o;
-                                    addURLtoList(f.toURI().toString());
+                                    final String desc = addURLtoList(f.toURI().toString());
+
+                                    if (desc != null) {
+                                        docList.add(new DocumentStruct(desc, f));
+                                    }
                                 }
                             }
+                            addFiles(docList);
                             return true;
                         }
                     }
@@ -640,12 +752,27 @@ public final class DocumentPanel extends javax.swing.JPanel {
                 for (int i = 0; i < flavors.length; ++i) {
                     if (flavors[i].equals(DataFlavor.stringFlavor)) {
                         // CAST
+                        final List<DocumentStruct> docList = new ArrayList<DocumentStruct>();
                         final String urls = (String)tr.getTransferData(DataFlavor.stringFlavor);
                         final StringTokenizer tokens = new StringTokenizer(urls);
                         while (tokens.hasMoreTokens()) {
                             final String urlString = tokens.nextToken();
-                            addURLtoList(urlString);
+                            try {
+                                final File f = new File(new URL(urlString).toURI());
+
+                                if (f.exists()) {
+                                    final String desc = addURLtoList(urlString);
+
+                                    if (desc != null) {
+                                        docList.add(new DocumentStruct(desc, f));
+                                    }
+                                }
+                            } catch (MalformedURLException ex) {
+                                log.error("malformed url", ex);
+                            }
                         }
+
+                        addFiles(docList);
                         return true;
                     }
                 }
@@ -665,7 +792,8 @@ public final class DocumentPanel extends javax.swing.JPanel {
 
         //~ Instance fields ----------------------------------------------------
 
-        private final File document;
+        private final String document;
+        private final String absPath;
 
         //~ Constructors -------------------------------------------------------
 
@@ -673,9 +801,11 @@ public final class DocumentPanel extends javax.swing.JPanel {
          * Creates a new PreviewWorker object.
          *
          * @param  document  DOCUMENT ME!
+         * @param  absPath   DOCUMENT ME!
          */
-        public PreviewWorker(final File document) {
+        public PreviewWorker(final String document, final String absPath) {
             this.document = document;
+            this.absPath = absPath;
         }
 
         //~ Methods ------------------------------------------------------------
@@ -688,17 +818,22 @@ public final class DocumentPanel extends javax.swing.JPanel {
             } catch (InterruptedException ie) {
                 // ignore
             }
-            if ((document != null) && document.isFile() && !isCancelled()) {
-                // setText-methods are threadsafe!
+
+            if ((document != null) && !isCancelled()) {
                 lblPreview.setText("loading...");
-                return UIUtils.loadPicture(document.getAbsolutePath(),
+                // setText-methods are threadsafe!
+                return UIUtils.loadPicture(
+                        document,
                         panPreviewScp.getWidth()
                                 - INSET
                                 - SHADOW_SIZE,
                         panPreviewScp.getHeight()
                                 - INSET
                                 - SHADOW_SIZE,
-                        SHADOW_SIZE);
+                        SHADOW_SIZE,
+                        webDavClient,
+                        WEB_DAV_DIRECTORY,
+                        DocumentPanel.this);
             }
             return null;
         }
@@ -706,8 +841,8 @@ public final class DocumentPanel extends javax.swing.JPanel {
         @Override
         protected void done() {
             if (!isCancelled()) {
-                lblAbsolutePath.setText(document.getAbsolutePath());
-                lblAbsolutePath.setToolTipText(document.getAbsolutePath());
+                lblAbsolutePath.setText("");
+                lblAbsolutePath.setToolTipText("");
                 ImageIcon icon = null;
                 try {
                     icon = get();
@@ -743,36 +878,62 @@ public final class DocumentPanel extends javax.swing.JPanel {
      *
      * @version  $Revision$, $Date$
      */
-    class SetToListConverter extends Converter<Set, ObservableList> {
+    private class DocumentStruct {
+
+        //~ Instance fields ----------------------------------------------------
+
+        private String name;
+        private File file;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new DocumentStruct object.
+         *
+         * @param  name  DOCUMENT ME!
+         * @param  file  DOCUMENT ME!
+         */
+        public DocumentStruct(final String name, final File file) {
+            this.name = name;
+            this.file = file;
+        }
 
         //~ Methods ------------------------------------------------------------
 
-        @Override
-        public ObservableList convertForward(final Set arg0) {
-            if (log.isDebugEnabled()) {
-                log.debug("Convert forward: " + arg0);
-            }
-            if (arg0 != null) {
-                al = new SyncedSetArrayList(arg0);
-                model = ObservableCollections.observableList(al);
-                return model;
-            } else {
-                return null;
-            }
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the name
+         */
+        public String getName() {
+            return name;
         }
 
-        @Override
-        public Set convertReverse(final ObservableList arg0) {
-            if (log.isDebugEnabled()) {
-                log.debug("Convert reverse: " + arg0);
-            }
-            if (arg0 != null) {
-                // ToDo maybe a failure because it is possible that the sorting is not correct.
-                // new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))
-                return new HashSet(arg0);
-            } else {
-                return null;
-            }
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  name  the name to set
+         */
+        public void setName(final String name) {
+            this.name = name;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  the file
+         */
+        public File getFile() {
+            return file;
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @param  file  the file to set
+         */
+        public void setFile(final File file) {
+            this.file = file;
         }
     }
 
@@ -781,77 +942,113 @@ public final class DocumentPanel extends javax.swing.JPanel {
      *
      * @version  $Revision$, $Date$
      */
-    class SyncedSetArrayList extends ArrayList {
+    final class DocumentUploadWorker extends SwingWorker<Collection<DmsUrlCustomBean>, Void> {
+
+        //~ Static fields/initializers -----------------------------------------
+
+        private static final String FILE_PREFIX = "DOC-";
 
         //~ Instance fields ----------------------------------------------------
 
-        Set s;
+        private final Collection<DocumentStruct> docs;
+        private final WaitDialog wd;
 
         //~ Constructors -------------------------------------------------------
 
         /**
-         * Creates a new SyncedSetArrayList object.
+         * Creates a new ImageUploadWorker object.
          *
-         * @param  s  DOCUMENT ME!
+         * @param  docs  fotos DOCUMENT ME!
+         * @param  wd    DOCUMENT ME!
          */
-        public SyncedSetArrayList(final Set s) {
-            super(s);
-            this.s = s;
+        public DocumentUploadWorker(final Collection<DocumentStruct> docs, final WaitDialog wd) {
+            this.docs = docs;
+            this.wd = wd;
         }
 
         //~ Methods ------------------------------------------------------------
 
         @Override
-        public boolean add(final Object e) {
-            s.add(e);
-            return super.add(e);
+        protected Collection<DmsUrlCustomBean> doInBackground() throws Exception {
+            try {
+                final Collection<DmsUrlCustomBean> newBeans = new ArrayList<DmsUrlCustomBean>();
+                for (final DocumentStruct doc : docs) {
+                    final File imageFile = doc.getFile();
+                    final String webFileName = WebDavHelper.generateWebDAVFileName(FILE_PREFIX, imageFile);
+                    WebDavHelper.uploadFileToWebDAV(
+                        webFileName,
+                        imageFile,
+                        WEB_DAV_DIRECTORY,
+                        webDavClient,
+                        DocumentPanel.this);
+                    newBeans.add(DmsUrlCustomBean.createDmsURLFromLink(WEB_DAV_DIRECTORY + webFileName, doc.getName()));
+
+                    try {
+                        final BufferedImage img = ImageIO.read(new BufferedInputStream(new FileInputStream(imageFile)));
+                        final double ratio = img.getWidth() / (double)img.getHeight();
+
+                        final int newHeight = (int)(300 / ratio);
+                        final Image scaledImg = img.getScaledInstance(300, newHeight, Image.SCALE_SMOOTH);
+                        final BufferedImage thumbnail = new BufferedImage(300, newHeight, BufferedImage.TYPE_INT_RGB);
+                        thumbnail.createGraphics().drawImage(scaledImg, 0, 0, null);
+
+                        final String[] fileNameSplit = webFileName.split("\\.");
+                        final String endung = fileNameSplit[fileNameSplit.length - 1];
+
+                        final File tempFile = File.createTempFile(webFileName, endung);
+                        ImageIO.write(thumbnail, endung, new FileOutputStream(tempFile));
+
+                        WebDavHelper.uploadFileToWebDAV(
+                            webFileName
+                                    + ".thumbnail."
+                                    + endung,
+                            tempFile,
+                            WEB_DAV_DIRECTORY,
+                            webDavClient,
+                            null);
+                    } catch (final Exception ex) {
+                        log.error(ex, ex);
+                    }
+                }
+                return newBeans;
+            } finally {
+                while (!wd.isVisible()) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        // nothing to do
+                    }
+                }
+
+                wd.setVisible(false);
+                wd.dispose();
+            }
         }
 
         @Override
-        public void add(final int index, final Object element) {
-            s.add(element);
-            super.add(index, element);
-        }
+        protected void done() {
+            try {
+                final Collection<DmsUrlCustomBean> newBeans = get();
 
-        @Override
-        public boolean addAll(final Collection c) {
-            s.addAll(c);
-            return super.addAll(c);
-        }
-
-        @Override
-        public boolean addAll(final int index, final Collection c) {
-            s.addAll(c);
-            return super.addAll(index, c);
-        }
-
-        @Override
-        public void clear() {
-            s.clear();
-            super.clear();
-        }
-
-        @Override
-        public Object remove(final int index) {
-            final Object removed = super.remove(index);
-            s.remove(removed);
-            return removed;
-        }
-
-        @Override
-        public boolean remove(final Object o) {
-            s.remove(o);
-            return super.remove(o);
-        }
-
-        @Override
-        public Object set(final int index, final Object element) {
-            final Object o = super.get(index);
-            s.remove(o);
-            s.add(element);
-            return super.set(index, element);
+                if (!newBeans.isEmpty()) {
+                    dokumente.addAll(newBeans);
+                    removeNewAddedFotoBean.addAll(newBeans);
+                }
+            } catch (InterruptedException ex) {
+                log.warn(ex, ex);
+            } catch (Exception ex) {
+                log.error(ex, ex);
+                final ErrorInfo ei = new ErrorInfo(
+                        "Fehler",
+                        "Beim Hochladen des Dokumentes ist ein Fehler aufgetreten.",
+                        null,
+                        null,
+                        ex,
+                        Level.SEVERE,
+                        null);
+                JXErrorPane.showDialog(DocumentPanel.this, ei);
+            } finally {
+            }
         }
     }
 }
-
-//class DmsUrlConverter extends Converter<>

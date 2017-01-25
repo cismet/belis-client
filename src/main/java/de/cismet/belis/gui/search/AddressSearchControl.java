@@ -6,17 +6,13 @@
 *
 ****************************************************/
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package de.cismet.belis.gui.search;
 
-import org.apache.commons.collections.comparators.ReverseComparator;
-
 import org.jdom.Element;
-
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -24,17 +20,11 @@ import java.io.InputStreamReader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 import java.util.Vector;
 
 import de.cismet.belis.broker.BelisBroker;
 
-import de.cismet.belis.todo.RetrieveWorker;
-
 import de.cismet.belis.util.BelisIcons;
-
-import de.cismet.belisEE.util.EntityComparator;
-import de.cismet.belisEE.util.LeuchteComparator;
 
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.wfsforms.WFSFormAdress;
@@ -49,7 +39,7 @@ import de.cismet.tools.configuration.NoWriteError;
 /**
  * DOCUMENT ME!
  *
- * @author   spuhl
+ * @author   jruiz
  * @version  $Revision$, $Date$
  */
 public class AddressSearchControl extends WFSFormAdress implements Configurable, SearchControl, WFSFormAdressListener {
@@ -61,64 +51,35 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
     //~ Instance fields --------------------------------------------------------
 
     final ArrayList<AddressChangedListener> addressListener = new ArrayList<AddressChangedListener>();
-    private BelisBroker broker;
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    protected javax.swing.JComboBox _cboNr;
+    protected javax.swing.JComboBox _cboStreets;
+    protected javax.swing.JCheckBox _chkLockScale;
+    protected javax.swing.JCheckBox _chkVisualize;
+    protected javax.swing.JButton _cmdOk;
+    private javax.swing.JLabel _jLabel1;
+    protected javax.swing.JLabel _jLabel2;
+    protected javax.swing.JPanel _panEmpty;
+    protected javax.swing.JProgressBar _prbNr;
+    protected javax.swing.JProgressBar _prbStreets;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new AddressSearchControl object.
-     *
-     * @param  broker  DOCUMENT ME!
      */
-    public AddressSearchControl(final BelisBroker broker) {
+    public AddressSearchControl() {
         super();
-        this.broker = broker;
-        this.setOpaque(false);
-        panEmpty.setOpaque(false);
-        panNr.setOpaque(false);
-        panStr.setOpaque(false);
-        chkVisualize.setSelected(false);
-        chkVisualize.setVisible(false);
-        chkLockScale.setSelected(false);
-        chkLockScale.setVisible(false);
-        jLabel1.setVisible(false);
-        jLabel2.setVisible(false);
-        cmdOk.setText("");
-        cmdOk.setBorder(null);
-        cmdOk.setBorderPainted(false);
-        // cmdOk.setSize(23, 23);
-        cmdOk.setPreferredSize(new Dimension(225, 23));
-        cmdOk.setFocusable(false);
-        final GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.CENTER;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 5);
-        add(cmdOk, gridBagConstraints);
-        cmdOk.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
-        cmdOk.setText("Straße, Hausnummer");
-        cmdOk.setIcon(BelisIcons.icoSearch22);
+
+        initComponents();
+
         addWFSFormAddressListner(this);
-//        cmdOk.addActionListener(new ActionListener() {
-//
-//            //ToDo start search via BelisBroker
-//            public void actionPerformed(ActionEvent e) {
-//                log.debug("AddressSearch started --> searching db for geometries");
-//                broker.fireSearchStarted();
-//                broker.execute(new RetrieveWorker());
-//            }
-//        });
     }
 
     //~ Methods ----------------------------------------------------------------
 
-// public void addAddressChangedListener(AddressChangedListener listener) {
-// addressListener.add(listener);
-// }
-//
-// public void removeAddressChangedListener(AddressChangedListener listener) {
-// addressListener.remove(listener);
-// }
     @Override
     public void configure(final Element parent) {
     }
@@ -203,66 +164,28 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
 
     @Override
     public void searchFinished() {
-        setSearchEnabled(true);
+//        setSearchEnabled(true);
     }
 
     @Override
     public void searchStarted() {
-        setSearchEnabled(false);
     }
 
     // ToDo Inferface Enablelable or something
     @Override
     public void setSearchEnabled(final boolean isSearchEnabled) {
-        ArchitectureUtils.enableContainerRecursivley(panEmpty, isSearchEnabled);
-        ArchitectureUtils.enableContainerRecursivley(panNr, isSearchEnabled);
-        ArchitectureUtils.enableContainerRecursivley(panStr, isSearchEnabled);
-        chkVisualize.setEnabled(isSearchEnabled);
-        chkLockScale.setEnabled(isSearchEnabled);
-        cmdOk.setEnabled(isSearchEnabled);
+        ArchitectureUtils.enableContainerRecursivley(_panEmpty, isSearchEnabled);
+        _chkVisualize.setEnabled(isSearchEnabled);
+        _chkLockScale.setEnabled(isSearchEnabled);
+        _cmdOk.setEnabled(isSearchEnabled);
     }
-//    //ToDo redundant code other searchpanels
-//    class RetrieveWorker extends SwingWorker<Set, Void> {
-//
-//        private BoundingBox searchBB;
-//
-//        RetrieveWorker(BoundingBox searchBB) {
-//            this.searchBB = searchBB;
-//        }
-//
-//        protected Set doInBackground() throws Exception {
-//            //return ((BelisBroker)BrokerLookup.getInstance().getBrokerForName(brokerName)).search();
-//            //ToDo make proper
-//            //return EJBroker.getInstance().getObjectsByBoundingBox("LINESTRING("+((BelisBroker)BrokerLookup.getInstance().getBrokerForName(brokerName)).getMappingComponent().getCurrentBoundingBox()+")");
-//            //return broker.search(broker.getMappingComponent().getCurrentBoundingBox());
-//            return broker.search(searchBB);
-//        }
-//
-//        protected void done() {
-//            broker.fireSearchFinished();
-//            if (isCancelled()) {
-//                log.warn("retrieveWorker is canceled --> nothing to do in method done()");
-//                return;
-//            }
-//            try {
-//                log.debug("Ergebniss: " + get());
-//            } catch (Exception ex) {
-//                log.error("Failure during processing RetrieveWorker results", ex);
-//                return;
-//            }
-//        }
-//    }
 
     @Override
     public void wfsFormAddressPositioned(final BoundingBox addressBB) {
         if (log.isDebugEnabled()) {
             log.debug("AddressSearch started --> searching db for geometries boundingbox: " + addressBB);
         }
-        broker.fireSearchStarted();
-        broker.setCurrentSearchResults(new TreeSet(
-                new ReverseComparator(new EntityComparator(new ReverseComparator(new LeuchteComparator())))));
-        broker.setLastSearch(new RetrieveWorker(broker, addressBB));
-        broker.execute(new RetrieveWorker(broker, addressBB));
+        getMappingComponent().gotoBoundingBoxWithHistory(addressBB);
     }
 
     @Override
@@ -272,4 +195,154 @@ public class AddressSearchControl extends WFSFormAdress implements Configurable,
     @Override
     public void wfsFormAdressStreetSelected() {
     }
+
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
+     * content of this method is always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        _prbStreets = prbStreets;
+        _prbNr = prbNr;
+        _chkLockScale = chkLockScale;
+        _jLabel2 = jLabel2;
+        _jLabel1 = jLabel1;
+        _panEmpty = panEmpty;
+        _cmdOk = cmdOk;
+        _chkVisualize = chkVisualize;
+        _cboNr = cboNr;
+        _cboStreets = cboStreets;
+
+        _prbStreets.setBorderPainted(false);
+        _prbStreets.setMaximumSize(new java.awt.Dimension(32767, 5));
+        _prbStreets.setMinimumSize(new java.awt.Dimension(10, 5));
+        _prbStreets.setPreferredSize(new java.awt.Dimension(150, 5));
+        _prbStreets.setVisible(false);
+
+        _prbNr.setBorderPainted(false);
+        _prbNr.setMaximumSize(new java.awt.Dimension(32767, 5));
+        _prbNr.setMinimumSize(new java.awt.Dimension(10, 5));
+        _prbNr.setPreferredSize(new java.awt.Dimension(150, 5));
+        _prbNr.setVisible(false);
+
+        _chkLockScale.setToolTipText(org.openide.util.NbBundle.getMessage(
+                AddressSearchControl.class,
+                "AddressSearchControl._chkLockScale.toolTipText")); // NOI18N
+        _chkLockScale.setVisible(false);
+
+        _jLabel2.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cismap/commons/gui/res/fixMapScale.png"))); // NOI18N
+        _jLabel2.setToolTipText(org.openide.util.NbBundle.getMessage(
+                AddressSearchControl.class,
+                "AddressSearchControl._jLabel2.toolTipText"));                                 // NOI18N
+        _jLabel2.setVisible(false);
+
+        _jLabel1.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cismap/commons/gui/res/markPoint.png"))); // NOI18N
+        _jLabel1.setToolTipText(org.openide.util.NbBundle.getMessage(
+                AddressSearchControl.class,
+                "AddressSearchControl._jLabel1.toolTipText"));                               // NOI18N
+        jLabel1.setVisible(false);
+
+        _panEmpty.setMinimumSize(new java.awt.Dimension(1, 1));
+        _panEmpty.setOpaque(false);
+
+        final javax.swing.GroupLayout _panEmptyLayout = new javax.swing.GroupLayout(_panEmpty);
+        _panEmpty.setLayout(_panEmptyLayout);
+        _panEmptyLayout.setHorizontalGroup(
+            _panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                1,
+                Short.MAX_VALUE));
+        _panEmptyLayout.setVerticalGroup(
+            _panEmptyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(
+                0,
+                1,
+                Short.MAX_VALUE));
+
+        _panEmpty.setVisible(false);
+
+        setBorder(null);
+        setMaximumSize(new java.awt.Dimension(290, 28));
+        setMinimumSize(new java.awt.Dimension(290, 28));
+        setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(290, 28));
+        addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    formActionPerformed(evt);
+                }
+            });
+
+        _cmdOk.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/dirrection--arrow.png"))); // NOI18N
+        _cmdOk.setToolTipText(org.openide.util.NbBundle.getMessage(
+                AddressSearchControl.class,
+                "AddressSearchControl._cmdOk.toolTipText"));                                         // NOI18N
+        _cmdOk.setBorder(null);
+        _cmdOk.setBorderPainted(false);
+        _cmdOk.setFocusable(false);
+        _cmdOk.setMaximumSize(new java.awt.Dimension(22, 22));
+        _cmdOk.setMinimumSize(new java.awt.Dimension(22, 22));
+        _cmdOk.setPreferredSize(new java.awt.Dimension(22, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        add(_cmdOk, gridBagConstraints);
+        _cmdOk.setText(null);
+
+        _chkVisualize.setSelected(true);
+        _chkVisualize.setToolTipText(org.openide.util.NbBundle.getMessage(
+                AddressSearchControl.class,
+                "AddressSearchControl._chkVisualize.toolTipText"));                                  // NOI18N
+        _chkVisualize.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/markPointDisabled.png"))); // NOI18N
+        _chkVisualize.setSelectedIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/belis/resource/icon/16/markPoint.png")));         // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 3);
+        add(_chkVisualize, gridBagConstraints);
+
+        _cboNr.setEditable(true);
+        _cboNr.setEnabled(false);
+        _cboNr.setMaximumSize(new java.awt.Dimension(50, 19));
+        _cboNr.setMinimumSize(new java.awt.Dimension(50, 19));
+        _cboNr.setPreferredSize(new java.awt.Dimension(50, 19));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        add(_cboNr, gridBagConstraints);
+
+        _cboStreets.setEnabled(false);
+        _cboStreets.setMaximumSize(new java.awt.Dimension(32767, 19));
+        _cboStreets.setMinimumSize(new java.awt.Dimension(41, 19));
+        _cboStreets.setPreferredSize(new java.awt.Dimension(41, 19));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 3, 0, 0);
+        add(_cboStreets, gridBagConstraints);
+    } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void formActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_formActionPerformed
+        // TODO add your handling code here:
+    } //GEN-LAST:event_formActionPerformed
 }

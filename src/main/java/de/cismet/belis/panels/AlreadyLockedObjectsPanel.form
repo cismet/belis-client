@@ -65,6 +65,13 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="org.jdesktop.swingx.JXTable" name="jXTable1">
+          <BindingProperties>
+            <BindingProperty name="model" source="Form" sourcePath="${locks}" target="jXTable1" targetPath="model" updateStrategy="0" immediately="false">
+              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                <Connection code="new LockConverter()" type="code"/>
+              </Property>
+            </BindingProperty>
+          </BindingProperties>
         </Component>
       </SubComponents>
     </Container>
