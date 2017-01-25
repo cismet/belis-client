@@ -68,7 +68,7 @@
         <dependency>
             <groupId>de.cismet.commons</groupId>
             <artifactId>cismet-application-commons</artifactId>
-            <version>4.0</version>
+            <version>4.1</version>
         </dependency>
         <dependency>
             <groupId>org.jdesktop</groupId>
