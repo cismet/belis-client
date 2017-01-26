@@ -198,6 +198,8 @@ import de.cismet.commons.server.entity.WorkbenchFeatureEntity;
 
 import de.cismet.commons2.architecture.layout.LayoutManager;
 
+import de.cismet.lookupoptions.gui.OptionsClient;
+
 import de.cismet.tools.CurrentStackTrace;
 
 import de.cismet.tools.configuration.Configurable;
@@ -1317,9 +1319,15 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
             }
             configManager.addConfigurable(metaSearchComponentFactory);
             configManager.configure(metaSearchComponentFactory);
+            configManager.addConfigurable(OptionsClient.getInstance());
+            configManager.configure(OptionsClient.getInstance());
             for (final BelisWidget widget : getWidgets()) {
-                configManager.addConfigurable(widget);
-                configManager.configure(widget);
+                try {
+                    configManager.addConfigurable(widget);
+                    configManager.configure(widget);
+                } catch (Exception ex) {
+                    LOG.error("Fehler beim konfigurieren des Widgets: " + widget.getName(), ex);
+                }
             }
             customizeApplication();
         } catch (Exception ex) {
