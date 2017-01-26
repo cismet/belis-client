@@ -165,7 +165,6 @@ public final class DocumentPanel extends javax.swing.JPanel {
     private SwingWorker<ImageIcon, Void> previewWorker;
     private Collection<DmsUrlCustomBean> dokumente = null;
     private boolean inEditMode = false;
-    private WebDavClient webDavClient;
 
     // Variables declaration - do not modify
     private javax.swing.JLabel lblAbsolutePath;
@@ -231,10 +230,18 @@ public final class DocumentPanel extends javax.swing.JPanel {
                     }
                 });
         lblStatus.setIcon(IDLE_ICON);
-        this.webDavClient = new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public WebDavClient getWebDavClient() {
+        return new WebDavClient(Proxy.fromPreferences(), WEB_DAV_USER, WEB_DAV_PASSWORD);
+    }
 
     /**
      * DOCUMENT ME!
@@ -284,6 +291,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
                     filename = name.substring(0, name.lastIndexOf("."));
                 }
 
+                final WebDavClient webDavClient = getWebDavClient();
                 final String path = WEB_DAV_DIRECTORY + WebDavHelper.encodeURL(file);
                 if (WebDavHelper.isUrlAccessible(
                                 webDavClient,
@@ -831,7 +839,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
                                 - INSET
                                 - SHADOW_SIZE,
                         SHADOW_SIZE,
-                        webDavClient,
+                        getWebDavClient(),
                         WEB_DAV_DIRECTORY,
                         DocumentPanel.this);
             }
@@ -971,6 +979,7 @@ public final class DocumentPanel extends javax.swing.JPanel {
         @Override
         protected Collection<DmsUrlCustomBean> doInBackground() throws Exception {
             try {
+                final WebDavClient webDavClient = getWebDavClient();
                 final Collection<DmsUrlCustomBean> newBeans = new ArrayList<DmsUrlCustomBean>();
                 for (final DocumentStruct doc : docs) {
                     final File imageFile = doc.getFile();
