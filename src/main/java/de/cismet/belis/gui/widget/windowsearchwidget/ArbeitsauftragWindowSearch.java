@@ -20,6 +20,8 @@ import java.awt.event.KeyEvent;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.util.DateTools;
+
 import de.cismet.belis2.server.search.ArbeitsauftragSearchStatement;
 import de.cismet.belis2.server.search.BelisSearchStatement;
 
@@ -89,7 +91,8 @@ public class ArbeitsauftragWindowSearch extends BelisEntityWindowSearch {
     @Override
     protected BelisSearchStatement createSearchStatement(final Geometry searchGeom) {
         final String angelegtAmVon = (chkAngelegtAmVon.isSelected()) ? dcAngelegtAmVon.getDate().toString() : null;
-        final String angelegtAmBis = (chkAngelegtAmBis.isSelected()) ? dcAngelegtAmBis.getDate().toString() : null;
+        final String angelegtAmBis = (chkAngelegtAmBis.isSelected())
+            ? DateTools.getEndOfDay(dcAngelegtAmBis.getDate()).toString() : null;
         final String angelegtVon = (chkAngelegtVon.isSelected()) ? txtAngelegtVon.getText() : null;
         final Integer zugewiesenAn = (chkZugewiesenAn.isSelected())
             ? ((CidsBean)cbxZugewiesenAn.getSelectedItem()).getMetaObject().getId() : null;

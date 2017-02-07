@@ -15,6 +15,8 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.util.DateTools;
+
 import de.cismet.belis2.server.search.BelisSearchStatement;
 import de.cismet.belis2.server.search.VeranlassungSearchStatement;
 
@@ -85,7 +87,8 @@ public class VeranlassungWindowSearch extends BelisEntityWindowSearch {
     @Override
     protected BelisSearchStatement createSearchStatement(final Geometry searchGeom) {
         final String datumVon = (chkDatumVon.isSelected()) ? dcDatumVon.getDate().toString() : null;
-        final String datumBis = (chkDatumBis.isSelected()) ? dcDatumBis.getDate().toString() : null;
+        final String datumBis = (chkDatumBis.isSelected()) ? DateTools.getEndOfDay(dcDatumBis.getDate()).toString()
+                                                           : null;
         final Integer grundId = (chkGrund.isSelected()) ? ((CidsBean)cbGrund.getSelectedItem()).getMetaObject().getId()
                                                         : null;
         final String angelegtVon = (chkAngelegtVon.isSelected()) ? txtAngelegtVon.getText() : null;

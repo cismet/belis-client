@@ -19,6 +19,8 @@ import de.cismet.belis.broker.BelisBroker;
 
 import de.cismet.belis.gui.widget.detailWidgetPanels.ObjectToKeyStringConverter;
 
+import de.cismet.belis.util.DateTools;
+
 import de.cismet.belis2.server.search.BelisSearchStatement;
 import de.cismet.belis2.server.search.LeuchteSearchStatement;
 
@@ -593,13 +595,14 @@ public class LeuchtenWindowSearch extends BelisEntityWindowSearch {
         final String inbetriebnahmeLeuchteVon = (cbInbetriebnahmeLeuchteVon.isSelected())
             ? dcInbetriebnahmeLeuchteVon.getDate().toString() : null;
         final String inbetriebnahmeLeuchteBis = (cbInbetriebnahmeLeuchteBis.isSelected())
-            ? dcInbetriebnahmeLeuchteBis.getDate().toString() : null;
+            ? DateTools.getEndOfDay(dcInbetriebnahmeLeuchteBis.getDate()).toString() : null;
         final String wechseldatumVon = (cbWechseldatumVon.isSelected()) ? dcWechseldatumVon.getDate().toString() : null;
-        final String wechseldatumBis = (cbWechseldatumBis.isSelected()) ? dcWechseldatumBis.getDate().toString() : null;
+        final String wechseldatumBis = (cbWechseldatumBis.isSelected())
+            ? DateTools.getEndOfDay(dcWechseldatumBis.getDate()).toString() : null;
         final String naechsterWechselVon = (cbNaechsterWechselVon.isSelected())
             ? dcNaechsterWechselVon.getDate().toString() : null;
         final String naechsterWechselBis = (cbNaechsterWechselBis.isSelected())
-            ? dcNaechsterWechselBis.getDate().toString() : null;
+            ? DateTools.getEndOfDay(dcNaechsterWechselBis.getDate()).toString() : null;
 
         final String schaltstelle = (chkSchaltstelle.isSelected()) ? txtSchaltstelle.getText() : null;
         final Integer leuchtentyp = (chkLeuchtentyp.isSelected())
