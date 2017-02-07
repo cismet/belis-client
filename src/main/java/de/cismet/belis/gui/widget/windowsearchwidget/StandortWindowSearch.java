@@ -15,6 +15,8 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import de.cismet.belis.broker.BelisBroker;
 
+import de.cismet.belis.util.DateTools;
+
 import de.cismet.belis2.server.search.BelisSearchStatement;
 import de.cismet.belis2.server.search.StandortSearchStatement;
 
@@ -752,19 +754,20 @@ public class StandortWindowSearch extends BelisEntityWindowSearch {
             ? dcInbetriebnahmeMastBis.getDate().toString() : null;
 
         final String mastschutz_von = (cbMastschutzVon.isSelected()) ? dcMastschutzVon.getDate().toString() : null;
-        final String mastschutz_bis = (cbMastschutzBis.isSelected()) ? dcMastschutzBis.getDate().toString() : null;
+        final String mastschutz_bis = (cbMastschutzBis.isSelected())
+            ? DateTools.getEndOfDay(dcMastschutzBis.getDate()).toString() : null;
         final String mastanstrich_von = (cbMastanstrichVon.isSelected()) ? dcMastanstrichVon.getDate().toString()
                                                                          : null;
-        final String mastanstrich_bis = (cbMastanstrichBis.isSelected()) ? dcMastanstrichBis.getDate().toString()
-                                                                         : null;
+        final String mastanstrich_bis = (cbMastanstrichBis.isSelected())
+            ? DateTools.getEndOfDay(dcMastanstrichBis.getDate()).toString() : null;
         final String elek_pruefung_von = (cbElekPruefungVon.isSelected()) ? dcElekPruefungVon.getDate().toString()
                                                                           : null;
-        final String elek_pruefung_bis = (cbElekPruefungBis.isSelected()) ? dcElekPruefungBis.getDate().toString()
-                                                                          : null;
+        final String elek_pruefung_bis = (cbElekPruefungBis.isSelected())
+            ? DateTools.getEndOfDay(dcElekPruefungBis.getDate()).toString() : null;
         final String standsicherheitspruefung_von = (cbStandsicherheitspruefungVon.isSelected())
             ? dcStandsicherheitspruefungVon.getDate().toString() : null;
         final String standsicherheitspruefung_bis = (cbStandsicherheitspruefungBis.isSelected())
-            ? dcStandsicherheitspruefungBis.getDate().toString() : null;
+            ? DateTools.getEndOfDay(dcStandsicherheitspruefungBis.getDate()).toString() : null;
 
         final Integer mastart = (chkMastart.isSelected())
             ? ((BaseEntity)cbMastart.getSelectedItem()).getMetaObject().getId() : null;
