@@ -274,28 +274,22 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
-        <!-- END: managed dependencies -->
-                
-        <!-- BEGIN: runtime-dependencies --> 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <scope>runtime</scope>
-        </dependency>  
-        <!-- END: runtime-dependencies -->
-
-        
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-awt</artifactId>
-            <version>RELEASE701</version>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swing-layout</artifactId>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>edu.umd</groupId>
             <artifactId>piccolo</artifactId>
-            <version>1.2</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-awt</artifactId>
+            <version>RELEASE701</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
@@ -313,13 +307,18 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
+        <!-- END: managed dependencies -->
+                
+        <!-- BEGIN: runtime-dependencies --> 
         <dependency>
-            <groupId>org.swinglabs</groupId>
-            <artifactId>swing-layout</artifactId>
-            <version>1.0.3</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <scope>runtime</scope>
+        </dependency>  
+        <!-- END: runtime-dependencies -->
+
+        
+        
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
