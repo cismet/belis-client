@@ -287,23 +287,26 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>edu.umd</groupId>
+            <artifactId>piccolox</artifactId>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-awt</artifactId>
-            <version>RELEASE701</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util-lookup</artifactId>
-            <version>RELEASE701</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util</artifactId>
-            <version>RELEASE701</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
@@ -337,13 +340,6 @@
             <groupId>com.jgoodies</groupId>
             <artifactId>looks</artifactId>
             <version>2.2.2</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>edu.umd</groupId>
-            <artifactId>piccolox</artifactId>
-            <version>1.2</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
