@@ -36,7 +36,7 @@
   
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/switchonproject/belis-client/issues</url>
+        <url>https://github.com/cismet/belis-client/issues</url>
     </issueManagement>
     
     <ciManagement>
