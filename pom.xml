@@ -310,6 +310,18 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>net.infonode.docking</groupId>
+            <artifactId>docking</artifactId>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>looks</artifactId>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
         <!-- END: managed dependencies -->
                 
         <!-- BEGIN: runtime-dependencies --> 
@@ -326,20 +338,6 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>10.0</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>net.infonode.docking</groupId>
-            <artifactId>docking</artifactId>
-            <version>1.5.0</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.jgoodies</groupId>
-            <artifactId>looks</artifactId>
-            <version>2.2.2</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
