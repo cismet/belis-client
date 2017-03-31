@@ -85,11 +85,14 @@
                 <artifactId>belis-commons</artifactId>
                 <version>5.0</version>
                 <type>jar</type>
-                <!-- belis-client imports only final CONSTANTS from belis-commons:
+                <!-- WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING 
+                    belis-client imports only final CONSTANTS from belis-commons:
                     -> static final fields will be inlined by the bytecode compiler 
                     both in the current classes, and in other classes!
                     -> maven dependecy-plugin does not find any import to belis-commons
                     during bytecode analysis!
+                    
+                    See also https://cismet.slack.com/files/pascal.dihe/F4SJAK3FE/Vorsicht__Dependency_Plugin_und_Lookup_Mechanismus
                 -->
                 <scope>provided</scope>
             </dependency>
@@ -164,10 +167,6 @@
     <dependencies>
         <!-- BEGIN: cids-dependencies -->
         <dependency>
-            <groupId>de.cismet.cids.custom.wupp.server</groupId>
-            <artifactId>cids-custom-server-wuppertal</artifactId>
-        </dependency>
-        <dependency>
             <groupId>de.cismet.cids.custom.wupp</groupId>
             <artifactId>cids-custom-wuppertal</artifactId>
         </dependency>
@@ -207,14 +206,31 @@
             <groupId>de.cismet.commons</groupId>
             <artifactId>cismet-application-commons</artifactId>
         </dependency>
-        
+                
         <!-- BEGIN: provided cids-dependencies -->
         <dependency>
             <groupId>de.cismet.belis</groupId>
             <artifactId>belis-commons</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- BEGIN: provided cids-dependencies -->
+        <!--
+            WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING 
+            Unused declared dependencies found:
+                de.cismet.cids.custom.wupp.server:cids-custom-server-wuppertal:jar:5.0:compile
+            
+            #191: Only final constant are imported from cids-custom-server-wuppertal, 
+            Therefore 'provided' is most likely the correct scope. However, due to
+            the intransparent NB lookup mechanism that is not recognized by the maven dependency plugin, 
+            we cannot preclude java.lang.ClassNotFoundException during runtime. 
+            
+            See also https://cismet.slack.com/files/pascal.dihe/F4SJAK3FE/Vorsicht__Dependency_Plugin_und_Lookup_Mechanismus
+        -->
+        <dependency>
+            <groupId>de.cismet.cids.custom.wupp.server</groupId>
+            <artifactId>cids-custom-server-wuppertal</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- END: provided cids-dependencies -->
 
         <!-- BEGIN: managed dependencies -->
         <dependency>
