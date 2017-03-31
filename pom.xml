@@ -99,10 +99,6 @@
                 <artifactId>cids-custom-server-wuppertal</artifactId>
                 <version>5.0</version>
                 <type>jar</type>
-                <!-- 
-                    belis-client imports only final CONSTANTS
-                -->
-                <scope>provided</scope>
             </dependency>
             
             <dependency>
@@ -110,10 +106,6 @@
                 <artifactId>cids-custom-wuppertal</artifactId>
                 <version>5.0</version>
                 <type>jar</type>
-                <!-- 
-                    belis-client imports only final CONSTANTS
-                -->
-                <scope>provided</scope>
             </dependency>
                         
             <dependency>
@@ -172,6 +164,14 @@
     <dependencies>
         <!-- BEGIN: cids-dependencies -->
         <dependency>
+            <groupId>de.cismet.cids.custom.wupp.server</groupId>
+            <artifactId>cids-custom-server-wuppertal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.cismet.cids.custom.wupp</groupId>
+            <artifactId>cids-custom-wuppertal</artifactId>
+        </dependency>
+        <dependency>
             <groupId>de.cismet.cids.navigator</groupId>
             <artifactId>cids-navigator</artifactId>
         </dependency>
@@ -212,16 +212,6 @@
         <dependency>
             <groupId>de.cismet.belis</groupId>
             <artifactId>belis-commons</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.cismet.cids.custom.wupp.server</groupId>
-            <artifactId>cids-custom-server-wuppertal</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.cismet.cids.custom.wupp</groupId>
-            <artifactId>cids-custom-wuppertal</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- BEGIN: provided cids-dependencies -->
