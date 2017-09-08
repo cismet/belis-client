@@ -13,7 +13,7 @@
     <groupId>de.cismet.belis</groupId>
     <artifactId>belis-client</artifactId>
     <packaging>jar</packaging>
-    <version>5.1-SNAPSHOT</version>    
+    <version>5.1</version>    
 
     <properties>
         <names.belis-client>BelIS Client</names.belis-client>
@@ -31,7 +31,7 @@
         <connection>https://github.com/cismet/belis-client.git</connection>
         <developerConnection>scm:git:git@github.com:cismet/belis-client.git</developerConnection>
         <url>https://github.com/cismet/belis-client</url>
-        <tag>HEAD</tag>
+        <tag>v5.1</tag>
     </scm>
   
     <issueManagement>
