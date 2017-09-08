@@ -1485,6 +1485,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(WundaAuthentification.class);
         private String callserverhost;
         private String userString;
+        private boolean compressionEnabled = false;
         private BelisBroker broker;
 
         //~ Constructors -------------------------------------------------------
@@ -1520,7 +1521,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                 }
 
                 final Connection connection = ConnectionFactory.getFactory()
-                            .createConnection(CONNECTION_CLASS, callServerURL);
+                            .createConnection(CONNECTION_CLASS, callServerURL, compressionEnabled);
                 final ConnectionSession session;
                 final ConnectionProxy proxy;
                 final ConnectionInfo connectionInfo = new ConnectionInfo();
@@ -1567,17 +1568,22 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         public void masterConfigure(final Element parent) {
             try {
                 standaloneDomain = JnlpSystemPropertyHelper.getProperty("domain");
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 log.fatal("Error while reading userdomain can't authenticate", ex);
                 System.exit(2);
                 // TODO wenigstens den Nutzer benachrichtigen sonst ist es zu hard oder nur lesen modus --> besser!!!
             }
             try {
                 callserverhost = JnlpSystemPropertyHelper.getProperty("callserverhost");
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 log.fatal("Error while reading callserverhost can't authenticate", ex);
                 System.exit(2);
                 // TODO wenigstens den Nutzer benachrichtigen sonst ist es zu hard oder nur lesen modus --> besser!!!
+            }
+            try {
+                compressionEnabled = Boolean.parseBoolean(JnlpSystemPropertyHelper.getProperty("compressionEnabled"));
+            } catch (final Exception ex) {
+                log.warn("Error while parsing compressionEnabled", ex);
             }
 
             try {
