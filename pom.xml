@@ -24,7 +24,7 @@
         <de.cismet.libDir>lib/int</de.cismet.libDir>
     </properties>
     
-    <name>${names.belis-client}</name>
+    <name>${names.belis-client} [${project.version}]</name>
     <description>!!! description pending !!!</description>
    
     <scm>
