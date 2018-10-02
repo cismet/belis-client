@@ -52,7 +52,6 @@ import org.jdesktop.swingx.treetable.AbstractMutableTreeTableNode;
 
 import org.jdom.Element;
 
-import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
 import java.awt.Color;
@@ -62,6 +61,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -81,6 +81,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 
+import javax.swing.AbstractAction;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -166,9 +167,11 @@ import de.cismet.cids.navigator.utils.SimpleMemoryMonitoringToolbarWidget;
 
 import de.cismet.cids.search.SearchQuerySearchMethod;
 
+import de.cismet.cids.server.actions.AppendToTestFileServerAction;
+import de.cismet.cids.server.actions.ServerAction;
+
 import de.cismet.cismap.commons.BoundingBox;
 import de.cismet.cismap.commons.CrsTransformer;
-import de.cismet.cismap.commons.features.DefaultFeatureCollection;
 import de.cismet.cismap.commons.features.Feature;
 import de.cismet.cismap.commons.features.FeatureCollection;
 import de.cismet.cismap.commons.features.StyledFeature;
@@ -201,6 +204,7 @@ import de.cismet.commons2.architecture.layout.LayoutManager;
 import de.cismet.lookupoptions.gui.OptionsClient;
 
 import de.cismet.tools.CurrentStackTrace;
+import de.cismet.tools.StaticDebuggingTools;
 
 import de.cismet.tools.configuration.Configurable;
 import de.cismet.tools.configuration.ConfigurationManager;
@@ -1745,8 +1749,27 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
             toolbar.setBorderPainted(false);
             toolbar.setRollover(true);
 
+            if (StaticDebuggingTools.checkHomeForFile("cismetAppendToTestFileServerActionToolbar")) {
+                final JButton b = new JButton(new AbstractAction("AppendToTestFileServerAction") {
+
+                            @Override
+                            public void actionPerformed(final ActionEvent e) {
+                                final ServerAction sa = new AppendToTestFileServerAction();
+                                try {
+                                    CidsBroker.getInstance()
+                                            .executeServerAction(
+                                                sa.getTaskName(),
+                                                JOptionPane.showInputDialog(null, "Line to Append?"));
+                                } catch (final Exception ex) {
+                                    LOG.error(ex, ex);
+                                }
+                            }
+                        });
+                toolbar.add(b);
+            }
+
             editButtonsToolbar = new EditButtonsToolbar();
-            getToolbar().add(editButtonsToolbar);
+            toolbar.add(editButtonsToolbar);
             addSeparatorToToolbar();
 
             cmdPrint.setIcon(new javax.swing.ImageIcon(
