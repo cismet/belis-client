@@ -59,7 +59,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismet-commons</artifactId>
-                <version>6.3</version>
+                <version>6.4</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -75,7 +75,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismap-commons</artifactId>
-                <version>6.0.16</version>
+                <version>6.2</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -100,14 +100,14 @@
             <dependency>
                 <groupId>de.cismet.cids.custom.wupp.server</groupId>
                 <artifactId>cids-custom-server-wuppertal</artifactId>
-                <version>6.4</version>
+                <version>6.10</version>
                 <type>jar</type>
             </dependency>
             
             <dependency>
                 <groupId>de.cismet.cids.custom.wupp</groupId>
                 <artifactId>cids-custom-wuppertal</artifactId>
-                <version>6.3.3</version>
+                <version>6.9.13</version>
                 <type>jar</type>
             </dependency>
                         
@@ -122,7 +122,7 @@
             <dependency>
                 <groupId>de.cismet.belis</groupId>
                 <artifactId>belis-server</artifactId>
-                <version>6.0</version>
+                <version>6.1</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -130,7 +130,7 @@
             <dependency>
                 <groupId>de.cismet.cids.navigator</groupId>
                 <artifactId>cids-navigator</artifactId>
-                <version>6.1.2</version>
+                <version>6.2.16</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -138,7 +138,7 @@
             <dependency>
                 <groupId>de.cismet.cismap</groupId>
                 <artifactId>cismap-plugin</artifactId>
-                <version>6.1</version>
+                <version>6.1.5</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
