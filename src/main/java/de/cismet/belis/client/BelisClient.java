@@ -44,14 +44,19 @@ import java.awt.event.InputEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+
+import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.PropertyResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
@@ -890,33 +895,33 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniSaveLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniSaveLayoutActionPerformed
+    private void mniSaveLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSaveLayoutActionPerformed
         broker.getLayoutManager().saveLayout();
-    }                                                                                 //GEN-LAST:event_mniSaveLayoutActionPerformed
+    }//GEN-LAST:event_mniSaveLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniLoadLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniLoadLayoutActionPerformed
+    private void mniLoadLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLoadLayoutActionPerformed
         broker.getLayoutManager().loadLayout();
-    }                                                                                 //GEN-LAST:event_mniLoadLayoutActionPerformed
+    }//GEN-LAST:event_mniLoadLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniLockLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniLockLayoutActionPerformed
-    }                                                                                 //GEN-LAST:event_mniLockLayoutActionPerformed
+    private void mniLockLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLockLayoutActionPerformed
+    }//GEN-LAST:event_mniLockLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniClippboardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniClippboardActionPerformed
+    private void mniClippboardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniClippboardActionPerformed
         final Thread t = new Thread(new Runnable() {
 
                     @Override
@@ -942,74 +947,74 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     }
                 });
         t.start();
-    } //GEN-LAST:event_mniClippboardActionPerformed
+    }//GEN-LAST:event_mniClippboardActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniCloseActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniCloseActionPerformed
+    private void mniCloseActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniCloseActionPerformed
         this.dispose();
-    }                                                                            //GEN-LAST:event_mniCloseActionPerformed
+    }//GEN-LAST:event_mniCloseActionPerformed
     /**
      * ToDo.
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniRefreshActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniRefreshActionPerformed
-    }                                                                              //GEN-LAST:event_mniRefreshActionPerformed
+    private void mniRefreshActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRefreshActionPerformed
+    }//GEN-LAST:event_mniRefreshActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniBackActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniBackActionPerformed
+    private void mniBackActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBackActionPerformed
         if ((broker.getMappingComponent() != null) && broker.getMappingComponent().isBackPossible()) {
             broker.getMappingComponent().back(true);
         }
-    }                                                                           //GEN-LAST:event_mniBackActionPerformed
+    }//GEN-LAST:event_mniBackActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniForwardActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniForwardActionPerformed
+    private void mniForwardActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniForwardActionPerformed
         if ((broker.getMappingComponent() != null) && broker.getMappingComponent().isForwardPossible()) {
             broker.getMappingComponent().forward(true);
         }
-    }                                                                              //GEN-LAST:event_mniForwardActionPerformed
+    }//GEN-LAST:event_mniForwardActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniHomeActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniHomeActionPerformed
+    private void mniHomeActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniHomeActionPerformed
         if (broker.getMappingComponent() != null) {
             broker.getMappingComponent().gotoInitialBoundingBox();
         }
-    }                                                                           //GEN-LAST:event_mniHomeActionPerformed
+    }//GEN-LAST:event_mniHomeActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOptionsActionPerformed
+    private void mniOptionsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniOptionsActionPerformed
         final OptionsDialog od = new OptionsDialog(this, true);
         od.pack();
         StaticSwingTools.showDialog(od, false);
-    }                                                                              //GEN-LAST:event_mniOptionsActionPerformed
+    }//GEN-LAST:event_mniOptionsActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniGotoPointActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniGotoPointActionPerformed
+    private void mniGotoPointActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniGotoPointActionPerformed
         final BoundingBox c = broker.getMappingComponent().getCurrentBoundingBox();
         final double x = (c.getX1() + c.getX2()) / 2;
         final double y = (c.getY1() + c.getY2()) / 2;
@@ -1028,14 +1033,14 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     .gotoBoundingBox(bb, true, false, broker.getMappingComponent().getAnimationDuration());
         } catch (Exception skip) {
         }
-    }                                                                                //GEN-LAST:event_mniGotoPointActionPerformed
+    }//GEN-LAST:event_mniGotoPointActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniScaleActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniScaleActionPerformed
+    private void mniScaleActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniScaleActionPerformed
         final String s = JOptionPane.showInputDialog(
                 this,
                 "Maßstab manuell auswählen",
@@ -1047,33 +1052,33 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     .gotoBoundingBoxWithHistory(broker.getMappingComponent().getBoundingBoxFromScale(i));
         } catch (Exception skip) {
         }
-    }                                                                            //GEN-LAST:event_mniScaleActionPerformed
+    }//GEN-LAST:event_mniScaleActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniResetWindowLayoutActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniResetWindowLayoutActionPerformed
+    private void mniResetWindowLayoutActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniResetWindowLayoutActionPerformed
         broker.getLayoutManager().doLayoutInfoNodeDefaultFile();
-    }                                                                                        //GEN-LAST:event_mniResetWindowLayoutActionPerformed
+    }//GEN-LAST:event_mniResetWindowLayoutActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniOnlineHelpActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniOnlineHelpActionPerformed
-    }                                                                                 //GEN-LAST:event_mniOnlineHelpActionPerformed
+    private void mniOnlineHelpActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniOnlineHelpActionPerformed
+    }//GEN-LAST:event_mniOnlineHelpActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void mniNewsActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_mniNewsActionPerformed
+    private void mniNewsActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNewsActionPerformed
         // openUrlInExternalBrowser(newsURL);
-    } //GEN-LAST:event_mniNewsActionPerformed
+    }//GEN-LAST:event_mniNewsActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -1217,11 +1222,6 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         }
         Thread.setDefaultUncaughtExceptionHandler(DefaultNavigatorExceptionHandler.getInstance());
 
-        final String intranetUse = JnlpSystemPropertyHelper.getProperty("intranetUse", "false");
-        if (!intranetUse.equals("false") && !intranetUse.equals("true")) {
-            LOG.warn("SystemProperty intranetUse should be set to either true or false. You set it to: " + intranetUse
-                        + " (Will handle that like false.)");
-        }
         try {
             final Plastic3DLookAndFeel lf = new Plastic3DLookAndFeel();
             javax.swing.UIManager.setLookAndFeel(lf);
@@ -1239,28 +1239,12 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         DIRECTORYPATH_BELIS = directoryPath + fileSeparator + belisHomeName;
         FILEPATH_SCREEN = DIRECTORYPATH_BELIS + fileSeparator + "belis.screen";
 
-//        final Thread t = new Thread() {
-//
-//                @Override
-//                public void run() {
-        if (!intranetUse.equals("true")) {
-            try {
-                WebAccessManager.getInstance().setTunnel(new CallServerTunnel("BELIS2"));
-            } catch (Throwable e) {
-                LOG.error("problem initializing WebaccessManager", e);
-            }
-        }
         configManager = new ConfigurationManager();
         configManager.setDefaultFileName(getPluginConfigurationFile());
         configManager.setFileName(getPluginConfigurationFile());
         configManager.setHome(directoryPath);
         configManager.setFolder(belisHomeName);
         configManager.setClassPathFolder(PLUGIN_CONFIGURATION_CLASSPATH);
-
-//                    final LoginManager loginManager = new LoginManager();
-//
-//                    configManager.addConfigurable(loginManager);
-//                    configManager.configure(loginManager);
         configManager.addConfigurable(wa);
         configManager.configure(wa);
 
@@ -1568,32 +1552,153 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
 
         @Override
         public void masterConfigure(final Element parent) {
-            try {
-                standaloneDomain = JnlpSystemPropertyHelper.getProperty("domain");
-            } catch (final Exception ex) {
-                log.fatal("Error while reading userdomain can't authenticate", ex);
-                System.exit(2);
-                // TODO wenigstens den Nutzer benachrichtigen sonst ist es zu hard oder nur lesen modus --> besser!!!
+            Boolean intranetUse = null;
+            final String cfgFile = JnlpSystemPropertyHelper.getProperty("configFile");
+            if (cfgFile != null) {
+                final AppProperties appProperties;
+                try {
+                    if ((cfgFile.indexOf("http://") == 0) || (cfgFile.indexOf("https://") == 0)
+                                || (cfgFile.indexOf("file:/") == 0)) {
+                        appProperties = new AppProperties(new URL(cfgFile));
+                    } else {
+                        appProperties = new AppProperties(new File(cfgFile));
+                    }
+                    if (appProperties.getCallserverUrl() != null) {
+                        callserverhost = appProperties.getCallserverUrl();
+                    } else {
+                        log.fatal("Error while reading callserverhost can't authenticate");
+                        System.exit(2);
+                    }
+                    try {
+                        compressionEnabled = appProperties.isCompressionEnabled();
+                    } catch (final Exception ex) {
+                        log.warn("Error while parsing compressionEnabled", ex);
+                    }
+                    if (appProperties.getDomain() != null) {
+                        standaloneDomain = appProperties.getDomain();
+                    } else {
+                        log.fatal("Error while reading userdomain can't authenticate");
+                        System.exit(2);
+                    }
+                    try {
+                        intranetUse = appProperties.isIntranetUseEnabled();
+                    } catch (final Exception ex) {
+                    }
+                } catch (final Exception ex) {
+                    log.fatal("Error while reading config file", ex);
+                    System.exit(2);
+                }
+            } else {
+                try {
+                    intranetUse = Boolean.parseBoolean(JnlpSystemPropertyHelper.getProperty("intranetUse", "false"));
+                } catch (final Exception ex) {
+                }
+                try {
+                    standaloneDomain = JnlpSystemPropertyHelper.getProperty("domain");
+                } catch (final Exception ex) {
+                    log.fatal("Error while reading userdomain can't authenticate", ex);
+                    System.exit(2);
+                    // TODO wenigstens den Nutzer benachrichtigen sonst ist es zu hard oder nur lesen modus -->
+                    // besser!!!
+                }
+                try {
+                    callserverhost = JnlpSystemPropertyHelper.getProperty("callserverhost");
+                } catch (final Exception ex) {
+                    log.fatal("Error while reading callserverhost can't authenticate", ex);
+                    System.exit(2);
+                    // TODO wenigstens den Nutzer benachrichtigen sonst ist es zu hard oder nur lesen modus -->
+                    // besser!!!
+                }
+                try {
+                    compressionEnabled = Boolean.parseBoolean(JnlpSystemPropertyHelper.getProperty(
+                                "compressionEnabled"));
+                } catch (final Exception ex) {
+                    log.warn("Error while parsing compressionEnabled", ex);
+                }
             }
-            try {
-                callserverhost = JnlpSystemPropertyHelper.getProperty("callserverhost");
-            } catch (final Exception ex) {
-                log.fatal("Error while reading callserverhost can't authenticate", ex);
-                System.exit(2);
-                // TODO wenigstens den Nutzer benachrichtigen sonst ist es zu hard oder nur lesen modus --> besser!!!
-            }
-            try {
-                compressionEnabled = Boolean.parseBoolean(JnlpSystemPropertyHelper.getProperty("compressionEnabled"));
-            } catch (final Exception ex) {
-                log.warn("Error while parsing compressionEnabled", ex);
-            }
-
             try {
                 broker = BelisBroker.getInstance();
             } catch (Exception ex) {
                 log.fatal("Error while configuring Login", ex);
                 System.exit(2);
+            }            
+            if (!Boolean.TRUE.equals(intranetUse)) {
+                try {
+                    WebAccessManager.getInstance().setTunnel(new CallServerTunnel("BELIS2"));
+                } catch (Throwable e) {
+                    LOG.error("problem initializing WebaccessManager", e);
+                }
             }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    private static class AppProperties extends PropertyResourceBundle {
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new AppProperties object.
+         *
+         * @param   url  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        public AppProperties(final URL url) throws Exception {
+            super(url.openStream());
+        }
+
+        /**
+         * Creates a new AppProperties object.
+         *
+         * @param   file  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        public AppProperties(final File file) throws Exception {
+            super(new BufferedInputStream(new FileInputStream(file)));
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public String getCallserverUrl() {
+            return getString("callserverUrl");
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public boolean isCompressionEnabled() {
+            return Boolean.parseBoolean(getString("compressionEnabled"));
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public boolean isIntranetUseEnabled() {
+            return Boolean.parseBoolean(getString("intranetUse"));
+        }
+
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public String getDomain() {
+            return getString("domain");
         }
     }
 }
