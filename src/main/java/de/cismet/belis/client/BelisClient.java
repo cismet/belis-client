@@ -16,7 +16,6 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.connection.proxy.ConnectionProxy;
 import Sirius.navigator.exception.ConnectionException;
 import Sirius.navigator.plugin.interfaces.FloatingPluginUI;
-import Sirius.navigator.resource.PropertyManager;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 
@@ -54,8 +53,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.PropertyResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -206,10 +203,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                         LOG.debug("windowClosing(): beende Application");
                         LOG.debug("windowClosing(): Check if there unsaved changes.");
                     }
-                    cleanUp();
-                    dispose();
-                    // needed because the frames default closing op must be "do nothing"!
-                    System.exit(0);
+                    close();
                 }
             });
         try {
@@ -955,8 +949,15 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      * @param  evt  DOCUMENT ME!
      */
     private void mniCloseActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniCloseActionPerformed
-        this.dispose();
+        close();
     }//GEN-LAST:event_mniCloseActionPerformed
+    
+    private void close() {
+        cleanUp();        
+        dispose();
+        System.exit(0);                
+    }
+    
     /**
      * ToDo.
      *
@@ -1621,7 +1622,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             } catch (Exception ex) {
                 log.fatal("Error while configuring Login", ex);
                 System.exit(2);
-            }            
+            }
             if (!Boolean.TRUE.equals(intranetUse)) {
                 try {
                     WebAccessManager.getInstance().setTunnel(new CallServerTunnel("BELIS2"));
