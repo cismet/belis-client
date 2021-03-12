@@ -7,13 +7,13 @@
     <parent>
         <groupId>de.cismet.cids</groupId>
         <artifactId>cids-parent</artifactId>
-        <version>6.0</version>
+        <version>7.0</version>
     </parent>
     
     <groupId>de.cismet.belis</groupId>
     <artifactId>belis-client</artifactId>
     <packaging>jar</packaging>
-    <version>6.2-SNAPSHOT</version>    
+    <version>7.1-SNAPSHOT</version>    
 
     <properties>
         <names.belis-client>BelIS Client</names.belis-client>
@@ -50,7 +50,7 @@
             <dependency>
                 <groupId>de.cismet</groupId>
                 <artifactId>cismet-ext-bom</artifactId>
-                <version>6.0</version>
+                <version>7.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -59,7 +59,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismet-commons</artifactId>
-                <version>6.4</version>
+                <version>7.0</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -67,7 +67,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismet-gui-commons</artifactId>
-                <version>6.2.2</version>
+                <version>7.0</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -75,7 +75,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismap-commons</artifactId>
-                <version>6.2</version>
+                <version>7.0</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -83,7 +83,7 @@
             <dependency>
                 <groupId>de.cismet.belis</groupId>
                 <artifactId>belis-commons</artifactId>
-                <version>6.0</version>
+                <version>7.0</version>
                 <type>jar</type>
                 <!-- WARNING  WARNING  WARNING  WARNING  WARNING  WARNING  WARNING 
                     belis-client imports only final CONSTANTS from belis-commons:
@@ -100,21 +100,21 @@
             <dependency>
                 <groupId>de.cismet.cids.custom.wupp.server</groupId>
                 <artifactId>cids-custom-server-wuppertal</artifactId>
-                <version>6.10</version>
+                <version>7.0</version>
                 <type>jar</type>
             </dependency>
             
             <dependency>
                 <groupId>de.cismet.cids.custom.wupp</groupId>
                 <artifactId>cids-custom-wuppertal</artifactId>
-                <version>6.9.13</version>
+                <version>7.0</version>
                 <type>jar</type>
             </dependency>
                         
             <dependency>
                 <groupId>de.cismet.cids</groupId>
                 <artifactId>cids-server</artifactId>
-                <version>6.3.3</version>
+                <version>7.0</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -122,7 +122,7 @@
             <dependency>
                 <groupId>de.cismet.belis</groupId>
                 <artifactId>belis-server</artifactId>
-                <version>6.1</version>
+                <version>7.0</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -130,7 +130,7 @@
             <dependency>
                 <groupId>de.cismet.cids.navigator</groupId>
                 <artifactId>cids-navigator</artifactId>
-                <version>6.2.16</version>
+                <version>7.0</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -138,7 +138,7 @@
             <dependency>
                 <groupId>de.cismet.cismap</groupId>
                 <artifactId>cismap-plugin</artifactId>
-                <version>6.1.5</version>
+                <version>7.0</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -146,7 +146,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismet-application-commons</artifactId>
-                <version>6.0</version>
+                <version>7.0</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -154,7 +154,7 @@
             <dependency>
                 <groupId>de.cismet.custom</groupId>
                 <artifactId>beansbinding</artifactId>
-                <version>6.0</version>
+                <version>7.0</version>
                 <scope>compile</scope>
                 <type>jar</type>
             </dependency>      
