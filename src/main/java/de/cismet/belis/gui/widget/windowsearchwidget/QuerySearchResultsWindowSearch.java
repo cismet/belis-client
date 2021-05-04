@@ -169,6 +169,12 @@ public class QuerySearchResultsWindowSearch extends JPanel implements BelisWindo
                                 new ServerActionParameter<>(
                                     CsvExportServerAction.ParameterType.BOOLEAN_NO.toString(),
                                     "nein"),
+                                new ServerActionParameter<>(
+                                    CsvExportServerAction.ParameterType.DISTINCT_ON.toString(),
+                                    "id"),
+                                new ServerActionParameter<>(
+                                    CsvExportServerAction.ParameterType.CHARSET.toString(),
+                                    "ISO-8859-1"),
                             };
                         DownloadManager.instance()
                                 .add(
