@@ -37,7 +37,7 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
 
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.belis.gui.documentpanel.DocumentPanel documentPanel1;
+    private de.cismet.belis.gui.utils.DocumentPanel documentPanel1;
     private javax.swing.JLabel lblBezeichnung;
     private javax.swing.JLabel lblDokumente;
     private javax.swing.JLabel lblHersteller;
@@ -89,7 +89,7 @@ public class TkeyMasttypEditor extends javax.swing.JPanel implements RequestsFul
         lblLph = new javax.swing.JLabel();
         txtLph = new javax.swing.JFormattedTextField();
         lblDokumente = new javax.swing.JLabel();
-        documentPanel1 = new de.cismet.belis.gui.documentpanel.DocumentPanel();
+        documentPanel1 = new de.cismet.belis.gui.utils.DocumentPanel();
 
         setMaximumSize(new java.awt.Dimension(1190, 1625));
         setMinimumSize(new java.awt.Dimension(807, 485));

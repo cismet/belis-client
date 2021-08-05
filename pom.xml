@@ -67,7 +67,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismet-gui-commons</artifactId>
-                <version>7.0</version>
+                <version>7.0.3</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -75,7 +75,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismap-commons</artifactId>
-                <version>7.0.3</version>
+                <version>7.0.5</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -100,21 +100,21 @@
             <dependency>
                 <groupId>de.cismet.cids.custom.wupp.server</groupId>
                 <artifactId>cids-custom-server-wuppertal</artifactId>
-                <version>7.2</version>
+                <version>7.3.1</version>
                 <type>jar</type>
             </dependency>
             
             <dependency>
                 <groupId>de.cismet.cids.custom.wupp</groupId>
                 <artifactId>cids-custom-wuppertal</artifactId>
-                <version>7.2</version>
+                <version>7.3.1</version>
                 <type>jar</type>
             </dependency>
                         
             <dependency>
                 <groupId>de.cismet.cids</groupId>
                 <artifactId>cids-server</artifactId>
-                <version>7.5</version>
+                <version>7.5.6</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -122,7 +122,7 @@
             <dependency>
                 <groupId>de.cismet.belis</groupId>
                 <artifactId>belis-server</artifactId>
-                <version>7.0</version>
+                <version>7.0.2</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -130,7 +130,7 @@
             <dependency>
                 <groupId>de.cismet.cids.navigator</groupId>
                 <artifactId>cids-navigator</artifactId>
-                <version>7.2.4</version>
+                <version>7.4.1</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -298,7 +298,7 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
-        <dependency>
+        <dependency>            
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-awt</artifactId>
             <scope>compile</scope>
