@@ -44,7 +44,7 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXDatePicker dapPruefung;
-    private de.cismet.belis.gui.documentpanel.DocumentPanel documentPanel1;
+    private de.cismet.belis.gui.utils.DocumentPanel documentPanel1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
@@ -74,7 +74,7 @@ public class MauerlaschePruefungWizard extends AbstractArbeitsprotokollWizard {
 
         jLabel1 = new javax.swing.JLabel();
         dapPruefung = new org.jdesktop.swingx.JXDatePicker();
-        documentPanel1 = new de.cismet.belis.gui.documentpanel.DocumentPanel();
+        documentPanel1 = new de.cismet.belis.gui.utils.DocumentPanel();
 
         setLayout(new java.awt.GridBagLayout());
 

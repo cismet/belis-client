@@ -296,7 +296,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="de.cismet.belis.gui.documentpanel.DocumentPanel" name="documentPanel1">
+        <Component class="de.cismet.belis.gui.utils.DocumentPanel" name="documentPanel1">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="opaque" type="boolean" value="false"/>

@@ -242,14 +242,9 @@ public class DmsUrlCustomBean extends BaseEntity {
         }
         final DmsUrlCustomBean dmsUrlEntity = DmsUrlCustomBean.createNew();
         final UrlCustomBean url = UrlCustomBean.createNew();
-        final UrlBaseCustomBean base = UrlBaseCustomBean.createNew();
         final URLSplitter splitter = new URLSplitter(link);
         dmsUrlEntity.setBeschreibung(description);
-        url.setUrlBase(base);
         dmsUrlEntity.setUrl(url);
-        base.setPfad(splitter.getPath());
-        base.setProtPrefix(splitter.getProt_prefix());
-        base.setServer(splitter.getServer());
         url.setObjektname(splitter.getObject_name());
         return dmsUrlEntity;
     }

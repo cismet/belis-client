@@ -94,7 +94,7 @@ public class DetailWidget extends BelisWidget {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel labDokumente;
-    private de.cismet.belis.gui.documentpanel.DocumentPanel panDokumente;
+    private de.cismet.belis.gui.utils.DocumentPanel panDokumente;
     private javax.swing.JTabbedPane panMain;
     private javax.swing.JScrollPane scpMain;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -377,7 +377,7 @@ public class DetailWidget extends BelisWidget {
         panMain = new javax.swing.JTabbedPane();
         scpMain = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
-        panDokumente = new de.cismet.belis.gui.documentpanel.DocumentPanel();
+        panDokumente = new de.cismet.belis.gui.utils.DocumentPanel();
         jPanel3 = new javax.swing.JPanel();
 
         labDokumente.setIcon(new javax.swing.ImageIcon(
