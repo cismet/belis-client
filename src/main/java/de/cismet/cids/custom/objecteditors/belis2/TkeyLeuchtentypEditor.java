@@ -37,7 +37,7 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
 
     private CidsBean cidsBean;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.belis.gui.documentpanel.DocumentPanel documentPanel1;
+    private de.cismet.belis.gui.utils.DocumentPanel documentPanel1;
     private javax.swing.JLabel lblBestueckung;
     private javax.swing.JLabel lblDokumente;
     private javax.swing.JLabel lblFabrikat;
@@ -109,7 +109,7 @@ public class TkeyLeuchtentypEditor extends javax.swing.JPanel implements Request
         lblVorschaltgeraet = new javax.swing.JLabel();
         txtVorschaltgeraet = new javax.swing.JTextField();
         lblDokumente = new javax.swing.JLabel();
-        documentPanel1 = new de.cismet.belis.gui.documentpanel.DocumentPanel();
+        documentPanel1 = new de.cismet.belis.gui.utils.DocumentPanel();
 
         setMaximumSize(new java.awt.Dimension(1190, 1625));
         setMinimumSize(new java.awt.Dimension(807, 485));
