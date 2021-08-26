@@ -47,8 +47,12 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
+import java.net.URI;
 import java.net.URL;
+
+import java.nio.file.Paths;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,6 +100,10 @@ import de.cismet.commons2.architecture.layout.LayoutManagerListener;
 
 import de.cismet.lookupoptions.gui.OptionsClient;
 import de.cismet.lookupoptions.gui.OptionsDialog;
+
+import de.cismet.netutil.Proxy;
+import de.cismet.netutil.ProxyHandler;
+import de.cismet.netutil.ProxyProperties;
 
 import de.cismet.security.WebAccessManager;
 
@@ -1476,6 +1484,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         private String callserverhost;
         private String userString;
         private boolean compressionEnabled = false;
+        private final ProxyProperties proxyProperties = new ProxyProperties();
         private BelisBroker broker;
 
         //~ Constructors -------------------------------------------------------
@@ -1510,10 +1519,12 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     log.debug("full qualified username: " + userString + "@" + standaloneDomain);
                 }
 
+                final Proxy proxy = ProxyHandler.getInstance().init(proxyProperties);
+
                 final Connection connection = ConnectionFactory.getFactory()
-                            .createConnection(CONNECTION_CLASS, callServerURL, compressionEnabled);
-                final ConnectionSession session;
-                final ConnectionProxy proxy;
+                            .createConnection(CONNECTION_CLASS, callServerURL, proxy, compressionEnabled);
+                final ConnectionSession connectionSession;
+                final ConnectionProxy connectionProxy;
                 final ConnectionInfo connectionInfo = new ConnectionInfo();
                 connectionInfo.setCallserverURL(callServerURL);
                 connectionInfo.setPassword(new String(password));
@@ -1522,13 +1533,13 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                 connectionInfo.setUsergroupDomain(domain);
                 connectionInfo.setUsername(user);
 
-                session = ConnectionFactory.getFactory().createSession(connection, connectionInfo, true);
-                proxy = ConnectionFactory.getFactory().createProxy(CONNECTION_PROXY_CLASS, session);
+                connectionSession = ConnectionFactory.getFactory().createSession(connection, connectionInfo, true);
+                connectionProxy = ConnectionFactory.getFactory().createProxy(CONNECTION_PROXY_CLASS, connectionSession);
 
-                SessionManager.init(proxy);
+                SessionManager.init(connectionProxy);
                 ClassCacheMultiple.setInstance(CidsBroker.BELIS_DOMAIN);
 
-                CidsBroker.getInstance().setProxy(proxy);
+                CidsBroker.getInstance().setProxy(connectionProxy);
                 final String tester = (group + "@" + domain).toLowerCase();
                 if (log.isDebugEnabled()) {
                     log.debug("authentication: tester = " + tester);
@@ -1553,20 +1564,30 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         public Element getConfiguration() throws NoWriteError {
             return null;
         }
-
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   from  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         *
+         * @throws  Exception  DOCUMENT ME!
+         */
+        private static InputStream getInputStreamFrom(final String from) throws Exception {
+            if ((from.indexOf("http://") == 0) || (from.indexOf("https://") == 0)
+                        || (from.indexOf("file:/") == 0)) {
+                return new URL(from).openStream();
+            } else {
+                return new BufferedInputStream(new FileInputStream(from));
+            }
+        }
         @Override
         public void masterConfigure(final Element parent) {
             Boolean intranetUse = null;
             final String cfgFile = JnlpSystemPropertyHelper.getProperty("configFile");
             if (cfgFile != null) {
-                final AppProperties appProperties;
                 try {
-                    if ((cfgFile.indexOf("http://") == 0) || (cfgFile.indexOf("https://") == 0)
-                                || (cfgFile.indexOf("file:/") == 0)) {
-                        appProperties = new AppProperties(new URL(cfgFile));
-                    } else {
-                        appProperties = new AppProperties(new File(cfgFile));
-                    }
+                    final AppProperties appProperties = new AppProperties(getInputStreamFrom(cfgFile));
                     if (appProperties.getCallserverUrl() != null) {
                         callserverhost = appProperties.getCallserverUrl();
                     } else {
@@ -1588,11 +1609,18 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                         intranetUse = appProperties.isIntranetUseEnabled();
                     } catch (final Exception ex) {
                     }
+
+                    final String cfgFileName = Paths.get(new URI(cfgFile).getPath()).getFileName().toString();
+                    final String cfgDirname = cfgFile.substring(0, cfgFile.lastIndexOf(cfgFileName));
+                    final String proxyConfig = appProperties.getProxyConfig();
+                    final String cfgProxy = (proxyConfig != null) ? (cfgDirname + proxyConfig) : null;
+
+                    proxyProperties.load(getInputStreamFrom(cfgProxy));
                 } catch (final Exception ex) {
                     log.fatal("Error while reading config file", ex);
                     System.exit(2);
                 }
-            } else {
+            } else { // no support for proxy
                 try {
                     intranetUse = Boolean.parseBoolean(JnlpSystemPropertyHelper.getProperty("intranetUse", "false"));
                 } catch (final Exception ex) {
@@ -1648,23 +1676,12 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         /**
          * Creates a new AppProperties object.
          *
-         * @param   url  DOCUMENT ME!
+         * @param   is  url DOCUMENT ME!
          *
          * @throws  Exception  DOCUMENT ME!
          */
-        public AppProperties(final URL url) throws Exception {
-            super(url.openStream());
-        }
-
-        /**
-         * Creates a new AppProperties object.
-         *
-         * @param   file  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        public AppProperties(final File file) throws Exception {
-            super(new BufferedInputStream(new FileInputStream(file)));
+        public AppProperties(final InputStream is) throws Exception {
+            super(is);
         }
 
         //~ Methods ------------------------------------------------------------
@@ -1686,7 +1703,14 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         public boolean isCompressionEnabled() {
             return Boolean.parseBoolean(getString("compressionEnabled"));
         }
-
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
+        public String getProxyConfig() {
+            return getString("proxy.config");
+        }
         /**
          * DOCUMENT ME!
          *
