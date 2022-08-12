@@ -38,7 +38,7 @@ import de.cismet.cids.custom.beans.belis2.SchaltstelleCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaLeuchtenCustomBean;
 import de.cismet.cids.custom.beans.belis2.TdtaStandortMastCustomBean;
 import de.cismet.cids.custom.beans.belis2.VeranlassungCustomBean;
-import de.cismet.cids.custom.utils.ByteArrayActionDownload;
+import de.cismet.cids.custom.clientutils.ByteArrayActionDownload;
 
 import de.cismet.cids.search.QuerySearchResultsAction;
 import de.cismet.cids.search.QuerySearchResultsActionPanel;
