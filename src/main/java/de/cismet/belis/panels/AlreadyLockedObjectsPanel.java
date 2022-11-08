@@ -12,7 +12,6 @@
  */
 package de.cismet.belis.panels;
 
-import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Converter;
 
 import java.beans.PropertyChangeListener;
@@ -23,7 +22,13 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.swing.JDialog;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
+
+import de.cismet.belis.broker.BelisBroker;
+import de.cismet.belis.broker.CidsBroker;
+
+import de.cismet.belis2.server.utils.ActionNotSuccessfulException;
 
 import de.cismet.cids.custom.beans.belis2.SperreCustomBean;
 
@@ -45,9 +50,14 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
 
     private Collection<SperreCustomBean> locks;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXTable jXTable1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
@@ -63,6 +73,7 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
     public AlreadyLockedObjectsPanel(final Collection<SperreCustomBean> lockedObjects) {
         this.locks = lockedObjects;
         initComponents();
+        setLocks(locks);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -94,22 +105,29 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jXTable1 = new org.jdesktop.swingx.JXTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 0));
+        jButton2 = new javax.swing.JButton();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 0));
+        jButton1 = new javax.swing.JButton();
 
-        jButton1.setText("OK");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        setMinimumSize(new java.awt.Dimension(400, 400));
+        setPreferredSize(new java.awt.Dimension(400, 400));
+        setLayout(new java.awt.GridBagLayout());
 
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    jButton1ActionPerformed(evt);
-                }
-            });
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         final org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
@@ -122,57 +140,97 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
 
         jScrollPane1.setViewportView(jXTable1);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        jPanel1.add(jScrollPane1, gridBagConstraints);
+
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(
                 getClass().getResource("/de/cismet/belis/resource/icon/48/error.png"))); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 20);
+        jPanel1.add(jLabel1, gridBagConstraints);
 
         jLabel2.setText(
-            "<html><table width=\"250\" border=\"0\"><tr><td>Es gibt bereis gesperrte Objekte. Bitte  veringern Sie Ihre Auswahl oder kontaktieren  Sie den entsprechenden Sachbearbeiter.</td></tr></table></html>");
+            "<html>Es gibt bereis gesperrte Objekte. Bitte veringern Sie Ihre Auswahl oder kontaktieren Sie den entsprechenden Sachbearbeiter.");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        jPanel1.add(jLabel2, gridBagConstraints);
 
-        final javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup().addContainerGap().addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                        javax.swing.GroupLayout.Alignment.TRAILING,
-                        layout.createSequentialGroup().addComponent(
-                            jLabel1,
-                            javax.swing.GroupLayout.DEFAULT_SIZE,
-                            113,
-                            Short.MAX_VALUE).addGap(18, 18, 18).addComponent(
-                            jLabel2,
-                            javax.swing.GroupLayout.PREFERRED_SIZE,
-                            278,
-                            javax.swing.GroupLayout.PREFERRED_SIZE)).addComponent(
-                        jButton1,
-                        javax.swing.GroupLayout.Alignment.TRAILING,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        72,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        jScrollPane1,
-                        javax.swing.GroupLayout.Alignment.TRAILING,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        409,
-                        Short.MAX_VALUE)).addContainerGap()));
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                javax.swing.GroupLayout.Alignment.TRAILING,
-                layout.createSequentialGroup().addGap(23, 23, 23).addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                        jLabel2,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addComponent(
-                        jLabel1,
-                        javax.swing.GroupLayout.PREFERRED_SIZE,
-                        68,
-                        javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(23, 23, 23).addComponent(
-                    jScrollPane1,
-                    javax.swing.GroupLayout.PREFERRED_SIZE,
-                    207,
-                    javax.swing.GroupLayout.PREFERRED_SIZE).addPreferredGap(
-                    javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addComponent(jButton1).addContainerGap()));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
+        jPanel2.add(filler2, gridBagConstraints);
+
+        jButton2.setText("eigene Sperren entfernen");
+        jButton2.setEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jButton2ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel2.add(jButton2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
+        jPanel2.add(filler3, gridBagConstraints);
+
+        jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    jButton1ActionPerformed(evt);
+                }
+            });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.weightx = 1.0;
+        jPanel2.add(jButton1, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        jPanel1.add(jPanel2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        add(jPanel1, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
@@ -185,6 +243,41 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
     private void jButton1ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton1ActionPerformed
         ((JDialog)this.getRootPane().getParent()).dispose();
     }                                                                            //GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jButton2ActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton2ActionPerformed
+        jButton2.setEnabled(false);
+        final String userString = String.format("%s@BELIS2", BelisBroker.getInstance().getAccountName());
+        new SwingWorker<Void, Void>() {
+
+                @Override
+                protected Void doInBackground() throws Exception {
+                    for (final SperreCustomBean lockedObject : getLocks()) {
+                        if (userString.equals(lockedObject.getUserString())) {
+                            try {
+                                CidsBroker.getInstance().unlock(lockedObject);
+                            } catch (final ActionNotSuccessfulException ex) {
+                                BelisBroker.getInstance()
+                                        .showErrorDialog(
+                                            "Fehler beim Entsperren",
+                                            "<html>Die Sperre konnte nicht entfernt werden.",
+                                            ex);
+                            }
+                        }
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    ((JDialog)AlreadyLockedObjectsPanel.this.getRootPane().getParent()).dispose();
+                }
+            }.execute();
+    } //GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -203,6 +296,14 @@ public class AlreadyLockedObjectsPanel extends javax.swing.JPanel {
     public void setLocks(final Collection<SperreCustomBean> locks) {
         final Collection<SperreCustomBean> old = this.locks;
         this.locks = locks;
+        jButton2.setEnabled(false);
+        final String userString = String.format("%s@BELIS2", BelisBroker.getInstance().getAccountName());
+        for (final SperreCustomBean lockedObject : locks) {
+            if (userString.equals(lockedObject.getUserString())) {
+                jButton2.setEnabled(true);
+                break;
+            }
+        }
         propertyChangeSupport.firePropertyChange(PROP_LOCKS, old, locks);
     }
 }

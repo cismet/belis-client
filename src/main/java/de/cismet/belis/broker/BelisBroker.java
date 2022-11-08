@@ -2250,9 +2250,23 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
      * @param  ex  DOCUMENT ME!
      */
     public void showSaveErrorDialog(final Exception ex) {
+        showErrorDialog(
+            "Fehler beim speichern...",
+            "<html><table width=\"250\" border=\"0\"><tr><td>Fehler beim speichern der Objekte. Ihre Änderungen konnten nicht gespeichert werden.</td></tr></table></html>",
+            ex);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  title  DOCUMENT ME!
+     * @param  text   DOCUMENT ME!
+     * @param  ex     DOCUMENT ME!
+     */
+    public void showErrorDialog(final String title, final String text, final Exception ex) {
         final ErrorInfo ei = new ErrorInfo(
-                "Fehler beim speichern...",
-                "<html><table width=\"250\" border=\"0\"><tr><td>Fehler beim speichern der Objekte. Ihre Änderungen konnten nicht gespeichert werden.</td></tr></table></html>",
+                title,
+                text,
                 null,
                 null,
                 ex,
