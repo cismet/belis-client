@@ -1586,6 +1586,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             Boolean intranetUse = null;
             final String cfgFile = JnlpSystemPropertyHelper.getProperty("configFile");
             if (cfgFile != null) {
+                String proxyConfig = null;
                 try {
                     final AppProperties appProperties = new AppProperties(getInputStreamFrom(cfgFile));
                     if (appProperties.getCallserverUrl() != null) {
@@ -1610,15 +1611,21 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     } catch (final Exception ex) {
                     }
 
-                    final String cfgFileName = Paths.get(new URI(cfgFile).getPath()).getFileName().toString();
-                    final String cfgDirname = cfgFile.substring(0, cfgFile.lastIndexOf(cfgFileName));
-                    final String proxyConfig = appProperties.getProxyConfig();
-                    final String cfgProxy = (proxyConfig != null) ? (cfgDirname + proxyConfig) : null;
-
-                    proxyProperties.load(getInputStreamFrom(cfgProxy));
+                    proxyConfig = appProperties.getProxyConfig();
                 } catch (final Exception ex) {
                     log.fatal("Error while reading config file", ex);
                     System.exit(2);
+                }
+                try {
+                    final String cfgFileName = Paths.get(new URI(cfgFile).getPath()).getFileName().toString();
+                    final String cfgDirname = cfgFile.substring(0, cfgFile.lastIndexOf(cfgFileName));
+                    final String cfgProxy = ((proxyConfig != null) && !proxyConfig.isEmpty())
+                        ? (cfgDirname + proxyConfig) : null;
+                    if (proxyConfig != null) {
+                        proxyProperties.load(getInputStreamFrom(cfgProxy));
+                    }
+                } catch (final Exception ex) {
+                    LOG.error("error while loading proxy.config", ex);
                 }
             } else { // no support for proxy
                 try {
