@@ -16,6 +16,7 @@ import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.connection.proxy.ConnectionProxy;
 import Sirius.navigator.exception.ConnectionException;
 import Sirius.navigator.plugin.interfaces.FloatingPluginUI;
+import Sirius.navigator.tools.StaticNavigatorTools;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 
@@ -1564,23 +1565,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
         public Element getConfiguration() throws NoWriteError {
             return null;
         }
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   from  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         *
-         * @throws  Exception  DOCUMENT ME!
-         */
-        private static InputStream getInputStreamFrom(final String from) throws Exception {
-            if ((from.indexOf("http://") == 0) || (from.indexOf("https://") == 0)
-                        || (from.indexOf("file:/") == 0)) {
-                return new URL(from).openStream();
-            } else {
-                return new BufferedInputStream(new FileInputStream(from));
-            }
-        }
+
         @Override
         public void masterConfigure(final Element parent) {
             Boolean intranetUse = null;
@@ -1588,7 +1573,8 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
             if (cfgFile != null) {
                 String proxyConfig = null;
                 try {
-                    final AppProperties appProperties = new AppProperties(getInputStreamFrom(cfgFile));
+                    final AppProperties appProperties = new AppProperties(StaticNavigatorTools
+                                    .getInputStreamFromFileOrUrl(cfgFile));
                     if (appProperties.getCallserverUrl() != null) {
                         callserverhost = appProperties.getCallserverUrl();
                     } else {
@@ -1622,7 +1608,7 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
                     final String cfgProxy = ((proxyConfig != null) && !proxyConfig.isEmpty())
                         ? (cfgDirname + proxyConfig) : null;
                     if (proxyConfig != null) {
-                        proxyProperties.load(getInputStreamFrom(cfgProxy));
+                        proxyProperties.load(StaticNavigatorTools.getInputStreamFromFileOrUrl(cfgProxy));
                     }
                 } catch (final Exception ex) {
                     LOG.error("error while loading proxy.config", ex);
