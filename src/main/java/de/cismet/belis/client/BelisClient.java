@@ -79,6 +79,7 @@ import de.cismet.belis.util.BelisIcons;
 import de.cismet.belis.util.JnlpSystemPropertyHelper;
 
 import de.cismet.cids.client.tools.CallServerTunnel;
+import de.cismet.cids.client.tools.ContinueOrExitHandler;
 
 import de.cismet.cids.custom.navigatorstartuphooks.MotdStartUpHook;
 import de.cismet.cids.custom.wunda_blau.startuphooks.MotdWundaStartupHook;
@@ -204,18 +205,19 @@ public class BelisClient extends javax.swing.JFrame implements FloatingPluginUI,
      * Creates a new AbstractPlugin object.
      */
     public BelisClient() {
-        this.addWindowListener(new WindowAdapter() {
-
-                @Override
-                public void windowClosing(final WindowEvent e) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("windowClosing(): beende Application");
-                        LOG.debug("windowClosing(): Check if there unsaved changes.");
-                    }
-                    close();
-                }
-            });
         try {
+            ContinueOrExitHandler.getInstance().showFromConfAttr(this);
+            this.addWindowListener(new WindowAdapter() {
+
+                    @Override
+                    public void windowClosing(final WindowEvent e) {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("windowClosing(): beende Application");
+                            LOG.debug("windowClosing(): Check if there unsaved changes.");
+                        }
+                        close();
+                    }
+                });
             clipboarder = new ClipboardWaitDialog(this, true);
 
             broker = BelisBroker.getInstance();
