@@ -37,7 +37,10 @@ import net.infonode.docking.RootWindow;
 import net.infonode.gui.componentpainter.GradientComponentPainter;
 
 import org.apache.commons.collections.comparators.ReverseComparator;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.xml.XmlConfiguration;
 
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.JXTreeTable;
@@ -66,6 +69,10 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1453,7 +1460,11 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
      */
     private void initLog4J() {
         try {
-            PropertyConfigurator.configure(BelisBroker.class.getResource(loggingProperties));
+            try(final InputStream configStream = new FileInputStream(loggingProperties)) {
+                final ConfigurationSource source = new ConfigurationSource(configStream);
+                final LoggerContext context = (LoggerContext)LogManager.getContext(false);
+                context.start(new XmlConfiguration(context, source)); // Apply new configuration
+            }
             LOG.info("Log4J System erfolgreich konfiguriert");
         } catch (Exception ex) {
             System.err.println("Fehler bei Log4J Initialisierung");
