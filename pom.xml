@@ -13,7 +13,7 @@
     <groupId>de.cismet.belis</groupId>
     <artifactId>belis-client</artifactId>
     <packaging>jar</packaging>
-    <version>8.2-SNAPSHOT</version>    
+    <version>9.1-SNAPSHOT</version>    
 
     <properties>
         <names.belis-client>BelIS Client</names.belis-client>
