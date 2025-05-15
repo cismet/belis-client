@@ -70,7 +70,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -1064,11 +1063,12 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                         final List<Node> nodes = searchResultsTree.getResultNodes();
                         if (nodes != null) {
                             final SearchWaitDialog swd = SearchWaitDialog.getInstance();
-                            swd.init(nodes.size());
+
                             SwingUtilities.invokeLater(new Runnable() {
 
                                     @Override
                                     public void run() {
+                                        swd.init(nodes.size());
                                         StaticSwingTools.showDialog(swd);
                                     }
                                 });
@@ -1118,17 +1118,18 @@ public class BelisBroker implements SearchController, PropertyChangeListener, Co
                                     TreeSet<WorkbenchEntity> results = null;
                                     try {
                                         results = get();
+                                        setSearchResult(results);
                                     } catch (final Exception ex) {
                                         LOG.warn("exeption whil building search result treeset", ex);
-                                    }
-                                    setSearchResult(results);
-                                    SwingUtilities.invokeLater(new Runnable() {
+                                    } finally {
+                                        SwingUtilities.invokeLater(new Runnable() {
 
-                                            @Override
-                                            public void run() {
-                                                swd.setVisible(false);
-                                            }
-                                        });
+                                                @Override
+                                                public void run() {
+                                                    swd.setVisible(false);
+                                                }
+                                            });
+                                    }
                                     enableSearch();
                                     fireSearchFinished();
                                 }
