@@ -40,6 +40,7 @@ public class GeomCustomBean extends BaseEntity {
 
     private Geometry geo_field;
     private String wgs84_wkt;
+    private Geometry old;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -98,9 +99,14 @@ public class GeomCustomBean extends BaseEntity {
      * @param  geo_field  DOCUMENT ME!
      */
     public void simpleSetGeo_field(final Geometry geo_field) {
-        final Geometry old = this.geo_field;
         this.geo_field = geo_field;
         this.propertyChangeSupport.firePropertyChange(PROP__GEO_FIELD, old, this.geo_field);
+
+        if (this.geo_field != null) {
+            old = (Geometry)this.geo_field.clone();
+        } else {
+            old = null;
+        }
     }
 
     /**
