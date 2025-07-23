@@ -96,6 +96,7 @@ public class ArbeitsprotokollCustomBean extends WorkbenchEntity {
     private Integer protokollnummer;
 
     private Collection<ArbeitsprotokollaktionCustomBean> n_aktionen;
+    private boolean veranlassungsschluesselInitialized = false;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -446,7 +447,7 @@ public class ArbeitsprotokollCustomBean extends WorkbenchEntity {
      * @return  DOCUMENT ME!
      */
     public String getVeranlassungsschluessel() {
-        if (veranlassungsschluessel == null) {
+        if ((veranlassungsschluessel == null) && !veranlassungsschluesselInitialized) {
             refreshVeranlassungsschlussel(getVeranlassungsnummer());
         }
         return veranlassungsschluessel;
@@ -587,6 +588,7 @@ public class ArbeitsprotokollCustomBean extends WorkbenchEntity {
             LOG.warn("Problem during the refresh of the Veranlassungsschluessel (no problem if in legacy core", ex);
         }
         setVeranlassungsschluessel(schluessel);
+        veranlassungsschluesselInitialized = true;
     }
 
     @Override
