@@ -25,10 +25,6 @@ import Sirius.navigator.connection.proxy.ConnectionProxy;
 import Sirius.server.localserver.attribute.Attribute;
 import Sirius.server.middleware.types.MetaClass;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-
 import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +81,7 @@ public class CsvExportBackend {
 
     //~ Instance fields --------------------------------------------------------
 
-    private final Multimap<MetaClass, String> mcPropkeyMap = ArrayListMultimap.create();
+    private final Map<MetaClass, List<String>> mcPropkeyMap = new HashMap<>();
 
     //~ Constructors -----------------------------------------------------------
 
@@ -122,7 +119,15 @@ public class CsvExportBackend {
                     for (final Attribute attr : csvExport) {
                         final String[] props = ((String)attr.getValue()).split(CSV_EXPORT_SEPARATOR);
                         for (final String prop : props) {
-                            mcPropkeyMap.put(metaClass, prop.trim());
+                            List<String> propKeyList = mcPropkeyMap.get(metaClass);
+
+                            if (propKeyList == null) {
+                                propKeyList = new ArrayList<String>();
+
+                                mcPropkeyMap.put(metaClass, propKeyList);
+                            }
+
+                            propKeyList.add(prop.trim());
                         }
                     }
                 }
@@ -137,7 +142,7 @@ public class CsvExportBackend {
      *
      * @return  DOCUMENT ME!
      */
-    public Multimap<MetaClass, String> getMcPropkeyMap() {
+    public Map<MetaClass, List<String>> getMcPropkeyMap() {
         return mcPropkeyMap;
     }
 
@@ -150,7 +155,12 @@ public class CsvExportBackend {
      */
     public Object[] getFields(final CidsBean bean) {
         final MetaClass metaClass = bean.getMetaObject().getMetaClass();
-        final List<String> propkeys = (List<String>)mcPropkeyMap.get(metaClass);
+        List<String> propkeys = mcPropkeyMap.get(metaClass);
+
+        if (propkeys == null) {
+            propkeys = new ArrayList<>();
+        }
+
         final Object[] fields = new Object[propkeys.size()];
         for (int i = 0; i < propkeys.size(); i++) {
             final String propkey = propkeys.get(i);
@@ -184,7 +194,12 @@ public class CsvExportBackend {
      * @return  DOCUMENT ME!
      */
     public String[] getFieldNames(final MetaClass metaClass) {
-        final List<String> propkeys = (List<String>)mcPropkeyMap.get(metaClass);
+        List<String> propkeys = mcPropkeyMap.get(metaClass);
+
+        if (propkeys == null) {
+            propkeys = new ArrayList<>();
+        }
+
         final String[] fieldNames = new String[propkeys.size()];
         for (int i = 0; i < propkeys.size(); i++) {
             final String propkey = propkeys.get(i);
@@ -201,12 +216,22 @@ public class CsvExportBackend {
      *
      * @return  DOCUMENT ME!
      */
-    public Multimap<MetaClass, CidsBean> getGroupedBeans(final Collection<CidsBean> beans) {
-        final Multimap<MetaClass, CidsBean> mcBeansMap = HashMultimap.create();
+    public HashMap<MetaClass, HashSet<CidsBean>> getGroupedBeans(final Collection<CidsBean> beans) {
+        final HashMap<MetaClass, HashSet<CidsBean>> mcBeansMap = new HashMap<>();
+
         for (final CidsBean bean : beans) {
             final MetaClass mc = bean.getMetaObject().getMetaClass();
-            mcBeansMap.put(mc, bean);
+            HashSet<CidsBean> propKeyList = mcBeansMap.get(mc);
+
+            if (propKeyList == null) {
+                propKeyList = new HashSet<>();
+
+                mcBeansMap.put(mc, propKeyList);
+            }
+
+            propKeyList.add(bean);
         }
+
         return mcBeansMap;
     }
 
@@ -218,11 +243,16 @@ public class CsvExportBackend {
      * @return  DOCUMENT ME!
      */
     public Map<MetaClass, String> toCsvStrings(final Collection<CidsBean> beans) {
-        final Multimap<MetaClass, CidsBean> groupedBeansMap = getGroupedBeans(beans);
+        final HashMap<MetaClass, HashSet<CidsBean>> groupedBeansMap = getGroupedBeans(beans);
+        final Map<MetaClass, String> csvMap = new HashMap<>();
 
-        final Map<MetaClass, String> csvMap = new HashMap<MetaClass, String>();
-        for (final MetaClass metaClass : groupedBeansMap.keys()) {
-            final Collection<CidsBean> groupedBeans = groupedBeansMap.get(metaClass);
+        for (final MetaClass metaClass : groupedBeansMap.keySet()) {
+            Collection<CidsBean> groupedBeans = groupedBeansMap.get(metaClass);
+
+            if (groupedBeans == null) {
+                groupedBeans = new ArrayList<>();
+            }
+
             final List<Object[]> fields = getFields(groupedBeans);
 
             final String[] fieldNames = getFieldNames(metaClass);
