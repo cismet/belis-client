@@ -215,7 +215,12 @@ public class QuerySearchResultsWindowSearch extends JPanel implements BelisWindo
 
         for (final MetaClass mcView : metaClasses.keySet()) {
             final MetaClass mcEnt = metaClasses.get(mcView);
-            final List<String> rawKeys = (List<String>)CsvExportBackend.getInstance().getMcPropkeyMap().get(mcEnt);
+            List<String> rawKeys = (List<String>)CsvExportBackend.getInstance().getMcPropkeyMap().get(mcEnt);
+
+            if (rawKeys == null) {
+                rawKeys = new ArrayList<>();
+            }
+
             final HashMap<String, String> fields = new HashMap<>(rawKeys.size() * 2);
             final List<String> orderedAttributeNames = new ArrayList<>();
             for (final String rawKey : rawKeys) {

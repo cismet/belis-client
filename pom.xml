@@ -349,16 +349,6 @@
             <scope>runtime</scope>
         </dependency>  
         <!-- END: runtime-dependencies -->
-
-        
-        
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>10.0</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
     </dependencies>
     
     <build>
