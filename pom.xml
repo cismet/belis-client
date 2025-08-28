@@ -13,7 +13,7 @@
     <groupId>de.cismet.belis</groupId>
     <artifactId>belis-client</artifactId>
     <packaging>jar</packaging>
-    <version>9.0.2</version>    
+    <version>9.0.3</version>    
 
     <properties>
         <names.belis-client>BelIS Client</names.belis-client>
@@ -31,7 +31,7 @@
         <connection>https://github.com/cismet/belis-client.git</connection>
         <developerConnection>scm:git:git@github.com:cismet/belis-client.git</developerConnection>
         <url>https://github.com/cismet/belis-client</url>
-        <tag>v9.0.2</tag>
+        <tag>v9.0.3</tag>
     </scm>
   
     <issueManagement>
@@ -349,16 +349,6 @@
             <scope>runtime</scope>
         </dependency>  
         <!-- END: runtime-dependencies -->
-
-        
-        
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>10.0</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
     </dependencies>
     
     <build>
